@@ -1,0 +1,3 @@
+anthropic>=0.20.0
+certifi
+json-repair>=0.30.0
