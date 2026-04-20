@@ -32,7 +32,10 @@ DailyBriefAgent（現有）
 └── 透過 self._supervisor.run_step() 驅動各步驟，業務邏輯不動
 ```
 
-**Reflect LLM**：使用同一個 `self._llm`（`LocalLLMBackend`，本專案限定本地 LLM，不使用 AnthropicBackend）。
+**Reflect LLM（分情境）**：
+- 執行失敗（JSON 解析錯、空輸出、網路錯誤）→ `self._llm`（理解任務 context、生成修正 prompt）
+- judge completeness < 3 觸發的 digest 重跑 → `self._judge_llm`（已有評估 context，診斷最準）
+- judge server 未啟動時降級：跳過 reflect，直接用原 prompt 重跑 digest（最多 1 次）
 
 ---
 
