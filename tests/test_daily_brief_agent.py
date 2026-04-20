@@ -1,4 +1,5 @@
 import json
+from datetime import date
 from unittest.mock import MagicMock, patch
 
 from agents.daily_brief.agent import ALL_STEPS, FETCH_STEPS
@@ -517,3 +518,190 @@ def test_notify_msg2_limits_digests_to_top8():
     assert "example.com/8" not in msg2_prompt   # 第 9 篇（index 8）不應在 msg2
     assert "example.com/0" in msg2_prompt       # 第 1 篇應在 msg2
     assert "example.com/7" in msg2_prompt       # 第 8 篇應在 msg2
+
+
+def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
+    """run() 的 judge 階段應透過 supervisor.run_step 執行。"""
+    import agents.daily_brief.agent as agent_module
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    steps_dir = tmp_path / today / "steps"
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "compress.json").write_text(
+        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    run_step_calls: list[str] = []
+
+    class FakeSupervisor:
+        def __init__(self, llm, judge_llm, steps_dir, today):
+            pass
+
+        def run_step(self, name, fn, force=False):
+            from agents.daily_brief.supervisor import StepResult
+
+            run_step_calls.append(name)
+            return StepResult(
+                name=name,
+                success=True,
+                output=fn(),
+                error=None,
+                attempts=1,
+            )
+
+        def run_judge_feedback(self, **kwargs):
+            raise AssertionError("This test should not enter feedback loop")
+
+    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
+    agent._run_judge = MagicMock(return_value={"overall": 4.2})
+
+    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
+        "agents.daily_brief.supervisor.SupervisorAgent",
+        FakeSupervisor,
+    ):
+        agent.run("--only judge")
+
+    assert "judge" in run_step_calls
+    agent._run_judge.assert_called_once()
+
+
+def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
+    """judge feedback 重評時應使用 digest 重跑後的新資料。"""
+    import agents.daily_brief.agent as agent_module
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    steps_dir = tmp_path / today / "steps"
+    steps_dir.mkdir(parents=True)
+
+    compress_data = {
+        "hatena": {
+            "themes": ["AI"],
+            "articles": [{"url": "https://example.com/new", "one_liner": "new one liner"}],
+        }
+    }
+    old_digests = [{"url": "https://example.com/old", "summary": "old"}]
+    new_digests = [{"url": "https://example.com/new", "summary": "new"}]
+    (steps_dir / "compress.json").write_text(
+        json.dumps(compress_data, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": old_digests}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    class FakeSupervisor:
+        def __init__(self, llm, judge_llm, steps_dir, today):
+            pass
+
+        def run_step(self, name, fn, force=False):
+            from agents.daily_brief.supervisor import StepResult
+
+            return StepResult(
+                name=name,
+                success=True,
+                output=fn(),
+                error=None,
+                attempts=1,
+            )
+
+        def run_judge_feedback(
+            self,
+            missed_urls,
+            original_digest_prompt,
+            run_digest_fn,
+            run_judge_fn,
+        ):
+            digest_output = run_digest_fn()
+            judge_output = run_judge_fn()
+            return digest_output[0], digest_output[1], judge_output
+
+    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
+    agent._run_digest = MagicMock(
+        return_value=(
+            new_digests,
+            {"generated_at": "2026-04-20T10:00:00", "digests": new_digests},
+        )
+    )
+    agent._run_judge = MagicMock(
+        side_effect=[
+            {
+                "scores": {
+                    "completeness": {
+                        "score": 2,
+                        "missed_urls": ["https://example.com/new"],
+                    }
+                },
+                "overall": 2.5,
+            },
+            {"scores": {"completeness": {"score": 4, "missed_urls": []}}, "overall": 4.0},
+        ]
+    )
+
+    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
+        "agents.daily_brief.supervisor.SupervisorAgent",
+        FakeSupervisor,
+    ):
+        agent.run("--only judge")
+
+    assert agent._run_judge.call_count == 2
+    # 第二次 judge 應吃到新 digest，而不是舊 digest
+    assert agent._run_judge.call_args_list[1].args[1] == new_digests
+
+
+def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
+    """--force judge 應把 force=True 傳給 supervisor.run_step。"""
+    import agents.daily_brief.agent as agent_module
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    steps_dir = tmp_path / today / "steps"
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "compress.json").write_text(
+        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    judge_force_values: list[bool] = []
+
+    class FakeSupervisor:
+        def __init__(self, llm, judge_llm, steps_dir, today):
+            pass
+
+        def run_step(self, name, fn, force=False):
+            from agents.daily_brief.supervisor import StepResult
+
+            if name == "judge":
+                judge_force_values.append(force)
+            return StepResult(
+                name=name,
+                success=True,
+                output=fn(),
+                error=None,
+                attempts=1,
+            )
+
+        def run_judge_feedback(self, **kwargs):
+            raise AssertionError("This test should not enter feedback loop")
+
+    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
+    agent._run_judge = MagicMock(return_value={"overall": 4.2})
+
+    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
+        "agents.daily_brief.supervisor.SupervisorAgent",
+        FakeSupervisor,
+    ):
+        agent.run("--only judge --force judge")
+
+    assert judge_force_values == [True]
