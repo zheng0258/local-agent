@@ -1,6 +1,9 @@
 """Daily Brief — 來源設定與門檻。"""
 
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
+
 from config.settings import VAULT_ROOT
 
 # ── 輸出路徑 ─────────────────────────────────────────────────────
@@ -44,9 +47,6 @@ REDDIT_SUBREDDITS: dict[str, list[str]] = {
 VAULT_DAILY_BRIEF_DIR = VAULT_ROOT / "01 Projects" / "daily-brief"
 
 # ── Step retry config ─────────────────────────────────────────────
-
-from dataclasses import dataclass
-from typing import Literal
 
 
 @dataclass(frozen=True)
