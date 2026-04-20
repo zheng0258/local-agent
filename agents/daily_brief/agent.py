@@ -293,8 +293,8 @@ class DailyBriefAgent:
 
             if done_file.exists() and "notify" not in force_steps:
                 logger.info("Step notify   : 已發送過，略過")
-            elif not digests:
-                logger.warning("Step notify   : 無摘要資料，略過（先執行 digest step）")
+            elif not digests or not (day_dir / "report.md").exists():
+                logger.warning("Step notify   : 缺少 report.md 或摘要資料，略過")
             else:
                 logger.info("Step notify   : 執行中...")
 
