@@ -42,3 +42,29 @@ REDDIT_SUBREDDITS: dict[str, list[str]] = {
 # ── Obsidian vault ────────────────────────────────────────────────
 
 VAULT_DAILY_BRIEF_DIR = VAULT_ROOT / "01 Projects" / "daily-brief"
+
+# ── Step retry config ─────────────────────────────────────────────
+
+from dataclasses import dataclass
+from typing import Literal
+
+
+@dataclass(frozen=True)
+class StepConfig:
+    max_retries: int
+    strategy: Literal["plain", "error_aware"]
+    backoff_seconds: tuple[float, ...] = (0.0,)
+
+
+STEP_CONFIGS: dict[str, StepConfig] = {
+    "hatena":   StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
+    "hn":       StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
+    "reddit":   StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
+    "security": StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
+    "compress": StepConfig(max_retries=2, strategy="error_aware"),
+    "digest":   StepConfig(max_retries=2, strategy="error_aware"),
+    "judge":    StepConfig(max_retries=2, strategy="plain"),
+    "report":   StepConfig(max_retries=2, strategy="error_aware"),
+    "notify":   StepConfig(max_retries=2, strategy="error_aware"),
+    "save":     StepConfig(max_retries=2, strategy="plain"),
+}
