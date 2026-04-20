@@ -32,7 +32,7 @@ DailyBriefAgent（現有）
 └── 透過 self._supervisor.run_step() 驅動各步驟，業務邏輯不動
 ```
 
-**Reflect LLM**：使用同一個 `self._llm`（`LocalLLMBackend` 或 `AnthropicBackend`）。
+**Reflect LLM**：使用同一個 `self._llm`（`LocalLLMBackend`，本專案限定本地 LLM，不使用 AnthropicBackend）。
 
 ---
 
