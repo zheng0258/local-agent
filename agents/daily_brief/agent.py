@@ -64,28 +64,65 @@ class DailyBriefAgent:
 
         steps_to_run = only_steps or set(ALL_STEPS)
 
+        from .supervisor import SupervisorAgent
+        supervisor = SupervisorAgent(
+            llm=self._llm,
+            judge_llm=self._judge_llm,
+            steps_dir=steps_dir,
+            today=today,
+        )
+
         # ── Phase 1：Fetch steps ────────────────────────────────────
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+
         source_data: dict[str, dict] = {}
+        fetch_failed: list[str] = []
 
-        for name in FETCH_STEPS:
+        def _run_fetch_supervised(name: str) -> tuple[str, dict | None]:
             artifact = steps_dir / f"{name}.json"
+            if name not in steps_to_run:
+                if artifact.exists():
+                    return name, json.loads(artifact.read_text(encoding="utf-8"))
+                return name, None
+            if artifact.exists() and name not in force_steps:
+                logger.info("Step %-8s: 載入既有 artifact", name)
+                return name, json.loads(artifact.read_text(encoding="utf-8"))
 
-            if name in steps_to_run:
-                if artifact.exists() and name not in force_steps:
-                    logger.info("Step %-8s: 載入既有 artifact", name)
-                    source_data[name] = json.loads(artifact.read_text(encoding="utf-8"))
+            def fn() -> dict:
+                result = self._run_fetch(name)
+                result["fetched_at"] = datetime.now().isoformat(timespec="seconds")
+                artifact.write_text(
+                    json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
+                )
+                logger.info("Step %-8s: 完成 → %s", name, artifact.name)
+                return result
+
+            step_result = supervisor.run_step(name, fn)
+            if step_result.success:
+                return name, step_result.output
+            return name, None
+
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            futures = {executor.submit(_run_fetch_supervised, n): n for n in FETCH_STEPS}
+            for future in as_completed(futures):
+                name, data = future.result()
+                if data is not None:
+                    source_data[name] = data
                 else:
-                    logger.info("Step %-8s: 執行中...", name)
-                    result = self._run_fetch(name)
-                    result["fetched_at"] = datetime.now().isoformat(timespec="seconds")
-                    artifact.write_text(
-                        json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
-                    )
-                    source_data[name] = result
-                    logger.info("Step %-8s: 完成 → %s", name, artifact.name)
-            elif artifact.exists():
-                # 非本次目標步驟，但 report 可能需要其資料
-                source_data[name] = json.loads(artifact.read_text(encoding="utf-8"))
+                    if name in steps_to_run:
+                        fetch_failed.append(name)
+
+        success_count = len(source_data)
+        if success_count < 2 and steps_to_run.intersection(set(FETCH_STEPS)):
+            from tools.notifiers.telegram import send as tg_send
+            msg = (
+                f"⚠️ Daily Brief Fetch 嚴重失敗（{today}）\n"
+                f"成功：{success_count}/4，失敗：{fetch_failed}\n"
+                "Pipeline 停止。"
+            )
+            tg_send(msg)
+            logger.error("Fetch 成功 %d/4，低於門檻，pipeline 停止", success_count)
+            return f"Pipeline 中止：fetch 成功 {success_count}/4（需 ≥ 2）"
 
         # ── Phase 2：Compress step ──────────────────────────────────
         compress_data: dict = {}
@@ -187,9 +224,12 @@ class DailyBriefAgent:
                 logger.warning("Step notify   : 無摘要資料，略過（先執行 digest step）")
             else:
                 logger.info("Step notify   : 執行中...")
-                self._notify(digests, today, steps_dir=steps_dir)
-                done_file.touch()
-                logger.info("Step notify   : 完成")
+                notify_ok = self._notify(digests, today, steps_dir=steps_dir)
+                if notify_ok:
+                    done_file.touch()
+                    logger.info("Step notify   : 完成")
+                else:
+                    logger.error("Step notify   : 部分或全部訊息發送失敗，請用 --force notify 重試")
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -436,7 +476,7 @@ class DailyBriefAgent:
 
     # ── Notify step ─────────────────────────────────────────────────
 
-    def _notify(self, digests: list[dict], today: str, steps_dir: Path | None = None) -> None:
+    def _notify(self, digests: list[dict], today: str, steps_dir: Path | None = None) -> bool:
         from tools.notifiers.telegram import send
 
         digests_json = json.dumps(digests, ensure_ascii=False)
@@ -445,11 +485,15 @@ class DailyBriefAgent:
             self._complete(prompts.build_telegram_overview_prompt(digests_json, today))
         )
         overview = overview_result.get("tg_overview", "")
+        ok1 = False
         if overview:
             if steps_dir:
                 (steps_dir / "telegram_overview.txt").write_text(overview, encoding="utf-8")
-            send(overview)
+            ok1 = send(overview)
+            if not ok1:
+                logger.error("Step notify   : 第一封訊息發送失敗，telegram.done 不寫入")
 
+        ok2 = False
         if digests:
             # msg2 只需 5-8 則，傳前 8 篇即可
             top8_json = json.dumps(digests[:8], ensure_ascii=False)
@@ -460,7 +504,11 @@ class DailyBriefAgent:
             if tg_digest:
                 if steps_dir:
                     (steps_dir / "telegram_digest.txt").write_text(tg_digest, encoding="utf-8")
-                send(tg_digest)
+                ok2 = send(tg_digest)
+                if not ok2:
+                    logger.error("Step notify   : 第二封訊息發送失敗，telegram.done 不寫入")
+
+        return ok1 and ok2
 
     # ── 共用 ────────────────────────────────────────────────────────
 

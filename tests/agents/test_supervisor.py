@@ -104,3 +104,24 @@ def test_force_clears_alert(tmp_path):
         supervisor.run_step("judge", fn, force=True)
 
     assert mock_send.call_count == 2
+
+
+@pytest.mark.unit
+def test_fetch_partial_success_continues(tmp_path):
+    """≥2 fetcher 成功時 pipeline 應繼續。"""
+    results = {
+        "hatena": {"articles": [{"url": "https://a.com", "interest": "***"}]},
+        "hn": None,
+        "reddit": {"articles": []},
+        "security": None,
+    }
+    success_count = sum(1 for v in results.values() if v is not None)
+    assert success_count >= 2
+
+
+@pytest.mark.unit
+def test_fetch_below_threshold_stops(tmp_path):
+    """< 2 fetcher 成功時應停止。"""
+    results = {"hatena": None, "hn": None, "reddit": {"articles": []}, "security": None}
+    success_count = sum(1 for v in results.values() if v is not None)
+    assert success_count < 2
