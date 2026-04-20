@@ -97,7 +97,7 @@ class DailyBriefAgent:
                 logger.info("Step %-8s: 完成 → %s", name, artifact.name)
                 return result
 
-            step_result = supervisor.run_step(name, fn)
+            step_result = supervisor.run_step(name, fn, force=(name in force_steps))
             if step_result.success:
                 return name, step_result.output
             return name, None
@@ -140,7 +140,11 @@ class DailyBriefAgent:
                 def _compress_fn(reflect_context: str = "") -> dict:
                     return self._run_compress(source_data, reflect_context=reflect_context)
 
-                compress_result = supervisor.run_step("compress", _compress_fn)
+                compress_result = supervisor.run_step(
+                    "compress",
+                    _compress_fn,
+                    force=("compress" in force_steps),
+                )
                 if not compress_result.success:
                     logger.error("Step compress: 全部重試失敗，略過 digest/judge/report/notify")
                     compress_data = {}
@@ -171,7 +175,11 @@ class DailyBriefAgent:
                 def _digest_fn(reflect_context: str = "") -> tuple[list[dict], dict]:
                     return self._run_digest(compress_data, reflect_context=reflect_context)
 
-                digest_result = supervisor.run_step("digest", _digest_fn)
+                digest_result = supervisor.run_step(
+                    "digest",
+                    _digest_fn,
+                    force=("digest" in force_steps),
+                )
                 if not digest_result.success:
                     logger.error("Step digest: 全部重試失敗，略過 judge/report/notify")
                 else:
@@ -194,14 +202,26 @@ class DailyBriefAgent:
                 logger.warning("Step judge     : 缺少 digests 或 compress 資料，略過")
             else:
                 logger.info("Step judge     : 執行中...")
-                judge_result = self._run_judge(compress_data, digests, date=today)
-                judge_artifact.write_text(
-                    json.dumps(judge_result, ensure_ascii=False, indent=2), encoding="utf-8"
+                def _judge_fn() -> dict:
+                    return self._run_judge(compress_data, digests, date=today)
+
+                judge_result_step = supervisor.run_step(
+                    "judge",
+                    _judge_fn,
+                    force=("judge" in force_steps),
                 )
-                logger.info(
-                    "Step judge     : 完成 → judge.json (overall=%.1f)",
-                    judge_result.get("overall", 0),
-                )
+                if not judge_result_step.success:
+                    logger.error("Step judge: 全部重試失敗，略過 report/notify")
+                    judge_result = {}
+                else:
+                    judge_result = judge_result_step.output
+                    judge_artifact.write_text(
+                        json.dumps(judge_result, ensure_ascii=False, indent=2), encoding="utf-8"
+                    )
+                    logger.info(
+                        "Step judge     : 完成 → judge.json (overall=%.1f)",
+                        judge_result.get("overall", 0),
+                    )
 
                 # Judge → Digest 回饋 loop（上限 1 次，避免無限迴圈）
                 completeness_score = judge_result.get("scores", {}).get("completeness", {}).get("score")
@@ -225,11 +245,18 @@ class DailyBriefAgent:
                         json.dumps(compress_data, ensure_ascii=False)
                     )
 
+                    retry_state: dict[str, list[dict]] = {"digests": digests}
+
                     def _retry_digest_fn(reflect_context: str = "") -> tuple[list[dict], dict]:
-                        return self._run_digest(compress_data, reflect_context=reflect_context)
+                        new_digests, new_digest_data = self._run_digest(
+                            compress_data,
+                            reflect_context=reflect_context,
+                        )
+                        retry_state["digests"] = new_digests
+                        return new_digests, new_digest_data
 
                     def _retry_judge_fn(reflect_context: str = "") -> dict:
-                        return self._run_judge(compress_data, digests, date=today)
+                        return self._run_judge(compress_data, retry_state["digests"], date=today)
 
                     digests, digest_data, judge_result = supervisor.run_judge_feedback(
                         missed_urls=missed_urls,
@@ -259,7 +286,11 @@ class DailyBriefAgent:
                 def _report_fn(reflect_context: str = "") -> str:
                     return self._run_report(compress_data, digests, today, reflect_context=reflect_context)
 
-                report_result = supervisor.run_step("report", _report_fn)
+                report_result = supervisor.run_step(
+                    "report",
+                    _report_fn,
+                    force=("report" in force_steps),
+                )
                 if report_result.success:
                     report_md.write_text(report_result.output, encoding="utf-8")
                     logger.info("Step report   : 完成 → report.md")
@@ -280,7 +311,11 @@ class DailyBriefAgent:
                 def _save_fn() -> None:
                     self._run_save(day_dir, today, digests)
 
-                save_result = supervisor.run_step("save", _save_fn)
+                save_result = supervisor.run_step(
+                    "save",
+                    _save_fn,
+                    force=("save" in force_steps),
+                )
                 if save_result.success:
                     vault_done.touch()
                     logger.info("Step save     : 完成 → vault.done")
@@ -304,7 +339,11 @@ class DailyBriefAgent:
                         raise RuntimeError("Telegram 訊息發送失敗")
                     return ok
 
-                notify_result = supervisor.run_step("notify", _notify_fn)
+                notify_result = supervisor.run_step(
+                    "notify",
+                    _notify_fn,
+                    force=("notify" in force_steps),
+                )
                 if notify_result.success:
                     done_file.touch()
                     logger.info("Step notify   : 完成")
