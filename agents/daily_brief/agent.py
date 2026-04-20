@@ -136,12 +136,21 @@ class DailyBriefAgent:
                 logger.warning("Step compress  : 無評分資料，略過（先執行 fetch steps）")
             else:
                 logger.info("Step compress  : 執行中...")
-                compress_data = self._run_compress(source_data)
-                compress_artifact.write_text(
-                    json.dumps(compress_data, ensure_ascii=False, indent=2), encoding="utf-8"
-                )
-                logger.info("Step compress  : 完成 → compress.json")
-                self._check_source_health(compress_data)
+
+                def _compress_fn(reflect_context: str = "") -> dict:
+                    return self._run_compress(source_data, reflect_context=reflect_context)
+
+                compress_result = supervisor.run_step("compress", _compress_fn)
+                if not compress_result.success:
+                    logger.error("Step compress: 全部重試失敗，略過 digest/judge/report/notify")
+                    compress_data = {}
+                else:
+                    compress_data = compress_result.output
+                    compress_artifact.write_text(
+                        json.dumps(compress_data, ensure_ascii=False, indent=2), encoding="utf-8"
+                    )
+                    logger.info("Step compress  : 完成 → compress.json")
+                    self._check_source_health(compress_data)
         elif (steps_dir / "compress.json").exists():
             compress_data = json.loads((steps_dir / "compress.json").read_text(encoding="utf-8"))
 
@@ -158,11 +167,19 @@ class DailyBriefAgent:
                 logger.warning("Step digest   : 無壓縮資料，略過（先執行 compress step）")
             else:
                 logger.info("Step digest   : 執行中...")
-                digests, digest_data = self._run_digest(compress_data)
-                digest_artifact.write_text(
-                    json.dumps(digest_data, ensure_ascii=False, indent=2), encoding="utf-8"
-                )
-                logger.info("Step digest   : 完成 → digest.json（%d 篇）", len(digests))
+
+                def _digest_fn(reflect_context: str = "") -> tuple[list[dict], dict]:
+                    return self._run_digest(compress_data, reflect_context=reflect_context)
+
+                digest_result = supervisor.run_step("digest", _digest_fn)
+                if not digest_result.success:
+                    logger.error("Step digest: 全部重試失敗，略過 judge/report/notify")
+                else:
+                    digests, digest_data = digest_result.output
+                    digest_artifact.write_text(
+                        json.dumps(digest_data, ensure_ascii=False, indent=2), encoding="utf-8"
+                    )
+                    logger.info("Step digest   : 完成 → digest.json（%d 篇）", len(digests))
         elif (steps_dir / "digest.json").exists():
             digests = json.loads((steps_dir / "digest.json").read_text(encoding="utf-8")).get(
                 "digests", []
@@ -186,6 +203,48 @@ class DailyBriefAgent:
                     judge_result.get("overall", 0),
                 )
 
+                # Judge → Digest 回饋 loop（上限 1 次，避免無限迴圈）
+                completeness_score = judge_result.get("scores", {}).get("completeness", {}).get("score")
+                if (
+                    isinstance(completeness_score, (int, float))
+                    and completeness_score < 3
+                    and "digest" not in force_steps
+                    and digests  # 有 digest 資料才重跑
+                ):
+                    missed_urls = (
+                        judge_result.get("scores", {})
+                        .get("completeness", {})
+                        .get("missed_urls", [])
+                    )
+                    logger.warning(
+                        "Judge completeness=%.1f，觸發 digest 重跑（missed: %s）",
+                        completeness_score,
+                        missed_urls,
+                    )
+                    original_digest_prompt = prompts.build_digest_prompt_from_compress(
+                        json.dumps(compress_data, ensure_ascii=False)
+                    )
+
+                    def _retry_digest_fn(reflect_context: str = "") -> tuple[list[dict], dict]:
+                        return self._run_digest(compress_data, reflect_context=reflect_context)
+
+                    def _retry_judge_fn(reflect_context: str = "") -> dict:
+                        return self._run_judge(compress_data, digests, date=today)
+
+                    digests, digest_data, judge_result = supervisor.run_judge_feedback(
+                        missed_urls=missed_urls,
+                        original_digest_prompt=original_digest_prompt,
+                        run_digest_fn=_retry_digest_fn,
+                        run_judge_fn=_retry_judge_fn,
+                    )
+                    (steps_dir / "digest.json").write_text(
+                        json.dumps(digest_data, ensure_ascii=False, indent=2), encoding="utf-8"
+                    )
+                    judge_artifact.write_text(
+                        json.dumps(judge_result, ensure_ascii=False, indent=2), encoding="utf-8"
+                    )
+                    logger.info("Judge 回饋 digest 重跑完成")
+
         # ── Phase 4：Report step ────────────────────────────────────
         if "report" in steps_to_run:
             report_md = day_dir / "report.md"
@@ -196,9 +255,16 @@ class DailyBriefAgent:
                 logger.warning("Step report   : 無摘要資料，略過（先執行 digest step）")
             else:
                 logger.info("Step report   : 執行中...")
-                report_content = self._run_report(compress_data, digests, today)
-                report_md.write_text(report_content, encoding="utf-8")
-                logger.info("Step report   : 完成 → report.md")
+
+                def _report_fn(reflect_context: str = "") -> str:
+                    return self._run_report(compress_data, digests, today, reflect_context=reflect_context)
+
+                report_result = supervisor.run_step("report", _report_fn)
+                if report_result.success:
+                    report_md.write_text(report_result.output, encoding="utf-8")
+                    logger.info("Step report   : 完成 → report.md")
+                else:
+                    logger.error("Step report: 全部重試失敗，略過 save/notify")
 
         # ── Phase 5：Save step ──────────────────────────────────────
         if "save" in steps_to_run:
@@ -210,9 +276,16 @@ class DailyBriefAgent:
                 logger.warning("Step save     : 缺少 report.md 或 digests，略過（先執行 report step）")
             else:
                 logger.info("Step save     : 執行中...")
-                self._run_save(day_dir, today, digests)
-                vault_done.touch()
-                logger.info("Step save     : 完成 → vault.done")
+
+                def _save_fn() -> None:
+                    self._run_save(day_dir, today, digests)
+
+                save_result = supervisor.run_step("save", _save_fn)
+                if save_result.success:
+                    vault_done.touch()
+                    logger.info("Step save     : 完成 → vault.done")
+                else:
+                    logger.error("Step save: 全部重試失敗")
 
         # ── Phase 6：Notify step ────────────────────────────────────
         if "notify" in steps_to_run:
@@ -224,8 +297,15 @@ class DailyBriefAgent:
                 logger.warning("Step notify   : 無摘要資料，略過（先執行 digest step）")
             else:
                 logger.info("Step notify   : 執行中...")
-                notify_ok = self._notify(digests, today, steps_dir=steps_dir)
-                if notify_ok:
+
+                def _notify_fn(reflect_context: str = "") -> bool:
+                    ok = self._notify(digests, today, steps_dir=steps_dir, reflect_context=reflect_context)
+                    if not ok:
+                        raise RuntimeError("Telegram 訊息發送失敗")
+                    return ok
+
+                notify_result = supervisor.run_step("notify", _notify_fn)
+                if notify_result.success:
                     done_file.touch()
                     logger.info("Step notify   : 完成")
                 else:
@@ -308,7 +388,7 @@ class DailyBriefAgent:
 
     # ── Compress step ───────────────────────────────────────────────
 
-    def _run_compress(self, source_data: dict) -> dict:
+    def _run_compress(self, source_data: dict, reflect_context: str = "") -> dict:
         """Layer 2: LLM compresses each source into themes + one-liners.
         Python pre-filters to *** articles before calling LLM.
         """
@@ -329,7 +409,10 @@ class DailyBriefAgent:
                 logger.info("Step compress  : %s 無 *** 文章，略過 LLM", name)
                 continue
             articles_json = json.dumps(starred, ensure_ascii=False)
-            raw = self._complete(prompts.build_compress_prompt(name, articles_json))
+            prompt = prompts.build_compress_prompt(name, articles_json)
+            if reflect_context:
+                prompt = f"{prompt}\n\n## 修正指示\n{reflect_context}"
+            raw = self._complete(prompt)
             parsed = self._parse_json(raw)
             if isinstance(parsed, dict) and "themes" in parsed:
                 result[name] = parsed
@@ -340,9 +423,11 @@ class DailyBriefAgent:
 
     # ── Digest step ─────────────────────────────────────────────────
 
-    def _run_digest(self, compress_data: dict) -> tuple[list[dict], dict]:
+    def _run_digest(self, compress_data: dict, reflect_context: str = "") -> tuple[list[dict], dict]:
         compress_json = json.dumps(compress_data, ensure_ascii=False)
         prompt = prompts.build_digest_prompt_from_compress(compress_json)
+        if reflect_context:
+            prompt = f"{prompt}\n\n## 修正指示\n{reflect_context}"
         result = self._parse_json(self._complete(prompt))
         digests = result.get("digests", [])
         digest_data = {
@@ -354,7 +439,7 @@ class DailyBriefAgent:
 
     # ── Report step ─────────────────────────────────────────────────
 
-    def _run_report(self, compress_data: dict, digests: list[dict], today: str) -> str:
+    def _run_report(self, compress_data: dict, digests: list[dict], today: str, reflect_context: str = "") -> str:
         seen: set[str] = set()
         deduped: list[dict] = []
         for d in digests:
@@ -369,6 +454,8 @@ class DailyBriefAgent:
             digests_json=json.dumps(deduped, ensure_ascii=False),
             today=today,
         )
+        if reflect_context:
+            prompt = f"{prompt}\n\n## 修正指示\n{reflect_context}"
         content = self._complete(prompt).strip()
         # 剝除 LLM 可能加上的 markdown fence
         if content.startswith("```"):
@@ -476,14 +563,15 @@ class DailyBriefAgent:
 
     # ── Notify step ─────────────────────────────────────────────────
 
-    def _notify(self, digests: list[dict], today: str, steps_dir: Path | None = None) -> bool:
+    def _notify(self, digests: list[dict], today: str, steps_dir: Path | None = None, reflect_context: str = "") -> bool:
         from tools.notifiers.telegram import send
 
         digests_json = json.dumps(digests, ensure_ascii=False)
 
-        overview_result = self._parse_json(
-            self._complete(prompts.build_telegram_overview_prompt(digests_json, today))
-        )
+        overview_prompt = prompts.build_telegram_overview_prompt(digests_json, today)
+        if reflect_context:
+            overview_prompt = f"{overview_prompt}\n\n## 修正指示\n{reflect_context}"
+        overview_result = self._parse_json(self._complete(overview_prompt))
         overview = overview_result.get("tg_overview", "")
         ok1 = False
         if overview:
