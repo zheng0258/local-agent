@@ -467,6 +467,7 @@ def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
 - 只能使用 Telegram 支援的 HTML tag：<b>、<i>、<u>、<s>、<a href="...">，嚴禁 <br>、<p>、<div>、<span> 等其他 HTML tag
 - 嚴格禁用 **、_、`[text](url)`、`[text][ref]` 等任何 Markdown 語法
 - 每個 bullet 固定格式：• <b><a href="完整URL">繁體中文標題</a></b> — 2–3 句說明（核心內容與重要性，不加書籤數/票數等數字）
+- 重要：<a href="URL"> 和 </a> 之間必須有標題文字，絕對不能寫成 <a href="URL"></b>（缺少 </a> 和標題）
 - href 屬性值必須完整複製 all_digests 的 url 欄位，禁止截斷、修改、URL encode 或自行編造
 - href 屬性值只能是 http/https 開頭的完整網址，不得放檔名、路徑或其他非 URL 內容
 - 標題群組加 emoji：🤖 Claude Code / 🔐 資安 / 🛠️ AI 開發工具 / 💼 職涯 / 📰 其他（依當日實際內容選用）
