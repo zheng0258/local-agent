@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import json
+import os
+import re
 import time
+import urllib.request
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
 from config import get_logger
-from config.settings import LLMBackend
+from config.settings import DEFAULT_LOCAL_LLM_URL, LLMBackend
 
 from . import reflect_prompts
 from .config import STEP_CONFIGS
@@ -59,7 +62,10 @@ class SupervisorAgent:
         for attempt in range(1, cfg.max_retries + 1):
             reflect_context = adjusted_prompts[-1] if adjusted_prompts else ""
             try:
-                output = fn(reflect_context=reflect_context)
+                if cfg.strategy == "error_aware":
+                    output = fn(reflect_context=reflect_context)
+                else:
+                    output = fn()
                 return StepResult(
                     name=name,
                     success=True,
@@ -156,12 +162,6 @@ class SupervisorAgent:
 
     def _is_judge_server_available(self) -> bool:
         """快速探測 judge LLM server 是否在線。"""
-        import os
-        import urllib.error
-        import urllib.request
-
-        from config.settings import DEFAULT_LOCAL_LLM_URL
-
         url = os.environ.get("JUDGE_LLM_URL", DEFAULT_LOCAL_LLM_URL)
         try:
             urllib.request.urlopen(f"{url}/v1/models", timeout=3)
@@ -202,10 +202,8 @@ class SupervisorAgent:
         alerts_file.write_text(json.dumps(alerts, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def _parse_reflect_response(raw: str) -> dict:
+def _parse_reflect_response(raw: str) -> dict[str, Any]:
     """從 LLM 輸出解析 reflect JSON（含 json-repair fallback）。"""
-    import re
-
     m = re.search(r"```(?:json)?\s*([\s\S]*?)```", raw)
     text = m.group(1) if m else raw
     try:
