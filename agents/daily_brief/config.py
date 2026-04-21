@@ -54,17 +54,62 @@ class StepConfig:
     max_retries: int
     strategy: Literal["plain", "error_aware"]
     backoff_seconds: tuple[float, ...] = (0.0,)
+    task_description: str = ""
 
 
 STEP_CONFIGS: dict[str, StepConfig] = {
-    "hatena":   StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
-    "hn":       StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
-    "reddit":   StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
-    "security": StepConfig(max_retries=3, strategy="plain", backoff_seconds=(1.0, 3.0, 9.0)),
-    "compress": StepConfig(max_retries=2, strategy="error_aware"),
-    "digest":   StepConfig(max_retries=2, strategy="error_aware"),
-    "judge":    StepConfig(max_retries=2, strategy="plain"),
-    "report":   StepConfig(max_retries=2, strategy="error_aware"),
-    "notify":   StepConfig(max_retries=2, strategy="error_aware"),
-    "save":     StepConfig(max_retries=2, strategy="plain"),
+    "hatena": StepConfig(
+        max_retries=3,
+        strategy="plain",
+        backoff_seconds=(1.0, 3.0, 9.0),
+        task_description="從 Hatena Bookmark 抓取文章並以 JSON 格式回傳 interest 評分結果",
+    ),
+    "hn": StepConfig(
+        max_retries=3,
+        strategy="plain",
+        backoff_seconds=(1.0, 3.0, 9.0),
+        task_description="從 Hacker News 抓取文章並以 JSON 格式回傳 interest 評分結果",
+    ),
+    "reddit": StepConfig(
+        max_retries=3,
+        strategy="plain",
+        backoff_seconds=(1.0, 3.0, 9.0),
+        task_description="從 Reddit 各 subreddit 抓取文章並以 JSON 格式回傳 interest 評分結果",
+    ),
+    "security": StepConfig(
+        max_retries=3,
+        strategy="plain",
+        backoff_seconds=(1.0, 3.0, 9.0),
+        task_description="從 Security blogs 抓取文章並以 JSON 格式回傳 interest 評分結果",
+    ),
+    "compress": StepConfig(
+        max_retries=2,
+        strategy="error_aware",
+        task_description="將各來源 *** 文章語義壓縮為 themes 陣列 + articles 陣列（含 one_liner），輸出 JSON",
+    ),
+    "digest": StepConfig(
+        max_retries=2,
+        strategy="error_aware",
+        task_description="跨來源深度摘要，輸出含 title/url/source/summary 的 digests 陣列 JSON",
+    ),
+    "judge": StepConfig(
+        max_retries=2,
+        strategy="error_aware",
+        task_description="LLM-as-Judge 評分 relevance/completeness/faithfulness，輸出含 scores 物件的 JSON",
+    ),
+    "report": StepConfig(
+        max_retries=2,
+        strategy="error_aware",
+        task_description="根據 compress + digest 資料生成純 markdown 格式的科技趨勢報告，不包 JSON fence",
+    ),
+    "notify": StepConfig(
+        max_retries=2,
+        strategy="error_aware",
+        task_description="生成 Telegram 訊息 JSON（tg_overview 或 tg_digest key），限用 Telegram 允許的 HTML tag",
+    ),
+    "save": StepConfig(
+        max_retries=2,
+        strategy="plain",
+        task_description="將 report.md 和 digest 存入 Obsidian vault",
+    ),
 }

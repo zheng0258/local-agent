@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, call, patch
 import pytest
 
 
-def _make_supervisor(tmp_path, llm_resp="", judge_resp=""):
+def _make_supervisor(tmp_path, llm_resp="", judge_resp="", notify_fn=None):
     from agents.daily_brief.supervisor import SupervisorAgent
 
     llm = MagicMock()
@@ -17,45 +17,48 @@ def _make_supervisor(tmp_path, llm_resp="", judge_resp=""):
         judge_llm=judge_llm,
         steps_dir=tmp_path,
         today="2026-04-20",
+        notify_fn=notify_fn,
     ), llm, judge_llm
 
 
 @pytest.mark.unit
 def test_plain_step_success_on_first_attempt(tmp_path):
     supervisor, llm, _ = _make_supervisor(tmp_path)
-    fn = MagicMock(return_value={"data": "ok"})
+    fn = MagicMock(return_value={"ok": True})
 
-    result = supervisor.run_step("judge", fn)
+    # "save" 使用 plain strategy
+    result = supervisor.run_step("save", fn)
 
     assert result.success is True
     assert result.attempts == 1
-    assert result.output == {"data": "ok"}
+    assert result.output == {"ok": True}
     fn.assert_called_once_with()
 
 
 @pytest.mark.unit
 def test_plain_step_retries_without_reflect(tmp_path):
     supervisor, llm, _ = _make_supervisor(tmp_path)
-    fn = MagicMock(side_effect=[RuntimeError("boom"), {"data": "ok"}])
+    fn = MagicMock(side_effect=[RuntimeError("boom"), {"ok": True}])
 
-    result = supervisor.run_step("judge", fn)
+    # "save" 使用 plain strategy，失敗重試時不應呼叫 reflect LLM
+    result = supervisor.run_step("save", fn)
 
     assert result.success is True
     assert result.attempts == 2
-    # reflect LLM 不應被呼叫
     llm.complete.assert_not_called()
 
 
 @pytest.mark.unit
 def test_plain_step_fails_after_max_retries(tmp_path):
-    supervisor, llm, _ = _make_supervisor(tmp_path)
+    mock_notify = MagicMock(return_value=True)
+    supervisor, llm, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
     fn = MagicMock(side_effect=RuntimeError("always fails"))
 
-    with patch("agents.daily_brief.supervisor.send", return_value=True):
-        result = supervisor.run_step("judge", fn)
+    result = supervisor.run_step("judge", fn)
 
     assert result.success is False
     assert result.attempts == 2  # max_retries=2 for judge
+    mock_notify.assert_called_once()
 
 
 @pytest.mark.unit
@@ -79,31 +82,30 @@ def test_error_aware_step_calls_reflect_on_failure(tmp_path):
 
 @pytest.mark.unit
 def test_alert_dedup_same_step_same_day(tmp_path):
-    supervisor, _, _ = _make_supervisor(tmp_path)
+    mock_notify = MagicMock(return_value=True)
+    supervisor, _, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
     fn = MagicMock(side_effect=RuntimeError("fail"))
 
-    with patch("agents.daily_brief.supervisor.send", return_value=True) as mock_send:
-        supervisor.run_step("judge", fn)
-        fn.reset_mock()
-        fn.side_effect = RuntimeError("fail again")
-        supervisor.run_step("judge", fn)
+    supervisor.run_step("judge", fn)
+    fn.reset_mock()
+    fn.side_effect = RuntimeError("fail again")
+    supervisor.run_step("judge", fn)
 
-    # Telegram 只應發一次
-    assert mock_send.call_count == 1
+    assert mock_notify.call_count == 1
 
 
 @pytest.mark.unit
 def test_force_clears_alert(tmp_path):
-    supervisor, _, _ = _make_supervisor(tmp_path)
+    mock_notify = MagicMock(return_value=True)
+    supervisor, _, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
     fn = MagicMock(side_effect=RuntimeError("fail"))
 
-    with patch("agents.daily_brief.supervisor.send", return_value=True) as mock_send:
-        supervisor.run_step("judge", fn)
-        fn.reset_mock()
-        fn.side_effect = RuntimeError("fail again")
-        supervisor.run_step("judge", fn, force=True)
+    supervisor.run_step("judge", fn)
+    fn.reset_mock()
+    fn.side_effect = RuntimeError("fail again")
+    supervisor.run_step("judge", fn, force=True)
 
-    assert mock_send.call_count == 2
+    assert mock_notify.call_count == 2
 
 
 @pytest.mark.unit
@@ -125,3 +127,30 @@ def test_fetch_below_threshold_stops(tmp_path):
     results = {"hatena": None, "hn": None, "reddit": {"articles": []}, "security": None}
     success_count = sum(1 for v in results.values() if v is not None)
     assert success_count < 2
+
+
+@pytest.mark.unit
+def test_reflect_uses_task_description_as_original_prompt(tmp_path):
+    """reflect LLM 呼叫的 prompt 應包含 task_description，而非 '[step: name]'。"""
+    reflect_resp = json.dumps(
+        {
+            "diagnosis": "LLM 回傳格式錯誤",
+            "adjusted_prompt": "修正後指示",
+        }
+    )
+    supervisor, llm, _ = _make_supervisor(tmp_path, llm_resp=reflect_resp)
+    fn = MagicMock(side_effect=[RuntimeError("bad output"), {"digests": []}])
+
+    supervisor.run_step("digest", fn)
+
+    reflect_call_prompt = llm.complete.call_args[0][0]
+    assert "跨來源深度摘要" in reflect_call_prompt
+    assert "[step:" not in reflect_call_prompt
+
+
+@pytest.mark.unit
+def test_judge_uses_error_aware_strategy(tmp_path):
+    """judge 步驟現在應使用 error_aware strategy，失敗時會呼叫 reflect。"""
+    from agents.daily_brief.config import STEP_CONFIGS
+
+    assert STEP_CONFIGS["judge"].strategy == "error_aware"

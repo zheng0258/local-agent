@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import time
 import urllib.request
 from dataclasses import dataclass, field
@@ -12,13 +11,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
-from config import get_logger
+from config import get_logger, parse_llm_json
 from config.settings import DEFAULT_LOCAL_LLM_URL, LLMBackend
 
 from . import reflect_prompts
 from .config import STEP_CONFIGS
-
-from tools.notifiers.telegram import send
 
 logger = get_logger(__name__)
 
@@ -41,11 +38,13 @@ class SupervisorAgent:
         judge_llm: LLMBackend,
         steps_dir: Path,
         today: str,
+        notify_fn: Callable[[str], bool] | None = None,
     ) -> None:
         self._llm = llm
         self._judge_llm = judge_llm
         self._steps_dir = steps_dir
         self._today = today
+        self._notify_fn = notify_fn
 
     def run_step(
         self,
@@ -55,6 +54,7 @@ class SupervisorAgent:
     ) -> StepResult:
         """執行一個步驟，失敗時依 strategy 重試。"""
         cfg = STEP_CONFIGS[name]
+        start_ts = time.monotonic()
         adjusted_prompts: list[str] = []
         last_error = ""
         output = None
@@ -66,6 +66,12 @@ class SupervisorAgent:
                     output = fn(reflect_context=reflect_context)
                 else:
                     output = fn()
+                logger.info(
+                    "Step %s: 完成（attempt %d，耗時 %.1fs）",
+                    name,
+                    attempt,
+                    time.monotonic() - start_ts,
+                )
                 return StepResult(
                     name=name,
                     success=True,
@@ -86,6 +92,7 @@ class SupervisorAgent:
                     if cfg.strategy == "error_aware":
                         adjusted = self._reflect(
                             step_name=name,
+                            task_description=cfg.task_description,
                             bad_output=last_output_str,
                             error=last_error,
                         )
@@ -128,17 +135,17 @@ class SupervisorAgent:
 
     # ── 內部方法 ─────────────────────────────────────────────────────
 
-    def _reflect(self, step_name: str, bad_output: str, error: str) -> str:
+    def _reflect(self, step_name: str, task_description: str, bad_output: str, error: str) -> str:
         """呼叫主 LLM 診斷失敗，回傳 adjusted_prompt（空字串表示失敗）。"""
         try:
             raw = self._llm.complete(
                 reflect_prompts.build_reflect_prompt(
-                    original_prompt=f"[step: {step_name}]",
+                    original_prompt=task_description or f"[step: {step_name}]",
                     bad_output=bad_output,
                     error=error,
                 )
             )
-            parsed = _parse_reflect_response(raw)
+            parsed = parse_llm_json(raw)
             diagnosis = parsed.get("diagnosis", "")
             adjusted = parsed.get("adjusted_prompt", "")
             if diagnosis:
@@ -154,7 +161,7 @@ class SupervisorAgent:
             raw = self._judge_llm.complete(
                 reflect_prompts.build_judge_reflect_prompt(missed_urls, original_prompt)
             )
-            parsed = _parse_reflect_response(raw)
+            parsed = parse_llm_json(raw)
             return parsed.get("adjusted_prompt", "")
         except Exception as exc:
             logger.warning("Judge reflect LLM 呼叫失敗：%s", exc)
@@ -197,25 +204,8 @@ class SupervisorAgent:
             f"診斷：{diagnosis[:300]}\n\n"
             f"建議：python3 main.py \"/daily-brief --force {name}\""
         )
-        send(msg)
+        if self._notify_fn:
+            self._notify_fn(msg)
         alerts[name] = datetime.now().isoformat(timespec="seconds")
         alerts_file.write_text(json.dumps(alerts, ensure_ascii=False, indent=2), encoding="utf-8")
 
-
-def _parse_reflect_response(raw: str) -> dict[str, Any]:
-    """從 LLM 輸出解析 reflect JSON（含 json-repair fallback）。"""
-    m = re.search(r"```(?:json)?\s*([\s\S]*?)```", raw)
-    text = m.group(1) if m else raw
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-    try:
-        from json_repair import repair_json
-
-        result = json.loads(repair_json(text))
-        if isinstance(result, dict):
-            return result
-    except Exception:
-        pass
-    return {}
