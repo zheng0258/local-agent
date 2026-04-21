@@ -113,6 +113,9 @@ def test_run_compress_returns_dict_with_all_sources():
     result = agent._run_compress(source_data)
     assert set(result.keys()) >= {"hatena", "hn", "reddit", "security"}
     assert "themes" in result["hatena"]
+    assert "_meta" in result
+    assert "compressed_at" in result["_meta"]
+    assert "compressed_at" not in {k for k in result if k != "_meta"}
 
 
 def test_run_compress_prefilters_to_starred_only():
@@ -289,7 +292,7 @@ def test_all_steps_count():
     assert len(ALL_STEPS) == 10
 
 
-# ── _parse_json robustness ───────────────────────────────────────────────────
+# ── parse_llm_json robustness ───────────────────────────────────────────────
 
 def test_run_judge_logs_warning_when_completeness_below_threshold():
     """completeness < 3 時應在回傳結果中標記 quality_alert。"""
@@ -411,7 +414,7 @@ def test_source_health_warns_on_zero_articles():
 
 def test_parse_json_recovers_from_fullwidth_colon():
     """HN 情境：LLM 用全形冒號 '：' 作為 key-value 分隔符導致無效 JSON。"""
-    from agents.daily_brief.agent import DailyBriefAgent
+    from config.utils import parse_llm_json
 
     broken = (
         '```json\n'
@@ -424,7 +427,7 @@ def test_parse_json_recovers_from_fullwidth_colon():
         '}\n'
         '```'
     )
-    result = DailyBriefAgent._parse_json(broken)
+    result = parse_llm_json(broken)
     assert "raw" not in result, "全形冒號應被修復，不應 fallback 到 raw"
     assert "articles" in result
     assert len(result["articles"]) == 3
@@ -432,7 +435,7 @@ def test_parse_json_recovers_from_fullwidth_colon():
 
 def test_parse_json_recovers_from_unescaped_quotes_in_value():
     """Reddit 情境：字串值內含未逸脫雙引號導致無效 JSON。"""
-    from agents.daily_brief.agent import DailyBriefAgent
+    from config.utils import parse_llm_json
 
     broken = (
         '```json\n'
@@ -444,7 +447,7 @@ def test_parse_json_recovers_from_unescaped_quotes_in_value():
         '}\n'
         '```'
     )
-    result = DailyBriefAgent._parse_json(broken)
+    result = parse_llm_json(broken)
     assert "raw" not in result, "未逸脫引號應被修復，不應 fallback 到 raw"
     assert "articles" in result
     assert len(result["articles"]) == 1
@@ -513,8 +516,10 @@ def test_notify_msg2_limits_digests_to_top8():
     with patch("tools.notifiers.telegram.send"):
         agent._notify(digests, "2026-04-14")
 
-    # msg2 的 prompt（第 2 次 complete 呼叫）應只包含前 8 篇
-    msg2_prompt = mock_llm.complete.call_args_list[1][0][0]
+    all_prompts = [c[0][0] for c in mock_llm.complete.call_args_list]
+    msg2_prompt = next(
+        p for p in all_prompts if '"tg_digest"' in p and "example.com/0" in p and "example.com/7" in p
+    )
     assert "example.com/8" not in msg2_prompt   # 第 9 篇（index 8）不應在 msg2
     assert "example.com/0" in msg2_prompt       # 第 1 篇應在 msg2
     assert "example.com/7" in msg2_prompt       # 第 8 篇應在 msg2
@@ -540,7 +545,7 @@ def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
     run_step_calls: list[str] = []
 
     class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today):
+        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
             pass
 
         def run_step(self, name, fn, force=False):
@@ -598,7 +603,7 @@ def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
     )
 
     class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today):
+        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
             pass
 
         def run_step(self, name, fn, force=False):
@@ -676,7 +681,7 @@ def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
     judge_force_values: list[bool] = []
 
     class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today):
+        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
             pass
 
         def run_step(self, name, fn, force=False):
