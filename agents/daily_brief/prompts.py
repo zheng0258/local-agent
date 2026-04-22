@@ -434,8 +434,12 @@ def build_judge_prompt(compress_json: str, digest_json: str) -> str:
 評估摘要品質，回傳三個維度的評分（1-5）與理由。
 
 - Relevance（相關性）：選出的文章是否符合 AI 工具、資安、開發相關主題？
-- Completeness（完整性）：compress 中的 *** 文章是否都被納入摘要？列出被遺漏的 URL。
+- Completeness（完整性）：compress 中的 *** 文章是否都被納入摘要？
 - Faithfulness（忠實度）：摘要是否忠實反映原文標題與 one_liner？有無自行編造內容？
+
+**重要規則**：
+- 每個 reasoning 欄位只寫評分理由文字，不要在 reasoning 裡列出任何 URL
+- 被遺漏的 URL 統一放在頂層 missed_urls 陣列
 
 ## 輸出格式
 
@@ -443,9 +447,10 @@ def build_judge_prompt(compress_json: str, digest_json: str) -> str:
 {{
   "scores": {{
     "relevance":    {{"score": 4, "reasoning": "說明"}},
-    "completeness": {{"score": 3, "reasoning": "說明", "missed_urls": []}},
+    "completeness": {{"score": 3, "reasoning": "說明（勿列 URL）"}},
     "faithfulness": {{"score": 5, "reasoning": "說明"}}
   }},
+  "missed_urls": [],
   "overall": 4.0
 }}
 ```\

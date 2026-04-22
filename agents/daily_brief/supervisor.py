@@ -206,6 +206,9 @@ class SupervisorAgent:
         )
         if self._notify_fn:
             self._notify_fn(msg)
-        alerts[name] = datetime.now().isoformat(timespec="seconds")
+        alerts[name] = {
+            "failed_at": datetime.now().isoformat(timespec="seconds"),
+            "error": error[:300],
+        }
         alerts_file.write_text(json.dumps(alerts, ensure_ascii=False, indent=2), encoding="utf-8")
 
