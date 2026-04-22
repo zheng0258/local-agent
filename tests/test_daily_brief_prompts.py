@@ -16,6 +16,22 @@ def test_vault_daily_brief_dir_defined():
     assert VAULT_DAILY_BRIEF_DIR.name == "daily-brief"
 
 
+def test_judge_prompt_has_missed_urls_at_top_level():
+    """missed_urls 應在 JSON schema 頂層，不能在 completeness 物件內。"""
+    p = prompts.build_judge_prompt("{}", "{}")
+    # 頂層 missed_urls
+    assert '"missed_urls":' in p
+    # completeness 物件不含 missed_urls（避免 LLM 混淆）
+    completeness_block = p[p.find('"completeness"'):p.find('"faithfulness"')]
+    assert "missed_urls" not in completeness_block
+
+
+def test_judge_prompt_instructs_no_urls_in_reasoning():
+    """prompt 應明確告知 reasoning 欄位不要列 URL。"""
+    p = prompts.build_judge_prompt("{}", "{}")
+    assert "URL" in p and "reasoning" in p
+
+
 def test_score_prompts_no_longer_contain_digest_section():
     hatena_p = prompts.build_hatena_prompt("[]")
     hn_p = prompts.build_hn_prompt("[]")

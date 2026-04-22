@@ -154,3 +154,19 @@ def test_judge_uses_error_aware_strategy(tmp_path):
     from agents.daily_brief.config import STEP_CONFIGS
 
     assert STEP_CONFIGS["judge"].strategy == "error_aware"
+
+
+@pytest.mark.unit
+def test_notify_failure_writes_error_to_alerts(tmp_path):
+    """_notify_failure 應把 error 一起寫入 alerts.json，而非只寫純時間戳字串。"""
+    mock_notify = MagicMock(return_value=True)
+    supervisor, _, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
+    fn = MagicMock(side_effect=RuntimeError("model not found"))
+
+    supervisor.run_step("judge", fn)
+
+    alerts = json.loads((tmp_path / "alerts.json").read_text(encoding="utf-8"))
+    assert isinstance(alerts["judge"], dict), "alerts['judge'] 應為 dict，非純時間戳字串"
+    assert "failed_at" in alerts["judge"]
+    assert "error" in alerts["judge"]
+    assert "model not found" in alerts["judge"]["error"]

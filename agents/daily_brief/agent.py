@@ -225,14 +225,16 @@ class DailyBriefAgent:
 
         logger.info("Step judge     : 執行中...")
 
-        def _judge_fn() -> dict:
+        def _judge_fn(reflect_context: str = "") -> dict:
+            if not ctx.supervisor._is_judge_server_available():
+                raise RuntimeError("judge LLM server 無回應")
             return self._run_judge(compress_data, digests, date=ctx.today)
 
         judge_step = ctx.supervisor.run_step(
             "judge", _judge_fn, force=("judge" in ctx.force_steps)
         )
         if not judge_step.success:
-            logger.error("Step judge: 全部重試失敗，略過 report/notify")
+            logger.error("Step judge: 全部重試失敗，report/notify 仍繼續執行（無品質評分）")
             return compress_data, digests
 
         judge_result = judge_step.output
@@ -541,9 +543,11 @@ class DailyBriefAgent:
         )
         result = parse_llm_json(raw)
         scores = result.get("scores", {})
+        # missed_urls 在新 schema 位於頂層；回寫進 completeness 維持下游介面不變
+        missed_urls = result.get("missed_urls") or []
         completeness = scores.get("completeness")
-        if isinstance(completeness, dict) and "missed_urls" not in completeness:
-            completeness["missed_urls"] = []
+        if isinstance(completeness, dict):
+            completeness["missed_urls"] = missed_urls
         dimensions = ["relevance", "completeness", "faithfulness"]
         valid_scores = [
             scores[dim]["score"]

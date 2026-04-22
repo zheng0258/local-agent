@@ -153,6 +153,31 @@ def test_run_compress_prefilters_to_starred_only():
     assert "hn.com/3" not in hn_prompt      # * 過濾掉
 
 
+def test_run_judge_reads_missed_urls_from_top_level():
+    """_run_judge 應從頂層 missed_urls 讀取（新 schema），不從 completeness 底下讀。"""
+    import json
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    llm_resp = json.dumps({
+        "scores": {
+            "relevance":    {"score": 5, "reasoning": "ok"},
+            "completeness": {"score": 2, "reasoning": "遺漏部分文章"},
+            "faithfulness": {"score": 5, "reasoning": "ok"},
+        },
+        "missed_urls": ["https://example.com/missed1", "https://example.com/missed2"],
+    })
+    mock_judge = MagicMock()
+    mock_judge.complete.return_value = llm_resp
+    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
+
+    result = agent._run_judge({}, [])
+    completeness = result.get("scores", {}).get("completeness", {})
+    assert completeness.get("missed_urls") == [
+        "https://example.com/missed1",
+        "https://example.com/missed2",
+    ]
+
+
 def test_run_judge_returns_scores_and_overall():
     llm_resp = json.dumps(
         {
@@ -548,6 +573,9 @@ def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
         def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
             pass
 
+        def _is_judge_server_available(self) -> bool:
+            return True
+
         def run_step(self, name, fn, force=False):
             from agents.daily_brief.supervisor import StepResult
 
@@ -605,6 +633,9 @@ def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
     class FakeSupervisor:
         def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
             pass
+
+        def _is_judge_server_available(self) -> bool:
+            return True
 
         def run_step(self, name, fn, force=False):
             from agents.daily_brief.supervisor import StepResult
@@ -684,6 +715,9 @@ def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
         def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
             pass
 
+        def _is_judge_server_available(self) -> bool:
+            return True
+
         def run_step(self, name, fn, force=False):
             from agents.daily_brief.supervisor import StepResult
 
@@ -710,3 +744,95 @@ def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
         agent.run("--only judge --force judge")
 
     assert judge_force_values == [True]
+
+
+def test_judge_phase_uses_run_step_when_server_unavailable(tmp_path):
+    """judge LLM server 無回應時，仍應透過 run_step 執行（讓 retry 機制運作），而非直接略過。"""
+    import agents.daily_brief.agent as agent_module
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    steps_dir = tmp_path / today / "steps"
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "compress.json").write_text(
+        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    run_step_calls: list[str] = []
+
+    class FakeSupervisor:
+        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
+            pass
+
+        def _is_judge_server_available(self) -> bool:
+            return False
+
+        def run_step(self, name, fn, force=False):
+            from agents.daily_brief.supervisor import StepResult
+            run_step_calls.append(name)
+            try:
+                output = fn()
+                return StepResult(name=name, success=True, output=output, error=None, attempts=1)
+            except Exception as exc:
+                return StepResult(name=name, success=False, output=None, error=str(exc), attempts=1)
+
+        def run_judge_feedback(self, **kwargs):
+            raise AssertionError("不應進入 feedback loop")
+
+    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
+
+    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
+        "agents.daily_brief.supervisor.SupervisorAgent", FakeSupervisor
+    ):
+        agent.run("--only judge")
+
+    assert "judge" in run_step_calls
+
+
+def test_judge_failure_log_does_not_claim_report_skipped(tmp_path, caplog):
+    """judge 失敗時，不應 log『略過 report/notify』，因為那些步驟實際上仍繼續執行。"""
+    import logging
+    import agents.daily_brief.agent as agent_module
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    steps_dir = tmp_path / today / "steps"
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "compress.json").write_text(
+        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    class FakeSupervisor:
+        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
+            pass
+
+        def _is_judge_server_available(self) -> bool:
+            return True
+
+        def run_step(self, name, fn, force=False):
+            from agents.daily_brief.supervisor import StepResult
+            if name == "judge":
+                return StepResult(name=name, success=False, output=None, error="LLM failed", attempts=2)
+            return StepResult(name=name, success=True, output=fn(), error=None, attempts=1)
+
+        def run_judge_feedback(self, **kwargs):
+            raise AssertionError("不應進入 feedback loop")
+
+    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
+
+    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
+        "agents.daily_brief.supervisor.SupervisorAgent", FakeSupervisor
+    ), caplog.at_level(logging.WARNING):
+        agent.run("--only judge")
+
+    assert "略過 report/notify" not in caplog.text
