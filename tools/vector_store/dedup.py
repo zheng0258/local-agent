@@ -26,7 +26,15 @@ def dedup_source_data(
     window_days: int = 7,
     threshold: float = 0.80,
 ) -> tuple[dict, DedupResult]:
-    cutoff_day_index = (date.fromisoformat(today) - timedelta(days=window_days)).toordinal()
+    today_ordinal = date.fromisoformat(today).toordinal()
+    cutoff_day_index = today_ordinal - window_days
+    # 只比對「過去 N 天」，排除今天本身，避免 --force 重跑時自我過濾
+    history_filter = {
+        "$and": [
+            {"day_index": {"$gte": cutoff_day_index}},
+            {"day_index": {"$lt": today_ordinal}},
+        ]
+    }
     kept_urls: list[str] = []
     filtered_items: list[dict] = []
     filtered_url = 0
@@ -47,7 +55,7 @@ def dedup_source_data(
                 continue
             total += 1
 
-            existing = collection.get(ids=[url], where={"day_index": {"$gte": cutoff_day_index}})
+            existing = collection.get(ids=[url], where=history_filter)
             if existing["ids"]:
                 filtered_url += 1
                 filtered_items.append(
@@ -65,7 +73,7 @@ def dedup_source_data(
                 query_result = collection.query(
                     query_embeddings=[embedding],
                     n_results=3,
-                    where={"day_index": {"$gte": cutoff_day_index}},
+                    where=history_filter,
                     include=["distances", "metadatas"],
                 )
                 distances = query_result.get("distances", [[]])[0]

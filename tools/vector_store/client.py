@@ -19,7 +19,7 @@ def get_collection(db_path: Path):
 
 
 def cleanup_old_records(collection, window_days: int) -> int:
-    cutoff_day_index = (date.today() - timedelta(days=window_days)).toordinal()
+    cutoff_day_index = date.today().toordinal() - window_days
     results = collection.get(where={"day_index": {"$lt": cutoff_day_index}})
     if not results["ids"]:
         return 0

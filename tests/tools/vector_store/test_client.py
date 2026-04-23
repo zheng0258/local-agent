@@ -53,7 +53,7 @@ def test_cleanup_no_old_records_skips_delete():
 def test_cleanup_uses_correct_cutoff_date():
     mock_collection = MagicMock()
     mock_collection.get.return_value = {"ids": []}
-    expected_cutoff = (date.today() - timedelta(days=7)).toordinal()
+    expected_cutoff = date.today().toordinal() - 7
 
     from tools.vector_store.client import cleanup_old_records
 
