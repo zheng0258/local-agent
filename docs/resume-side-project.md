@@ -14,13 +14,14 @@
 
 - **Local LLM-first 架構**：設計 `LLMBackend` Protocol，支援 LM Studio（OpenAI-compatible）與 Anthropic Claude API 熱切換，無需改動 agent 程式碼
 - **Multi-source 資料聚合**：並行爬取 Hatena Bookmark IT（RSS）、Hacker News（playwright-cli JS 渲染）、Reddit 16 子版（curl + JSON）、資安部落格（aikido.dev / wiz.io），每日處理 100+ 篇文章
-- **Idempotent Step Pipeline**：10 步驟（4×fetch / compress / digest / judge / report / save / notify）各自產生 JSON artifact，支援 `--force` / `--only` 精確重跑，單步失敗不阻斷整條流程
+- **Idempotent Step Pipeline**：11 步驟（4×fetch / **dedup** / compress / digest / judge / report / save / notify）各自產生 JSON artifact，支援 `--force` / `--only` 精確重跑，單步失敗不阻斷整條流程
 - **Prompt Engineering**：Interest scoring（*** / ** / *）含 few-shot 邊界範例穩定評分、Python 預篩選後語義壓縮（compress）、跨來源去重 digest、report 直接輸出純 markdown（避免 JSON 包裝引起的解析失敗）、Telegram HTML 格式雙訊息，prompt 集中管理於 `prompts.py`
 - **Fetcher Output 標準化**：`tools/fetchers/schema.py` 定義 `@dataclass(frozen=True) Article` + `clean_articles()`，作為 hierarchical summarization 第一層（純函數、無 LLM），統一各 fetcher 輸出格式後再進 LLM 流程
 - **LLM Output 防禦**：正則提取 ` ```json ` 區塊 → `json.loads` → `json-repair` 三層 fallback，處理本地模型輸出不穩定問題（全形冒號、未逸脫引號等）；Telegram HTML sanitizer 自動過濾不支援 tag，避免 Telegram API 400 錯誤；report 輸出自動剝除 markdown fence
 - **LLM-as-Judge 品質評估**：獨立 judge LLM（`google/gemma-4-e4b`，可透過 env var 熱換）每日對摘要進行 relevance / completeness / faithfulness 三維評分；completeness < 3 自動觸發 `quality_alert`；歷史分數累積至 `_judge-history.json` 供趨勢追蹤
 - **Interface Lint 自動化**：`lint/check_agent_interface.py` / `check_fetcher_interface.py` 驗證所有 agent/fetcher 符合介面規範，可整合 CI
 - **Judge Server 管理**：`scripts/judge-server.sh` 負責 judge LLM 的 start/stop/restart/status/health，自動解析 LM Studio / HuggingFace cache 路徑，`wait_for_ready()` 輪詢 `/v1/models` 確認就緒，可獨立於主流程啟停，避免每次 pipeline 啟動都等待模型載入
+- **Vector DB 語意去重**：fetch 完成後插入 `dedup` 步驟，以 ChromaDB（persistent）+ `Qwen3-Embedding-0.6B`（MLX，351MB）對文章標題做語意向量化；7 天滑動視窗內 URL 精確比對與 cosine similarity > 0.80 的語意近似文章均被過濾，避免重複文章消耗 compress / digest 的 LLM token；`dedup.json` artifact 保存 `kept_urls` 供後續步驟重跑時重現相同過濾結果
 - **n8n 排程**：本機 n8n workflow 每日凌晨 01:00（台灣時間）觸發，免伺服器、免 Docker
 
 ---
@@ -39,7 +40,8 @@
 | **Scheduler** | n8n（Schedule Trigger，本機） |
 | **Testing** | pytest（unit + integration）；`tests/harness/` 針對 compress/digest/judge/telegram 進行端對端 harness 測試 |
 | **Linting** | ruff、interface lint scripts |
-| **Dependency** | 極簡（`anthropic`, `certifi`, `json-repair`），核心功能使用 stdlib |
+| **Vector DB** | ChromaDB（PersistentClient）+ Qwen3-Embedding-0.6B-4bit-DWQ（mlx_lm 直接推理） |
+| **Dependency** | 極簡（`anthropic`, `certifi`, `chromadb`, `json-repair`），核心功能使用 stdlib |
 
 ---
 
@@ -59,6 +61,7 @@ main.py  ──→  route()  ──→  DailyBriefAgent / UrlDigestAgent
                    ▼
             steps/{name}.json  ← artifact cache（每步驟獨立）
             ├── hatena/hn/reddit/security.json   # fetch + LLM score
+            ├── dedup.json                       # 去重統計 + kept_urls
             ├── compress.json                    # 語義壓縮 + 主題分群
             ├── digest.json                      # 跨來源去重摘要
             ├── judge.json                       # 品質評分（3 維度）
