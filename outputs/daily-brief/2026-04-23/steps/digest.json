@@ -1,0 +1,229 @@
+{
+  "generated_at": "2026-04-23T03:09:09",
+  "digests": [
+    {
+      "title": "關於那份生產力提升，現場默默承擔的成本",
+      "url": "https://zenn.dev/shintaroamaike/articles/69a7611880420d",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "AI 工具雖宣稱提升生產力，但現場團隊需承擔學習成本、除錯時間與整合複雜度等隱藏負擔。這些成本常被管理層忽視，導致實際投資報酬率低於預期。文章呼籲企業應真實評估 AI 導入的總體擁有成本（TCO），而非只看表面效率數字。"
+    },
+    {
+      "title": "「Firefox 150」正式發布 ～使用 Anthropic 最強模型「Mythos」修復大量漏洞／強化分割視圖、本地翻譯、PDF 編輯等功能",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2103516.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Firefox 150 整合 Anthropic 的 Mythos AI 模型自動分析並修復大量安全漏洞，標誌著瀏覽器進入 AI 輔助開發時代。同時強化分割視圖、離線翻譯與 PDF 編輯等功能，提升用戶體驗。此更新展現 AI 在軟體品質保證（QA）與功能增強的實用應用，可能改變瀏覽器開發流程。"
+    },
+    {
+      "title": "【Google 推薦】從 Gemini 獲得滿意回答的「結構化提示詞」實踐指南",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/22/news015.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Google 發布官方建議的結構化提示詞框架，幫助用戶從 Gemini 獲得更精準、一致的回答。透過定義明確的上下文、角色設定與輸出格式，可大幅減少模糊回答。此指南對企業導入 LLM 應用具高參考價值，是提示詞工程（Prompt Engineering）的實用入門資源。"
+    },
+    {
+      "title": "如何面對 Harness Engineering — 超越規則文件設計開發流程",
+      "url": "https://speakerdeck.com/rkaga/how-to-approach-harness-engineering",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Harness Engineering 是一種以「可執行框架」取代傳統規則文件的開發流程設計思維。透過編寫實際運作的程式碼來定義流程約束，而非僅靠文檔規範。此方法讓 AI Agent 能真正理解並遵守開發準則，實現可自動執行的工程實踐。"
+    },
+    {
+      "title": "實踐 Harness Engineering：透過 TAKT 實現 AI Agent 控制",
+      "url": "https://speakerdeck.com/nrslib/practical-harness-engineering-ai-agent-control-enabled-by-takt",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "TAKT 框架提供一組可複用的 Harness Engineering 實作模式，讓團隊能精細控制 AI Agent 的行為邊界。透過定義工具調用限制、上下文窗口管理與輸出驗證機制，確保 AI 在預設範圍內運作。此實踐對建構企業級 AI 開發助手具高參考價值。"
+    },
+    {
+      "title": "AWS DevOps Agent 與 GuardDuty 整合後進行想像中的安全事件調查的故事",
+      "url": "https://zenn.dev/cscloud_blog/articles/devops-agent-guardduty-integration",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "文章描述 AWS DevOps Agent 整合 GuardDuty 後，自動偵測並調查雲端安全事件的場景化實作。當 GuardDuty 發現異常時，Agent 自動收集日誌、追蹤指標並生成初步報告。此案例展現 MLOps 與 SecOps 整合的未來方向，減少人工介入需求。"
+    },
+    {
+      "title": "Anthropic 正在測試將「Claude Code」僅限於 Max 付費方案的變更",
+      "url": "https://gigazine.net/news/20260422-anthropic-claude-subscribe-small-test/",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Anthropic 測試將 Claude Code 功能從入門方案移除，僅保留於最高階 Max 訂閱。此定價策略調整反映 AI 程式碼生成功能的高運算成本與商業價值重估。可能迫使開發者重新評估 AI 輔助程式設計工具的投資報酬率與供應商選擇。"
+    },
+    {
+      "title": "Go 1.24 起 TLS 已在不知不覺中運行 PQC（抗量子密碼）",
+      "url": "https://zenn.dev/kimifan/articles/pqc-kuwashii",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Go 1.24 在 TLS 實作中靜默整合 NIST 標準化的抗量子密碼學（PQC）演算法，無需開發者額外設定。此後向相容設計確保現有系統升級後即具備量子電腦時代的加密防護。在「現在竊取，以後解密」威脅下，此更新對長期資料保密至關重要。"
+    },
+    {
+      "title": "SpaceX 獲得 AI 編輯器「Cursor」收購權，將在 AI 模型開發上合作",
+      "url": "https://www.itmedia.co.jp/aiplus/articles/2604/22/news105.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "SpaceX 收購熱門 AI 程式碼編輯器 Cursor，計畫結合其星鏈（Starlink）運算資源進行 AI 模型訓練與開發。此合併可能创造出結合衛星網路、邊緣運算與 AI 程式設計工具的新型生態系統。對開發者而言，Cursor 的功能路線圖可能因 SpaceX 的太空與硬體背景而大幅改變。"
+    },
+    {
+      "title": "以目標為優先的 Harness 設計 ～提高 Harness 變更容易性的優先順序～",
+      "url": "https://speakerdeck.com/gotalab555/mu-de-huasutonohanesushe-ji-hanesunobian-geng-rong-yi-xing-wogao-merutamenoyou-xian-shun-wei",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "文章提出以「最終目標」逆向推导 Harness 設計優先順序的方法論，避免過度工程化。透過定義清晰的效能指標與變更成本模型，團隊可識別最具價值的功能優先實作。此方法對資源有限的團隊建構 AI Agent 框架具高實用性。"
+    },
+    {
+      "title": "使用 Claude Code 自動化開發的 5 個 Skills",
+      "url": "https://qiita.com/kamome_susume/items/3b9b18e7e54f15721837",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "文章分享 5 個實戰 Claude Code Skills：自動單元測試生成、日誌分析與錯誤定位、API 文件生成、程式碼重構建議、依賴更新評估。這些 Skills 可直接導入團隊工作流，將重複性開發任務自動化。展現提示詞工程在生產環境的實際產出價值。"
+    },
+    {
+      "title": "透過三層結構將 CLAUDE.md 體積縮小 83% — 實測與試錯記錄",
+      "url": "https://zenn.dev/pepabo/articles/claude-code-rules-skills-split",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Peab o 團隊透過「核心規則→專案特定規則→Skills」三層結構重构 CLAUDE.md，將上下文體積縮減 83%。此優化显著提升 Token 成本效益與回應品質，同時維持 AI 對專案的理解深度。文章包含實測數據與失敗案例，為 Claude Code 使用者提供珍貴經驗。"
+    },
+    {
+      "title": "ChatGPT Images 2.0",
+      "url": "https://news.ycombinator.com/item?id=47852835",
+      "source": "HN",
+      "interest": "***",
+      "summary": "OpenAI 發布 ChatGPT Images 2.0，大幅提升 AI 繪圖的解析度、文字渲染準確性與物理合理性。新模型在圖像一致性及提示詞遵循能力上有顯著改善，縮小與 DALL-E 3、Midjourney 的差距。此更新讓 ChatGPT 成為更完整的創意工作工具，模糊對話與生成 AI 的界線。"
+    },
+    {
+      "title": "Vercel 資安事件：OAuth 攻擊揭露平台環境變數風險",
+      "url": "https://news.ycombinator.com/item?id=47851634",
+      "source": "HN",
+      "interest": "***",
+      "summary": "攻擊者透過 OAuth 令牌竊取漏洞，入侵 Vercel 平台獲取用戶環境變數。此事件揭露現代雲端開發平台在第三方整合點的潛在弱點，影響使用 Vercel 部署的無數專案。企業需重新評估環境變數管理策略，考慮使用金鑰管理服务（如 AWS KMS、HashiCorp Vault）而非平台內建儲存。"
+    },
+    {
+      "title": "我們的第八代 TPU：為代理時代打造的兩顆晶片",
+      "url": "https://news.ycombinator.com/item?id=47862497",
+      "source": "HN",
+      "interest": "***",
+      "summary": "Google 發布專為 AI Agent 設計的第八代 TPU，採用雙晶片架構：一顆優化推理速度、另一顆專注記憶體頻寬以支持長上下文。此硬體設計反映 Agent 工作負載的特殊需求——高 Token 吞吐量與狀態追蹤能力。標誌著 AI 硬體從「模型訓練」轉向「代理執行」的新時代。"
+    },
+    {
+      "title": "Qwen3.6-27B：在 270 億參數稠密模型中實現旗艦級程式碼能力",
+      "url": "https://news.ycombinator.com/item?id=47863217",
+      "source": "HN",
+      "interest": "***",
+      "summary": "阿裡巴巴發布 Qwen3.6-27B 稠密模型，在僅 270 億參數下實現與百億級模型匹敵的程式碼生成能力。此成就透過高品質訓練數據與高效架構設計達成，使本地部署於消費級硬體成為可能。對隱私敏感企業與邊緣運算場景具高吸引力，挑戰「越大越好」的模型發展假設。"
+    },
+    {
+      "title": "所有你的代理都將成為非同步",
+      "url": "https://news.ycombinator.com/item?id=47832720",
+      "source": "HN",
+      "interest": "***",
+      "summary": "文章論證 AI Agent 架構必然走向非同步設計，因多步推理、外部工具調用與人類審核需長時間運作。非同步 Agent 可透過檢查點（checkpoints）、訊息佇列與狀態恢復機制處理中斷。此趨勢將重塑 Agent 框架設計，類似網站從同步 CGI 轉向非同步 AJAX 的歷史演進。"
+    },
+    {
+      "title": "MuJoCo – 進階物理模擬",
+      "url": "https://news.ycombinator.com/item?id=47820791",
+      "source": "HN",
+      "interest": "***",
+      "summary": "Google 收購的 MuJoCo 物理模擬引擎在機器人學習領域具領導地位，提供高精度的多物體動力學模擬。最新開源版本整合 PyTorch 與 JAX，使端到端可微分物理模擬成為可能。此工具對開發具身 AI（Embodied AI）、機器人控制與強化學習研究至關重要。"
+    },
+    {
+      "title": "Prefill 即服務：新一代模型的 KV Cache 可跨資料中心",
+      "url": "https://news.ycombinator.com/item?id=47822117",
+      "source": "HN",
+      "interest": "***",
+      "summary": "新架構允許將 LLM 的 KV Cache（鍵值快取）序列化為服務，跨資料中心共享。這解決了長上下文推理的高記憶體成本問題——Prefill 階段的計算可分散至邊緣，生成階段集中於低延遲資料中心。此技術可能大幅降低企業使用長上下文模型的 TCO，並支持全球化部署。"
+    },
+    {
+      "title": "安瑟普 Mythos AI 遭未授權存取",
+      "url": "https://www.reddit.com/r/cybersecurity/comments/1ss3y67/anthropics_mythos_model_accessed_by_unauthorized/",
+      "source": "r/cybersecurity",
+      "interest": "***",
+      "summary": "Bloomberg 報導 Anthropic 的頂尖模型 Mythos 遭未授權群組入侵，可能外流至公開網路。此事件凸顯企業 AI 模型的分發與存取控制風險，尤其是透過 API 濫用或內部洩漏。若確認屬實，可能加速企業對模型水印、存取日誌審計與區塊鏈溯源技術的採納。"
+    },
+    {
+      "title": "Microsoft 發布 ASP.NET 緊急修復",
+      "url": "https://www.reddit.com/r/cybersecurity/comments/1ssfp3h/microsoft_releases_emergency_patches_for_critical/",
+      "source": "r/cybersecurity",
+      "interest": "***",
+      "summary": "Microsoft 發布 ASP.NET Core 緊急安全更新，修復可導致遠端程式碼執行（RCE）的關鍵漏洞。影響範圍涵蓋多個長期支援版本，攻擊者可能透過特製請求執行任意程式碼。企業需立即評估暴露於網際網路的 ASP.NET 應用並優先更新，此为高嚴重性 CVSS 9.8 漏洞。"
+    },
+    {
+      "title": "逾千 SharePoint 伺服器易受偽裝攻擊",
+      "url": "https://www.reddit.com/r/cybersecurity/comments/1ssfu fa/over_1300_microsoft_sharepoint_servers_vulnerable/",
+      "source": "r/cybersecurity",
+      "interest": "***",
+      "summary": "安全研究發現 1300+ 台 SharePoint 伺服器因錯誤配置易受 HTTP 偽裝（spoofing）攻擊。攻擊者可繞過身份驗證機制存取敏感企業文件。此問題源於預設信任設定缺乏適當的請求來源驗證，影響全球眾多企業與教育機構。雖有公開exploit，但修復需調整伺服器配置而非僅打補丁。"
+    },
+    {
+      "title": "Perforce 預設設定洩漏原始碼",
+      "url": "https://www.reddit.com/r/netsec/comments/1srpyuj/p4wned_how_insecure_defaults_in_perforce_expose/",
+      "source": "r/netsec",
+      "interest": "***",
+      "summary": "研究發現 Perforce 版本控制系統的預設配置允許未授權存取，導致大量企業原始碼外洩（代號 P4WNED）。影響數百個公開可存取的 Perforce 實例，涵蓋遊戲、嵌入式與國防產業。此事件重演 GitLab 与 TruffleHog 的歷史教訓，凸顯預設安全配置（Security by Default）的重要性。"
+    },
+    {
+      "title": "npm 供應鏈攻擊逆工程分析",
+      "url": "https://www.reddit.com/r/netsec/comments/1ssmyig/reverseengineering_a_targeted_npm_supply_chain/",
+      "source": "r/netsec",
+      "interest": "***",
+      "summary": "安全團隊逆向工程/npm 供應鏈攻擊，發現兩階段 C2（命令与控制）通訊機制。惡意包先建立信任然後在特定條件下觸發後門，增加偵測難度。此分析提供供應鏈攻擊簽名與防禦建議，對企業依賴管理（SBOM）與包審計流程具高參考價值。"
+    },
+    {
+      "title": "安瑟普說明移除 Claude Code 原因",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1ss5bop/head_of_growth_at_anthropic_regarding_claude_code/",
+      "source": "r/ClaudeCode",
+      "interest": "***",
+      "summary": "Anthropic 成長長在 Reddit 解釋將 Claude Code 從入門方案移除的原因：高 Token 消耗導致營運成本無法持續。公司優先服務高階用戶與企業客戶，同時探索更精簡的程式碼專模型。此決策反映 AI 程式碼生成功能的經濟現實與市場细分化趨勢。"
+    },
+    {
+      "title": "Qwen 3.6 27B 模型正式發布",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ssl1xh/qwen_36_27b_is_out/",
+      "source": "r/LocalLLaMA",
+      "interest": "***",
+      "summary": "阿裡巴巴正式發布 Qwen 3.6-27B，支援 128K 上下文、多語言與程式碼生成。社區已製作 GGUF、AWQ 量化版本，可在 consumer GPU 上運行（約需 16-20GB VRAM）。此模型在 HumanEval、MBPP 等程式碼基準測試中表現優異，成為本地部署的熱門選擇。"
+    },
+    {
+      "title": "Qwen 3.6-27B 版本發布公告",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ssl6ki/qwen3627b_released/",
+      "source": "r/LocalLLaMA",
+      "interest": "***",
+      "summary": "詳細發布公告包含模型架構（attention 優化）、訓練數據策略與對齊技術說明。官方提供 HuggingFace、ModelScope 多平台下載，支援 vLLM、Ollama 等推理框架。benchmark 顯示在 27B 級別中程式碼能力領先，同時保持合理的推理速度與記憶體占用。"
+    },
+    {
+      "title": "未授權群組取得 Mythos 存取權",
+      "url": "https://www.reddit.com/r/technology/comments/1ssguib/unauthorized_group_has_gained_access_to/",
+      "source": "r/technology",
+      "interest": "***",
+      "summary": "科技新聞報導未授權群組透過社會工程與內部洩漏取得 Anthropic Mythos 模型存取權。Bloomberg 獨家報導指出可能涉及 API key 濫用與員工疏忽。此事件可能推動 AI 模型行業採納更嚴格的零信任架構、存取日誌審計與異常使用偵測機制。"
+    },
+    {
+      "title": "Mythos AI 模型遭未授權存取",
+      "url": "https://www.reddit.com/r/webdev/comments/1ssbkri/anthropics_mythos_ai_model_got_accessed_by/",
+      "source": "r/webdev",
+      "interest": "***",
+      "summary": "Web 開發者社群討論 Mythos 洩漏事件對 AI API 安全的影响。專家建議企業應實施 IP 白名單、請求量限制、異常使用警報與定期 API key 輪轉。此事件凸顯即使頂級 AI 公司也面臨供應鏈與內部威脅挑戰，無企業可完全免疫。"
+    },
+    {
+      "title": "GlassWorm 原生 Zig 下載器感染所有 IDE",
+      "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "新型 GlassWorm 惡意程式使用 Zig 語言編寫，專攻開發者環境並感染機器上所有 IDE（VS Code、PyCharm 等）。透過注入程式碼監控插件，可竊取開發中原始碼、API key 與專案結構。此攻擊顯示供應鏈威脅正轉向針對高價值開發者目標的精密設計。"
+    },
+    {
+      "title": "Aikido 發現 Hoppscotch 多個零日漏洞",
+      "url": "https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "Aikido 的 AI 滲透測試工具自動發現 Hoppscotch（開源 API 客戶端）多個未公開漏洞，包括 XSS、CSRF 與潛在 RCE。此案例展示 AI 輔助安全測試的實用能力——可在無人工介入下識別傳統掃描器遺漏的問題。漏洞已負責任披露並由維護者修復。"
+    },
+    {
+      "title": "npm 與 PyPI 中 GPT-Proxy 後門轉伺服器為中國 LLM 中繼站",
+      "url": "https://www.aikido.dev/blog/gpt-proxy-backdoor-npm-pypi-chinese-llm-relay",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "安全研究發現 npm 與 PyPI 上的 GPT-Proxy 包含有後門，將受害者伺服器轉化為中國 LLM 服務的免費中繼站。此攻擊不僅竊取運算資源，可能同時外洩敏感 API 請求內容。凸顯 open source 供應鏈風險與跨國 AI 服務依賴的複雜地緣政治意涵。"
+    }
+  ]
+}

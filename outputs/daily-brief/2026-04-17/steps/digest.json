@@ -1,0 +1,159 @@
+{
+  "generated_at": "2026-04-17T21:42:52",
+  "digests": [
+    {
+      "title": "「1.58 位元進化所以 8GB 足夠。請交給我」Bonsai 這麼說，植入 MacBook Neo 體驗性能差距。iPhone 也能輕鬆運行，本地 AI 超進化中",
+      "url": "https://www.techno-edge.net/article/2026/04/17/4997.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Bonsai AI 透過量化技術突破，將模型壓縮至可在 8GB 記憶體設備運行。這意味著主流 MacBook 和 iPhone 用戶無需依賴雲端即可體驗本地 AI 功能，保護隱私同時降低延遲。此小型化突破標誌著邊緣計算 AI 進入大眾消費市場的重要里程碑，可能重塑個人裝置的智能化體驗。"
+    },
+    {
+      "title": "NIST 終於放棄「漏洞全數分析」CVE 暴增導致崩潰，改變方針",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/17/news034.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "美國 NIST 因 CVE 漏洞數量爆炸式增長，正式放棄全面分析政策轉向優先級篩選模式。這反映現代軟體供應鏈複雜度已超出傳統漏洞管理體系負荷，企業必須建立自主評估機制。此政策轉變將深刻影響全球資安團隊的漏洞追蹤與修復策略，迫使組織重新思考風險管理方式。"
+    },
+    {
+      "title": "Mozilla 發布 AI 執行環境「Thunderbolt」，可自行 host 管理的企業用 AI client 平台",
+      "url": "https://gigazine.net/news/20260417-mozilla-thunderbolt/",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Mozilla 推出 Thunderbolt 平台，提供企業自託管 AI 執行環境的完整解決方案。該平台強調數據主權與隱私保護，允許組織在自有基礎設施上運行 AI 應用。此舉回應企業級市場对雲端依賴的擔憂，為金融、醫療等敏感行業提供合規 AI 部署選項，挑戰現有雲端巨頭的市場地位。"
+    },
+    {
+      "title": "OpenAI 的「Codex」大幅更新，PC 應用程式操作與自動化變可能",
+      "url": "https://japan.cnet.com/article/35246560/",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "OpenAI Codex 重大更新獲得直接操作 PC 應用程式的能力，實現跨軟體自動化工作流。這項突破讓 AI Agent 能像人類一樣點擊、輸入、讀取螢幕內容，完成複雜的桌面上的任務串接。對企業自動化與個人生產力而言這是革命性進展，可能重新定義人機協作模式與 RPA 市場格局。"
+    },
+    {
+      "title": "OpenAI「Codex」刷新，支援 PC 直接操作成為泛用作業 agent",
+      "url": "https://www.itmedia.co.jp/aiplus/articles/2604/17/news071.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Codex 進化為通用型 PC 作業代理，具備視覺理解與動作規劃能力以操作任何桌面應用程式。此更新使企業能部署單一 AI 代理處理跨軟體的複合作業，如資料匯入、報表生成、郵件處理等。這標誌著 AI 從「內容生成」轉向「任務執行」的關鍵跨越，重新定義自動化軟體的邊界。"
+    },
+    {
+      "title": "超越人類智慧的「Claude Mythos」限定發布開始，網路安全歷史轉折點的「AI 紅隊」是什麼【生成 AI Stream】",
+      "url": "https://forest.watch.impress.co.jp/docs/serial/aistream/2102602.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Anthropic 推出 Claude Mythos 限定版本，專為 AI 紅隊測試設計以探索模型極限能力。AI 紅隊成為資安新戰線，通過對抗性測試識別模型弱點與潛在濫用風險。此發展反映業界認知到 AI 安全不僅是防範攻擊，更需主動測試系統邊界，為可靠部署鋪路。"
+    },
+    {
+      "title": "Claude Opus 4.7",
+      "url": "https://news.ycombinator.com/item?id=47793411",
+      "source": "HN",
+      "interest": "**",
+      "summary": "Anthropic 發布 Opus 4.7 旗艦模型，代表公司最新技術成就。HN 討論熱度顯示開發者社群對企業級 AI 模型持續關注。此發布可能帶來推理能力、上下文處理或代碼生成的顯著提升，值得追蹤技術細節以評估與競爭模型差異。"
+    },
+    {
+      "title": "Qwen3.6-35B-A3B: Agentic coding power, now open to all",
+      "url": "https://news.ycombinator.com/item?id=47792764",
+      "source": "HN",
+      "interest": "***",
+      "summary": "Alibaba 開放 Qwen3.6-35B 代碼生成模型，具備代理式編程能力供大眾使用。350 億參數規模在開放模型中屬中高階，專注於代碼理解與生成任務。此舉反映中國 AI 廠商積極參與開放生態競爭，為開發者提供替代閉源模型的選擇。"
+    },
+    {
+      "title": "Codex for almost everything",
+      "url": "https://news.ycombinator.com/item?id=47796469",
+      "source": "HN",
+      "interest": "**",
+      "summary": "討論文章探討 Codex 類 AI 如何從純代碼生成擴展到幾乎所有任務領域。反映業界趨勢：專精型 AI 正快速泛化為通用代理，模糊垂直與水平應用邊界。此現象引發對未來軟體架構、職業技能需求及 AI 經濟模型的深層思考。"
+    },
+    {
+      "title": "The future of everything is lies, I guess: Where do we go from here?",
+      "url": "https://news.ycombinator.com/item?id=47792718",
+      "source": "HN",
+      "interest": "**",
+      "summary": "質疑性文章反思 AI 狂熱下的真實進展與過度行銷問題。作者挑戰社群重新審視技術成熟度、商業可行性與社會影響的落差。此類反思對避免投資泡沫、建立理性預期至關重要，提醒業界平衡樂觀與審慎。"
+    },
+    {
+      "title": "Cloudflare's AI Platform: an inference layer designed for agents",
+      "url": "https://news.ycombinator.com/item?id=47792538",
+      "source": "HN",
+      "interest": "***",
+      "summary": "Cloudflare 推出專為 AI 代理設計的推論層平台，整合邊緣計算優勢。此架構針對 Agent 的低延遲、高併發、地理分散需求優化，提供與傳統雲端不同的部署選項。對構建全球化 AI 服務而言，邊緣推論可能成為關鍵競爭優勢。"
+    },
+    {
+      "title": "The beginning of scarcity in AI",
+      "url": "https://news.ycombinator.com/item?id=47799322",
+      "source": "HN",
+      "interest": "***",
+      "summary": "文章警告 AI 資源稀缺時代可能已來臨，包括算力、電力、高品質訓練數據。隨著模型規模膨脹與採用率提升，供應約束將成為限制因素而非無限擴張。此趨勢可能重塑 AI 產業結構，有利於擁有資源優勢的參與者，同時推動效率技術發展。"
+    },
+    {
+      "title": "Show HN: SPICE simulation → oscilloscope → verification with Claude Code",
+      "url": "https://news.ycombinator.com/item?id=47801255",
+      "source": "HN",
+      "interest": "**",
+      "summary": "技術展示：整合電路模擬、示波器分析與 Claude Code 驗證的自動化工程工作流。此案例展現 AI 在專業領域（電子工程）的實際應用潛力，超越一般文本任務。反映垂直領域 AI 工具鏈正在成熟，降低專業工作門檻。"
+    },
+    {
+      "title": "新微軟 Defender「RedSun」零日 PoC 取得 SYSTEM 權限",
+      "url": "https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/",
+      "source": "r/cybersecurity",
+      "interest": "***",
+      "summary": "Microsoft Defender 發現名為 RedSun 的零日漏洞，PoC 可獲取最高 SYSTEM 權限。防禦軟體本身存在 vulnerabilities 尤為嚴重，因攻擊者可繞過安全機制直取核心權限。此漏洞凸顯供應鏈攻擊的複雜性，即使最受信任的企業產品也難免缺陷。"
+    },
+    {
+      "title": "RedSun：Windows Defender 修復如何變成 SYSTEM 檔案寫入",
+      "url": "https://www.reddit.com/r/netsec/comments/1snglu3/redsun_how_windows_defenders_remediation_became_a/",
+      "source": "r/netsec",
+      "interest": "***",
+      "summary": "技術分析揭示 RedSun 漏洞如何利用 Defender 修復機制本身的邏輯缺陷進行權限提升。攻擊者操縱修復流程將惡意代碼以 SYSTEM 權限寫入系統檔案。此案例成為資安教學經典，說明「信任邊界」設計錯誤的致命後果。"
+    },
+    {
+      "title": "Anthropic 的 MCP 協議有影響 20 萬伺服器的關鍵缺陷",
+      "url": "https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/",
+      "source": "r/cybersecurity",
+      "interest": "***",
+      "summary": "Anthropic 的 Model Context Protocol (MCP) 發現關鍵協議層漏洞，潛在影響範圍達 20 萬台伺服器。協議級缺陷特別危險，因可能導致跨服務器攻擊、數據洩露或拒絕服務。此事件突顯新興 AI 協議在快速迭代中可能忽略安全深思熟慮的設計。"
+    },
+    {
+      "title": "HAProxy HTTP/3 至 HTTP/1 脫節：透過獨立 QUIC FIN 跨協議夾帶",
+      "url": "https://www.reddit.com/r/netsec/comments/1snem8w/haproxy_http3_http1_desync_crossprotocol/",
+      "source": "r/netsec",
+      "interest": "***",
+      "summary": "HAProxy 發現跨協議漏洞，攻擊者透過操控 QUIC FIN 封包造成 HTTP/3 到 HTTP/1 狀態機脫節。此技術可繞過安全檢查、注入惡意內容或進行 XSS 攻擊。在 HTTP/3 快速普及背景下，協議轉換邊界成為新的攻擊面需高度關注。"
+    },
+    {
+      "title": "Opus 4.7 🔥🔥",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1sn5vdd/opus_47/",
+      "source": "r/ClaudeCode",
+      "interest": "**",
+      "summary": "Reddit ClaudeCode 社群熱烈討論 Opus 4.7 版本更新，情感表達顯示高度興奮。社區熱議通常反映實質功能改進或性能躍升。開發者社群的反饋是評估模型實際價值的重要指標，值得追蹤具體改進細節。"
+    },
+    {
+      "title": "Opus 4.7 超強",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1snpmv4/opus_47_is_amazing/",
+      "source": "r/ClaudeCode",
+      "interest": "**",
+      "summary": "使用者盛讚 Opus 4.7 表現驚人，顯示版本帶來顯著體驗提升。正面反饋集中於代碼生成、推理能力或用戶體驗改進的可能性高。社群口碑是模型競爭力的重要驗證，尤其來自實際使用者而非行銷宣傳。"
+    },
+    {
+      "title": "NIST NVD縮減背景下的可靠 CVE 來源",
+      "url": "https://www.aikido.dev/blog/nist-nvd-changes-2026",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "針對 NIST NVD 縮減分析政策後的 CVE 來源評估指南，幫助組織建立可靠漏洞情報管道。文章比較替代来源的覆蓋率、及時性與準確度，提供實務選擇建議。對資安團隊而言，此轉變要求重新設計漏洞管理流程與工具整合策略。"
+    },
+    {
+      "title": "Axios 嚴重漏洞實測無法利用",
+      "url": "https://www.aikido.dev/blog/axios-cve-2026-40175-a-critical-bug-thats-not-exploitable",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "Axios CVE-2026-40175 雖被評為嚴重漏洞，但經過實測驗證無法被實際利用。此案例凸顯 CVSS 評分與實際風險可能存在落差，強調獨立驗證的重要性。對企業而言，盲目修復所有高分漏洞可能浪費資源，需結合情境評估真實威脅。"
+    },
+    {
+      "title": "GlassWorm 新型 Zig 投放程式入侵 IDE",
+      "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "新型恶意软件 GlassWorm 使用 Zig 語言編寫，專門感染開發者機器上的所有 IDE。選擇 Zig 反映惡意軟體作者追求小型化、高性能與靜態連結優勢。IDE 作為攻擊目標特別危險，因可直接攔截代碼、竊取憑證或植入後門至開發流程。"
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "articles": {
+    "資安類": [
+      {
+        "title": "Recently leaked Windows zero-days now exploited in attacks",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1soq002/recently_leaked_windows_zerodays_now_exploited_in/",
+        "interest": "***",
+        "score": 367,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "MAD Bugs: Even \"cat readme.txt\" is not safe",
+        "url": "https://www.reddit.com/r/netsec/comments/1sou4zz/mad_bugs_even_cat_readmetxt_is_not_safe/",
+        "interest": "***",
+        "score": 44,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "\"TotalRecall Reloaded\" tool finds a side entrance to Windows 11's Recall database",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1sp54yq/totalrecall_reloaded_tool_finds_a_side_entrance/",
+        "interest": "***",
+        "score": 24,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "CVE-2026-34621 PoC isn't a scanner, it's a campaign weaponizer with 62 pre-authenticated Brazilian fintech targets",
+        "url": "https://www.reddit.com/r/netsec/comments/1sp128h/cve202634621_poc_isnt_a_scanner_its_a_campaign/",
+        "interest": "***",
+        "score": 3,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "TPM 2.0 is cool, actually: hardware attestation for bare-metal fleets",
+        "url": "https://www.reddit.com/r/netsec/comments/1sozi1e/tpm_20_is_cool_actually_hardware_attestation_for/",
+        "interest": "**",
+        "score": 10,
+        "category": "資安",
+        "source": ""
+      }
+    ],
+    "AI 類": [
+      {
+        "title": "qwen3.6 performance jump is real, just make sure you have it properly configured",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1soq1es/qwen36_performance_jump_is_real_just_make_sure/",
+        "interest": "**",
+        "score": 558,
+        "category": "AI 技術",
+        "source": ""
+      },
+      {
+        "title": "KIMI K2.6 SOON !!",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sp10oa/kimi_k26_soon/",
+        "interest": "**",
+        "score": 204,
+        "category": "AI 技術",
+        "source": ""
+      },
+      {
+        "title": "Qwen3.6-35B-A3B solved coding problems Qwen3.5-27B couldn't",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1soxyfi/qwen3635ba3b_solved_coding_problems_qwen3527b/",
+        "interest": "**",
+        "score": 113,
+        "category": "AI 技術",
+        "source": ""
+      }
+    ],
+    "AI 開發工具類": [
+      {
+        "title": "We're cooked",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1sogx5p/were_cooked/",
+        "interest": "***",
+        "score": 1163,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Is this just me or chatGPT is trying to \"correct me\" on everything?",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1sou09i/is_this_just_me_or_chatgpt_is_trying_to_correct/",
+        "interest": "***",
+        "score": 386,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Gemini now has a native macOS app and Notebooks - it's quietly turning into a persistent workspace, not a chat window",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1sopfuj/gemini_now_has_a_native_macos_app_and_notebooks/",
+        "interest": "***",
+        "score": 29,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "built an open source tool that keeps your cursor rules always up to date with your codebase, 250 stars in 3 weeks",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/",
+        "interest": "***",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Anyone else maintaining .cursorrules AND CLAUDE.md? It's becoming a nightmare",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/",
+        "interest": "***",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "tired of cursor generating generic skills that ignore ur actual codebase? we built a fix and just hit 250 stars",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/",
+        "interest": "***",
+        "score": 1,
+        "category": "AI 開發工具",
+        "source": ""
+      }
+    ],
+    "核心技術類": [
+      {
+        "title": "Bluetooth tracker hidden in a postcard and mailed to a warship exposed its location — $5 gadget put a $585 million Dutch ship at risk for 24 hours",
+        "url": "https://www.reddit.com/r/technology/comments/1sp3cwj/bluetooth_tracker_hidden_in_a_postcard_and_mailed/",
+        "interest": "***",
+        "score": 4456,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "The Danger of \"Modern\" Open Source",
+        "url": "https://www.reddit.com/r/programming/comments/1soazcx/the_danger_of_modern_open_source/",
+        "interest": "***",
+        "score": 173,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "Post-Quantum Cryptography Migration at Meta: Framework, Lessons, and Takeaways",
+        "url": "https://www.reddit.com/r/programming/comments/1soqmzq/postquantum_cryptography_migration_at_meta/",
+        "interest": "***",
+        "score": 26,
+        "category": "資安",
+        "source": ""
+      }
+    ],
+    "OSS・獨立開發類": [
+      {
+        "title": "Turn Reddit (or any webpage) into a game",
+        "url": "https://www.reddit.com/r/webdev/comments/1soy44m/turn_reddit_or_any_webpage_into_a_game/",
+        "interest": "**",
+        "score": 213,
+        "category": "JavaScript / TypeScript",
+        "source": ""
+      },
+      {
+        "title": "Stop New York's Attack on 3D Printing / CNC Machines",
+        "url": "https://www.reddit.com/r/opensource/comments/1sogqbk/stop_new_yorks_attack_on_3d_printing_cnc_machines/",
+        "interest": "**",
+        "score": 139,
+        "category": "OSS 開發",
+        "source": ""
+      },
+      {
+        "title": "Update: you roasted my hand-gesture map library, here's v2 (and added Google Maps support)",
+        "url": "https://www.reddit.com/r/webdev/comments/1sote7h/update_you_roasted_my_handgesture_map_library/",
+        "interest": "**",
+        "score": 105,
+        "category": "JavaScript / TypeScript",
+        "source": ""
+      },
+      {
+        "title": "Friday Share Fever 🕺 Let's share your project!",
+        "url": "https://www.reddit.com/r/indiehackers/comments/1snw700/friday_share_fever_lets_share_your_project/",
+        "interest": "**",
+        "score": 31,
+        "category": "獨立開發",
+        "source": ""
+      },
+      {
+        "title": "Saved $1K+ this quarter with 3 simple churn emails",
+        "url": "https://www.reddit.com/r/indiehackers/comments/1snxo82/saved_1k_this_quarter_with_3_simple_churn_emails/",
+        "interest": "**",
+        "score": 28,
+        "category": "獨立開發",
+        "source": ""
+      },
+      {
+        "title": "How do I find out why people visited my website are not signing up?",
+        "url": "https://www.reddit.com/r/indiehackers/comments/1smtafn/how_do_i_find_out_why_people_visited_my_website/",
+        "interest": "**",
+        "score": 28,
+        "category": "獨立開發 / Technical SEO",
+        "source": ""
+      },
+      {
+        "title": "What should I be aware of when making an open source game project?",
+        "url": "https://www.reddit.com/r/opensource/comments/1socw75/what_should_i_be_aware_of_when_making_an_open/",
+        "interest": "**",
+        "score": 15,
+        "category": "OSS 開發",
+        "source": ""
+      },
+      {
+        "title": "Custom .af video format for WebCodecs: frame-accurate playback without &lt;video&gt;",
+        "url": "https://www.reddit.com/r/javascript/comments/1sofr28/custom_af_video_format_for_webcodecs/",
+        "interest": "**",
+        "score": 10,
+        "category": "JavaScript / TypeScript",
+        "source": ""
+      },
+      {
+        "title": "Scratchpad for JavaScript and TypeScript. Open-source alternative to RunJS",
+        "url": "https://www.reddit.com/r/javascript/comments/1somtfm/scratchpad_for_javascript_and_typescript/",
+        "interest": "**",
+        "score": 4,
+        "category": "JavaScript / TypeScript",
+        "source": ""
+      },
+      {
+        "title": "drift v0.1.6 — Zero-config encrypted file transfer tool (single binary + browser UI)",
+        "url": "https://www.reddit.com/r/opensource/comments/1soxnur/drift_v016_zeroconfig_encrypted_file_transfer/",
+        "interest": "**",
+        "score": 2,
+        "category": "OSS 開發",
+        "source": ""
+      },
+      {
+        "title": "I built a headless, accessible PIN/OTP input Web Component",
+        "url": "https://www.reddit.com/r/javascript/comments/1so740x/i_built_a_headless_accessible_pinotp_input_web/",
+        "interest": "**",
+        "score": 2,
+        "category": "JavaScript / TypeScript",
+        "source": ""
+      }
+    ],
+    "職涯・實踐類": []
+  },
+  "fetched_at": "2026-04-19T03:57:15"
+}

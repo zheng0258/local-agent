@@ -1,0 +1,102 @@
+[
+  {
+    "date": "2026-04-14",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-15",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-16",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-17",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-18",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-19",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-20",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-21",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-22",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-23",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  }
+]

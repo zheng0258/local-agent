@@ -1,0 +1,200 @@
+{
+  "articles": {
+    "資安類": [
+      {
+        "title": "Anthropic's Mythos model accessed by unauthorized users, Bloomberg News reports",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1ss3y67/anthropics_mythos_model_accessed_by_unauthorized/",
+        "interest": "***",
+        "score": 534,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "Microsoft releases emergency patches for critical ASP.NET flaw",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1ssfp3h/microsoft_releases_emergency_patches_for_critical/",
+        "interest": "***",
+        "score": 77,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "Over 1,300 Microsoft SharePoint servers vulnerable to spoofing attacks",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1ssfufa/over_1300_microsoft_sharepoint_servers_vulnerable/",
+        "interest": "***",
+        "score": 47,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "P4WNED: How Insecure Defaults in Perforce Expose Source Code Across the Internet",
+        "url": "https://www.reddit.com/r/netsec/comments/1srpyuj/p4wned_how_insecure_defaults_in_perforce_expose/",
+        "interest": "***",
+        "score": 18,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "Reverse-engineering a targeted npm supply chain attack with two-stage C2 — full forensic analysis",
+        "url": "https://www.reddit.com/r/netsec/comments/1ssmyig/reverseengineering_a_targeted_npm_supply_chain/",
+        "interest": "***",
+        "score": 7,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "Quantum Computers Are Not a Threat to 128-bit Symmetric Keys",
+        "url": "https://www.reddit.com/r/netsec/comments/1sryptw/quantum_computers_are_not_a_threat_to_128bit/",
+        "interest": "**",
+        "score": 113,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "The zero-days are numbered | Mythos numbers are real?",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1ssmgfp/the_zerodays_are_numbered_mythos_numbers_are_real/",
+        "interest": "**",
+        "score": 46,
+        "category": "資安",
+        "source": ""
+      }
+    ],
+    "AI 類": [
+      {
+        "title": "Head of Growth at Anthropic regarding Claude Code removal from Pro",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1ss5bop/head_of_growth_at_anthropic_regarding_claude_code/",
+        "interest": "***",
+        "score": 1110,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Qwen 3.6 27B is out",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ssl1xh/qwen_36_27b_is_out/",
+        "interest": "***",
+        "score": 1057,
+        "category": "AI",
+        "source": ""
+      },
+      {
+        "title": "Qwen3.6-27B released!",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ssl6ki/qwen3627b_released/",
+        "interest": "***",
+        "score": 433,
+        "category": "AI",
+        "source": ""
+      },
+      {
+        "title": "Imagen v2",
+        "url": "https://www.reddit.com/r/OpenAI/comments/1ssd2ks/imagen_v2/",
+        "interest": "**",
+        "score": 293,
+        "category": "AI",
+        "source": ""
+      },
+      {
+        "title": "unsloth Qwen3.6-27B-GGUF",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ssnfdb/unsloth_qwen3627bgguf/",
+        "interest": "**",
+        "score": 228,
+        "category": "AI",
+        "source": ""
+      },
+      {
+        "title": "Be careful with your prompts… someone actually got banned just for asking Claude: \"Teach HTML/CSS to a 10-year-old with an intermediate level.\"",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1ssn7vr/be_careful_with_your_prompts_someone_actually_got/",
+        "interest": "**",
+        "score": 72,
+        "category": "AI",
+        "source": ""
+      }
+    ],
+    "AI 開發工具類": [
+      {
+        "title": "built an open source tool that keeps your cursor rules always up to date with your codebase, 250 stars in 3 weeks",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Anyone else maintaining .cursorrules AND CLAUDE.md? It's becoming a nightmare",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "tired of cursor generating generic skills that ignore ur actual codebase? we built a fix and just hit 250 stars",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/",
+        "interest": "**",
+        "score": 1,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "MCP server that fact-checks AI bug diagnoses against AST evidence",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1ssnhwa/mcp_server_that_factchecks_ai_bug_diagnoses/",
+        "interest": "**",
+        "score": 1,
+        "category": "AI 開發工具",
+        "source": ""
+      }
+    ],
+    "核心技術類": [
+      {
+        "title": "Unauthorized group has gained access to Anthropic's exclusive cyber tool Mythos, report claims",
+        "url": "https://www.reddit.com/r/technology/comments/1ssguib/unauthorized_group_has_gained_access_to/",
+        "interest": "***",
+        "score": 6311,
+        "category": "資安",
+        "source": ""
+      }
+    ],
+    "OSS・獨立開發類": [
+      {
+        "title": "Anthropic's \"Mythos\" AI Model got accessed by unauthorized users",
+        "url": "https://www.reddit.com/r/webdev/comments/1ssbkri/anthropics_mythos_ai_model_got_accessed_by/",
+        "interest": "***",
+        "score": 138,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "Announcing TypeScript 7.0 Beta",
+        "url": "https://www.reddit.com/r/javascript/comments/1srwc0g/announcing_typescript_70_beta/",
+        "interest": "**",
+        "score": 144,
+        "category": "JavaScript/TypeScript",
+        "source": ""
+      },
+      {
+        "title": "I made tiny pets you can add to your GitHub README",
+        "url": "https://www.reddit.com/r/webdev/comments/1ssl313/i_made_tiny_pets_you_can_add_to_your_github_readme/",
+        "interest": "**",
+        "score": 97,
+        "category": "Web 開發",
+        "source": ""
+      },
+      {
+        "title": "You'd think AI would kill boilerplates. It's doing the opposite.",
+        "url": "https://www.reddit.com/r/webdev/comments/1ssp1tz/youd_think_ai_would_kill_boilerplates_its_doing/",
+        "interest": "**",
+        "score": 44,
+        "category": "Web 開發",
+        "source": ""
+      },
+      {
+        "title": "Eclipse Foundation offers enterprise-grade open source alternative to Microsoft's VS Code Marketplace",
+        "url": "https://www.reddit.com/r/opensource/comments/1srtxlu/eclipse_foundation_offers_enterprisegrade_open/",
+        "interest": "**",
+        "score": 42,
+        "category": "OSS",
+        "source": ""
+      }
+    ],
+    "職涯・實踐類": []
+  },
+  "fetched_at": "2026-04-23T02:54:49"
+}

@@ -1,0 +1,19 @@
+{
+  "scores": {
+    "relevance": {
+      "score": 5,
+      "reasoning": "所有被選取並納入 digest 的文章都高度集中在 AI Agent 技術應用、網路安全威脅（供應鏈攻擊、漏洞利用、物理偵察）以及現代軟體開發基礎設施方面，主題高度吻合並具有極高的前瞻性。"
+    },
+    "completeness": {
+      "score": 5,
+      "reasoning": "compress.json 中所有標記為 '***' 的文章皆被完整且對應地納入了 digest.json 的 digests 陣列中，沒有遺漏任何一個符合篩選條件的原始 URL。"
+    },
+    "faithfulness": {
+      "score": 5,
+      "reasoning": "摘要極度忠實於原文標題和 one_liner 的核心內容。它不僅傳達了基本事實，還在部分案例（如 Axios 或 Mythos 研究）中加入了專業的評論層次，準確且不誇大地反映了原文語境。"
+    }
+  },
+  "overall": 5.0,
+  "judged_at": "2026-04-21T04:02:01",
+  "judge_model": "google/gemma-4-e4b"
+}

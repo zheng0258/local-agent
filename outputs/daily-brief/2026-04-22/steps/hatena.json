@@ -1,0 +1,125 @@
+{
+  "articles": [
+    {
+      "title": "建議用 Claude Code 為後勤業務建立「back-office 儲存庫」｜すてぃお",
+      "url": "https://note.com/suthio/n/nf03d4f1df801",
+      "interest": "***",
+      "score": 209,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "【IT 管理視角】導入 Claude Team 到多間公司後發現的事｜kaze",
+      "url": "https://note.com/kaze3desu/n/n27008d5c87f5",
+      "interest": "***",
+      "score": 197,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "30 分鐘完成演講投影片：用 Claude Code 將從討論到 Google Slides 產生的工作流程化 - Findy Tech Blog",
+      "url": "https://tech.findy.co.jp/entry/2026/04/21/070000",
+      "interest": "***",
+      "score": 183,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "在 Chrome 瀏覽器中更親近 Gemini。開始提供 Gemini in Chrome",
+      "url": "https://blog.google/intl/ja-jp/products/android-chrome-play/gemini-in-chrome/",
+      "interest": "***",
+      "score": 149,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "揭露「社會工程學」背後的 5 本書。即使技術進步，欺騙的結構也不變【IPUSIRON】｜レバテック LAB - レバテック LAB",
+      "url": "https://levtech.jp/media/detail_846/",
+      "interest": "***",
+      "score": 138,
+      "category": "Web 資安",
+      "source": ""
+    },
+    {
+      "title": "「とほほ的 WWW 入門」新增可學習本地運行 AI 基礎的內容／解說任何人都能完成的本地 AI 環境建構方法的「とほほ的本地 AI 入門」",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2103365.html",
+      "interest": "***",
+      "score": 75,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "GitHub Copilot 個人方案變更公告",
+      "url": "https://github.blog/jp/2026-04-21-changes-to-github-copilot-individual-plans/",
+      "interest": "***",
+      "score": 48,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "「程式碼編寫超越 GPT-5.4，1 兆參數 AI「Kimi K2.6」免費公開",
+      "url": "https://pc.watch.impress.co.jp/docs/news/2103376.html",
+      "interest": "***",
+      "score": 35,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "「撰寫 IaC 程式碼已是過去式」改變基礎設施工程師工作的「AI 驅動基礎設施」具體樣貌",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/21/news056.html",
+      "interest": "***",
+      "score": 26,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "因應 GitHub Copilot 限制，因 2026 年 1 月後每週營運成本幾乎翻倍而可能逐步轉向按 Token 計費",
+      "url": "https://gigazine.net/news/20260421-github-copilot-plans-changes/",
+      "interest": "***",
+      "score": 24,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "與 Claude Opus 4.6 同等性能的中國製 AI 模型「Kimi K2.6」作為開放式模型公開",
+      "url": "https://gigazine.net/news/20260421-kimi-k2-6/",
+      "interest": "***",
+      "score": 22,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "與最新 AI「Opus 4.7」雙人配合可検討・改善設計的「Claude Design」登場／支援從網站到簡報、行銷素材等廣泛內容",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2103371.html",
+      "interest": "***",
+      "score": 21,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "「StudyLLM Ep0】從零開始製作日文 LLM：從 GPT-2 推論・學習的可視化到 Modal 上的預訓練",
+      "url": "https://nyosegawa.com/series/study-llm/gpt-2/",
+      "interest": "***",
+      "score": 5,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "AI 驅動的業務變革方法：「停止問『問題是什麼』」的那一天 | Amazon Web Services",
+      "url": "https://aws.amazon.com/jp/blogs/news/ai-bpr/",
+      "interest": "**",
+      "score": 22,
+      "category": "SaaS",
+      "source": ""
+    },
+    {
+      "title": "「Git for Windows」v2.54.0 發布 ～刪除「git svn」、實驗性導入「git history」／分散式版本管理系統「Git」的 Windows 版",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2103166.html",
+      "interest": "**",
+      "score": 14,
+      "category": "OSS 開發",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-22T02:20:14"
+}

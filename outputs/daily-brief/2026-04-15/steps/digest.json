@@ -1,0 +1,124 @@
+{
+  "generated_at": "2026-04-15T12:15:48",
+  "digests": [
+    {
+      "title": "【RAG】用 AI 改寫企業知識",
+      "url": "https://zenn.dev/knowledgesense/articles/5a50d06fce072d",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "RAG（Retrieval-Augmented Generation）技術應用於企業知識庫，透過檢索相關文件後由 AI 改寫整合內容。此方法解決了 LLM 訓練資料落後與幻覺問題，大幅提升企業內部問答系統的準確度。適用於擁有大量非結構化文件的企业，特別是需要即時更新知識庫的場景。"
+    },
+    {
+      "title": "將人工研究整合到數據管線中。dbt Python model × LLM Web Search 將公開資訊載入 Snowflake",
+      "url": "https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "結合 dbt Python model 與 LLM 網路搜尋能力，自動將公開資料爬取並結構化後載入 Snowflake。此架構讓需要人工研究的外部數據（如市場資訊、競爭對手下情）能自動整合進既有資料管線。解決傳統 ETL 難以處理非結構化公開數據的痛點，提升資料工程效率。"
+    },
+    {
+      "title": "WordPress 的31個外掛包發現後門，在所有權轉移後的更新中被加入",
+      "url": "https://gigazine.net/news/20260414-wordpress-plugin-backdoor/",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "31 個 WordPress 外掛包在開發者所有權轉移後，更新中被植入惡意後門代碼。攻擊者在獲得外掛包控制權後，透過正常更新機制分發惡意代碼，影響數百萬網站。此供應鏈攻擊再度提醒企業需審慎評估開源專案維護者背景與權限轉移風險。"
+    },
+    {
+      "title": "將光纖「麥克風化」的竊聽攻擊 惡用為震動感應器竊取對話",
+      "url": "https://www.itmedia.co.jp/news/articles/2604/15/news029.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "研究發現光纖纜線可被轉化為震動感應器，捕捉周圍聲波震動並還原對話內容。攻擊者透過分析光纖傳輸中的微弱干擾信號，實現被動式物理竊聽。此攻擊不需破壞光纖即可執行，對高安全性場所的實體安全構成全新威脅向量。"
+    },
+    {
+      "title": "Meta 發表新 AI 模型「Muse Spark」～戰略轉向的「小而快卻又相當聰明的封閉模型」",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2101375.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Meta 推出 Muse Spark，代表其戰略轉向「小而精」的封閉模型路線。相較於追求參數量擴張，新策略重視推理速度、成本效益與垂直場景優化。此轉變反映了企業端對可部署性與 ROI 的實際需求，可能重塑 AI 模型競爭格局。"
+    },
+    {
+      "title": "Claude Code Routines",
+      "url": "https://news.ycombinator.com/item?id=47768133",
+      "source": "HN",
+      "interest": "",
+      "summary": "Anthropic 為 Claude Code 推出 Routines 功能，允許開發者定義常駐的自動化工作流。此功能讓重複性編程任務（如測試執行、部署腳本）可透過自然語言觸發自動完成。代表 AI 編程助理從單次對話向持續性工作流管理的進化。"
+    },
+    {
+      "title": "Introspective Diffusion Language Models",
+      "url": "https://news.ycombinator.com/item?id=47762641",
+      "source": "HN",
+      "interest": "",
+      "summary": "研究論文提出結合擴散模型與語言模型的內省式架構，讓模型能在生成過程中自我評估與修正。此方法試圖解決傳統 Transformer 的幻覺問題，透過擴散過程的不確定性建模提升輸出可靠性。為新一代語言模型架構提供理論基礎與實證結果。"
+    },
+    {
+      "title": "The M×N problem of tool calling and open-source models",
+      "url": "https://news.ycombinator.com/item?id=47704729",
+      "source": "HN",
+      "interest": "",
+      "summary": "分析開源 LLM 在工具調用場景面臨的 M×N 擴展問題（M 個模型對 N 個工具的整合複雜度）。文章探討標準化方案如 Function Calling API、OpenAPI 等如何降低整合成本。對企業建構 AI Agent 生態系具有重要參考價值。"
+    },
+    {
+      "title": "Show HN: LangAlpha – what if Claude Code was built for Wall Street?",
+      "url": "https://news.ycombinator.com/item?id=47766370",
+      "source": "HN",
+      "interest": "",
+      "summary": "LangAlpha 是專為金融領域設計的 AI 程式碼助理，內建量化分析、風險模型與合規檢查能力。相較通用型 AI 編程工具，此垂直解決方案深度融合金融領域知識與最佳實踐。體現 AI 開發工具向產業深耕的發展趨勢。"
+    },
+    {
+      "title": "Turn your best AI prompts into one-click tools in Chrome",
+      "url": "https://news.ycombinator.com/item?id=47768339",
+      "source": "HN",
+      "interest": "",
+      "summary": "Chrome 擴充程序允許使用者將精心調校的 AI prompt 轉化為一鍵執行的瀏覽器工具。此方案降低 AI 使用門檻，讓非技術用戶也能快速部署自定義 AI 功能。反映 prompt engineering 成果產品化的實踐需求。"
+    },
+    {
+      "title": "Axios 嚴重漏洞被指實際難以利用",
+      "url": "https://www.reddit.com/r/cybersecurity/comments/1slaaih/axios_10_10_cve_is_not_realistically_exploitable/",
+      "source": "r/cybersecurity",
+      "interest": "***",
+      "summary": "社群分析 Axios  CVE-2026-xxxx 嚴重漏洞的實際可利用性，認為在大多數配置下攻擊難度極高。此討論凸顯 CVE 評分與現實風險間的落差，強調情境化資安評估的重要性。對依賴 Axios 的開發者具有即時參考價值。"
+    },
+    {
+      "title": "Claude Code 桌面版全面重新設計",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1sljk0t/claude_code_just_got_a_full_desktop_redesign/",
+      "source": "r/ClaudeCode",
+      "interest": "***",
+      "summary": "Claude Code 桌面應用進行全面 UI/UX 重新設計，優化專案導航、對話歷史與代碼預覽體驗。新介面更緊密整合终端操作，提升開發者工作流效率。此更新反映 Anthropic 對桌面端開發場景的重視程度提升。"
+    },
+    {
+      "title": "不建議使用 Claude Code 預設系統提示詞",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1slfnoq/dont_use_claude_codes_default_system_prompt/",
+      "source": "r/ClaudeCode",
+      "interest": "***",
+      "summary": "資深使用者分享預設系統提示詞的潛在問題，包括過度約束、缺乏領域適應性等。文章建議根據專案特性自定義提示詞以獲得更精準的 AI 協助。此討論對追求最佳化 AI 編程體驗的使用者具實用價值。"
+    },
+    {
+      "title": "Claude Code 新增常規工作自動化預覽",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1sle842/now_in_research_preview_routines_in_claude_code/",
+      "source": "r/ClaudeCode",
+      "interest": "***",
+      "summary": "Claude Code 推出 Routines 功能研究預覽，允許定義與儲存重複性工作流供后续自動執行。此功能橋接了單次對話與自動化腳本間的空白，代表 AI 編程工具向流程自動化的重要進化。"
+    },
+    {
+      "title": "Axios npm 包被駭：維護者帳號遭劫持並植入 RAT",
+      "url": "https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "極具影响力的 Axios HTTP 庫維護者 npm 帳號遭劫持，攻擊者在包中植入遠端存取木马（RAT）。此供應鏈攻擊影響範圍極廣，因 Axios 是 Node.js 生態系最廣泛使用的函數庫之一。事件凸顯開源專案維護者帳號安全與多因素認證的重要性。"
+    },
+    {
+      "title": "GlassWorm 原生版：Zig 寫成的 dropper 感染所有 IDE",
+      "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "新型惡意程式 GlassWorm 使用 Zig 語言編寫，專門感染開發者機器上的各类 IDE（VS Code、IntelliJ 等）。攻擊代碼透過鉤住 IDE 進程注入惡意載荷，可竊取源代码、API Keys 等敏感資訊。此威脅直接針對開發環境安全，需特別警惕。"
+    },
+    {
+      "title": "Mythos 的資安末日論調與實際風險不符",
+      "url": "https://www.aikido.dev/blog/anthropic-mythos-cybersecurity-risks-overblown",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "文章分析 Anthropic Mythos 報告中關於 AI 資安風險的論述，認為部分結論過度渲染。作者主張應以實證數據與情境化分析評估 AI 帶來的真實威脅，避免不必要的恐慌。此觀點為理性看待 AI 資安議題提供不同視角。"
+    }
+  ]
+}

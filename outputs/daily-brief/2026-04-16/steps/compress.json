@@ -1,0 +1,127 @@
+{
+  "compressed_at": "2026-04-16T11:01:47",
+  "hatena": {
+    "themes": [
+      "Claude Code 桌面版全面重製",
+      "AI 開發工作流進化"
+    ],
+    "articles": [
+      {
+        "title": "將 Claude Code 培養至 Level 5 後，開發工作變得「只需指示與確認」— 以實際檔案結構解說",
+        "url": "https://qiita.com/teppei19980914/items/8da88b33ffa8cf88dfa2",
+        "one_liner": "訓練 Claude Code 至 Level 5，開發只需指示與確認",
+        "interest": "***"
+      },
+      {
+        "title": "Anthropic 重新打造桌面版「Claude Code」—支援多代理的 UI、可過濾的會話列表、側邊欄工具、分割畫面等功能",
+        "url": "https://forest.watch.impress.co.jp/docs/news/2101936.html",
+        "one_liner": "Anthropic 重製 Claude Code 桌面版，支援多代理 UI",
+        "interest": "***"
+      },
+      {
+        "title": "「Claude Code」桌面版大幅改觀——配合「並列代理時代」重新設計",
+        "url": "https://ascii.jp/elem/000/004/395/4395128/",
+        "one_liner": "Claude Code 桌面版大改版，迎向並列代理時代",
+        "interest": "***"
+      }
+    ]
+  },
+  "hn": {
+    "themes": [
+      "網路安全與隱私",
+      "AI 工具與平台擴張"
+    ],
+    "articles": [
+      {
+        "title": "Google 背棄对我的承諾——現在 ICE 有了我的資料",
+        "url": "https://news.ycombinator.com/item?id=47782570",
+        "one_liner": "Google 洩用戶資料予美國移民執法機構",
+        "interest": "***"
+      },
+      {
+        "title": "網路安全現在看起來像工作量證明",
+        "url": "https://news.ycombinator.com/item?id=47769089",
+        "one_liner": "網路安全演變為資源消耗對決模式",
+        "interest": "***"
+      },
+      {
+        "title": "Gemini 應用程式現在支援 Mac",
+        "url": "https://news.ycombinator.com/item?id=47782256",
+        "one_liner": "Google AI 助手 Gemini 正式登陸 Mac 平台",
+        "interest": "***"
+      }
+    ]
+  },
+  "reddit": {
+    "themes": [
+      "資安威脅與漏洞",
+      "AI 模型小型化技術",
+      "AI 開發工具與應用"
+    ],
+    "articles": [
+      {
+        "title": "CISA 標記 Windows Task Host 漏洞遭攻擊利用",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1smh6eh/cisa_flags_windows_task_host_vulnerability_as/",
+        "one_liner": "CISA 警告 Windows Task Host 漏洞已被 exploit",
+        "interest": "***"
+      },
+      {
+        "title": "Codex 成功駭入三星智慧電視",
+        "url": "https://www.reddit.com/r/netsec/comments/1skwr2x/codex_hacked_a_samsung_tv/",
+        "one_liner": "Codex 成功駭入三星智慧電視系統",
+        "interest": "***"
+      },
+      {
+        "title": "1-bit Bonsai 1.7B 模型瀏覽器本地運行",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1smb3wd/1bit_bonsai_17b_290mb_in_size_running_locally_in/",
+        "one_liner": "1-bit Bonsai 僅 290MB，瀏覽器本地運行",
+        "interest": "***"
+      },
+      {
+        "title": "如何正確處理 CLAUDE.md 檔案",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1smgfrt/how_to_properly_deal_with_a_claudemd_file/",
+        "one_liner": "Claude.md 設定檔正確用法與最佳實踐",
+        "interest": "***"
+      },
+      {
+        "title": "為何不用 Mythos 修復 Claude Code 的錯誤",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1smkeqn/why_dont_they_just_use_mythos_to_fix_all_the_bugs/",
+        "one_liner": "用戶提問為何不用 Mythos 自動修復程式錯誤",
+        "interest": "***"
+      },
+      {
+        "title": "ChatGPT Plus 對決 Claude Pro，30 天實戰比較",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1smgpy6/ran_chatgpt_plus_and_claude_pro_side_by_side_for/",
+        "one_liner": "ChatGPT Plus 對決 Claude Pro，30 天實戰比較",
+        "interest": "***"
+      }
+    ]
+  },
+  "security": {
+    "themes": [
+      "軟體供應鏈安全",
+      "開發者工具風險",
+      "零日漏洞發現"
+    ],
+    "articles": [
+      {
+        "title": "Axios npm 包遭竊取：維護者帳號被劫持並植入遠程控制惡意軟體",
+        "url": "https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat",
+        "one_liner": "Axios npm 包遭供應鏈攻擊，帳號被劫持植入 RAT",
+        "interest": "***"
+      },
+      {
+        "title": "GlassWorm 原生化：新 Zig 投放程式感染所有 IDE",
+        "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+        "one_liner": "新型 Zig 惡意程式 GlassWorm 感染全機 IDE",
+        "interest": "***"
+      },
+      {
+        "title": "Aikido 發現 Hoppscotch 多個零日漏洞",
+        "url": "https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities",
+        "one_liner": "AI 滲透測試在 Hoppscotch 發現多個零日漏洞",
+        "interest": "***"
+      }
+    ]
+  }
+}

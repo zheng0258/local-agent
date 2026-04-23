@@ -1,0 +1,77 @@
+{
+  "articles": [
+    {
+      "title": "ChatGPT Images 2.0",
+      "url": "https://news.ycombinator.com/item?id=47852835",
+      "interest": "***",
+      "score": 975,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "Vercel 資安事件：OAuth 攻擊揭露平台環境變數風險",
+      "url": "https://news.ycombinator.com/item?id=47851634",
+      "interest": "***",
+      "score": 356,
+      "category": "Web Security",
+      "source": ""
+    },
+    {
+      "title": "我們的第八代 TPU：為代理時代打造的兩顆晶片",
+      "url": "https://news.ycombinator.com/item?id=47862497",
+      "interest": "***",
+      "score": 246,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "Qwen3.6-27B：在 270 億參數稠密模型中實現旗艦級程式碼能力",
+      "url": "https://news.ycombinator.com/item?id=47863217",
+      "interest": "***",
+      "score": 223,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "所有你的代理都將成為非同步",
+      "url": "https://news.ycombinator.com/item?id=47832720",
+      "interest": "***",
+      "score": 108,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "MuJoCo – 進階物理模擬",
+      "url": "https://news.ycombinator.com/item?id=47820791",
+      "interest": "***",
+      "score": 86,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "Prefill 即服務：新一代模型的 KV Cache 可跨資料中心",
+      "url": "https://news.ycombinator.com/item?id=47822117",
+      "interest": "***",
+      "score": 36,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "GitHub CLI 現在收集偽匿名遥測數據",
+      "url": "https://news.ycombinator.com/item?id=47862331",
+      "interest": "**",
+      "score": 269,
+      "category": "OSS Development",
+      "source": ""
+    },
+    {
+      "title": "DuckDB 1.5.2 – 可在筆記型電腦、伺服器或瀏覽器中運行的 SQL 資料庫",
+      "url": "https://news.ycombinator.com/item?id=47865642",
+      "interest": "**",
+      "score": 7,
+      "category": "OSS Development",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-23T02:13:47"
+}

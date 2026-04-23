@@ -1,0 +1,101 @@
+{
+  "articles": [
+    {
+      "title": "用 Claude Code × Obsidian Vault 打造「萬能諮詢」專案 — 資料夾結構・CLAUDE.md・MCP 設定全公開",
+      "url": "https://qiita.com/htani0817/items/0cb5e8f91fa64fb9ba8c",
+      "interest": "***",
+      "score": 189,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "ChatGPT 的影像生成 AI 超越「Nano Banana」？漫畫與動畫風格畫面達到實用等級",
+      "url": "https://ascii.jp/elem/000/004/396/4396252/",
+      "interest": "***",
+      "score": 172,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "Google 公開根除會話竊取的新技術「DBSC」——在裝置層級無效化 Cookie 盜用",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2604/13/news043.html",
+      "interest": "***",
+      "score": 13,
+      "category": "Web Security",
+      "source": ""
+    },
+    {
+      "title": "Cloudflare 發表 AI Agent 用的檔案系統「Cloudflare Artifacts」。支援 Git 版本管理與 RESTful API 的檔案系統",
+      "url": "https://www.publickey1.jp/blog/26/cloudflareaicloudflare_artifactsgitrestful_api.html",
+      "interest": "***",
+      "score": 8,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "對 CVSS 分數 10/10「獨行」的警告——Axios 的「嚴重缺陷」被指成立困難",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2604/20/news033.html",
+      "interest": "***",
+      "score": 8,
+      "category": "Web Security",
+      "source": ""
+    },
+    {
+      "title": "AI Agent 的權限管理 1：MCP 伺服器・工具的細粒度存取控制篇",
+      "url": "https://speakerdeck.com/ren8k/aws-mcp-access-control-for-ai-agents",
+      "interest": "***",
+      "score": 7,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "Cloudflare 以公開 beta 版推出 AI Agent 可進行郵件收發的「Cloudflare Email Service」",
+      "url": "https://www.publickey1.jp/blog/26/cloudflareaicloudflare_email_service.html",
+      "interest": "***",
+      "score": 7,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "讓 AI 撰寫規格書的 2026 最佳實踐",
+      "url": "https://qiita.com/YushiYamamoto/items/484792459af3afcba1a8",
+      "interest": "**",
+      "score": 111,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "從 Auth0 遷移至自製認證基礎設施的背景與方法 - enechain Tech Blog",
+      "url": "https://techblog.enechain.com/entry/identity-platform-migration",
+      "interest": "**",
+      "score": 35,
+      "category": "SaaS",
+      "source": ""
+    },
+    {
+      "title": "顯示 Claude Opus 4.7 Token 使用量增加狀況的網站登場，相同輸入下達 4.6 版 2 倍的實例也有",
+      "url": "https://gigazine.net/news/20260420-claude-opus-4-7-token-cost/",
+      "interest": "**",
+      "score": 25,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "Linux 的新 NTFS 驅動程式「復甦」— Torvalds 氏認可，耗時 4 年全面重寫提升 Windows 相容性",
+      "url": "https://techfeed.io/entries/69e3f06874781e8bf4975cb3",
+      "interest": "**",
+      "score": 22,
+      "category": "OSS",
+      "source": ""
+    },
+    {
+      "title": "ggsql：SQL 的圖形語法",
+      "url": "https://opensource.posit.co/blog/2026-04-20_ggsql_alpha_release/",
+      "interest": "**",
+      "score": 7,
+      "category": "OSS",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-21T02:21:26"
+}

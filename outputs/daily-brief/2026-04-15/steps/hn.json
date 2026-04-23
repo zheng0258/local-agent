@@ -1,0 +1,69 @@
+{
+  "articles": [
+    {
+      "title": "Claude Code Routines",
+      "url": "https://news.ycombinator.com/item?id=47768133",
+      "interest": "***",
+      "score": 417,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "Introspective Diffusion Language Models",
+      "url": "https://news.ycombinator.com/item?id=47762641",
+      "interest": "***",
+      "score": 227,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "The M×N problem of tool calling and open-source models",
+      "url": "https://news.ycombinator.com/item?id=47704729",
+      "interest": "***",
+      "score": 139,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "Show HN: LangAlpha – what if Claude Code was built for Wall Street?",
+      "url": "https://news.ycombinator.com/item?id=47766370",
+      "interest": "***",
+      "score": 105,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "Turn your best AI prompts into one-click tools in Chrome",
+      "url": "https://news.ycombinator.com/item?id=47768339",
+      "interest": "***",
+      "score": 98,
+      "category": "AI Development Tools",
+      "source": ""
+    },
+    {
+      "title": "A new spam policy for \"back button hijacking\"",
+      "url": "https://news.ycombinator.com/item?id=47760764",
+      "interest": "**",
+      "score": 830,
+      "category": "Technical SEO",
+      "source": ""
+    },
+    {
+      "title": "jj – the CLI for Jujutsu",
+      "url": "https://news.ycombinator.com/item?id=47763759",
+      "interest": "**",
+      "score": 489,
+      "category": "OSS Development",
+      "source": ""
+    },
+    {
+      "title": "Free, fast diagnostic tools for DNS, email authentication, and network security",
+      "url": "https://news.ycombinator.com/item?id=47771220",
+      "interest": "**",
+      "score": 26,
+      "category": "Technical SEO",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-15T10:07:17"
+}

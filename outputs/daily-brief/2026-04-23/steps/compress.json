@@ -1,0 +1,232 @@
+{
+  "_meta": {
+    "compressed_at": "2026-04-23T02:54:49"
+  },
+  "hatena": {
+    "themes": [
+      "AI Agent 開發與Harness Engineering",
+      "Claude Code生態與最佳實踐",
+      "Web瀏覽器的AI化與資安趨勢"
+    ],
+    "articles": [
+      {
+        "title": "關於那份生產力提升，現場默默承擔的成本",
+        "url": "https://zenn.dev/shintaroamaike/articles/69a7611880420d",
+        "one_liner": "AI提升生產力背後，現場需默默吸收的隱藏成本",
+        "interest": "***"
+      },
+      {
+        "title": "「Firefox 150」正式發布 ～使用 Anthropic 最強模型「Mythos」修復大量漏洞／強化分割視圖、本地翻譯、PDF 編輯等功能",
+        "url": "https://forest.watch.impress.co.jp/docs/news/2103516.html",
+        "one_liner": "Firefox用AI模型修漏洞，強化翻譯與PDF編輯",
+        "interest": "***"
+      },
+      {
+        "title": "【Google 推薦】從 Gemini 獲得滿意回答的「結構化提示詞」實踐指南",
+        "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/22/news015.html",
+        "one_liner": "Google推薦！結構化提示詞讓Gemini回答更精準",
+        "interest": "***"
+      },
+      {
+        "title": "如何面對 Harness Engineering — 超越規則文件設計開發流程",
+        "url": "https://speakerdeck.com/rkaga/how-to-approach-harness-engineering",
+        "one_liner": "Harness Engineering：超越規則文件的流程設計思維",
+        "interest": "***"
+      },
+      {
+        "title": "實踐 Harness Engineering：透過 TAKT 實現 AI Agent 控制",
+        "url": "https://speakerdeck.com/nrslib/practical-harness-engineering-ai-agent-control-enabled-by-takt",
+        "one_liner": "用TAKT框架實現AI Agent的Harness Engineering控制",
+        "interest": "***"
+      },
+      {
+        "title": "AWS DevOps Agent 與 GuardDuty 整合後進行想像中的安全事件調查的故事",
+        "url": "https://zenn.dev/cscloud_blog/articles/devops-agent-guardduty-integration",
+        "one_liner": "AWS DevOps Agent整合GuardDuty自動調查安全事件",
+        "interest": "***"
+      },
+      {
+        "title": "Anthropic 正在測試將「Claude Code」僅限於 Max 付費方案的變更",
+        "url": "https://gigazine.net/news/20260422-anthropic-claude-subscribe-small-test/",
+        "one_liner": "Anthropic測試將Claude Code限於Max付費方案",
+        "interest": "***"
+      },
+      {
+        "title": "Go 1.24 起 TLS 已在不知不覺中運行 PQC（抗量子密碼）",
+        "url": "https://zenn.dev/kimifan/articles/pqc-kuwashii",
+        "one_liner": "Go 1.24悄悄導入抗量子密碼PQC保護TLS連線",
+        "interest": "***"
+      },
+      {
+        "title": "SpaceX 獲得 AI 編輯器「Cursor」收購權，將在 AI 模型開發上合作",
+        "url": "https://www.itmedia.co.jp/aiplus/articles/2604/22/news105.html",
+        "one_liner": "SpaceX收購Cursor，展開AI模型開發合作",
+        "interest": "***"
+      },
+      {
+        "title": "以目標為優先的 Harness 設計 ～提高 Harness 變更容易性的優先順序～",
+        "url": "https://speakerdeck.com/gotalab555/mu-de-huasutonohanesushe-ji-hanesunobian-geng-rong-yi-xing-wogao-merutamenoyou-xian-shun-wei",
+        "one_liner": "以目標為優先，提升Harness設計與變更彈性",
+        "interest": "***"
+      },
+      {
+        "title": "使用 Claude Code 自動化開發的 5 個 Skills",
+        "url": "https://qiita.com/kamome_susume/items/3b9b18e7e54f15721837",
+        "one_liner": "5個實戰Skills讓Claude Code自動化你的開發工作",
+        "interest": "***"
+      },
+      {
+        "title": "透過三層結構將 CLAUDE.md 體積縮小 83% — 實測與試錯記錄",
+        "url": "https://zenn.dev/pepabo/articles/claude-code-rules-skills-split",
+        "one_liner": "三層結構優化法，將CLAUDE.md體積縮減83%",
+        "interest": "***"
+      }
+    ]
+  },
+  "hn": {
+    "themes": [
+      "AI 代理基礎設施與硬體",
+      "模型效能優化技術",
+      "平台資安警示"
+    ],
+    "articles": [
+      {
+        "title": "ChatGPT Images 2.0",
+        "url": "https://news.ycombinator.com/item?id=47852835",
+        "one_liner": "OpenAI 新一代 AI 繪圖功能升級",
+        "interest": "***"
+      },
+      {
+        "title": "Vercel 資安事件：OAuth 攻擊揭露平台環境變數風險",
+        "url": "https://news.ycombinator.com/item?id=47851634",
+        "one_liner": "OAuth 攻擊暴露環境變數洩漏漏洞",
+        "interest": "***"
+      },
+      {
+        "title": "我們的第八代 TPU：為代理時代打造的兩顆晶片",
+        "url": "https://news.ycombinator.com/item?id=47862497",
+        "one_liner": "Google 推出專為 AI 代理設計的 TPU",
+        "interest": "***"
+      },
+      {
+        "title": "Qwen3.6-27B：在 270 億參數稠密模型中實現旗艦級程式碼能力",
+        "url": "https://news.ycombinator.com/item?id=47863217",
+        "one_liner": "小巧模型實現旗艦級程式碼生成能力",
+        "interest": "***"
+      },
+      {
+        "title": "所有你的代理都將成為非同步",
+        "url": "https://news.ycombinator.com/item?id=47832720",
+        "one_liner": "AI 代理架構將全面轉向非同步設計",
+        "interest": "***"
+      },
+      {
+        "title": "MuJoCo – 進階物理模擬",
+        "url": "https://news.ycombinator.com/item?id=47820791",
+        "one_liner": "用於機器人學習的物體物理模擬引擎",
+        "interest": "***"
+      },
+      {
+        "title": "Prefill 即服務：新一代模型的 KV Cache 可跨資料中心",
+        "url": "https://news.ycombinator.com/item?id=47822117",
+        "one_liner": "KV Cache 服務實現跨資料中心共享",
+        "interest": "***"
+      }
+    ]
+  },
+  "reddit": {
+    "themes": [
+      "AI 模型資安洩漏事件",
+      "企業軟體安全漏洞",
+      "AI 模型發布與開發工具"
+    ],
+    "articles": [
+      {
+        "title": "安瑟普 Mythos AI 遭未授權存取",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1ss3y67/anthropics_mythos_model_accessed_by_unauthorized/",
+        "one_liner": "Bloomberg 報導 Mythos 遭入侵",
+        "interest": "***"
+      },
+      {
+        "title": "Microsoft 發布 ASP.NET 緊急修復",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1ssfp3h/microsoft_releases_emergency_patches_for_critical/",
+        "one_liner": "修復關鍵 ASP.NET 安全漏洞",
+        "interest": "***"
+      },
+      {
+        "title": "逾千 SharePoint 伺服器易受偽裝攻擊",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1ssfufa/over_1300_microsoft_sharepoint_servers_vulnerable/",
+        "one_liner": "1300 台伺服器遭偽裝攻擊",
+        "interest": "***"
+      },
+      {
+        "title": "Perforce 預設設定洩漏原始碼",
+        "url": "https://www.reddit.com/r/netsec/comments/1srpyuj/p4wned_how_insecure_defaults_in_perforce_expose/",
+        "one_liner": "P4WNED 漏洞洩露來源碼",
+        "interest": "***"
+      },
+      {
+        "title": "npm 供應鏈攻擊逆工程分析",
+        "url": "https://www.reddit.com/r/netsec/comments/1ssmyig/reverseengineering_a_targeted_npm_supply_chain/",
+        "one_liner": "兩階段 C2 攻擊法醫分析",
+        "interest": "***"
+      },
+      {
+        "title": "安瑟普說明移除 Claude Code 原因",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1ss5bop/head_of_growth_at_anthropic_regarding_claude_code/",
+        "one_liner": "Growth 長說明移除原因",
+        "interest": "***"
+      },
+      {
+        "title": "Qwen 3.6 27B 模型正式發布",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ssl1xh/qwen_36_27b_is_out/",
+        "one_liner": "Qwen 3.6 27B 新模型上市",
+        "interest": "***"
+      },
+      {
+        "title": "Qwen 3.6-27B 版本發布公告",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ssl6ki/qwen3627b_released/",
+        "one_liner": "Qwen 3.6-27B 新品發布",
+        "interest": "***"
+      },
+      {
+        "title": "未授權群組取得 Mythos 存取權",
+        "url": "https://www.reddit.com/r/technology/comments/1ssguib/unauthorized_group_has_gained_access_to/",
+        "one_liner": "黑客取得 Mythos 存取權",
+        "interest": "***"
+      },
+      {
+        "title": "Mythos AI 模型遭未授權存取",
+        "url": "https://www.reddit.com/r/webdev/comments/1ssbkri/anthropics_mythos_ai_model_got_accessed_by/",
+        "one_liner": "Mythos 遭未授權入侵",
+        "interest": "***"
+      }
+    ]
+  },
+  "security": {
+    "themes": [
+      "軟體供應鏈與後門威脅",
+      "開發者生態系安全"
+    ],
+    "articles": [
+      {
+        "title": "GlassWorm原生Zig下載器感染所有IDE",
+        "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+        "one_liner": "新型Zig惡意程式感染機器上所有IDE",
+        "interest": "***"
+      },
+      {
+        "title": "Aikido發現Hoppscotch多個零日漏洞",
+        "url": "https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities",
+        "one_liner": "AI滲透測試發現Hoppscotch多處0-day",
+        "interest": "***"
+      },
+      {
+        "title": "npm與PyPI中GPT-Proxy後門轉伺服器為中國LLM中繼站",
+        "url": "https://www.aikido.dev/blog/gpt-proxy-backdoor-npm-pypi-chinese-llm-relay",
+        "one_liner": "npm/PyPI後門將伺服器變中國LLM中繼",
+        "interest": "***"
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+深度摘要（2026-04-15）：
+
+1. <b><a href="https://www.itmedia.co.jp/news/articles/2604/15/news029.html">將光纖「麥克風化」的竊聽攻擊</a></b>
+研究發現光纖纜線可被轉化為震動感應器，透過分析傳輸信號中的微弱干擾還原對話內容。此被動式物理竊聽不需破壞光纖即可執行，為高安全性場所帶來全新實體安全威脅。
+
+2. <b><a href="https://gigazine.net/news/20260414-wordpress-plugin-backdoor/">WordPress 的31個外掛包發現後門</a></b>
+開發者所有權轉移後，更新中被植入惡意代碼，影響數百萬網站。此供應鏈攻擊再度提醒企業需審慎評估開源專案維護者背景與權限轉移風險。
+
+3. <b><a href="https://forest.watch.impress.co.jp/docs/news/2101375.html">Meta 發表新 AI 模型「Muse Spark」</a></b>
+代表戰略轉向「小而精」（Small but Capable）的封閉模型路線，重視推理速度、成本效益與垂直場景優化。此轉變反映企業端對可部署性與 ROI 的實際需求，可能重塑 AI 模型競爭格局。
+
+4. <b><a href="https://zenn.dev/knowledgesense/articles/5a50d06fce072d">【RAG】用 AI 改寫企業知識</a></b>
+RAG（Retrieval-Augmented Generation）技術解決 LLM 訓練資料落後與幻覺問題，大幅提升企業內部問答系統準確度。適用於擁有大量非結構化文件且需即時更新知識庫的場景。
+
+5. <b><a href="https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake">將人工研究整合到數據管線中</a></b>
+結合 dbt Python model 與 LLM 網路搜尋能力，自動將市場資訊、競爭對手情資等公開資料結構化後載入 Snowflake。解決傳統 ETL 難以處理非結構化公開數據的痛點。
+
+6. <b><a href="https://news.ycombinator.com/item?id=47768133">Claude Code Routines</a></b>
+Anthropic 推出常駐自動化工作流功能，讓重複性編程任務可透過自然語言觸發完成。代表 AI 編程助理從單次對話向持續性工作流管理的進化。
+
+7. <b><a href="https://news.ycombinator.com/item?id=47762641">Introspective Diffusion Language Models</a></b>
+論文提出結合擴散模型與語言模型的內省式架構，讓模型能在生成過程中自我評估與修正。透過擴散過程的不確定性建模提升輸出可靠性，為新一代模型架構提供理論基礎。
+
+8. <b><a href="https://news.ycombinator.com/item?id=47704729">The M×N problem of tool calling</a></b>
+分析開源 LLM 在工具調用場景面臨的擴展問題（M 個模型對 N 個工具的整合複雜度）。探討 Function Calling API、OpenAPI 等標準化方案如何降低企業建構 AI Agent 生態系的成本。

@@ -1,0 +1,77 @@
+{
+  "articles": [
+    {
+      "title": "Claude Opus 4.7",
+      "url": "https://news.ycombinator.com/item?id=47793411",
+      "interest": "***",
+      "score": 1828,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "Qwen3.6-35B-A3B: Agentic coding power, now open to all",
+      "url": "https://news.ycombinator.com/item?id=47792764",
+      "interest": "***",
+      "score": 1164,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "Codex for almost everything",
+      "url": "https://news.ycombinator.com/item?id=47796469",
+      "interest": "***",
+      "score": 921,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "The future of everything is lies, I guess: Where do we go from here?",
+      "url": "https://news.ycombinator.com/item?id=47792718",
+      "interest": "***",
+      "score": 657,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "Cloudflare's AI Platform: an inference layer designed for agents",
+      "url": "https://news.ycombinator.com/item?id=47792538",
+      "interest": "***",
+      "score": 293,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "The beginning of scarcity in AI",
+      "url": "https://news.ycombinator.com/item?id=47799322",
+      "interest": "***",
+      "score": 115,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "Show HN: SPICE simulation → oscilloscope → verification with Claude Code",
+      "url": "https://news.ycombinator.com/item?id=47801255",
+      "interest": "***",
+      "score": 96,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "Android CLI: Build Android apps 3x faster using any agent",
+      "url": "https://news.ycombinator.com/item?id=47797665",
+      "interest": "**",
+      "score": 263,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "Guy builds AI driven hardware hacker arm from duct tape, old cam and CNC machine",
+      "url": "https://news.ycombinator.com/item?id=47800033",
+      "interest": "**",
+      "score": 203,
+      "category": "OSS",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-17T21:23:26"
+}
