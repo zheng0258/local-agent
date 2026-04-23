@@ -55,7 +55,7 @@ python3 main.py "幫我摘要這些連結 https://example.com"
 daily-brief 分為以下步驟，結果以 artifact 快取，重複執行自動略過：
 
 ```
-hatena → hn → reddit → security → compress → digest → judge → report → save → notify
+hatena → hn → reddit → security → dedup → compress → digest → judge → report → save → notify
 ```
 
 ```bash
@@ -99,6 +99,10 @@ tools/
 │   ├── reddit.py          # Reddit（curl）
 │   ├── security_blogs.py  # 資安部落格（playwright-cli）
 │   └── browser.py         # playwright-cli 共用工具
+├── vector_store/          # 向量去重（ChromaDB + 本地嵌入）
+│   ├── embedder.py        # Qwen3-Embedding-0.6B MLX 嵌入器
+│   ├── client.py          # ChromaDB PersistentClient 封裝
+│   └── dedup.py           # URL 精確比對 + 語義去重邏輯
 └── notifiers/
     └── telegram.py        # Telegram HTML 訊息
 
@@ -123,6 +127,7 @@ outputs/daily-brief/{YYYY-MM-DD}/
 │   ├── hn.json
 │   ├── reddit.json
 │   ├── security.json
+│   ├── dedup.json      # 去重統計 + kept_urls
 │   ├── compress.json   # 各來源語義壓縮
 │   ├── digest.json     # 跨來源深度摘要
 │   └── judge.json      # LLM-as-Judge 品質評分
@@ -146,6 +151,20 @@ python3 lint/check_fetcher_interface.py
 ```
 
 詳細說明見 [AGENTS.md](AGENTS.md)。
+
+## 向量去重（dedup 步驟）
+
+四來源抓取完成後，`dedup` 步驟對所有文章進行去重，避免重複內容消耗後續 compress / digest 的 LLM token：
+
+- **URL 精確比對**：7 天滑動視窗內出現過的 URL 直接過濾
+- **語義去重**：以 `Qwen3-Embedding-0.6B-4bit-DWQ`（MLX，351MB）對標題做向量化，cosine similarity ≥ 0.80 視為近似文章並過濾
+- **向量庫**：ChromaDB PersistentClient，存於 `outputs/daily-brief/.vectordb/`（已加入 `.gitignore`）
+- **可重跑**：`dedup.json` artifact 儲存 `kept_urls`，後續步驟 `--force` 重跑時重現相同過濾結果
+
+```bash
+# 強制重新執行去重步驟
+python3 main.py "/daily-brief --force dedup"
+```
 
 ## LLM 後端
 
