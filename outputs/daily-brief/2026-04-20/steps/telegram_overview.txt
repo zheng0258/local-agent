@@ -1,0 +1,45 @@
+今日重點摘要（2026-04-20）：
+
+🔐 資安
+• <b><a href="https://news.ycombinator.com/item?id=47824976">Vercel 宣布內部系統遭入侵</a></b> — Vercel 公開承認內部系統遭未經授權訪問，攻擊者獲取部分非敏感資訊。此事件凸顯頂尖雲端平台仍面臨供應鏈與社會工程攻擊威脅。
+
+• <b><a href="https://news.ycombinator.com/item?id=47824945">Notion 洩漏公開頁面編輯者郵件</a></b> — Notion API 漏洞導致數百萬用戶的電子郵件地址被不當暴露。此資安事件引發對 SaaS 平台數據保護標準的質疑。
+
+• <b><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat">Axios npm 套件遭竊</a></b> — 知名 HTTP 庫 Axios 維護者帳號被劫持，惡意版本內建 RAT 遠程木马。此事件凸顯 npm 生態系統中維護者認證的脆弱性。
+
+• <b><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine">GlassWorm 新型 Zig 投放程式</a></b> — 新型惡意軟體使用 Zig 編寫，專門感染 VS Code、IntelliJ 等多種 IDE。標誌著針對開發者工具的攻擊進入新階段。
+
+• <b><a href="https://www.reddit.com/r/netsec/comments/1sou4zz/mad_bugs_even_cat_readmetxt_is_not_safe/">MAD Bugs：連「cat readme.txt」也不安全</a></b> — 研究發現新型攻擊向量，即使簡單檔案讀取指令也可能被利用進行代碼執行。挑戰傳統「只讀操作安全」假設。
+
+🤖 Claude Code 與 AI 工具
+• <b><a href="https://www.watch.impress.co.jp/docs/news/2102748.html">Claude Design 正式推出</a></b> — Anthropic 推出專為 UI/UX 設計優化的 AI 工具，支援視覺原型生成與配色建議。標誌著大模型公司垂直切入設計領域。
+
+• <b><a href="https://zenn.dev/shunya_sudo/articles/claude-code-45-automation-tasks">東大研究生自動化 45 個日常任務</a></b> — 東京大學研究生記錄使用 Claude Code 自動化檔案處理、數據整理等任務的實踐經驗。提供可重現提示詞範例。
+
+• <b><a href="https://dev.classmethod.jp/articles/claude-code-working-in-english-environment-setup/">用 Claude Code 建立英語學習環境</a></b> — 詳細介紹如何利用 Claude Code 打造全英語開發環境提升語言能力。包含提示詞策略與代碼註解規範。
+
+• <b><a href="https://zenn.dev/solvio/articles/901772dcec88cc">Claude Code 桌面版與 CLI 差異</a></b> — 全面比較兩版本功能差異與適用場景。桌面版提供友好視覺介面，CLI 在自動化與伺服器部署更具優勢。
+
+• <b><a href="https://www.reddit.com/r/ClaudeCode/comments/1spxtut/opus_47_vs_46_after_3_days_of_real_coding_side_by/">Opus 4.7 vs 4.6 實戰編碼評比</a></b> — 開發者進行三天實戰測試比較。新版本在上下文理解與重構建議展現改進，但邊緣案例仍不穩定。
+
+🛠️ AI 開發工具
+• <b><a href="https://www.perryts.com/">Perry — TypeScript 原生編譯</a></b> — 新工具允許 TypeScript 直接編譯成原生機器碼，跳過 JavaScript 運行時。為極致效能需求提供新選擇。
+
+• <b><a href="https://zenn.dev/headwaters/articles/0595f9c0a1fadb">GitHub Copilot 真正的強項</a></b> — 分析指出 Copilot 核心優勢不在單一功能，而在生態整合與數據飛輪效應。深度平台結合是競爭關鍵。
+
+• <b><a href="https://azukiazusa.dev/blog/gh-agent-skill-management/">gh 命令可安裝管理代理技能</a></b> — GitHub CLI 新增 AI 代理技能管理功能，允許開發者透過命令列安裝與配置代理能力。擴展 Copilot Workspace 生態系統。
+
+• <b><a href="https://www.reddit.com/r/LocalLLaMA/comments/1sprdm8/llamacpp_speculative_checkpointing_was_merged/">llama.cpp 猜測性檢查點功能</a></b> — 合併的猜測性檢查點技術顯著提升本地 LLM 推理效能。對邊緣設備運行大模型具重要意義。
+
+• <b><a href="https://speakerdeck.com/j5ik2o/zhong-pan-debeng-huai-sasenaiaiqu-dong-kai-fa">不讓終盤崩壞的 AI 驅動開發</a></b> — 針對「後期技術債積累」問題提供系統性解決方案。強調專案初期建立規範與測試覆蓋的重要性。
+
+💼 職涯與產業趨勢
+• <b><a href="https://zenn.dev/akasara/articles/ab24affd00d788">Claude Design 對 Web 設計師衝擊</a></b> — AI 設計工具興起迫使設計師重新思考定位與價值主張。生成式 AI 正從開發輔助擴展到創意領域。
+
+• <b><a href="https://note.com/kgsi/n/n7c4bb71abe80">Claude Design 如何改變設計行為</a></b> — AI 使設計師角色從執行者轉向策展人。需關注 AI 輔助可能帶來的創意同質化風險。
+
+• <b><a href="https://songmu.jp/riji/entry/2026-04-19-supply-chain-security-with-dependabot.html">供應鏈攻擊防護與 Dependabot</a></b> — 探討如何構建多層次供應鏈防護體系。在近期多起包竊取事件後尤為重要。
+
+• <b><a href="https://www.docswell.com/s/tadashi0713/KR82N3-docker-3shake-webinar">Docker 容器鏡像安全新標準</a></b> — Docker 推出容器硬化新標準，包含最小化映像與簽名驗證。旨在應對日益嚴重的供應鏈攻擊。
+
+• <b><a href="https://www.reddit.com/r/ClaudeCode/comments/1spypte/ok_boys-its-over-no-subscription-required/">AI 工具免費方案登場</a></b> — 社群分享 AI 編程工具新免費使用方案，標誌市場競爭加劇。討論涵蓋配額限制與可持續性問題。

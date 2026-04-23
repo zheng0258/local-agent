@@ -1,0 +1,53 @@
+{
+  "articles": [
+    {
+      "title": "GitHub 的假星光經濟",
+      "url": "https://news.ycombinator.com/item?id=47831621",
+      "interest": "**",
+      "score": 497,
+      "category": "OSS",
+      "source": ""
+    },
+    {
+      "title": "Claude Token 計數器，現支援模型比較",
+      "url": "https://news.ycombinator.com/item?id=47829178",
+      "interest": "**",
+      "score": 186,
+      "category": "AI Tools",
+      "source": ""
+    },
+    {
+      "title": "ggsql：SQL 的圖形文法",
+      "url": "https://news.ycombinator.com/item?id=47833558",
+      "interest": "**",
+      "score": 177,
+      "category": "OSS",
+      "source": ""
+    },
+    {
+      "title": "SDF 公共存取 Unix 系統",
+      "url": "https://news.ycombinator.com/item?id=47819410",
+      "interest": "**",
+      "score": 149,
+      "category": "OSS",
+      "source": ""
+    },
+    {
+      "title": "IPC 大雜燴：訊息隊列窺視、io_uring 和 bus1",
+      "url": "https://news.ycombinator.com/item?id=47801923",
+      "interest": "**",
+      "score": 23,
+      "category": "Tech",
+      "source": ""
+    },
+    {
+      "title": "Show HN：Alien – 具備遠端管理的自託管方案（Rust 編寫）",
+      "url": "https://news.ycombinator.com/item?id=47835599",
+      "interest": "**",
+      "score": 15,
+      "category": "OSS",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-21T02:01:09"
+}

@@ -1,0 +1,19 @@
+深度摘要（2026-04-23）：
+
+1. <b><a href="https://zenn.dev/shintaroamaike/articles/69a7611880420d">關於那份生產力提升，現場默默承擔的成本</a></b>
+AI 工具雖宣稱提升生產力，但學習成本、除錯時間與整合複雜度等隱藏負擔常被管理層忽視。企業應真實評估 AI 導入的總體擁有成本（TCO），而非只看表面效率數字。
+
+2. <b><a href="https://zenn.dev/kimifan/articles/pqc-kuwashii">Go 1.24 起 TLS 已在不知不覺中運行 PQC（抗量子密碼）</a></b>
+Go 1.24 靜默整合 NIST 標準化的抗量子密碼學演算法，無需開發者額外設定。在「現在竊取，以後解密」威脅下，此後向相容設計對長期資料保密至關重要。
+
+3. <b><a href="https://speakerdeck.com/rkaga/how-to-approach-harness-engineering">如何面對 Harness Engineering — 超越規則文件設計開發流程</a></b>
+以「可執行框架」取代傳統規則文件的開發流程設計思維，透過編寫實際運作的程式碼定義流程約束。此方法讓 AI Agent 能真正理解並遵守開發準則，實現可自動執行的工程實踐。
+
+4. <b><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/22/news015.html">從 Gemini 獲得滿意回答的「結構化提示詞」實踐指南</a></b>
+Google 官方建議的結構化提示詞框架，透過定義明確的上下文、角色設定與輸出格式減少模糊回答。對企業導入 LLM 應用具高參考價值，是提示詞工程的實用入門資源。
+
+5. <b><a href="https://zenn.dev/cscloud_blog/articles/devops-agent-guardduty-integration">AWS DevOps Agent 與 GuardDuty 整合後進行想像中的安全事件調查</a></b>
+當 GuardDuty 發現異常時，Agent 自動收集日誌、追蹤指標並生成初步報告。此案例展現 MLOps 與 SecOps 整合的未來方向，減少人工介入需求。
+
+6. <b><a href="https://speakerdeck.com/nrslib/practical-harness-engineering-ai-agent-control-enabled-by-takt">實踐 Harness Engineering：透過 TAKT 實現 AI Agent 控制</a></b>
+TAKT 框架提供可複用的實作模式，讓團隊能精細控制 AI Agent 的行為邊界。透過定義工具調用限制、上下文窗口管理與輸出驗證機制，確保 AI 在預設範圍內運作。

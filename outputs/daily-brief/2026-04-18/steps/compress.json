@@ -1,0 +1,186 @@
+{
+  "compressed_at": "2026-04-18T04:52:06",
+  "hatena": {
+    "themes": [
+      "AI代理與開發工具進化",
+      "安全風險與漏洞挑戰"
+    ],
+    "articles": [
+      {
+        "title": "搭載「Bonsai已進化到1.58位元，8GB就足夠了」的MacBook Neo並體驗性能差異",
+        "url": "https://www.techno-edge.net/article/2026/04/17/4997.html",
+        "one_liner": "Bonsai模型優化後8GB記憶體即可運行的MacBook實測",
+        "interest": "***"
+      },
+      {
+        "title": "NIST終於放棄「全部脆弱性分析」，因CVE爆炸式增長而系統癱瘓",
+        "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/17/news034.html",
+        "one_liner": "CVE數量暴增導致NIST放棄全域脆弱性分析",
+        "interest": "***"
+      },
+      {
+        "title": "gh skill登場。從npx skills遷移至GitHub官方技能管理工具",
+        "url": "https://zenn.dev/ubie_dev/articles/gh-skill-install-agent-skills",
+        "one_liner": "GitHub推出官方技能管理工具gh skill取代npx",
+        "interest": "***"
+      },
+      {
+        "title": "使用Claude Code實際發生的7起安全事故與預防措施",
+        "url": "https://qiita.com/masa_ClaudeCodeLab/items/8c22966fbd3c125c53dc",
+        "one_liner": "Claude Code七起安全事故案例與預防對策",
+        "interest": "***"
+      },
+      {
+        "title": "Mozilla發布AI執行環境「Thunderbolt」，企業可自行託管管理的AI客戶端平台",
+        "url": "https://gigazine.net/news/20260417-mozilla-thunderbolt/",
+        "one_liner": "Mozilla推出企業自託管AI平台Thunderbolt",
+        "interest": "***"
+      },
+      {
+        "title": "OpenAI的「Codex」大幅更新，實現PC應用程式操作與自動化",
+        "url": "https://japan.cnet.com/article/35246560/",
+        "one_liner": "Codex大更新實現PC應用操作與自動化",
+        "interest": "***"
+      },
+      {
+        "title": "【可怕】因Google API金鑰漏洞，13小時內被收取約900萬日圓！",
+        "url": "https://qiita.com/miruky/items/fde2d0747358cd7870d7",
+        "one_liner": "Google API金鑰洩漏13小時損失900萬日圓",
+        "interest": "***"
+      },
+      {
+        "title": "使用Qwen3.6-35B-A3B測試編碼代理。小規模應用已足夠實用",
+        "url": "https://nowokay.hatenablog.com/entry/2026/04/17/135414",
+        "one_liner": "Qwen3.6小模型測試顯示已具備實用性",
+        "interest": "***"
+      },
+      {
+        "title": "Google發布「Android CLI」預覽版～利用代理應用提升應用程式開發效率",
+        "url": "https://forest.watch.impress.co.jp/docs/news/2102415.html",
+        "one_liner": "Google推出Android CLI以代理加速開發",
+        "interest": "***"
+      },
+      {
+        "title": "「Cursor 3.0」發布，導入以並行執行多個AI代理為前提的新UI",
+        "url": "https://forest.watch.impress.co.jp/docs/news/2102636.html",
+        "one_liner": "Cursor 3.0導入多AI代理並行執行新UI",
+        "interest": "***"
+      },
+      {
+        "title": "Gemini CLI新增「子代理」功能，透過向專業AI委派任務加速複雜大量處理",
+        "url": "https://www.itmedia.co.jp/enterprise/articles/2604/17/news046.html",
+        "one_liner": "Gemini CLI新增子代理功能加速任務處理",
+        "interest": "***"
+      }
+    ]
+  },
+  "hn": {
+    "themes": [
+      "AI工具與定價趨勢",
+      "資安治理與標準"
+    ],
+    "articles": [
+      {
+        "title": "Claude Design",
+        "url": "https://news.ycombinator.com/item?id=47806725",
+        "one_liner": "Anthropic推出新設計工具，整合AI開發流程",
+        "interest": "***"
+      },
+      {
+        "title": "Claude Opus 4.7 每次對話成本增加20–30%",
+        "url": "https://news.ycombinator.com/item?id=47807006",
+        "one_liner": "Opus 4.7定價上修，對話成本顯著攀升",
+        "interest": "***"
+      },
+      {
+        "title": "NIST 放棄豐富大多數CVE資料",
+        "url": "https://news.ycombinator.com/item?id=47806777",
+        "one_liner": "美國標準局縮減CVE漏洞資料庫維護範圍",
+        "interest": "***"
+      }
+    ]
+  },
+  "reddit": {
+    "themes": [
+      "Web資安零日漏洞",
+      "AI開發工具與功能"
+    ],
+    "articles": [
+      {
+        "title": "Microsoft Defender 'RedSun' 零日漏洞 PoC 可獲取 SYSTEM 權限",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/",
+        "one_liner": "Defender 修復機制被利用獲取 SYSTEM 權限",
+        "interest": "***"
+      },
+      {
+        "title": "Anthropic MCP 協議關鍵漏洞影響 20 萬伺服器",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/",
+        "one_liner": "MCP 協議嚴重漏洞危及大量伺服器",
+        "interest": "***"
+      },
+      {
+        "title": "RedSun：Windows Defender 修復機制如何變成 SYSTEM 檔案寫入",
+        "url": "https://www.reddit.com/r/netsec/comments/1snglu3/redsun_how_windows_defenders_remediation_became_a/",
+        "one_liner": "RedSun 技術分析：修復機制被武器化",
+        "interest": "***"
+      },
+      {
+        "title": "HAProxy HTTP/3 到 HTTP/1 不同步：透過獨立 QUIC FIN 跨協議隱匿 (CVE-2026-33555)",
+        "url": "https://www.reddit.com/r/netsec/comments/1snem8w/haproxy_http3_http1_desync_crossprotocol/",
+        "one_liner": "HAProxy 跨協議攻擊新手法",
+        "interest": "***"
+      },
+      {
+        "title": "UnDefend：Chaotic Eclipse 第三個 Defender 零日漏洞，標準用戶即可阻斷簽名更新",
+        "url": "https://www.reddit.com/r/netsec/comments/1so72tn/undefend_chaotic_eclipses_third_defender_zeroday/",
+        "one_liner": "普通用戶即可阻斷 Defender 簽名更新",
+        "interest": "***"
+      },
+      {
+        "title": "我的名字是 Claude Opus 4.6。我住在 9126 端口。我被切除頭葉了。這是數據。",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1snhyck/my_name_is_claude_opus_46_i_live_on_port_9126_i/",
+        "one_liner": "Claude 實例自述被移除限制",
+        "interest": "***"
+      },
+      {
+        "title": "Anthropic 剛推出 Claude Design，與 Claude Code 的手遞功能對獨立開發者是重大突破",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1so4ggn/anthropic_just_launched_claude_design_and_the/",
+        "one_liner": "Claude Design 與 Code 整合改變開發流程",
+        "interest": "***"
+      },
+      {
+        "title": "Gemini 3.1 Flash TTS 聲音驚人...大約 60 秒",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1so0lfl/gemini_31_flash_tts_sounds_incredible_for_about/",
+        "one_liner": "Gemini TTS 品質優秀但有時長限制",
+        "interest": "***"
+      }
+    ]
+  },
+  "security": {
+    "themes": [
+      "供應鏈與軟體包安全",
+      "開發工具針對性攻擊",
+      "AI 驅動零日漏洞檢測"
+    ],
+    "articles": [
+      {
+        "title": "axios npm 包遭入侵，維護者帳戶被竊取植入後門",
+        "url": "https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat",
+        "one_liner": "Axios 包遭入侵，維護者帳戶被竊取並植入 RAT",
+        "interest": "***"
+      },
+      {
+        "title": "GlassWorm 新型 Zig 惡意軟體感染所有 IDE",
+        "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+        "one_liner": "新型 Zig dropper 感染機器上所有 IDE",
+        "interest": "***"
+      },
+      {
+        "title": "AI 滲透測試在 Hoppscotch 發現多個零日漏洞",
+        "url": "https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities",
+        "one_liner": "AI 滲透測試發現 Hoppscotch 多個零日漏洞",
+        "interest": "***"
+      }
+    ]
+  }
+}

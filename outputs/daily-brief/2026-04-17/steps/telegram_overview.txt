@@ -1,0 +1,21 @@
+今日重點摘要（2026-04-17）：
+
+🤖 AI 模型與能力
+• <b><a href="https://japan.cnet.com/article/35246560/">OpenAI「Codex」大幅更新，PC 應用程式操作與自動化變可能</a></b> — OpenAI Codex 重大更新獲得直接操作 PC 應用程式的能力，實現跨軟體自動化工作流。這項突破讓 AI Agent 能像人類一樣點擊、輸入、讀取螢幕內容，完成複雜的桌面上的任務串接。
+• <b><a href="https://news.ycombinator.com/item?id=47793411">Claude Opus 4.7</a></b> — Anthropic 發布 Opus 4.7 旗艦模型，代表公司最新技術成就。HN 討論熱度顯示開發者社群對企業級 AI 模型持續關注。
+• <b><a href="https://news.ycombinator.com/item?id=47792764">Qwen3.6-35B-A3B: Agentic coding power, now open to all</a></b> — Alibaba 開放 Qwen3.6-35B 代碼生成模型，具備代理式編程能力供大眾使用。此舉反映中國 AI 廠商積極參與開放生態競爭。
+• <b><a href="https://www.techno-edge.net/article/2026/04/17/4997.html">「1.58 位元進化所以 8GB 足夠」Bonsai 這麼說，植入 MacBook Neo 體驗性能差距</a></b> — Bonsai AI 透過量化技術突破，將模型壓縮至可在 8GB 記憶體設備運行。這意味著主流 MacBook 和 iPhone 用戶無需依賴雲端即可體驗本地 AI 功能。
+
+🔐 資安
+• <b><a href="https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/">新微軟 Defender「RedSun」零日 PoC 取得 SYSTEM 權限</a></b> — Microsoft Defender 發現名為 RedSun 的零日漏洞，PoC 可獲取最高 SYSTEM 權限。防禦軟體本身存在 vulnerabilities 尤為嚴重，因攻擊者可繞過安全機制直取核心權限。
+• <b><a href="https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/">Anthropic 的 MCP 協議有影響 20 萬伺服器的關鍵缺陷</a></b> — Anthropic 的 Model Context Protocol (MCP) 發現關鍵協議層漏洞，潛在影響範圍達 20 萬台伺服器。此事件突顯新興 AI 協議在快速迭代中可能忽略安全深思熟慮的設計。
+• <b><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/17/news034.html">NIST 終於放棄「漏洞全數分析」CVE 暴增導致崩潰，改變方針</a></b> — 美國 NIST 因 CVE 漏洞數量爆炸式增長，正式放棄全面分析政策轉向優先級篩選模式。此政策轉變將深刻影響全球資安團隊的漏洞追蹤與修復策略。
+• <b><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine">GlassWorm 新型 Zig 投放程式入侵 IDE</a></b> — 新型恶意软件 GlassWorm 使用 Zig 語言編寫，專門感染開發者機器上的所有 IDE。IDE 作為攻擊目標特別危險，因可直接攔截代碼、竊取憑證或植入後門至開發流程。
+
+🛠️ AI 基礎設施與平台
+• <b><a href="https://gigazine.net/news/20260417-mozilla-thunderbolt/">Mozilla 發布 AI 執行環境「Thunderbolt」，可自行 host 管理的企業用 AI client 平台</a></b> — Mozilla 推出 Thunderbolt 平台，提供企業自託管 AI 執行環境的完整解決方案。此舉回應企業級市場對雲端依賴的擔憂，為金融、醫療等敏感行業提供合規 AI 部署選項。
+• <b><a href="https://news.ycombinator.com/item?id=47792538">Cloudflare 的 AI Platform: an inference layer designed for agents</a></b> — Cloudflare 推出專為 AI 代理設計的推論層平台，整合邊緣計算優勢。此架構針對 Agent 的低延遲、高併發、地理分散需求優化。
+
+📰 產業觀察
+• <b><a href="https://news.ycombinator.com/item?id=47799322">The beginning of scarcity in AI</a></b> — 文章警告 AI 資源稀缺時代可能已來臨，包括算力、電力、高品質訓練數據。隨著模型規模膨脹與採用率提升，供應約束將成為限制因素。
+• <b><a href="https://forest.watch.impress.co.jp/docs/serial/aistream/2102602.html">超越人類智慧的「Claude Mythos」限定發布開始，網路安全歷史轉折點的「AI 紅隊」是什麼</a></b> — Anthropic 推出 Claude Mythos 限定版本，專為 AI 紅隊測試設計以探索模型極限能力。AI 紅隊成為資安新戰線，通過對抗性測試識別模型弱點與潛在濫用風險。

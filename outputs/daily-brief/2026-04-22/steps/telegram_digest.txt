@@ -1,0 +1,25 @@
+深度摘要（2026-04-22）：
+
+1. <b><a href="https://pc.watch.impress.co.jp/docs/news/2103376.html">Kimi K2.6 免費公開：1 兆參數 AI 挑戰 GPT-5.4</a></b>
+中國月之暗面推出免費大模型，宣稱程式碼能力超越 GPT-5.4。此舉展現中國 AI 產業技術實力，可能重塑全球模型競爭版圖。
+
+2. <b><a href="https://blog.google/intl/ja-jp/products/android-chrome-play/gemini-in-chrome/">Google 推出 Gemini in Chrome：AI 深度整合瀏覽器</a></b>
+用户可直接向 Gemini 提問、總結網頁內容，無需切換應用。標誌瀏覽器與 AI 融合新階段，挑戰 Edge Copilot 競爭地位。
+
+3. <b><a href="https://tech.findy.co.jp/entry/2026/04/21/070000">30 分鐘完成演講投影片：Claude Code 自動化全流程</a></b>
+Findy 團隊將討論記錄轉大綱再生成 Google Slides 完全自動化。非結構化內容轉可執行腳本，展現 AI-native 工作流程革命性潛力。
+
+4. <b><a href="https://github.blog/jp/2026-04-21-changes-to-github-copilot-individual-plans/">GitHub Copilot 個人版調整定價與使用限制</a></b>
+月費上漲並加用量管制，反映從早期優惠轉向成熟商業化。個人開發者需重新評估成本效益，可能促使用戶转向開源方案。
+
+5. <b><a href="https://note.com/kaze3desu/n/n27008d5c87f5">導入 Claude Team 實務經驗：IT 管理視角</a></b>
+跨企業導入揭示真實挑戰：員工自發使用難管控、部門需求差異大。提供組織層面導入策略與 ROI 評估寶貴見解。
+
+6. <b><a href="https://note.com/suthio/n/nf03d4f1df801">用 Claude Code 建立後勤業務自動化儲存庫</a></b>
+將採購、報銷、人員管理等腳本集中存儲，累積可重複使用流程。對提升中小型團隊營運效率具高度實用價值。
+
+7. <b><a href="https://levtech.jp/media/detail_846/">社會工程學經典 5 書：AI 時代欺騙結構不變</a></b>
+強調即使 AI 進步，人類心理弱點與欺騙核心未變。在深度偽造興起時代，理解人類行為仍是資安防禦關鍵。
+
+8. <b><a href="https://forest.watch.impress.co.jp/docs/news/2103365.html">「とほほ WWW 入門」新增本地 AI 運行教學</a></b>
+涵蓋模型下載、Ollama 安裝與推論設定。反映 AI 素養教育重要性提升，提供隱私保護下學習入門珍貴資源。

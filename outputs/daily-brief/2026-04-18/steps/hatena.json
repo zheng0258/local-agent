@@ -1,0 +1,101 @@
+{
+  "articles": [
+    {
+      "title": "搭載「Bonsai已進化到1.58位元，8GB就足夠了」的MacBook Neo並體驗性能差異",
+      "url": "https://www.techno-edge.net/article/2026/04/17/4997.html",
+      "interest": "***",
+      "score": 308,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "NIST終於放棄「全部脆弱性分析」，因CVE爆炸式增長而系統癱瘓",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/17/news034.html",
+      "interest": "***",
+      "score": 137,
+      "category": "Security",
+      "source": ""
+    },
+    {
+      "title": "gh skill登場。從npx skills遷移至GitHub官方技能管理工具",
+      "url": "https://zenn.dev/ubie_dev/articles/gh-skill-install-agent-skills",
+      "interest": "***",
+      "score": 55,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "使用Claude Code實際發生的7起安全事故與預防措施",
+      "url": "https://qiita.com/masa_ClaudeCodeLab/items/8c22966fbd3c125c53dc",
+      "interest": "***",
+      "score": 31,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "Mozilla發布AI執行環境「Thunderbolt」，企業可自行託管管理的AI客戶端平台",
+      "url": "https://gigazine.net/news/20260417-mozilla-thunderbolt/",
+      "interest": "***",
+      "score": 27,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "OpenAI的「Codex」大幅更新，實現PC應用程式操作與自動化",
+      "url": "https://japan.cnet.com/article/35246560/",
+      "interest": "***",
+      "score": 24,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "【可怕】因Google API金鑰漏洞，13小時內被收取約900萬日圓！",
+      "url": "https://qiita.com/miruky/items/fde2d0747358cd7870d7",
+      "interest": "***",
+      "score": 22,
+      "category": "Security",
+      "source": ""
+    },
+    {
+      "title": "使用Qwen3.6-35B-A3B測試編碼代理。小規模應用已足夠實用",
+      "url": "https://nowokay.hatenablog.com/entry/2026/04/17/135414",
+      "interest": "***",
+      "score": 12,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "Google發布「Android CLI」預覽版～利用代理應用提升應用程式開發效率",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2102415.html",
+      "interest": "***",
+      "score": 12,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "「Cursor 3.0」發布，導入以並行執行多個AI代理為前提的新UI",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2102636.html",
+      "interest": "***",
+      "score": 7,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "Gemini CLI新增「子代理」功能，透過向專業AI委派任務加速複雜大量處理",
+      "url": "https://www.itmedia.co.jp/enterprise/articles/2604/17/news046.html",
+      "interest": "***",
+      "score": 6,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "在60分鐘內學習最新Web前端技術",
+      "url": "https://speakerdeck.com/mizdra/geek-camp-2026-frontend",
+      "interest": "**",
+      "score": 418,
+      "category": "JavaScript",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-18T02:37:01"
+}

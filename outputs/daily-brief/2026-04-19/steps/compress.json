@@ -1,0 +1,216 @@
+{
+  "compressed_at": "2026-04-19T04:04:58",
+  "hatena": {
+    "themes": [
+      "AI開發工具與實戰（Claude、OpenAI Codex等）",
+      "AI代理基礎設施（儲存、模型管理API）"
+    ],
+    "articles": [
+      {
+        "title": "讓AI撰寫設計文檔、程式碼和測試，進行半年開發的實戰經驗",
+        "url": "https://zenn.dev/nttdata_tech/articles/8a010aff542625",
+        "one_liner": "半年實戰經驗：AI撰寫文檔、程式碼與測試",
+        "interest": "***"
+      },
+      {
+        "title": "讓Claude回到原始時代會很麻煩的故事",
+        "url": "https://zenn.dev/holy_fox/articles/e0c0bf75fba9e6",
+        "one_liner": "回退Claude版本會引發諸多麻煩的故事",
+        "interest": "***"
+      },
+      {
+        "title": "Anthropic發布基於「Opus 4.7」的AI設計工具「Claude Design」，可與Canva整合",
+        "url": "https://www.itmedia.co.jp/news/articles/2604/18/news023.html",
+        "one_liner": "Claude Design整合Canva，搭載Opus 4.7",
+        "interest": "***"
+      },
+      {
+        "title": "Claude Code的AWS官方插件自動生成draw.io格式的AWS架構圖",
+        "url": "https://dev.classmethod.jp/articles/claude-code-awslabs-aws-architecture-diagram/",
+        "one_liner": "AWS插件自動生成draw.io架構圖",
+        "interest": "***"
+      },
+      {
+        "title": "Anthropic發布AI設計工具「Claude Design」預覽 — 搭載「Opus 4.7」並與编码工具整合",
+        "url": "https://www.itmedia.co.jp/aiplus/articles/2604/18/news022.html",
+        "one_liner": "Claude Design預覽：整合编码工具",
+        "interest": "***"
+      },
+      {
+        "title": "Cloudflare發布AI專用Git相容儲存「Artifacts」—為代理爆炸式程式碼生成準備的基礎設施",
+        "url": "https://techfeed.io/entries/69e14fed74781e8bf4965086",
+        "one_liner": "Git相容儲存應對代理程式碼生成",
+        "interest": "***"
+      },
+      {
+        "title": "立即測試Claude Opus 4.7的React熟練度",
+        "url": "https://zenn.dev/uhyo/articles/react-profession-bench-4",
+        "one_liner": "測試Opus 4.7的React開發能力",
+        "interest": "***"
+      },
+      {
+        "title": "Cloudflare發布AI整合推論層 — 單API管理70+模型，解決代理時代多供應商問題",
+        "url": "https://techfeed.io/entries/69e14f2074781e8bf4965059",
+        "one_liner": "單API管理70+模型解決供應商問題",
+        "interest": "***"
+      },
+      {
+        "title": "Android官方發布AI開發技能，使用AI代理可將Android應用開發速度提升3倍",
+        "url": "https://gigazine.net/news/20260417-android-ai-skill/",
+        "one_liner": "AI代理讓Android開發提速3倍",
+        "interest": "***"
+      },
+      {
+        "title": "OpenAI大幅更新AI代理「Codex」，支援PC操作、瀏覽器直接指示、圖片生成UI原型等",
+        "url": "https://gigazine.net/news/20260417-openai-codex-everything/",
+        "one_liner": "Codex支援PC操作與UI原型生成",
+        "interest": "***"
+      }
+    ]
+  },
+  "hn": {
+    "themes": [
+      "AI成本經濟分析",
+      "AI產品設計與架構"
+    ],
+    "articles": [
+      {
+        "title": "Claude設計",
+        "url": "https://news.ycombinator.com/item?id=47806725",
+        "one_liner": "Anthropic全新Claude介面設計展示",
+        "interest": "***"
+      },
+      {
+        "title": "測量Claude 4.7分詞器成本",
+        "url": "https://news.ycombinator.com/item?id=47807006",
+        "one_liner": "分析Claude 4.7分詞器成本效益",
+        "interest": "***"
+      },
+      {
+        "title": "Smol機器：亞秒冷啟動可攜式虛擬機",
+        "url": "https://news.ycombinator.com/item?id=47808268",
+        "one_liner": "亞秒級冷啟動的可攜式虛擬機器",
+        "interest": "***"
+      },
+      {
+        "title": "AI智能體成本也在指數成長",
+        "url": "https://news.ycombinator.com/item?id=47778922",
+        "one_liner": "2025年AI智能體成本指數成長趨勢",
+        "interest": "***"
+      }
+    ]
+  },
+  "reddit": {
+    "themes": [
+      "AI 開發工具與生態系",
+      "資安威脅與漏洞",
+      "軟體供應鏈與基礎設施風險"
+    ],
+    "articles": [
+      {
+        "title": "近期洩漏的 Windows 零日漏洞遭攻擊利用",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1soq002/recently_leaked_windows_zerodays_now_exploited_in/",
+        "one_liner": "Windows 零日漏洞已遭現實攻擊利用",
+        "interest": "***"
+      },
+      {
+        "title": "MAD Bugs：連「cat readme.txt」也不安全",
+        "url": "https://www.reddit.com/r/netsec/comments/1sou4zz/mad_bugs_even_cat_readmetxt_is_not_safe/",
+        "one_liner": "基本檔案讀取指令也藏記憶體漏洞",
+        "interest": "***"
+      },
+      {
+        "title": "「TotalRecall Reloaded」工具找到 Windows 11 Recall 資料庫側門",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1sp54yq/totalrecall_reloaded_tool_finds_a_side_entrance/",
+        "one_liner": "工具繞過權限存取 Recall 資料庫",
+        "interest": "***"
+      },
+      {
+        "title": "CVE-2026-34621 證明碼非掃描器，而是針對巴西金融科技的戰役武器",
+        "url": "https://www.reddit.com/r/netsec/comments/1sp128h/cve202634621_poc_isnt_a_scanner_its_a_campaign/",
+        "one_liner": "漏洞利用程式已鎖定 62 個巴西目標",
+        "interest": "***"
+      },
+      {
+        "title": "我們完蛋了",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1sogx5p/were_cooked/",
+        "one_liner": "ChatGPT 重大變化引發用戶恐慌",
+        "interest": "***"
+      },
+      {
+        "title": "只有我這樣嗎還是 ChatGPT 想「糾正」我的一切？",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1sou09i/is_this_just_me_or_chatgpt_is_trying_to_correct/",
+        "one_liner": "用戶抱怨 ChatGPT 過度糾正行為",
+        "interest": "***"
+      },
+      {
+        "title": "Gemini 推出原生 macOS 應用程式與筆記本功能",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1sopfuj/gemini_now_has_a_native_macos_app_and_notebooks/",
+        "one_liner": "Gemini 轉型為持久性工作空間",
+        "interest": "***"
+      },
+      {
+        "title": "開發開源工具保持游標規則與程式碼庫同步",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/",
+        "one_liner": "自動同步游標規則工具三週獲 250 星",
+        "interest": "***"
+      },
+      {
+        "title": "有人也在維護.cursorrules 和 CLAUDE.md 嗎？",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/",
+        "one_liner": "多 AI 編輯器規則維護成為惡夢",
+        "interest": "***"
+      },
+      {
+        "title": "受夠了游標產生忽略實際程式碼庫的通用技能？",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/",
+        "one_liner": "解決方案讓游標更理解專案上下文",
+        "interest": "***"
+      },
+      {
+        "title": "藏在明信片中的藍牙追蹤器郵寄至戰艦洩露位置",
+        "url": "https://www.reddit.com/r/technology/comments/1sp3cwj/bluetooth_tracker_hidden_in_a_postcard_and_mailed/",
+        "one_liner": "5 美元追蹤器威脅五億八千萬元戰艦",
+        "interest": "***"
+      },
+      {
+        "title": "「現代」開源的危險",
+        "url": "https://www.reddit.com/r/programming/comments/1soazcx/the_danger_of_modern_open_source/",
+        "one_liner": "現代開源生態系潛藏供應鏈風險",
+        "interest": "***"
+      },
+      {
+        "title": "Meta 後量子密碼學遷移：框架、經驗與收穫",
+        "url": "https://www.reddit.com/r/programming/comments/1soqmzq/postquantum_cryptography_migration_at_meta/",
+        "one_liner": "Meta 分享後量子密碼遷移實戰經驗",
+        "interest": "***"
+      }
+    ]
+  },
+  "security": {
+    "themes": [
+      "供應鏈攻擊",
+      "開發者環境威脅"
+    ],
+    "articles": [
+      {
+        "title": "熱門 Telnyx 套件在 PyPI 遭 TeamPCP 竊取",
+        "url": "https://www.aikido.dev/blog/telnyx-pypi-compromised-teampcp-canisterworm",
+        "one_liner": "TeamPCP 駭入 Telnyx 維護者帳號植入惡意程式",
+        "interest": "***"
+      },
+      {
+        "title": "Axios 在 npm 遭竊取：帳號被駭、RAT 部署",
+        "url": "https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat",
+        "one_liner": "Axios 維護者帳號遭竊取，植入遠端操控工具",
+        "interest": "***"
+      },
+      {
+        "title": "GlassWorm 轉原生：Zig 投放程式感染所有 IDE",
+        "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+        "one_liner": "新 Zig 惡意程式針對機器上所有 IDE 進行感染",
+        "interest": "***"
+      }
+    ]
+  }
+}

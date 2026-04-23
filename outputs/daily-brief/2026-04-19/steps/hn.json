@@ -1,0 +1,45 @@
+{
+  "articles": [
+    {
+      "title": "Claude Design",
+      "url": "https://news.ycombinator.com/item?id=47806725",
+      "interest": "***",
+      "score": 1161,
+      "category": "AI Dev Tools",
+      "source": ""
+    },
+    {
+      "title": "Measuring Claude 4.7's tokenizer costs",
+      "url": "https://news.ycombinator.com/item?id=47807006",
+      "interest": "***",
+      "score": 670,
+      "category": "AI Dev Tools",
+      "source": ""
+    },
+    {
+      "title": "Show HN: Smol machines – subsecond coldstart, portable virtual machines",
+      "url": "https://news.ycombinator.com/item?id=47808268",
+      "interest": "***",
+      "score": 418,
+      "category": "AI Dev Tools",
+      "source": ""
+    },
+    {
+      "title": "Are the costs of AI agents also rising exponentially? (2025)",
+      "url": "https://news.ycombinator.com/item?id=47778922",
+      "interest": "***",
+      "score": 281,
+      "category": "AI Dev Tools",
+      "source": ""
+    },
+    {
+      "title": "Migrating from DigitalOcean to Hetzner",
+      "url": "https://news.ycombinator.com/item?id=47815774",
+      "interest": "**",
+      "score": 464,
+      "category": "SaaS",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-19T02:55:11"
+}

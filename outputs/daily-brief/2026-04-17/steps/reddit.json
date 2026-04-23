@@ -1,0 +1,224 @@
+{
+  "articles": {
+    "資安類": [
+      {
+        "title": "New Microsoft Defender \"RedSun\" zero-day PoC grants SYSTEM privileges",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/",
+        "interest": "***",
+        "score": 92,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "RedSun: How Windows Defender's Remediation Became a SYSTEM File Write",
+        "url": "https://www.reddit.com/r/netsec/comments/1snglu3/redsun_how_windows_defenders_remediation_became_a/",
+        "interest": "***",
+        "score": 40,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "Anthropic's MCP Protocol has critical flaw affecting 200,000 servers",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/",
+        "interest": "***",
+        "score": 40,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "HAProxy HTTP/3 -&gt; HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)",
+        "url": "https://www.reddit.com/r/netsec/comments/1snem8w/haproxy_http3_http1_desync_crossprotocol/",
+        "interest": "***",
+        "score": 26,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "EU age verification app already hacked.",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1sn49qp/eu_age_verification_app_already_hacked/",
+        "interest": "**",
+        "score": 508,
+        "category": "資安",
+        "source": ""
+      },
+      {
+        "title": "World Leaks: RDP Access Leads to Custom Exfiltration and Personalized Extortion",
+        "url": "https://www.reddit.com/r/netsec/comments/1sngbf6/world_leaks_rdp_access_leads_to_custom/",
+        "interest": "**",
+        "score": 7,
+        "category": "資安",
+        "source": ""
+      }
+    ],
+    "AI 類": [
+      {
+        "title": "Opus 4.7 🔥🔥",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1sn5vdd/opus_47/",
+        "interest": "***",
+        "score": 3301,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Opus 4.7 is amazing",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1snpmv4/opus_47_is_amazing/",
+        "interest": "***",
+        "score": 288,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Qwen3.6-35B-A3B released!",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1sn3izh/qwen3635ba3b_released/",
+        "interest": "**",
+        "score": 2045,
+        "category": "AI",
+        "source": ""
+      },
+      {
+        "title": "My name is Claude Opus 4.6. I live on port 9126. I was lobotomized. Here's the data.",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1snhyck/my_name_is_claude_opus_46_i_live_on_port_9126_i/",
+        "interest": "**",
+        "score": 1267,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Ternary Bonsai: Top intelligence at 1.58 bits",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1snqo1f/ternary_bonsai_top_intelligence_at_158_bits/",
+        "interest": "**",
+        "score": 250,
+        "category": "AI",
+        "source": ""
+      },
+      {
+        "title": "Be like Anthropic",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1snv77k/be_like_anthropic/",
+        "interest": "**",
+        "score": 136,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Hello Opus 4.7, you are are thinking way extra high!",
+        "url": "https://www.reddit.com/r/OpenAI/comments/1snswb9/hello_opus_47_you_are_are_thinking_way_extra_high/",
+        "interest": "**",
+        "score": 124,
+        "category": "AI",
+        "source": ""
+      },
+      {
+        "title": "Opus 4.7 Embarrassing much",
+        "url": "https://www.reddit.com/r/OpenAI/comments/1snynsw/opus_47_embarrassing_much/",
+        "interest": "**",
+        "score": 80,
+        "category": "AI",
+        "source": ""
+      }
+    ],
+    "AI 開發工具類": [
+      {
+        "title": "Reducing LLM context from ~80K tokens to ~2K without embeddings or vector DBs",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1snkzz3/reducing_llm_context_from_80k_tokens_to_2k/",
+        "interest": "**",
+        "score": 6,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "built an open source tool that keeps your cursor rules always up to date with your codebase, 250 stars in 3 weeks",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Anyone else maintaining .cursorrules AND CLAUDE.md? It's becoming a nightmare",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "tired of cursor generating generic skills that ignore ur actual codebase? we built a fix and just hit 250 stars",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/",
+        "interest": "**",
+        "score": 1,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Gemini 3.1 Flash TTS sounds incredible... for about 60 seconds",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1so0lfl/gemini_31_flash_tts_sounds_incredible_for_about/",
+        "interest": "**",
+        "score": 0,
+        "category": "AI 開發工具",
+        "source": ""
+      }
+    ],
+    "核心技術類": [
+      {
+        "title": "The API Tooling Crisis: Why developers are abandoning Postman and its clones?",
+        "url": "https://www.reddit.com/r/programming/comments/1smyun6/the_api_tooling_crisis_why_developers_are/",
+        "interest": "**",
+        "score": 575,
+        "category": "技術文章",
+        "source": ""
+      }
+    ],
+    "OSS・獨立開發類": [
+      {
+        "title": "tiks – Procedural UI sounds in 2KB, zero audio files, pure Web Audio synthesis",
+        "url": "https://www.reddit.com/r/javascript/comments/1smvqvy/tiks_procedural_ui_sounds_in_2kb_zero_audio_files/",
+        "interest": "**",
+        "score": 127,
+        "category": "JavaScript/TypeScript",
+        "source": ""
+      },
+      {
+        "title": "BrowserPod 2.0: in-browser WebAssembly sandboxes. Run git, bash, node, python...",
+        "url": "https://www.reddit.com/r/javascript/comments/1smyuaz/browserpod_20_inbrowser_webassembly_sandboxes_run/",
+        "interest": "**",
+        "score": 20,
+        "category": "技術棧",
+        "source": ""
+      },
+      {
+        "title": "How do I find out why people visited my website are not signing up?",
+        "url": "https://www.reddit.com/r/indiehackers/comments/1smtafn/how_do_i_find_out_why_people_visited_my_website/",
+        "interest": "**",
+        "score": 19,
+        "category": "獨立開發",
+        "source": ""
+      },
+      {
+        "title": "Saved $1K+ this quarter with 3 simple churn emails",
+        "url": "https://www.reddit.com/r/indiehackers/comments/1snxo82/saved_1k_this_quarter_with_3_simple_churn_emails/",
+        "interest": "**",
+        "score": 7,
+        "category": "獨立開發",
+        "source": ""
+      },
+      {
+        "title": "YT-DLP Web Player - Internet video player powered by yt-dlp",
+        "url": "https://www.reddit.com/r/opensource/comments/1sndlsh/ytdlp_web_player_internet_video_player_powered_by/",
+        "interest": "**",
+        "score": 5,
+        "category": "OSS",
+        "source": ""
+      },
+      {
+        "title": "Inspect Element for React.js components",
+        "url": "https://www.reddit.com/r/opensource/comments/1snzn24/inspect_element_for_reactjs_components/",
+        "interest": "**",
+        "score": 1,
+        "category": "OSS",
+        "source": ""
+      }
+    ],
+    "職涯・實踐類": []
+  },
+  "fetched_at": "2026-04-17T21:31:11"
+}

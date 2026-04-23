@@ -1,0 +1,133 @@
+{
+  "compressed_at": "2026-04-15T11:18:10",
+  "hatena": {
+    "themes": [
+      "AI與大型語言模型應用",
+      "Web資安威脅"
+    ],
+    "articles": [
+      {
+        "title": "【RAG】用 AI 改寫企業知識",
+        "url": "https://zenn.dev/knowledgesense/articles/5a50d06fce072d",
+        "one_liner": "RAG 改寫企業知識，提升 AI 問答準確度",
+        "interest": "***"
+      },
+      {
+        "title": "將人工研究整合到數據管線中。dbt Python model × LLM Web Search 將公開資訊載入 Snowflake",
+        "url": "https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake",
+        "one_liner": "dbt 整合 LLM 搜尋，將公開資料載入 Snowflake",
+        "interest": "***"
+      },
+      {
+        "title": "WordPress 的31個外掛包發現後門，在所有權轉移後的更新中被加入",
+        "url": "https://gigazine.net/news/20260414-wordpress-plugin-backdoor/",
+        "one_liner": "WordPress 外掛遭植入後門，權限轉移時被動手腳",
+        "interest": "***"
+      },
+      {
+        "title": "將光纖「麥克風化」的竊聽攻擊　惡用為震動感應器竊取對話",
+        "url": "https://www.itmedia.co.jp/news/articles/2604/15/news029.html",
+        "one_liner": "光纖成竊聽工具，震動感應洩密對話內容",
+        "interest": "***"
+      },
+      {
+        "title": "Meta 發表新 AI 模型「Muse Spark」～戰略轉向的「小而快卻又相當聰明的封閉模型」",
+        "url": "https://forest.watch.impress.co.jp/docs/news/2101375.html",
+        "one_liner": "Meta 推出 Muse Spark，以小模型策略對抗競爭對手",
+        "interest": "***"
+      }
+    ]
+  },
+  "hn": {
+    "themes": [
+      "AI 開發基礎設施與架構",
+      "AI 生產力工具與應用"
+    ],
+    "articles": [
+      {
+        "title": "Claude Code Routines",
+        "url": "https://news.ycombinator.com/item?id=47768133",
+        "one_liner": "Claude 程式碼自動化的常駐工作流程功能"
+      },
+      {
+        "title": "Introspective Diffusion Language Models",
+        "url": "https://news.ycombinator.com/item?id=47762641",
+        "one_liner": "結合擴散模型的內省式語言模型架構研究"
+      },
+      {
+        "title": "The M×N problem of tool calling and open-source models",
+        "url": "https://news.ycombinator.com/item?id=47704729",
+        "one_liner": "開源模型與工具調用的擴展性問題分析"
+      },
+      {
+        "title": "Show HN: LangAlpha – what if Claude Code was built for Wall Street?",
+        "url": "https://news.ycombinator.com/item?id=47766370",
+        "one_liner": "專為金融領域打造的 AI 程式碼助理"
+      },
+      {
+        "title": "Turn your best AI prompts into one-click tools in Chrome",
+        "url": "https://news.ycombinator.com/item?id=47768339",
+        "one_liner": "將 AI 提示詞轉為 Chrome 一鍵工具"
+      }
+    ]
+  },
+  "reddit": {
+    "themes": [
+      "資安漏洞與風險評估",
+      "AI 開發工具進化"
+    ],
+    "articles": [
+      {
+        "title": "Axios 嚴重漏洞被指實際難以利用",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1slaaih/axios_10_10_cve_is_not_realistically_exploitable/",
+        "one_liner": "Axios 嚴重漏洞被指實際難以利用",
+        "interest": "***"
+      },
+      {
+        "title": "Claude Code 桌面版全面重新設計",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1sljk0t/claude_code_just_got_a_full_desktop_redesign/",
+        "one_liner": "Claude Code 桌面版全面重新設計與功能升級",
+        "interest": "***"
+      },
+      {
+        "title": "不建議使用 Claude Code 預設系統提示詞",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1slfnoq/dont_use_claude_codes_default_system_prompt/",
+        "one_liner": "不建議使用 Claude Code 預設系統提示詞",
+        "interest": "***"
+      },
+      {
+        "title": "Claude Code 新增常規工作自動化預覽",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1sle842/now_in_research_preview_routines_in_claude_code/",
+        "one_liner": "Claude Code 新增常規工作自動化研究預覽",
+        "interest": "***"
+      }
+    ]
+  },
+  "security": {
+    "themes": [
+      "軟體供應鏈攻擊",
+      "開發環境惡意程式",
+      "AI 資安風險評估"
+    ],
+    "articles": [
+      {
+        "title": "Axios npm 包被駭：維護者帳號遭劫持並植入 RAT",
+        "url": "https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat",
+        "one_liner": "知名 Axios 庫遭供應鏈攻擊，維護者帳號被劫持",
+        "interest": "***"
+      },
+      {
+        "title": "GlassWorm 原生版：Zig 寫成的 dropper 感染所有 IDE",
+        "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+        "one_liner": "新型 Zig 惡意程式專門感染各路 IDE 開發環境",
+        "interest": "***"
+      },
+      {
+        "title": "Mythos 的資安末日論調與實際風險不符",
+        "url": "https://www.aikido.dev/blog/anthropic-mythos-cybersecurity-risks-overblown",
+        "one_liner": "AI 資安風險被過度渲染，實際威脅沒那麼大",
+        "interest": "***"
+      }
+    ]
+  }
+}

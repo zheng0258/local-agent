@@ -1,0 +1,165 @@
+{
+  "articles": [
+    {
+      "title": "Claude Design 來臨之日 ─ Web 設計師與前端工作將被取代到什麼程度",
+      "url": "https://zenn.dev/akasara/articles/ab24affd00d788",
+      "interest": "***",
+      "score": 273,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "用 Claude Code 一邊工作一邊建立英語學習環境",
+      "url": "https://dev.classmethod.jp/articles/claude-code-working-in-english-environment-setup/",
+      "interest": "***",
+      "score": 269,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "Perry — TypeScript 原生編譯",
+      "url": "https://www.perryts.com/",
+      "interest": "***",
+      "score": 114,
+      "category": "JavaScript/TypeScript",
+      "source": ""
+    },
+    {
+      "title": "GitHub Copilot 真正的強項",
+      "url": "https://zenn.dev/headwaters/articles/0595f9c0a1fadb",
+      "interest": "***",
+      "score": 102,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "打造安全容器鏡像的新產業標準：Docker Hardened Images",
+      "url": "https://www.docswell.com/s/tadashi0713/KR82N3-docker-3shake-webinar",
+      "interest": "***",
+      "score": 83,
+      "category": "Web 資安",
+      "source": ""
+    },
+    {
+      "title": "Claude 新服務是設計，AI 設計工具「Claude Design」啟動",
+      "url": "https://www.watch.impress.co.jp/docs/news/2102748.html",
+      "interest": "***",
+      "score": 76,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "東大研究生用 Claude Code 自動化45個日常任務的全記錄",
+      "url": "https://zenn.dev/shunya_sudo/articles/claude-code-45-automation-tasks",
+      "interest": "***",
+      "score": 32,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "供應鏈攻擊防護與 Dependabot 應用",
+      "url": "https://songmu.jp/riji/entry/2026-04-19-supply-chain-security-with-dependabot.html",
+      "interest": "***",
+      "score": 32,
+      "category": "Web 資安",
+      "source": ""
+    },
+    {
+      "title": "gh 命令現在可以安裝管理代理技能了",
+      "url": "https://azukiazusa.dev/blog/gh-agent-skill-management/",
+      "interest": "***",
+      "score": 20,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "不讓終盤崩壞的 AI 驅動開發",
+      "url": "https://speakerdeck.com/j5ik2o/zhong-pan-debeng-huai-sasenaiaiqu-dong-kai-fa",
+      "interest": "***",
+      "score": 13,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "Claude Design 將如何改變「設計」這一行為？",
+      "url": "https://note.com/kgsi/n/n7c4bb71abe80",
+      "interest": "***",
+      "score": 11,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "【Claude Code】體驗更新後的桌面版，發現與 CLI 的差異",
+      "url": "https://zenn.dev/solvio/articles/901772dcec88cc",
+      "interest": "***",
+      "score": 6,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "用語法識別自動解決 Git 衝突的 Mergiraf 看起來不錯",
+      "url": "https://kawarimidoll.com/posts/202604191/",
+      "interest": "**",
+      "score": 86,
+      "category": "開發工具",
+      "source": ""
+    },
+    {
+      "title": "為自製鍵盤植入機器學習模型",
+      "url": "https://zenn.dev/bilzard/articles/29e91678ae98c7",
+      "interest": "**",
+      "score": 33,
+      "category": "技術文章",
+      "source": ""
+    },
+    {
+      "title": "GitHub - PerryTS/perry: 用 Rust 寫的原生 TypeScript 編譯器",
+      "url": "https://github.com/PerryTS/perry",
+      "interest": "**",
+      "score": 33,
+      "category": "JavaScript/TypeScript",
+      "source": ""
+    },
+    {
+      "title": "零冗餘的 GitHub 風格服務「GitClassic」，JavaScript 用量極小化，檔案大小僅14KB",
+      "url": "https://gigazine.net/news/20260419-git-classic/",
+      "interest": "**",
+      "score": 25,
+      "category": "OSS 開發",
+      "source": ""
+    },
+    {
+      "title": "利用 CDN 的圖片分發設計與優化",
+      "url": "https://zenn.dev/catatsuy/articles/43b5cf583fac76",
+      "interest": "**",
+      "score": 13,
+      "category": "Technical SEO",
+      "source": ""
+    },
+    {
+      "title": "Aube",
+      "url": "https://aube.en.dev/",
+      "interest": "**",
+      "score": 10,
+      "category": "OSS 開發",
+      "source": ""
+    },
+    {
+      "title": "SRE+DevOps×AI 運營改善①",
+      "url": "https://zenn.dev/structnote/articles/3694beed7ab6a9",
+      "interest": "**",
+      "score": 9,
+      "category": "技術文章",
+      "source": ""
+    },
+    {
+      "title": "AI 驅動創新研究，文部科學省提供支援，單案最高補助500萬日圓",
+      "url": "https://www.nikkei.com/article/DGXZQOSG136TH0T10C26A4000000/",
+      "interest": "**",
+      "score": 5,
+      "category": "研發趨勢",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-20T01:56:00"
+}

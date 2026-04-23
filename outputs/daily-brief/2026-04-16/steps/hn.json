@@ -1,0 +1,93 @@
+{
+  "articles": [
+    {
+      "title": "Google 背棄对我的承諾——現在 ICE 有了我的資料",
+      "url": "https://news.ycombinator.com/item?id=47782570",
+      "interest": "***",
+      "score": 1093,
+      "category": "Security",
+      "source": ""
+    },
+    {
+      "title": "網路安全現在看起來像工作量證明",
+      "url": "https://news.ycombinator.com/item?id=47769089",
+      "interest": "***",
+      "score": 238,
+      "category": "Security",
+      "source": ""
+    },
+    {
+      "title": "Gemini 應用程式現在支援 Mac",
+      "url": "https://news.ycombinator.com/item?id=47782256",
+      "interest": "***",
+      "score": 79,
+      "category": "AI Tools",
+      "source": ""
+    },
+    {
+      "title": "Gas Town 是否「竊取」使用者的 LLM 額以提升自身？",
+      "url": "https://news.ycombinator.com/item?id=47785053",
+      "interest": "**",
+      "score": 210,
+      "category": "AI Tools",
+      "source": ""
+    },
+    {
+      "title": "問 HN：誰在使用 OpenClaw？",
+      "url": "https://news.ycombinator.com/item?id=47783940",
+      "interest": "**",
+      "score": 208,
+      "category": "SaaS",
+      "source": ""
+    },
+    {
+      "title": "Cal.com 將轉為閉源",
+      "url": "https://news.ycombinator.com/item?id=47780456",
+      "interest": "**",
+      "score": 206,
+      "category": "OSS",
+      "source": ""
+    },
+    {
+      "title": "你真的需要資料庫嗎？",
+      "url": "https://news.ycombinator.com/item?id=47778086",
+      "interest": "**",
+      "score": 202,
+      "category": "Technical",
+      "source": ""
+    },
+    {
+      "title": "ChatGPT for Excel",
+      "url": "https://news.ycombinator.com/item?id=47785397",
+      "interest": "**",
+      "score": 107,
+      "category": "AI Tools",
+      "source": ""
+    },
+    {
+      "title": "展示 HN：Libretto——讓 AI 瀏覽器自動化變得確定性",
+      "url": "https://news.ycombinator.com/item?id=47780971",
+      "interest": "**",
+      "score": 83,
+      "category": "AI Tools",
+      "source": ""
+    },
+    {
+      "title": "我製作了一個終端機分頁器",
+      "url": "https://news.ycombinator.com/item?id=47786164",
+      "interest": "**",
+      "score": 56,
+      "category": "OSS",
+      "source": ""
+    },
+    {
+      "title": "Hacker News 命令列介面",
+      "url": "https://news.ycombinator.com/item?id=47785582",
+      "interest": "**",
+      "score": 33,
+      "category": "OSS",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-16T10:19:36"
+}

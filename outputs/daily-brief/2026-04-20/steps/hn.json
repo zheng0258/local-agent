@@ -1,0 +1,61 @@
+{
+  "articles": [
+    {
+      "title": "Opus 4.6 與 Opus 4.7 的匿名請求 token 比較",
+      "url": "https://news.ycombinator.com/item?id=47816960",
+      "interest": "***",
+      "score": 586,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "Vercel 表示內部系統遭入侵",
+      "url": "https://news.ycombinator.com/item?id=47824976",
+      "interest": "***",
+      "score": 200,
+      "category": "Web Security",
+      "source": ""
+    },
+    {
+      "title": "Notion 洩漏所有公開頁面編輯者的電子郵件地址",
+      "url": "https://news.ycombinator.com/item?id=47824945",
+      "interest": "***",
+      "score": 125,
+      "category": "Privacy/Security",
+      "source": ""
+    },
+    {
+      "title": "Show HN：Google Gemini 正在掃描您的照片——歐盟說不",
+      "url": "https://news.ycombinator.com/item?id=47825520",
+      "interest": "***",
+      "score": 24,
+      "category": "AI Development",
+      "source": ""
+    },
+    {
+      "title": "NIST 科學家創製「任意波長」雷射",
+      "url": "https://news.ycombinator.com/item?id=47819453",
+      "interest": "**",
+      "score": 385,
+      "category": "Science/Tech",
+      "source": ""
+    },
+    {
+      "title": "Show HN：Shader Lab，类似 Photoshop 但用于 shader",
+      "url": "https://news.ycombinator.com/item?id=47796759",
+      "interest": "**",
+      "score": 97,
+      "category": "Development Tools",
+      "source": ""
+    },
+    {
+      "title": "Show HN：使用 Gemma 4 E2B 的 Prompt-to-Excalidraw 瀏覽器演示（3.1GB）",
+      "url": "https://news.ycombinator.com/item?id=47823460",
+      "interest": "**",
+      "score": 52,
+      "category": "AI/Tools",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-20T02:21:19"
+}

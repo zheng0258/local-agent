@@ -1,0 +1,215 @@
+{
+  "articles": [
+    {
+      "title": "個人網站「懸垂與我．com」令人驚嘆，將全國超過1萬座「可拉單槓的公園」製作地圖",
+      "url": "https://www.itmedia.co.jp/news/articles/2604/13/news068.html",
+      "bookmarks": 76,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "翻譯文章「AI 程式碼生成工具加速下，品質保證活動該如何應對」- Broccoli部落格",
+      "url": "https://nihonbuson.hatenadiary.jp/entry/QA-activities-in-response-to-generated-code",
+      "bookmarks": 181,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "Mac連續運作49.7天會發生無法連上網路的Bug。對使用者的影響為何？【ヤジウマWatch】",
+      "url": "https://internet.watch.impress.co.jp/docs/yajiuma/2101090.html",
+      "bookmarks": 89,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "「日本農業效率低落」「用AI和感測器取代就好」高呼的人所不知的農業本質",
+      "url": "https://diamond.jp/articles/-/387171",
+      "bookmarks": 195,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "讓 DESIGN.md 以真正能用的日文UI形態｜hirokaji",
+      "url": "https://note.com/tasty_dunlin998/n/nf1b04ebc7600",
+      "bookmarks": 534,
+      "interest": "**",
+      "category": "OSS 開發"
+    },
+    {
+      "title": "可直接插入USB-C充電的3號電池，大創登場。是戶外活動的必需品",
+      "url": "https://www.gizmodo.jp/2026/04/daiso-type-c_rechargeable-battery_review.html",
+      "bookmarks": 210,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "Unitree的人形機器人H1達成每秒10公尺，逼近尤塞恩·博爾特的人類最速紀錄",
+      "url": "https://gigazine.net/news/20260413-unitree-h1-10m-s/",
+      "bookmarks": 13,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "比起增加GitHub設定，更想減少運用的模糊地帶——Gurunavi Wedding重新檢視的GitHub運用",
+      "url": "https://developers.gnavi.co.jp/entry/github-operation/",
+      "bookmarks": 28,
+      "interest": "**",
+      "category": "OSS 開發"
+    },
+    {
+      "title": "「開發者不要再使用Secret（機密金鑰）」GitHub介紹「今天就能做」的4項資安對策",
+      "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/13/news057.html",
+      "bookmarks": 17,
+      "interest": "***",
+      "category": "Web 資安"
+    },
+    {
+      "title": "Microsoft正式推出可透過安裝程式分發的本地AI環境「Foundry Local」。同時支援Mac與Linux",
+      "url": "https://www.publickey1.jp/blog/26/aifoundry_localmaclinux.html",
+      "bookmarks": 281,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "受伊朗局勢影響採購不穩，TOTO停止系統浴廁等訂單 | NHK新聞",
+      "url": "https://news.web.nhk/newsweb/na/na-k10015098231000",
+      "bookmarks": 27,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "「Claude Code」強制全社員使用後……86%無程式設計經驗者達成部署，Goodpatch公開成果",
+      "url": "https://www.itmedia.co.jp/aiplus/articles/2604/13/news089.html",
+      "bookmarks": 14,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "【Brynhildr】自FF11廢人以來20多年製作遠端桌面工具的理由【Focus】- Levante LAB",
+      "url": "https://levtech.jp/media/detail_844/",
+      "bookmarks": 104,
+      "interest": "**",
+      "category": "獨立開發"
+    },
+    {
+      "title": "【西川和久的不定期專欄】只用瀏覽器即可本地LLM。用WebGPU測試Gemma-4與Qwen 3.5",
+      "url": "https://pc.watch.impress.co.jp/docs/column/nishikawa/2100827.html",
+      "bookmarks": 126,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "【海外科技Watch】Claude Code原始碼外洩——由Anthropic的失態引發的Agent重新實作競賽",
+      "url": "https://cloud.watch.impress.co.jp/docs/column/techwatch/2101100.html",
+      "bookmarks": 24,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "Microsoft正式提供「Foundry Local」～全面支援本地AI的應用程式整合／從最佳模型選擇到加速處理",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2101086.html",
+      "bookmarks": 5,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "加入Sakura Internet一年半後成為雲端服務產品負責人 - 田毛林メモ",
+      "url": "https://tagomoris.hatenablog.com/entry/2026/04/13/095426",
+      "bookmarks": 65,
+      "interest": "*",
+      "category": "職涯"
+    },
+    {
+      "title": "iOS更新讓自己的iPhone無法進入——某名學生的1週",
+      "url": "https://joho-todai.com/ios-update-blocked-iphone-student-week/",
+      "bookmarks": 46,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "2026年度新進員工研修「CyberAgent的資料庫活用案例與效能調查入門」",
+      "url": "https://developers.cyberagent.co.jp/blog/archives/63348/",
+      "bookmarks": 19,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "首都圈私鐵車站可領取「povo」數據，14日起",
+      "url": "https://k-tai.watch.impress.co.jp/docs/news/2101222.html",
+      "bookmarks": 9,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "希望出版文庫本的科技讀物10選 - YAMDAS最新更新記錄",
+      "url": "https://yamdas.hatenablog.com/entry/20260413/should-have-been-bunko",
+      "bookmarks": 71,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "可用Claude進行Word摘要與修正的擴充功能「Claude for Word」登場，至此Word・Excel・PowerPoint用擴充機能齊全",
+      "url": "https://gigazine.net/news/20260413-claude-for-word/",
+      "bookmarks": 8,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "常見於壓克力板注意事項等的獨特字體「f.k 機械雕刻」更新／改名為「機械雕刻用標準書體」，收錄文字擴充至2,663種",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2101044.html",
+      "bookmarks": 6,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "【Yajiuma PC Watch】Windows鎖定畫面時鐘最多大延遲30秒。這是規格",
+      "url": "https://pc.watch.impress.co.jp/docs/news/yajiuma/2101098.html",
+      "bookmarks": 21,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "VRAM消耗減60%的衝擊。App Mode與GeForce RTX讓ComfyUI更親民～初學者也不會絆倒的ComfyUI完全導入指南[Sponsored]",
+      "url": "https://pc.watch.impress.co.jp/docs/topic/special/2098901.html",
+      "bookmarks": 84,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "OpenAI執行長Sam Altman的住家遭到槍擊",
+      "url": "https://gigazine.net/news/20260413-sam-altman-second-attack/",
+      "bookmarks": 36,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "解讀日本石腦油供應的「堵塞」一詞 | 塑膠棧板企劃・銷售 Plastics Pallet株式會社",
+      "url": "https://plastic-pallet.co.jp/supply-imbalances-and-bottlenecks-in-naphtha-related-products2026/",
+      "bookmarks": 10,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "「Google Pixel 10a」評測：展現a系列獨特的取捨智慧，如何看待與Pixel 9a的差異是關鍵",
+      "url": "https://www.itmedia.co.jp/mobile/articles/2604/13/news058.html",
+      "bookmarks": 12,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "橘玲談「知識社會」的殘酷真相…AI時代，不讀書的人會更被拋下 | 集英社Online",
+      "url": "https://shueisha.online/articles/-/257151",
+      "bookmarks": 18,
+      "interest": "*",
+      "category": "職涯"
+    },
+    {
+      "title": "【前篇】PowerPoint的內容其實是「巢狀的盒子」——用python-pptx徹底揭露投影片結構",
+      "url": "https://zenn.dev/investaitech/articles/16d21fdd32e730",
+      "bookmarks": 87,
+      "interest": "**",
+      "category": "技術棧"
+    }
+  ],
+  "fetched_at": "2026-04-13T20:30:31"
+}

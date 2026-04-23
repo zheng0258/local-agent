@@ -1,0 +1,125 @@
+{
+  "articles": [
+    {
+      "title": "將 Claude Code 培養至 Level 5 後，開發工作變得「只需指示與確認」— 以實際檔案結構解說",
+      "url": "https://qiita.com/teppei19980914/items/8da88b33ffa8cf88dfa2",
+      "interest": "***",
+      "score": 329,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "Anthropic 重新打造桌面版「Claude Code」—支援多代理的 UI、可過濾的會話列表、側邊欄工具、分割畫面等功能",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2101936.html",
+      "interest": "***",
+      "score": 203,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "「Claude Code」桌面版大幅改觀——配合「並列代理時代」重新設計",
+      "url": "https://ascii.jp/elem/000/004/395/4395128/",
+      "interest": "***",
+      "score": 77,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "Cloudflare 真的可以這麼免費嗎——致那些尚未察覺「雲端」定義已被改寫的人們",
+      "url": "https://note.com/o_ob/n/ndadf268735f4",
+      "interest": "**",
+      "score": 486,
+      "category": "SaaS",
+      "source": ""
+    },
+    {
+      "title": "網際網路通訊協定第 8 版 (IPv8)",
+      "url": "https://www.ietf.org/archive/id/draft-thain-ipv8-00.html",
+      "interest": "**",
+      "score": 155,
+      "category": "其他科技話題",
+      "source": ""
+    },
+    {
+      "title": "Claude 在 Windows 上持續出錯——Anthropic 的盲點",
+      "url": "https://joho-todai.com/claude-windows-breaking-anthropic-blind-spot/",
+      "interest": "**",
+      "score": 89,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "SoR 的復甦與 SoI 時代的來臨",
+      "url": "https://takoratta.hatenablog.com/entry/2026/04/15/183643",
+      "interest": "**",
+      "score": 51,
+      "category": "SaaS",
+      "source": ""
+    },
+    {
+      "title": "為避免在 Claude Code 並列作業時「黏在螢幕前」所做的調整",
+      "url": "https://zenn.dev/pepabo/articles/claude-code-stop-watching-parallel-work",
+      "interest": "**",
+      "score": 50,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "大學考試允許「使用 AI」，我認為「輕鬆搞定」直接複製題目問答案，結果只輸出「b」…→查後發現有驚人機制",
+      "url": "https://togetter.com/li/2686397",
+      "interest": "**",
+      "score": 48,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "維繫 23 年的開源軟體，歷時 9 年終於修復的 Bug",
+      "url": "https://www.m3tech.blog/entry/2026/04/15/150000",
+      "interest": "**",
+      "score": 46,
+      "category": "OSS 開發",
+      "source": ""
+    },
+    {
+      "title": "如何安全地使用 AI 代理？實際測試 Claude Code 的沙盒功能",
+      "url": "https://www.m3tech.blog/entry/claude-code-sandbox",
+      "interest": "**",
+      "score": 40,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "使用 Ollama 與 OpenCode 建構本地 AI 編碼環境的實戰經驗",
+      "url": "https://dev.classmethod.jp/articles/ollama-opencode-setup/",
+      "interest": "**",
+      "score": 29,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "Anthropic 為「Claude Code」導入自動執行「Routine」—即使關閉 PC 也能持續開發",
+      "url": "https://www.itmedia.co.jp/aiplus/articles/2604/15/news086.html",
+      "interest": "**",
+      "score": 28,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "Microsoft 以開源方式公開支援 PostgreSQL/MySQL/SQL Server 等多數據庫同時連接的「SQL MCP Server」",
+      "url": "https://www.publickey1.jp/blog/26/postgresqlmysqlsql_serversql_mcp_server.html",
+      "interest": "**",
+      "score": 21,
+      "category": "AI 開發工具",
+      "source": ""
+    },
+    {
+      "title": "Anthropic 推出「Claude Code」新功能「Routine」—自動執行的新機制",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2101693.html",
+      "interest": "**",
+      "score": 9,
+      "category": "AI 開發工具",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-16T09:45:23"
+}

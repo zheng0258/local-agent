@@ -1,0 +1,32 @@
+今日重點摘要（2026-04-16）：
+
+🤖 Claude Code 生態系大改版
+• <b><a href="https://qiita.com/teppei19980914/items/8da88b33ffa8cf88dfa2">將 Claude Code 培養至 Level 5 後，開發工作變得「只需指示與確認」</a></b> — 作者透過系統性訓練將 Claude Code 提升至高度自治等級，實現只需清晰指示與結果確認即可完成複雜功能開發。此方法論對希望提升 AI 開發效率的工程師具高度實用價值。
+
+• <b><a href="https://forest.watch.impress.co.jp/docs/news/2101936.html">Anthropic 重新打造桌面版「Claude Code」—支援多代理的 UI、可過濾的會話列表</a></b> — 全面重製桌面應用程式，核心升級包括多代理並行 UI、可過濾的對話歷史、整合式側邊欄工具。設計哲學是將 AI 從「聊天介面」重新定位為「開發環境整合層」。
+
+• <b><a href="https://ascii.jp/elem/000/004/395/4395128/">「Claude Code」桌面版大幅改觀——配合「並列代理時代」重新設計</a></b> — 核心戰略是迎向多代理協作模式，不同 AI 負責架構設計、實作、測試等不同角色。標誌著 AI 開發工具從「輔助編碼」邁向「自主工程團隊」的關鍵轉折點。
+
+• <b><a href="https://www.reddit.com/r/ClaudeCode/comments/1smgfrt/how_to_properly_deal_with_a_claudemd_file/">如何正確處理 CLAUDE.md 檔案</a></b> — 社群討論專案級上下文設定檔的最佳實踐，包含程式碼風格規範、linting 規則、測試框架偏好等。常見誤區是寫入過多細節，應聚焦「原則」而非「實作」。
+
+🔐 資安威脅與供應鏈攻擊警報
+• <b><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat">Axios npm 包遭竊取：維護者帳號被劫持並植入遠程控制惡意軟體</a></b> — 高風險供應鏈攻擊，Axios 維護者帳號遭憑證填充攻擊劫持，發布含遠端管理員的惡意版本。影響範圍極廣，Axios 是 Node.js 最廣泛使用的 HTTP 客戶端函式庫之一。
+
+• <b><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine">GlassWorm 原生化：新 Zig 投放程式感染所有 IDE</a></b> — 新型惡意軟體使用 Zig 編寫，專門感染開發者機器上的所有 IDE。外掛至 IDE 進程後靜默上傳程式碼，選擇 Zig 是因為其可編譯為極小靜態 binary。
+
+• <b><a href="https://www.reddit.com/r/cybersecurity/comments/1smh6eh/cisa_flags_windows_task_host_vulnerability_as/">CISA 標記 Windows Task Host 漏洞遭攻擊利用</a></b> — CISA 緊急標記遠端執行漏洞正被 actively exploited，攻擊者可透過惡意網路流量觸發任意程式碼執行。企業環境尤其脆弱，建議立即部署網絡層過濾規則。
+
+• <b><a href="https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities">Aikido 發現 Hoppscotch 多個零日漏洞</a></b> — AI 滲透測試平台自動發現 XSS、SSRF、敏感資訊洩漏等多個零日漏洞。此案例驗證 AI 驅動安全測試的實戰能力，無需人工干預即可識別複雜漏洞鏈。
+
+• <b><a href="https://www.reddit.com/r/netsec/comments/1skwr2x/codex_hacked_a_samsung_tv/">Codex 成功駭入三星智慧電視</a></b> — 透過 Tizen OS 記憶體損毀漏洞取得完全控制權，可安裝惡意軟體、監控觀看行為或作為 botnet 節點。凸顯 IoT 設備供應鏈驗證與漏洞管理的系統性弱點。
+
+📰 AI 平台與其他科技新聞
+• <b><a href="https://news.ycombinator.com/item?id=47782570">Google 背棄对我的承諾——現在 ICE 有了我的資料</a></b> — 用戶揭露 Google 大規模分享使用者資料予美國移民執法機構 ICE，涉嫌背離隱私政策承諾。此事件重新點燃對「免費服務」隱私代價的爭議。
+
+• <b><a href="https://news.ycombinator.com/item?id=47782256">Gemini 應用程式現在支援 Mac</a></b> — Google 正式推出 Gemini AI 助手原生 Mac 應用程式，完備跨平台佈局。與 Apple Siri、Microsoft Copilot 直接競爭，爭奪 Mac 用戶的預設 AI 入口。
+
+• <b><a href="https://www.reddit.com/r/LocalLLaMA/comments/1smb3wd/1bit_bonsai_17b_290mb_in_size_running_locally_in/">1-bit Bonsai 1.7B 模型瀏覽器本地運行</a></b> — 革命性量化技術使 1.7B 參數模型壓縮至僅 290MB，可直接在瀏覽器中運行。此技術若成熟將徹底改變邊緣 AI 部署，使低階手機也能運行 LLM。
+
+• <b><a href="https://www.reddit.com/r/ChatGPT/comments/1smgpy6/ran_chatgpt_plus_and_claude_pro_side_by_side_for/">ChatGPT Plus 對決 Claude Pro，30 天實戰比較</a></b> — 用戶並行使用實驗顯示：工程任務 Claude 略勝、創意內容 GPT-4 更靈活、分析任務取決於提示技巧。文章詳細記錄每日使用情境與兩者優劣表現。
+
+• <b><a href="https://news.ycombinator.com/item?id=47769089">網路安全現在看起來像工作量證明</a></b> — 文章論證現代網路安全已演變成「資源消耗對決」模式，類似區塊鏈的工作量證明機制。作者憂心這種比攻擊者更耗能的競速賽模式不可持續。

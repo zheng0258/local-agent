@@ -1,0 +1,162 @@
+{
+  "compressed_at": "2026-04-17T21:33:25",
+  "hatena": {
+    "themes": [
+      "本地化AI小型化趨勢",
+      "企業級AI平台與自動化",
+      "AI資安攻防新戰線"
+    ],
+    "articles": [
+      {
+        "title": "「1.58 位元進化所以 8GB 足夠。請交給我」Bonsai 這麼說，植入 MacBook Neo 體驗性能差距。iPhone 也能輕鬆運行，本地 AI 超進化中（CloseBox）",
+        "url": "https://www.techno-edge.net/article/2026/04/17/4997.html",
+        "one_liner": "Bonsai AI 實現小型化，8GB 記憶體即可運行於 Mac/iPhone",
+        "interest": "***"
+      },
+      {
+        "title": "NIST 終於放棄「漏洞全數分析」CVE 暴增導致崩潰，改變方針",
+        "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/17/news034.html",
+        "one_liner": "NIST 因 CVE 數量暴增放棄全數分析，改變漏洞管理方針",
+        "interest": "***"
+      },
+      {
+        "title": "Mozilla 發布 AI 執行環境「Thunderbolt」，可自行 host 管理的企業用 AI client 平台",
+        "url": "https://gigazine.net/news/20260417-mozilla-thunderbolt/",
+        "one_liner": "Mozilla 推出企業用自託管 AI 執行環境平台 Thunderbolt",
+        "interest": "***"
+      },
+      {
+        "title": "OpenAI 的「Codex」大幅更新，PC 應用程式操作與自動化變可能",
+        "url": "https://japan.cnet.com/article/35246560/",
+        "one_liner": "OpenAI Codex 大更新，支援 PC 應用程式自動化操作",
+        "interest": "***"
+      },
+      {
+        "title": "OpenAI「Codex」刷新，支援 PC 直接操作成為泛用作業 agent",
+        "url": "https://www.itmedia.co.jp/aiplus/articles/2604/17/news071.html",
+        "one_liner": "Codex 進化成為泛用 PC 作業代理，直接操作應用程式",
+        "interest": "***"
+      },
+      {
+        "title": "超越人類智慧的「Claude Mythos」限定發布開始，網路安全歷史轉折點的「AI 紅隊」是什麼【生成 AI Stream】",
+        "url": "https://forest.watch.impress.co.jp/docs/serial/aistream/2102602.html",
+        "one_liner": "Claude Mythos 限定發布，AI 紅隊成為資安歷史轉捩點",
+        "interest": "***"
+      }
+    ]
+  },
+  "hn": {
+    "themes": [
+      "AI 模型發布與開發",
+      "AI 基礎設施與平台化",
+      "AI 質疑與資源焦慮"
+    ],
+    "articles": [
+      {
+        "title": "Claude Opus 4.7",
+        "url": "https://news.ycombinator.com/item?id=47793411",
+        "one_liner": "Anthropic 最新旗艦 AI 模型發布"
+      },
+      {
+        "title": "Qwen3.6-35B-A3B: Agentic coding power, now open to all",
+        "url": "https://news.ycombinator.com/item?id=47792764",
+        "one_liner": "Qwen 開放代碼生成代理模型給大眾"
+      },
+      {
+        "title": "Codex for almost everything",
+        "url": "https://news.ycombinator.com/item?id=47796469",
+        "one_liner": "AI 代碼生成應用範圍持續擴大"
+      },
+      {
+        "title": "The future of everything is lies, I guess: Where do we go from here?",
+        "url": "https://news.ycombinator.com/item?id=47792718",
+        "one_liner": "質疑 AI 發展方向與未來路徑"
+      },
+      {
+        "title": "Cloudflare's AI Platform: an inference layer designed for agents",
+        "url": "https://news.ycombinator.com/item?id=47792538",
+        "one_liner": "Cloudflare 推出 AI 代理推論平台"
+      },
+      {
+        "title": "The beginning of scarcity in AI",
+        "url": "https://news.ycombinator.com/item?id=47799322",
+        "one_liner": "AI 資源稀缺時代可能已來臨"
+      },
+      {
+        "title": "Show HN: SPICE simulation → oscilloscope → verification with Claude Code",
+        "url": "https://news.ycombinator.com/item?id=47801255",
+        "one_liner": "用 Claude Code 驗證電路模擬流程"
+      }
+    ]
+  },
+  "reddit": {
+    "themes": [
+      "資安漏洞與零日攻擊",
+      "AI 開發工具熱議"
+    ],
+    "articles": [
+      {
+        "title": "新微軟 Defender「RedSun」零日 PoC 取得 SYSTEM 權限",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/",
+        "one_liner": "Defender RedSun 零日漏洞可獲取 SYSTEM 權限",
+        "interest": "***"
+      },
+      {
+        "title": "RedSun：Windows Defender 修復如何變成 SYSTEM 檔案寫入",
+        "url": "https://www.reddit.com/r/netsec/comments/1snglu3/redsun_how_windows_defenders_remediation_became_a/",
+        "one_liner": "Defender 修復機制被利用成 SYSTEM 檔案寫入漏洞",
+        "interest": "***"
+      },
+      {
+        "title": "Anthropic 的 MCP 協議有影響 20 萬伺服器的關鍵缺陷",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/",
+        "one_liner": "MCP 協議嚴重漏洞危及二十萬台伺服器",
+        "interest": "***"
+      },
+      {
+        "title": "HAProxy HTTP/3 至 HTTP/1 脫節：透過獨立 QUIC FIN 跨協議夾帶",
+        "url": "https://www.reddit.com/r/netsec/comments/1snem8w/haproxy_http3_http1_desync_crossprotocol/",
+        "one_liner": "HAProxy 跨協議漏洞可繞過安全檢查",
+        "interest": "***"
+      },
+      {
+        "title": "Opus 4.7 🔥🔥",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1sn5vdd/opus_47/",
+        "one_liner": "Opus 4.7 版本更新引發熱烈討論",
+        "interest": "***"
+      },
+      {
+        "title": "Opus 4.7 超強",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1snpmv4/opus_47_is_amazing/",
+        "one_liner": "使用者盛讚 Opus 4.7 表現驚豔",
+        "interest": "***"
+      }
+    ]
+  },
+  "security": {
+    "themes": [
+      "CVE漏洞管理與評估",
+      "新型恶意软件威脅"
+    ],
+    "articles": [
+      {
+        "title": "NIST NVD縮減背景下的可靠 CVE 來源",
+        "url": "https://www.aikido.dev/blog/nist-nvd-changes-2026",
+        "one_liner": "NIST NVD縮減下如何尋找可靠CVE來源",
+        "interest": "***"
+      },
+      {
+        "title": "Axios 嚴重漏洞實測無法利用",
+        "url": "https://www.aikido.dev/blog/axios-cve-2026-40175-a-critical-bug-thats-not-exploitable",
+        "one_liner": "Axios嚴重漏洞經過測試無法被利用",
+        "interest": "***"
+      },
+      {
+        "title": "GlassWorm 新型 Zig 投放程式入侵 IDE",
+        "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+        "one_liner": "新型Zig投放程式感染所有IDE",
+        "interest": "***"
+      }
+    ]
+  }
+}

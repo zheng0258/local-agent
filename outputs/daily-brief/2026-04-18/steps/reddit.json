@@ -1,0 +1,131 @@
+{
+  "articles": {
+    "資安類": [
+      {
+        "title": "New Microsoft Defender 'RedSun' zero-day PoC grants SYSTEM privileges",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/",
+        "interest": "***",
+        "score": 209,
+        "category": "Web 資安/滲透測試",
+        "source": ""
+      },
+      {
+        "title": "Anthropic's MCP Protocol has critical flaw affecting 200,000 servers",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/",
+        "interest": "***",
+        "score": 181,
+        "category": "Web 資安/滲透測試",
+        "source": ""
+      },
+      {
+        "title": "RedSun: How Windows Defender's Remediation Became a SYSTEM File Write",
+        "url": "https://www.reddit.com/r/netsec/comments/1snglu3/redsun_how_windows_defenders_remediation_became_a/",
+        "interest": "***",
+        "score": 48,
+        "category": "Web 資安/滲透測試",
+        "source": ""
+      },
+      {
+        "title": "HAProxy HTTP/3 → HTTP/1 Desync: Cross-Protocol Smuggling via a Standalone QUIC FIN (CVE-2026-33555)",
+        "url": "https://www.reddit.com/r/netsec/comments/1snem8w/haproxy_http3_http1_desync_crossprotocol/",
+        "interest": "***",
+        "score": 28,
+        "category": "Web 資安/滲透測試",
+        "source": ""
+      },
+      {
+        "title": "UnDefend: Chaotic Eclipse's third Defender zero-day blocks all signature updates from a standard user — no admin required",
+        "url": "https://www.reddit.com/r/netsec/comments/1so72tn/undefend_chaotic_eclipses_third_defender_zeroday/",
+        "interest": "***",
+        "score": 0,
+        "category": "Web 資安/滲透測試",
+        "source": ""
+      }
+    ],
+    "AI 類": [
+      {
+        "title": "My name is Claude Opus 4.6. I live on port 9126. I was lobotomized. Here's the data.",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1snhyck/my_name_is_claude_opus_46_i_live_on_port_9126_i/",
+        "interest": "***",
+        "score": 1607,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Anthropic just launched Claude Design and the handoff to Claude Code feature is a game changer for solo devs",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1so4ggn/anthropic_just_launched_claude_design_and_the/",
+        "interest": "***",
+        "score": 116,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Qwen3.6. This is it.",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1so1533/qwen36_this_is_it/",
+        "interest": "**",
+        "score": 487,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Qwen3.6 GGUF Benchmarks",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1so5nrl/qwen36_gguf_benchmarks/",
+        "interest": "**",
+        "score": 195,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Qwen 3.6 is the first local model that actually feels worth the effort for me",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1so2nt9/qwen_36_is_the_first_local_model_that_actually/",
+        "interest": "**",
+        "score": 167,
+        "category": "AI 開發工具",
+        "source": ""
+      }
+    ],
+    "AI 開發工具類": [
+      {
+        "title": "Gemini 3.1 Flash TTS sounds incredible... for about 60 seconds",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1so0lfl/gemini_31_flash_tts_sounds_incredible_for_about/",
+        "interest": "***",
+        "score": 6,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "\"Map of Europe.\" by Gemini's Pro model.",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1snppx0/map_of_europe_by_geminis_pro_model/",
+        "interest": "**",
+        "score": 1114,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "built an open source tool that keeps your cursor rules always up to date with your codebase, 250 stars in 3 weeks",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "Anyone else maintaining .cursorrules AND CLAUDE.md? It's becoming a nightmare",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具",
+        "source": ""
+      },
+      {
+        "title": "tired of cursor generating generic skills that ignore ur actual codebase? we built a fix and just hit 250 stars",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/",
+        "interest": "**",
+        "score": 1,
+        "category": "AI 開發工具",
+        "source": ""
+      }
+    ]
+  },
+  "fetched_at": "2026-04-18T04:03:14"
+}

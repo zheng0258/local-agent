@@ -1,0 +1,172 @@
+{
+  "compressed_at": "2026-04-13T23:17:56",
+  "hatena": {
+    "themes": [
+      "AI開發工具與本地化環境",
+      "Web資安實務"
+    ],
+    "articles": [
+      {
+        "title": "AI程式碼生成工具加速下，品質保證活動該如何應對",
+        "url": "https://nihonbuson.hatenadiary.jp/entry/QA-activities-in-response-to-generated-code",
+        "one_liner": "AI生成程式時代的QA新策略"
+      },
+      {
+        "title": "「開發者不要再使用Secret（機密金鑰）」GitHub介紹「今天就能做」的4項資安對策",
+        "url": "https://atmarkit.itmedia.co.jp/ait/articles/2604/13/news057.html",
+        "one_liner": "GitHub推動零Secret資安實踐"
+      },
+      {
+        "title": "Microsoft正式推出可透過安裝程式分發的本地AI環境「Foundry Local」。同時支援Mac與Linux",
+        "url": "https://www.publickey1.jp/blog/26/aifoundry_localmaclinux.html",
+        "one_liner": "跨平台本地AI環境登場"
+      },
+      {
+        "title": "「Claude Code」強制全社員使用後……86%無程式設計經驗者達成部署，Goodpatch公開成果",
+        "url": "https://www.itmedia.co.jp/aiplus/articles/2604/13/news089.html",
+        "one_liner": "非工程師86%成功部署案例"
+      },
+      {
+        "title": "只用瀏覽器即可本地LLM。用WebGPU測試Gemma-4與Qwen 3.5",
+        "url": "https://pc.watch.impress.co.jp/docs/column/nishikawa/2100827.html",
+        "one_liner": "瀏覽器WebGPU跑本地LLM"
+      },
+      {
+        "title": "Claude Code原始碼外洩——由Anthropic的失態引發的Agent重新實作競賽",
+        "url": "https://cloud.watch.impress.co.jp/docs/column/techwatch/2101100.html",
+        "one_liner": "原始碼外洩引發重實作競賽"
+      },
+      {
+        "title": "Microsoft正式提供「Foundry Local」～全面支援本地AI的應用程式整合",
+        "url": "https://forest.watch.impress.co.jp/docs/news/2101086.html",
+        "one_liner": "本地AI全功能整合方案"
+      },
+      {
+        "title": "可用Claude進行Word摘要與修正的擴充功能「Claude for Word」登場",
+        "url": "https://gigazine.net/news/20260413-claude-for-word/",
+        "one_liner": "Office三寶AI擴充齊全"
+      },
+      {
+        "title": "VRAM消耗減60%的衝擊。App Mode與GeForce讓ComfyUI更親民",
+        "url": "https://pc.watch.impress.co.jp/docs/topic/special/2098901.html",
+        "one_liner": "VRAM省60%讓ComfyUI普及"
+      }
+    ]
+  },
+  "hn": {
+    "themes": [
+      "AI 工具與限制",
+      "網路基礎設施安全"
+    ],
+    "articles": [
+      {
+        "title": "Tell HN：Docker pull 因足球賽 Cloudflare 封鎖在西班牙失敗",
+        "url": "https://news.ycombinator.com/item?id=47738883",
+        "one_liner": "大型活動導致 CDN 誤殺，影響 Docker 拉取",
+        "interest": "***"
+      },
+      {
+        "title": "利用並操縱最知名的 AI Agent 基準測試",
+        "url": "https://news.ycombinator.com/item?id=47733217",
+        "one_liner": "AI 基準測試可被操縱，指標不可盡信",
+        "interest": "***"
+      },
+      {
+        "title": "Pro Max 5x 配額在 1.5 小時內耗盡，儘管使用量適中",
+        "url": "https://news.ycombinator.com/item?id=47739260",
+        "one_liner": "AI 配額機制不合理，正常使用即耗盡",
+        "interest": "***"
+      }
+    ]
+  },
+  "reddit": {
+    "themes": [
+      "AI 驅動的新型資安威脅",
+      "Cursor AI 開發工具生態系",
+      "AI 輔助程式設計文化"
+    ],
+    "articles": [
+      {
+        "title": "CVE-2025-8061：從使用者空間到 Ring 0",
+        "url": "https://www.reddit.com/r/netsec/comments/1sk4j5o/cve20258061_from_userland_to_ring_0/",
+        "one_liner": "使用者空間提權至核心 Ring 0 漏洞"
+      },
+      {
+        "title": "一個大寫字母摧毀所有 Nuxt 應用程式",
+        "url": "https://www.reddit.com/r/netsec/comments/1sk6xc3/one_uppercase_letter_breaks_every_nuxt_app/",
+        "one_liner": "Nuxt 框架致命安全性漏洞"
+      },
+      {
+        "title": "Claude + 人類 vs nginx：CVE-2026-27654",
+        "url": "https://www.reddit.com/r/netsec/comments/1si3xvv/claude_humans_vs_nginx_cve202627654/",
+        "one_liner": "AI 協助人類發現 nginx 漏洞"
+      },
+      {
+        "title": "thermaltake.com 遭 ClickFix 攻擊入侵",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1sjouxv/thermaltakecom_hacked_with_a_clickfix_attack/",
+        "one_liner": "Thermaltake 遭 ClickFix 攻擊入侵"
+      },
+      {
+        "title": "受夠 Cursor 產生忽略你們程式庫的通用技能？我們做了個修復方案並獲得 250 stars",
+        "url": "https://www.reddit.com/r/cursor_ai/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/",
+        "one_liner": "解決 Cursor 通用技能問題工具"
+      },
+      {
+        "title": "打造开源工具保持 Cursor 規則與程式庫同步，3週獲 250 stars",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/",
+        "one_liner": "自動同步 Cursor 規則開源工具"
+      },
+      {
+        "title": "有人同時維護 .cursorrules 和 CLAUDE.md 嗎？這成了惡夢",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/",
+        "one_liner": "雙重 AI 配置維護成痛點"
+      },
+      {
+        "title": "平均「Vibe Coder」討論",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1sjb4ft/average_vibe_coder_discourse/",
+        "one_liner": "AI 時代「感覺式編程」現象"
+      },
+      {
+        "title": "駭客使用 Claude 和 ChatGPT 入侵多個政府機構",
+        "url": "https://www.reddit.com/r/technology/comments/1sjja5u/hacker_uses_claude_and_chatgpt_to_breach_multiple/",
+        "one_liner": "AI 輔助入侵多政府機構"
+      },
+      {
+        "title": "發布 Re2js v2 - 純粹 JS 正則引擎擊敗 ReDoS",
+        "url": "https://www.reddit.com/r/javascript/comments/1sj5z8i/release_re2js_v2_a_pure_js_regexp_engine_that/",
+        "one_liner": "純 JS 引擎防範 ReDoS 攻擊"
+      },
+      {
+        "title": "建立具「說悄悄話者」的 MCP 伺服器，決定哪個 AI 模型處理編碼環節",
+        "url": "https://www.reddit.com/r/opensource/comments/1sk8eyo/built_an_mcp_server_with_a_whisperer_that_decides/",
+        "one_liner": "智能分配 AI 模型的 MCP 伺服器"
+      }
+    ]
+  },
+  "security": {
+    "themes": [
+      "開發供應鏈攻擊",
+      "IDE與開發工具惡意程式"
+    ],
+    "articles": [
+      {
+        "title": "GlassWorm goes native：New Zig dropper infects every IDE on your machine",
+        "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+        "one_liner": "Zig程式感染所有IDE開發環境",
+        "interest": "***"
+      },
+      {
+        "title": "axios compromised on npm: maintainer account hijacked, RAT deployed",
+        "url": "https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat",
+        "one_liner": "npm維護者帳號遭竊取部署RAT",
+        "interest": "***"
+      },
+      {
+        "title": "TeamPCP deploys CanisterWorm on NPM following Trivy compromise",
+        "url": "https://www.aikido.dev/blog/teampcp-deploys-worm-npm-trivy-compromise",
+        "one_liner": "Trivy遭竊後植入NPM蠕蟲",
+        "interest": "***"
+      }
+    ]
+  }
+}

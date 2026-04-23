@@ -1,0 +1,215 @@
+{
+  "articles": [
+    {
+      "title": "8 歲次男在《喵星人大戰》課金 90 萬日元",
+      "url": "https://togetter.com/li/2685069",
+      "bookmarks": 171,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "工程師歷 20 年的我，向素人 Vibes Coding 派別陳情",
+      "url": "https://qiita.com/Akira-Isegawa/items/00f23d206c504db2ac3b",
+      "bookmarks": 852,
+      "interest": "*",
+      "category": "職涯"
+    },
+    {
+      "title": "【徳丸本總結】一次性整理 Web App 脆弱性與對策",
+      "url": "https://qiita.com/nkngtic/items/6ac857cdbbd13a363f4d",
+      "bookmarks": 74,
+      "interest": "***",
+      "category": "Web 資安"
+    },
+    {
+      "title": "未開封保管約 30 年的黑色巡迴 T 恤開箱洗滌後粉粉碎碎…「竟會破爛到這種地步」→ 似乎是乾式劣化現象",
+      "url": "https://togetter.com/li/2685050",
+      "bookmarks": 148,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "安裝 Claude Code 後立即要做的兩件事【從設定全消失後的再構築】",
+      "url": "https://note.com/kawaidesign/n/n4cfaf6394b8c",
+      "bookmarks": 102,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "Markdown 記法深奧有趣—僅用文字打造「易懂文件」的技術",
+      "url": "https://qiita.com/teppei19980914/items/36404f9ec9c786cde671",
+      "bookmarks": 344,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "\"寫文件\"已是過去式。讓 AI 從「程式碼自動生成」4 種文件的實踐指南",
+      "url": "https://qiita.com/akira_papa_AI/items/d46a6629b1aae835491d",
+      "bookmarks": 145,
+      "interest": "**",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "\"被說有 AI 味\"但就是 AI，該怎麼辦才好——Claude 自己調查思考後的心得",
+      "url": "https://zenn.dev/acntechjp/articles/c0591c4a642502",
+      "bookmarks": 19,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "掌握 AI Agent 開發核心概念的 100 行程式碼",
+      "url": "https://zenn.dev/meijin/articles/ai-agent-core-understanding-code",
+      "bookmarks": 49,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "【必須】防止在 GitHub 和 npm 引入脆弱套件 8 種防禦設定",
+      "url": "https://qiita.com/miruky/items/fcab851c5351f79b481d",
+      "bookmarks": 238,
+      "interest": "***",
+      "category": "Web 資安"
+    },
+    {
+      "title": "Jujutsu 為何在 AI 時代突然受到評價",
+      "url": "https://zenn.dev/oukayuka/books/353ad112b88613",
+      "bookmarks": 80,
+      "interest": "**",
+      "category": "OSS 開發"
+    },
+    {
+      "title": "如何在 Claude Code 中使用子 Agent（Subagents）",
+      "url": "https://claude.com/blog/subagents-in-claude-code",
+      "bookmarks": 9,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "無網路環境下用 VSCode 和 Ollama 建構 AI Code Assistant【2 種方法比較】",
+      "url": "https://qiita.com/rikiza1989/items/81cce309c0c642bd2d6e",
+      "bookmarks": 6,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "壓低 Claude Token 消耗延長 5 倍使用：\"原始人\"語氣削減 80%",
+      "url": "https://zenn.dev/mikana0918/articles/7ad57493a04f88",
+      "bookmarks": 773,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "鍵盤一體型 PC 讓工作環境超整齊 HP AI 搭載 PC「EliteBoard G1a Next Gen AI PC」評測",
+      "url": "https://gigazine.net/news/20260411-hp-eliteboard-g1a-next-gen-ai-pc/",
+      "bookmarks": 4,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "用 GitHub Copilot 半自動化自我評價後，挖掘出忘記的貢獻",
+      "url": "https://zenn.dev/headwaters/articles/953017b188a710",
+      "bookmarks": 85,
+      "interest": "*",
+      "category": "職涯"
+    },
+    {
+      "title": "區分人類還是機器人的測試，只有樂天的那個異常困難已經錯 10 次了但反而沒有成為對策嗎？「哪裡錯了…？\"",
+      "url": "https://togetter.com/li/2685014",
+      "bookmarks": 75,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "「Antrhopic 新 AI 模型召開美國財政部長等緊急會議」報導",
+      "url": "https://news.web.nhk/newsweb/na/na-k10015097101000",
+      "bookmarks": 6,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "Google 終於「重新定義」JavaScript。次世代分析基礎「JSIR」突破 AST 限制的緣由",
+      "url": "https://xenospectrum.com/jsir-google-mlir-javascript-analysis/",
+      "bookmarks": 9,
+      "interest": "**",
+      "category": "JavaScript/TypeScript"
+    },
+    {
+      "title": "用圖解整理 Amazon S3 Files 的費率體系",
+      "url": "https://dev.classmethod.jp/articles/amazon-s3-files-pricing-visual-guide/",
+      "bookmarks": 10,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "用認知科學重新設計 AI 秘書記憶後變了其他人的故事【附 Prompt】",
+      "url": "https://note.com/hatakejp/n/naae38195e8d8",
+      "bookmarks": 69,
+      "interest": "**",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "用 GitHub Copilot CLI 嘗試個人任務管理",
+      "url": "https://zenn.dev/microsoft/articles/copilot-task-management",
+      "bookmarks": 33,
+      "interest": "**",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "AI 搜尋對策，是與 SEO 不同的東西嗎？",
+      "url": "https://note.com/daishiro_taira/n/nb08a9e29e2d2",
+      "bookmarks": 5,
+      "interest": "*",
+      "category": "Technical SEO"
+    },
+    {
+      "title": "超越按規格運作。用 Claude Code 驗證\"可用性\"",
+      "url": "https://speakerdeck.com/gotalab555/shi-yang-tong-ridong-kunoxian-he-claude-codede-shi-eru-wojian-zheng-suru",
+      "bookmarks": 23,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "世界初！製作了 Vibes Coding 縱向滾動射擊遊戲",
+      "url": "https://note.com/shi3zblog/n/nc93e34da423f",
+      "bookmarks": 14,
+      "interest": "*",
+      "category": "獨立開發"
+    },
+    {
+      "title": "React 是 UI = f(State) 嗎？",
+      "url": "https://wtrclred.io/ja/posts/09",
+      "bookmarks": 32,
+      "interest": "**",
+      "category": "JavaScript/TypeScript"
+    },
+    {
+      "title": "提案：Playwright CLI + Claude Code 的自律 UI 修正開發",
+      "url": "https://zenn.dev/catatsumuri/articles/22227c79a94a86",
+      "bookmarks": 27,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "就是無法對帶小孩的人溫柔",
+      "url": "https://anond.hatelabo.jp/20260411135011",
+      "bookmarks": 204,
+      "interest": "*",
+      "category": "其他科技話題"
+    },
+    {
+      "title": "Claude Code 失敗學習迴路的製作方法，避免重複相同的 Review 指摘",
+      "url": "https://zenn.dev/pepabo/articles/claude-code-failure-learning-loop",
+      "bookmarks": 21,
+      "interest": "***",
+      "category": "AI 開發工具"
+    },
+    {
+      "title": "活用 Claude 的 Advisor tool 最佳化性能與成本的平衡",
+      "url": "https://azukiazusa.dev/blog/claude-advisor-tool/",
+      "bookmarks": 30,
+      "interest": "***",
+      "category": "AI 開發工具"
+    }
+  ],
+  "fetched_at": "2026-04-12T22:01:58"
+}

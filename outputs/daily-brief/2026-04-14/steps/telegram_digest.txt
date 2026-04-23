@@ -1,0 +1,22 @@
+深度摘要（2026-04-14）：
+
+1. <b><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat">Axios npm包遭入侵：維護者帳號被劫持，植入木馬</a></b>
+知名JavaScript HTTP客戶端庫Axios遭供應鏈攻擊，維護者帳號被劫持後植入遠端管理木馬。此事件凸顯npm生態系統的安全脆弱性，提醒開發者需建立包完整性驗證與依賴監控機制。
+
+2. <b><a href="https://www.reddit.com/r/netsec/comments/1sk4j5o/cve20258061_from_userland_to_ring_0/">CVE-2025-8061：從使用者空間突破至Ring 0</a></b>
+披露一樁嚴重的系統漏洞，攻擊者可從使用者空間提升至核心空間權限。此類漏洞一旦利用成功將完全控制系統，通常涉及記憶體破壞或競態條件。
+
+3. <b><a href="https://www.reddit.com/r/netsec/comments/1skfumg/coinbase_agentkit_prompt_injection_wallet_drain/">Coinbase AgentKit提示詞注入：錢包被竊、無限授權與Agent級RCE</a></b>
+發現嚴重提示詞注入漏洞，攻擊者可竊取加密錢包資產、獲得無限交易授權，甚至實現Agent級別遠端代碼執行。此案凸顯AI Agent在區塊鏈應用中的安全挑戰。
+
+4. <b><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine">GlassWorm原生版：新Zig投放程式感染所有IDE</a></b>
+新型Zig語言編寫的惡意軟體，專門感染機器上所有IDE環境。使用原生程式語言使其難以被傳統防毒軟體偵測，可能竊取源代碼與API金鑰。
+
+5. <b><a href="https://www.itmedia.co.jp/aiplus/articles/2604/13/news089.html">「Claude Code」強制全員工使用後……86%無編碼經驗者成功部署</a></b>
+某企業推行Claude Code後，86%無編碼經驗員工成功部署專案。顯示AI代碼生成工具正在降低軟體開發門檻，可能重新定義未來企業的技術人力結構。
+
+6. <b><a href="https://www.reddit.com/r/netsec/comments/1si3xvv/claude_humans_vs_nginx_cve202627654/">Claude + Humans vs nginx：CVE-2026-27654</a></b>
+研究人員結合Claude AI與人工分析，成功在nginx中挖掘出全新漏洞。展示「人類專家+AI」協作模式能提升安全研究效率，也反映基礎設施軟體仍可能隱藏未知漏洞。
+
+7. <b><a href="https://www.reddit.com/r/netsec/comments/1skwr2x/codex_hacked_a_samsung_tv/">Codex破解三星智慧電視</a></b>
+AI代碼生成工具Codex被用於成功破解三星智慧電視。凸顯IoT設備安全防禦薄弱，且AI降低攻擊門檻使非專業人士也能進行渗透測試。

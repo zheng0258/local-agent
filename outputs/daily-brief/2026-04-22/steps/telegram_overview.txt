@@ -1,0 +1,43 @@
+今日重點摘要（2026-04-22）：
+
+🔐 資安警示
+• <b><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat">Axios npm 包遭入侵：維護者帳號被竊取</a></b> — 知名 HTTP 庫 axios 遭供應鏈攻擊，維護者 GitHub 帳號被竊取後植入遠端後門。此事件凸顯 npm 生態的帳號安全弱點與開源維護者個人防護的重要性。
+
+• <b><a href="https://gigazine.net/news/20260421-kimi-k2-6/">Vercel 資安事件起於偽裝成 Roblox 外掛的惡意軟體</a></b> — 分析 Vercel 服務中斷事件，根源為偽裝成 Roblox 外掛的惡意軟體自動部署大量惡意請求。此供應鏈攻擊展現「合法即服務平台」被濫用的新形態，對雲端開發者生態具警示意義。
+
+• <b><a href="https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities">AI 滲透測試發現 Hoppscotch 多個零日漏洞</a></b> — 展示 AI 自動化滲透測試工具在開源 API 平台發現多個零日漏洞的實例。此研究驗證 AI 輔助安全測試的實用性，可大幅降低專業滲透測試門檻。
+
+• <b><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine">GlassWorm 原生 Zig 載入程式感染所有 IDE</a></b> — 新型惡意程式使用 Zig 語言編寫以規避偵測，目標為感染開發者所有 IDE 並竊取代碼與金鑰。此威脅展現針對開發環境的供應鏈攻擊日趨精細化。
+
+• <b><a href="https://www.reddit.com/r/netsec/comments/1sreolc/command_execution_via_draganddrop_in_terminal/">終端機模擬器拖曳功能可執行任意指令</a></b> — 多個流行終端機模擬器的拖曳功能存在命令注入漏洞，攻擊者可透過特製文件讓用戶在不知情下執行惡意指令。此漏洞可利用於社會工程學攻擊，特別針對開發者環境。
+
+🤖 Claude Code 應用
+• <b><a href="https://note.com/suthio/n/nf03d4f1df801">建議用 Claude Code 為後勤業務建立「back-office 儲存庫」</a></b> — 作者提出使用 Claude Code 將後勤業務的自動化腳本集中存儲的管理方法。透過建立專屬儲存庫，團隊可累積可重複使用的自動化流程與最佳實踐。
+
+• <b><a href="https://tech.findy.co.jp/entry/2026/04/21/070000">30 分鐘完成演講投影片：用 Claude Code 將工作流程化</a></b> — Findy 團隊展示如何將演講準備流程完全自動化，透過 Claude Code 整合 Google Slides API。關鍵在於將非結構化討論內容轉為可執行腳本的能力。
+
+• <b><a href="https://news.ycombinator.com/item?id=47844269">Anthropic 恢復允許 Claude CLI 使用</a></b> — Anthropic 重新允許使用 OpenClaw 等第三方 CLI 工具連接 Claude API，此前曾因安全考量暫時限制。此政策逆轉反映公司在開發者體驗與風險管控間的重新平衡。
+
+🛠️ AI 模型與工具
+• <b><a href="https://pc.watch.impress.co.jp/docs/news/2103376.html">「程式碼編寫超越 GPT-5.4，1 兆參數 AI「Kimi K2.6」免費公開</a></b> — 中國 Moonshot AI 推出 1 兆參數大模型 Kimi K2.6，宣稱程式碼能力超越 GPT-5.4 並免費開放。此舉展現中國 AI 產業的技術實力，挑戰美國科技巨頭的壟斷地位。
+
+• <b><a href="https://github.blog/jp/2026-04-21-changes-to-github-copilot-individual-plans/">GitHub Copilot 個人方案變更公告</a></b> — GitHub 宣布調整 Copilot 個人版定價與功能限制，包括月費上漲與使用量管制。此變動反映 AI 編程助手從「早期採用者優惠」轉向成熟商業化的策略轉變。
+
+• <b><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/21/news056.html">「撰寫 IaC 程式碼已是過去式」AI 驅動基礎設施具體樣貌</a></b> — 文章探討「AI 驅動基礎設施」如何改變 DevOps 工程師工作模式，主張傳統 IaC 手動編寫方式正被 AI 自然語言配置取代。此趨勢將降低雲端管理門檻，但同時要求工程師轉型為 AI 協作與驗證專家。
+
+• <b><a href="https://forest.watch.impress.co.jp/docs/news/2103371.html">與最新 AI「Opus 4.7」雙人配合可検討・改善設計的「Claude Design」登場</a></b> — Anthropic 推出專為產品設計與 UX 協作優化的 Claude Design，可與 Opus 4.7 雙模型配合進行設計審查與改進建議。此工具填補 AI 在創意工作流程中的缺口。
+
+• <b><a href="https://news.ycombinator.com/item?id=47837260">KV Cache 高保真摘要技術</a></b> — 研究提出基於熵值分析與低階重構技術的 KV Cache 壓縮方法，可在保持模型精度下顯著降低長上下文記憶體消耗。此技術對解決 LLM 記憶體瓶頸提供新方向。
+
+📰 其他動態
+• <b><a href="https://blog.google/intl/ja-jp/products/android-chrome-play/gemini-in-chrome/">在 Chrome 瀏覽器中更親近 Gemini。開始提供 Gemini in Chrome</a></b> — Google 正式推出「Gemini in Chrome」功能，將 AI 助手深度整合至瀏覽器界面。此舉標誌著瀏覽器與 AI 的融合進入新階段，挑戰 Edge（Copilot）的競爭地位。
+
+• <b><a href="https://tech.findy.co.jp/entry/2026/04/21/070000">「とほほ的 WWW 入門」新增可學習本地運行 AI 基礎的內容</a></b> — 日本著名技術教學網站「とほほ的 WWW 入門」新增本地 AI 環境建置章節，涵蓋模型下載、Ollama 安裝與基礎推論設定。此更新反映 AI 素養教育的重要性提升。
+
+• <b><a href="https://www.reddit.com/r/LocalLLaMA/comments/1srrhi5/gemma-4_vision/">Gemma 4 Vision</a></b> — Google 推出 Gemma 4 視覺理解模型，支持圖像描述、OCR 與圖表分析。作為開放模型發布，允許本地部署與自定義訓練。
+
+• <b><a href="https://www.reddit.com/r/OpenAI/comments/1srotee/openai_is_teasing_the_image_v2_model.">OpenAI 預告 Image V2 模型</a></b> — OpenAI 透過官方管道預告新一代圖像生成模型 Image V2，暗示將有顯著能力提升。社群推測可能包含更好的文字渲染、物理理解與長指令遵循能力。
+
+• <b><a href="https://note.com/kaze3desu/n/n27008d5c87f5">【IT 管理視角】導入 Claude Team 到多間公司後發現的事</a></b> — IT 管理者分享跨多家企業導入 Claude Team 的實務經驗，涵蓋授權管理、使用規範制定與 ROI 評估。文章揭示企業採用 AI 工具時面臨的真實挑戰。
+
+• <b><a href="https://levtech.jp/media/detail_846/">揭露「社會工程學」背後的 5 本書。即使技術進步，欺騙的結構也不變</a></b> — 推薦 5 本解析社會工程學攻擊的經典著作，強調即使 AI 技術飛速進步，人類心理弱點與欺騙手法的核心結構仍未改變。在深度偽造與 AI 詐騙興起的時代，此類知識對企業資安教育愈發重要。

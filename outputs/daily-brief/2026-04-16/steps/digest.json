@@ -1,0 +1,110 @@
+{
+  "generated_at": "2026-04-16T12:24:38",
+  "digests": [
+    {
+      "title": "將 Claude Code 培養至 Level 5 後，開發工作變得「只需指示與確認」— 以實際檔案結構解說",
+      "url": "https://qiita.com/teppei19980914/items/8da88b33ffa8cf88dfa2",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "作者透過系統性訓練將 Claude Code 提升至 Level 5 自主等級，實現高度自動化的開發流程。\n實際案例展示如何透過清晰指示與結果確認即可完成複雜功能開發，大幅減少微調需求。\n文章以具體檔案結構演變為例，說明 AI 如何理解專案脈絡並自主規劃實作路徑。\n關鍵在於建立明確的上下文框架與逐步提升信任邊界，讓 AI 從「工具」轉變為「協作夥伴」。\n此方法论對希望提升 AI 開發效率的工程師具高度實用價值。"
+    },
+    {
+      "title": "Anthropic 重新打造桌面版「Claude Code」—支援多代理的 UI、可過濾的會話列表、側邊欄工具、分割畫面等功能",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2101936.html",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "Anthropic 全面重製 Claude Code 桌面應用程式，回應專業開發者的深度使用需求。\n核心升級包括：多代理並行 UI（同時管理多個 AI 助手）、可過濾的對話歷史、整合式側邊欄工具。\n新增分割畫面功能允許並列檢視程式碼與對話，提升上下文保持能力。\n重製背後的設計哲學是將 AI 從「聊天介面」重新定位為「開發環境整合層」。"
+    },
+    {
+      "title": "「Claude Code」桌面版大幅改觀——配合「並列代理時代」重新設計",
+      "url": "https://ascii.jp/elem/000/004/395/4395128/",
+      "source": "Hatena",
+      "interest": "***",
+      "summary": "ASCII 深度分析 Claude Code 桌面版大改版，指出其核心戰略是迎向「並列代理時代」。\n傳統單一對話模式將被多代理協作取代——不同 AI 負責架构設計、實作、測試等不同角色。\n新 UI 架構支持代理間訊息傳遞、任務委派與狀態同步，類似人類團隊協作模式。\n這標誌著 AI 開發工具從「輔助編碼」邁向「自主工程團隊」的關鍵轉折點。\nAnthropic 藉此與單純的 Chat 介面應用建立明顯差異化。"
+    },
+    {
+      "title": "Google 背棄对我的承諾——現在 ICE 有了我的資料",
+      "url": "https://news.ycombinator.com/item?id=47782570",
+      "source": "HN",
+      "interest": "***",
+      "summary": "用戶揭露 Google 大規模分享使用者資料予美國移民執法機構 ICE，涉嫌背離隱私政策承諾。\n事件涉及地理位置、搜尋歷史等敏感資料，影響範圍可能涵蓋數十萬移民用戶。\nHacker News 社群激烈討論科技巨頭的政府資料共享政策缺乏透明度與用戶控制權。\n此事件重新點燃對「免費服務」隱私代價的爭議，特別在政治敏感議題上。\n可能引發法律挑戰與用戶信任危機。"
+    },
+    {
+      "title": "網路安全現在看起來像工作量證明",
+      "url": "https://news.ycombinator.com/item?id=47769089",
+      "source": "HN",
+      "interest": "***",
+      "summary": "文章論證現代網路安全已演變成「資源消耗對決」模式，類似區塊鏈的工作量證明機制。\n防禦方必須投入越來越多的計算資源、人力與資金來對抗自動化作戰的攻擊者。\nHTTPS、WAF、入侵檢測等防禦層面本質上都是「比攻擊者更耗能」的競速賽。\n作者憂心這種模式不可持續，呼籲重新思考安全設計的經濟模型基礎。\n對企業安全預算規劃與技術選擇具啟發意義。"
+    },
+    {
+      "title": "Gemini 應用程式現在支援 Mac",
+      "url": "https://news.ycombinator.com/item?id=47782256",
+      "source": "HN",
+      "interest": "***",
+      "summary": "Google 正式推出 Gemini AI 助手原生 Mac 應用程式，完備跨平台佈局。\nMac 版提供與 Windows/iOS 一致的功能集：寫作文檔、程式碼輔助、圖像分析等。\n此舉反映 Google 將 Gemini 定位為「作業系統級 AI 助手」，而非僅網頁服務。\n與 Apple Siri、Microsoft Copilot 直接競爭，爭奪 Mac 用戶的預設 AI 入口。\n顯示 AI 功能正從「獨立應用」向「系統整合」快速演進的產業趨勢。"
+    },
+    {
+      "title": "CISA 標記 Windows Task Host 漏洞遭攻擊利用",
+      "url": "https://www.reddit.com/r/cybersecurity/comments/1smh6eh/cisa_flags_windows_task_host_vulnerability_as/",
+      "source": "r/cybersecurity",
+      "interest": "***",
+      "summary": "美國網路安全與基礎設施安全局（CISA）緊急標記 Windows Task Host 組件存在遭 actively exploited 的遠端執行漏洞。\n攻擊者利用此漏洞可透過惡意網路流量觸發任意程式碼執行，無需用戶互動。\n影響範圍涵蓋多個 Windows 版本，企業環境尤其脆弱因 Task Host 常於背景運行。\nCISA 建議立即部署網絡層過濾規則並監控異常 Task Host 進程行為。\n顯示零日漏洞在公開後仍持續被利用的嚴峻威脅態勢。"
+    },
+    {
+      "title": "Codex 成功駭入三星智慧電視",
+      "url": "https://www.reddit.com/r/netsec/comments/1skwr2x/codex_hacked_a_samsung_tv/",
+      "source": "r/netsec",
+      "interest": "***",
+      "summary": "安全研究員 Codex 公開演示成功駭入三星智慧電視系統，取得完全控制權。\n攻擊鏈包含：Tizen OS 記憶體損毀漏洞 → Shellcode 執行 → 逆向 SSH 隧道建立。\n成功後可安裝惡意軟體、監控觀看行為、利用電視作為 botnet 節點或橫向移動跳板。\n演示影片顯示攻擊者能執行任意 Linux 指令並外連至控制伺服器。\n凸顯 IoT 設備供應鏈驗證與漏洞管理的系統性弱點。"
+    },
+    {
+      "title": "1-bit Bonsai 1.7B 模型瀏覽器本地運行",
+      "url": "https://www.reddit.com/r/LocalLLaMA/comments/1smb3wd/1bit_bonsai_17b_290mb_in_size_running_locally_in/",
+      "source": "r/LocalLLaMA",
+      "interest": "***",
+      "summary": "革命性量化技術使 1.7B 參數模型壓縮至僅 290MB（1-bit 量化），可直接在瀏覽器中運行。\n使用 ONNX Web + WebGPU 技術棧，無需伺服器即可在客戶端執行推理。\n雖精度較低但對簡單任務（分類、短文本生成）已具實用價值。\n此技術若成熟將徹底改變邊緣 AI 部署，使低階手機/電腦也能運行 LLM。\n代表「小型化 + 極致量化」路線在隱私敏感場景的競爭力。"
+    },
+    {
+      "title": "如何正確處理 CLAUDE.md 檔案",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1smgfrt/how_to_properly_deal_with_a_claudemd_file/",
+      "source": "r/ClaudeCode",
+      "interest": "***",
+      "summary": "社群討論 CLAUDE.md 設定檔的最佳實踐，此檔案用於定義專案級上下文與開發規則。\n正確用法包括：在 repo 根目錄放置、描述程式碼風格規範、設定 linting/prettier 規則。\n高级技巧：指定測試框架偏好、API 設計原則、錯誤處理模式等專案特定約束。\n常見誤區是寫入過多細節，應聚焦「原則」而非「實作」。"
+    },
+    {
+      "title": "為何不用 Mythos 修復 Claude Code 的錯誤",
+      "url": "https://www.reddit.com/r/ClaudeCode/comments/1smkeqn/why_dont_they_just_use_mythos_to_fix_all_the_bugs/",
+      "source": "r/ClaudeCode",
+      "interest": "***",
+      "summary": "用戶提問為何 Anthropic 不整合 Mythos（自動測試生成框架）來修復 Claude Code 自身的程式錯誤。\n討論揭示 AI 自我改進的「反射性困境」：工具需要足夠可靠才能用於修復自身。\n社群提出反論：測試生成 ≠ 錯誤修復，後者需要更深層的程式理解與重構能力。\n此對話觸及 AI 開發工具的核心挑戰——如何建立可自我進化的工程系統。"
+    },
+    {
+      "title": "ChatGPT Plus 對決 Claude Pro，30 天實戰比較",
+      "url": "https://www.reddit.com/r/ChatGPT/comments/1smgpy6/ran_chatgpt_plus_and_claude_pro_side_by_side_for/",
+      "source": "r/ChatGPT",
+      "interest": "***",
+      "summary": "用戶進行 30 天並行使用實驗，比較 ChatGPT Plus（GPT-4）與 Claude Pro 在真實工作場景表現。\n關鍵評比維度：程式碼生成品質、長上下文處理、推理能力、創意寫作、遵循指示精確度。\n結論因使用案例而異：工程任務 Claude 略勝、創意內容 GPT-4 更靈活、分析任務取決於提示技巧。\n文章詳細記錄每日使用情境與兩者的優劣表現，具高度參考價值。"
+    },
+    {
+      "title": "Axios npm 包遭竊取：維護者帳號被劫持並植入遠程控制惡意軟體",
+      "url": "https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "高風險供應鏈攻擊：Axios（月下載量數十億次）npm 包維護者帳號遭劫持，發布含遠端管理員（RAT）的惡意版本。\n攻擊者透过凭证填充攻击取得帳號控制權，植入的代碼會下載並執行外掛惡意軟體。\n影響範圍極廣——Axios 是 Node.js/前端最廣泛使用的 HTTP 客戶端函式庫之一。\nAikido 透過行為分析檢測到異常網絡呼叫模式而發現此攻擊。"
+    },
+    {
+      "title": "GlassWorm 原生化：新 Zig 投放程式感染所有 IDE",
+      "url": "https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "新型惡意軟體 GlassWorm 使用 Zig 語言編寫，專門感染開發者機器上的所有 IDE（VS Code、IntelliJ 等）。\n攻擊機制：外掛至 IDE 進程 → 注入代碼攔截輸入/輸出 → 靜默上傳程式碼至 C&C 伺服器。\n選擇 Zig 是因為其可編譯為極小靜態 binary，難以被傳統防毒軟體檢測。\n設計目標是竊取程式碼、建立持久化後門，並利用開發者信任關係進行橫向移動。"
+    },
+    {
+      "title": "Aikido 發現 Hoppscotch 多個零日漏洞",
+      "url": "https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities",
+      "source": "aikido.dev",
+      "interest": "***",
+      "summary": "Aikido AI 滲透測試平台在流行 API 測試工具 Hoppscotch 中自動發現多個零日漏洞。\n漏洞類型包括：跨站腳本攻擊（XSS）、伺服器端請求偽造（SSRF）、敏感資訊洩漏。\n此案例驗證 AI 驅動安全測試的實戰能力——無需人工干預即可識別複雜漏洞鏈。\nHoppscotch 團隊已確認並開始修補，展現負責任揭露流程。"
+    }
+  ]
+}

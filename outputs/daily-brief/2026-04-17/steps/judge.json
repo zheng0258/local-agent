@@ -1,0 +1,20 @@
+{
+  "scores": {
+    "relevance": {
+      "score": 5,
+      "reasoning": "所有選入的文章都緊密圍繞 AI 工具（Bonsai、Codex、Qwen、Opus）、資安（CVE 管理、零日漏洞、協議缺陷）、開發主題（代碼生成代理、MCP 協議）。完全符合篩選標準，無偏離主題內容。"
+    },
+    "completeness": {
+      "score": 5,
+      "reasoning": "經逐一比對，compress.json 中所有 18 篇 *** 文章全部被納入 digests：Hatena 6 篇、HN 7 篇、Reddit 5 篇均完整覆蓋。以下是驗證清單：✓Bonsai AI、✓NIST CVE、✓Thunderbolt、✓Codex 更新 x2、✓Claude Mythos、✓Anthropic Opus、✓Qwen、✓AI 質疑、✓Cloudflare 代理平台、✓資源稀缺、✓電路模擬驗證、✓RedSun x2、✓MCP 漏洞、✓HAProxy、✓Opus 討論 x2、✓NIST NVD 來源、✓Axios CVE、✓GlassWorm。",
+      "missed_urls": []
+    },
+    "faithfulness": {
+      "score": 5,
+      "reasoning": "摘要忠實反映原文標題與 one_liner 核心信息：1) Bonsai 正確傳達 8GB 記憶體運行突破；2) NIST CVE 方針改變準確描述；3) Thunderbolt 強調自託管企業平台定位；4) Codex PC 操作能力正確呈現；5) RedSun 漏洞與 SYSTEM 權限提升關鍵點準確捕捉；6) MCP 協議 20 萬伺服器影響範圍正確標註。所有摘要均未發現編造內容，僅在標題中適度補充上下文以增強可讀性（如 Bonsai 標題加入「1.58 位元」技術細節），這屬於合理的信息延伸而非虛構。"
+    }
+  },
+  "overall": 5.0,
+  "judged_at": "2026-04-17T21:45:57",
+  "judge_model": "qwen3.5-27b-claude-4.6-opus-distilled-mlx"
+}

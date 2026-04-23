@@ -1,0 +1,184 @@
+{
+  "articles": {
+    "資安類": [
+      {
+        "title": "Vercel's security breach started with malware disguised as Roblox cheats",
+        "url": "https://www.reddit.com/r/cybersecurity/comments/1sr28f5/vercels_security_breach_started_with_malware/",
+        "interest": "***",
+        "score": 296,
+        "category": "資安 - 供應鏈攻擊",
+        "source": ""
+      },
+      {
+        "title": "P4WNED: How Insecure Defaults in Perforce Expose Source Code Across the Internet",
+        "url": "https://www.reddit.com/r/netsec/comments/1srpyuj/p4wned_how_insecure_defaults_in_perforce_expose/",
+        "interest": "***",
+        "score": 10,
+        "category": "資安 - 漏洞揭露",
+        "source": ""
+      },
+      {
+        "title": "Command Execution via Drag-and-Drop in Terminal Emulators",
+        "url": "https://www.reddit.com/r/netsec/comments/1sreolc/command_execution_via_draganddrop_in_terminal/",
+        "interest": "***",
+        "score": 5,
+        "category": "資安 - RCE 漏洞",
+        "source": ""
+      }
+    ],
+    "AI 類": [
+      {
+        "title": "How is this change acceptable?",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1srbb8v/how_is_this_change_acceptable/",
+        "interest": "***",
+        "score": 374,
+        "category": "AI 開發工具 - Claude Code 更新爭議",
+        "source": ""
+      },
+      {
+        "title": "Gemma 4 Vision",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1srrhi5/gemma_4_vision/",
+        "interest": "***",
+        "score": 66,
+        "category": "AI - 模型發布",
+        "source": ""
+      },
+      {
+        "title": "OpenAI is teasing the Image V2 model.",
+        "url": "https://www.reddit.com/r/OpenAI/comments/1srotee/openai_is_teasing_the_image_v2_model/",
+        "interest": "***",
+        "score": 59,
+        "category": "AI - 產品公告",
+        "source": ""
+      },
+      {
+        "title": "New image gen 2 is incredible at coloring",
+        "url": "https://www.reddit.com/r/OpenAI/comments/1srry3f/new_image_gen_2_is_incredible_at_coloring/",
+        "interest": "***",
+        "score": 36,
+        "category": "AI - 功能亮點",
+        "source": ""
+      },
+      {
+        "title": "Unpopular opinion: OpenClaw and all its clones are almost useless tools...",
+        "url": "https://www.reddit.com/r/LocalLLaMA/comments/1srkah3/unpopular_opinion_openclaw_and_all_its_clones_are/",
+        "interest": "**",
+        "score": 267,
+        "category": "AI - 工具比較",
+        "source": ""
+      },
+      {
+        "title": "CC lobotomizing Opus more and more",
+        "url": "https://www.reddit.com/r/ClaudeCode/comments/1srhmkw/cc_lobotomizing_opus_more_and_more/",
+        "interest": "**",
+        "score": 100,
+        "category": "AI - 工具討論",
+        "source": ""
+      }
+    ],
+    "AI 開發工具類": [
+      {
+        "title": "Ok, woah",
+        "url": "https://www.reddit.com/r/ChatGPT/comments/1srgqcn/ok_woah/",
+        "interest": "***",
+        "score": 1291,
+        "category": "AI 開發工具 - 重大功能發布",
+        "source": ""
+      },
+      {
+        "title": "built an open source tool that keeps your cursor rules always up to date...",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具 - Cursor 生態",
+        "source": ""
+      },
+      {
+        "title": "Anyone else maintaining .cursorrules AND CLAUDE.md?",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/",
+        "interest": "**",
+        "score": 2,
+        "category": "AI 開發工具 - 開發者痛點",
+        "source": ""
+      },
+      {
+        "title": "tired of cursor generating generic skills that ignore ur actual codebase?...",
+        "url": "https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/",
+        "interest": "**",
+        "score": 1,
+        "category": "AI 開發工具 - Cursor 生態",
+        "source": ""
+      },
+      {
+        "title": "Building the Smallest Gemma 4 Model from Scratch (35M) — Part 1: Tokenization",
+        "url": "https://www.reddit.com/r/GoogleGeminiAI/comments/1srsyqq/building_the_smallest_gemma_4_model_from_scratch/",
+        "interest": "**",
+        "score": 1,
+        "category": "AI - 技術文章",
+        "source": ""
+      }
+    ],
+    "核心技術類": [
+      {
+        "title": "Highlights from Git 2.54",
+        "url": "https://www.reddit.com/r/programming/comments/1srhttc/highlights_from_git_254/",
+        "interest": "**",
+        "score": 182,
+        "category": "核心技術 - Git 更新",
+        "source": ""
+      },
+      {
+        "title": "Theseus, a static Windows emulator",
+        "url": "https://www.reddit.com/r/programming/comments/1srccyp/theseus_a_static_windows_emulator/",
+        "interest": "**",
+        "score": 55,
+        "category": "核心技術 - 模擬器專案",
+        "source": ""
+      }
+    ],
+    "OSS・獨立開發類": [
+      {
+        "title": "Holy crap Vercel got hacked. ROTATE YOUR KEYS if they weren't marked sensitive",
+        "url": "https://www.reddit.com/r/webdev/comments/1sqy1k4/holy_crap_vercel_got_hacked_rotate_your_keys_if/",
+        "interest": "***",
+        "score": 867,
+        "category": "資安 - Vercel 被入侵事件",
+        "source": ""
+      },
+      {
+        "title": "CSS image-set() just became the hero we needed",
+        "url": "https://www.reddit.com/r/webdev/comments/1sriifh/css_imageset_just_became_the_hero_we_needed/",
+        "interest": "**",
+        "score": 317,
+        "category": "Web - CSS 技術",
+        "source": ""
+      },
+      {
+        "title": "CheerpJ 4.3 - Run unmodified Java applications in the browser",
+        "url": "https://www.reddit.com/r/javascript/comments/1srl9ea/cheerpj_43_run_unmodified_java_applications_in/",
+        "interest": "**",
+        "score": 16,
+        "category": "JavaScript - 技術突破",
+        "source": ""
+      },
+      {
+        "title": "I built a unified full-text search CLI for docs, databases, and websites",
+        "url": "https://www.reddit.com/r/opensource/comments/1srsvtn/i_built_a_unified_fulltext_search_cli_for_docs/",
+        "interest": "**",
+        "score": 1,
+        "category": "OSS - CLI 工具",
+        "source": ""
+      },
+      {
+        "title": "Lex Custis - open-source EU AI Act compliance engine...",
+        "url": "https://www.reddit.com/r/opensource/comments/1srs8mb/lex_custis_opensource_eu_ai_act_compliance_engine/",
+        "interest": "**",
+        "score": 1,
+        "category": "OSS - AI 合規工具",
+        "source": ""
+      }
+    ],
+    "職涯・實踐類": []
+  },
+  "fetched_at": "2026-04-22T02:56:19"
+}

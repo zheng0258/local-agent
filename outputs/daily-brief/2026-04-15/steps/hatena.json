@@ -1,0 +1,93 @@
+{
+  "articles": [
+    {
+      "title": "【RAG】用 AI 改寫企業知識。",
+      "url": "https://zenn.dev/knowledgesense/articles/5a50d06fce072d",
+      "interest": "***",
+      "score": 72,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "將人工研究整合到數據管線中。dbt Python model × LLM Web Search 將公開資訊載入 Snowflake - LayerX 工程師部落格",
+      "url": "https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake",
+      "interest": "***",
+      "score": 22,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "WordPress 的31個外掛包發現後門，在所有權轉移後的更新中被加入",
+      "url": "https://gigazine.net/news/20260414-wordpress-plugin-backdoor/",
+      "interest": "***",
+      "score": 22,
+      "category": "Web資安",
+      "source": ""
+    },
+    {
+      "title": "將光纖「麥克風化」的竊聽攻擊　惡用為震動感應器竊取對話　中國研究人員發表",
+      "url": "https://www.itmedia.co.jp/news/articles/2604/15/news029.html",
+      "interest": "***",
+      "score": 20,
+      "category": "Web資安",
+      "source": ""
+    },
+    {
+      "title": "Meta 發表新 AI 模型「Muse Spark」～戰略轉向的「小而快卻又相當聰明的封閉模型」／花費9個月重建，可對抗「Gemini 3.1 Deep Think」「GPT 5.4 Pro」",
+      "url": "https://forest.watch.impress.co.jp/docs/news/2101375.html",
+      "interest": "***",
+      "score": 4,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "Yahoo! JAPAN ID 將登入統一為「Passkey」",
+      "url": "https://www.watch.impress.co.jp/docs/news/2101533.html",
+      "interest": "**",
+      "score": 242,
+      "category": "Web資安",
+      "source": ""
+    },
+    {
+      "title": "「瀏覽器返回按鈕→顯示廣告」被視為垃圾郵件　Google 6月政策變更，違規將被搜尋降權",
+      "url": "https://www.itmedia.co.jp/news/articles/2604/14/news109.html",
+      "interest": "**",
+      "score": 229,
+      "category": "Technical SEO",
+      "source": ""
+    },
+    {
+      "title": "將文件拍照→提取文字並保存到「備忘錄」。iPhone的「快捷指令」便利食譜。活用 Apple Intelligence 的操作 – iPhone AI Hack 第3回",
+      "url": "https://macfan.book.mynavi.jp/article/99605/",
+      "interest": "**",
+      "score": 123,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "[大家的มือถือ]搭載在手機上的本地 AI「Gemma4」讓人感受到未來",
+      "url": "https://k-tai.watch.impress.co.jp/docs/column/minna/2101682.html",
+      "interest": "**",
+      "score": 99,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "數學研究中的 AI 革命到來，數學家認為「這還只是開始」",
+      "url": "https://gigazine.net/news/20260414-ai-revolution-in-math/",
+      "interest": "**",
+      "score": 52,
+      "category": "AI",
+      "source": ""
+    },
+    {
+      "title": "將顧問的顧問工作交給 AI，結果做出了超高速估算工具的故事【生成AI Stream】",
+      "url": "https://forest.watch.impress.co.jp/docs/serial/aistream/2101638.html",
+      "interest": "**",
+      "score": 10,
+      "category": "AI",
+      "source": ""
+    }
+  ],
+  "fetched_at": "2026-04-15T09:36:58"
+}
