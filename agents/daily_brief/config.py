@@ -12,6 +12,12 @@ _PROJECT_ROOT = Path(__file__).parent.parent.parent
 OUTPUT_DIR = _PROJECT_ROOT / "outputs" / "daily-brief"
 INDEX_FILE = OUTPUT_DIR / "_daily-brief.md"
 
+# ── Dedup 設定 ────────────────────────────────────────────────────
+
+DEDUP_SIMILARITY_THRESHOLD = 0.80
+DEDUP_WINDOW_DAYS = 7
+VECTOR_DB_PATH = OUTPUT_DIR / ".vectordb"
+
 # ── 抓取來源 ─────────────────────────────────────────────────────
 
 HATENA_URLS = [
@@ -58,6 +64,11 @@ class StepConfig:
 
 
 STEP_CONFIGS: dict[str, StepConfig] = {
+    "dedup": StepConfig(
+        max_retries=1,
+        strategy="plain",
+        task_description="向量去重：過濾 7 天內 URL 重複或語意相似（> 0.80）文章",
+    ),
     "hatena": StepConfig(
         max_retries=3,
         strategy="plain",
