@@ -1,3 +1,4 @@
 anthropic>=0.20.0
 certifi
+chromadb>=0.6.0
 json-repair>=0.30.0

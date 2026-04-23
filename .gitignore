@@ -6,3 +6,4 @@ outputs/
 logs/
 .playwright-cli/
 .superpowers/
+outputs/daily-brief/.vectordb/
