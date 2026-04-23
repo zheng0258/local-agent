@@ -20,8 +20,13 @@ def test_all_steps_contains_compress_and_judge():
     assert "save" in ALL_STEPS
 
 
+def test_all_steps_contains_dedup():
+    assert "dedup" in ALL_STEPS
+
+
 def test_all_steps_order():
-    assert ALL_STEPS.index("security") < ALL_STEPS.index("compress")
+    assert ALL_STEPS.index("security") < ALL_STEPS.index("dedup")
+    assert ALL_STEPS.index("dedup") < ALL_STEPS.index("compress")
     assert ALL_STEPS.index("compress") < ALL_STEPS.index("digest")
     assert ALL_STEPS.index("digest") < ALL_STEPS.index("judge")
     assert ALL_STEPS.index("judge") < ALL_STEPS.index("report")
@@ -314,7 +319,7 @@ def test_parse_args_supports_new_steps():
 
 
 def test_all_steps_count():
-    assert len(ALL_STEPS) == 10
+    assert len(ALL_STEPS) == 11
 
 
 # ── parse_llm_json robustness ───────────────────────────────────────────────
