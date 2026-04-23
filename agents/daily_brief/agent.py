@@ -2,14 +2,14 @@
 DailyBriefAgent — 每日科技趨勢收集。
 
 步驟化流程：
-  hatena / hn / reddit / security → compress → digest → judge → report → save → notify
+  hatena / hn / reddit / security → dedup → compress → digest → judge → report → save → notify
 
 執行參數：
   （無參數）               正常執行，略過已完成步驟
   --force <step>...       強制重新執行指定步驟
   --only <step>...        只執行指定步驟
 
-可用 step 名稱：hatena / hn / reddit / security / compress / digest / judge / report / save / notify
+可用 step 名稱：hatena / hn / reddit / security / dedup / compress / digest / judge / report / save / notify
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 FETCH_STEPS = ["hatena", "hn", "reddit", "security"]
-ALL_STEPS = [*FETCH_STEPS, "compress", "digest", "judge", "report", "save", "notify"]
+ALL_STEPS = [*FETCH_STEPS, "dedup", "compress", "digest", "judge", "report", "save", "notify"]
 
 
 @dataclass
@@ -87,6 +87,7 @@ class DailyBriefAgent:
         source_data = self._phase_fetch(ctx)
         if source_data is None:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
+        source_data = self._phase_dedup(ctx, source_data)
         compress_data = self._phase_compress(ctx, source_data)
         digests = self._phase_digest(ctx, compress_data)
         compress_data, digests = self._phase_judge(ctx, compress_data, digests)
@@ -147,6 +148,67 @@ class DailyBriefAgent:
             return None
 
         return source_data
+
+    def _phase_dedup(self, ctx: _RunContext, source_data: dict) -> dict:
+        dedup_artifact = ctx.steps_dir / "dedup.json"
+        if "dedup" not in ctx.steps_to_run:
+            if dedup_artifact.exists():
+                artifact = json.loads(dedup_artifact.read_text(encoding="utf-8"))
+                kept_urls = set(artifact.get("kept_urls", []))
+                return _filter_source_data_by_urls(source_data, kept_urls)
+            return source_data
+        if dedup_artifact.exists() and "dedup" not in ctx.force_steps:
+            logger.info("Step dedup     : 載入既有 artifact")
+            artifact = json.loads(dedup_artifact.read_text(encoding="utf-8"))
+            kept_urls = set(artifact.get("kept_urls", []))
+            return _filter_source_data_by_urls(source_data, kept_urls)
+        if not source_data:
+            logger.warning("Step dedup     : 無 fetch 資料，略過")
+            return source_data
+
+        logger.info("Step dedup     : 執行中...")
+        from agents.daily_brief.config import (
+            DEDUP_SIMILARITY_THRESHOLD,
+            DEDUP_WINDOW_DAYS,
+            VECTOR_DB_PATH,
+        )
+        from tools.vector_store.client import cleanup_old_records, get_collection
+        from tools.vector_store.dedup import dedup_source_data
+        from tools.vector_store.embedder import Qwen3Embedder
+
+        VECTOR_DB_PATH.mkdir(parents=True, exist_ok=True)
+        collection = get_collection(VECTOR_DB_PATH)
+        cleanup_old_records(collection, DEDUP_WINDOW_DAYS)
+        embedder = Qwen3Embedder()
+
+        filtered_data, result = dedup_source_data(
+            source_data=source_data,
+            collection=collection,
+            embedder=embedder,
+            today=ctx.today,
+            window_days=DEDUP_WINDOW_DAYS,
+            threshold=DEDUP_SIMILARITY_THRESHOLD,
+        )
+
+        artifact_data = {
+            "total": result.total,
+            "kept": result.kept,
+            "filtered_url": result.filtered_url,
+            "filtered_semantic": result.filtered_semantic,
+            "kept_urls": result.kept_urls,
+            "filtered_items": result.filtered_items,
+        }
+        dedup_artifact.write_text(
+            json.dumps(artifact_data, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        logger.info(
+            "Step dedup     : 完成 → %d/%d 文章保留（url過濾:%d, 語意過濾:%d）",
+            result.kept,
+            result.total,
+            result.filtered_url,
+            result.filtered_semantic,
+        )
+        return filtered_data
 
     def _phase_compress(self, ctx: _RunContext, source_data: dict[str, dict]) -> dict:
         compress_artifact = ctx.steps_dir / "compress.json"
@@ -698,6 +760,29 @@ def _parse_args(args: str) -> tuple[set[str], set[str]]:
             i += 1
 
     return force, only
+
+
+def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
+    filtered: dict = {}
+    for source_name, content in source_data.items():
+        articles = content.get("articles", [])
+        if isinstance(articles, list):
+            filtered[source_name] = {
+                **content,
+                "articles": [a for a in articles if a.get("url") in kept_urls],
+            }
+        elif isinstance(articles, dict):
+            filtered[source_name] = {
+                **content,
+                "articles": {
+                    cat: [a for a in cat_arts if a.get("url") in kept_urls]
+                    for cat, cat_arts in articles.items()
+                    if isinstance(cat_arts, list)
+                },
+            }
+        else:
+            filtered[source_name] = content
+    return filtered
 
 
 def _format_obsidian_digest(digests: list[dict], today: str) -> str:
