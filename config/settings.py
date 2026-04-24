@@ -6,7 +6,7 @@ LLM 後端設定。
 
 環境變數：
     LOCAL_LLM_URL    本地 LLM server URL（預設 http://localhost:1234）
-    LOCAL_LLM_MODEL  本地模型名稱（預設 qwen3.5-27b-claude-4.6-opus-distilled-mlx）
+    LOCAL_LLM_MODEL  本地模型名稱（預設 qwen3.6-27b-ud-mlx）
     ANTHROPIC_API_KEY  備援 Anthropic API key
 """
 
@@ -25,7 +25,7 @@ VAULT_ROOT = Path(
 )
 
 DEFAULT_LOCAL_LLM_URL = "http://localhost:1234"
-DEFAULT_LOCAL_LLM_MODEL = "qwen3.5-27b-claude-4.6-opus-distilled-mlx"
+DEFAULT_LOCAL_LLM_MODEL = "qwen3.6-27b-ud-mlx"
 DEFAULT_JUDGE_LLM_MODEL = "google/gemma-4-e4b"
 
 
