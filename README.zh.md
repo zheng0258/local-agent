@@ -28,7 +28,7 @@ pip install -r requirements.txt
 ```bash
 # 本地 LLM（預設）
 export LOCAL_LLM_URL=http://localhost:1234
-export LOCAL_LLM_MODEL=qwen3.5-27b-claude-4.6-opus-distilled-mlx
+export LOCAL_LLM_MODEL=qwen3.6-27b-ud-mlx
 
 # 或使用 Anthropic API
 export ANTHROPIC_API_KEY=sk-ant-...
@@ -170,7 +170,7 @@ python3 main.py "/daily-brief --force dedup"
 
 | 後端 | 條件 | 預設模型 |
 |------|------|----------|
-| `LocalLLMBackend` | 無 `ANTHROPIC_API_KEY`，或有 `LOCAL_LLM_URL` | `qwen3.5-27b-claude-4.6-opus-distilled-mlx` |
+| `LocalLLMBackend` | 無 `ANTHROPIC_API_KEY`，或有 `LOCAL_LLM_URL` | `qwen3.6-27b-ud-mlx` |
 | `AnthropicBackend` | 有 `ANTHROPIC_API_KEY`，且無 `LOCAL_LLM_URL` | `claude-sonnet-4-6` |
 
 兩種後端皆符合 `LLMBackend` Protocol（`complete(prompt, system) -> str`），可自由替換。

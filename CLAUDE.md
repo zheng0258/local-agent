@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 執行方式
 
 ```bash
-# 預設：本地 LLM server（http://localhost:1234，模型 qwen3.5-27b-claude-4.6-opus-distilled-mlx）
+# 預設：本地 LLM server（http://localhost:1234，模型 qwen3.6-27b-ud-mlx）
 python3 main.py "/daily-brief"
 python3 main.py "幫我摘要這些連結 https://example.com"
 
@@ -27,7 +27,7 @@ python3 main.py "/daily-brief --only report notify"
 
 # 覆蓋本地 LLM 設定
 export LOCAL_LLM_URL=http://localhost:1234
-export LOCAL_LLM_MODEL=qwen3.5-27b-claude-4.6-opus-distilled-mlx
+export LOCAL_LLM_MODEL=qwen3.6-27b-ud-mlx
 
 # 或改用 Anthropic API
 export ANTHROPIC_API_KEY=sk-...
