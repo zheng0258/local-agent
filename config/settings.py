@@ -73,7 +73,7 @@ class AnthropicBackend:
         self.model = model
 
     def complete(self, prompt: str, system: str = "") -> str:
-        import anthropic
+        import anthropic  # type: ignore[import-untyped]
 
         client = anthropic.Anthropic()
         msg = client.messages.create(
