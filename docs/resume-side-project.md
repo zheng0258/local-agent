@@ -20,9 +20,9 @@
 - **LLM Output 防禦**：正則提取 ` ```json ` 區塊 → `json.loads` → `json-repair` 三層 fallback，處理本地模型輸出不穩定問題（全形冒號、未逸脫引號等）；Telegram HTML sanitizer 自動過濾不支援 tag，避免 Telegram API 400 錯誤；report 輸出自動剝除 markdown fence
 - **LLM-as-Judge 品質評估**：獨立 judge LLM（`google/gemma-4-e4b`，可透過 env var 熱換）每日對摘要進行 relevance / completeness / faithfulness 三維評分；completeness < 3 自動觸發 `quality_alert`；歷史分數累積至 `_judge-history.json` 供趨勢追蹤
 - **Interface Lint 自動化**：`lint/check_agent_interface.py` / `check_fetcher_interface.py` 驗證所有 agent/fetcher 符合介面規範，可整合 CI
-- **Judge Server 管理**：`scripts/judge-server.sh` 負責 judge LLM 的 start/stop/restart/status/health，自動解析 LM Studio / HuggingFace cache 路徑，`wait_for_ready()` 輪詢 `/v1/models` 確認就緒，可獨立於主流程啟停，避免每次 pipeline 啟動都等待模型載入
+- **Model Lifecycle 自動化**：`tools/lms_lifecycle.py` 在 `main.py` 執行前以阻塞式 `lms load -y` 確保主模型（qwen3.5-27b）與 judge 模型（gemma-4-e4b）已載入，完成後 `lms unload --all` 釋放記憶體；load 後再次 `lms ps` 做雙重驗證；所有 subprocess 呼叫設 timeout（ps: 10s / load: 300s / unload: 30s）防 daemon hang 卡死 pipeline；`try/finally` 保證 unload 必然執行，無論 pipeline 成功或失敗
 - **Vector DB 語意去重**：fetch 完成後插入 `dedup` 步驟，以 ChromaDB（persistent）+ `Qwen3-Embedding-0.6B`（MLX，351MB）對文章標題做語意向量化；7 天滑動視窗內 URL 精確比對與 cosine similarity > 0.80 的語意近似文章均被過濾，避免重複文章消耗 compress / digest 的 LLM token；`dedup.json` artifact 保存 `kept_urls` 供後續步驟重跑時重現相同過濾結果
-- **n8n 排程**：本機 n8n workflow 每日凌晨 01:00（台灣時間）觸發，免伺服器、免 Docker
+- **n8n 排程**：本機 n8n workflow 每日凌晨 02:00 觸發，免伺服器、免 Docker
 
 ---
 
@@ -32,7 +32,7 @@
 |------|------|
 | **Language** | Python 3.12（型別標注、Protocol、dataclass） |
 | **LLM Backend** | LM Studio（本地）/ Anthropic Claude API（備援） |
-| **Main / Judge Model** | Main：Qwen 3.5 27B（Claude 4.6 Opus distilled, MLX）；Judge：`google/gemma-4-e4b`（MLX）；兩者均由 LM Studio 多模型 server（port 1234）提供，可透過 `JUDGE_LLM_URL` / `JUDGE_LLM_MODEL` 熱換為獨立 server（`scripts/judge-server.sh` 管理 mlx_lm.server 於 port 1235） |
+| **Main / Judge Model** | Main：Qwen 3.5 27B（Claude 4.6 Opus distilled, MLX）；Judge：`google/gemma-4-e4b`（MLX）；兩者均由 LM Studio server（port 1234）提供；`tools/lms_lifecycle.py` 在 pipeline 啟動前自動 load、結束後 unload |
 | **Web Scraping** | playwright-cli（JS 渲染）、curl / urllib（RSS/JSON API） |
 | **Data Sources** | Hatena RSS、HN 首頁（playwright-cli + HTML 解析）、Reddit JSON API、aikido.dev / wiz.io |
 | **Notification** | Telegram Bot API（HTML parse_mode） |
@@ -67,8 +67,7 @@ main.py  ──→  route()  ──→  DailyBriefAgent / UrlDigestAgent
             ├── judge.json                       # 品質評分（3 維度）
             report.md / telegram.done / vault.done
 
-scripts/
-└── judge-server.sh  ← judge LLM 生命週期管理（start/stop/health）
+tools/lms_lifecycle.py  ← 模型生命週期（load / unload / verify）
 ```
 
 **Agent vs Tool 分層**：
@@ -111,16 +110,19 @@ Reddit stickied 公告貼文若不過濾，LLM 會將其列入摘要：
 if p.get("stickied"): continue
 ```
 
-### 6. Judge Server 啟動時序
-Judge LLM 跑在獨立 port（預設 1235），`mlx_lm.server` 啟動後需等待模型載入才能接受請求。`judge-server.sh` 以 `nohup` 放背景後輪詢 `/v1/models` 確認就緒，避免 pipeline 在模型未就緒時送出請求而靜默失敗：
-```bash
-wait_for_ready() {
-    for i in $(seq 1 "${STARTUP_WAIT}"); do
-        curl -s "http://localhost:${PORT}/v1/models" > /dev/null 2>&1 && return 0
-        sleep 1
-    done
-}
+### 6. 模型生命週期自動化
+每次 pipeline 執行前需確保 LM Studio 主模型與 judge 模型已載入，執行後釋放記憶體。手動管理容易遺漏；`lms unload --all` 若從未執行，27B 模型常駐佔用 15GB RAM。
+
+設計 `tools/lms_lifecycle.py`，`subprocess.run` 阻塞式呼叫確保 load 完成才繼續，並在 load 後再次 `lms ps` 驗證：
+```python
+# main.py
+ensure_models_loaded([DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL])
+try:
+    print(agent.run(args))
+finally:
+    unload_all()  # 無論成功或失敗都執行
 ```
+所有 subprocess 加 timeout（load: 300s）防止 daemon hang 永久阻塞 pipeline。
 
 ### 5. LLM 靜默丟棄 *** 文章
 Compress 步驟偶爾 LLM 靜默丟棄 *** 評分文章。根本解法是 Python 預篩選，而非事後 fallback：只將 `interest == "***"` 的文章傳入 LLM，prompt 明確標示「已由程式預先篩選，禁止丟棄任何一篇」；無 *** 文章時直接跳過 LLM 呼叫：

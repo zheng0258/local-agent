@@ -17,7 +17,7 @@
 | **語言** | Python 3.12，全型別標注 | Protocol + dataclass 夠用，不需要框架 |
 | **LLM 後端** | LM Studio（本地）/ Anthropic API（備援） | 零 API 成本；Protocol 讓切換無需改 agent 程式碼 |
 | **主模型** | Qwen 3.5 27B（Claude 4.6 Opus distilled, MLX） | 量化後本地可跑，品質接近 Claude Sonnet |
-| **Judge 模型** | Gemma 4e4b（MLX，獨立 port 1235） | 輕量獨立評分，可熱換，不污染主流程 |
+| **Judge 模型** | Gemma 4e4b（MLX，LM Studio port 1234） | 輕量獨立評分，可透過 env var 熱換 |
 | **向量資料庫** | ChromaDB（PersistentClient）| 輕量 embedded，無需額外服務 |
 | **Embedding** | Qwen3-Embedding-0.6B（MLX，351MB） | 本地推理，支援中日英，cosine similarity 去重 |
 | **網頁爬取** | playwright-cli（JS 渲染）、curl + urllib（RSS/JSON） | 視頁面動態程度選最輕量工具 |
@@ -194,6 +194,25 @@ fetch（100+ 篇）
 | n8n 本機排程 | 免伺服器 | 可改 GitHub Actions 或 cron |
 | ChromaDB embedded | 無外部服務依賴 | 資料量大時可遷移 Qdrant/Weaviate |
 | Lint scripts | 機械化強制執行介面規範 | 可整合 pre-commit hook |
+
+---
+
+### 問題六：模型生命週期管理
+
+Pipeline 每次執行前需確認 LM Studio 主模型（27B）與 judge 模型已載入，執行後釋放記憶體。若模型未載入就送 API 請求，會靜默失敗；若從不卸載，15GB RAM 常駐。
+
+**解法**：`tools/lms_lifecycle.py` 封裝三個操作：
+
+```python
+# 執行前：確認兩個模型都已載入
+ensure_models_loaded([DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL])
+# 執行後（try/finally 保證執行）
+unload_all()
+```
+
+load 順序保證：`subprocess.run(["lms", "load", model, "-y"])` 是阻塞呼叫，返回即代表完成；load 後再次 `lms ps` 驗證，雙重保護。timeout 設定（load: 300s, ps: 10s）防止 daemon hang 永久阻塞。
+
+**面試重點**：`try/finally` 確保資源釋放不依賴「正常結束」；timeout 是應對外部 CLI 工具不可靠性的標準做法；阻塞 + 驗證比非同步輪詢更簡單可靠。
 
 ---
 
