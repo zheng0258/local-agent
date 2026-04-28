@@ -6,7 +6,7 @@
 
 ## 一句話摘要
 
-將 Claude Code Skills 重構為可在本地 LLM 上運行的 multi-agent pipeline，每日自動從 4 個來源爬取科技趨勢、LLM 評分摘要、推送 Telegram 通知，並同步至 Obsidian 知識庫。
+將 Claude Code Skills 重構為可在本地 LLM 上運行的 multi-agent pipeline，每日自動從 4 個來源爬取科技趨勢、LLM 興趣評分、跨日向量去重、語義壓縮、SupervisorAgent 自癒、Telegram 推送，並同步至 Obsidian 知識庫，API 成本為零。
 
 ---
 
