@@ -7,6 +7,9 @@ from .config import (
     REDDIT_DIGEST_THRESHOLD,
 )
 
+# Qwen3/3.5 系列：機械性任務（分類、格式轉換）關閉 thinking 以加速推理
+_NO_THINK = "/no_think\n\n"
+
 # ── 系統 prompt ──────────────────────────────────────────────────
 
 SYSTEM = """\
@@ -46,7 +49,7 @@ def _scoring_block() -> str:
 
 def build_hatena_prompt(articles_json: str) -> str:
     return f"""\
-## 文章清單（Hatena Bookmark IT）
+{_NO_THINK}## 文章清單（Hatena Bookmark IT）
 
 {articles_json}
 
@@ -70,7 +73,7 @@ def build_hatena_prompt(articles_json: str) -> str:
 
 def build_hn_prompt(articles_json: str) -> str:
     return f"""\
-## 文章清單（Hacker News）
+{_NO_THINK}## 文章清單（Hacker News）
 
 {articles_json}
 
@@ -98,7 +101,7 @@ def build_hn_prompt(articles_json: str) -> str:
 
 def build_reddit_prompt(posts_json: str) -> str:
     return f"""\
-## 文章清單（Reddit 16 子版）
+{_NO_THINK}## 文章清單（Reddit 16 子版）
 
 {posts_json}
 
@@ -129,7 +132,7 @@ def build_reddit_prompt(posts_json: str) -> str:
 
 def build_security_blogs_prompt(content: str) -> str:
     return f"""\
-## 資安部落格內容（aikido.dev / wiz.io）
+{_NO_THINK}## 資安部落格內容（aikido.dev / wiz.io）
 
 {content}
 
@@ -153,7 +156,7 @@ def build_security_blogs_prompt(content: str) -> str:
 
 def build_compress_prompt(source_name: str, articles_json: str) -> str:
     return f"""\
-## {source_name} *** 文章（已由程式預先篩選，全部為最高興趣度）
+{_NO_THINK}## {source_name} *** 文章（已由程式預先篩選，全部為最高興趣度）
 
 {articles_json}
 
@@ -460,7 +463,7 @@ def build_judge_prompt(compress_json: str, digest_json: str) -> str:
 
 def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
     return f"""\
-## 精選摘要
+{_NO_THINK}## 精選摘要
 
 {all_digests_json}
 
@@ -494,7 +497,7 @@ def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
 
 def build_telegram_digest_prompt(all_digests_json: str, today: str) -> str:
     return f"""\
-## 精選摘要
+{_NO_THINK}## 精選摘要
 
 {all_digests_json}
 
