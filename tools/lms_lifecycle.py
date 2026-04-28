@@ -51,3 +51,11 @@ def ensure_models_loaded(models: list[str]) -> None:
     for model in models:
         if model not in final:
             logger.warning("Model not present after load attempt: %s", model)
+
+
+def unload_all() -> None:
+    """Unload all models from LM Studio. Failures are silently ignored."""
+    try:
+        subprocess.run(["lms", "unload", "--all"], capture_output=True, text=True)
+    except FileNotFoundError:
+        pass

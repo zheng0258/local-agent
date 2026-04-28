@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 
-from tools.lms_lifecycle import get_loaded_models, ensure_models_loaded
+from tools.lms_lifecycle import get_loaded_models, ensure_models_loaded, unload_all
 
 
 _PS_OUTPUT = (
@@ -102,3 +102,27 @@ def test_ensure_warns_but_does_not_raise_on_load_failure():
 
     with patch("tools.lms_lifecycle.subprocess.run", side_effect=fake_run):
         ensure_models_loaded(["google/gemma-4-e4b"])  # must not raise
+
+
+@pytest.mark.unit
+def test_unload_all_calls_lms_unload_all():
+    """`unload_all` 呼叫 lms unload --all。"""
+    with patch("tools.lms_lifecycle.subprocess.run", return_value=MagicMock(returncode=0)) as mock_run:
+        unload_all()
+    mock_run.assert_called_once_with(
+        ["lms", "unload", "--all"], capture_output=True, text=True
+    )
+
+
+@pytest.mark.unit
+def test_unload_all_does_not_raise_on_failure():
+    """`lms unload --all` 失敗時靜默忽略，不 raise。"""
+    with patch("tools.lms_lifecycle.subprocess.run", return_value=MagicMock(returncode=1, stderr="err")):
+        unload_all()  # must not raise
+
+
+@pytest.mark.unit
+def test_unload_all_does_not_raise_when_lms_not_found():
+    """`lms` 不在 PATH 時靜默忽略。"""
+    with patch("tools.lms_lifecycle.subprocess.run", side_effect=FileNotFoundError):
+        unload_all()  # must not raise
