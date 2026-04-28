@@ -22,7 +22,7 @@ def test_get_loaded_models_returns_identifiers():
     """lms ps 輸出正確時，回傳所有 IDENTIFIER 的集合。"""
     with patch("tools.lms_lifecycle.subprocess.run", return_value=_mock_ps()) as mock_run:
         result = get_loaded_models()
-    mock_run.assert_called_once_with(["lms", "ps"], capture_output=True, text=True)
+    mock_run.assert_called_once_with(["lms", "ps"], capture_output=True, text=True, timeout=10)
     assert result == {
         "google/gemma-4-e4b",
         "qwen3.5-27b-claude-4.6-opus-distilled-mlx",
@@ -110,7 +110,7 @@ def test_unload_all_calls_lms_unload_all():
     with patch("tools.lms_lifecycle.subprocess.run", return_value=MagicMock(returncode=0)) as mock_run:
         unload_all()
     mock_run.assert_called_once_with(
-        ["lms", "unload", "--all"], capture_output=True, text=True
+        ["lms", "unload", "--all"], capture_output=True, text=True, timeout=30
     )
 
 
