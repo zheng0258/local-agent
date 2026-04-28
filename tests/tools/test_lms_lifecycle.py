@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 
-from tools.lms_lifecycle import get_loaded_models
+from tools.lms_lifecycle import get_loaded_models, ensure_models_loaded
 
 
 _PS_OUTPUT = (
@@ -52,3 +52,53 @@ def test_get_loaded_models_returns_empty_when_lms_not_found():
     with patch("tools.lms_lifecycle.subprocess.run", side_effect=FileNotFoundError):
         result = get_loaded_models()
     assert result == set()
+
+
+@pytest.mark.unit
+def test_ensure_skips_already_loaded_model():
+    """已載入的模型不呼叫 lms load。"""
+    calls = []
+
+    def fake_run(cmd, **kwargs):
+        calls.append(cmd)
+        if cmd == ["lms", "ps"]:
+            return _mock_ps()  # both models loaded
+        return MagicMock(returncode=0, stdout="", stderr="")
+
+    with patch("tools.lms_lifecycle.subprocess.run", side_effect=fake_run):
+        ensure_models_loaded(["google/gemma-4-e4b"])
+
+    load_calls = [c for c in calls if len(c) > 1 and c[1] == "load"]
+    assert load_calls == []
+
+
+@pytest.mark.unit
+def test_ensure_loads_missing_model():
+    """未載入的模型會呼叫 lms load <model> -y，並在 load 後驗證（兩次 lms ps）。"""
+    ps_calls = 0
+
+    def fake_run(cmd, **kwargs):
+        nonlocal ps_calls
+        if cmd == ["lms", "ps"]:
+            ps_calls += 1
+            if ps_calls == 1:
+                return _mock_ps(stdout="IDENTIFIER    MODEL    STATUS\n")  # empty
+            return _mock_ps()  # after load: both present
+        return MagicMock(returncode=0, stdout="", stderr="")
+
+    with patch("tools.lms_lifecycle.subprocess.run", side_effect=fake_run):
+        ensure_models_loaded(["google/gemma-4-e4b"])
+
+    assert ps_calls == 2
+
+
+@pytest.mark.unit
+def test_ensure_warns_but_does_not_raise_on_load_failure():
+    """`lms load` 失敗時只 warning，不 raise。"""
+    def fake_run(cmd, **kwargs):
+        if cmd == ["lms", "ps"]:
+            return _mock_ps(stdout="IDENTIFIER    MODEL    STATUS\n")
+        return MagicMock(returncode=1, stdout="", stderr="model not found")
+
+    with patch("tools.lms_lifecycle.subprocess.run", side_effect=fake_run):
+        ensure_models_loaded(["google/gemma-4-e4b"])  # must not raise
