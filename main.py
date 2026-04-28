@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from config import get_llm, setup_logging
+from config import get_llm, setup_logging, LocalLLMBackend
 from tools.lms_lifecycle import ensure_models_loaded, unload_all
 from config.settings import DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL
 from agents.daily_brief import DailyBriefAgent
@@ -56,11 +56,14 @@ def main() -> None:
     llm = get_llm()
     agent = agent_cls(llm=llm)
     print(f"[router] skill={agent.AGENT_NAME}, args={args!r}")
-    ensure_models_loaded([DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL])
-    try:
+    if isinstance(llm, LocalLLMBackend):
+        ensure_models_loaded([DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL])
+        try:
+            print(agent.run(args))
+        finally:
+            unload_all()
+    else:
         print(agent.run(args))
-    finally:
-        unload_all()
 
 
 if __name__ == "__main__":
