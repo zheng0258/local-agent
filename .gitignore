@@ -7,3 +7,4 @@ logs/
 .playwright-cli/
 .superpowers/
 outputs/daily-brief/.vectordb/
+.DS_Store
