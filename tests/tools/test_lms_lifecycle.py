@@ -1,9 +1,17 @@
 """tools/lms_lifecycle 測試。"""
 
+import subprocess
+
 import pytest
 from unittest.mock import patch, MagicMock
 
-from tools.lms_lifecycle import get_loaded_models, ensure_models_loaded, unload_all
+from tools.lms_lifecycle import (
+    LMS_BIN,
+    get_loaded_models,
+    ensure_models_loaded,
+    unload_model,
+    unload_all,
+)
 
 
 _PS_OUTPUT = (
@@ -17,12 +25,17 @@ def _mock_ps(stdout: str = _PS_OUTPUT, returncode: int = 0) -> MagicMock:
     return MagicMock(returncode=returncode, stdout=stdout, stderr="")
 
 
+# ---------------------------------------------------------------------------
+# get_loaded_models
+# ---------------------------------------------------------------------------
+
+
 @pytest.mark.unit
 def test_get_loaded_models_returns_identifiers():
     """lms ps 輸出正確時，回傳所有 IDENTIFIER 的集合。"""
     with patch("tools.lms_lifecycle.subprocess.run", return_value=_mock_ps()) as mock_run:
         result = get_loaded_models()
-    mock_run.assert_called_once_with(["lms", "ps"], capture_output=True, text=True, timeout=10)
+    mock_run.assert_called_once_with([LMS_BIN, "ps"], capture_output=True, text=True, timeout=10)
     assert result == {
         "google/gemma-4-e4b",
         "qwen3.5-27b-claude-4.6-opus-distilled-mlx",
@@ -54,6 +67,11 @@ def test_get_loaded_models_returns_empty_when_lms_not_found():
     assert result == set()
 
 
+# ---------------------------------------------------------------------------
+# ensure_models_loaded
+# ---------------------------------------------------------------------------
+
+
 @pytest.mark.unit
 def test_ensure_skips_already_loaded_model():
     """已載入的模型不呼叫 lms load。"""
@@ -61,7 +79,7 @@ def test_ensure_skips_already_loaded_model():
 
     def fake_run(cmd, **kwargs):
         calls.append(cmd)
-        if cmd == ["lms", "ps"]:
+        if cmd == [LMS_BIN, "ps"]:
             return _mock_ps()  # both models loaded
         return MagicMock(returncode=0, stdout="", stderr="")
 
@@ -79,7 +97,7 @@ def test_ensure_loads_missing_model():
 
     def fake_run(cmd, **kwargs):
         nonlocal ps_calls
-        if cmd == ["lms", "ps"]:
+        if cmd == [LMS_BIN, "ps"]:
             ps_calls += 1
             if ps_calls == 1:
                 return _mock_ps(stdout="IDENTIFIER    MODEL    STATUS\n")  # empty
@@ -96,12 +114,56 @@ def test_ensure_loads_missing_model():
 def test_ensure_warns_but_does_not_raise_on_load_failure():
     """`lms load` 失敗時只 warning，不 raise。"""
     def fake_run(cmd, **kwargs):
-        if cmd == ["lms", "ps"]:
+        if cmd == [LMS_BIN, "ps"]:
             return _mock_ps(stdout="IDENTIFIER    MODEL    STATUS\n")
         return MagicMock(returncode=1, stdout="", stderr="model not found")
 
     with patch("tools.lms_lifecycle.subprocess.run", side_effect=fake_run):
         ensure_models_loaded(["google/gemma-4-e4b"])  # must not raise
+
+
+# ---------------------------------------------------------------------------
+# unload_model（單一模型 eject）
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.unit
+def test_unload_model_calls_lms_unload_model():
+    """`unload_model` 呼叫 lms unload <model>。"""
+    with patch("tools.lms_lifecycle.subprocess.run", return_value=MagicMock(returncode=0)) as mock_run:
+        unload_model("google/gemma-4-e4b")
+    mock_run.assert_called_once_with(
+        [LMS_BIN, "unload", "google/gemma-4-e4b"], capture_output=True, text=True, timeout=30
+    )
+
+
+@pytest.mark.unit
+def test_unload_model_does_not_raise_on_failure():
+    """`lms unload <model>` 失敗時靜默，不 raise。"""
+    with patch("tools.lms_lifecycle.subprocess.run", return_value=MagicMock(returncode=1, stderr="err")):
+        unload_model("google/gemma-4-e4b")  # must not raise
+
+
+@pytest.mark.unit
+def test_unload_model_does_not_raise_when_lms_not_found():
+    """`lms` 不在 PATH 時靜默忽略。"""
+    with patch("tools.lms_lifecycle.subprocess.run", side_effect=FileNotFoundError):
+        unload_model("google/gemma-4-e4b")  # must not raise
+
+
+@pytest.mark.unit
+def test_unload_model_does_not_raise_on_timeout():
+    """`lms unload` timeout 時靜默忽略。"""
+    with patch(
+        "tools.lms_lifecycle.subprocess.run",
+        side_effect=subprocess.TimeoutExpired(cmd="lms", timeout=30),
+    ):
+        unload_model("google/gemma-4-e4b")  # must not raise
+
+
+# ---------------------------------------------------------------------------
+# unload_all
+# ---------------------------------------------------------------------------
 
 
 @pytest.mark.unit
@@ -110,7 +172,7 @@ def test_unload_all_calls_lms_unload_all():
     with patch("tools.lms_lifecycle.subprocess.run", return_value=MagicMock(returncode=0)) as mock_run:
         unload_all()
     mock_run.assert_called_once_with(
-        ["lms", "unload", "--all"], capture_output=True, text=True, timeout=30
+        [LMS_BIN, "unload", "--all"], capture_output=True, text=True, timeout=30
     )
 
 

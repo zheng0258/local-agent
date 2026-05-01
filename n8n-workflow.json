@@ -8,12 +8,12 @@
           "interval": [
             {
               "field": "cronExpression",
-              "expression": "0 2 * * *"
+              "expression": "0 1 * * *"
             }
           ]
         }
       },
-      "name": "每日 02:00",
+      "name": "每日 01:00",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.1,
       "position": [240, 300]
@@ -30,7 +30,7 @@
     }
   ],
   "connections": {
-    "每日 02:00": {
+    "每日 01:00": {
       "main": [
         [
           {
