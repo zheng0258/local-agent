@@ -40,6 +40,14 @@ DEFAULT_PARAMS: dict[str, Any] = {
     "atr_k_r1": 0.5,
     "atr_k_r2": 0.8,
     "atr_k_r3": 1.2,
+    # 5日窗口參數（供 predict 使用）
+    "flat_lower_5d": -3.0,
+    "small_move_5d": 5.0,
+    "large_move_5d": 12.0,
+    "lookback_windows": 130,
+    "atr_k_r1_5d": 0.8,
+    "atr_k_r2_5d": 1.2,
+    "atr_k_r3_5d": 1.5,
 }
 
 
@@ -449,6 +457,20 @@ _FALLBACK_MIDPOINTS: dict[str, float] = {
     "R3": 5.5,
 }
 
+_FALLBACK_MIDPOINTS_5D: dict[str, float] = {
+    "S":  -5.0,
+    "F0": -1.0,
+    "R1":  3.0,
+    "R2":  8.5,
+    "R3": 15.0,
+}
+
+_TP_BOUNDS_5D: dict[str, tuple[float, float]] = {
+    "R1": (1.0, 5.0),
+    "R2": (5.0, 12.0),
+    "R3": (12.0, 20.0),
+}
+
 
 def _projected_close(probs: dict[str, float], df: pd.DataFrame, current_close: float) -> float:
     if "close_change_pct" not in df.columns:
@@ -464,6 +486,11 @@ def _projected_close(probs: dict[str, float], df: pd.DataFrame, current_close: f
             midpoints[iv] = _FALLBACK_MIDPOINTS[iv]
 
     expected_pct = sum(probs[iv] * midpoints[iv] for iv in INTERVALS)
+    return current_close * (1 + expected_pct / 100)
+
+
+def _projected_close_5d(probs: dict[str, float], current_close: float) -> float:
+    expected_pct = sum(probs.get(iv, 0.0) * _FALLBACK_MIDPOINTS_5D[iv] for iv in INTERVALS)
     return current_close * (1 + expected_pct / 100)
 
 
