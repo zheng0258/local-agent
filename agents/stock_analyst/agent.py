@@ -14,7 +14,7 @@ from config.settings import LLMBackend
 from tools.notifiers.telegram import send as _tg_send
 
 def telegram_send(text: str) -> bool:
-    return _tg_send(text, token_env="STOCK_TELEGRAM_BOT_TOKEN", chat_id_env="STOCK_TELEGRAM_CHAT_ID")
+    return _tg_send(text, token_env="STOCK_TELEGRAM_BOT_TOKEN")
 from tools.predictors.algorithm import backtest
 
 from agents.stock_predictor.config import OHLCV_DIR, STATS_DIR, load_watchlist
