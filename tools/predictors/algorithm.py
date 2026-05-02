@@ -190,6 +190,45 @@ def _encode_symbols_from_5day(windows: pd.DataFrame, params: dict) -> tuple[list
     return symbols, dates
 
 
+def _detect_regime_5d(row: pd.Series) -> str:
+    """判斷5日窗口的市場結構（Bull/Bear/Range）。"""
+    close = float(row["close"])
+    ma20 = row.get("ma20", float("nan"))
+    ma60 = row.get("ma60", float("nan"))
+    if pd.isna(ma20) or pd.isna(ma60):
+        return "Range"
+    if close > float(ma20) and close > float(ma60):
+        return "Bull"
+    if close < float(ma20) and close < float(ma60):
+        return "Bear"
+    return "Range"
+
+
+def _indicator_distribution_5d(latest_sym: str) -> dict[str, float]:
+    """根據5日符號的MA結構和MACD狀態，計算區間分佈。"""
+    parts = latest_sym.split("|")
+    ma_struct = parts[1] if len(parts) > 1 else "FLAT"
+    macd_state = parts[2] if len(parts) > 2 else "MN"
+
+    scores: dict[str, float] = {iv: 0.0 for iv in INTERVALS}
+    scores["F0"] = 1.0
+
+    if ma_struct == "BULL":
+        scores["R1"] += 0.8
+        scores["R2"] += 0.5
+    elif ma_struct == "BEAR":
+        scores["S"] += 1.0
+
+    if macd_state == "MU":
+        scores["R1"] += 0.5
+        scores["R2"] += 0.3
+    elif macd_state == "MD":
+        scores["S"] += 0.6
+
+    s = sum(scores.values())
+    return {k: v / s for k, v in scores.items()}
+
+
 def _detect_regime(close: float, ma5: float | None, ma10: float | None) -> str:
     if ma5 is None or ma10 is None or np.isnan(ma5) or np.isnan(ma10):
         return "Range"
