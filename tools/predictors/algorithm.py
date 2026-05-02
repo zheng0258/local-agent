@@ -69,12 +69,45 @@ def _compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     df["boll_middle"] = bb.bollinger_mavg()
     df["boll_lower"] = bb.bollinger_lband()
 
-    df["atr14"] = AverageTrueRange(high, low, close, n=14).average_true_range()
+    try:
+        df["atr14"] = AverageTrueRange(high, low, close, n=14).average_true_range()
+    except (IndexError, ValueError):
+        df["atr14"] = float("nan")
     df["obv"] = OnBalanceVolumeIndicator(close, vol).on_balance_volume()
 
     rolling_vol_mean = vol.rolling(20).mean()
     df["volume_ratio"] = vol / rolling_vol_mean
     return df
+
+
+def resample_5day_windows(df: pd.DataFrame) -> pd.DataFrame:
+    """把日線 df（含 indicators）聚合為非重疊5日窗口。
+    從最新日往前對齊：捨棄首部不足5日的殘餘資料。
+    """
+    df = df.reset_index(drop=True)
+    n = len(df)
+    remainder = n % 5
+    start = remainder  # 捨棄前 remainder 行
+    rows = []
+    for i in range(start, n, 5):
+        chunk = df.iloc[i : i + 5]
+        if len(chunk) < 5:
+            break
+        last = chunk.iloc[-1]
+        rows.append({
+            "date":      str(last["date"]),
+            "open":      float(chunk.iloc[0]["open"]),
+            "high":      float(chunk["high"].max()),
+            "low":       float(chunk["low"].min()),
+            "close":     float(last["close"]),
+            "volume":    float(chunk["volume"].sum()),
+            "ma20":      float(last["ma20"]) if not (isinstance(last["ma20"], float) and np.isnan(last["ma20"])) else float("nan"),
+            "ma60":      float(last["ma60"]) if not (isinstance(last["ma60"], float) and np.isnan(last["ma60"])) else float("nan"),
+            "macd_hist": float(last["macd_hist"]) if not (isinstance(last["macd_hist"], float) and np.isnan(last["macd_hist"])) else float("nan"),
+            "rsi14":     float(last["rsi14"]) if not (isinstance(last["rsi14"], float) and np.isnan(last["rsi14"])) else float("nan"),
+            "atr14":     float(last["atr14"]) if not (isinstance(last["atr14"], float) and np.isnan(last["atr14"])) else float("nan"),
+        })
+    return pd.DataFrame(rows)
 
 
 def _detect_regime(close: float, ma5: float | None, ma10: float | None) -> str:
