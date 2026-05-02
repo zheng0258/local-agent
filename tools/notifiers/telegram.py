@@ -46,7 +46,8 @@ def _load_env() -> None:
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 k, v = line.split("=", 1)
-                os.environ.setdefault(k.strip(), v.strip())
+                v = v.split(" #")[0].strip()  # 移除 inline comment
+                os.environ.setdefault(k.strip(), v)
 
 
 def send(
@@ -62,8 +63,8 @@ def send(
     - token_env / chat_id_env：指定讀取哪個 env var（不同 bot 時覆寫）
     """
     _load_env()
-    token = os.environ.get(token_env)
-    chat_id = os.environ.get(chat_id_env)
+    token = (os.environ.get(token_env) or "").strip() or None
+    chat_id = (os.environ.get(chat_id_env) or "").strip() or None
 
     if not token or not chat_id:
         print(f"⚠️  {token_env} 或 {chat_id_env} 未設定，略過通知。")
