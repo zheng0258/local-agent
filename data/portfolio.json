@@ -1,0 +1,16 @@
+{
+  "00635U": {
+    "shares": 954083,
+    "entry_price": 52.1597,
+    "cost_total": 49764683,
+    "pnl_twd": -86597,
+    "pnl_pct": -8.32
+  },
+  "0052": {
+    "shares": 105046,
+    "entry_price": 49.8061,
+    "cost_total": 5231932,
+    "pnl_twd": 5675,
+    "pnl_pct": 5.71
+  }
+}
