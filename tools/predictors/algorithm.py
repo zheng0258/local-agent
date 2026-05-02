@@ -101,11 +101,11 @@ def resample_5day_windows(df: pd.DataFrame) -> pd.DataFrame:
             "low":       float(chunk["low"].min()),
             "close":     float(last["close"]),
             "volume":    float(chunk["volume"].sum()),
-            "ma20":      float(last["ma20"]) if not (isinstance(last["ma20"], float) and np.isnan(last["ma20"])) else float("nan"),
-            "ma60":      float(last["ma60"]) if not (isinstance(last["ma60"], float) and np.isnan(last["ma60"])) else float("nan"),
-            "macd_hist": float(last["macd_hist"]) if not (isinstance(last["macd_hist"], float) and np.isnan(last["macd_hist"])) else float("nan"),
-            "rsi14":     float(last["rsi14"]) if not (isinstance(last["rsi14"], float) and np.isnan(last["rsi14"])) else float("nan"),
-            "atr14":     float(last["atr14"]) if not (isinstance(last["atr14"], float) and np.isnan(last["atr14"])) else float("nan"),
+            "ma20":      float(last["ma20"]) if pd.notna(last["ma20"]) else float("nan"),
+            "ma60":      float(last["ma60"]) if pd.notna(last["ma60"]) else float("nan"),
+            "macd_hist": float(last["macd_hist"]) if pd.notna(last["macd_hist"]) else float("nan"),
+            "rsi14":     float(last["rsi14"]) if pd.notna(last["rsi14"]) else float("nan"),
+            "atr14":     float(last["atr14"]) if pd.notna(last["atr14"]) else float("nan"),
         })
     return pd.DataFrame(rows)
 
