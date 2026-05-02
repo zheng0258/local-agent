@@ -53,11 +53,11 @@ def fetch_incremental(
     ticker: str,
     data_dir: Path,
     token: str,
-    initial_days: int = 1750,
+    initial_start: str = "2000-01-01",
 ) -> pd.DataFrame:
     """
     讀取本地 CSV，補抓缺失資料，存回 CSV，回傳完整 DataFrame。
-    首次執行時抓取 initial_days 曆日的歷史（預設 1750 曆日 ≈ 1250 交易日）。
+    首次執行時從 initial_start 抓取全部歷史（預設 2000-01-01）。
     """
     data_dir = Path(data_dir)
     data_dir.mkdir(parents=True, exist_ok=True)
@@ -70,7 +70,7 @@ def fetch_incremental(
         start_date = (date.fromisoformat(last_date) + timedelta(days=1)).isoformat()
     else:
         existing = pd.DataFrame(columns=_REQUIRED_COLS)
-        start_date = (date.today() - timedelta(days=initial_days)).isoformat()
+        start_date = initial_start
 
     if start_date > today:
         return existing
