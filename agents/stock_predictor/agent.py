@@ -16,7 +16,7 @@ from tools.fetchers.finmind import fetch_incremental
 from tools.notifiers.telegram import send as _tg_send
 
 def telegram_send(text: str) -> bool:
-    return _tg_send(text, token_env="STOCK_TELEGRAM_BOT_TOKEN", chat_id_env="STOCK_TELEGRAM_CHAT_ID")
+    return _tg_send(text, token_env="STOCK_TELEGRAM_BOT_TOKEN")
 
 from .config import OHLCV_DIR, OUTPUTS_DIR, STATS_DIR, is_trading_day, load_params, load_watchlist, prev_trading_day
 
