@@ -49,19 +49,24 @@ def _load_env() -> None:
                 os.environ.setdefault(k.strip(), v.strip())
 
 
-def send(text: str) -> bool:
+def send(
+    text: str,
+    token_env: str = "TELEGRAM_BOT_TOKEN",
+    chat_id_env: str = "TELEGRAM_CHAT_ID",
+) -> bool:
     """
     發送 Telegram 訊息。
     - parse_mode=HTML（支援 <b>、<a href>）
     - 超過 MAX_LEN 自動截斷
     - 憑證未設定：印出警告後回傳 False
+    - token_env / chat_id_env：指定讀取哪個 env var（不同 bot 時覆寫）
     """
     _load_env()
-    token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    token = os.environ.get(token_env)
+    chat_id = os.environ.get(chat_id_env)
 
     if not token or not chat_id:
-        print("⚠️  TELEGRAM_BOT_TOKEN 或 TELEGRAM_CHAT_ID 未設定，略過通知。")
+        print(f"⚠️  {token_env} 或 {chat_id_env} 未設定，略過通知。")
         return False
 
     text = _sanitize_html(text)
