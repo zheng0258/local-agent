@@ -374,34 +374,34 @@ def test_trading_signal_strength_strong():
 
 
 def test_predict_returns_required_keys(sample_ohlcv):
-    from tools.predictors.algorithm import DEFAULT_PARAMS, predict
+    from tools.predictors.algorithm import DEFAULT_PARAMS, predict_daily
 
-    result = predict(sample_ohlcv.copy(), DEFAULT_PARAMS)
+    result = predict_daily(sample_ohlcv.copy(), DEFAULT_PARAMS)
     for key in ["most_likely", "probs", "confidence", "projected_close", "current_close", "signal", "regime"]:
         assert key in result, f"missing key: {key}"
 
 
 def test_predict_most_likely_in_intervals(sample_ohlcv):
-    from tools.predictors.algorithm import DEFAULT_PARAMS, INTERVALS as ALG_INTERVALS, predict
+    from tools.predictors.algorithm import DEFAULT_PARAMS, INTERVALS as ALG_INTERVALS, predict_daily
 
-    result = predict(sample_ohlcv.copy(), DEFAULT_PARAMS)
+    result = predict_daily(sample_ohlcv.copy(), DEFAULT_PARAMS)
     assert result["most_likely"] in ALG_INTERVALS
 
 
 def test_predict_probs_sum_to_one(sample_ohlcv):
-    from tools.predictors.algorithm import DEFAULT_PARAMS, predict
+    from tools.predictors.algorithm import DEFAULT_PARAMS, predict_daily
 
-    result = predict(sample_ohlcv.copy(), DEFAULT_PARAMS)
+    result = predict_daily(sample_ohlcv.copy(), DEFAULT_PARAMS)
     assert abs(sum(result["probs"].values()) - 1.0) < 1e-6
 
 
 def test_predict_signal_none_for_bearish(sample_ohlcv):
     from tools.predictors import algorithm
-    from tools.predictors.algorithm import DEFAULT_PARAMS, predict
+    from tools.predictors.algorithm import DEFAULT_PARAMS, predict_daily
 
     forced_probs = {"S": 0.9, "F0": 0.025, "R1": 0.025, "R2": 0.025, "R3": 0.025}
     with mock.patch.object(algorithm, "_combine", return_value=forced_probs):
-        result = predict(sample_ohlcv.copy(), DEFAULT_PARAMS)
+        result = predict_daily(sample_ohlcv.copy(), DEFAULT_PARAMS)
     assert result["signal"] is None
 
 
@@ -611,3 +611,49 @@ def test_projected_close_5d_r2_above_current(ohlcv_15rows):
     probs = {"S": 0.05, "F0": 0.10, "R1": 0.15, "R2": 0.50, "R3": 0.20}
     result = _projected_close_5d(probs, current_close)
     assert result > current_close
+
+
+@pytest.fixture
+def ohlcv_100rows() -> pd.DataFrame:
+    """100個交易日 = 20個5日窗口"""
+    np.random.seed(99)
+    n = 100
+    dates = pd.bdate_range("2024-01-02", periods=n).strftime("%Y-%m-%d").tolist()
+    close = 100.0 * np.cumprod(1 + np.random.normal(0.001, 0.012, n))
+    open_ = close * (1 + np.random.normal(0, 0.004, n))
+    high = np.maximum(close, open_) * (1 + np.abs(np.random.normal(0, 0.006, n)))
+    low = np.minimum(close, open_) * (1 - np.abs(np.random.normal(0, 0.006, n)))
+    volume = np.random.randint(2000, 8000, n).astype(float)
+    return pd.DataFrame({"date": dates, "open": open_, "high": high, "low": low, "close": close, "volume": volume})
+
+
+def test_predict_5day_returns_required_keys(ohlcv_100rows):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, predict
+    result = predict(ohlcv_100rows.copy(), DEFAULT_PARAMS)
+    for key in ["most_likely", "probs", "confidence", "projected_5day_return_pct",
+                "projected_close", "current_close", "signal", "regime", "window_end_date"]:
+        assert key in result, f"missing key: {key}"
+
+def test_predict_5day_most_likely_in_intervals(ohlcv_100rows):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, INTERVALS as ALG_INTERVALS, predict
+    result = predict(ohlcv_100rows.copy(), DEFAULT_PARAMS)
+    assert result["most_likely"] in ALG_INTERVALS
+
+def test_predict_5day_probs_sum_to_one(ohlcv_100rows):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, predict
+    result = predict(ohlcv_100rows.copy(), DEFAULT_PARAMS)
+    assert abs(sum(result["probs"].values()) - 1.0) < 1e-6
+
+def test_predict_5day_signal_none_for_bearish(ohlcv_100rows):
+    from tools.predictors import algorithm
+    from tools.predictors.algorithm import DEFAULT_PARAMS, predict
+    forced_probs = {"S": 0.9, "F0": 0.025, "R1": 0.025, "R2": 0.025, "R3": 0.025}
+    with mock.patch.object(algorithm, "_combine", return_value=forced_probs):
+        result = predict(ohlcv_100rows.copy(), DEFAULT_PARAMS)
+    assert result["signal"] is None
+
+def test_predict_daily_still_works(sample_ohlcv):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, predict_daily
+    result = predict_daily(sample_ohlcv.copy(), DEFAULT_PARAMS)
+    for key in ["most_likely", "probs", "confidence", "projected_close", "current_close"]:
+        assert key in result
