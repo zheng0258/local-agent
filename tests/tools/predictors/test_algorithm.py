@@ -413,3 +413,76 @@ def test_backtest_returns_metrics(sample_ohlcv):
         assert key in result
     assert 0.0 <= result["direction_acc"] <= 1.0
     assert result["n_predictions"] >= 0
+
+
+@pytest.fixture
+def ohlcv_15rows() -> pd.DataFrame:
+    """剛好15個交易日 → 3個完整5日窗口"""
+    np.random.seed(7)
+    n = 15
+    dates = pd.bdate_range("2025-01-02", periods=n).strftime("%Y-%m-%d").tolist()
+    close = 100.0 * np.cumprod(1 + np.random.normal(0.001, 0.01, n))
+    open_ = close * (1 + np.random.normal(0, 0.003, n))
+    high = np.maximum(close, open_) * 1.005
+    low = np.minimum(close, open_) * 0.995
+    volume = np.random.randint(1000, 5000, n).astype(float)
+    return pd.DataFrame({"date": dates, "open": open_, "high": high, "low": low, "close": close, "volume": volume})
+
+
+@pytest.fixture
+def ohlcv_13rows() -> pd.DataFrame:
+    """13個交易日 → 捨棄首3日，留2個完整5日窗口"""
+    np.random.seed(8)
+    n = 13
+    dates = pd.bdate_range("2025-01-02", periods=n).strftime("%Y-%m-%d").tolist()
+    close = 100.0 * np.cumprod(1 + np.random.normal(0.001, 0.01, n))
+    open_ = close * (1 + np.random.normal(0, 0.003, n))
+    high = np.maximum(close, open_) * 1.005
+    low = np.minimum(close, open_) * 0.995
+    volume = np.random.randint(1000, 5000, n).astype(float)
+    return pd.DataFrame({"date": dates, "open": open_, "high": high, "low": low, "close": close, "volume": volume})
+
+
+def test_resample_5day_exact_windows(ohlcv_15rows):
+    from tools.predictors.algorithm import _compute_indicators, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    assert len(windows) == 3
+
+
+def test_resample_5day_partial_discarded(ohlcv_13rows):
+    from tools.predictors.algorithm import _compute_indicators, resample_5day_windows
+    df = _compute_indicators(ohlcv_13rows)
+    windows = resample_5day_windows(df)
+    assert len(windows) == 2
+
+
+def test_resample_5day_columns(ohlcv_15rows):
+    from tools.predictors.algorithm import _compute_indicators, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    required = {"date", "open", "high", "low", "close", "volume", "ma20", "ma60", "macd_hist", "rsi14", "atr14"}
+    assert required.issubset(set(windows.columns))
+
+
+def test_resample_5day_high_is_max(ohlcv_15rows):
+    from tools.predictors.algorithm import _compute_indicators, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    expected_high = df.iloc[:5]["high"].max()
+    assert abs(windows.iloc[0]["high"] - expected_high) < 1e-6
+
+
+def test_resample_5day_volume_is_sum(ohlcv_15rows):
+    from tools.predictors.algorithm import _compute_indicators, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    expected_vol = df.iloc[:5]["volume"].sum()
+    assert abs(windows.iloc[0]["volume"] - expected_vol) < 1e-6
+
+
+def test_resample_5day_close_is_last(ohlcv_15rows):
+    from tools.predictors.algorithm import _compute_indicators, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    assert abs(windows.iloc[0]["close"] - df.iloc[4]["close"]) < 1e-6
