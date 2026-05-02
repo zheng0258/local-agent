@@ -537,7 +537,7 @@ def _trading_signal(
     }
 
 
-def predict(df: pd.DataFrame, params: dict | None = None) -> dict:
+def predict_daily(df: pd.DataFrame, params: dict | None = None) -> dict:
     p = {**DEFAULT_PARAMS, **(params or {})}
     lookback = p["lookback_days"]
     df = df.tail(lookback).reset_index(drop=True)
@@ -584,6 +584,98 @@ def predict(df: pd.DataFrame, params: dict | None = None) -> dict:
     }
 
 
+def _trading_signal_5d(
+    most_likely: str,
+    current_close: float,
+    atr: float,
+    confidence: float,
+    params: dict,
+) -> dict | None:
+    if most_likely not in {"R1", "R2", "R3"}:
+        return None
+
+    k_map = {"R1": "atr_k_r1_5d", "R2": "atr_k_r2_5d", "R3": "atr_k_r3_5d"}
+    k = params[k_map[most_likely]]
+    stop_loss = current_close - k * atr
+    stop_loss_pct = (stop_loss / current_close - 1) * 100
+
+    lower, upper = _TP_BOUNDS_5D[most_likely]
+    target_pct = lower + confidence * (upper - lower)
+    take_profit = current_close * (1 + target_pct / 100)
+
+    if confidence >= 0.40 and most_likely in {"R2", "R3"}:
+        strength = "Strong"
+    elif confidence >= 0.25 and most_likely in {"R1", "R2"}:
+        strength = "Moderate"
+    else:
+        strength = "Weak"
+
+    return {
+        "stop_loss": round(stop_loss, 2),
+        "stop_loss_pct": round(stop_loss_pct, 2),
+        "take_profit": round(take_profit, 2),
+        "take_profit_pct": round(target_pct, 2),
+        "strength": strength,
+    }
+
+
+def predict(df: pd.DataFrame, params: dict | None = None) -> dict:
+    """5日窗口波段預測：輸入日線 OHLCV，輸出下一個5日窗口的漲幅預測。"""
+    p = {**DEFAULT_PARAMS, **(params or {})}
+    lookback_days = p.get("lookback_windows", 130) * 5
+    df = df.tail(lookback_days).reset_index(drop=True)
+
+    df = _compute_indicators(df)
+    windows = resample_5day_windows(df)
+
+    n = p["n_order"]
+    if len(windows) < n + 1:
+        raise ValueError(f"5日窗口不足：{len(windows)}，需要至少 {n + 1}")
+
+    last = windows.iloc[-1]
+    latest_regime = _detect_regime_5d(last)
+
+    symbols, dates = _encode_symbols_from_5day(windows, p)
+
+    regimes = [_detect_regime_5d(row) for _, row in windows.iterrows()]
+    regime_indices = [i for i, r in enumerate(regimes) if r == latest_regime]
+    if len(regime_indices) >= n * 5:
+        filtered_symbols = [symbols[i] for i in regime_indices]
+        filtered_dates = [dates[i] for i in regime_indices]
+    else:
+        filtered_symbols, filtered_dates = symbols, dates
+
+    graph = _build_debruijn_graph(filtered_symbols, n, filtered_dates)
+    current_node = tuple(symbols[-n:])
+    ref_date = dates[-1]
+
+    markov_dist = _markov_distribution(graph, current_node, ref_date, p)
+    pagerank_dist = _pagerank_distribution(graph, ref_date, p)
+    indicator_dist = _indicator_distribution_5d(symbols[-1])
+    probs = _combine(markov_dist, pagerank_dist, indicator_dist, p)
+    conf = _confidence(probs)
+
+    current_close = float(last["close"])
+    projected = _projected_close_5d(probs, current_close)
+    projected_pct = (projected / current_close - 1) * 100
+
+    most_likely = max(probs, key=lambda k: probs[k])
+    atr = float(last["atr14"]) if pd.notna(last.get("atr14", float("nan"))) else 0.0
+    signal = _trading_signal_5d(most_likely, current_close, atr, conf, p)
+
+    return {
+        "most_likely": most_likely,
+        "probs": probs,
+        "confidence": round(conf, 4),
+        "projected_5day_return_pct": round(projected_pct, 2),
+        "projected_close": round(projected, 2),
+        "current_close": round(current_close, 2),
+        "signal": signal,
+        "regime": latest_regime,
+        "window_end_date": str(last["date"]),
+    }
+
+
 _ADJACENT: dict[str, set[str]] = {
     "S": {"S", "F0"},
     "F0": {"S", "F0", "R1"},
@@ -611,7 +703,7 @@ def backtest(df: pd.DataFrame, params: dict | None = None, window: int = 60) -> 
         actual_iv = _interval_token(actual_pct, p)
 
         try:
-            result = predict(history, p)
+            result = predict_daily(history, p)
         except Exception:
             continue
 
