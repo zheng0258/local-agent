@@ -110,6 +110,86 @@ def resample_5day_windows(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def _interval_token_5d(pct: float, params: dict) -> str:
+    flat_lower = params.get("flat_lower_5d", -3.0)
+    small_move = params.get("small_move_5d", 5.0)
+    large_move = params.get("large_move_5d", 12.0)
+    if pct < flat_lower:
+        return "S"
+    if pct < 1.0:
+        return "F0"
+    if pct < small_move:
+        return "R1"
+    if pct < large_move:
+        return "R2"
+    return "R3"
+
+
+def _encode_5day_symbol(
+    row: pd.Series,
+    prev_close: float | None,
+    prev_vol: float | None,
+    params: dict,
+) -> str:
+    # return_interval
+    if prev_close is None or prev_close == 0:
+        interval = "F0"
+    else:
+        pct = (row["close"] / prev_close - 1) * 100
+        interval = _interval_token_5d(pct, params)
+
+    # ma_structure
+    ma20 = row.get("ma20", float("nan"))
+    ma60 = row.get("ma60", float("nan"))
+    close = row["close"]
+    if pd.isna(ma20) or pd.isna(ma60):
+        ma_struct = "FLAT"
+    elif float(ma20) > float(ma60) and close > float(ma20):
+        ma_struct = "BULL"
+    elif float(ma20) < float(ma60) and close < float(ma20):
+        ma_struct = "BEAR"
+    else:
+        ma_struct = "FLAT"
+
+    # macd_state
+    hist = row.get("macd_hist", float("nan"))
+    if pd.isna(hist):
+        macd_state = "MN"
+    elif float(hist) > 0.01:
+        macd_state = "MU"
+    elif float(hist) < -0.01:
+        macd_state = "MD"
+    else:
+        macd_state = "MN"
+
+    # vol_state
+    vol = float(row["volume"])
+    if prev_vol is None or prev_vol == 0:
+        vol_state = "VN"
+    elif vol > prev_vol * 1.3:
+        vol_state = "VH"
+    elif vol < prev_vol * 0.7:
+        vol_state = "VL"
+    else:
+        vol_state = "VN"
+
+    return f"{interval}|{ma_struct}|{macd_state}|{vol_state}"
+
+
+def _encode_symbols_from_5day(windows: pd.DataFrame, params: dict) -> tuple[list[str], list[str]]:
+    symbols: list[str] = []
+    dates: list[str] = []
+    prev_close: float | None = None
+    prev_vol: float | None = None
+    for _, row in windows.iterrows():
+        sym = _encode_5day_symbol(row, prev_close, prev_vol, params)
+        symbols.append(sym)
+        dates.append(str(row["date"]))
+        prev_close = float(row["close"])
+        prev_vol = float(row["volume"])
+    return symbols, dates
+
+
 def _detect_regime(close: float, ma5: float | None, ma10: float | None) -> str:
     if ma5 is None or ma10 is None or np.isnan(ma5) or np.isnan(ma10):
         return "Range"

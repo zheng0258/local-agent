@@ -486,3 +486,64 @@ def test_resample_5day_close_is_last(ohlcv_15rows):
     df = _compute_indicators(ohlcv_15rows)
     windows = resample_5day_windows(df)
     assert abs(windows.iloc[0]["close"] - df.iloc[4]["close"]) < 1e-6
+
+
+def test_interval_token_5d_s():
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _interval_token_5d
+    assert _interval_token_5d(-5.0, DEFAULT_PARAMS) == "S"
+
+def test_interval_token_5d_f0():
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _interval_token_5d
+    assert _interval_token_5d(-1.0, DEFAULT_PARAMS) == "F0"
+
+def test_interval_token_5d_r1():
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _interval_token_5d
+    assert _interval_token_5d(3.0, DEFAULT_PARAMS) == "R1"
+
+def test_interval_token_5d_r2():
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _interval_token_5d
+    assert _interval_token_5d(8.0, DEFAULT_PARAMS) == "R2"
+
+def test_interval_token_5d_r3():
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _interval_token_5d
+    assert _interval_token_5d(15.0, DEFAULT_PARAMS) == "R3"
+
+def test_encode_5day_symbol_format(ohlcv_15rows):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _compute_indicators, _encode_5day_symbol, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    row = windows.iloc[1]
+    prev_close = float(windows.iloc[0]["close"])
+    prev_vol = float(windows.iloc[0]["volume"])
+    sym = _encode_5day_symbol(row, prev_close, prev_vol, DEFAULT_PARAMS)
+    parts = sym.split("|")
+    assert len(parts) == 4
+    assert parts[0] in {"S", "F0", "R1", "R2", "R3"}
+    assert parts[1] in {"BULL", "BEAR", "FLAT"}
+    assert parts[2] in {"MU", "MD", "MN"}
+    assert parts[3] in {"VH", "VL", "VN"}
+
+def test_encode_5day_symbol_first_window_vn(ohlcv_15rows):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _compute_indicators, _encode_5day_symbol, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    row = windows.iloc[0]
+    sym = _encode_5day_symbol(row, prev_close=None, prev_vol=None, params=DEFAULT_PARAMS)
+    parts = sym.split("|")
+    assert parts[3] == "VN"
+
+def test_encode_symbols_from_5day_length(ohlcv_15rows):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _compute_indicators, _encode_symbols_from_5day, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    symbols, dates = _encode_symbols_from_5day(windows, DEFAULT_PARAMS)
+    assert len(symbols) == len(windows)
+    assert len(dates) == len(windows)
+
+def test_encode_symbols_from_5day_dates_match(ohlcv_15rows):
+    from tools.predictors.algorithm import DEFAULT_PARAMS, _compute_indicators, _encode_symbols_from_5day, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    _, dates = _encode_symbols_from_5day(windows, DEFAULT_PARAMS)
+    assert dates[0] == windows.iloc[0]["date"]
+    assert dates[-1] == windows.iloc[-1]["date"]
