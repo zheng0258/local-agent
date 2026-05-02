@@ -594,3 +594,20 @@ def test_indicator_distribution_5d_sums_to_one():
     for sym in ["R1|BULL|MU|VH", "S|BEAR|MD|VL", "F0|FLAT|MN|VN"]:
         dist = _indicator_distribution_5d(sym)
         assert abs(sum(dist.values()) - 1.0) < 1e-6
+
+
+def test_default_params_has_5d_keys():
+    from tools.predictors.algorithm import DEFAULT_PARAMS
+    for key in ["flat_lower_5d", "small_move_5d", "large_move_5d", "lookback_windows",
+                "atr_k_r1_5d", "atr_k_r2_5d", "atr_k_r3_5d"]:
+        assert key in DEFAULT_PARAMS, f"missing key: {key}"
+
+
+def test_projected_close_5d_r2_above_current(ohlcv_15rows):
+    from tools.predictors.algorithm import _compute_indicators, _projected_close_5d, resample_5day_windows
+    df = _compute_indicators(ohlcv_15rows)
+    windows = resample_5day_windows(df)
+    current_close = float(windows.iloc[-1]["close"])
+    probs = {"S": 0.05, "F0": 0.10, "R1": 0.15, "R2": 0.50, "R3": 0.20}
+    result = _projected_close_5d(probs, current_close)
+    assert result > current_close
