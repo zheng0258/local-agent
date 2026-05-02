@@ -547,3 +547,50 @@ def test_encode_symbols_from_5day_dates_match(ohlcv_15rows):
     _, dates = _encode_symbols_from_5day(windows, DEFAULT_PARAMS)
     assert dates[0] == windows.iloc[0]["date"]
     assert dates[-1] == windows.iloc[-1]["date"]
+
+
+def test_detect_regime_5d_bull():
+    from tools.predictors.algorithm import _detect_regime_5d
+    import pandas as pd
+    row = pd.Series({"close": 110.0, "ma20": 105.0, "ma60": 100.0})
+    assert _detect_regime_5d(row) == "Bull"
+
+
+def test_detect_regime_5d_bear():
+    from tools.predictors.algorithm import _detect_regime_5d
+    import pandas as pd
+    row = pd.Series({"close": 90.0, "ma20": 95.0, "ma60": 100.0})
+    assert _detect_regime_5d(row) == "Bear"
+
+
+def test_detect_regime_5d_range():
+    from tools.predictors.algorithm import _detect_regime_5d
+    import pandas as pd
+    row = pd.Series({"close": 102.0, "ma20": 100.0, "ma60": 103.0})
+    assert _detect_regime_5d(row) == "Range"
+
+
+def test_detect_regime_5d_nan():
+    from tools.predictors.algorithm import _detect_regime_5d
+    import pandas as pd
+    row = pd.Series({"close": 100.0, "ma20": float("nan"), "ma60": 100.0})
+    assert _detect_regime_5d(row) == "Range"
+
+
+def test_indicator_distribution_5d_bull_mu_bullish():
+    from tools.predictors.algorithm import _indicator_distribution_5d
+    dist = _indicator_distribution_5d("R1|BULL|MU|VH")
+    assert dist["R1"] + dist["R2"] + dist["R3"] > dist["S"] + dist["F0"]
+
+
+def test_indicator_distribution_5d_bear_md_bearish():
+    from tools.predictors.algorithm import _indicator_distribution_5d
+    dist = _indicator_distribution_5d("S|BEAR|MD|VL")
+    assert dist["S"] > dist["R3"]
+
+
+def test_indicator_distribution_5d_sums_to_one():
+    from tools.predictors.algorithm import _indicator_distribution_5d
+    for sym in ["R1|BULL|MU|VH", "S|BEAR|MD|VL", "F0|FLAT|MN|VN"]:
+        dist = _indicator_distribution_5d(sym)
+        assert abs(sum(dist.values()) - 1.0) < 1e-6
