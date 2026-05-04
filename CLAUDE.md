@@ -29,8 +29,6 @@ python3 main.py "/daily-brief --only report notify"
 export LOCAL_LLM_URL=http://localhost:1234
 export LOCAL_LLM_MODEL=qwen3.5-27b-claude-4.6-opus-distilled-mlx
 
-# 或改用 Anthropic API
-export ANTHROPIC_API_KEY=sk-...
 ```
 
 ## 架構
@@ -63,10 +61,10 @@ tools/
 pipelines/
 └── daily_brief_pipeline.py      # 跨 agent 編排入口（n8n Execute Command 呼叫）
 
-n8n-workflow.json                # 排程 workflow（每日 21:00 執行 daily-brief）
+n8n-workflow.json                # 排程 workflow（每日 01:00 執行 daily-brief）
 
 config/
-├── settings.py                  # LLM 後端（LocalLLM / Anthropic 切換）
+├── settings.py                  # LLM 後端設定（LocalLLMBackend）
 └── logging_config.py
 
 lint/
@@ -81,7 +79,7 @@ archive/                         # 原始 Claude Code SKILL.md 保存
 ## 排程（n8n）
 
 排程由本機 n8n 負責，無 Docker。`n8n-workflow.json` 可直接 import：
-- 觸發：每日 21:00（Schedule Trigger）
+- 觸發：每日 01:00（Schedule Trigger，cron: `0 1 * * *`）
 - 執行：`cd $HOME/Workspace/agent && python3 main.py "/daily-brief"`
 - 啟動：`n8n start`，開啟 http://localhost:5678
 
@@ -110,7 +108,7 @@ outputs/daily-brief/{today}/
 └── telegram.done        # sentinel（存在 = 已發送）
 ```
 
-**LLM 切換**：`config/settings.py` 的 `get_llm()` 根據環境變數決定後端，`LocalLLMBackend` 優先於 `AnthropicBackend`。
+**LLM 後端**：固定使用 `LocalLLMBackend`（localhost:1234），啟動時自動探測可用性，未回應則發 Telegram 告警並中止。
 
 ## 新增 Agent / Fetcher
 
