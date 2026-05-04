@@ -2,12 +2,10 @@
 LLM 後端設定。
 
 預設：LocalLLMBackend（http://localhost:1234）
-備援：AnthropicBackend（需 ANTHROPIC_API_KEY）
 
 環境變數：
     LOCAL_LLM_URL    本地 LLM server URL（預設 http://localhost:1234）
     LOCAL_LLM_MODEL  本地模型名稱（預設 qwen3.5-27b-claude-4.6-opus-distilled-mlx）
-    ANTHROPIC_API_KEY  備援 Anthropic API key
 """
 
 from __future__ import annotations
@@ -66,39 +64,21 @@ class LocalLLMBackend:
         return data["choices"][0]["message"]["content"]
 
 
-class AnthropicBackend:
-    """Anthropic Claude API 後端（備援）。"""
-
-    def __init__(self, model: str = "claude-sonnet-4-6") -> None:
-        self.model = model
-
-    def complete(self, prompt: str, system: str = "") -> str:
-        import anthropic  # type: ignore[import-untyped]
-
-        client = anthropic.Anthropic()
-        msg = client.messages.create(
-            model=self.model,
-            max_tokens=4096,
-            system=system or anthropic.NOT_GIVEN,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        return msg.content[0].text
-
-
 def get_llm() -> LLMBackend:
-    """
-    依環境變數決定 LLM 後端。
-    LOCAL_LLM_URL 存在 → LocalLLMBackend
-    ANTHROPIC_API_KEY 存在（且無 LOCAL_LLM_URL）→ AnthropicBackend
-    否則 → 預設 LocalLLMBackend（localhost:1234）
-    """
     local_url = os.environ.get("LOCAL_LLM_URL", DEFAULT_LOCAL_LLM_URL)
     local_model = os.environ.get("LOCAL_LLM_MODEL", DEFAULT_LOCAL_LLM_MODEL)
+    return LocalLLMBackend(base_url=local_url, model=local_model)
 
-    if os.environ.get("LOCAL_LLM_URL") or not os.environ.get("ANTHROPIC_API_KEY"):
-        return LocalLLMBackend(base_url=local_url, model=local_model)
 
-    return AnthropicBackend()
+def check_local_llm(base_url: str = DEFAULT_LOCAL_LLM_URL, timeout: int = 5) -> bool:
+    """探測本地 LLM server 是否可用（GET /v1/models）。"""
+    import urllib.request
+
+    try:
+        urllib.request.urlopen(f"{base_url}/v1/models", timeout=timeout)
+        return True
+    except Exception:
+        return False
 
 
 def get_judge_llm() -> LLMBackend:

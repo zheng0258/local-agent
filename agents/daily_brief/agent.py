@@ -24,7 +24,13 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Callable
 
 from config import get_judge_llm, get_llm, get_logger, parse_llm_json
-from config.settings import DEFAULT_JUDGE_LLM_MODEL, DEFAULT_LOCAL_LLM_MODEL, LLMBackend
+from config.settings import (
+    DEFAULT_JUDGE_LLM_MODEL,
+    DEFAULT_LOCAL_LLM_MODEL,
+    DEFAULT_LOCAL_LLM_URL,
+    LLMBackend,
+    check_local_llm,
+)
 
 from . import prompts
 from .config import OUTPUT_DIR
@@ -59,6 +65,18 @@ class DailyBriefAgent:
     def run(self, args: str = "") -> str:
         today = date.today().strftime("%Y-%m-%d")
         force_steps, only_steps = _parse_args(args)
+
+        llm_url = os.environ.get("LOCAL_LLM_URL", DEFAULT_LOCAL_LLM_URL)
+        if not check_local_llm(llm_url):
+            from tools.notifiers.telegram import send as tg_send
+            tg_send(
+                f"⚠️ Daily Brief 無法啟動（{today}）\n"
+                f"LM Studio 未回應：{llm_url}\n"
+                f"建議：啟動 LM Studio 後重跑\n"
+                f"  python3 main.py \"/daily-brief\""
+            )
+            logger.error("LM Studio 未回應（%s），pipeline 中止", llm_url)
+            return f"Pipeline 中止：LM Studio 未回應（{llm_url}）"
 
         day_dir = OUTPUT_DIR / today
         steps_dir = day_dir / "steps"
