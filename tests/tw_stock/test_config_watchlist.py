@@ -49,3 +49,13 @@ def test_watchlist_each_stock_has_required_fields():
         assert stock.ticker
         assert stock.name
         assert stock.sector
+
+
+def test_get_stock_sector_known():
+    from agents.tw_stock.watchlist import get_stock_sector
+    assert get_stock_sector("2330") == "半導體"
+
+
+def test_get_stock_sector_unknown_returns_ticker():
+    from agents.tw_stock.watchlist import get_stock_sector
+    assert get_stock_sector("9999") == "9999"
