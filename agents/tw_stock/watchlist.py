@@ -1,7 +1,7 @@
 # agents/tw_stock/watchlist.py
 """台股監控清單（台 50 成分股 + AI/半導體主題）。"""
 from __future__ import annotations
-from typing import NamedTuple
+from typing import Final, NamedTuple
 
 
 class Stock(NamedTuple):
@@ -10,7 +10,7 @@ class Stock(NamedTuple):
     sector: str
 
 
-WATCHLIST: list[Stock] = [
+WATCHLIST: Final[list[Stock]] = [
     Stock("2330", "台積電", "半導體"),
     Stock("2317", "鴻海", "電子製造"),
     Stock("2454", "聯發科", "半導體"),
@@ -56,4 +56,4 @@ def get_stock_sector(ticker: str) -> str:
     for s in WATCHLIST:
         if s.ticker == ticker:
             return s.sector
-    return ""
+    return ticker
