@@ -1,11 +1,38 @@
 """Daily Brief — 所有 LLM prompts。"""
 
+from functools import lru_cache
+from pathlib import Path
+
 from .config import (
     FALLBACK_TOP_N,
     HATENA_DIGEST_THRESHOLD,
     HN_DIGEST_THRESHOLD,
     REDDIT_DIGEST_THRESHOLD,
 )
+
+_INTERESTS_FILE = Path(__file__).parent / "config" / "interests.txt"
+
+
+@lru_cache(maxsize=1)
+def _load_interests() -> str:
+    """從 config/interests.txt 讀取評分標準，供外部直接修改檔案即可調整興趣設定。"""
+    if _INTERESTS_FILE.exists():
+        return _INTERESTS_FILE.read_text(encoding="utf-8").strip()
+    # 回退：保留原始 hardcode 內容
+    return (
+        "評分標準（*** / ** / *）：\n"
+        "- *** AI 開發工具（Claude Code、Cursor、Gemini 功能公告、工具比較）\n"
+        "- *** Web 資安 / 滲透測試（OWASP、漏洞、供應鏈攻擊）\n"
+        "- **  OSS 開發 / 獨立開發 / SaaS / Technical SEO\n"
+        "- **  JavaScript / TypeScript 技術棧\n"
+        "- *   職涯 / 財務自由 / Build in Public\n"
+        "- *   其他科技話題\n\n"
+        "評分範例（邊界參考）：\n"
+        "- *** ：「Claude Code 新增 MCP 整合功能」「CVE-2025-XXXX Nginx 遠端執行漏洞」「供應鏈攻擊：axios npm 套件遭入侵」\n"
+        "- **  ：「Next.js 15 效能優化實戰心得」「獨立開發者月收 5000 美元方法論」「TypeScript 5.5 新特性介紹」\n"
+        "- *   ：「2025 年程式設計師薪資報告」「如何提升遠端工作效率」「某技術工具發布 2.0 版」\n"
+        "- 略過：廣告、問卷調查、非科技話題、已知的老文章重新流傳"
+    )
 
 # Qwen3/3.5 系列：機械性任務（分類、格式轉換）關閉 thinking 以加速推理
 _NO_THINK = "/no_think\n\n"
@@ -22,27 +49,8 @@ JSON 規範：key 與 value 之間必須用半形冒號加空白 ": " 分隔，�
 
 # ── 使用者興趣定義（評分依據）────────────────────────────────────
 
-INTEREST_CRITERIA = """\
-評分標準（*** / ** / *）：
-- *** AI 開發工具（Claude Code、Cursor、Gemini 功能公告、工具比較）
-- *** Web 資安 / 滲透測試（OWASP、漏洞、供應鏈攻擊）
-- **  OSS 開發 / 獨立開發 / SaaS / Technical SEO
-- **  JavaScript / TypeScript 技術棧
-- *   職涯 / 財務自由 / Build in Public
-- *   其他科技話題\
-"""
-
-_FEW_SHOT = """\
-評分範例（邊界參考）：
-- *** ：「Claude Code 新增 MCP 整合功能」「CVE-2025-XXXX Nginx 遠端執行漏洞」「供應鏈攻擊：axios npm 套件遭入侵」
-- **  ：「Next.js 15 效能優化實戰心得」「獨立開發者月收 5000 美元方法論」「TypeScript 5.5 新特性介紹」
-- *   ：「2025 年程式設計師薪資報告」「如何提升遠端工作效率」「某技術工具發布 2.0 版」
-- 略過：廣告、問卷調查、非科技話題、已知的老文章重新流傳\
-"""
-
-
 def _scoring_block() -> str:
-    return f"{INTEREST_CRITERIA}\n\n{_FEW_SHOT}"
+    return _load_interests()
 
 
 # ── Step 1：Hatena 評分 ────────────────────────────────────────────
@@ -150,6 +158,32 @@ def build_security_blogs_prompt(content: str) -> str:
   ]
 }}
 ```\
+"""
+
+# ── Step RSS：RSS 訂閱評分 ─────────────────────────────────────────
+
+def build_rss_prompt(articles_json: str) -> str:
+    return f"""\
+{_NO_THINK}## 文章清單（RSS 訂閱）
+
+{articles_json}
+
+## 任務
+
+對每篇文章依以下標準評定興趣度：
+{_scoring_block()}
+
+## 輸出格式
+
+```json
+{{
+  "articles": [
+    {{"title": "繁體中文標題", "url": "原文URL", "interest": "***", "category": "Security", "source": "Krebs on Security"}}
+  ]
+}}
+```
+
+注意：key 後必須用半形 ": " 分隔，禁用全形冒號「：」；標題中若含雙引號須逸脫為 \"。\
 """
 
 # ── Step compress：每來源語義壓縮 ─────────────────────────────────────
