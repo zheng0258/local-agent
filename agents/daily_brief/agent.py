@@ -40,7 +40,7 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
-FETCH_STEPS = ["hatena", "hn", "reddit", "security"]
+FETCH_STEPS = ["hatena", "hn", "reddit", "security", "rss"]
 ALL_STEPS = [*FETCH_STEPS, "dedup", "compress", "digest", "judge", "report", "save", "notify"]
 
 
@@ -65,6 +65,8 @@ class DailyBriefAgent:
     def run(self, args: str = "") -> str:
         today = date.today().strftime("%Y-%m-%d")
         force_steps, only_steps = _parse_args(args)
+
+        prompts._load_interests.cache_clear()
 
         llm_url = os.environ.get("LOCAL_LLM_URL", DEFAULT_LOCAL_LLM_URL)
         if not check_local_llm(llm_url):
@@ -158,7 +160,7 @@ class DailyBriefAgent:
         if success_count < 2 and ctx.steps_to_run.intersection(set(FETCH_STEPS)):
             msg = (
                 f"⚠️ Daily Brief Fetch 嚴重失敗（{ctx.today}）\n"
-                f"成功：{success_count}/4，失敗：{fetch_failed}\n"
+                f"成功：{success_count}/{len(FETCH_STEPS)}，失敗：{fetch_failed}\n"
                 "Pipeline 停止。"
             )
             ctx.notify_fn(msg)
@@ -462,6 +464,7 @@ class DailyBriefAgent:
             "hn": lambda: self._fetch_hn(hn),
             "reddit": lambda: self._fetch_reddit(reddit),
             "security": lambda: self._fetch_security(security_blogs),
+            "rss": lambda: self._fetch_rss(),
         }
         return dispatch[name]()
 
@@ -521,6 +524,20 @@ class DailyBriefAgent:
         cleaned = clean_articles(result.get("articles", []), min_interest="***")
         result["articles"] = [article.to_dict() for article in cleaned]
         logger.info("Security LLM + 清洗完成：%d 篇", len(result["articles"]))
+        return result
+
+    def _fetch_rss(self) -> dict:
+        from agents.daily_brief.fetchers import rss_fetcher
+        from tools.fetchers.schema import clean_articles
+
+        raw = rss_fetcher.fetch()
+        logger.info("RSS 抓取：%d 篇文章", len(raw))
+        result = parse_llm_json(
+            self._complete(prompts.build_rss_prompt(json.dumps(raw, ensure_ascii=False)))
+        )
+        cleaned = clean_articles(result.get("articles", []))
+        result["articles"] = [article.to_dict() for article in cleaned]
+        logger.info("RSS LLM + 清洗完成：%d 篇", len(result["articles"]))
         return result
 
     def _run_compress(self, source_data: dict, reflect_context: str = "") -> dict:
