@@ -93,6 +93,12 @@ STEP_CONFIGS: dict[str, StepConfig] = {
         backoff_seconds=(1.0, 3.0, 9.0),
         task_description="從 Security blogs 抓取文章並以 JSON 格式回傳 interest 評分結果",
     ),
+    "rss": StepConfig(
+        max_retries=3,
+        strategy="plain",
+        backoff_seconds=(1.0, 3.0, 9.0),
+        task_description="從 RSS feeds 抓取文章並以 JSON 格式回傳 interest 評分結果",
+    ),
     "compress": StepConfig(
         max_retries=2,
         strategy="error_aware",

@@ -36,7 +36,7 @@ def test_all_steps_order():
 
 
 def test_fetch_steps_unchanged():
-    assert FETCH_STEPS == ["hatena", "hn", "reddit", "security"]
+    assert FETCH_STEPS == ["hatena", "hn", "reddit", "security", "rss"]
 
 
 def test_run_digest_returns_digests_list():
@@ -319,7 +319,7 @@ def test_parse_args_supports_new_steps():
 
 
 def test_all_steps_count():
-    assert len(ALL_STEPS) == 11
+    assert len(ALL_STEPS) == 12
 
 
 # ── parse_llm_json robustness ───────────────────────────────────────────────

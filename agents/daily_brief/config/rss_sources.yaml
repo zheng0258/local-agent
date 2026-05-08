@@ -1,0 +1,25 @@
+feeds:
+  - name: "Krebs on Security"
+    url: "https://krebsonsecurity.com/feed/"
+    category: "Security"
+    max_items: 10
+
+  - name: "The Hacker News"
+    url: "https://feeds.feedburner.com/TheHackersNews"
+    category: "Security"
+    max_items: 15
+
+  - name: "Schneier on Security"
+    url: "https://www.schneier.com/feed/atom/"
+    category: "Security"
+    max_items: 10
+
+  - name: "DEV Community"
+    url: "https://dev.to/feed"
+    category: "OSS・開發"
+    max_items: 20
+
+  - name: "InfoQ"
+    url: "https://feed.infoq.com/"
+    category: "技術趨勢"
+    max_items: 15

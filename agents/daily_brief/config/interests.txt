@@ -1,0 +1,13 @@
+評分標準（*** / ** / *）：
+- *** AI 開發工具（Claude Code、Cursor、Gemini 功能公告、工具比較）
+- *** Web 資安 / 滲透測試（OWASP、漏洞、供應鏈攻擊）
+- **  OSS 開發 / 獨立開發 / SaaS / Technical SEO
+- **  JavaScript / TypeScript 技術棧
+- *   職涯 / 財務自由 / Build in Public
+- *   其他科技話題
+
+評分範例（邊界參考）：
+- *** ：「Claude Code 新增 MCP 整合功能」「CVE-2025-XXXX Nginx 遠端執行漏洞」「供應鏈攻擊：axios npm 套件遭入侵」
+- **  ：「Next.js 15 效能優化實戰心得」「獨立開發者月收 5000 美元方法論」「TypeScript 5.5 新特性介紹」
+- *   ：「2025 年程式設計師薪資報告」「如何提升遠端工作效率」「某技術工具發布 2.0 版」
+- 略過：廣告、問卷調查、非科技話題、已知的老文章重新流傳
