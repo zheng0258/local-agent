@@ -22,10 +22,12 @@ from tools.lms_lifecycle import ensure_models_loaded, unload_all
 from config.settings import DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL
 from agents.daily_brief import DailyBriefAgent
 from agents.url_digest import UrlDigestAgent
+from agents.tw_stock import TwStockAgent
 
 SKILL_MAP = [
     (["/daily-brief", "收集今日趨勢", "跑趨勢收集", "run daily-brief"], DailyBriefAgent),
     (["/url-digest", "幫我摘要這些連結", "digest these urls", "summarize this article"], UrlDigestAgent),
+    (["/tw-stock", "台股訊號", "run tw-stock"], TwStockAgent),
 ]
 
 
@@ -45,7 +47,7 @@ def main() -> None:
     user_input = " ".join(sys.argv[1:]).strip()
     if not user_input:
         print("使用方式：python main.py \"<指令>\"")
-        print("可用 skill：/daily-brief、/url-digest <URL>")
+        print("可用 skill：/daily-brief、/url-digest <URL>、/tw-stock")
         sys.exit(1)
 
     agent_cls, args = route(user_input)
