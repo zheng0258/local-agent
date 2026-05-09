@@ -471,6 +471,6 @@ def _load_json(path: Path, default: Any) -> Any:
     if path.exists():
         try:
             return json.loads(path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            pass
+        except (json.JSONDecodeError, OSError) as e:
+            logger.warning("_load_json: 無法讀取 %s (%s)，使用預設值", path, e)
     return default

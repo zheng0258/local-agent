@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 
-def _make_agent(llm_response: str = "{}"):
+def _make_agent(llm_response: str = "{}") -> "TwStockAgent":
     from agents.tw_stock.agent import TwStockAgent
     mock_llm = MagicMock()
     mock_llm.complete.return_value = llm_response
@@ -101,3 +101,24 @@ def test_parse_args_empty():
     force, only = _parse_args("")
     assert force == set()
     assert only == set()
+
+
+def test_phase_news_force_bypasses_existing_artifact(tmp_path):
+    from agents.tw_stock.agent import TwStockAgent
+    import json as _json
+    from unittest.mock import patch, MagicMock
+
+    steps_dir = tmp_path / "steps"
+    steps_dir.mkdir()
+    cached = {"articles": [{"title": "old", "url": "http://old"}], "fetched_at": "2026-05-08T07:00:00"}
+    (steps_dir / "news.json").write_text(_json.dumps(cached), encoding="utf-8")
+
+    mock_llm = MagicMock()
+    agent = TwStockAgent(llm=mock_llm)
+
+    new_articles = [{"title": "new", "url": "http://new", "source": "鉅亨",
+                     "published_at": "2026-05-09T08:00:00", "description": "新新聞"}]
+    with patch("tools.fetchers.tw_news.fetch", return_value=new_articles):
+        result = agent._phase_news(steps_dir, force_steps={"news"}, only_steps={"news"}, today="2026-05-09")
+
+    assert result["articles"][0]["title"] == "new"
