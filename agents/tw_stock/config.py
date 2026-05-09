@@ -26,6 +26,8 @@ TXF_MIN_CONFIDENCE = 0.2
 STOCK_BOT_TOKEN_ENV = "STOCK_TELEGRAM_BOT_TOKEN"
 STOCK_CHAT_ID_ENV = "STOCK_TELEGRAM_CHAT_ID"
 
+INIT_FILE = DATA_DIR / "init.json"
+
 ALL_STEPS: tuple[str, ...] = (
     "news", "sentiment", "market_data", "technical",
     "signal", "paper_trade", "pnl", "notify",
