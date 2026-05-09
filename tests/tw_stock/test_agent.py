@@ -122,3 +122,19 @@ def test_phase_news_force_bypasses_existing_artifact(tmp_path):
         result = agent._phase_news(steps_dir, force_steps={"news"}, only_steps={"news"}, today="2026-05-09")
 
     assert result["articles"][0]["title"] == "new"
+
+
+def test_main_routes_tw_stock():
+    from main import route
+    from agents.tw_stock.agent import TwStockAgent
+    agent_cls, remaining = route("/tw-stock")
+    assert agent_cls is TwStockAgent
+    assert remaining == ""
+
+
+def test_main_routes_tw_stock_with_force():
+    from main import route
+    from agents.tw_stock.agent import TwStockAgent
+    agent_cls, remaining = route("/tw-stock --force news")
+    assert agent_cls is TwStockAgent
+    assert "--force news" in remaining

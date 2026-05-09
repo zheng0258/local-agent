@@ -8,6 +8,7 @@
 |-------|----------|------|
 | `daily_brief` | `/daily-brief`、`run daily-brief`、`收集今日趨勢`、`跑趨勢收集` | `agents/daily_brief/agent.py` |
 | `url_digest` | `/url-digest`、`digest these urls`、`summarize this article`、`幫我摘要這些連結` | `agents/url_digest/agent.py` |
+| `tw_stock` | `/tw-stock`、`台股訊號`、`run tw-stock` | `agents/tw_stock/agent.py` |
 
 ## Tools（確定性，無 LLM）
 
@@ -19,6 +20,8 @@
 | `tools/fetchers/security_blogs.py` | 資安部落格抓取（playwright-cli） |
 | `tools/fetchers/browser.py` | playwright-cli 共用工具（`_cli_bin`、`_run`、`_wait_for_session`） |
 | `tools/notifiers/telegram.py` | Telegram 發送（HTML parse_mode） |
+| `tools/fetchers/tw_news.py` | 鉅亨網 RSS 新聞抓取（24 小時內） |
+| `tools/fetchers/tw_market.py` | 台股 OHLCV（FinMind + AKShare 備援）+ TXF |
 
 ## Pipelines（跨 agent 編排）
 
@@ -41,6 +44,23 @@
 | notify | 發送 Telegram 雙訊息（msg1 分群列表 / msg2 深度摘要前 8 則） | `telegram.done` |
 
 每步驟產生 artifact，重複執行自動略過；`--force <step>` 強制重跑，`--only <step>` 單步執行。
+
+## TwStock 步驟
+
+執行順序：`news` → `sentiment` → `market_data` → `technical` → `signal` → `paper_trade` → `pnl` → `notify`
+
+| 步驟 | 說明 | Artifact |
+|------|------|----------|
+| news | 鉅亨 RSS 抓今日財經新聞 | `steps/news.json` |
+| sentiment | LLM 判斷整體情緒 + 板塊方向 | `steps/sentiment.json` |
+| market_data | FinMind/AKShare 抓個股 + TXF OHLCV | `steps/market_data.json` |
+| technical | 呼叫 `predict()`（5日波段）取得每股技術預測 | `steps/technical.json` |
+| signal | 情緒過濾 × 技術確認 × 跨股 PageRank 放大 | `steps/signal.json` |
+| paper_trade | 固定風險法開倉/出場，持倉持久化 | `steps/paper_trade.json` + `data/tw-stock/positions.json` |
+| pnl | 計算日損益、累積報酬、最大回撤、勝率 | `steps/pnl.json` + `data/tw-stock/pnl_history.json` |
+| notify | Telegram 訊號報告 + 紙上績效（兩封） | `telegram_stock.done` |
+
+n8n 排程：08:30 全流程、13:35 `--only pnl notify`
 
 ## 新增 Agent
 
