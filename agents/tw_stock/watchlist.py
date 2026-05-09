@@ -36,6 +36,7 @@ WATCHLIST: Final[list[Stock]] = [
     Stock("3008", "大立光", "光學"),
     Stock("2409", "友達", "面板"),
     Stock("3045", "台灣大", "電信"),
+    Stock("00635U", "元大S&P石油", "原油ETF"),
 ]
 
 TXF = "TXF"
