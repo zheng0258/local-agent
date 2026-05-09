@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 
 def _make_agent(llm_response: str = "{}") -> "TwStockAgent":
     from agents.tw_stock.agent import TwStockAgent
@@ -138,3 +140,147 @@ def test_main_routes_tw_stock_with_force():
     agent_cls, remaining = route("/tw-stock --force news")
     assert agent_cls is TwStockAgent
     assert "--force news" in remaining
+
+
+# ── Init tests ────────────────────────────────────────────────────
+
+
+def test_phase_init_generates_template_when_no_init_file(tmp_path):
+    from agents.tw_stock.agent import TwStockAgent
+    from unittest.mock import patch
+
+    agent = _make_agent()
+    with patch("agents.tw_stock.agent.DATA_DIR", tmp_path), \
+         patch("agents.tw_stock.agent.INIT_FILE", tmp_path / "init.json"), \
+         patch("agents.tw_stock.agent.POSITIONS_FILE", tmp_path / "positions.json"), \
+         patch("agents.tw_stock.agent.PNL_HISTORY_FILE", tmp_path / "pnl_history.json"):
+        result = agent._phase_init()
+
+    assert "範本" in result
+    assert (tmp_path / "init.json").exists()
+    template = json.loads((tmp_path / "init.json").read_text(encoding="utf-8"))
+    assert "cash" in template
+    assert "positions" in template
+    assert "past_trades" in template
+
+
+def test_phase_init_converts_positions_and_writes_files(tmp_path):
+    from agents.tw_stock.agent import TwStockAgent
+    from unittest.mock import patch
+
+    init_data = {
+        "cash": 500_000,
+        "positions": [
+            {
+                "ticker": "2330",
+                "entry_price": 900.0,
+                "lots": 1,
+                "stop_loss": 880.0,
+                "take_profit": 950.0,
+                "entry_date": "2026-05-01",
+            }
+        ],
+        "past_trades": [],
+    }
+    init_file = tmp_path / "init.json"
+    init_file.write_text(json.dumps(init_data), encoding="utf-8")
+
+    agent = _make_agent()
+    positions_file = tmp_path / "positions.json"
+    pnl_file = tmp_path / "pnl_history.json"
+
+    with patch("agents.tw_stock.agent.DATA_DIR", tmp_path), \
+         patch("agents.tw_stock.agent.INIT_FILE", init_file), \
+         patch("agents.tw_stock.agent.POSITIONS_FILE", positions_file), \
+         patch("agents.tw_stock.agent.PNL_HISTORY_FILE", pnl_file):
+        result = agent._phase_init()
+
+    assert "✅" in result
+    state = json.loads(positions_file.read_text(encoding="utf-8"))
+    assert "2330" in state["positions"]
+    assert state["positions"]["2330"]["shares"] == 1000
+    assert state["positions"]["2330"]["stop_loss"] == 880.0
+    assert state["cash"] == 500_000
+    assert state["portfolio_value"] == pytest.approx(500_000 + 900 * 1000, abs=1)
+
+
+def test_phase_init_computes_pnl_history_from_past_trades(tmp_path):
+    import pytest
+    from agents.tw_stock.agent import TwStockAgent
+    from unittest.mock import patch
+
+    init_data = {
+        "cash": 1_000_000,
+        "positions": [],
+        "past_trades": [
+            {
+                "ticker": "2454",
+                "entry_price": 1000.0,
+                "exit_price": 1050.0,
+                "lots": 1,
+                "entry_date": "2026-04-28",
+                "exit_date": "2026-05-03",
+                "reason": "take_profit",
+            },
+            {
+                "ticker": "2317",
+                "entry_price": 200.0,
+                "exit_price": 190.0,
+                "lots": 2,
+                "entry_date": "2026-04-25",
+                "exit_date": "2026-05-02",
+                "reason": "stop_loss",
+            },
+        ],
+    }
+    init_file = tmp_path / "init.json"
+    init_file.write_text(json.dumps(init_data), encoding="utf-8")
+
+    agent = _make_agent()
+    positions_file = tmp_path / "positions.json"
+    pnl_file = tmp_path / "pnl_history.json"
+
+    with patch("agents.tw_stock.agent.DATA_DIR", tmp_path), \
+         patch("agents.tw_stock.agent.INIT_FILE", init_file), \
+         patch("agents.tw_stock.agent.POSITIONS_FILE", positions_file), \
+         patch("agents.tw_stock.agent.PNL_HISTORY_FILE", pnl_file):
+        result = agent._phase_init()
+
+    assert "✅" in result
+    history = json.loads(pnl_file.read_text(encoding="utf-8"))
+    assert len(history) == 1
+    entry = history[0]
+    assert entry["total_trades"] == 2
+    assert entry["win_rate"] == pytest.approx(0.5, abs=0.01)
+    # 2454: +50*1000=+50000, 2317: -10*2000=-20000 → net +30000
+    assert entry["daily_pnl_twd"] == pytest.approx(30_000, abs=1)
+
+
+def test_phase_init_uses_default_stop_take_when_omitted(tmp_path):
+    from agents.tw_stock.agent import TwStockAgent
+    from unittest.mock import patch
+
+    init_data = {
+        "cash": 1_000_000,
+        "positions": [
+            {"ticker": "2330", "entry_price": 1000.0, "lots": 1, "entry_date": "2026-05-01"}
+        ],
+        "past_trades": [],
+    }
+    init_file = tmp_path / "init.json"
+    init_file.write_text(json.dumps(init_data), encoding="utf-8")
+
+    agent = _make_agent()
+    positions_file = tmp_path / "positions.json"
+    pnl_file = tmp_path / "pnl_history.json"
+
+    with patch("agents.tw_stock.agent.DATA_DIR", tmp_path), \
+         patch("agents.tw_stock.agent.INIT_FILE", init_file), \
+         patch("agents.tw_stock.agent.POSITIONS_FILE", positions_file), \
+         patch("agents.tw_stock.agent.PNL_HISTORY_FILE", pnl_file):
+        agent._phase_init()
+
+    state = json.loads(positions_file.read_text(encoding="utf-8"))
+    pos = state["positions"]["2330"]
+    assert pos["stop_loss"] == pytest.approx(950.0, abs=0.01)   # 1000 * 0.95
+    assert pos["take_profit"] == pytest.approx(1100.0, abs=0.01)  # 1000 * 1.10
