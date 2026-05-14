@@ -55,12 +55,17 @@ def _get_max_context(model: str) -> int | None:
     return None
 
 
-def ensure_models_loaded(models: list[str]) -> None:
-    """Load any models not currently in lms ps. Verifies after loading."""
+def ensure_models_loaded(models: list[str]) -> bool:
+    """Load any models not currently in lms ps. Verifies after loading.
+
+    Returns:
+        True  — 至少一個模型是剛才才載入的（需等待 API 穩定）
+        False — 所有模型先前已在 lms ps 中（無需額外等待）
+    """
     loaded = get_loaded_models()
     to_load = [m for m in models if m not in loaded]
     if not to_load:
-        return
+        return False
 
     for model in to_load:
         logger.info("Loading model: %s", model)
@@ -84,6 +89,7 @@ def ensure_models_loaded(models: list[str]) -> None:
     for model in models:
         if model not in final:
             logger.warning("Model not present after load attempt: %s", model)
+    return True
 
 
 def unload_model(model: str) -> None:

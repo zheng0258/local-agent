@@ -84,6 +84,16 @@ class DailyBriefAgent:
         steps_dir = day_dir / "steps"
         steps_dir.mkdir(parents=True, exist_ok=True)
 
+        # Fix C: source artifact 比下游新時自動強制重跑下游
+        if not only_steps:
+            stale = _detect_stale_downstream(steps_dir, day_dir)
+            newly_forced = stale - force_steps
+            if newly_forced:
+                logger.warning(
+                    "來源 artifact 比下游新，自動強制重跑：%s", sorted(newly_forced)
+                )
+                force_steps = force_steps | newly_forced
+
         from .supervisor import SupervisorAgent
         from tools.notifiers.telegram import send as tg_send
 
@@ -114,6 +124,9 @@ class DailyBriefAgent:
         self._phase_report(ctx, compress_data, digests)
         self._phase_save(ctx, digests)
         self._phase_notify(ctx, digests)
+
+        # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
+        _send_alerts_summary(steps_dir, today, tg_send)
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -818,6 +831,82 @@ def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
         else:
             filtered[source_name] = content
     return filtered
+
+
+def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
+    """Fix C: 比較 source artifact mtime 與下游 artifact mtime。
+
+    若任一 source artifact 比下游 artifact 新，回傳需強制重跑的下游 step 名稱集合。
+    只比較 dedup / compress / digest / judge / report，save / notify 由使用者決定。
+    """
+    source_artifacts = [
+        steps_dir / f"{name}.json"
+        for name in FETCH_STEPS
+        if (steps_dir / f"{name}.json").exists()
+    ]
+    if not source_artifacts:
+        return set()
+
+    latest_source_mtime = max(a.stat().st_mtime for a in source_artifacts)
+
+    downstream_check: list[tuple[str, Path]] = [
+        ("dedup",    steps_dir / "dedup.json"),
+        ("compress", steps_dir / "compress.json"),
+        ("digest",   steps_dir / "digest.json"),
+        ("judge",    steps_dir / "judge.json"),
+        ("report",   day_dir   / "report.md"),
+    ]
+    return {
+        name
+        for name, artifact in downstream_check
+        if artifact.exists() and artifact.stat().st_mtime < latest_source_mtime
+    }
+
+
+def _send_alerts_summary(
+    steps_dir: Path,
+    today: str,
+    notify_fn: Callable[[str], bool],
+) -> None:
+    """Fix B: pipeline 結束後發一則彙總告警（每天只發一次）。
+
+    個別步驟失敗時 supervisor._notify_failure 已即時發送；
+    此函式在 pipeline 最後補發「今日整體失敗摘要」，方便使用者一眼看清楚哪些來源缺失。
+    """
+    alerts_file = steps_dir / "alerts.json"
+    summary_done = steps_dir / "alerts_summary.done"
+
+    if not alerts_file.exists() or summary_done.exists():
+        return
+
+    try:
+        alerts: dict = json.loads(alerts_file.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return
+
+    if not alerts:
+        return
+
+    lines = [
+        f"📋 Daily Brief 失敗摘要（{today}）",
+        "",
+        "以下步驟全部重試後仍失敗，今日 brief 可能不完整：",
+    ]
+    for step, info in alerts.items():
+        if isinstance(info, dict):
+            err = info.get("error", "")[:120]
+            lines.append(f"• <b>{step}</b>：{err}")
+        else:
+            lines.append(f"• <b>{step}</b>")
+
+    lines += [
+        "",
+        "補跑指令：",
+        f"  python3 main.py \"/daily-brief --force {' '.join(alerts.keys())}\"",
+    ]
+    notify_fn("\n".join(lines))
+    summary_done.touch()
+    logger.info("alerts_summary 已發送（%d 個失敗步驟）", len(alerts))
 
 
 def _format_obsidian_digest(digests: list[dict], today: str) -> str:
