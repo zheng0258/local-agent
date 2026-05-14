@@ -8,3 +8,5 @@ logs/
 .superpowers/
 outputs/daily-brief/.vectordb/
 .DS_Store
+.coverage
+*.log
