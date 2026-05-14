@@ -23,7 +23,7 @@ python3 main.py "/daily-brief --force notify"   # 重送 Telegram
 python3 main.py "/daily-brief --only hatena"
 python3 main.py "/daily-brief --only report notify"
 
-# 可用 step 名稱：hatena / hn / reddit / security / compress / digest / judge / report / save / notify
+# 可用 step 名稱：hatena / hn / reddit / security / rss / dedup / compress / digest / judge / report / save / notify
 
 # 覆蓋本地 LLM 設定
 export LOCAL_LLM_URL=http://localhost:1234
@@ -42,7 +42,9 @@ agents/
 ├── daily_brief/                 # 每日趨勢收集
 │   ├── agent.py                 # 主流程（並行四來源）
 │   ├── prompts.py               # 所有 LLM prompts
-│   └── config.py                # 來源設定、門檻、路徑
+│   ├── config.py                # 來源設定、門檻、路徑
+│   ├── supervisor.py            # LLM 監督器（fetch 品質控管）
+│   └── fetchers/                # 各來源 fetcher（agent 層）
 └── url_digest/                  # URL 摘要
     ├── agent.py
     └── prompts.py
@@ -55,11 +57,13 @@ tools/
 │   ├── reddit.py
 │   ├── security_blogs.py
 │   └── browser.py              # playwright-cli 共用工具（hn / security_blogs 使用）
+├── vector_store/                # 語義 dedup（embedding + cosine）
+│   ├── client.py
+│   ├── dedup.py
+│   └── embedder.py
+├── lms_lifecycle.py             # lms CLI 模型載入/卸載
 └── notifiers/
     └── telegram.py              # Telegram 發送（HTML parse_mode）
-
-pipelines/
-└── daily_brief_pipeline.py      # 跨 agent 編排入口（n8n Execute Command 呼叫）
 
 n8n-workflow.json                # 排程 workflow（每日 01:00 執行 daily-brief）
 
@@ -75,6 +79,19 @@ archive/                         # 原始 Claude Code SKILL.md 保存
 ```
 
 **Fetcher 共用工具**：playwright-cli 的 `_cli_bin`、`_run`、`_wait_for_session` 定義在 `tools/fetchers/browser.py`，新增 fetcher 直接 import，禁止複製。
+
+## Daily Brief 故障排查
+
+**失敗首先確認三點**（按順序）：
+```bash
+pgrep -la n8n                                          # n8n 是否在跑？→ 沒有則 `n8n start`
+curl -s http://localhost:1234/v1/models | python3 -c "import json,sys; print([m['id'] for m in json.load(sys.stdin)['data']])"  # LM Studio 是否有模型？
+ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存在？
+```
+
+**n8n 無自動重啟**：每次重開機 / 手動停止後需 `n8n start`。  
+**n8n event log 不可靠**：`~/.n8n/n8nEventLog.log` 可能停更但 n8n 仍在跑；以 `pgrep` 為準。  
+**補跑今日**：確認 LM Studio 正常後 `python3 main.py "/daily-brief"`（Idempotent，已完成步驟會略過）。
 
 ## 排程（n8n）
 
@@ -100,6 +117,7 @@ outputs/daily-brief/{today}/
 │   ├── hn.json
 │   ├── reddit.json
 │   ├── security.json
+│   ├── alerts.json      # 異常訊號告警（條件觸發，非每日必有）
 │   ├── compress.json    # 各來源語義壓縮（themes + *** articles + one_liner）
 │   ├── digest.json      # 跨來源深度摘要
 │   └── judge.json       # LLM-as-Judge 品質評分（relevance/completeness/faithfulness）

@@ -29,4 +29,6 @@ def parse_llm_json(raw: str | None) -> dict:
     except Exception:
         pass
 
-    return {"raw": raw}
+    raise ValueError(
+        f"parse_llm_json: LLM 回傳無法解析為 JSON dict（前 120 字元）: {raw[:120]!r}"
+    )

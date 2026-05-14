@@ -24,10 +24,10 @@ def test_fullwidth_colon_repaired():
 
 
 def test_non_string_input():
-    assert parse_llm_json(None) == {"raw": "None"}
+    with pytest.raises(ValueError, match="parse_llm_json"):
+        parse_llm_json(None)
 
 
-def test_complete_failure_returns_raw():
-    result = parse_llm_json("not json at all ><")
-    # either repaired or falls back to {"raw": ...}
-    assert isinstance(result, dict)
+def test_complete_failure_raises():
+    with pytest.raises(ValueError, match="parse_llm_json"):
+        parse_llm_json("not json at all ><")
