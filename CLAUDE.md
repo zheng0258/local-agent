@@ -82,23 +82,20 @@ archive/                         # 原始 Claude Code SKILL.md 保存
 
 ## Daily Brief 故障排查
 
-**失敗首先確認三點**（按順序）：
+**失敗首先確認兩點**（按順序）：
 ```bash
-pgrep -la n8n                                          # n8n 是否在跑？→ 沒有則 `n8n start`
 curl -s http://localhost:1234/v1/models | python3 -c "import json,sys; print([m['id'] for m in json.load(sys.stdin)['data']])"  # LM Studio 是否有模型？
 ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存在？
 ```
 
-**n8n 無自動重啟**：每次重開機 / 手動停止後需 `n8n start`。  
-**n8n event log 不可靠**：`~/.n8n/n8nEventLog.log` 可能停更但 n8n 仍在跑；以 `pgrep` 為準。  
 **補跑今日**：確認 LM Studio 正常後 `python3 main.py "/daily-brief"`（Idempotent，已完成步驟會略過）。
 
-## 排程（n8n）
+## 排程（Claude Desktop）
 
-排程由本機 n8n 負責，無 Docker。`n8n-workflow.json` 可直接 import：
-- 觸發：每日 01:00（Schedule Trigger，cron: `0 1 * * *`）
-- 執行：`cd /Users/guangzhenglee/Workspace/agent && python3 main.py "/daily-brief"`
-- 啟動：`n8n start`，開啟 http://localhost:5678
+排程由 Claude Desktop 的 schedule 功能觸發：
+- 觸發：每日 01:00
+- 執行：`python3 /Users/guangzhenglee/Workspace/agent/main.py "/daily-brief"`
+- 手動補跑：`run_daily_brief.command`（雙點擊）或直接執行 `python3 main.py "/daily-brief"`
 
 ## 核心設計原則
 
