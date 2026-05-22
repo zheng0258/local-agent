@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import json
 import logging
+import shutil
 import subprocess
 
 logger = logging.getLogger(__name__)
 
-# 絕對路徑，確保在 Cowork sandbox 等無繼承 PATH 的環境也能找到 lms
-LMS_BIN = "/Users/guangzhenglee/.cache/lm-studio/bin/lms"
+# 動態解析 lms 路徑，回退到已知絕對路徑
+LMS_BIN = shutil.which("lms") or "/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms"
 
 
 def get_loaded_models() -> set[str]:

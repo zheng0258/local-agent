@@ -42,7 +42,7 @@ def route(user_input: str):
     return None, user_input
 
 
-_STABILIZE_SECONDS = 180
+_STABILIZE_SECONDS = 600
 
 
 def _wait_for_model_stabilize(logger: logging.Logger) -> None:

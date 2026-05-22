@@ -86,7 +86,7 @@ def send(
     except ImportError:
         ctx = ssl.create_default_context()
     try:
-        urllib.request.urlopen(url, data=data, context=ctx)
+        urllib.request.urlopen(url, data=data, context=ctx, timeout=30)
         print("✅ Telegram 訊息傳送成功")
         return True
     except urllib.error.HTTPError as e:
