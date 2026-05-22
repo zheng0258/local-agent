@@ -45,6 +45,7 @@ def dedup_source_data(
     new_docs: list[str] = []
     new_embeddings: list[list[float]] = []
     new_metas: list[dict] = []
+    seen_in_batch: set[str] = set()
 
     for source_name, source_content in source_data.items():
         articles = source_content.get("articles", [])
@@ -54,6 +55,12 @@ def dedup_source_data(
             if not url:
                 continue
             total += 1
+
+            if url in seen_in_batch:
+                filtered_url += 1
+                filtered_items.append({"url": url, "title": title, "reason": "url_seen", "original_date": today})
+                continue
+            seen_in_batch.add(url)
 
             existing = collection.get(ids=[url], where=history_filter)
             if existing["ids"]:
