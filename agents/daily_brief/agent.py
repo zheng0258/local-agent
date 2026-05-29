@@ -612,14 +612,16 @@ class DailyBriefAgent:
                 if not comments:
                     return src, idx, None
 
+                sanitized_comments = [c.replace("```", "") for c in comments]
                 prompt = prompts.build_comment_summary_prompt(
                     source=src,
                     title=article.get("title", ""),
-                    comments_json=json.dumps(comments, ensure_ascii=False),
+                    comments_json=json.dumps(sanitized_comments, ensure_ascii=False),
                 )
                 raw = self._complete(prompt)
                 parsed = parse_llm_json(raw)
                 summary = parsed.get("comment_summary", "").strip()
+                summary = _sanitize_comment_summary(summary)
                 return src, idx, summary if summary else None
             except Exception as exc:
                 logger.warning("enrich %s[%d] 失敗: %s", src, idx, exc)
@@ -860,6 +862,22 @@ class DailyBriefAgent:
 
     def _complete(self, prompt: str) -> str:
         return self._llm.complete(prompt, system=prompts.SYSTEM)
+
+
+def _sanitize_comment_summary(text: str) -> str:
+    """移除 comment_summary 中可能的注入內容（URL、HTML、markdown 連結、控制序列）。"""
+    import re as _re
+    # 強制 60 字元上限
+    text = text[:60]
+    # 移除 HTML tag
+    text = _re.sub(r"<[^>]+>", "", text)
+    # 移除 markdown 連結語法 [text](url)
+    text = _re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
+    # 移除裸 URL（http/https）
+    text = _re.sub(r"https?://\S+", "", text)
+    # 移除三個反引號（避免 fence 注入）
+    text = text.replace("```", "")
+    return text.strip()
 
 
 def _parse_args(args: str) -> tuple[set[str], set[str]]:
