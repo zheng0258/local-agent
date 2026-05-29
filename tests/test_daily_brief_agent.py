@@ -319,7 +319,13 @@ def test_parse_args_supports_new_steps():
 
 
 def test_all_steps_count():
-    assert len(ALL_STEPS) == 12
+    assert len(ALL_STEPS) == 13
+
+
+def test_all_steps_contains_enrich():
+    assert "enrich" in ALL_STEPS
+    assert ALL_STEPS.index("compress") < ALL_STEPS.index("enrich")
+    assert ALL_STEPS.index("enrich") < ALL_STEPS.index("digest")
 
 
 # ── parse_llm_json robustness ───────────────────────────────────────────────

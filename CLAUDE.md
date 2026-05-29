@@ -23,7 +23,7 @@ python3 main.py "/daily-brief --force notify"   # 重送 Telegram
 python3 main.py "/daily-brief --only hatena"
 python3 main.py "/daily-brief --only report notify"
 
-# 可用 step 名稱：hatena / hn / reddit / security / rss / dedup / compress / digest / judge / report / save / notify
+# 可用 step 名稱：hatena / hn / reddit / security / rss / dedup / compress / enrich / digest / judge / report / save / notify
 
 # 覆蓋本地 LLM 設定
 export LOCAL_LLM_URL=http://localhost:1234
@@ -116,6 +116,7 @@ outputs/daily-brief/{today}/
 │   ├── security.json
 │   ├── alerts.json      # 異常訊號告警（條件觸發，非每日必有）
 │   ├── compress.json    # 各來源語義壓縮（themes + *** articles + one_liner）
+│   ├── enrich.json      # HN/Reddit 留言摘要（comment_summary 欄位）
 │   ├── digest.json      # 跨來源深度摘要
 │   └── judge.json       # LLM-as-Judge 品質評分（relevance/completeness/faithfulness）
 ├── report.md            # 最終趨勢報告（純 markdown）
