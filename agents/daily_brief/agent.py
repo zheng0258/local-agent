@@ -955,6 +955,7 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
     downstream_check: list[tuple[str, Path]] = [
         ("dedup",    steps_dir / "dedup.json"),
         ("compress", steps_dir / "compress.json"),
+        ("enrich",   steps_dir / "enrich.json"),
         ("digest",   steps_dir / "digest.json"),
         ("judge",    steps_dir / "judge.json"),
         ("report",   day_dir   / "report.md"),
