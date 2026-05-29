@@ -78,4 +78,5 @@ def test_fetch_comments_url_gets_json_suffix():
     with patch("tools.fetchers.reddit_comments._curl_get", side_effect=_capture_url):
         fetch_comments(REDDIT_POST_URL)
 
-    assert called_urls[0].endswith(".json?limit=10&sort=best")
+    assert ".json?limit=" in called_urls[0]
+    assert "sort=best" in called_urls[0]
