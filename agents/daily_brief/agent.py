@@ -581,11 +581,42 @@ class DailyBriefAgent:
         logger.info("Step enrich    : 完成 → enrich.json（%d 篇含留言摘要）", enriched_count)
         return enrich_data
 
+    def _enrich_article(self, src: str, idx: int, article: dict) -> str | None:
+        """對單篇文章抓留言並 LLM 摘要，失敗時回傳 None（best-effort）。"""
+        from tools.fetchers import hn_comments, reddit_comments
+        try:
+            url = article.get("url", "")
+            if src == "hn":
+                item_id = hn_comments.parse_item_id(url)
+                if not item_id:
+                    logger.debug("HN URL 無法解析 item_id: %s", url)
+                    return None
+                comments = hn_comments.fetch_comments(item_id, top_n=10)
+            else:
+                comments = reddit_comments.fetch_comments(url, top_n=10)
+
+            if not comments:
+                return None
+
+            sanitized_comments = [c.replace("```", "") for c in comments]
+            prompt = prompts.build_comment_summary_prompt(
+                source=src,
+                title=article.get("title", ""),
+                comments_json=json.dumps(sanitized_comments, ensure_ascii=False),
+            )
+            raw = self._complete(prompt)
+            parsed = parse_llm_json(raw)
+            summary = parsed.get("comment_summary", "").strip()
+            summary = _sanitize_comment_summary(summary)
+            return summary if summary else None
+        except Exception as exc:
+            logger.warning("enrich %s 失敗: %s", src, exc)
+            return None
+
     def _run_enrich(self, compress_data: dict) -> dict:
         """對 compress_data 中 HN/Reddit *** 文章並行抓留言並 LLM 摘要。"""
         import copy
         from concurrent.futures import ThreadPoolExecutor, as_completed
-        from tools.fetchers import hn_comments, reddit_comments
 
         result = copy.deepcopy(compress_data)
         result["_meta"] = {"enriched_at": datetime.now().isoformat(timespec="seconds")}
@@ -596,44 +627,14 @@ class DailyBriefAgent:
                 if isinstance(article, dict):
                     to_enrich.append((src, idx))
 
-        def _enrich_one(src: str, idx: int) -> tuple[str, int, str | None]:
-            try:
-                article = result[src]["articles"][idx]
-                url = article.get("url", "")
-                if src == "hn":
-                    item_id = hn_comments.parse_item_id(url)
-                    if not item_id:
-                        logger.debug("HN URL 無法解析 item_id: %s", url)
-                        return src, idx, None
-                    comments = hn_comments.fetch_comments(item_id, top_n=10)
-                else:
-                    comments = reddit_comments.fetch_comments(url, top_n=10)
-
-                if not comments:
-                    return src, idx, None
-
-                sanitized_comments = [c.replace("```", "") for c in comments]
-                prompt = prompts.build_comment_summary_prompt(
-                    source=src,
-                    title=article.get("title", ""),
-                    comments_json=json.dumps(sanitized_comments, ensure_ascii=False),
-                )
-                raw = self._complete(prompt)
-                parsed = parse_llm_json(raw)
-                summary = parsed.get("comment_summary", "").strip()
-                summary = _sanitize_comment_summary(summary)
-                return src, idx, summary if summary else None
-            except Exception as exc:
-                logger.warning("enrich %s[%d] 失敗: %s", src, idx, exc)
-                return src, idx, None
-
         with ThreadPoolExecutor(max_workers=4) as executor:
             futures = {
-                executor.submit(_enrich_one, src, idx): (src, idx)
+                executor.submit(self._enrich_article, src, idx, result[src]["articles"][idx]): (src, idx)
                 for src, idx in to_enrich
             }
             for future in as_completed(futures):
-                src, idx, comment_summary = future.result()
+                src, idx = futures[future]
+                comment_summary = future.result()
                 if comment_summary:
                     result[src]["articles"][idx]["comment_summary"] = comment_summary
 
@@ -866,15 +867,14 @@ class DailyBriefAgent:
 
 def _sanitize_comment_summary(text: str) -> str:
     """移除 comment_summary 中可能的注入內容（URL、HTML、markdown 連結、控制序列）。"""
-    import re as _re
     # 強制 60 字元上限
     text = text[:60]
     # 移除 HTML tag
-    text = _re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"<[^>]+>", "", text)
     # 移除 markdown 連結語法 [text](url)
-    text = _re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
     # 移除裸 URL（http/https）
-    text = _re.sub(r"https?://\S+", "", text)
+    text = re.sub(r"https?://\S+", "", text)
     # 移除三個反引號（避免 fence 注入）
     text = text.replace("```", "")
     return text.strip()
