@@ -21,12 +21,13 @@
 | `tools/notifiers/telegram.py` | Telegram 發送（HTML parse_mode） |
 ## DailyBrief 步驟
 
-執行順序：`hatena` → `hn` → `reddit` → `security` → `compress` → `digest` → `judge` → `report` → `save` → `notify`
+執行順序：`hatena` → `hn` → `reddit` → `security` → `rss` → `compress` → `enrich` → `digest` → `judge` → `report` → `save` → `notify`
 
 | 步驟 | 說明 | Artifact |
 |------|------|----------|
 | hatena / hn / reddit / security | fetch + LLM 興趣評分（*** / ** / *） | `steps/{name}.json` |
 | compress | 各來源 Python 預篩選 *** 後，LLM 壓縮為 themes + one_liner | `steps/compress.json` |
+| enrich | 對 HN/Reddit *** 文章抓 top 10 留言 → LLM 社群觀點摘要（best-effort） | `steps/enrich.json` |
 | digest | 跨來源深度摘要（3–5 行） | `steps/digest.json` |
 | judge | LLM-as-Judge 評分（relevance/completeness/faithfulness），slim context | `steps/judge.json` |
 | report | 純 markdown 趨勢報告 | `report.md` |

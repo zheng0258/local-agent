@@ -41,7 +41,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 FETCH_STEPS = ["hatena", "hn", "reddit", "security", "rss"]
-ALL_STEPS = [*FETCH_STEPS, "dedup", "compress", "digest", "judge", "report", "save", "notify"]
+ALL_STEPS = [*FETCH_STEPS, "dedup", "compress", "enrich", "digest", "judge", "report", "save", "notify"]
 
 
 @dataclass
@@ -119,9 +119,10 @@ class DailyBriefAgent:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
         source_data = self._phase_dedup(ctx, source_data)
         compress_data = self._phase_compress(ctx, source_data)
-        digests = self._phase_digest(ctx, compress_data)
-        compress_data, digests = self._phase_judge(ctx, compress_data, digests)
-        self._phase_report(ctx, compress_data, digests)
+        enrich_data = self._phase_enrich(ctx, compress_data)
+        digests = self._phase_digest(ctx, enrich_data)
+        enrich_data, digests = self._phase_judge(ctx, enrich_data, digests)
+        self._phase_report(ctx, enrich_data, digests)
         self._phase_save(ctx, digests)
         self._phase_notify(ctx, digests)
 
