@@ -553,6 +553,90 @@ class DailyBriefAgent:
         logger.info("RSS LLM + 清洗完成：%d 篇", len(result["articles"]))
         return result
 
+    def _phase_enrich(self, ctx: _RunContext, compress_data: dict) -> dict:
+        """compress 後、digest 前：對 HN/Reddit *** 文章並行抓留言 → LLM 摘要。"""
+        enrich_artifact = ctx.steps_dir / "enrich.json"
+        if "enrich" not in ctx.steps_to_run:
+            if enrich_artifact.exists():
+                return json.loads(enrich_artifact.read_text(encoding="utf-8"))
+            return compress_data
+        if enrich_artifact.exists() and "enrich" not in ctx.force_steps:
+            logger.info("Step enrich    : 載入既有 artifact")
+            return json.loads(enrich_artifact.read_text(encoding="utf-8"))
+        if not compress_data:
+            logger.warning("Step enrich    : 無壓縮資料，略過（先執行 compress step）")
+            return compress_data
+
+        logger.info("Step enrich    : 執行中...")
+        enrich_data = self._run_enrich(compress_data)
+        enrich_artifact.write_text(
+            json.dumps(enrich_data, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        enriched_count = sum(
+            1
+            for src in ["hn", "reddit"]
+            for a in enrich_data.get(src, {}).get("articles", [])
+            if isinstance(a, dict) and "comment_summary" in a
+        )
+        logger.info("Step enrich    : 完成 → enrich.json（%d 篇含留言摘要）", enriched_count)
+        return enrich_data
+
+    def _run_enrich(self, compress_data: dict) -> dict:
+        """對 compress_data 中 HN/Reddit *** 文章並行抓留言並 LLM 摘要。"""
+        import copy
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        from tools.fetchers import hn_comments, reddit_comments
+
+        result = copy.deepcopy(compress_data)
+        result["_meta"] = {"enriched_at": datetime.now().isoformat(timespec="seconds")}
+
+        to_enrich: list[tuple[str, int]] = []
+        for src in ["hn", "reddit"]:
+            for idx, article in enumerate(result.get(src, {}).get("articles", [])):
+                if isinstance(article, dict):
+                    to_enrich.append((src, idx))
+
+        def _enrich_one(src: str, idx: int) -> tuple[str, int, str | None]:
+            try:
+                article = result[src]["articles"][idx]
+                url = article.get("url", "")
+                if src == "hn":
+                    item_id = hn_comments.parse_item_id(url)
+                    if not item_id:
+                        logger.debug("HN URL 無法解析 item_id: %s", url)
+                        return src, idx, None
+                    comments = hn_comments.fetch_comments(item_id, top_n=10)
+                else:
+                    comments = reddit_comments.fetch_comments(url, top_n=10)
+
+                if not comments:
+                    return src, idx, None
+
+                prompt = prompts.build_comment_summary_prompt(
+                    source=src,
+                    title=article.get("title", ""),
+                    comments_json=json.dumps(comments, ensure_ascii=False),
+                )
+                raw = self._complete(prompt)
+                parsed = parse_llm_json(raw)
+                summary = parsed.get("comment_summary", "").strip()
+                return src, idx, summary if summary else None
+            except Exception as exc:
+                logger.warning("enrich %s[%d] 失敗: %s", src, idx, exc)
+                return src, idx, None
+
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            futures = {
+                executor.submit(_enrich_one, src, idx): (src, idx)
+                for src, idx in to_enrich
+            }
+            for future in as_completed(futures):
+                src, idx, comment_summary = future.result()
+                if comment_summary:
+                    result[src]["articles"][idx]["comment_summary"] = comment_summary
+
+        return result
+
     def _run_compress(self, source_data: dict, reflect_context: str = "") -> dict:
         """Layer 2: LLM compresses each source into themes + one-liners.
         Python pre-filters to *** articles before calling LLM.
