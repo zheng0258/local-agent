@@ -7,6 +7,8 @@ import subprocess
 
 _COMMENT_MAX_CHARS: int = 300
 _DEFAULT_TOP_N: int = 10
+_DEFAULT_SORT: str = "best"
+_STDERR_TRIM: int = 100
 _DELETED: frozenset[str] = frozenset({"[deleted]", "[removed]"})
 _HEADERS: list[str] = ["User-Agent: daily-brief/1.0"]
 
@@ -17,10 +19,10 @@ def fetch_comments(post_url: str, top_n: int = _DEFAULT_TOP_N) -> list[str]:
     失敗時回傳空列表（不 raise）。
     """
     try:
-        url = post_url.rstrip("/") + ".json?limit=10&sort=best"
+        url = post_url.rstrip("/") + f".json?limit={top_n}&sort={_DEFAULT_SORT}"
         raw = _curl_get(url)
         data = json.loads(raw)
-    except Exception:
+    except (json.JSONDecodeError, RuntimeError, OSError, subprocess.TimeoutExpired):
         return []
 
     try:
@@ -46,5 +48,5 @@ def _curl_get(url: str, timeout: int = 15) -> str:
         capture_output=True, text=True, timeout=timeout + 5,
     )
     if proc.returncode != 0:
-        raise RuntimeError(f"curl failed: {proc.stderr[:100]}")
+        raise RuntimeError(f"curl failed: {proc.stderr[:_STDERR_TRIM]}")
     return proc.stdout
