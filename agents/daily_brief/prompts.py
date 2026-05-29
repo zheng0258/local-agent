@@ -339,6 +339,8 @@ def build_digest_prompt_from_compress(compress_json: str) -> str:
 - 核心訊息（這項技術/事件是什麼）
 - 影響範圍（誰受影響、規模）
 - 值得關注的原因（為何現在重要）
+- 若文章有 comment_summary 欄位，在 summary 尾段另起一行追加：
+  💬 社群觀點：[comment_summary 的內容]
 
 禁止：跳過任何一篇、自行編造 URL、修改 URL
 
@@ -352,7 +354,7 @@ def build_digest_prompt_from_compress(compress_json: str) -> str:
       "url": "原始 URL（完整複製，禁止修改）",
       "source": "Hatena / HN / r/子版名稱 / aikido.dev / wiz.io",
       "interest": "***",
-      "summary": "3–5 行摘要"
+      "summary": "3–5 行摘要（若有 comment_summary，尾段追加 💬 社群觀點：...）"
     }}
   ]
 }}
@@ -492,6 +494,31 @@ def build_judge_prompt(compress_json: str, digest_json: str) -> str:
 }}
 ```\
 """
+
+# ── Step enrich：留言社群觀點摘要 ───────────────────────────────
+
+def build_comment_summary_prompt(source: str, title: str, comments_json: str) -> str:
+    return f"""\
+{_NO_THINK}## 文章資訊
+
+來源：{source}
+標題：{title}
+
+## 社群留言（top 10）
+
+{comments_json}
+
+## 任務
+
+根據以上留言，以 ≤ 60 字繁體中文摘要社群觀點（主流看法、爭議點、實用建議等）。
+
+## 輸出格式
+
+```json
+{{"comment_summary": "≤60 字社群觀點摘要"}}
+```\
+"""
+
 
 # ── Step 7：Telegram 訊息 ─────────────────────────────────────────
 
