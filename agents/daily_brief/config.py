@@ -99,6 +99,11 @@ STEP_CONFIGS: dict[str, StepConfig] = {
         backoff_seconds=(1.0, 3.0, 9.0),
         task_description="從 RSS feeds 抓取文章並以 JSON 格式回傳 interest 評分結果",
     ),
+    "enrich": StepConfig(
+        max_retries=1,
+        strategy="plain",
+        task_description="對 HN/Reddit *** 文章抓取 top 10 留言並 LLM 摘要社群觀點（best-effort）",
+    ),
     "compress": StepConfig(
         max_retries=2,
         strategy="error_aware",
