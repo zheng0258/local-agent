@@ -169,3 +169,34 @@ def test_fetch_prompts_contain_few_shot_examples():
     for p in [hatena_p, hn_p, reddit_p, security_p]:
         assert "Claude Code" in p or "CVE" in p, "應包含 *** 類的 few-shot 範例"
         assert "- ** " in p and "- * " in p, "應包含 ** 與 * 評分層級的範例"
+
+
+# ── build_comment_summary_prompt ────────────────────────────────
+
+def test_build_comment_summary_prompt_exists():
+    assert hasattr(prompts, "build_comment_summary_prompt")
+
+
+def test_build_comment_summary_prompt_output_key():
+    p = prompts.build_comment_summary_prompt("hn", "Some Title", '["comment 1"]')
+    assert '"comment_summary"' in p
+
+
+def test_build_comment_summary_prompt_includes_title_and_source():
+    p = prompts.build_comment_summary_prompt("reddit", "My Article", "[]")
+    assert "My Article" in p
+    assert "reddit" in p
+
+
+def test_build_comment_summary_prompt_specifies_60_char_limit():
+    p = prompts.build_comment_summary_prompt("hn", "T", "[]")
+    assert "60" in p
+
+
+# ── build_digest_prompt_from_compress（更新）───────────────────
+
+def test_build_digest_prompt_from_compress_mentions_comment_summary():
+    """更新後的 prompt 應提及 comment_summary 欄位與社群觀點追加。"""
+    p = prompts.build_digest_prompt_from_compress("{}")
+    assert "comment_summary" in p
+    assert "社群觀點" in p
