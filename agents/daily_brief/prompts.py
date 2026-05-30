@@ -406,6 +406,7 @@ def build_report_prompt_from_compress(compress_json: str, digests_json: str, tod
 ### 全部文章（部分）
 
 1. [標題](URL) (1234pt) — 一行摘要
+   💬 社群觀點：社群的主流看法或爭議點（僅 digest 有 comment_summary 欄位時才顯示此行）
 
 ---
 
@@ -421,6 +422,7 @@ def build_report_prompt_from_compress(compress_json: str, digests_json: str, tod
 
 **資安類**
 1. [標題](URL) (1234 ups) — r/xxx — 一行摘要
+   💬 社群觀點：社群的主流看法（僅 digest 有 comment_summary 欄位時才顯示此行）
 
 **AI 類**
 1. [標題](URL) (1234 ups) — r/xxx — 一行摘要
@@ -453,6 +455,7 @@ def build_report_prompt_from_compress(compress_json: str, digests_json: str, tod
 - 章節順序與名稱必須與上方完全一致，不得增減
 - Reddit 使用 `### 注目話題` + `### 依類別列表` 兩層，禁止展開成個別子版標題
 - `## 今日總結` 是最後章節，其後不得新增任何內容
+- HN 和 Reddit 文章條目：若對應 digest 項目有 `comment_summary` 欄位，則在該條目下方縮排一行追加 `   💬 社群觀點：[comment_summary 內容]`；無此欄位則不顯示
 """
 
 

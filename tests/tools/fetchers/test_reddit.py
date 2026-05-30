@@ -1,24 +1,40 @@
-"""Reddit fetcher 測試。"""
+"""Reddit fetcher 測試（RSS-based）。"""
 
-import pytest
 import json
-from unittest.mock import patch, MagicMock
+import os
+import pytest
+from unittest.mock import MagicMock, patch
+
+from agents.daily_brief.config import REDDIT_SUBREDDITS
+
+_ATOM_NS = "http://www.w3.org/2005/Atom"
 
 
-def _make_reddit_response(sub: str, n: int = 3) -> str:
-    """產生假的 Reddit API 回應。"""
-    children = [
-        {
-            "data": {
-                "title": f"Post {i} from r/{sub}",
-                "score": 100 * i,
-                "num_comments": 10 * i,
-                "permalink": f"/r/{sub}/comments/{i}/post_{i}/",
-            }
-        }
-        for i in range(1, n + 1)
-    ]
-    return json.dumps({"data": {"children": children}})
+def _make_rss(sub: str, titles: list[str]) -> str:
+    entries = ""
+    for i, title in enumerate(titles):
+        entries += f"""
+  <entry xmlns="{_ATOM_NS}">
+    <title>{title}</title>
+    <link href="https://www.reddit.com/r/{sub}/comments/{i}/post_{i}/"/>
+    <content type="html">submitted by /u/user &lt;span&gt;&lt;a href="https://example.com/article"&gt;[link]&lt;/a&gt;&lt;/span&gt;</content>
+  </entry>"""
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="{_ATOM_NS}">
+  <title>r/{sub}</title>{entries}
+</feed>"""
+
+
+def _mock_run_with_rss(sub_titles: dict[str, list[str]]):
+    """mock subprocess.run，依 URL 中子版名稱回傳對應 RSS。"""
+    def side_effect(cmd, **kwargs):
+        m = MagicMock()
+        m.returncode = 0
+        url = cmd[-1] if isinstance(cmd, list) else ""
+        matched_sub = next((s for s in sub_titles if f"/r/{s}/" in url), None)
+        m.stdout = _make_rss(matched_sub, sub_titles[matched_sub]) if matched_sub else ""
+        return m
+    return side_effect
 
 
 def test_fetch_returns_dict():
@@ -29,7 +45,6 @@ def test_fetch_returns_dict():
 
 def test_fetch_keys_match_categories():
     from tools.fetchers import reddit
-    from agents.daily_brief.config import REDDIT_SUBREDDITS
     result = reddit.fetch()
     for category in REDDIT_SUBREDDITS:
         assert category in result
@@ -37,19 +52,16 @@ def test_fetch_keys_match_categories():
 
 def test_fetch_each_category_is_list():
     from tools.fetchers import reddit
-    result = reddit.fetch()
+    with patch("subprocess.run", side_effect=_mock_run_with_rss({"netsec": ["Post 1", "Post 2"]})):
+        result = reddit.fetch()
     for category, posts in result.items():
         assert isinstance(posts, list), f"{category} 應為 list"
 
 
 def test_fetch_post_has_required_fields():
-    mock_run = MagicMock()
-    mock_run.return_value.stdout = _make_reddit_response("netsec")
-
-    with patch("subprocess.run", return_value=mock_run.return_value):
-        from tools.fetchers import reddit
+    from tools.fetchers import reddit
+    with patch("subprocess.run", side_effect=_mock_run_with_rss({"netsec": ["Test Post"]})):
         result = reddit.fetch()
-
     for posts in result.values():
         for post in posts:
             assert "title" in post
@@ -58,55 +70,74 @@ def test_fetch_post_has_required_fields():
             assert "subreddit" in post
 
 
-def test_fetch_invalid_json_does_not_raise():
-    """curl 回傳非 JSON 時不應拋出例外，該 subreddit 跳過。"""
-    mock_run = MagicMock()
-    mock_run.return_value.stdout = "not valid json"
-
-    with patch("subprocess.run", return_value=mock_run.return_value):
-        from tools.fetchers import reddit
+def test_fetch_extracts_orig_url_from_content():
+    from tools.fetchers import reddit
+    with patch("subprocess.run", side_effect=_mock_run_with_rss({"netsec": ["Test Post"]})):
         result = reddit.fetch()
+    all_posts = [p for posts in result.values() for p in posts]
+    posts_with_orig = [p for p in all_posts if p.get("orig_url") == "https://example.com/article"]
+    assert len(posts_with_orig) > 0
 
+
+def test_fetch_invalid_rss_does_not_raise():
+    from tools.fetchers import reddit
+    m = MagicMock()
+    m.returncode = 0
+    m.stdout = "not valid xml"
+    with patch("subprocess.run", return_value=m):
+        result = reddit.fetch()
     assert isinstance(result, dict)
 
 
-def test_fetch_empty_response_returns_empty_lists():
-    """curl 無輸出時各類別應為空 list。"""
-    mock_run = MagicMock()
-    mock_run.return_value.stdout = ""
-
-    with patch("subprocess.run", return_value=mock_run.return_value):
-        from tools.fetchers import reddit
-        result = reddit.fetch()
-
-    for posts in result.values():
-        assert posts == []
-
-
-def test_fetch_requests_limit_5_per_subreddit():
-    """每個子版的請求 URL 應包含 limit=5。"""
-    captured_urls = []
+def test_fetch_requests_limit_per_subreddit():
+    from tools.fetchers import reddit
+    captured = []
 
     def mock_run(cmd, **kwargs):
-        captured_urls.append(cmd)
+        captured.append(cmd)
         m = MagicMock()
+        m.returncode = 0
         m.stdout = ""
         return m
 
     with patch("subprocess.run", side_effect=mock_run):
-        from tools.fetchers import reddit
         reddit.fetch()
 
-    assert len(captured_urls) > 0
-    for cmd in captured_urls:
-        assert "limit=5" in cmd, f"URL 應含 limit=5，實際：{cmd}"
+    assert len(captured) > 0
+    for cmd in captured:
+        cmd_str = " ".join(cmd) if isinstance(cmd, list) else cmd
+        assert "limit=" in cmd_str, f"URL 應含 limit=，實際：{cmd_str}"
+        assert ".rss" in cmd_str, f"URL 應使用 .rss endpoint，實際：{cmd_str}"
+
+
+def test_fetch_uses_iphone_user_agent():
+    from tools.fetchers import reddit
+    captured = []
+
+    def mock_run(cmd, **kwargs):
+        captured.append(cmd)
+        m = MagicMock()
+        m.returncode = 0
+        m.stdout = ""
+        return m
+
+    with patch("subprocess.run", side_effect=mock_run):
+        reddit.fetch()
+
+    assert len(captured) > 0
+    for cmd in captured:
+        cmd_str = " ".join(cmd) if isinstance(cmd, list) else cmd
+        assert "iPhone" in cmd_str or "Mozilla" in cmd_str
 
 
 @pytest.mark.integration
+@pytest.mark.skipif(
+    not os.environ.get("CI_NETWORK"),
+    reason="需要網路連線（設定 CI_NETWORK=1 開啟）",
+)
 def test_fetch_real_network_returns_posts():
     from tools.fetchers import reddit
     result = reddit.fetch()
-
     assert isinstance(result, dict)
     total_posts = sum(len(v) for v in result.values())
     assert total_posts > 0, f"所有子版都沒有文章：{result}"

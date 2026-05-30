@@ -1,7 +1,26 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+from pathlib import Path
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_ENV_FILE = _PROJECT_ROOT / ".env"
+
+
+def load_project_env() -> None:
+    """從專案根目錄 .env 載入環境變數（已存在的變數不覆蓋，支援 inline comment）。"""
+    if not _ENV_FILE.exists():
+        return
+    with _ENV_FILE.open() as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, _, v = line.partition("=")
+            v = v.split(" #")[0].strip()
+            os.environ.setdefault(k.strip(), v)
 
 
 def parse_llm_json(raw: str | None) -> dict:
@@ -16,7 +35,9 @@ def parse_llm_json(raw: str | None) -> dict:
 
     text = _strip_fence(raw)
     try:
-        return json.loads(text)
+        parsed = json.loads(text)
+        if isinstance(parsed, dict):
+            return parsed
     except json.JSONDecodeError:
         pass
 
