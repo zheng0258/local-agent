@@ -1,6 +1,5 @@
 """Reddit fetcher 測試（RSS-based）。"""
 
-import json
 import os
 import pytest
 from unittest.mock import MagicMock, patch
@@ -37,45 +36,45 @@ def _mock_run_with_rss(sub_titles: dict[str, list[str]]):
     return side_effect
 
 
-def test_fetch_returns_dict():
+def test_fetch_returns_list():
     from tools.fetchers import reddit
     result = reddit.fetch()
-    assert isinstance(result, dict)
+    assert isinstance(result, list)
 
 
-def test_fetch_keys_match_categories():
-    from tools.fetchers import reddit
-    result = reddit.fetch()
-    for category in REDDIT_SUBREDDITS:
-        assert category in result
-
-
-def test_fetch_each_category_is_list():
+def test_fetch_posts_have_category_field():
     from tools.fetchers import reddit
     with patch("subprocess.run", side_effect=_mock_run_with_rss({"netsec": ["Post 1", "Post 2"]})):
         result = reddit.fetch()
-    for category, posts in result.items():
-        assert isinstance(posts, list), f"{category} 應為 list"
+    posts_with_category = [p for p in result if "category" in p]
+    assert len(posts_with_category) == len(result)
+
+
+def test_fetch_category_values_match_config():
+    from tools.fetchers import reddit
+    with patch("subprocess.run", side_effect=_mock_run_with_rss({"netsec": ["Post 1"]})):
+        result = reddit.fetch()
+    categories = {p["category"] for p in result}
+    assert categories <= set(REDDIT_SUBREDDITS.keys())
 
 
 def test_fetch_post_has_required_fields():
     from tools.fetchers import reddit
     with patch("subprocess.run", side_effect=_mock_run_with_rss({"netsec": ["Test Post"]})):
         result = reddit.fetch()
-    for posts in result.values():
-        for post in posts:
-            assert "title" in post
-            assert "score" in post
-            assert "url" in post
-            assert "subreddit" in post
+    for post in result:
+        assert "title" in post
+        assert "score" in post
+        assert "url" in post
+        assert "subreddit" in post
+        assert "category" in post
 
 
 def test_fetch_extracts_orig_url_from_content():
     from tools.fetchers import reddit
     with patch("subprocess.run", side_effect=_mock_run_with_rss({"netsec": ["Test Post"]})):
         result = reddit.fetch()
-    all_posts = [p for posts in result.values() for p in posts]
-    posts_with_orig = [p for p in all_posts if p.get("orig_url") == "https://example.com/article"]
+    posts_with_orig = [p for p in result if p.get("orig_url") == "https://example.com/article"]
     assert len(posts_with_orig) > 0
 
 
@@ -86,7 +85,7 @@ def test_fetch_invalid_rss_does_not_raise():
     m.stdout = "not valid xml"
     with patch("subprocess.run", return_value=m):
         result = reddit.fetch()
-    assert isinstance(result, dict)
+    assert isinstance(result, list)
 
 
 def test_fetch_requests_limit_per_subreddit():
@@ -138,6 +137,5 @@ def test_fetch_uses_iphone_user_agent():
 def test_fetch_real_network_returns_posts():
     from tools.fetchers import reddit
     result = reddit.fetch()
-    assert isinstance(result, dict)
-    total_posts = sum(len(v) for v in result.values())
-    assert total_posts > 0, f"所有子版都沒有文章：{result}"
+    assert isinstance(result, list)
+    assert len(result) > 0, f"所有子版都沒有文章：{result}"

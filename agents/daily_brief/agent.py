@@ -512,18 +512,13 @@ class DailyBriefAgent:
         from tools.fetchers.schema import clean_articles
 
         raw = mod.fetch()
-        total = sum(len(v) for v in raw.values()) if isinstance(raw, dict) else 0
-        logger.info("Reddit 抓取：%d 篇文章", total)
+        logger.info("Reddit 抓取：%d 篇文章", len(raw))
         result = parse_llm_json(
             self._complete(prompts.build_reddit_prompt(json.dumps(raw, ensure_ascii=False)))
         )
-        articles = result.get("articles", {})
-        if isinstance(articles, dict):
-            for category, category_articles in articles.items():
-                if isinstance(category_articles, list):
-                    cleaned = clean_articles(category_articles)
-                    articles[category] = [article.to_dict() for article in cleaned]
-        logger.info("Reddit LLM + 清洗完成")
+        cleaned = clean_articles(result.get("articles", []))
+        result["articles"] = [article.to_dict() for article in cleaned]
+        logger.info("Reddit LLM + 清洗完成：%d 篇", len(result["articles"]))
         return result
 
     def _fetch_security(self, mod) -> dict:
@@ -648,13 +643,6 @@ class DailyBriefAgent:
         result: dict = {"_meta": {"compressed_at": datetime.now().isoformat(timespec="seconds")}}
         for name in FETCH_STEPS:
             articles = source_data.get(name, {}).get("articles", [])
-            if isinstance(articles, dict):
-                articles = [
-                    article
-                    for category_articles in articles.values()
-                    if isinstance(category_articles, list)
-                    for article in category_articles
-                ]
             starred = [a for a in articles if isinstance(a, dict) and a.get("interest") == "***"]
             if not starred:
                 result[name] = {"themes": [], "articles": []}
@@ -917,22 +905,10 @@ def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
     filtered: dict = {}
     for source_name, content in source_data.items():
         articles = content.get("articles", [])
-        if isinstance(articles, list):
-            filtered[source_name] = {
-                **content,
-                "articles": [a for a in articles if a.get("url") in kept_urls],
-            }
-        elif isinstance(articles, dict):
-            filtered[source_name] = {
-                **content,
-                "articles": {
-                    cat: [a for a in cat_arts if a.get("url") in kept_urls]
-                    for cat, cat_arts in articles.items()
-                    if isinstance(cat_arts, list)
-                },
-            }
-        else:
-            filtered[source_name] = content
+        filtered[source_name] = {
+            **content,
+            "articles": [a for a in articles if isinstance(a, dict) and a.get("url") in kept_urls],
+        }
     return filtered
 
 

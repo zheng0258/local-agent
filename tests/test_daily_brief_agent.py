@@ -112,7 +112,7 @@ def test_run_compress_returns_dict_with_all_sources():
     source_data = {
         "hatena": {"articles": [{"title": "T", "url": "u", "interest": "***", "score": 100, "category": "AI", "source": "hatena"}]},
         "hn": {"articles": []},
-        "reddit": {"articles": {}},
+        "reddit": {"articles": []},
         "security": {"articles": []},
     }
     result = agent._run_compress(source_data)
@@ -146,7 +146,7 @@ def test_run_compress_prefilters_to_starred_only():
                 {"title": "C", "url": "https://hn.com/3", "interest": "*", "score": 50},
             ]
         },
-        "reddit": {"articles": {}},
+        "reddit": {"articles": []},
         "security": {"articles": []},
     }
     agent._run_compress(source_data)

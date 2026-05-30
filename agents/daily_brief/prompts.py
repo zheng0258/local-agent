@@ -122,14 +122,9 @@ def build_reddit_prompt(posts_json: str) -> str:
 
 ```json
 {{
-  "articles": {{
-    "資安類": [{{"title": "...", "url": "...", "score": 123, "interest": "***", "category": "資安", "subreddit": "r/cybersecurity"}}],
-    "AI 類": [...],
-    "AI 開發工具類": [...],
-    "核心技術類": [...],
-    "OSS・獨立開發類": [...],
-    "職涯・實踐類": [...]
-  }}
+  "articles": [
+    {{"title": "...", "url": "...", "score": 123, "interest": "***", "category": "資安類", "subreddit": "r/cybersecurity"}}
+  ]
 }}
 ```
 
@@ -206,10 +201,12 @@ def build_compress_prompt(source_name: str, articles_json: str) -> str:
 {{
   "themes": ["主題一", "主題二"],
   "articles": [
-    {{"title": "繁體中文標題", "url": "原始URL", "one_liner": "20字內核心摘要", "interest": "***"}}
+    {{"title": "繁體中文標題", "url": "原始URL", "one_liner": "20字內核心摘要", "interest": "***", "score": 123}}
   ]
 }}
-```\
+```
+
+注意：`score` 欄位直接複製輸入資料的原始數值，禁止修改或發明新數字。\
 """
 
 # ── Step 5：跨來源生成深度摘要 ──────────────────────────────────────
@@ -452,6 +449,8 @@ def build_report_prompt_from_compress(compress_json: str, digests_json: str, tod
 **輸出要求**：
 - 直接輸出完整 markdown，不要包成 JSON
 - 第一行必須是 `# 趨勢話題：{today}`
+- 數字欄位（書籤數、分數、票數）必須使用資料中的 `score` 值；若 score 為 0 或不存在則填 `-`；禁止發明或猜測任何數字
+- `興趣度` 欄位固定填 `***`（所有傳入文章均已是 ***），不可用 *** 填其他欄位
 - 章節順序與名稱必須與上方完全一致，不得增減
 - Reddit 使用 `### 注目話題` + `### 依類別列表` 兩層，禁止展開成個別子版標題
 - `## 今日總結` 是最後章節，其後不得新增任何內容

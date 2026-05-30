@@ -19,6 +19,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+import os
+
 from config import get_llm, setup_logging
 from tools.lms_lifecycle import ensure_models_loaded, unload_all
 from config.settings import DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL
@@ -83,7 +85,9 @@ def main() -> None:
     agent = agent_cls(llm=llm)
     print(f"[router] skill={agent.AGENT_NAME}, args={args!r}")
 
-    freshly_loaded = ensure_models_loaded([DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL])
+    llm_model = os.environ.get("LOCAL_LLM_MODEL", DEFAULT_LOCAL_LLM_MODEL)
+    judge_model = os.environ.get("JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL)
+    freshly_loaded = ensure_models_loaded([llm_model, judge_model])
     if freshly_loaded:
         _wait_for_model_stabilize(logger)
 
