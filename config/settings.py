@@ -23,7 +23,7 @@ VAULT_ROOT = Path(
 )
 
 DEFAULT_LOCAL_LLM_URL = "http://localhost:1234"
-DEFAULT_LOCAL_LLM_MODEL = "qwen3.5-27b-claude-4.6-opus-distilled-mlx"
+DEFAULT_LOCAL_LLM_MODEL = "qwen3.6-35b-a3b"
 DEFAULT_JUDGE_LLM_MODEL = "google/gemma-4-e4b"
 
 

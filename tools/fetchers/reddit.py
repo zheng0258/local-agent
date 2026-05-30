@@ -19,20 +19,21 @@ _ATOM_NS = "http://www.w3.org/2005/Atom"
 TOP_N = 10
 
 
-def fetch() -> dict[str, list[dict]]:
+def fetch() -> list[dict]:
     """
-    抓取熱門文章，依類別分組。
-    回傳格式：{"資安類": [...], "AI 類": [...], ...}
+    抓取熱門文章，回傳 list[dict]，每篇含 category 欄位。
+    回傳格式：[{"category": "資安類", "subreddit": "r/netsec", "title": ..., ...}, ...]
     """
-    result: dict[str, list[dict]] = {}
+    result: list[dict] = []
     for category, subreddits in REDDIT_SUBREDDITS.items():
-        posts: list[dict] = []
         for sub in subreddits:
             try:
-                posts.extend(_fetch_subreddit(sub))
+                posts = _fetch_subreddit(sub)
+                for p in posts:
+                    p["category"] = category
+                result.extend(posts)
             except Exception:
                 continue
-        result[category] = posts
     return result
 
 
