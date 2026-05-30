@@ -16,7 +16,8 @@ import ssl
 import urllib.error
 import urllib.parse
 import urllib.request
-from pathlib import Path
+
+from config.utils import load_project_env
 
 # Telegram HTML mode 支援的 tag（其餘一律移除）
 _ALLOWED_TAGS = {"b", "i", "u", "s", "a", "code", "pre", "tg-spoiler"}
@@ -33,21 +34,7 @@ def _sanitize_html(text: str) -> str:
 
     return _TAG_RE.sub(_replace, text)
 
-_PROJECT_ROOT = Path(__file__).parent.parent.parent
-_ENV_FILE = _PROJECT_ROOT / ".env"
 MAX_LEN = 4096
-
-
-def _load_env() -> None:
-    if not _ENV_FILE.exists():
-        return
-    with _ENV_FILE.open() as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                k, v = line.split("=", 1)
-                v = v.split(" #")[0].strip()  # 移除 inline comment
-                os.environ.setdefault(k.strip(), v)
 
 
 def send(
@@ -62,7 +49,7 @@ def send(
     - 憑證未設定：印出警告後回傳 False
     - token_env / chat_id_env：指定讀取哪個 env var（不同 bot 時覆寫）
     """
-    _load_env()
+    load_project_env()
     token = (os.environ.get(token_env) or "").strip() or None
     chat_id = (os.environ.get(chat_id_env) or "").strip() or None
 

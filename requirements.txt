@@ -3,5 +3,6 @@ certifi
 chromadb>=0.6.0
 feedparser>=6.0.0
 fastmcp>=2.0.0
+defusedxml>=0.7.1
 json-repair>=0.30.0
 pyyaml>=6.0

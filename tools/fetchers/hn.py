@@ -16,7 +16,7 @@ def fetch() -> list[dict]:
     """
     result = fetch_page(HN_URL, max_chars=36000)
     if "error" in result:
-        return [{"error": result["error"]}]
+        raise RuntimeError(f"HN fetch failed: {result['error']}")
     return _parse_hn(result["html"])
 
 

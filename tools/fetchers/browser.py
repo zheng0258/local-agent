@@ -12,17 +12,30 @@ playwright-cli 採 daemon 模式：
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import time
 import uuid
+
+# launchd 環境 PATH 極簡，手動補全常見 node/brew 路徑
+_EXTRA_PATHS = [
+    "/opt/homebrew/bin",
+    "/usr/local/bin",
+    os.path.expanduser("~/.nvm/versions/node/v22.15.0/bin"),
+]
+_env_path = os.environ.get("PATH", "")
+os.environ["PATH"] = ":".join([p for p in _EXTRA_PATHS if p not in _env_path] + [_env_path])
 
 
 def _cli_bin() -> list[str]:
     """回傳 playwright-cli 執行指令（list 形式）。"""
     if shutil.which("playwright-cli"):
         return ["playwright-cli"]
-    return ["npx", "--no-install", "playwright-cli"]
+    npx = shutil.which("npx")
+    if npx:
+        return [npx, "--no-install", "playwright-cli"]
+    raise FileNotFoundError("playwright-cli / npx 均不在 PATH 中，請確認 Node.js 已安裝")
 
 
 def _run(args: list[str], timeout: int = 60) -> str:
