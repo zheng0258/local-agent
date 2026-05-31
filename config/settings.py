@@ -81,6 +81,43 @@ def check_local_llm(base_url: str = DEFAULT_LOCAL_LLM_URL, timeout: int = 5) -> 
         return False
 
 
+def ensure_llm_ready(
+    base_url: str = DEFAULT_LOCAL_LLM_URL,
+    retries: int = 18,
+    interval: int = 10,
+) -> bool:
+    """確保 LM Studio server 可用；若未啟動則自動喚醒並等待就緒。
+
+    流程：
+      1. 直接探測 API，已就緒則立即返回 True
+      2. open -a "LM Studio" + lms server start
+      3. 每 interval 秒輪詢，最多 retries 次（預設 3 分鐘）
+      4. 超時仍無回應則返回 False
+    """
+    import shutil
+    import subprocess
+    import time
+
+    if check_local_llm(base_url):
+        return True
+
+    subprocess.run(["open", "-a", "LM Studio"], capture_output=True)
+    lms_bin = shutil.which("lms") or (
+        "/Applications/LM Studio.app/Contents/Resources/app/.webpack/lms"
+    )
+    try:
+        subprocess.run([lms_bin, "server", "start"], capture_output=True, timeout=15)
+    except Exception:
+        pass
+
+    for _ in range(retries):
+        time.sleep(interval)
+        if check_local_llm(base_url):
+            return True
+
+    return False
+
+
 def get_judge_llm() -> LLMBackend:
     """
     Judge LLM backend（預設與主 LLM 相同）。
