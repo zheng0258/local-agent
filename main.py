@@ -23,7 +23,7 @@ import os
 
 from config import get_llm, setup_logging
 from tools.lms_lifecycle import ensure_models_loaded, unload_all
-from config.settings import DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL
+from config.settings import DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL, ensure_llm_ready
 from agents.daily_brief import DailyBriefAgent
 from agents.url_digest import UrlDigestAgent
 
@@ -87,6 +87,17 @@ def main() -> None:
 
     llm_model = os.environ.get("LOCAL_LLM_MODEL", DEFAULT_LOCAL_LLM_MODEL)
     judge_model = os.environ.get("JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL)
+
+    if not ensure_llm_ready():
+        msg = "LM Studio 未啟動且無法自動喚醒，daily-brief 中止。"
+        logger.error(msg)
+        try:
+            from tools.notifiers.telegram import send as tg_send
+            tg_send(f"✗ {msg}")
+        except Exception:
+            pass
+        sys.exit(1)
+
     freshly_loaded = ensure_models_loaded([llm_model, judge_model])
     if freshly_loaded:
         _wait_for_model_stabilize(logger)
