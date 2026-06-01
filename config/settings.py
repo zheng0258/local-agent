@@ -50,7 +50,8 @@ class LocalLLMBackend:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
 
-        payload = json.dumps({"model": self.model, "messages": messages}).encode()
+        body: dict = {"model": self.model, "messages": messages, "max_tokens": 8192}
+        payload = json.dumps(body).encode()
 
         req = urllib.request.Request(
             f"{self.base_url}/v1/chat/completions",
@@ -58,7 +59,7 @@ class LocalLLMBackend:
             headers={"Content-Type": "application/json"},
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=3600) as resp:
+        with urllib.request.urlopen(req, timeout=600) as resp:
             data = json.loads(resp.read().decode())
 
         return data["choices"][0]["message"]["content"]

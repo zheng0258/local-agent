@@ -71,10 +71,11 @@ def ensure_models_loaded(models: list[str]) -> bool:
     for model in to_load:
         logger.info("Loading model: %s", model)
         max_ctx = _get_max_context(model)
-        cmd = [LMS_BIN, "load", model, "-y"]
-        if max_ctx:
-            cmd += ["-c", str(max_ctx)]
-            logger.info("Loading model %s with context %d", model, max_ctx)
+        if not max_ctx:
+            max_ctx = 32768  # fallback: lms ls 未回傳 maxContextLength 時，避免使用預設的 4096
+            logger.warning("Loading model %s with fallback context %d (lms ls 未回傳 maxContextLength)", model, max_ctx)
+        cmd = [LMS_BIN, "load", model, "-y", "-c", str(max_ctx)]
+        logger.info("Loading model %s with context %d", model, max_ctx)
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
         except FileNotFoundError:

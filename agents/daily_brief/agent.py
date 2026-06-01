@@ -137,38 +137,58 @@ class DailyBriefAgent:
         source_data: dict[str, dict] = {}
         fetch_failed: list[str] = []
 
-        def _run_fetch_supervised(name: str) -> tuple[str, dict | None]:
+        # Phase 1: 網路 I/O 並行（純資料抓取，無 LLM）
+        def _load_or_fetch_raw(name: str) -> tuple[str, dict | list | None, bool]:
             artifact = ctx.steps_dir / f"{name}.json"
             if name not in ctx.steps_to_run:
                 if artifact.exists():
-                    return name, json.loads(artifact.read_text(encoding="utf-8"))
-                return name, None
+                    return name, json.loads(artifact.read_text(encoding="utf-8")), True
+                return name, None, True
             if artifact.exists() and name not in ctx.force_steps:
                 logger.info("Step %-8s: 載入既有 artifact", name)
-                return name, json.loads(artifact.read_text(encoding="utf-8"))
+                return name, json.loads(artifact.read_text(encoding="utf-8")), True
+            try:
+                raw = self._fetch_raw_data(name)
+                return name, raw, False
+            except Exception as exc:
+                logger.warning("Step %-8s: 原始資料抓取失敗 — %s", name, exc)
+                return name, None, False
 
-            def fn() -> dict:
-                result = self._run_fetch(name)
-                result["fetched_at"] = datetime.now().isoformat(timespec="seconds")
-                artifact.write_text(
-                    json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
-                )
-                logger.info("Step %-8s: 完成 → %s", name, artifact.name)
-                return result
-
-            step_result = ctx.supervisor.run_step(name, fn, force=(name in ctx.force_steps))
-            if step_result.success:
-                return name, step_result.output
-            return name, None
-
-        with ThreadPoolExecutor(max_workers=4) as executor:
-            futures = {executor.submit(_run_fetch_supervised, n): n for n in FETCH_STEPS}
+        to_score: dict[str, list] = {}
+        with ThreadPoolExecutor(max_workers=len(FETCH_STEPS)) as executor:
+            futures = {executor.submit(_load_or_fetch_raw, n): n for n in FETCH_STEPS}
             for future in as_completed(futures):
-                name, data = future.result()
-                if data is not None:
-                    source_data[name] = data
-                elif name in ctx.steps_to_run:
-                    fetch_failed.append(name)
+                name, data, is_cached = future.result()
+                if is_cached:
+                    if data is not None:
+                        source_data[name] = data
+                else:
+                    if data is not None:
+                        to_score[name] = data
+                    elif name in ctx.steps_to_run:
+                        fetch_failed.append(name)
+
+        # Phase 2: LLM 評分序列化（避免並行請求導致 LM Studio HTTP 400）
+        for name in FETCH_STEPS:
+            if name not in to_score:
+                continue
+            raw = to_score[name]
+            artifact = ctx.steps_dir / f"{name}.json"
+
+            def _make_fn(n: str = name, r: list = raw, a: Path = artifact) -> Callable[[], dict]:
+                def fn() -> dict:
+                    result = self._score_raw_data(n, r)
+                    result["fetched_at"] = datetime.now().isoformat(timespec="seconds")
+                    a.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+                    logger.info("Step %-8s: 完成 → %s", n, a.name)
+                    return result
+                return fn
+
+            step_result = ctx.supervisor.run_step(name, _make_fn(), force=(name in ctx.force_steps))
+            if step_result.success:
+                source_data[name] = step_result.output
+            else:
+                fetch_failed.append(name)
 
         success_count = len(source_data)
         if success_count < 2 and ctx.steps_to_run.intersection(set(FETCH_STEPS)):
@@ -178,7 +198,7 @@ class DailyBriefAgent:
                 "Pipeline 停止。"
             )
             ctx.notify_fn(msg)
-            logger.error("Fetch 成功 %d/4，低於門檻，pipeline 停止", success_count)
+            logger.error("Fetch 成功 %d/%d，低於門檻，pipeline 停止", success_count, len(FETCH_STEPS))
             return None
 
         return source_data
@@ -481,6 +501,45 @@ class DailyBriefAgent:
             "rss": lambda: self._fetch_rss(),
         }
         return dispatch[name]()
+
+    def _fetch_raw_data(self, name: str) -> list:
+        """Phase 1 helper: 純資料抓取，不呼叫 LLM。"""
+        from tools.fetchers import hatena, hn, reddit, security_blogs
+        from agents.daily_brief.fetchers import rss_fetcher
+
+        dispatch = {
+            "hatena": lambda: hatena.fetch(),
+            "hn": lambda: hn.fetch(),
+            "reddit": lambda: reddit.fetch(),
+            "security": lambda: security_blogs.fetch(),
+            "rss": lambda: rss_fetcher.fetch(),
+        }
+        return dispatch[name]()
+
+    def _score_raw_data(self, name: str, raw: list) -> dict:
+        """Phase 2 helper: LLM 評分已抓取的資料。"""
+        from tools.fetchers.schema import clean_articles
+
+        raw_json = json.dumps(raw, ensure_ascii=False)
+        prompt_dispatch = {
+            "hatena": lambda: prompts.build_hatena_prompt(raw_json),
+            "hn": lambda: prompts.build_hn_prompt(raw_json),
+            "reddit": lambda: prompts.build_reddit_prompt(raw_json),
+            "security": lambda: prompts.build_security_blogs_prompt(raw_json),
+            "rss": lambda: prompts.build_rss_prompt(raw_json),
+        }
+        min_interest = "***" if name == "security" else None
+
+        logger.info("%s LLM 評分：%d 篇文章", name, len(raw))
+        result = parse_llm_json(self._complete(prompt_dispatch[name]()))
+        cleaned = (
+            clean_articles(result.get("articles", []), min_interest=min_interest)
+            if min_interest
+            else clean_articles(result.get("articles", []))
+        )
+        result["articles"] = [article.to_dict() for article in cleaned]
+        logger.info("%s LLM + 清洗完成：%d 篇", name, len(result["articles"]))
+        return result
 
     def _fetch_hatena(self, mod) -> dict:
         from tools.fetchers.schema import clean_articles
@@ -812,7 +871,6 @@ class DailyBriefAgent:
         steps_dir: Path | None = None,
         reflect_context: str = "",
     ) -> bool:
-        from concurrent.futures import ThreadPoolExecutor
         from tools.notifiers.telegram import send
 
         digests_json = json.dumps(digests, ensure_ascii=False)
@@ -824,11 +882,8 @@ class DailyBriefAgent:
             overview_prompt = f"{overview_prompt}\n\n## 修正指示\n{reflect_context}"
             digest_prompt = f"{digest_prompt}\n\n## 修正指示\n{reflect_context}"
 
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            f_overview = executor.submit(lambda: parse_llm_json(self._complete(overview_prompt)))
-            f_digest = executor.submit(lambda: parse_llm_json(self._complete(digest_prompt)))
-            overview_result = f_overview.result()
-            digest_result = f_digest.result()
+        overview_result = parse_llm_json(self._complete(overview_prompt))
+        digest_result = parse_llm_json(self._complete(digest_prompt))
 
         overview = overview_result.get("tg_overview", "")
         ok1 = False
