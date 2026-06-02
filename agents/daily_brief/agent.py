@@ -882,10 +882,9 @@ class DailyBriefAgent:
             overview_prompt = f"{overview_prompt}\n\n## 修正指示\n{reflect_context}"
             digest_prompt = f"{digest_prompt}\n\n## 修正指示\n{reflect_context}"
 
-        overview_result = parse_llm_json(self._complete(overview_prompt))
-        digest_result = parse_llm_json(self._complete(digest_prompt))
+        overview = self._complete(overview_prompt).strip()
+        tg_digest = self._complete(digest_prompt).strip()
 
-        overview = overview_result.get("tg_overview", "")
         ok1 = False
         if overview:
             if steps_dir:
@@ -894,7 +893,6 @@ class DailyBriefAgent:
             if not ok1:
                 logger.error("Step notify   : 第一封訊息發送失敗，telegram.done 不寫入")
 
-        tg_digest = digest_result.get("tg_digest", "")
         ok2 = False
         if tg_digest:
             if steps_dir:

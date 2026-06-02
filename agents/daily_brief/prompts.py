@@ -557,9 +557,7 @@ def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
 
 ## 輸出格式
 
-```json
-{{"tg_overview": "HTML 格式訊息"}}
-```\
+直接輸出 HTML 純文字，不要包裝成 JSON，不要加任何前綴或後綴。\
 """
 
 def build_telegram_digest_prompt(all_digests_json: str, today: str) -> str:
@@ -593,7 +591,5 @@ def build_telegram_digest_prompt(all_digests_json: str, today: str) -> str:
 
 ## 輸出格式
 
-```json
-{{"tg_digest": "HTML 格式摘要"}}
-```\
+直接輸出 HTML 純文字，不要包裝成 JSON，不要加任何前綴或後綴。\
 """
