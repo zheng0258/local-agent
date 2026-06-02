@@ -90,12 +90,26 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **補跑今日**：確認 LM Studio 正常後 `python3 main.py "/daily-brief"`（Idempotent，已完成步驟會略過）。
 
-## 排程（Claude Desktop）
+## 排程（crontab）
 
-排程由 Claude Desktop 的 schedule 功能觸發：
-- 觸發：每日 01:00
-- 執行：`python3 $HOME/Workspace/agent/main.py "/daily-brief"`
-- 手動補跑：`run_daily_brief.command`（雙點擊）或直接執行 `python3 main.py "/daily-brief"`
+兩段式排程：先預熱模型，再執行 pipeline。
+
+```bash
+# 第一條：load_model
+(crontab -l 2>/dev/null; echo "45 1 * * * cd $HOME/Workspace/agent && /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 load_model.py >> /tmp/load_model.log 2>&1") | crontab -
+
+# 第二條：daily-brief
+(crontab -l 2>/dev/null; echo "0 2 * * * cd $HOME/Workspace/agent && /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 main.py \"/daily-brief\" >> /tmp/daily_brief.log 2>&1") | crontab -
+```
+
+確認：`crontab -l`
+
+**load_model.py 故障處理**：
+- LM Studio 未啟動 → 自動 `open -a "LM Studio"` + `lms server start`，最多等 3 分鐘
+- 模型載入失敗（lms ps 缺少） → Telegram 告警 + exit 1（main.py 不會執行）
+- 若是剛才才載入模型 → 等 600s 讓 API 穩定
+
+**手動補跑**：`run_daily_brief.command`（雙點擊）或直接執行 `python3 main.py "/daily-brief"`（跳過 load_model.py，確保 LM Studio 已手動啟動）
 
 ## 核心設計原則
 

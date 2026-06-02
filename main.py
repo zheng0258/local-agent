@@ -14,7 +14,6 @@ Agent 主入口。
 import logging
 import re
 import sys
-import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -42,28 +41,6 @@ def route(user_input: str):
                 original_args = user_input[len(trigger):].strip() if lower.startswith(trigger.lower()) else user_input
                 return agent_cls, original_args
     return None, user_input
-
-
-_STABILIZE_SECONDS = 600
-
-
-def _wait_for_model_stabilize(logger: logging.Logger) -> None:
-    """模型剛被載入時等待 LM Studio API 完全就緒。
-
-    lms load 完成只代表模型進 lms ps，不代表 /v1/chat/completions 可用。
-    大型模型（27B+）通常需要 30–120s 才能接受第一個 inference 請求。
-    """
-    try:
-        from tools.notifiers.telegram import send as tg_send
-        tg_send(
-            f"🔄 模型剛載入完成，等待 {_STABILIZE_SECONDS // 60} 分鐘讓 LM Studio API 穩定後再開始執行..."
-        )
-    except Exception:
-        pass  # Telegram 失敗不應阻斷 pipeline
-
-    logger.info("模型剛載入，等待 %ds 確保 API 就緒...", _STABILIZE_SECONDS)
-    time.sleep(_STABILIZE_SECONDS)
-    logger.info("等待完畢，開始執行 pipeline")
 
 
 def main() -> None:
@@ -98,9 +75,7 @@ def main() -> None:
             pass
         sys.exit(1)
 
-    freshly_loaded = ensure_models_loaded([llm_model, judge_model])
-    if freshly_loaded:
-        _wait_for_model_stabilize(logger)
+    ensure_models_loaded([llm_model, judge_model])
 
     try:
         print(agent.run(args))

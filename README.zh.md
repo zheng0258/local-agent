@@ -68,12 +68,43 @@ python3 main.py "/daily-brief --only report"
 python3 main.py "/daily-brief --only notify"
 ```
 
-### 排程（n8n）
+### 排程（crontab）
 
-匯入 `n8n-workflow.json` 到本機 n8n，每日 21:00 自動執行：
+兩段式排程：先預熱模型，再執行 pipeline，避免 10 分鐘 API 等待拖慢主流程。
+
+**設定步驟：**
 
 ```bash
-n8n start  # 開啟 http://localhost:5678
+# 第一條：load_model
+(crontab -l 2>/dev/null; echo "45 1 * * * cd $HOME/Workspace/agent && /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 load_model.py >> /tmp/load_model.log 2>&1") | crontab -
+
+# 第二條：daily-brief
+(crontab -l 2>/dev/null; echo "0 2 * * * cd $HOME/Workspace/agent && /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 main.py \"/daily-brief\" >> /tmp/daily_brief.log 2>&1") | crontab -
+```
+
+確認：`crontab -l`
+
+**設計說明：**
+
+| 腳本 | 時間 | 職責 |
+|------|------|------|
+| `load_model.py` | 01:45 | LM Studio 自動啟動 → 模型載入 → API 穩定等待（600s）→ 失敗 Telegram 告警 |
+| `main.py` | 02:00 | 假設模型已就緒，直接執行 pipeline |
+
+`load_model.py` 失敗（exit 1）時，`main.py` 仍會在 02:00 嘗試執行，並由 `ensure_llm_ready()` 做最後防線。
+
+**查看日誌：**
+
+```bash
+tail -f /tmp/load_model.log
+tail -f /tmp/daily_brief.log
+```
+
+**手動補跑：**
+
+```bash
+python3 main.py "/daily-brief"   # 確保 LM Studio 已啟動
+# 或雙點擊 run_daily_brief.command
 ```
 
 ## 架構

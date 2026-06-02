@@ -83,7 +83,7 @@ except json.JSONDecodeError:
 | Data Sources | Hatena Bookmark RSS, Hacker News, Reddit (16 subreddits), security blogs |
 | Notification | Telegram Bot API (HTML parse_mode) |
 | Knowledge Base | Obsidian vault (Markdown + frontmatter) |
-| Scheduler | n8n (Schedule Trigger, local) |
+| Scheduler | crontab (two-stage: load_model.py at 01:45, main.py at 02:00) |
 | Testing | pytest (unit + integration) |
 | Linting | ruff, interface lint scripts |
 
@@ -97,7 +97,7 @@ pip install -r requirements.txt
 
 # Configure LLM backend
 export LOCAL_LLM_URL=http://localhost:1234          # local LLM (default)
-export LOCAL_LLM_MODEL=qwen3.5-27b-...
+export LOCAL_LLM_MODEL=qwen3.6-35b-a3b
 # or: export ANTHROPIC_API_KEY=sk-ant-...           # Anthropic API
 
 # Run daily brief
@@ -107,6 +107,23 @@ python3 main.py "/daily-brief"
 python3 main.py "/daily-brief --force report notify"
 python3 main.py "/daily-brief --only notify"
 ```
+
+### Scheduling via crontab
+
+Two-stage scheduling — model pre-loaded 15 minutes before the pipeline runs:
+
+```bash
+# load_model entry
+(crontab -l 2>/dev/null; echo "45 1 * * * cd $HOME/Workspace/agent && /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 load_model.py >> /tmp/load_model.log 2>&1") | crontab -
+
+# daily-brief entry
+(crontab -l 2>/dev/null; echo "0 2 * * * cd $HOME/Workspace/agent && /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 main.py \"/daily-brief\" >> /tmp/daily_brief.log 2>&1") | crontab -
+
+# verify
+crontab -l
+```
+
+`load_model.py` handles: LM Studio auto-start → model load → 600s API stabilization → Telegram alert on failure.
 
 ---
 
@@ -124,12 +141,14 @@ python3 main.py "/daily-brief --only notify"
 
 ```
 main.py                       # router + entry point
+load_model.py                 # crontab pre-loader (LM Studio + model warm-up)
 agents/daily_brief/
 ├── agent.py                  # DailyBriefAgent
 ├── prompts.py                # all LLM prompts
 └── config.py
 tools/
 ├── fetchers/                 # pure fetch functions
+├── lms_lifecycle.py          # lms CLI model load/unload
 └── notifiers/telegram.py
 config/settings.py            # LLMBackend switching
 lint/
