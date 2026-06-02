@@ -20,7 +20,7 @@ import urllib.request
 from config.utils import load_project_env
 
 # Telegram HTML mode 支援的 tag（其餘一律移除）
-_ALLOWED_TAGS = {"b", "i", "u", "s", "a", "code", "pre", "tg-spoiler"}
+_ALLOWED_TAGS = {"b", "i", "u", "s", "a", "code", "pre"}
 _TAG_RE = re.compile(r"<(/?)(\w[\w-]*)(\s[^>]*)?>", re.IGNORECASE)
 
 
