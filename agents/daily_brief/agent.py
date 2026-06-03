@@ -714,6 +714,13 @@ class DailyBriefAgent:
             raw = self._complete(prompt)
             parsed = parse_llm_json(raw)
             if isinstance(parsed, dict) and "themes" in parsed:
+                # LLM 有時不複製 URL；用原始 starred 的 title→url 補回
+                url_by_title = {a.get("title", ""): a.get("url", "") for a in starred}
+                for art in parsed.get("articles", []):
+                    if not art.get("url"):
+                        restored = url_by_title.get(art.get("title", ""), "")
+                        if restored:
+                            art["url"] = restored
                 result[name] = parsed
             else:
                 logger.warning(
@@ -729,6 +736,18 @@ class DailyBriefAgent:
             prompt = f"{prompt}\n\n## 修正指示\n{reflect_context}"
         result = parse_llm_json(self._complete(prompt))
         digests = result.get("digests", [])
+        # LLM 有時不複製 URL；用 compress_data 中 title→url 補回
+        url_by_title: dict[str, str] = {}
+        for src_data in compress_data.values():
+            if isinstance(src_data, dict):
+                for art in src_data.get("articles", []):
+                    if isinstance(art, dict) and art.get("title") and art.get("url"):
+                        url_by_title[art["title"]] = art["url"]
+        for d in digests:
+            if not d.get("url"):
+                restored = url_by_title.get(d.get("title", ""), "")
+                if restored:
+                    d["url"] = restored
         digest_data = {
             "generated_at": datetime.now().isoformat(timespec="seconds"),
             "digests": digests,
