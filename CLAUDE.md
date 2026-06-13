@@ -128,7 +128,7 @@ outputs/daily-brief/{today}/
 │   ├── hn.json
 │   ├── reddit.json
 │   ├── security.json
-│   ├── alerts.json      # 異常訊號告警（條件觸發，非每日必有）
+│   ├── alerts.json      # 步驟失敗記錄（某 step 重試耗盡 → 彙總 Telegram 告警，非每日必有）
 │   ├── compress.json    # 各來源語義壓縮（themes + *** articles + one_liner）
 │   ├── enrich.json      # HN/Reddit 留言摘要（comment_summary 欄位）
 │   ├── digest.json      # 跨來源深度摘要
@@ -223,3 +223,17 @@ VAULT_ROOT = $HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Second-
 ├── Scripts/daily-brief/save_output.py # DailyBriefAgent 存檔
 └── Scripts/.env                       # TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
 ```
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues (`zheng0258/local-agent`), via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical triage roles; label strings equal their role names (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context — one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
