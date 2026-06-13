@@ -5,7 +5,7 @@ LLM 後端設定。
 
 環境變數：
     LOCAL_LLM_URL    本地 LLM server URL（預設 http://localhost:1234）
-    LOCAL_LLM_MODEL  本地模型名稱（預設 qwen3.5-27b-claude-4.6-opus-distilled-mlx）
+    LOCAL_LLM_MODEL  本地模型名稱（預設 qwen/qwen3.6-27b）
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ VAULT_ROOT = Path(
 )
 
 DEFAULT_LOCAL_LLM_URL = "http://localhost:1234"
-DEFAULT_LOCAL_LLM_MODEL = "qwen3.6-35b-a3b"
+DEFAULT_LOCAL_LLM_MODEL = "qwen/qwen3.6-27b"
 DEFAULT_JUDGE_LLM_MODEL = "google/gemma-4-e4b"
 
 
@@ -50,7 +50,7 @@ class LocalLLMBackend:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
 
-        body: dict = {"model": self.model, "messages": messages, "max_tokens": 8192}
+        body: dict = {"model": self.model, "messages": messages, "max_tokens": 16384}
         payload = json.dumps(body).encode()
 
         req = urllib.request.Request(
@@ -59,7 +59,7 @@ class LocalLLMBackend:
             headers={"Content-Type": "application/json"},
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=600) as resp:
+        with urllib.request.urlopen(req, timeout=1500) as resp:
             data = json.loads(resp.read().decode())
 
         return data["choices"][0]["message"]["content"]
