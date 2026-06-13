@@ -531,9 +531,9 @@ def test_run_judge_passes_slim_compress_to_llm():
     assert "bookmarks" not in call_prompt            # 數值欄位移除
 
 
-def test_notify_msg2_limits_digests_to_top8():
-    """_notify msg2 prompt 應只傳入前 8 篇摘要，不傳全部。"""
-    from agents.daily_brief.agent import DailyBriefAgent
+def test_notify_msg2_balances_and_caps_digests():
+    """_notify msg2 應跨來源均衡挑選，且不超過 _TG_DIGEST_MAX_ITEMS 則（單封 4096 限制）。"""
+    from agents.daily_brief.agent import DailyBriefAgent, _TG_DIGEST_MAX_ITEMS
 
     responses = [
         json.dumps({"tg_overview": "overview"}),
@@ -543,22 +543,36 @@ def test_notify_msg2_limits_digests_to_top8():
     mock_llm.complete.side_effect = responses
     agent = DailyBriefAgent(llm=mock_llm)
 
-    # 建立 15 篇 digests
+    # 20 篇單一來源 digests
     digests = [
         {"title": f"Article {i}", "url": f"https://example.com/{i}", "source": "HN", "summary": "s"}
-        for i in range(15)
+        for i in range(20)
     ]
 
     with patch("tools.notifiers.telegram.send"):
         agent._notify(digests, "2026-04-14")
 
     all_prompts = [c[0][0] for c in mock_llm.complete.call_args_list]
-    msg2_prompt = next(
-        p for p in all_prompts if '"tg_digest"' in p and "example.com/0" in p and "example.com/7" in p
-    )
-    assert "example.com/8" not in msg2_prompt   # 第 9 篇（index 8）不應在 msg2
-    assert "example.com/0" in msg2_prompt       # 第 1 篇應在 msg2
-    assert "example.com/7" in msg2_prompt       # 第 8 篇應在 msg2
+    msg2_prompt = next(p for p in all_prompts if "深度摘要（" in p)
+    last_in = _TG_DIGEST_MAX_ITEMS - 1            # 最後一篇 index
+    assert f"example.com/{last_in}" in msg2_prompt          # 第 N 篇應在 msg2
+    assert f"example.com/{_TG_DIGEST_MAX_ITEMS}" not in msg2_prompt  # 第 N+1 篇不應在（超過上限）
+
+
+def test_pick_top8_balanced_round_robins_across_sources():
+    """_pick_top8_balanced 應跨來源 round-robin，確保少數來源不被多數來源淹沒。"""
+    from agents.daily_brief.agent import _pick_top8_balanced
+
+    digests = [
+        {"title": f"hn{i}", "url": f"u/hn/{i}", "_source": "hn"} for i in range(10)
+    ] + [{"title": "rd0", "url": "u/rd/0", "_source": "reddit"}]
+
+    picked = _pick_top8_balanced(digests, n=6)
+    sources = [d["_source"] for d in picked]
+
+    assert len(picked) == 6
+    assert "reddit" in sources           # 少數來源仍被選入
+    assert sources.count("reddit") == 1  # reddit 僅 1 篇，不應重複
 
 
 def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
@@ -847,3 +861,54 @@ def test_judge_failure_log_does_not_claim_report_skipped(tmp_path, caplog):
         agent.run("--only judge")
 
     assert "略過 report/notify" not in caplog.text
+
+
+def test_score_reddit_batched_splits_calls():
+    """154 篇 Reddit 文章應分 7 批呼叫 LLM，每批 ≤ 25 篇。"""
+    import json
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    call_sizes: list[int] = []
+
+    def fake_complete(prompt: str, system: str = "") -> str:
+        import re
+        # 只取文章清單區段（在 ## 任務 之前）
+        m = re.search(r"## 文章清單[^\n]*\n\n(\[.*?\])\n\n## 任務", prompt, re.DOTALL)
+        articles_in_prompt = json.loads(m.group(1)) if m else []
+        call_sizes.append(len(articles_in_prompt))
+        scored = [
+            {
+                "title": a["title"],
+                "url": a["url"],
+                "score": a["score"],
+                "interest": "**",
+                "category": a["category"],
+                "subreddit": a["subreddit"],
+            }
+            for a in articles_in_prompt
+        ]
+        return json.dumps({"articles": scored})
+
+    mock_llm = MagicMock()
+    mock_llm.complete.side_effect = fake_complete
+
+    raw = [
+        {
+            "subreddit": "r/programming",
+            "title": f"Article {i}",
+            "score": 0,
+            "num_comments": 0,
+            "url": f"https://reddit.com/{i}",
+            "orig_url": f"https://example.com/{i}",
+            "category": "核心技術類",
+        }
+        for i in range(154)
+    ]
+
+    agent = DailyBriefAgent(llm=mock_llm)
+    result = agent._score_reddit_batched(raw)
+
+    assert len(call_sizes) == 7, f"預期 7 批，實際 {len(call_sizes)} 批"
+    assert max(call_sizes) <= 25, f"批次超過 25 篇：{call_sizes}"
+    assert sum(call_sizes) == 154
+    assert len(result["articles"]) == 154

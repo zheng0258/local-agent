@@ -16,7 +16,7 @@ from agents.daily_brief.config import REDDIT_SUBREDDITS
 
 _USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15"
 _ATOM_NS = "http://www.w3.org/2005/Atom"
-TOP_N = 10
+TOP_N = 5
 
 
 def fetch() -> list[dict]:

@@ -117,6 +117,7 @@ class DailyBriefAgent:
         source_data = self._phase_fetch(ctx)
         if source_data is None:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
+        source_data = _filter_top_articles(source_data)
         source_data = self._phase_dedup(ctx, source_data)
         compress_data = self._phase_compress(ctx, source_data)
         enrich_data = self._phase_enrich(ctx, compress_data)
@@ -516,9 +517,14 @@ class DailyBriefAgent:
         }
         return dispatch[name]()
 
+    _REDDIT_BATCH_SIZE = 25
+
     def _score_raw_data(self, name: str, raw: list) -> dict:
         """Phase 2 helper: LLM 評分已抓取的資料。"""
         from tools.fetchers.schema import clean_articles
+
+        if name == "reddit" and len(raw) > self._REDDIT_BATCH_SIZE:
+            return self._score_reddit_batched(raw)
 
         raw_json = json.dumps(raw, ensure_ascii=False)
         prompt_dispatch = {
@@ -540,6 +546,24 @@ class DailyBriefAgent:
         result["articles"] = [article.to_dict() for article in cleaned]
         logger.info("%s LLM + 清洗完成：%d 篇", name, len(result["articles"]))
         return result
+
+    def _score_reddit_batched(self, raw: list) -> dict:
+        """Reddit 文章數量過多時分批評分，每批 _REDDIT_BATCH_SIZE 篇。"""
+        from tools.fetchers.schema import clean_articles
+
+        batch_size = self._REDDIT_BATCH_SIZE
+        all_cleaned = []
+        n_batches = (len(raw) + batch_size - 1) // batch_size
+        logger.info("reddit LLM 評分（分批）：%d 篇 → %d 批", len(raw), n_batches)
+        for i in range(0, len(raw), batch_size):
+            batch = raw[i : i + batch_size]
+            batch_json = json.dumps(batch, ensure_ascii=False)
+            result = parse_llm_json(self._complete(prompts.build_reddit_prompt(batch_json)))
+            cleaned = clean_articles(result.get("articles", []))
+            all_cleaned.extend(cleaned)
+            logger.info("reddit 批次 %d/%d：%d 篇 → %d 篇保留", i // batch_size + 1, n_batches, len(batch), len(cleaned))
+        logger.info("reddit LLM + 清洗完成（分批）：%d 篇", len(all_cleaned))
+        return {"articles": [a.to_dict() for a in all_cleaned]}
 
     def _fetch_hatena(self, mod) -> dict:
         from tools.fetchers.schema import clean_articles
@@ -730,30 +754,44 @@ class DailyBriefAgent:
         return result
 
     def _run_digest(self, compress_data: dict, reflect_context: str = "") -> tuple[list[dict], dict]:
-        compress_json = json.dumps(compress_data, ensure_ascii=False)
-        prompt = prompts.build_digest_prompt_from_compress(compress_json)
-        if reflect_context:
-            prompt = f"{prompt}\n\n## 修正指示\n{reflect_context}"
-        result = parse_llm_json(self._complete(prompt))
-        digests = result.get("digests", [])
-        # LLM 有時不複製 URL；用 compress_data 中 title→url 補回
+        # 逐來源分批呼叫 LLM，確保每個來源都被處理（避免 LLM 選擇性跳過）
+        sources = [k for k in compress_data if k != "_meta"]
+        all_digests: list[dict] = []
         url_by_title: dict[str, str] = {}
-        for src_data in compress_data.values():
-            if isinstance(src_data, dict):
-                for art in src_data.get("articles", []):
-                    if isinstance(art, dict) and art.get("title") and art.get("url"):
-                        url_by_title[art["title"]] = art["url"]
-        for d in digests:
+
+        for src in sources:
+            src_data = compress_data.get(src, {})
+            articles = src_data.get("articles", [])
+            if not articles:
+                continue
+            for art in articles:
+                if isinstance(art, dict) and art.get("title") and art.get("url"):
+                    url_by_title[art["title"]] = art["url"]
+            per_src = {src: src_data}
+            compress_json = json.dumps(per_src, ensure_ascii=False)
+            prompt = prompts.build_digest_prompt_from_compress(compress_json)
+            if reflect_context:
+                prompt = f"{prompt}\n\n## 修正指示\n{reflect_context}"
+            result = parse_llm_json(self._complete(prompt))
+            src_digests = result.get("digests", [])
+            for d in src_digests:
+                d["_source"] = src
+            logger.info("Digest %s：%d 篇", src, len(src_digests))
+            all_digests.extend(src_digests)
+
+        # URL 補回（LLM 有時不複製 URL）
+        for d in all_digests:
             if not d.get("url"):
                 restored = url_by_title.get(d.get("title", ""), "")
                 if restored:
                     d["url"] = restored
+
         digest_data = {
             "generated_at": datetime.now().isoformat(timespec="seconds"),
-            "digests": digests,
+            "digests": all_digests,
         }
-        logger.info("Digest LLM 完成：%d 篇摘要", len(digests))
-        return digests, digest_data
+        logger.info("Digest LLM 完成：%d 篇摘要", len(all_digests))
+        return all_digests, digest_data
 
     def _run_report(
         self,
@@ -892,17 +930,26 @@ class DailyBriefAgent:
     ) -> bool:
         from tools.notifiers.telegram import send
 
-        digests_json = json.dumps(digests, ensure_ascii=False)
-        top8_json = json.dumps(digests[:8], ensure_ascii=False)
+        # 限縮數量塞進單封 Telegram 訊息（4096 上限）：跨來源均衡挑選後送 LLM
+        overview_json = json.dumps(
+            _pick_top8_balanced(digests, n=_TG_OVERVIEW_MAX_ITEMS), ensure_ascii=False
+        )
+        digest_json = json.dumps(
+            _pick_top8_balanced(digests, n=_TG_DIGEST_MAX_ITEMS), ensure_ascii=False
+        )
 
-        overview_prompt = prompts.build_telegram_overview_prompt(digests_json, today)
-        digest_prompt = prompts.build_telegram_digest_prompt(top8_json, today)
+        overview_prompt = prompts.build_telegram_overview_prompt(overview_json, today)
+        digest_prompt = prompts.build_telegram_digest_prompt(digest_json, today)
         if reflect_context:
             overview_prompt = f"{overview_prompt}\n\n## 修正指示\n{reflect_context}"
             digest_prompt = f"{digest_prompt}\n\n## 修正指示\n{reflect_context}"
 
-        overview = self._complete(overview_prompt).strip()
-        tg_digest = self._complete(digest_prompt).strip()
+        overview_raw = self._complete(overview_prompt).strip()
+        digest_raw = self._complete(digest_prompt).strip()
+
+        # LLM 有時仍以 JSON 包裝輸出，需解包取出純文字
+        overview = _extract_tg_text(overview_raw)
+        tg_digest = _extract_tg_text(digest_raw)
 
         ok1 = False
         if overview:
@@ -971,6 +1018,57 @@ def _parse_args(args: str) -> tuple[set[str], set[str]]:
             i += 1
 
     return force, only
+
+
+def _extract_tg_text(raw: str) -> str:
+    """LLM 有時用 JSON 包裝輸出；嘗試解包取出第一個字串值，否則原樣返回。"""
+    stripped = raw.strip()
+    if stripped.startswith("{"):
+        try:
+            parsed = json.loads(stripped)
+            if isinstance(parsed, dict):
+                for v in parsed.values():
+                    if isinstance(v, str):
+                        return v
+        except (json.JSONDecodeError, Exception):
+            pass
+    return raw
+
+
+# Telegram 單封 4096 字元上限下的條目數（依實測 overview ~155、digest ~540 字元/則估算，留安全邊際）
+_TG_OVERVIEW_MAX_ITEMS = 24
+_TG_DIGEST_MAX_ITEMS = 7
+
+
+def _pick_top8_balanced(digests: list[dict], n: int = 14) -> list[dict]:
+    """從各來源 round-robin 各取一篇，湊滿 n 篇，確保 TG 深度摘要跨來源均衡。"""
+    from collections import defaultdict
+
+    buckets: dict[str, list[dict]] = defaultdict(list)
+    for d in digests:
+        src = d.get("_source") or d.get("source", "?")
+        buckets[src].append(d)
+
+    source_order = list(dict.fromkeys(d.get("_source") or d.get("source", "?") for d in digests))
+    picked: list[dict] = []
+    i = 0
+    while len(picked) < n and any(buckets[s] for s in source_order):
+        src = source_order[i % len(source_order)]
+        if buckets[src]:
+            picked.append(buckets[src].pop(0))
+        i += 1
+    return picked
+
+
+def _filter_top_articles(source_data: dict) -> dict:
+    """只保留 *** 文章傳入分析管線；** 文章已存於 artifact，不影響記錄。"""
+    result: dict = {}
+    for src, data in source_data.items():
+        articles = data.get("articles", [])
+        top = [a for a in articles if isinstance(a, dict) and a.get("interest") == "***"]
+        if top:
+            result[src] = {**data, "articles": top}
+    return result
 
 
 def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:

@@ -547,10 +547,10 @@ def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
 - href 屬性值只能是 http/https 開頭的完整網址，不得放檔名、路徑或其他非 URL 內容
 - 標題群組加 emoji：🤖 Claude Code / 🔐 資安 / 🛠️ AI 開發工具 / 💼 職涯 / 📰 其他（依當日實際內容選用）
 - 總長度 ≤ 4096 字元
-- 第一行：今日重點摘要（{today}）：
+- 第一行：今日重點（{today}）：
 
 輸出範例（嚴格照此格式）：
-今日重點摘要（{today}）：
+今日重點（{today}）：
 
 🔐 資安
 • <b><a href="https://www.aikido.dev/blog/axios-npm-compromised">axios npm 套件遭入侵：維護者帳號被劫持部署 RAT</a></b> — 說明文字在此
@@ -562,13 +562,13 @@ def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
 
 def build_telegram_digest_prompt(all_digests_json: str, today: str) -> str:
     return f"""\
-{_NO_THINK}## 精選摘要
+{_NO_THINK}## 精選摘要（已跨來源均衡挑選）
 
 {all_digests_json}
 
 ## 任務
 
-從以下精選摘要（已預先篩選高品質文章）中，挑選 5–8 則生成 Telegram HTML 格式深度摘要訊息。
+對上方**每一篇**文章生成 Telegram HTML 格式深度摘要，全部輸出，禁止跳過任何一篇。
 
 格式規則：
 - 只能使用 Telegram 支援的 HTML tag：<b>、<i>、<u>、<s>、<a href="...">，嚴禁 <br>、<p>、<div>、<span> 等其他 HTML tag
@@ -578,7 +578,7 @@ def build_telegram_digest_prompt(all_digests_json: str, today: str) -> str:
   {{n}}. <b><a href="完整URL">繁體中文標題</a></b>
   2–3 句說明（核心內容、影響範圍、值得關注的原因）
 - href 屬性值必須完整複製 all_digests 的 url 欄位，禁止截斷或自行編造
-- 總長度 ≤ 4096 字元
+- 總長度 ≤ 4096 字元；寧可精簡也不可超出，避免訊息被截斷
 
 輸出範例：
 深度摘要（{today}）：

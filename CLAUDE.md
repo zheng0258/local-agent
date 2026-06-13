@@ -168,7 +168,8 @@ python lint/check_fetcher_interface.py
 - `.md` 輸出必須用 Python `open()` 寫入
 - Telegram 用 HTML parse_mode，≤ 4096 字元；**只允許** `<b>`、`<i>`、`<u>`、`<s>`、`<a>`、`<code>`、`<pre>`，`<br>`/`<p>`/`<div>` 會觸發 400 錯誤
 - Telegram 雙重防護：prompt 明列允許 tag + `tools/notifiers/telegram.py` 的 `_sanitize_html()` 在發送前自動過濾
-- daily-brief 發兩封訊息：msg1 主題分群列表（`• <b><a>` 格式）、msg2 深度摘要編號列表（`n. <b><a>` + 3 句說明），兩者均為 HTML 格式
+- daily-brief 發兩封訊息：msg1 主題分群列表（`• <b><a>` 格式）、msg2 深度摘要編號列表（`n. <b><a>` + 2–3 句說明），兩者均為 HTML 格式
+- TG 訊息一律塞進**單封**（4096 上限），用**條目數上限**控制長度而非分段：送 LLM 前以 `_pick_top8_balanced` 跨來源均衡挑選，overview ≤ `_TG_OVERVIEW_MAX_ITEMS`(24)、digest ≤ `_TG_DIGEST_MAX_ITEMS`(7)；`telegram.py` 的 `_safe_truncate` 為最後防線（不切斷 tag、補閉合）
 - compress 步驟：Python 層先過濾 `interest == "***"` 後才傳 LLM；來源無 *** 文章時直接略過 LLM 呼叫
 - report 步驟：LLM 直接輸出純 markdown（不包 JSON）；`_run_report()` 自動剝除 LLM 可能加上的 markdown fence
 - judge 步驟：只傳 `url + one_liner` 給 judge LLM（slim context），不傳完整文章內容
