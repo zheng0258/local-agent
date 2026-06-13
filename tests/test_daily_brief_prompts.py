@@ -78,14 +78,16 @@ def test_telegram_prompts_renamed():
     assert not hasattr(prompts, "build_telegram_msg2_prompt")
 
 
-def test_telegram_overview_output_key():
+def test_telegram_overview_outputs_plain_html_not_json():
     p = prompts.build_telegram_overview_prompt("[]", "2026-04-12")
-    assert '"tg_overview"' in p
+    assert "直接輸出 HTML 純文字" in p
+    assert "不要包裝成 JSON" in p
 
 
-def test_telegram_digest_output_key():
+def test_telegram_digest_outputs_plain_html_not_json():
     p = prompts.build_telegram_digest_prompt("[]", "2026-04-12")
-    assert '"tg_digest"' in p
+    assert "直接輸出 HTML 純文字" in p
+    assert "不要包裝成 JSON" in p
 
 
 def test_report_prompt_uses_digests_json_not_all_digests():

@@ -34,6 +34,34 @@ def _sanitize_html(text: str) -> str:
 
     return _TAG_RE.sub(_replace, text)
 
+
+def _close_open_tags(text: str) -> str:
+    """追蹤開合 tag，在文字末尾補上未閉合的 closing tag。"""
+    open_stack: list[str] = []
+    for m in _TAG_RE.finditer(text):
+        tag = m.group(2).lower()
+        if tag not in _ALLOWED_TAGS:
+            continue
+        if m.group(1) == "/":
+            if open_stack and open_stack[-1] == tag:
+                open_stack.pop()
+        else:
+            open_stack.append(tag)
+    return text + "".join(f"</{t}>" for t in reversed(open_stack))
+
+
+def _safe_truncate(text: str, max_len: int) -> str:
+    """截斷至 max_len 字元，不切斷 HTML tag 中間，並補上未閉合 tag。"""
+    if len(text) <= max_len:
+        return text
+    truncated = text[: max_len - 3]
+    # 若截斷點在 tag 內（< 在 > 之後），退回至 < 之前
+    last_lt = truncated.rfind("<")
+    last_gt = truncated.rfind(">")
+    if last_lt > last_gt:
+        truncated = truncated[:last_lt]
+    return _close_open_tags(truncated) + "..."
+
 MAX_LEN = 4096
 
 
@@ -58,9 +86,7 @@ def send(
         return False
 
     text = _sanitize_html(text)
-
-    if len(text) > MAX_LEN:
-        text = text[: MAX_LEN - 3] + "..."
+    text = _safe_truncate(text, MAX_LEN)
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     data = urllib.parse.urlencode(
