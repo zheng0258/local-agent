@@ -75,7 +75,8 @@ def main() -> None:
             pass
         sys.exit(1)
 
-    ensure_models_loaded([llm_model, judge_model])
+    # Judge 先載入，主 LLM 最後，確保主 LLM 在記憶體中（避免 gemma 載入時擠出 qwen）
+    ensure_models_loaded([judge_model, llm_model])
 
     try:
         print(agent.run(args))

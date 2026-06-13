@@ -42,7 +42,8 @@ def main() -> None:
 
     llm_model = os.environ.get("LOCAL_LLM_MODEL", DEFAULT_LOCAL_LLM_MODEL)
     judge_model = os.environ.get("JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL)
-    models = [llm_model, judge_model]
+    # Judge 先載入，主 LLM 最後，確保主 LLM 在記憶體中
+    models = [judge_model, llm_model]
 
     # Step 1: 確保 LM Studio 已啟動
     if not ensure_llm_ready():
