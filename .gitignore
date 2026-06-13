@@ -10,3 +10,5 @@ outputs/daily-brief/.vectordb/
 .DS_Store
 .coverage
 *.log
+.claude/worktrees/
+weekly-report-*.md
