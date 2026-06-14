@@ -34,6 +34,7 @@ from config.settings import (
 
 from . import prompts
 from .config import OUTPUT_DIR
+from .schemas import QualityScore
 from .step_cache import Verdict, decide
 
 if TYPE_CHECKING:
@@ -371,26 +372,22 @@ class DailyBriefAgent:
         judge_artifact.write_text(
             json.dumps(judge_result, ensure_ascii=False, indent=2), encoding="utf-8"
         )
+        quality = QualityScore.from_dict(judge_result)
         logger.info(
             "Step judge     : 完成 → judge.json (overall=%.1f)",
-            judge_result.get("overall", 0),
+            quality.overall,
         )
 
-        completeness_score = (
-            judge_result.get("scores", {}).get("completeness", {}).get("score")
-        )
         if (
-            isinstance(completeness_score, (int, float))
-            and completeness_score < 3
+            quality.completeness is not None
+            and quality.completeness < 3
             and "digest" not in ctx.force_steps
             and digests
         ):
-            missed_urls = (
-                judge_result.get("scores", {}).get("completeness", {}).get("missed_urls", [])
-            )
+            missed_urls = list(quality.missed_urls)
             logger.warning(
                 "Judge completeness=%.1f，觸發 digest 重跑（missed: %s）",
-                completeness_score,
+                quality.completeness,
                 missed_urls,
             )
             original_digest_prompt = prompts.build_digest_prompt_from_compress(
@@ -914,14 +911,16 @@ class DailyBriefAgent:
                 history = []
         # 同一天重跑時替換舊記錄
         history = [r for r in history if r.get("date") != date]
+        quality = QualityScore.from_dict(judge_result)
         history.append({
             "date": date,
-            "overall": judge_result.get("overall", 0.0),
+            "overall": quality.overall,
             "scores": {
-                dim: judge_result.get("scores", {}).get(dim, {}).get("score")
-                for dim in ["relevance", "completeness", "faithfulness"]
+                "relevance": quality.relevance,
+                "completeness": quality.completeness,
+                "faithfulness": quality.faithfulness,
             },
-            "quality_alert": judge_result.get("quality_alert", False),
+            "quality_alert": quality.quality_alert,
         })
         history.sort(key=lambda r: r["date"])
         history_file.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding="utf-8")
