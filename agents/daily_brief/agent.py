@@ -34,7 +34,7 @@ from config.settings import (
 
 from . import prompts
 from .config import OUTPUT_DIR
-from .schemas import Digest, QualityScore
+from .schemas import Digest, QualityScore, SourceCompress
 from .step_cache import Verdict, decide
 
 if TYPE_CHECKING:
@@ -682,8 +682,8 @@ class DailyBriefAgent:
         enriched_count = sum(
             1
             for src in ["hn", "reddit"]
-            for a in enrich_data.get(src, {}).get("articles", [])
-            if isinstance(a, dict) and "comment_summary" in a
+            for a in SourceCompress.from_dict(enrich_data.get(src, {})).articles
+            if a.comment_summary
         )
         logger.info("Step enrich    : 完成 → enrich.json（%d 篇含留言摘要）", enriched_count)
         return enrich_data
@@ -789,12 +789,12 @@ class DailyBriefAgent:
 
         for src in sources:
             src_data = compress_data.get(src, {})
-            articles = src_data.get("articles", [])
-            if not articles:
+            src_compress = SourceCompress.from_dict(src_data)
+            if not src_compress.articles:
                 continue
-            for art in articles:
-                if isinstance(art, dict) and art.get("title") and art.get("url"):
-                    url_by_title[art["title"]] = art["url"]
+            for art in src_compress.articles:
+                if art.title and art.url:
+                    url_by_title[art.title] = art.url
             per_src = {src: src_data}
             compress_json = json.dumps(per_src, ensure_ascii=False)
             prompt = prompts.build_digest_prompt_from_compress(compress_json)
@@ -930,8 +930,7 @@ class DailyBriefAgent:
         """回傳 compress 後 articles 為空的來源名稱列表。"""
         empty_sources = []
         for name in FETCH_STEPS:
-            articles = compress_data.get(name, {}).get("articles", [])
-            if not articles:
+            if not SourceCompress.from_dict(compress_data.get(name, {})).articles:
                 empty_sources.append(name)
                 logger.warning("Source health: %s compress 後為 0 篇", name)
         return empty_sources

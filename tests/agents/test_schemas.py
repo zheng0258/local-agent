@@ -5,7 +5,7 @@
 
 import pytest
 
-from agents.daily_brief.schemas import Digest, QualityScore
+from agents.daily_brief.schemas import Article, Digest, QualityScore, SourceCompress
 
 
 @pytest.mark.unit
@@ -103,3 +103,34 @@ def test_digest_is_frozen() -> None:
     d = Digest.from_dict({})
     with pytest.raises(Exception):
         d.url = "y"  # type: ignore[misc]
+
+
+@pytest.mark.unit
+def test_article_from_dict_maps_fields_and_defaults() -> None:
+    a = Article.from_dict({"title": "t", "url": "u", "one_liner": "o", "interest": "***"})
+    assert (a.title, a.url, a.one_liner, a.interest) == ("t", "u", "o", "***")
+    assert a.comment_summary == ""  # 缺 comment_summary → 空字串
+
+
+@pytest.mark.unit
+def test_source_compress_wraps_themes_and_articles() -> None:
+    raw = {
+        "themes": ["AI", "資安"],
+        "articles": [
+            {"title": "a1", "url": "u1"},
+            "garbage",  # 非 dict 應被略過
+            {"title": "a2", "url": "u2"},
+        ],
+    }
+    sc = SourceCompress.from_dict(raw)
+    assert sc.themes == ("AI", "資安")
+    assert len(sc.articles) == 2
+    assert all(isinstance(a, Article) for a in sc.articles)
+    assert sc.articles[0].title == "a1"
+
+
+@pytest.mark.unit
+def test_source_compress_empty_when_missing() -> None:
+    sc = SourceCompress.from_dict({})
+    assert sc.themes == ()
+    assert sc.articles == ()
