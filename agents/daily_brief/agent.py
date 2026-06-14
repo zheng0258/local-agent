@@ -34,7 +34,7 @@ from config.settings import (
 
 from . import prompts
 from .config import OUTPUT_DIR
-from .schemas import QualityScore
+from .schemas import Digest, QualityScore
 from .step_cache import Verdict, decide
 
 if TYPE_CHECKING:
@@ -831,7 +831,7 @@ class DailyBriefAgent:
         seen: set[str] = set()
         deduped: list[dict] = []
         for d in digests:
-            url = d.get("url", "")
+            url = Digest.from_dict(d).url
             if url and url not in seen:
                 seen.add(url)
                 deduped.append(d)
@@ -1076,10 +1076,9 @@ def _pick_top8_balanced(digests: list[dict], n: int = 14) -> list[dict]:
 
     buckets: dict[str, list[dict]] = defaultdict(list)
     for d in digests:
-        src = d.get("_source") or d.get("source", "?")
-        buckets[src].append(d)
+        buckets[Digest.from_dict(d).source_key].append(d)
 
-    source_order = list(dict.fromkeys(d.get("_source") or d.get("source", "?") for d in digests))
+    source_order = list(dict.fromkeys(Digest.from_dict(d).source_key for d in digests))
     picked: list[dict] = []
     i = 0
     while len(picked) < n and any(buckets[s] for s in source_order):
@@ -1202,13 +1201,14 @@ def _format_obsidian_digest(digests: list[dict], today: str) -> str:
         "",
     ]
     for d in digests:
+        item = Digest.from_dict(d)
         lines += [
-            f"## {d.get('title', '')}",
+            f"## {item.title}",
             "",
-            f"**來源：** {d.get('source', '')}",
-            f"**URL：** {d.get('url', '')}",
+            f"**來源：** {item.source_label}",
+            f"**URL：** {item.url}",
             "",
-            d.get("summary", ""),
+            item.summary,
             "",
             "---",
             "",

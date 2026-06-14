@@ -11,6 +11,35 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
+class Digest:
+    """Digest（深度摘要）單篇的 typed view。
+
+    source_key 與 source_label 語義不同，不可混用：
+    - source_key：內部來源鍵（`_source`，== FETCH_STEPS 名），跨來源均衡 bucketing 用。
+    - source_label：來源顯示名（`source`），Obsidian/呈現用。
+    """
+
+    title: str
+    url: str
+    summary: str
+    source_key: str
+    source_label: str
+    interest: str
+
+    @classmethod
+    def from_dict(cls, raw: dict) -> "Digest":
+        raw = raw if isinstance(raw, dict) else {}
+        return cls(
+            title=raw.get("title", ""),
+            url=raw.get("url", ""),
+            summary=raw.get("summary", ""),
+            source_key=raw.get("_source") or raw.get("source") or "?",
+            source_label=raw.get("source", ""),
+            interest=raw.get("interest", ""),
+        )
+
+
+@dataclass(frozen=True)
 class QualityScore:
     """品質分（Quality Score）— LLM-as-Judge 對最終 Brief 的三軸自評之 typed view。
 

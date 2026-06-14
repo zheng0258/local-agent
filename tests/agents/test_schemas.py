@@ -5,7 +5,7 @@
 
 import pytest
 
-from agents.daily_brief.schemas import QualityScore
+from agents.daily_brief.schemas import Digest, QualityScore
 
 
 @pytest.mark.unit
@@ -67,3 +67,39 @@ def test_is_frozen() -> None:
     q = QualityScore.from_dict({})
     with pytest.raises(Exception):
         q.completeness = 1  # type: ignore[misc]
+
+
+@pytest.mark.unit
+def test_digest_from_dict_maps_fields() -> None:
+    raw = {
+        "title": "標題",
+        "url": "https://x",
+        "summary": "摘要",
+        "interest": "***",
+        "source": "Hatena",
+        "_source": "hatena",
+    }
+    d = Digest.from_dict(raw)
+    assert d.title == "標題"
+    assert d.url == "https://x"
+    assert d.summary == "摘要"
+    assert d.interest == "***"
+    # _source = 內部鍵（bucketing）；source = 顯示名（呈現）— 兩者語義不同
+    assert d.source_key == "hatena"
+    assert d.source_label == "Hatena"
+
+
+@pytest.mark.unit
+def test_digest_source_key_falls_back_to_label_then_question_mark() -> None:
+    # 只有顯示名時，內部鍵退回顯示名
+    assert Digest.from_dict({"source": "HN"}).source_key == "HN"
+    # 兩者皆無時退回 "?"
+    assert Digest.from_dict({}).source_key == "?"
+    assert Digest.from_dict({}).source_label == ""
+
+
+@pytest.mark.unit
+def test_digest_is_frozen() -> None:
+    d = Digest.from_dict({})
+    with pytest.raises(Exception):
+        d.url = "y"  # type: ignore[misc]
