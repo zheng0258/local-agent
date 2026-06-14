@@ -44,6 +44,8 @@ agents/
 │   ├── prompts.py               # 所有 LLM prompts
 │   ├── config.py                # 來源設定、門檻、路徑
 │   ├── supervisor.py            # LLM 監督器（fetch 品質控管）
+│   ├── step_cache.py            # cache-or-force 門檻判定（decide → RUN/LOAD/SKIP）
+│   ├── schemas.py               # step artifact 的 typed 唯讀 view（from_dict）
 │   └── fetchers/                # 各來源 fetcher（agent 層）
 └── url_digest/                  # URL 摘要
     ├── agent.py
@@ -118,7 +120,9 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **Prompts 集中管理**：所有 LLM prompt 定義在 `agents/<name>/prompts.py`，`agent.py` 禁止直接寫 prompt 字串。
 
-**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。
+**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。「該跑/該載入/該略過」的門檻判定集中於 `step_cache.decide(in_steps, exists, forced)` 純函數（回傳 RUN/LOAD/SKIP），各 `_phase_*` 只定義三種結果各自的動作，不再各自重抄 gating 串接。
+
+**Typed 唯讀 view（schemas.py）**：step artifact 仍以原 JSON dict 穿流與序列化（on-disk schema 不變、下游消費者不受影響）；`schemas.py` 的 frozen dataclass（`QualityScore`/`Digest`/`Article`/`SourceCompress`）只罩在**記憶體讀取點**上，用 `from_dict` 把巢狀防呆與欄位對帳（如 judge 雙 `missed_urls`、digest 的 `_source` 內部鍵 vs `source` 顯示名）集中一處。新增讀取點優先用 view，不要散寫 `.get().get()`。
 
 **輸出目錄結構**：
 ```

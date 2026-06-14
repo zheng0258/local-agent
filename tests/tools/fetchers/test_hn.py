@@ -46,13 +46,13 @@ def test_fetch_html_truncated_to_12000_chars():
     assert "title" in result[0]
 
 
-def test_fetch_network_error_returns_error_key():
+def test_fetch_network_error_raises():
+    """fetch_page 回傳 error 時 fetch() 直接 raise；由上游 _load_or_fetch_raw 的
+    try/except 接住，該來源跳過、pipeline 續跑（fail-soft per source）。"""
     with patch("tools.fetchers.hn.fetch_page", return_value={"url": "https://news.ycombinator.com/", "error": "timeout"}):
         from tools.fetchers import hn
-        result = hn.fetch()
-
-    assert len(result) > 0
-    assert "error" in result[0]
+        with pytest.raises(RuntimeError, match="HN fetch failed"):
+            hn.fetch()
 
 
 @pytest.mark.integration
