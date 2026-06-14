@@ -34,6 +34,7 @@ from config.settings import (
 
 from . import prompts
 from .config import OUTPUT_DIR
+from .step_cache import Verdict, decide
 
 if TYPE_CHECKING:
     from .supervisor import SupervisorAgent
@@ -206,13 +207,14 @@ class DailyBriefAgent:
 
     def _phase_dedup(self, ctx: _RunContext, source_data: dict) -> dict:
         dedup_artifact = ctx.steps_dir / "dedup.json"
-        if "dedup" not in ctx.steps_to_run:
-            if dedup_artifact.exists():
-                artifact = json.loads(dedup_artifact.read_text(encoding="utf-8"))
-                kept_urls = set(artifact.get("kept_urls", []))
-                return _filter_source_data_by_urls(source_data, kept_urls)
+        verdict = decide(
+            "dedup" in ctx.steps_to_run,
+            dedup_artifact.exists(),
+            "dedup" in ctx.force_steps,
+        )
+        if verdict is Verdict.SKIP:
             return source_data
-        if dedup_artifact.exists() and "dedup" not in ctx.force_steps:
+        if verdict is Verdict.LOAD:
             logger.info("Step dedup     : 載入既有 artifact")
             artifact = json.loads(dedup_artifact.read_text(encoding="utf-8"))
             kept_urls = set(artifact.get("kept_urls", []))
@@ -267,11 +269,14 @@ class DailyBriefAgent:
 
     def _phase_compress(self, ctx: _RunContext, source_data: dict[str, dict]) -> dict:
         compress_artifact = ctx.steps_dir / "compress.json"
-        if "compress" not in ctx.steps_to_run:
-            if compress_artifact.exists():
-                return json.loads(compress_artifact.read_text(encoding="utf-8"))
+        verdict = decide(
+            "compress" in ctx.steps_to_run,
+            compress_artifact.exists(),
+            "compress" in ctx.force_steps,
+        )
+        if verdict is Verdict.SKIP:
             return {}
-        if compress_artifact.exists() and "compress" not in ctx.force_steps:
+        if verdict is Verdict.LOAD:
             logger.info("Step compress  : 載入既有 artifact")
             return json.loads(compress_artifact.read_text(encoding="utf-8"))
         if not source_data:
@@ -298,11 +303,14 @@ class DailyBriefAgent:
 
     def _phase_digest(self, ctx: _RunContext, compress_data: dict) -> list[dict]:
         digest_artifact = ctx.steps_dir / "digest.json"
-        if "digest" not in ctx.steps_to_run:
-            if digest_artifact.exists():
-                return json.loads(digest_artifact.read_text(encoding="utf-8")).get("digests", [])
+        verdict = decide(
+            "digest" in ctx.steps_to_run,
+            digest_artifact.exists(),
+            "digest" in ctx.force_steps,
+        )
+        if verdict is Verdict.SKIP:
             return []
-        if digest_artifact.exists() and "digest" not in ctx.force_steps:
+        if verdict is Verdict.LOAD:
             logger.info("Step digest   : 載入既有 artifact")
             return json.loads(digest_artifact.read_text(encoding="utf-8")).get("digests", [])
         if not compress_data:
@@ -331,10 +339,15 @@ class DailyBriefAgent:
         self, ctx: _RunContext, compress_data: dict, digests: list[dict]
     ) -> tuple[dict, list[dict]]:
         judge_artifact = ctx.steps_dir / "judge.json"
-        if "judge" not in ctx.steps_to_run:
-            return compress_data, digests
-        if judge_artifact.exists() and "judge" not in ctx.force_steps:
+        verdict = decide(
+            "judge" in ctx.steps_to_run,
+            judge_artifact.exists(),
+            "judge" in ctx.force_steps,
+        )
+        if verdict is Verdict.LOAD:
             logger.info("Step judge     : 載入既有 artifact")
+            return compress_data, digests
+        if verdict is Verdict.SKIP:
             return compress_data, digests
         if not digests or not compress_data:
             logger.warning("Step judge     : 缺少 digests 或 compress 資料，略過")
@@ -413,10 +426,15 @@ class DailyBriefAgent:
 
     def _phase_report(self, ctx: _RunContext, compress_data: dict, digests: list[dict]) -> None:
         report_md = ctx.day_dir / "report.md"
-        if "report" not in ctx.steps_to_run:
-            return
-        if report_md.exists() and "report" not in ctx.force_steps:
+        verdict = decide(
+            "report" in ctx.steps_to_run,
+            report_md.exists(),
+            "report" in ctx.force_steps,
+        )
+        if verdict is Verdict.LOAD:
             logger.info("Step report   : 載入既有 artifact")
+            return
+        if verdict is Verdict.SKIP:
             return
         if not digests:
             logger.warning("Step report   : 無摘要資料，略過（先執行 digest step）")
@@ -440,10 +458,15 @@ class DailyBriefAgent:
 
     def _phase_save(self, ctx: _RunContext, digests: list[dict]) -> None:
         vault_done = ctx.day_dir / "vault.done"
-        if "save" not in ctx.steps_to_run:
-            return
-        if vault_done.exists() and "save" not in ctx.force_steps:
+        verdict = decide(
+            "save" in ctx.steps_to_run,
+            vault_done.exists(),
+            "save" in ctx.force_steps,
+        )
+        if verdict is Verdict.LOAD:
             logger.info("Step save     : 已儲存過，略過")
+            return
+        if verdict is Verdict.SKIP:
             return
         if not digests or not (ctx.day_dir / "report.md").exists():
             logger.warning("Step save     : 缺少 report.md 或 digests，略過（先執行 report step）")
@@ -463,10 +486,15 @@ class DailyBriefAgent:
 
     def _phase_notify(self, ctx: _RunContext, digests: list[dict]) -> None:
         done_file = ctx.day_dir / "telegram.done"
-        if "notify" not in ctx.steps_to_run:
-            return
-        if done_file.exists() and "notify" not in ctx.force_steps:
+        verdict = decide(
+            "notify" in ctx.steps_to_run,
+            done_file.exists(),
+            "notify" in ctx.force_steps,
+        )
+        if verdict is Verdict.LOAD:
             logger.info("Step notify   : 已發送過，略過")
+            return
+        if verdict is Verdict.SKIP:
             return
         if not digests or not (ctx.day_dir / "report.md").exists():
             logger.warning("Step notify   : 缺少 report.md 或摘要資料，略過")
@@ -635,11 +663,14 @@ class DailyBriefAgent:
     def _phase_enrich(self, ctx: _RunContext, compress_data: dict) -> dict:
         """compress 後、digest 前：對 HN/Reddit *** 文章並行抓留言 → LLM 摘要。"""
         enrich_artifact = ctx.steps_dir / "enrich.json"
-        if "enrich" not in ctx.steps_to_run:
-            if enrich_artifact.exists():
-                return json.loads(enrich_artifact.read_text(encoding="utf-8"))
+        verdict = decide(
+            "enrich" in ctx.steps_to_run,
+            enrich_artifact.exists(),
+            "enrich" in ctx.force_steps,
+        )
+        if verdict is Verdict.SKIP:
             return compress_data
-        if enrich_artifact.exists() and "enrich" not in ctx.force_steps:
+        if verdict is Verdict.LOAD:
             logger.info("Step enrich    : 載入既有 artifact")
             return json.loads(enrich_artifact.read_text(encoding="utf-8"))
         if not compress_data:
