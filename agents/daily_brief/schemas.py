@@ -11,6 +11,48 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
+class Article:
+    """compress 後單篇文章的 typed view。comment_summary 缺值為空字串。"""
+
+    title: str
+    url: str
+    one_liner: str
+    interest: str
+    comment_summary: str
+
+    @classmethod
+    def from_dict(cls, raw: dict) -> "Article":
+        raw = raw if isinstance(raw, dict) else {}
+        return cls(
+            title=raw.get("title", ""),
+            url=raw.get("url", ""),
+            one_liner=raw.get("one_liner", ""),
+            interest=raw.get("interest", ""),
+            comment_summary=raw.get("comment_summary", ""),
+        )
+
+
+@dataclass(frozen=True)
+class SourceCompress:
+    """單一來源 compress 結果的 typed view（Theme + Article 清單）。"""
+
+    themes: tuple[str, ...]
+    articles: tuple[Article, ...]
+
+    @classmethod
+    def from_dict(cls, raw: dict) -> "SourceCompress":
+        raw = raw if isinstance(raw, dict) else {}
+        return cls(
+            themes=tuple(raw.get("themes", []) or []),
+            articles=tuple(
+                Article.from_dict(a)
+                for a in raw.get("articles", []) or []
+                if isinstance(a, dict)
+            ),
+        )
+
+
+@dataclass(frozen=True)
 class Digest:
     """Digest（深度摘要）單篇的 typed view。
 
