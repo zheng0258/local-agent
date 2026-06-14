@@ -516,18 +516,6 @@ class DailyBriefAgent:
         else:
             logger.error("Step notify   : 部分或全部訊息發送失敗，請用 --force notify 重試")
 
-    def _run_fetch(self, name: str) -> dict:
-        from tools.fetchers import hatena, hn, reddit, security_blogs
-
-        dispatch = {
-            "hatena": lambda: self._fetch_hatena(hatena),
-            "hn": lambda: self._fetch_hn(hn),
-            "reddit": lambda: self._fetch_reddit(reddit),
-            "security": lambda: self._fetch_security(security_blogs),
-            "rss": lambda: self._fetch_rss(),
-        }
-        return dispatch[name]()
-
     def _fetch_raw_data(self, name: str) -> list:
         """Phase 1 helper: 純資料抓取，不呼叫 LLM。"""
         from tools.fetchers import hatena, hn, reddit, security_blogs
@@ -589,73 +577,6 @@ class DailyBriefAgent:
             logger.info("reddit 批次 %d/%d：%d 篇 → %d 篇保留", i // batch_size + 1, n_batches, len(batch), len(cleaned))
         logger.info("reddit LLM + 清洗完成（分批）：%d 篇", len(all_cleaned))
         return {"articles": [a.to_dict() for a in all_cleaned]}
-
-    def _fetch_hatena(self, mod) -> dict:
-        from tools.fetchers.schema import clean_articles
-
-        raw = mod.fetch()
-        logger.info("Hatena 抓取：%d 篇文章", len(raw))
-        result = parse_llm_json(
-            self._complete(prompts.build_hatena_prompt(json.dumps(raw, ensure_ascii=False)))
-        )
-        cleaned = clean_articles(result.get("articles", []))
-        result["articles"] = [article.to_dict() for article in cleaned]
-        logger.info("Hatena LLM + 清洗完成：%d 篇", len(result["articles"]))
-        return result
-
-    def _fetch_hn(self, mod) -> dict:
-        from tools.fetchers.schema import clean_articles
-
-        raw = mod.fetch()
-        logger.info("HN 抓取：%d 個 URL", len(raw))
-        result = parse_llm_json(
-            self._complete(prompts.build_hn_prompt(json.dumps(raw, ensure_ascii=False)))
-        )
-        cleaned = clean_articles(result.get("articles", []))
-        result["articles"] = [article.to_dict() for article in cleaned]
-        logger.info("HN LLM + 清洗完成：%d 篇", len(result["articles"]))
-        return result
-
-    def _fetch_reddit(self, mod) -> dict:
-        from tools.fetchers.schema import clean_articles
-
-        raw = mod.fetch()
-        logger.info("Reddit 抓取：%d 篇文章", len(raw))
-        result = parse_llm_json(
-            self._complete(prompts.build_reddit_prompt(json.dumps(raw, ensure_ascii=False)))
-        )
-        cleaned = clean_articles(result.get("articles", []))
-        result["articles"] = [article.to_dict() for article in cleaned]
-        logger.info("Reddit LLM + 清洗完成：%d 篇", len(result["articles"]))
-        return result
-
-    def _fetch_security(self, mod) -> dict:
-        from tools.fetchers.schema import clean_articles
-
-        raw = mod.fetch()
-        raw_json = json.dumps(raw, ensure_ascii=False)
-        logger.info("Security blogs 抓取：%d 篇文章，%d 字元", len(raw), len(raw_json))
-        result = parse_llm_json(
-            self._complete(prompts.build_security_blogs_prompt(raw_json))
-        )
-        cleaned = clean_articles(result.get("articles", []), min_interest="***")
-        result["articles"] = [article.to_dict() for article in cleaned]
-        logger.info("Security LLM + 清洗完成：%d 篇", len(result["articles"]))
-        return result
-
-    def _fetch_rss(self) -> dict:
-        from agents.daily_brief.fetchers import rss_fetcher
-        from tools.fetchers.schema import clean_articles
-
-        raw = rss_fetcher.fetch()
-        logger.info("RSS 抓取：%d 篇文章", len(raw))
-        result = parse_llm_json(
-            self._complete(prompts.build_rss_prompt(json.dumps(raw, ensure_ascii=False)))
-        )
-        cleaned = clean_articles(result.get("articles", []))
-        result["articles"] = [article.to_dict() for article in cleaned]
-        logger.info("RSS LLM + 清洗完成：%d 篇", len(result["articles"]))
-        return result
 
     def _phase_enrich(self, ctx: _RunContext, compress_data: dict) -> dict:
         """compress 後、digest 前：對 HN/Reddit *** 文章並行抓留言 → LLM 摘要。"""
