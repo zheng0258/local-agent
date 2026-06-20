@@ -121,7 +121,10 @@ class DailyBriefAgent:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
         source_data = _filter_top_articles(source_data)
         source_data = self._phase_dedup(ctx, source_data)
-        compress_data = self._phase_compress(ctx, source_data)
+        from .steps.compress import CompressStep
+        compress_data = CompressStep(
+            self._run_compress, self._check_source_health
+        ).run(ctx, source_data).value
         enrich_data = self._phase_enrich(ctx, compress_data)
         digests = self._phase_digest(ctx, enrich_data)
         enrich_data, digests = self._phase_judge(ctx, enrich_data, digests)
@@ -267,40 +270,6 @@ class DailyBriefAgent:
             result.filtered_semantic,
         )
         return filtered_data
-
-    def _phase_compress(self, ctx: _RunContext, source_data: dict[str, dict]) -> dict:
-        compress_artifact = ctx.steps_dir / "compress.json"
-        verdict = decide(
-            "compress" in ctx.steps_to_run,
-            compress_artifact.exists(),
-            "compress" in ctx.force_steps,
-        )
-        if verdict is Verdict.SKIP:
-            return {}
-        if verdict is Verdict.LOAD:
-            logger.info("Step compress  : 載入既有 artifact")
-            return json.loads(compress_artifact.read_text(encoding="utf-8"))
-        if not source_data:
-            logger.warning("Step compress  : 無評分資料，略過（先執行 fetch steps）")
-            return {}
-
-        logger.info("Step compress  : 執行中...")
-
-        def _compress_fn(reflect_context: str = "") -> dict:
-            return self._run_compress(source_data, reflect_context=reflect_context)
-
-        result = ctx.supervisor.run_step(
-            "compress", _compress_fn, force=("compress" in ctx.force_steps)
-        )
-        if not result.success:
-            logger.error("Step compress: 全部重試失敗，略過 digest/judge/report/notify")
-            return {}
-        compress_artifact.write_text(
-            json.dumps(result.output, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        logger.info("Step compress  : 完成 → compress.json")
-        self._check_source_health(result.output)
-        return result.output
 
     def _phase_digest(self, ctx: _RunContext, compress_data: dict) -> list[dict]:
         digest_artifact = ctx.steps_dir / "digest.json"
