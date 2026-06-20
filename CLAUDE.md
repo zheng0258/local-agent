@@ -120,7 +120,7 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **Prompts 集中管理**：所有 LLM prompt 定義在 `agents/<name>/prompts.py`，`agent.py` 禁止直接寫 prompt 字串。
 
-**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。「該跑/該載入/該略過」的門檻判定集中於 `step_cache.decide(in_steps, exists, forced)` 純函數（回傳 RUN/LOAD/SKIP），各 `_phase_*` 只定義三種結果各自的動作，不再各自重抄 gating 串接。
+**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。「該跑/該載入/該略過」的門檻判定集中於 `step_cache.decide(in_steps, exists, forced)` 純函數（回傳 RUN/LOAD/SKIP），各 `_phase_*` 只定義三種結果各自的動作，不再各自重抄 gating 串接。判定（`step_cache.decide`）與其後的動作（artifact I/O、委派 supervisor、default）正逐步收進 `step.py` 的 `Step` 基底模板：公開介面只有 `run(ctx, input) -> StepOutcome`，每步差異住內部 seam（`_produce`/`_load`/`_guard`/`_default`）與注入的 `codecs.py` `ArtifactCodec`（Json/Text/Sentinel）。新增 step：在 `agents/daily_brief/steps/` 加一檔、繼承 `Step`、在 `run()` 顯式接線（不造依賴圖）。compress 已遷移（`steps/compress.py`）；其餘步驟與 fetch/judge-feedback orchestrator 見 `docs/superpowers/plans/2026-06-21-deep-step-abstraction.md` 的 Plan 2/3。
 
 **Typed 唯讀 view（schemas.py）**：step artifact 仍以原 JSON dict 穿流與序列化（on-disk schema 不變、下游消費者不受影響）；`schemas.py` 的 frozen dataclass（`QualityScore`/`Digest`/`Article`/`SourceCompress`）只罩在**記憶體讀取點**上，用 `from_dict` 把巢狀防呆與欄位對帳（如 judge 雙 `missed_urls`、digest 的 `_source` 內部鍵 vs `source` 顯示名）集中一處。新增讀取點優先用 view，不要散寫 `.get().get()`。
 
