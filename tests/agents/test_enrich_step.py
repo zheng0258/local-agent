@@ -1,4 +1,4 @@
-"""_phase_enrich / _run_enrich 測試。"""
+"""EnrichStep / _run_enrich 測試。"""
 
 import json
 from pathlib import Path
@@ -108,55 +108,57 @@ def test_run_enrich_does_not_mutate_compress_data():
     assert _HN_COMPRESS == original
 
 
-# ── _phase_enrich：idempotent ────────────────────────────────────
+# ── EnrichStep：idempotent（取代舊 _phase_enrich 測試）─────────────
 
-def test_phase_enrich_loads_existing_artifact(tmp_path):
-    from agents.daily_brief.agent import DailyBriefAgent
+from types import SimpleNamespace
+from agents.daily_brief.step import StepStatus
+from agents.daily_brief.steps.enrich import EnrichStep
+
+
+class _FakeSupervisor:
+    def run_step(self, name, fn, force=False):
+        return SimpleNamespace(success=True, output=fn())
+
+
+def _enrich_ctx(steps_dir, steps_to_run, force=set()):
+    return SimpleNamespace(steps_dir=steps_dir, day_dir=steps_dir,
+                           steps_to_run=steps_to_run, force_steps=force,
+                           supervisor=_FakeSupervisor())
+
+
+def test_enrich_step_loads_existing_artifact(tmp_path):
     agent = _make_agent()
     steps_dir = tmp_path / "steps"
     steps_dir.mkdir()
-
     saved = {"_meta": {}, "hn": {"articles": [{"comment_summary": "cached"}]}}
     (steps_dir / "enrich.json").write_text(json.dumps(saved), encoding="utf-8")
 
-    ctx = MagicMock()
-    ctx.steps_to_run = {"enrich"}
-    ctx.force_steps = set()
-    ctx.steps_dir = steps_dir
-
-    result = agent._phase_enrich(ctx, _HN_COMPRESS)
-    assert result["hn"]["articles"][0]["comment_summary"] == "cached"
+    ctx = _enrich_ctx(steps_dir, {"enrich"})
+    outcome = EnrichStep(agent._run_enrich).run(ctx, _HN_COMPRESS)
+    assert outcome.status is StepStatus.LOADED
+    assert outcome.value["hn"]["articles"][0]["comment_summary"] == "cached"
 
 
-def test_phase_enrich_skips_when_not_in_steps_to_run(tmp_path):
-    from agents.daily_brief.agent import DailyBriefAgent
+def test_enrich_step_skips_when_not_in_steps_to_run(tmp_path):
     agent = _make_agent()
     steps_dir = tmp_path / "steps"
     steps_dir.mkdir()
 
-    ctx = MagicMock()
-    ctx.steps_to_run = {"digest"}
-    ctx.force_steps = set()
-    ctx.steps_dir = steps_dir
-
-    result = agent._phase_enrich(ctx, _HN_COMPRESS)
-    assert result is _HN_COMPRESS
+    ctx = _enrich_ctx(steps_dir, {"digest"})
+    outcome = EnrichStep(agent._run_enrich).run(ctx, _HN_COMPRESS)
+    assert outcome.status is StepStatus.SKIPPED
+    assert outcome.value is _HN_COMPRESS
 
 
-def test_phase_enrich_writes_artifact(tmp_path):
-    from agents.daily_brief.agent import DailyBriefAgent
+def test_enrich_step_writes_artifact(tmp_path):
     agent = _make_agent()
     steps_dir = tmp_path / "steps"
     steps_dir.mkdir()
 
-    ctx = MagicMock()
-    ctx.steps_to_run = {"enrich"}
-    ctx.force_steps = set()
-    ctx.steps_dir = steps_dir
-
+    ctx = _enrich_ctx(steps_dir, {"enrich"})
     with patch("tools.fetchers.hn_comments.fetch_comments", return_value=["c1"]):
         with patch("tools.fetchers.reddit_comments.fetch_comments", return_value=["rc1"]):
-            agent._phase_enrich(ctx, _HN_COMPRESS)
+            EnrichStep(agent._run_enrich).run(ctx, _HN_COMPRESS)
 
     assert (steps_dir / "enrich.json").exists()
     saved = json.loads((steps_dir / "enrich.json").read_text())

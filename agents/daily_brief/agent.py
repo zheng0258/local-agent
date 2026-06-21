@@ -126,7 +126,8 @@ class DailyBriefAgent:
         compress_data = CompressStep(
             self._run_compress, self._check_source_health
         ).run(ctx, source_data).value
-        enrich_data = self._phase_enrich(ctx, compress_data)
+        from .steps.enrich import EnrichStep
+        enrich_data = EnrichStep(self._run_enrich).run(ctx, compress_data).value
         from .steps.digest import DigestStep
         digests = DigestStep(self._run_digest).run(ctx, enrich_data).value
         enrich_data, digests = self._phase_judge(ctx, enrich_data, digests)
@@ -360,37 +361,6 @@ class DailyBriefAgent:
             logger.info("reddit 批次 %d/%d：%d 篇 → %d 篇保留", i // batch_size + 1, n_batches, len(batch), len(cleaned))
         logger.info("reddit LLM + 清洗完成（分批）：%d 篇", len(all_cleaned))
         return {"articles": [a.to_dict() for a in all_cleaned]}
-
-    def _phase_enrich(self, ctx: _RunContext, compress_data: dict) -> dict:
-        """compress 後、digest 前：對 HN/Reddit *** 文章並行抓留言 → LLM 摘要。"""
-        enrich_artifact = ctx.steps_dir / "enrich.json"
-        verdict = decide(
-            "enrich" in ctx.steps_to_run,
-            enrich_artifact.exists(),
-            "enrich" in ctx.force_steps,
-        )
-        if verdict is Verdict.SKIP:
-            return compress_data
-        if verdict is Verdict.LOAD:
-            logger.info("Step enrich    : 載入既有 artifact")
-            return json.loads(enrich_artifact.read_text(encoding="utf-8"))
-        if not compress_data:
-            logger.warning("Step enrich    : 無壓縮資料，略過（先執行 compress step）")
-            return compress_data
-
-        logger.info("Step enrich    : 執行中...")
-        enrich_data = self._run_enrich(compress_data)
-        enrich_artifact.write_text(
-            json.dumps(enrich_data, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        enriched_count = sum(
-            1
-            for src in ["hn", "reddit"]
-            for a in SourceCompress.from_dict(enrich_data.get(src, {})).articles
-            if a.comment_summary
-        )
-        logger.info("Step enrich    : 完成 → enrich.json（%d 篇含留言摘要）", enriched_count)
-        return enrich_data
 
     def _enrich_article(self, src: str, idx: int, article: dict) -> str | None:
         """對單篇文章抓留言並 LLM 摘要，失敗時回傳 None（best-effort）。"""
