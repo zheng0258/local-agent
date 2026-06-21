@@ -129,7 +129,8 @@ class DailyBriefAgent:
         from .steps.digest import DigestStep
         digests = DigestStep(self._run_digest).run(ctx, enrich_data).value
         enrich_data, digests = self._phase_judge(ctx, enrich_data, digests)
-        self._phase_report(ctx, enrich_data, digests)
+        from .steps.report import ReportStep
+        ReportStep(self._run_report, ctx.today).run(ctx, (enrich_data, digests))
         self._phase_save(ctx, digests)
         self._phase_notify(ctx, digests)
 
@@ -356,38 +357,6 @@ class DailyBriefAgent:
             logger.info("Judge 回饋 digest 重跑完成")
 
         return compress_data, digests
-
-    def _phase_report(self, ctx: _RunContext, compress_data: dict, digests: list[dict]) -> None:
-        report_md = ctx.day_dir / "report.md"
-        verdict = decide(
-            "report" in ctx.steps_to_run,
-            report_md.exists(),
-            "report" in ctx.force_steps,
-        )
-        if verdict is Verdict.LOAD:
-            logger.info("Step report   : 載入既有 artifact")
-            return
-        if verdict is Verdict.SKIP:
-            return
-        if not digests:
-            logger.warning("Step report   : 無摘要資料，略過（先執行 digest step）")
-            return
-
-        logger.info("Step report   : 執行中...")
-
-        def _report_fn(reflect_context: str = "") -> str:
-            return self._run_report(
-                compress_data, digests, ctx.today, reflect_context=reflect_context
-            )
-
-        result = ctx.supervisor.run_step(
-            "report", _report_fn, force=("report" in ctx.force_steps)
-        )
-        if result.success:
-            report_md.write_text(result.output, encoding="utf-8")
-            logger.info("Step report   : 完成 → report.md")
-        else:
-            logger.error("Step report: 全部重試失敗，略過 save/notify")
 
     def _phase_save(self, ctx: _RunContext, digests: list[dict]) -> None:
         vault_done = ctx.day_dir / "vault.done"
