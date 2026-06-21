@@ -133,7 +133,8 @@ class DailyBriefAgent:
         ReportStep(self._run_report, ctx.today).run(ctx, (enrich_data, digests))
         from .steps.save import SaveStep
         SaveStep(self._run_save, ctx.today).run(ctx, digests)
-        self._phase_notify(ctx, digests)
+        from .steps.notify import NotifyStep
+        NotifyStep(self._notify, ctx.today).run(ctx, digests)
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
         _send_alerts_summary(steps_dir, today, tg_send)
@@ -358,41 +359,6 @@ class DailyBriefAgent:
             logger.info("Judge 回饋 digest 重跑完成")
 
         return compress_data, digests
-
-    def _phase_notify(self, ctx: _RunContext, digests: list[dict]) -> None:
-        done_file = ctx.day_dir / "telegram.done"
-        verdict = decide(
-            "notify" in ctx.steps_to_run,
-            done_file.exists(),
-            "notify" in ctx.force_steps,
-        )
-        if verdict is Verdict.LOAD:
-            logger.info("Step notify   : 已發送過，略過")
-            return
-        if verdict is Verdict.SKIP:
-            return
-        if not digests or not (ctx.day_dir / "report.md").exists():
-            logger.warning("Step notify   : 缺少 report.md 或摘要資料，略過")
-            return
-
-        logger.info("Step notify   : 執行中...")
-
-        def _notify_fn(reflect_context: str = "") -> bool:
-            ok = self._notify(
-                digests, ctx.today, steps_dir=ctx.steps_dir, reflect_context=reflect_context
-            )
-            if not ok:
-                raise RuntimeError("Telegram 訊息發送失敗")
-            return ok
-
-        result = ctx.supervisor.run_step(
-            "notify", _notify_fn, force=("notify" in ctx.force_steps)
-        )
-        if result.success:
-            done_file.touch()
-            logger.info("Step notify   : 完成")
-        else:
-            logger.error("Step notify   : 部分或全部訊息發送失敗，請用 --force notify 重試")
 
     def _fetch_raw_data(self, name: str) -> list:
         """Phase 1 helper: 純資料抓取，不呼叫 LLM。"""
