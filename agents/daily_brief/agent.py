@@ -126,7 +126,8 @@ class DailyBriefAgent:
             self._run_compress, self._check_source_health
         ).run(ctx, source_data).value
         enrich_data = self._phase_enrich(ctx, compress_data)
-        digests = self._phase_digest(ctx, enrich_data)
+        from .steps.digest import DigestStep
+        digests = DigestStep(self._run_digest).run(ctx, enrich_data).value
         enrich_data, digests = self._phase_judge(ctx, enrich_data, digests)
         self._phase_report(ctx, enrich_data, digests)
         self._phase_save(ctx, digests)
@@ -270,40 +271,6 @@ class DailyBriefAgent:
             result.filtered_semantic,
         )
         return filtered_data
-
-    def _phase_digest(self, ctx: _RunContext, compress_data: dict) -> list[dict]:
-        digest_artifact = ctx.steps_dir / "digest.json"
-        verdict = decide(
-            "digest" in ctx.steps_to_run,
-            digest_artifact.exists(),
-            "digest" in ctx.force_steps,
-        )
-        if verdict is Verdict.SKIP:
-            return []
-        if verdict is Verdict.LOAD:
-            logger.info("Step digest   : 載入既有 artifact")
-            return json.loads(digest_artifact.read_text(encoding="utf-8")).get("digests", [])
-        if not compress_data:
-            logger.warning("Step digest   : 無壓縮資料，略過（先執行 compress step）")
-            return []
-
-        logger.info("Step digest   : 執行中...")
-
-        def _digest_fn(reflect_context: str = "") -> tuple[list[dict], dict]:
-            return self._run_digest(compress_data, reflect_context=reflect_context)
-
-        result = ctx.supervisor.run_step(
-            "digest", _digest_fn, force=("digest" in ctx.force_steps)
-        )
-        if not result.success:
-            logger.error("Step digest: 全部重試失敗，略過 judge/report/notify")
-            return []
-        digests, digest_data = result.output
-        digest_artifact.write_text(
-            json.dumps(digest_data, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        logger.info("Step digest   : 完成 → digest.json（%d 篇）", len(digests))
-        return digests
 
     def _phase_judge(
         self, ctx: _RunContext, compress_data: dict, digests: list[dict]
