@@ -36,6 +36,7 @@ from . import prompts
 from .config import OUTPUT_DIR
 from .schemas import Digest, QualityScore, SourceCompress
 from .step import StepStatus
+from .step_cache import Verdict, decide
 
 if TYPE_CHECKING:
     from .supervisor import SupervisorAgent
@@ -169,64 +170,44 @@ class DailyBriefAgent:
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
     def _phase_fetch(self, ctx: _RunContext) -> dict[str, dict] | None:
+        """Orchestrator：並行預抓 raw（RUN-verdict 來源）→ 序列評分（SourceStep.run）→ ≥2 門檻。"""
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
-        source_data: dict[str, dict] = {}
-        fetch_failed: list[str] = []
+        from .steps.source import SourceStep
 
-        # Phase 1: 網路 I/O 並行（純資料抓取，無 LLM）
-        def _load_or_fetch_raw(name: str) -> tuple[str, dict | list | None, bool]:
-            artifact = ctx.steps_dir / f"{name}.json"
-            if name not in ctx.steps_to_run:
-                if artifact.exists():
-                    return name, json.loads(artifact.read_text(encoding="utf-8")), True
-                return name, None, True
-            if artifact.exists() and name not in ctx.force_steps:
-                logger.info("Step %-8s: 載入既有 artifact", name)
-                return name, json.loads(artifact.read_text(encoding="utf-8")), True
-            try:
-                raw = self._fetch_raw_data(name)
-                return name, raw, False
-            except Exception as exc:
-                logger.warning("Step %-8s: 原始資料抓取失敗 — %s", name, exc)
-                return name, None, False
+        sources = {n: SourceStep(n, self._score_raw_data) for n in FETCH_STEPS}
 
-        to_score: dict[str, list] = {}
-        with ThreadPoolExecutor(max_workers=len(FETCH_STEPS)) as executor:
-            futures = {executor.submit(_load_or_fetch_raw, n): n for n in FETCH_STEPS}
+        # 哪些來源該重抓 raw（verdict == RUN）。LOAD/SKIP 不需網路 I/O。
+        to_fetch = [
+            n
+            for n in FETCH_STEPS
+            if decide(
+                n in ctx.steps_to_run,
+                (ctx.steps_dir / f"{n}.json").exists(),
+                n in ctx.force_steps,
+            )
+            is Verdict.RUN
+        ]
+
+        # Stage 1（並行）：純網路 I/O，無 LLM。
+        raws: dict[str, list] = {}
+        with ThreadPoolExecutor(max_workers=len(to_fetch) or 1) as executor:
+            futures = {executor.submit(self._fetch_raw_data, n): n for n in to_fetch}
             for future in as_completed(futures):
-                name, data, is_cached = future.result()
-                if is_cached:
-                    if data is not None:
-                        source_data[name] = data
-                else:
-                    if data is not None:
-                        to_score[name] = data
-                    elif name in ctx.steps_to_run:
-                        fetch_failed.append(name)
+                name = futures[future]
+                try:
+                    raws[name] = future.result()
+                except Exception as exc:
+                    logger.warning("Step %-8s: 原始資料抓取失敗 — %s", name, exc)
 
-        # Phase 2: LLM 評分序列化（避免並行請求導致 LM Studio HTTP 400）
+        # Stage 2（序列）：評分序列化，避免 LM Studio 並行 HTTP 400。
+        source_data: dict[str, dict] = {}
         for name in FETCH_STEPS:
-            if name not in to_score:
-                continue
-            raw = to_score[name]
-            artifact = ctx.steps_dir / f"{name}.json"
+            outcome = sources[name].run(ctx, raws.get(name))
+            if outcome.value is not None:
+                source_data[name] = outcome.value
 
-            def _make_fn(n: str = name, r: list = raw, a: Path = artifact) -> Callable[[], dict]:
-                def fn() -> dict:
-                    result = self._score_raw_data(n, r)
-                    result["fetched_at"] = datetime.now().isoformat(timespec="seconds")
-                    a.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-                    logger.info("Step %-8s: 完成 → %s", n, a.name)
-                    return result
-                return fn
-
-            step_result = ctx.supervisor.run_step(name, _make_fn(), force=(name in ctx.force_steps))
-            if step_result.success:
-                source_data[name] = step_result.output
-            else:
-                fetch_failed.append(name)
-
+        fetch_failed = [n for n in to_fetch if n not in source_data]
         success_count = len(source_data)
         if success_count < 2 and ctx.steps_to_run.intersection(set(FETCH_STEPS)):
             msg = (
