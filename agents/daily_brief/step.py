@@ -68,13 +68,16 @@ class Step:
         return None
 
     # ── 公開介面 ─────────────────────────────────────────────────
-    def run(self, ctx, input, reflect: str = "") -> StepOutcome:
+    def run(self, ctx, input, reflect: str = "", force: bool = False) -> StepOutcome:
         path = self.artifact_path(ctx)
-        verdict = decide(
-            self.name in ctx.steps_to_run,
-            self.codec.exists(path),
-            self.name in ctx.force_steps,
-        )
+        if force:
+            verdict = Verdict.RUN
+        else:
+            verdict = decide(
+                self.name in ctx.steps_to_run,
+                self.codec.exists(path),
+                self.name in ctx.force_steps,
+            )
         if verdict is Verdict.SKIP:
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
         if verdict is Verdict.LOAD:
@@ -85,11 +88,12 @@ class Step:
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
 
         logger.info("Step %-8s: 執行中...", self.name)
+        forced = force or (self.name in ctx.force_steps)
 
         def _producer(reflect_context: str = "") -> StepOutput:
             return self._produce(ctx, input, reflect_context or reflect)
 
-        result = ctx.supervisor.run_step(self.name, _producer, force=self.name in ctx.force_steps)
+        result = ctx.supervisor.run_step(self.name, _producer, force=forced)
         if not result.success:
             return StepOutcome(StepStatus.FAILED, self._default(input))
         output: StepOutput = result.output

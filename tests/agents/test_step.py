@@ -138,3 +138,33 @@ def test_run_failed_returns_default(tmp_path):
     assert outcome.status is StepStatus.FAILED
     assert outcome.value is None
     assert not art.exists()              # 失敗不落盤
+
+
+@pytest.mark.unit
+def test_run_force_param_forces_run_even_when_not_in_steps(tmp_path):
+    art = tmp_path / "compress.json"
+    JsonCodec().write(art, {"v": 999})
+    sup = _FakeSupervisor()
+    ctx = _ctx(tmp_path, set(), set(), sup)
+    outcome = _DoublerStep(art).run(ctx, 21, force=True)
+    assert outcome.status is StepStatus.RAN
+    assert outcome.value == 42
+    assert sup.calls == 1
+
+
+@pytest.mark.unit
+def test_run_force_param_passed_to_supervisor(tmp_path):
+    art = tmp_path / "compress.json"
+
+    class _RecordingSupervisor:
+        def __init__(self):
+            self.forces = []
+
+        def run_step(self, name, fn, force=False):
+            self.forces.append(force)
+            return SimpleNamespace(success=True, output=fn())
+
+    sup = _RecordingSupervisor()
+    ctx = _ctx(tmp_path, {"compress"}, set(), sup)
+    _DoublerStep(art).run(ctx, 21, force=True)
+    assert sup.forces == [True]
