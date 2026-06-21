@@ -131,7 +131,8 @@ class DailyBriefAgent:
         enrich_data, digests = self._phase_judge(ctx, enrich_data, digests)
         from .steps.report import ReportStep
         ReportStep(self._run_report, ctx.today).run(ctx, (enrich_data, digests))
-        self._phase_save(ctx, digests)
+        from .steps.save import SaveStep
+        SaveStep(self._run_save, ctx.today).run(ctx, digests)
         self._phase_notify(ctx, digests)
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
@@ -357,34 +358,6 @@ class DailyBriefAgent:
             logger.info("Judge 回饋 digest 重跑完成")
 
         return compress_data, digests
-
-    def _phase_save(self, ctx: _RunContext, digests: list[dict]) -> None:
-        vault_done = ctx.day_dir / "vault.done"
-        verdict = decide(
-            "save" in ctx.steps_to_run,
-            vault_done.exists(),
-            "save" in ctx.force_steps,
-        )
-        if verdict is Verdict.LOAD:
-            logger.info("Step save     : 已儲存過，略過")
-            return
-        if verdict is Verdict.SKIP:
-            return
-        if not digests or not (ctx.day_dir / "report.md").exists():
-            logger.warning("Step save     : 缺少 report.md 或 digests，略過（先執行 report step）")
-            return
-
-        logger.info("Step save     : 執行中...")
-
-        def _save_fn() -> None:
-            self._run_save(ctx.day_dir, ctx.today, digests)
-
-        result = ctx.supervisor.run_step("save", _save_fn, force=("save" in ctx.force_steps))
-        if result.success:
-            vault_done.touch()
-            logger.info("Step save     : 完成 → vault.done")
-        else:
-            logger.error("Step save: 全部重試失敗")
 
     def _phase_notify(self, ctx: _RunContext, digests: list[dict]) -> None:
         done_file = ctx.day_dir / "telegram.done"
