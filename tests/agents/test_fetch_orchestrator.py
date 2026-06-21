@@ -1,4 +1,4 @@
-"""_phase_fetch orchestrator — parallel raw / serial score / ≥2 gate, via SourceStep."""
+"""_fetch_sources orchestrator — parallel raw / serial score / ≥2 gate, via SourceStep."""
 
 import json
 from types import SimpleNamespace
@@ -28,7 +28,7 @@ def test_fetch_orchestrator_scores_fresh_sources(tmp_path):
     agent._score_raw_data = lambda name, raw: {"articles": [{"url": f"http://{name}"}]}
 
     ctx = _ctx(tmp_path, steps_to_run=set(FETCH_STEPS))
-    result = agent._phase_fetch(ctx)
+    result = agent._fetch_sources(ctx)
 
     assert set(result.keys()) == set(FETCH_STEPS)
     for name in FETCH_STEPS:
@@ -49,7 +49,7 @@ def test_fetch_orchestrator_loads_cached_sources(tmp_path):
             json.dumps({"articles": [{"url": f"http://cached-{name}"}], "fetched_at": "t"}),
             encoding="utf-8")
 
-    result = agent._phase_fetch(ctx)
+    result = agent._fetch_sources(ctx)
     assert fetch_calls == []
     assert result["hn"]["articles"][0]["url"] == "http://cached-hn"
 
@@ -70,7 +70,7 @@ def test_fetch_orchestrator_aborts_when_fewer_than_two_succeed(tmp_path):
     ctx = _ctx(tmp_path, steps_to_run=set(FETCH_STEPS))
     ctx.notify_fn = lambda m: alerts.append(m) or True
 
-    result = agent._phase_fetch(ctx)
+    result = agent._fetch_sources(ctx)
     assert result is None
     assert alerts and "Fetch" in alerts[0]
 
@@ -88,6 +88,6 @@ def test_fetch_orchestrator_one_raw_failure_does_not_block_others(tmp_path):
     agent._score_raw_data = lambda name, raw: {"articles": [{"url": f"http://{name}"}]}
 
     ctx = _ctx(tmp_path, steps_to_run=set(FETCH_STEPS))
-    result = agent._phase_fetch(ctx)
+    result = agent._fetch_sources(ctx)
     assert "reddit" not in result
     assert set(result.keys()) == set(FETCH_STEPS) - {"reddit"}

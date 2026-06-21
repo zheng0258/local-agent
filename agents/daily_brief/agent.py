@@ -110,7 +110,7 @@ class DailyBriefAgent:
             notify_fn=tg_send,
         )
 
-        source_data = self._phase_fetch(ctx)
+        source_data = self._fetch_sources(ctx)
         if source_data is None:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
         source_data = _filter_top_articles(source_data)
@@ -162,7 +162,7 @@ class DailyBriefAgent:
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
-    def _phase_fetch(self, ctx: _RunContext) -> dict[str, dict] | None:
+    def _fetch_sources(self, ctx: _RunContext) -> dict[str, dict] | None:
         """Orchestrator：並行預抓 raw（RUN-verdict 來源）→ 序列評分（SourceStep.run）→ ≥2 門檻。"""
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
