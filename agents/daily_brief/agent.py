@@ -120,7 +120,8 @@ class DailyBriefAgent:
         if source_data is None:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
         source_data = _filter_top_articles(source_data)
-        source_data = self._phase_dedup(ctx, source_data)
+        from .steps.dedup import DedupStep
+        source_data = DedupStep().run(ctx, source_data).value
         from .steps.compress import CompressStep
         compress_data = CompressStep(
             self._run_compress, self._check_source_health
@@ -212,68 +213,6 @@ class DailyBriefAgent:
             return None
 
         return source_data
-
-    def _phase_dedup(self, ctx: _RunContext, source_data: dict) -> dict:
-        dedup_artifact = ctx.steps_dir / "dedup.json"
-        verdict = decide(
-            "dedup" in ctx.steps_to_run,
-            dedup_artifact.exists(),
-            "dedup" in ctx.force_steps,
-        )
-        if verdict is Verdict.SKIP:
-            return source_data
-        if verdict is Verdict.LOAD:
-            logger.info("Step dedup     : 載入既有 artifact")
-            artifact = json.loads(dedup_artifact.read_text(encoding="utf-8"))
-            kept_urls = set(artifact.get("kept_urls", []))
-            return _filter_source_data_by_urls(source_data, kept_urls)
-        if not source_data:
-            logger.warning("Step dedup     : 無 fetch 資料，略過")
-            return source_data
-
-        logger.info("Step dedup     : 執行中...")
-        from agents.daily_brief.config import (
-            DEDUP_SIMILARITY_THRESHOLD,
-            DEDUP_WINDOW_DAYS,
-            VECTOR_DB_PATH,
-        )
-        from tools.vector_store.client import cleanup_old_records, get_collection
-        from tools.vector_store.dedup import dedup_source_data
-        from tools.vector_store.embedder import Qwen3Embedder
-
-        VECTOR_DB_PATH.mkdir(parents=True, exist_ok=True)
-        collection = get_collection(VECTOR_DB_PATH)
-        cleanup_old_records(collection, DEDUP_WINDOW_DAYS)
-        embedder = Qwen3Embedder()
-
-        filtered_data, result = dedup_source_data(
-            source_data=source_data,
-            collection=collection,
-            embedder=embedder,
-            today=ctx.today,
-            window_days=DEDUP_WINDOW_DAYS,
-            threshold=DEDUP_SIMILARITY_THRESHOLD,
-        )
-
-        artifact_data = {
-            "total": result.total,
-            "kept": result.kept,
-            "filtered_url": result.filtered_url,
-            "filtered_semantic": result.filtered_semantic,
-            "kept_urls": result.kept_urls,
-            "filtered_items": result.filtered_items,
-        }
-        dedup_artifact.write_text(
-            json.dumps(artifact_data, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        logger.info(
-            "Step dedup     : 完成 → %d/%d 文章保留（url過濾:%d, 語意過濾:%d）",
-            result.kept,
-            result.total,
-            result.filtered_url,
-            result.filtered_semantic,
-        )
-        return filtered_data
 
     def _phase_judge(
         self, ctx: _RunContext, compress_data: dict, digests: list[dict]
