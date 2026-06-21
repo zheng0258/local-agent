@@ -133,6 +133,15 @@ class SupervisorAgent:
         judge_result = run_judge_fn(reflect_context="")
         return digests, digest_data, judge_result
 
+    def reflect_for_completeness(
+        self, missed_urls: list[str], original_digest_prompt: str
+    ) -> str:
+        """judge completeness < 3 時產出 digest 重跑用的 reflect 提示；server 無回應則降級回空字串。"""
+        if self._is_judge_server_available():
+            return self._reflect_with_judge(missed_urls, original_digest_prompt)
+        logger.warning("Judge server 無回應，降級：直接用原 prompt 重跑 digest")
+        return ""
+
     # ── 內部方法 ─────────────────────────────────────────────────────
 
     def _reflect(self, step_name: str, task_description: str, bad_output: str, error: str) -> str:
