@@ -88,14 +88,7 @@ class DailyBriefAgent:
         steps_dir.mkdir(parents=True, exist_ok=True)
 
         # Fix C: source artifact 比下游新時自動強制重跑下游
-        if not only_steps:
-            stale = _detect_stale_downstream(steps_dir, day_dir)
-            newly_forced = stale - force_steps
-            if newly_forced:
-                logger.warning(
-                    "來源 artifact 比下游新，自動強制重跑：%s", sorted(newly_forced)
-                )
-                force_steps = force_steps | newly_forced
+        force_steps = _compute_force_steps(only_steps, force_steps, steps_dir, day_dir)
 
         from .supervisor import SupervisorAgent
         from tools.notifiers.telegram import send as tg_send
@@ -703,6 +696,19 @@ def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
             "articles": [a for a in articles if isinstance(a, dict) and a.get("url") in kept_urls],
         }
     return filtered
+
+
+def _compute_force_steps(
+    only_steps: set[str], force_steps: set[str], steps_dir: Path, day_dir: Path
+) -> set[str]:
+    """Fix C：非 --only 模式下，source artifact 比下游新時，把過期下游加進 force_steps。"""
+    if only_steps:
+        return force_steps
+    stale = _detect_stale_downstream(steps_dir, day_dir)
+    newly_forced = stale - force_steps
+    if newly_forced:
+        logger.warning("來源 artifact 比下游新，自動強制重跑：%s", sorted(newly_forced))
+    return force_steps | newly_forced
 
 
 def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
