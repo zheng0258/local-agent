@@ -613,7 +613,7 @@ def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
                 attempts=1,
             )
 
-        def run_judge_feedback(self, **kwargs):
+        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
             raise AssertionError("This test should not enter feedback loop")
 
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
@@ -673,16 +673,8 @@ def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
                 attempts=1,
             )
 
-        def run_judge_feedback(
-            self,
-            missed_urls,
-            original_digest_prompt,
-            run_digest_fn,
-            run_judge_fn,
-        ):
-            digest_output = run_digest_fn()
-            judge_output = run_judge_fn()
-            return digest_output[0], digest_output[1], judge_output
+        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
+            return ""
 
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
     agent._run_digest = MagicMock(
@@ -756,7 +748,7 @@ def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
                 attempts=1,
             )
 
-        def run_judge_feedback(self, **kwargs):
+        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
             raise AssertionError("This test should not enter feedback loop")
 
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
@@ -806,7 +798,7 @@ def test_judge_phase_uses_run_step_when_server_unavailable(tmp_path):
             except Exception as exc:
                 return StepResult(name=name, success=False, output=None, error=str(exc), attempts=1)
 
-        def run_judge_feedback(self, **kwargs):
+        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
             raise AssertionError("不應進入 feedback loop")
 
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
@@ -850,7 +842,7 @@ def test_judge_failure_log_does_not_claim_report_skipped(tmp_path, caplog):
                 return StepResult(name=name, success=False, output=None, error="LLM failed", attempts=2)
             return StepResult(name=name, success=True, output=fn(), error=None, attempts=1)
 
-        def run_judge_feedback(self, **kwargs):
+        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
             raise AssertionError("不應進入 feedback loop")
 
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())

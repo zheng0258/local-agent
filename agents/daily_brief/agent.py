@@ -35,7 +35,7 @@ from config.settings import (
 from . import prompts
 from .config import OUTPUT_DIR
 from .schemas import Digest, QualityScore, SourceCompress
-from .step_cache import Verdict, decide
+from .step import StepStatus
 
 if TYPE_CHECKING:
     from .supervisor import SupervisorAgent
@@ -130,7 +130,32 @@ class DailyBriefAgent:
         enrich_data = EnrichStep(self._run_enrich).run(ctx, compress_data).value
         from .steps.digest import DigestStep
         digests = DigestStep(self._run_digest).run(ctx, enrich_data).value
-        enrich_data, digests = self._phase_judge(ctx, enrich_data, digests)
+        from .steps.judge import JudgeStep
+        judge_outcome = JudgeStep(self._run_judge).run(ctx, (enrich_data, digests))
+        if judge_outcome.status is StepStatus.RAN:
+            quality = QualityScore.from_dict(judge_outcome.value)
+            if (
+                quality.completeness is not None
+                and quality.completeness < 3
+                and "digest" not in ctx.force_steps
+                and digests
+            ):
+                logger.warning(
+                    "Judge completeness=%.1f，觸發 digest 重跑（missed: %s）",
+                    quality.completeness,
+                    list(quality.missed_urls),
+                )
+                hint = ctx.supervisor.reflect_for_completeness(
+                    list(quality.missed_urls),
+                    prompts.build_digest_prompt_from_compress(
+                        json.dumps(enrich_data, ensure_ascii=False)
+                    ),
+                )
+                digests = DigestStep(self._run_digest).run(
+                    ctx, enrich_data, reflect=hint, force=True
+                ).value
+                JudgeStep(self._run_judge).run(ctx, (enrich_data, digests), force=True)
+                logger.info("Judge 回饋 digest 重跑完成")
         from .steps.report import ReportStep
         ReportStep(self._run_report, ctx.today).run(ctx, (enrich_data, digests))
         from .steps.save import SaveStep
@@ -214,91 +239,6 @@ class DailyBriefAgent:
             return None
 
         return source_data
-
-    def _phase_judge(
-        self, ctx: _RunContext, compress_data: dict, digests: list[dict]
-    ) -> tuple[dict, list[dict]]:
-        judge_artifact = ctx.steps_dir / "judge.json"
-        verdict = decide(
-            "judge" in ctx.steps_to_run,
-            judge_artifact.exists(),
-            "judge" in ctx.force_steps,
-        )
-        if verdict is Verdict.LOAD:
-            logger.info("Step judge     : 載入既有 artifact")
-            return compress_data, digests
-        if verdict is Verdict.SKIP:
-            return compress_data, digests
-        if not digests or not compress_data:
-            logger.warning("Step judge     : 缺少 digests 或 compress 資料，略過")
-            return compress_data, digests
-
-        logger.info("Step judge     : 執行中...")
-
-        def _judge_fn(reflect_context: str = "") -> dict:
-            if not ctx.supervisor._is_judge_server_available():
-                raise RuntimeError("judge LLM server 無回應")
-            return self._run_judge(compress_data, digests, date=ctx.today)
-
-        judge_step = ctx.supervisor.run_step(
-            "judge", _judge_fn, force=("judge" in ctx.force_steps)
-        )
-        if not judge_step.success:
-            logger.error("Step judge: 全部重試失敗，report/notify 仍繼續執行（無品質評分）")
-            return compress_data, digests
-
-        judge_result = judge_step.output
-        judge_artifact.write_text(
-            json.dumps(judge_result, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        quality = QualityScore.from_dict(judge_result)
-        logger.info(
-            "Step judge     : 完成 → judge.json (overall=%.1f)",
-            quality.overall,
-        )
-
-        if (
-            quality.completeness is not None
-            and quality.completeness < 3
-            and "digest" not in ctx.force_steps
-            and digests
-        ):
-            missed_urls = list(quality.missed_urls)
-            logger.warning(
-                "Judge completeness=%.1f，觸發 digest 重跑（missed: %s）",
-                quality.completeness,
-                missed_urls,
-            )
-            original_digest_prompt = prompts.build_digest_prompt_from_compress(
-                json.dumps(compress_data, ensure_ascii=False)
-            )
-            retry_state: dict[str, list[dict]] = {"digests": digests}
-
-            def _retry_digest_fn(reflect_context: str = "") -> tuple[list[dict], dict]:
-                new_digests, new_digest_data = self._run_digest(
-                    compress_data, reflect_context=reflect_context
-                )
-                retry_state["digests"] = new_digests
-                return new_digests, new_digest_data
-
-            def _retry_judge_fn(reflect_context: str = "") -> dict:
-                return self._run_judge(compress_data, retry_state["digests"], date=ctx.today)
-
-            digests, digest_data, judge_result = ctx.supervisor.run_judge_feedback(
-                missed_urls=missed_urls,
-                original_digest_prompt=original_digest_prompt,
-                run_digest_fn=_retry_digest_fn,
-                run_judge_fn=_retry_judge_fn,
-            )
-            (ctx.steps_dir / "digest.json").write_text(
-                json.dumps(digest_data, ensure_ascii=False, indent=2), encoding="utf-8"
-            )
-            judge_artifact.write_text(
-                json.dumps(judge_result, ensure_ascii=False, indent=2), encoding="utf-8"
-            )
-            logger.info("Judge 回饋 digest 重跑完成")
-
-        return compress_data, digests
 
     def _fetch_raw_data(self, name: str) -> list:
         """Phase 1 helper: 純資料抓取，不呼叫 LLM。"""

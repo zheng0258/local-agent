@@ -113,26 +113,6 @@ class SupervisorAgent:
             adjusted_prompts=tuple(adjusted_prompts),
         )
 
-    def run_judge_feedback(
-        self,
-        missed_urls: list[str],
-        original_digest_prompt: str,
-        run_digest_fn: Callable[..., Any],
-        run_judge_fn: Callable[..., Any],
-    ) -> tuple[list[dict], dict, dict]:
-        """judge completeness < 3 時，用 judge_llm reflect 並重跑 digest + judge（上限 1 次）。"""
-        judge_server_ok = self._is_judge_server_available()
-
-        if judge_server_ok:
-            reflect_resp = self._reflect_with_judge(missed_urls, original_digest_prompt)
-        else:
-            logger.warning("Judge server 無回應，降級：直接用原 prompt 重跑 digest")
-            reflect_resp = ""
-
-        digests, digest_data = run_digest_fn(reflect_context=reflect_resp)
-        judge_result = run_judge_fn(reflect_context="")
-        return digests, digest_data, judge_result
-
     def reflect_for_completeness(
         self, missed_urls: list[str], original_digest_prompt: str
     ) -> str:
