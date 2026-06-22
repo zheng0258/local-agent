@@ -11,15 +11,17 @@ from unittest.mock import patch, MagicMock
 
 # ── Unit Tests ──────────────────────────────────────────────────────────────
 
+@pytest.mark.integration
 def test_fetch_returns_list():
-    """fetch() 必須回傳 list。"""
+    """fetch() 必須回傳 list（真實網路；結構斷言已由下方 mock 版 unit 涵蓋）。"""
     from tools.fetchers import hatena
     result = hatena.fetch()
     assert isinstance(result, list)
 
 
+@pytest.mark.integration
 def test_fetch_each_item_has_url_key():
-    """每個項目必須有 url 欄位。"""
+    """每個項目必須有 url 欄位（真實網路）。"""
     from tools.fetchers import hatena
     result = hatena.fetch()
     for item in result:

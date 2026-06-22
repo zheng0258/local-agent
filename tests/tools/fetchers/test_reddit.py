@@ -36,6 +36,7 @@ def _mock_run_with_rss(sub_titles: dict[str, list[str]]):
     return side_effect
 
 
+@pytest.mark.integration
 def test_fetch_returns_list():
     from tools.fetchers import reddit
     result = reddit.fetch()

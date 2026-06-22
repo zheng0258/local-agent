@@ -4,12 +4,14 @@ import pytest
 from unittest.mock import patch
 
 
+@pytest.mark.integration
 def test_fetch_returns_list():
     from tools.fetchers import hn
     result = hn.fetch()
     assert isinstance(result, list)
 
 
+@pytest.mark.integration
 def test_fetch_each_item_has_url_key():
     from tools.fetchers import hn
     result = hn.fetch()

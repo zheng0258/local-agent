@@ -4,6 +4,7 @@ import pytest
 from unittest.mock import patch
 
 
+@pytest.mark.integration
 def test_fetch_returns_list():
     from tools.fetchers import security_blogs
     result = security_blogs.fetch()
