@@ -62,6 +62,11 @@ def main() -> None:
     agent = agent_cls(llm=llm)
     print(f"[router] skill={agent.AGENT_NAME}, args={args!r}")
 
+    # 唯讀健康查詢（pull）：短路，不喚醒/載入任何模型
+    if agent.AGENT_NAME == "daily-brief" and "--health" in args.split():
+        print(agent.run(args))
+        return
+
     llm_model = os.environ.get("LOCAL_LLM_MODEL", DEFAULT_LOCAL_LLM_MODEL)
     judge_model = os.environ.get("JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL)
 

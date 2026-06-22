@@ -23,6 +23,9 @@ python3 main.py "/daily-brief --force notify"   # 重送 Telegram
 python3 main.py "/daily-brief --only hatena"
 python3 main.py "/daily-brief --only report notify"
 
+# 健康狀態查詢（唯讀 pull，不喚醒/載入模型、不跑 pipeline）
+python3 main.py "/daily-brief --health"   # 印近 7 天各來源/遞送成功率表
+
 # 可用 step 名稱：hatena / hn / reddit / security / rss / dedup / compress / enrich / digest / judge / report / save / notify
 
 # 覆蓋本地 LLM 設定
@@ -46,6 +49,7 @@ agents/
 │   ├── supervisor.py            # LLM 監督器（fetch 品質控管）
 │   ├── step_cache.py            # cache-or-force 門檻判定（decide → RUN/LOAD/SKIP）
 │   ├── schemas.py               # step artifact 的 typed 唯讀 view（from_dict）
+│   ├── health.py                # 可觀測性：Health Record + 慢性故障跨天偵測（純函數）
 │   └── fetchers/                # 各來源 fetcher（agent 層）
 └── url_digest/                  # URL 摘要
     ├── agent.py
@@ -124,6 +128,8 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **Typed 唯讀 view（schemas.py）**：step artifact 仍以原 JSON dict 穿流與序列化（on-disk schema 不變、下游消費者不受影響）；`schemas.py` 的 frozen dataclass（`QualityScore`/`Digest`/`Article`/`SourceCompress`）只罩在**記憶體讀取點**上，用 `from_dict` 把巢狀防呆與欄位對帳（如 judge 雙 `missed_urls`、digest 的 `_source` 內部鍵 vs `source` 顯示名）集中一處。新增讀取點優先用 view，不要散寫 `.get().get()`。
 
+**可觀測性（health.py）**：pipeline 有韌性（≥2 來源門檻）但會默默降級。`health.py` 在每次執行末由 `_observe_and_escalate` 呼叫：檢視 artifact / sentinel / `alerts.json` 推導出一筆 **Health Record**（5 來源 + telegram/vault 遞送的 ok/失敗，失敗分類為 `ErrorClass` enum），append 到 `_health-history.json`（形狀鏡像 `_judge-history.json`）。再跨天 roll-up 偵測**慢性故障**（同 subject 7 天內失敗 ≥3 次）才主動 Telegram escalate，single transient flake 靜默；同一 episode 經 `_health-escalated.json` 去重只打擾一次。詞彙見 CONTEXT.md「系統訊號」、決策見 `docs/adr/0001`。可觀測性層與 Step 解耦（事後檢視痕跡，不汙染 step），且包在 try/except 內絕不反過來弄垮 pipeline。`--health` 是同一份歷史的唯讀 render（`render_health_table`），在 `main.py` 短路、不載入模型。錯誤分類來自對 alert 自由文字的字串比對（脆弱，僅驅動建議文字，不影響 chronic 判定）。
+
 **輸出目錄結構**：
 ```
 outputs/daily-brief/{today}/
@@ -140,6 +146,11 @@ outputs/daily-brief/{today}/
 ├── report.md            # 最終趨勢報告（純 markdown）
 ├── vault.done           # sentinel（存在 = 已存 Obsidian）
 └── telegram.done        # sentinel（存在 = 已發送）
+
+outputs/daily-brief/
+├── _judge-history.json     # 逐日品質分歷史（relevance/completeness/faithfulness）
+├── _health-history.json    # 逐日 Health Record（各來源/遞送 ok 或錯誤型別）
+└── _health-escalated.json  # 慢性故障 escalation 去重狀態（subject → 最後 escalate 日）
 ```
 
 **LLM 後端**：固定使用 `LocalLLMBackend`（localhost:1234），啟動時自動探測可用性，未回應則發 Telegram 告警並中止。

@@ -79,5 +79,13 @@ _Avoid_: dedup、去重、重複（那些指機制）
 ## 系統訊號
 
 **Alert（警報）**:
-條件觸發的例外訊號，只關乎系統健康與產出品質，**不關乎內容主題**。三種子型別：步驟失敗（某 step 重試耗盡）、啟動故障（LLM 無回應 / 模型載入失敗）、品質警報（judge 品質分過低）。與例行的 Daily Brief 遞送是不同概念，即使共用 Telegram。
+條件觸發的例外訊號，只關乎系統健康與產出品質，**不關乎內容主題**。三種子型別：步驟失敗（某 step 重試耗盡）、啟動故障（LLM 無回應 / 模型載入失敗）、品質警報（judge 品質分過低）。與例行的 Daily Brief 遞送是不同概念，即使共用 Telegram。**Alert 是「單次事件」**，發生當下即發送，彼此獨立、不跨天聚合。
 _Avoid_: 通知、notification、異常訊號（會被誤解為內容異常）、推播
+
+**Health Record（健康記錄）**:
+單次執行後，對每個 Source 與每個遞送載體（Telegram 推播 / vault 存檔）逐一判定的「成功或失敗」結果，失敗者另記其錯誤型別（network / upstream_http / empty_llm / parse / other）。逐日累積成歷史（`_health-history.json`），是回答「系統近來健不健康」的事實來源。對應「品質」面的是 Quality Score 歷史。
+_Avoid_: log、metrics、alert（那是事件，這是狀態快照）
+
+**慢性故障（Chronic Failure）**:
+同一 subject（某 Source 或某遞送）在滑動視窗（預設 7 天）內失敗達門檻次數（預設 3 次）的**跨天樣態**。相對於單次 transient flake（雜訊，靜默容忍），慢性故障是真正需要人介入的訊號，會主動 escalate。是「Alert 的跨天 roll-up 結論」，而非又一個 Alert 子型別。
+_Avoid_: alert（Alert 是單次事件）、transient（那是相反概念：偶發、可自癒）

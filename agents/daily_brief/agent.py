@@ -67,6 +67,12 @@ class DailyBriefAgent:
 
     def run(self, args: str = "") -> str:
         today = date.today().strftime("%Y-%m-%d")
+
+        # 唯讀健康查詢（pull）：短路，不跑 pipeline、不需 LLM
+        if "--health" in shlex.split(args):
+            from .health import HEALTH_HISTORY_FILE, load_history, render_health_table
+            return render_health_table(load_history(HEALTH_HISTORY_FILE))
+
         force_steps, only_steps = _parse_args(args)
 
         prompts._load_interests.cache_clear()
@@ -159,6 +165,9 @@ class DailyBriefAgent:
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
         _send_alerts_summary(steps_dir, today, tg_send)
+
+        # 可觀測性：記錄今日健康狀態 + 慢性故障跨天偵測（只在 chronic 時打擾）
+        _observe_and_escalate(today, day_dir, steps_dir, tg_send)
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -786,6 +795,33 @@ def _send_alerts_summary(
     notify_fn("\n".join(lines))
     summary_done.touch()
     logger.info("alerts_summary 已發送（%d 個失敗步驟）", len(alerts))
+
+
+def _observe_and_escalate(
+    today: str,
+    day_dir: Path,
+    steps_dir: Path,
+    notify_fn: Callable[[str], bool],
+) -> None:
+    """記錄今日健康狀態並跨天偵測慢性故障。
+
+    每天各自獨立的 alert 在此被 roll-up：同一 subject 在滑動視窗內反覆失敗
+    （chronic）才主動 escalate，single transient flake 靜默。同一 chronic
+    episode 只打擾一次（escalation state 去重）。
+    """
+    from . import health
+
+    try:
+        record = health.observe_run(today, day_dir, steps_dir)
+        history = health.append_record(record, health.HEALTH_HISTORY_FILE)
+        findings = health.detect_chronic(history)
+        fresh = health.filter_new_escalations(findings, health.ESCALATION_STATE_FILE, today)
+        if fresh:
+            notify_fn(health.format_escalation(fresh, today))
+            health.record_escalations(fresh, health.ESCALATION_STATE_FILE, today)
+            logger.warning("慢性故障 escalation：%s", [f.subject for f in fresh])
+    except Exception as exc:  # 可觀測性不得反過來弄垮 pipeline
+        logger.warning("健康記錄失敗（不影響 pipeline）：%s", exc)
 
 
 def _format_obsidian_digest(digests: list[dict], today: str) -> str:
