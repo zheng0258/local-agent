@@ -11,9 +11,12 @@ from agents.daily_brief.config import (
 )
 
 
-def test_vault_daily_brief_dir_defined():
-    assert isinstance(VAULT_DAILY_BRIEF_DIR, Path)
-    assert VAULT_DAILY_BRIEF_DIR.name == "daily-brief"
+def test_vault_daily_brief_dir_optional():
+    # vault 選填：未配置 VAULT_ROOT 時為 None，否則 Path 結尾為 daily-brief
+    assert VAULT_DAILY_BRIEF_DIR is None or (
+        isinstance(VAULT_DAILY_BRIEF_DIR, Path)
+        and VAULT_DAILY_BRIEF_DIR.name == "daily-brief"
+    )
 
 
 def test_judge_prompt_has_missed_urls_at_top_level():

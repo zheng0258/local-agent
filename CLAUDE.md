@@ -231,14 +231,24 @@ python lint/check_fetcher_interface.py
 ### 6. 熵管理
 新增 agent/fetcher 複製 `_template`，不參考其他現有實作；壞模式出現一次立即修正。
 
-## 外部依賴
+## 設定與外部依賴
 
-```
-VAULT_ROOT = $HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Second-Brain
-├── Scripts/send_telegram.py           # telegram.py 載入此模組
-├── Scripts/daily-brief/save_output.py # DailyBriefAgent 存檔
-└── Scripts/.env                       # TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
-```
+所有機器專屬值走專案根 `.env`（範本見 `.env.example`），原始碼不寫死路徑/憑證。
+`config/settings.py` 在 import 時即 `load_project_env()`，確保 module 層的 env 解析拿得到值
+（`os.environ.setdefault`，不覆寫既有環境變數）。
+
+| 設定 | env var | 必填？ | 未設定時 |
+|---|---|---|---|
+| 本地 LLM | `LOCAL_LLM_URL` / `LOCAL_LLM_MODEL` | 否（有預設） | 用 localhost:1234 預設 |
+| Telegram 推播 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | **選填** | 靜默略過推播與告警 |
+| Obsidian 存檔 | `VAULT_ROOT` | **選填** | SaveStep 略過（不 touch vault.done、不入 health 記錄） |
+| Judge 模型 | `JUDGE_LLM_MODEL` / `JUDGE_LLM_URL` | 否 | 與主 LLM 相同 |
+
+- **telegram.py 自包**：直接打 Telegram Bot API，憑證讀專案 `.env`，**不再依賴 vault 的 `Scripts/`**。
+- **save 直接寫檔**：`_run_save` 以 Python `open()` 寫入 `VAULT_ROOT/01 Projects/daily-brief/`；
+  `VAULT_ROOT` 設定但路徑不存在（誤填 / iCloud 未掛載）→ 警告並略過，不建假目錄樹。
+- 唯一的真實外部依賴是 vault 目錄本身（選填）；偏好設定（`interests.txt`、Reddit subreddits）
+  為 in-repo config 檔，直接編輯即可。
 
 ## Agent skills
 

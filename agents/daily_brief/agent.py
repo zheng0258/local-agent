@@ -535,6 +535,10 @@ class DailyBriefAgent:
     def _run_save(self, day_dir: Path, today: str, digests: list[dict]) -> None:
         from .config import VAULT_DAILY_BRIEF_DIR
 
+        if VAULT_DAILY_BRIEF_DIR is None:
+            logger.info("Save: VAULT_ROOT 未配置，略過 Obsidian 存檔")
+            return
+
         VAULT_DAILY_BRIEF_DIR.mkdir(parents=True, exist_ok=True)
 
         report_md = day_dir / "report.md"

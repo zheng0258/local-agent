@@ -14,13 +14,16 @@ import os
 from pathlib import Path
 from typing import Protocol
 
+from config.utils import load_project_env
 
-VAULT_ROOT = Path(
-    os.environ.get(
-        "VAULT_ROOT",
-        "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Second-Brain",
-    )
-)
+# 啟動時即載入專案根 .env，確保下方的 env 解析（含 VAULT_ROOT）拿得到值。
+load_project_env()
+
+# Obsidian vault 根目錄。**選填**：未配置 VAULT_ROOT 時為 None，
+# save 步驟會優雅略過 Obsidian 存檔（其餘 pipeline 不受影響）。
+# 機器專屬路徑請寫在各自的 .env，不要寫死在原始碼。
+_VAULT_ROOT_RAW = (os.environ.get("VAULT_ROOT") or "").strip()
+VAULT_ROOT: Path | None = Path(_VAULT_ROOT_RAW) if _VAULT_ROOT_RAW else None
 
 DEFAULT_LOCAL_LLM_URL = "http://localhost:1234"
 DEFAULT_LOCAL_LLM_MODEL = "qwen/qwen3.6-27b"

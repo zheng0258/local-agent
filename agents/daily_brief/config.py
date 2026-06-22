@@ -48,9 +48,12 @@ REDDIT_SUBREDDITS: dict[str, list[str]] = {
     "職涯・實踐類":  ["cscareerquestions", "productivity"],
 }
 
-# ── Obsidian vault ────────────────────────────────────────────────
+# ── Obsidian vault（選填）─────────────────────────────────────────
 
-VAULT_DAILY_BRIEF_DIR = VAULT_ROOT / "01 Projects" / "daily-brief"
+# 未配置 VAULT_ROOT 時為 None；SaveStep 會略過 Obsidian 存檔。
+VAULT_DAILY_BRIEF_DIR: Path | None = (
+    VAULT_ROOT / "01 Projects" / "daily-brief" if VAULT_ROOT else None
+)
 
 # ── Step retry config ─────────────────────────────────────────────
 
