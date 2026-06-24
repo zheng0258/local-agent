@@ -34,6 +34,7 @@ def _load_interests() -> str:
         "- 略過：廣告、問卷調查、非科技話題、已知的老文章重新流傳"
     )
 
+
 # Qwen3/3.5 系列：機械性任務（分類、格式轉換）關閉 thinking 以加速推理
 _NO_THINK = "/no_think\n\n"
 
@@ -49,11 +50,13 @@ JSON 規範：key 與 value 之間必須用半形冒號加空白 ": " 分隔，�
 
 # ── 使用者興趣定義（評分依據）────────────────────────────────────
 
+
 def _scoring_block() -> str:
     return _load_interests()
 
 
 # ── Step 1：Hatena 評分 ────────────────────────────────────────────
+
 
 def build_hatena_prompt(articles_json: str) -> str:
     return f"""\
@@ -77,7 +80,9 @@ def build_hatena_prompt(articles_json: str) -> str:
 ```\
 """
 
+
 # ── Step 2：HN 評分 ────────────────────────────────────────────────
+
 
 def build_hn_prompt(articles_json: str) -> str:
     return f"""\
@@ -105,7 +110,9 @@ def build_hn_prompt(articles_json: str) -> str:
 注意：key 後必須用半形 ": " 分隔，禁用全形冒號「：」；標題中若含雙引號須逸脫為 \"。\
 """
 
+
 # ── Step 3：Reddit 評分 ────────────────────────────────────────────
+
 
 def build_reddit_prompt(posts_json: str) -> str:
     return f"""\
@@ -129,9 +136,12 @@ def build_reddit_prompt(posts_json: str) -> str:
 ```
 
 注意：標題中若含雙引號須逸脫為 \"；key 後必須用半形 ": " 分隔。\
+`score` 必須是純數字（貼文分數），缺值填 0；星號（* / ** / ***）只能出現在 `interest`，禁止填進 `score`。\
 """
 
+
 # ── Step 4：資安部落格 ────────────────────────────────────────────
+
 
 def build_security_blogs_prompt(content: str) -> str:
     return f"""\
@@ -155,7 +165,9 @@ def build_security_blogs_prompt(content: str) -> str:
 ```\
 """
 
+
 # ── Step RSS：RSS 訂閱評分 ─────────────────────────────────────────
+
 
 def build_rss_prompt(articles_json: str) -> str:
     return f"""\
@@ -181,7 +193,9 @@ def build_rss_prompt(articles_json: str) -> str:
 注意：key 後必須用半形 ": " 分隔，禁用全形冒號「：」；標題中若含雙引號須逸脫為 \"。\
 """
 
+
 # ── Step compress：每來源語義壓縮 ─────────────────────────────────────
+
 
 def build_compress_prompt(source_name: str, articles_json: str) -> str:
     return f"""\
@@ -209,7 +223,9 @@ def build_compress_prompt(source_name: str, articles_json: str) -> str:
 注意：`score` 欄位直接複製輸入資料的原始數值，禁止修改或發明新數字。\
 """
 
+
 # ── Step 5：跨來源生成深度摘要 ──────────────────────────────────────
+
 
 def build_digest_prompt(
     hatena_json: str,
@@ -262,7 +278,9 @@ def build_digest_prompt(
 ```\
 """
 
+
 # ── Step 6：生成報告 ───────────────────────────────────────────────
+
 
 def build_report_prompt(
     hatena_json: str,
@@ -322,7 +340,9 @@ def build_report_prompt(
 ```\
 """
 
+
 # ── Step digest v2：吃 compress.json ──────────────────────────────────
+
 
 def build_digest_prompt_from_compress(compress_json: str) -> str:
     return f"""\
@@ -360,7 +380,10 @@ def build_digest_prompt_from_compress(compress_json: str) -> str:
 
 # ── Step report v2：吃 compress.json ─────────────────────────────────
 
-def build_report_prompt_from_compress(compress_json: str, digests_json: str, today: str = "") -> str:
+
+def build_report_prompt_from_compress(
+    compress_json: str, digests_json: str, today: str = ""
+) -> str:
     return f"""\
 ## 壓縮後來源資料（主題 + 精選文章）
 
@@ -460,6 +483,7 @@ def build_report_prompt_from_compress(compress_json: str, digests_json: str, tod
 
 # ── Step judge：LLM-as-Judge 評估 digest 品質 ─────────────────────────
 
+
 def build_judge_prompt(compress_json: str, digest_json: str) -> str:
     return f"""\
 ## 可用文章（compress.json -- 已篩選 *** + 主題分群）
@@ -497,7 +521,9 @@ def build_judge_prompt(compress_json: str, digest_json: str) -> str:
 ```\
 """
 
+
 # ── Step enrich：留言社群觀點摘要 ───────────────────────────────
+
 
 def build_comment_summary_prompt(source: str, title: str, comments_json: str) -> str:
     return f"""\
@@ -527,6 +553,7 @@ def build_comment_summary_prompt(source: str, title: str, comments_json: str) ->
 
 
 # ── Step 7：Telegram 訊息 ─────────────────────────────────────────
+
 
 def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
     return f"""\
@@ -559,6 +586,7 @@ def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
 
 直接輸出 HTML 純文字，不要包裝成 JSON，不要加任何前綴或後綴。\
 """
+
 
 def build_telegram_digest_prompt(all_digests_json: str, today: str) -> str:
     return f"""\
