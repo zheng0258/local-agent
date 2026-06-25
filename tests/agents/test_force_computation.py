@@ -35,6 +35,18 @@ def test_compute_force_steps_adds_stale_downstream(tmp_path):
 
 
 @pytest.mark.unit
+def test_compute_force_steps_marks_deploy_stale_when_report_newer(tmp_path):
+    # report.md 比 deploy.done 新 → deploy 應自動強制重跑（重新發佈站台）
+    steps_dir = tmp_path / "steps"
+    steps_dir.mkdir()
+    _write(steps_dir / "hn.json", mtime=time.time() - 200)
+    _write(tmp_path / "report.md", mtime=time.time())
+    _write(tmp_path / "deploy.done", mtime=time.time() - 100)
+    result = _compute_force_steps(set(), set(), steps_dir, tmp_path)
+    assert "deploy" in result
+
+
+@pytest.mark.unit
 def test_compute_force_steps_no_change_when_fresh(tmp_path):
     steps_dir = tmp_path / "steps"
     steps_dir.mkdir()

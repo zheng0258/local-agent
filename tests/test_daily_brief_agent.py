@@ -319,7 +319,21 @@ def test_parse_args_supports_new_steps():
 
 
 def test_all_steps_count():
-    assert len(ALL_STEPS) == 13
+    assert len(ALL_STEPS) == 14
+
+
+def test_all_steps_contains_deploy_after_notify():
+    assert "deploy" in ALL_STEPS
+    assert ALL_STEPS.index("notify") < ALL_STEPS.index("deploy")
+
+
+def test_parse_args_supports_deploy_step():
+    from agents.daily_brief.agent import _parse_args
+
+    force, _ = _parse_args("--force deploy")
+    assert "deploy" in force
+    _, only = _parse_args("--only deploy")
+    assert only == {"deploy"}
 
 
 def test_all_steps_contains_enrich():
