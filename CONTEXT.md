@@ -89,3 +89,17 @@ _Avoid_: log、metrics、alert（那是事件，這是狀態快照）
 **慢性故障（Chronic Failure）**:
 同一 subject（某 Source 或某遞送）在滑動視窗（預設 7 天）內失敗達門檻次數（預設 3 次）的**跨天樣態**。相對於單次 transient flake（雜訊，靜默容忍），慢性故障是真正需要人介入的訊號，會主動 escalate。是「Alert 的跨天 roll-up 結論」，而非又一個 Alert 子型別。
 _Avoid_: alert（Alert 是單次事件）、transient（那是相反概念：偶發、可自癒）
+
+## 對外展示
+
+**Showcase Site（展示站）**:
+Daily Brief 的第三種呈現載體，面向**外部受眾（招募方）**而非使用者自己——一個公開的靜態網站，作為履歷副件。它同時承載兩種內容：穩定的**專案敘事**（系統是什麼、為何獨特）與**歷史 Brief 存檔**（證明系統長期自主運作）。有別於 Report（自己存檔用）與 Telegram 推播（自己即時看），Showcase Site 的目的是**說服一個陌生讀者相信工程能力**。
+_Avoid_: 官網、blog、portfolio（太籠統）、report（那是存檔載體）
+
+**專案敘事（Project Narrative）**:
+Showcase Site 上對系統的定位陳述，主打「本地 LLM 多代理自主系統」。關注的是「給招募方的 5 秒印象」，與內容主題、與每日 Brief 無關。
+_Avoid_: README、介紹、about（README 是給開發者的，敘事是給招募方的）
+
+**Deploy（發佈）**:
+把本機現有的全部 Brief 存檔重建成 Showcase Site 並推上公開託管的動作。是一個有副作用的收尾步驟，gate 在「今日 Brief 成功產出」。關注「對外可見的那份快照」更新了沒，與 vault 存檔（save）、Telegram 遞送是平行的不同遞送。
+_Avoid_: publish、push、save（save 指 vault 存檔，是另一個載體）
