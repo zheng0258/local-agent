@@ -44,7 +44,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 FETCH_STEPS = ["hatena", "hn", "reddit", "security", "rss"]
-ALL_STEPS = [*FETCH_STEPS, "dedup", "compress", "enrich", "digest", "judge", "report", "save", "notify"]
+ALL_STEPS = [*FETCH_STEPS, "dedup", "compress", "enrich", "digest", "judge", "report", "save", "notify", "deploy"]
 
 
 @dataclass
@@ -162,6 +162,9 @@ class DailyBriefAgent:
         SaveStep(self._run_save, ctx.today).run(ctx, digests)
         from .steps.notify import NotifyStep
         NotifyStep(self._notify, ctx.today).run(ctx, digests)
+        from .steps.deploy import DeployStep
+        from tools.site_builder import build_site
+        DeployStep(build_site, self._run_deploy_push, ctx.today).run(ctx, None)
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
         _send_alerts_summary(steps_dir, today, tg_send)
@@ -551,6 +554,65 @@ class DailyBriefAgent:
         vault_digest.write_text(_format_obsidian_digest(digests, today), encoding="utf-8")
         logger.info("Save: 寫入 %s", vault_digest)
 
+    def _run_deploy_push(self, build_dir: Path) -> None:
+        """把 build 產物 force-push 到 gh-pages branch（獨立 git worktree 隔離）。
+
+        用 `git worktree` 在臨時目錄上 checkout 一個孤立 gh-pages，複製站台檔案、
+        commit、force-push origin/gh-pages。全程不動主工作區、main 不產生每日 commit。
+        副作用集中於此（DeployStep 注入它，測試注入 fake）。
+        """
+        import shutil
+        import subprocess
+        import tempfile
+
+        repo_root = _PROJECT_ROOT
+        branch = "gh-pages"
+
+        def _git(*args: str, cwd: Path) -> None:
+            subprocess.run(
+                ["git", *args], cwd=str(cwd), check=True,
+                capture_output=True, text=True,
+            )
+
+        with tempfile.TemporaryDirectory(prefix="gh-pages-wt-") as tmp:
+            worktree = Path(tmp) / "wt"
+            # 以孤立 worktree checkout gh-pages（不存在則建空 orphan 分支）
+            try:
+                _git("worktree", "add", "--force", "-B", branch,
+                     str(worktree), f"origin/{branch}", cwd=repo_root)
+            except subprocess.CalledProcessError:
+                _git("worktree", "add", "--force", "--detach",
+                     str(worktree), cwd=repo_root)
+                _git("checkout", "--orphan", branch, cwd=worktree)
+                _git("rm", "-rf", "--quiet", ".", cwd=worktree)
+            try:
+                # 清掉舊站台檔案（保留 .git），複製新產物
+                for child in worktree.iterdir():
+                    if child.name == ".git":
+                        continue
+                    if child.is_dir():
+                        shutil.rmtree(child)
+                    else:
+                        child.unlink()
+                for item in Path(build_dir).iterdir():
+                    dest = worktree / item.name
+                    if item.is_dir():
+                        shutil.copytree(item, dest)
+                    else:
+                        shutil.copy2(item, dest)
+                (worktree / ".nojekyll").touch()
+
+                _git("add", "-A", cwd=worktree)
+                _git("commit", "-m", "deploy: daily brief site", cwd=worktree)
+                _git("push", "--force", "origin", f"HEAD:{branch}", cwd=worktree)
+                logger.info("Deploy: force-pushed → %s", branch)
+            finally:
+                # 清掉 worktree 註冊，主工作區保持乾淨
+                subprocess.run(
+                    ["git", "worktree", "remove", "--force", str(worktree)],
+                    cwd=str(repo_root), capture_output=True, text=True,
+                )
+
     def _notify(
         self,
         digests: list[dict],
@@ -729,14 +791,27 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
 
     若任一 source artifact 比下游 artifact 新，回傳需強制重跑的下游 step 名稱集合。
     只比較 dedup / compress / digest / judge / report，save / notify 由使用者決定。
+    deploy 的上游是 report.md（非 source）：report.md 比 deploy.done 新 → deploy 過期。
     """
+    stale: set[str] = set()
+
+    # deploy 上游是 report.md：report 重生後須重新發佈站台。
+    report_md = day_dir / "report.md"
+    deploy_done = day_dir / "deploy.done"
+    if (
+        report_md.exists()
+        and deploy_done.exists()
+        and deploy_done.stat().st_mtime < report_md.stat().st_mtime
+    ):
+        stale.add("deploy")
+
     source_artifacts = [
         steps_dir / f"{name}.json"
         for name in FETCH_STEPS
         if (steps_dir / f"{name}.json").exists()
     ]
     if not source_artifacts:
-        return set()
+        return stale
 
     latest_source_mtime = max(a.stat().st_mtime for a in source_artifacts)
 
@@ -748,11 +823,12 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
         ("judge",    steps_dir / "judge.json"),
         ("report",   day_dir   / "report.md"),
     ]
-    return {
+    stale |= {
         name
         for name, artifact in downstream_check
         if artifact.exists() and artifact.stat().st_mtime < latest_source_mtime
     }
+    return stale
 
 
 def _send_alerts_summary(
