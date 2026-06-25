@@ -163,8 +163,13 @@ class DailyBriefAgent:
         from .steps.notify import NotifyStep
         NotifyStep(self._notify, ctx.today).run(ctx, digests)
         from .steps.deploy import DeployStep
-        from tools.site_builder import build_site
-        DeployStep(build_site, self._run_deploy_push, ctx.today).run(ctx, None)
+        from tools.site_builder import build_site_archive, load_days
+        # 全量重建 thunk：讀全部歷史天 → 整站 map（公開站 ⇔ 本機真實狀態一致）。
+        DeployStep(
+            lambda: build_site_archive(load_days(OUTPUT_DIR)),
+            self._run_deploy_push,
+            ctx.today,
+        ).run(ctx, None)
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
         _send_alerts_summary(steps_dir, today, tg_send)

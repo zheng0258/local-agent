@@ -6,7 +6,7 @@
 
 import pytest
 
-from tools.site_builder import build_site, write_site
+from tools.site_builder import build_site, build_site_archive, write_site
 
 
 @pytest.mark.unit
@@ -77,6 +77,98 @@ def test_index_preserves_safe_links_and_tables():
     html = build_site(report_md=md, date="2026-06-25")["index.html"]
     assert "<table>" in html
     assert "https://ok.example/a" in html
+
+
+# --- Archive corpus (issue #7): build_site_archive(days) ---
+
+
+def _days(*pairs):
+    """測試語料：(date, report_md) tuple 串（newest first），純記憶體。"""
+    return list(pairs)
+
+
+@pytest.mark.unit
+def test_archive_has_one_page_per_day_count_equals_input():
+    # AC1：餵 N 天，存檔頁數 == N（每天一頁）
+    days = _days(
+        ("2026-06-25", "# Day 25"),
+        ("2026-06-24", "# Day 24"),
+        ("2026-06-23", "# Day 23"),
+    )
+    site = build_site_archive(days)
+    archive_pages = [p for p in site if p.startswith("archive/")]
+    assert len(archive_pages) == 3
+    assert set(archive_pages) == {
+        "archive/2026-06-25.html",
+        "archive/2026-06-24.html",
+        "archive/2026-06-23.html",
+    }
+
+
+@pytest.mark.unit
+def test_archive_map_also_has_index():
+    site = build_site_archive(_days(("2026-06-25", "# r")))
+    assert "index.html" in site
+
+
+@pytest.mark.unit
+def test_archive_page_labels_its_date_and_renders_report():
+    # AC2：存檔頁清楚標示日期，內容由該天 report.md 渲染
+    days = _days(
+        ("2026-06-25", "# 今日 25"),
+        ("2026-06-24", "# 昨日 24"),
+    )
+    site = build_site_archive(days)
+    page24 = site["archive/2026-06-24.html"]
+    assert "2026-06-24" in page24
+    assert "<h1>昨日 24</h1>" in page24
+    # 不洩漏其他天的內容
+    assert "今日 25" not in page24
+
+
+@pytest.mark.unit
+def test_archive_index_links_to_every_day():
+    # AC3：首頁/導覽提供連往各天的入口
+    days = _days(
+        ("2026-06-25", "# r"),
+        ("2026-06-24", "# r"),
+        ("2026-06-23", "# r"),
+    )
+    index = build_site_archive(days)["index.html"]
+    assert 'href="archive/2026-06-25.html"' in index
+    assert 'href="archive/2026-06-24.html"' in index
+    assert 'href="archive/2026-06-23.html"' in index
+
+
+@pytest.mark.unit
+def test_archive_index_shows_latest_day_and_positioning():
+    # 不可回歸 #6：首頁仍秀最新天 + 定位句 + 終端風
+    days = _days(
+        ("2026-06-25", "# 最新內容"),
+        ("2026-06-24", "# 舊內容"),
+    )
+    index = build_site_archive(days)["index.html"]
+    assert "本地 LLM 多代理自主系統" in index
+    assert "2026-06-25" in index
+    assert "<h1>最新內容</h1>" in index
+    assert "monospace" in index
+    assert index.lstrip().startswith("<!DOCTYPE html>")
+
+
+@pytest.mark.unit
+def test_archive_page_sanitizes_untrusted_report_html():
+    # 存檔頁內容同樣不可信，必須走 _sanitize（stored XSS 防護）
+    days = _days(("2026-06-25", "壞 <script>alert(1)</script> 標題"))
+    page = build_site_archive(days)["archive/2026-06-25.html"]
+    assert "<script>" not in page
+    assert "alert(1)" not in page
+
+
+@pytest.mark.unit
+def test_archive_empty_corpus_returns_index_only():
+    site = build_site_archive(_days())
+    assert "index.html" in site
+    assert not any(p.startswith("archive/") for p in site)
 
 
 @pytest.mark.unit
