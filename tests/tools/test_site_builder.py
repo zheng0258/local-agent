@@ -21,9 +21,11 @@ def test_build_site_returns_map_with_index():
 def test_index_renders_report_markdown_to_html():
     md = "# 今日趨勢\n\n- [Example](https://example.com) 很重要"
     html = build_site(report_md=md, date="2026-06-25")["index.html"]
-    # markdown → HTML：標題與連結被渲染成標籤，而非保留原始 markdown 符號
+    # markdown → HTML：標題與連結被渲染成標籤，而非保留原始 markdown 符號。
+    # 連結屬性不精確比對（sanitizer 會補 rel="noopener noreferrer"），只驗意圖。
     assert "<h1>今日趨勢</h1>" in html
-    assert '<a href="https://example.com">Example</a>' in html
+    assert '<a href="https://example.com"' in html
+    assert ">Example</a>" in html
 
 
 @pytest.mark.unit
@@ -39,6 +41,42 @@ def test_index_uses_terminal_dark_monospace_shell():
     assert "monospace" in html
     assert ("#0b0f14" in html) or ("background: #0" in html)
     assert html.lstrip().startswith("<!DOCTYPE html>")
+
+
+@pytest.mark.unit
+def test_index_strips_raw_html_script_injection():
+    # report_md 源自外部文章標題（不可信）；公開站台必須中和 raw HTML（stored XSS）
+    md = "1. 惡意標題 <script>alert(document.cookie)</script> 後文"
+    html = build_site(report_md=md, date="2026-06-25")["index.html"]
+    assert "<script>" not in html
+    assert "alert(document.cookie)" not in html
+
+
+@pytest.mark.unit
+def test_index_strips_event_handler_attributes():
+    md = "1. <img src=x onerror=alert(1)> 圖片注入"
+    html = build_site(report_md=md, date="2026-06-25")["index.html"]
+    assert "onerror" not in html
+    assert "<img" not in html
+
+
+@pytest.mark.unit
+def test_index_strips_javascript_uri_in_links():
+    # markdown 連結語法可產生 live href；javascript: scheme 必須被丟棄
+    md = "1. [點我](javascript:alert(1)) 惡意連結"
+    html = build_site(report_md=md, date="2026-06-25")["index.html"]
+    assert "javascript:" not in html
+
+
+@pytest.mark.unit
+def test_index_preserves_safe_links_and_tables():
+    md = (
+        "# 趨勢\n\n| 標題 | 分數 |\n|---|---|\n| GLM | 544 |\n\n"
+        "1. [安全連結](https://ok.example/a)"
+    )
+    html = build_site(report_md=md, date="2026-06-25")["index.html"]
+    assert "<table>" in html
+    assert "https://ok.example/a" in html
 
 
 @pytest.mark.unit
