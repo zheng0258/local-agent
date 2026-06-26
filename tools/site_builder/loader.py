@@ -15,6 +15,11 @@ from pathlib import Path
 from typing import List, Optional
 
 from .builder import DayBrief, Narrative
+from .status import SystemStatus, compute_status
+
+# 可觀測性歷史檔（in-repo outputs/ 下，扁平每日記錄 list）。
+JUDGE_HISTORY_FILE = "_judge-history.json"
+HEALTH_HISTORY_FILE = "_health-history.json"
 
 # 日期目錄名格式：YYYY-MM-DD（其餘如 .vectordb / _judge-history.json 忽略）。
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -68,6 +73,31 @@ def load_latest_tldr(output_dir: Path | str) -> Optional[str]:
         return None
     text = data.get("tldr") if isinstance(data, dict) else None
     return text or None
+
+
+def _load_history_list(path: Path) -> list:
+    """讀一份扁平歷史 list JSON；不存在／損毀／非 list → 回空 list（不報錯）。"""
+    if not path.is_file():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+    return data if isinstance(data, list) else []
+
+
+def load_status(output_dir: Path | str) -> Optional[SystemStatus]:
+    """讀 `_judge-history.json` + `_health-history.json` → SystemStatus（或 None）。
+
+    唯一碰檔案的系統狀態讀取點（impure），與純核心 (compute_status) 解耦：把兩份歷史
+    讀進記憶體後委派純函數計算衍生指標。歷史檔缺失 / 為空 / 損毀 → compute_status 回
+    None，呼叫端（DeployStep 注入）略過狀態區，絕不報錯。注入式 output_dir（測試餵
+    tmp_path，正式注入 OUTPUT_DIR）。
+    """
+    base = Path(output_dir)
+    judge = _load_history_list(base / JUDGE_HISTORY_FILE)
+    health = _load_history_list(base / HEALTH_HISTORY_FILE)
+    return compute_status(judge_history=judge, health_history=health)
 
 
 def load_narrative(path: Path | str = DEFAULT_NARRATIVE_PATH) -> Narrative:

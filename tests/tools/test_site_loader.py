@@ -4,10 +4,17 @@
 餵 tmp_path，不碰真 outputs/。
 """
 
+import json
+
 import pytest
 
 from tools.site_builder import Narrative, load_days, load_narrative
-from tools.site_builder.loader import DEFAULT_NARRATIVE_PATH, load_latest_tldr
+from tools.site_builder.loader import (
+    DEFAULT_NARRATIVE_PATH,
+    load_latest_tldr,
+    load_status,
+)
+from tools.site_builder.status import SystemStatus
 
 
 @pytest.mark.unit
@@ -137,3 +144,72 @@ def test_load_latest_tldr_none_when_no_days(tmp_path):
 @pytest.mark.unit
 def test_load_latest_tldr_missing_dir_returns_none(tmp_path):
     assert load_latest_tldr(tmp_path / "nope") is None
+
+
+# --- load_status (issue #10): 讀 _judge-history.json + _health-history.json ---
+
+
+def _write_history(tmp_path, judge=None, health=None):
+    if judge is not None:
+        (tmp_path / "_judge-history.json").write_text(
+            json.dumps(judge), encoding="utf-8"
+        )
+    if health is not None:
+        (tmp_path / "_health-history.json").write_text(
+            json.dumps(health), encoding="utf-8"
+        )
+
+
+@pytest.mark.unit
+def test_load_status_parses_both_histories(tmp_path):
+    _write_history(
+        tmp_path,
+        judge=[
+            {"date": "2026-06-24", "overall": 4.0},
+            {"date": "2026-06-25", "overall": 5.0},
+        ],
+        health=[
+            {"date": "2026-06-24", "results": {"hn": "ok"}},
+            {"date": "2026-06-25", "results": {"hn": "ok"}},
+        ],
+    )
+    status = load_status(tmp_path)
+    assert isinstance(status, SystemStatus)
+    assert status.streak_days == 2
+    assert status.judge_series == (4.0, 5.0)
+
+
+@pytest.mark.unit
+def test_load_status_none_when_files_missing(tmp_path):
+    # AC4：歷史檔缺失 → None（呼叫端略過狀態區），不報錯
+    assert load_status(tmp_path) is None
+
+
+@pytest.mark.unit
+def test_load_status_none_when_histories_empty(tmp_path):
+    _write_history(tmp_path, judge=[], health=[])
+    assert load_status(tmp_path) is None
+
+
+@pytest.mark.unit
+def test_load_status_tolerates_corrupt_json(tmp_path):
+    # 損毀 JSON → 視為空，不報錯
+    (tmp_path / "_judge-history.json").write_text("{not json", encoding="utf-8")
+    (tmp_path / "_health-history.json").write_text("also broken", encoding="utf-8")
+    assert load_status(tmp_path) is None
+
+
+@pytest.mark.unit
+def test_load_status_works_with_only_health(tmp_path):
+    # judge 缺失但 health 在 → 仍回 status（streak + 來源成功率），sparkline 空序列
+    _write_history(
+        tmp_path,
+        health=[{"date": "2026-06-25", "results": {"hn": "ok", "reddit": "network"}}],
+    )
+    status = load_status(tmp_path)
+    assert isinstance(status, SystemStatus)
+    assert status.streak_days == 1
+    assert status.judge_series == ()
+    rates = {r.source: r.rate for r in status.source_rates}
+    assert rates["hn"] == 1.0
+    assert rates["reddit"] == 0.0

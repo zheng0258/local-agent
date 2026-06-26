@@ -214,6 +214,68 @@ def test_archive_tldr_only_on_index_not_archive_pages():
     assert "UNIQUE_TLDR_MARKER" not in site["archive/2026-06-24.html"]
 
 
+# --- System status section (issue #10): build_site_archive(status=...) ---
+
+
+def _status(streak=2, series=(4.0, 5.0)):
+    from tools.site_builder.status import SourceRate, SystemStatus
+
+    return SystemStatus(
+        streak_days=streak,
+        judge_series=series,
+        source_rates=(
+            SourceRate(source="hn", rate=1.0, ok=2, total=2),
+            SourceRate(source="reddit", rate=0.5, ok=1, total=2),
+        ),
+    )
+
+
+@pytest.mark.unit
+def test_archive_index_renders_status_section_when_present():
+    # AC1/AC2：首頁含「系統狀態」區，呈現連續天數 + sparkline
+    days = _days(("2026-06-25", "# 最新內容"))
+    index = build_site_archive(days, status=_status(streak=7))["index.html"]
+    assert "系統狀態" in index
+    assert "連續" in index and "7" in index
+    assert "<svg" in index  # inline SVG sparkline，無圖表庫
+
+
+@pytest.mark.unit
+def test_archive_index_status_shows_source_rates():
+    days = _days(("2026-06-25", "# r"))
+    index = build_site_archive(days, status=_status())["index.html"]
+    assert "hn" in index
+    assert "reddit" in index
+    assert "100%" in index
+    assert "50%" in index
+
+
+@pytest.mark.unit
+def test_archive_index_omits_status_when_none():
+    # AC4：歷史缺失 → status None → 不渲染狀態區，不報錯（向後相容 #6/#7/#8/#9）
+    days = _days(("2026-06-25", "# 最新內容"))
+    index = build_site_archive(days)["index.html"]
+    assert "系統狀態" not in index
+
+
+@pytest.mark.unit
+def test_archive_status_no_chart_library_imported():
+    # AC3：不引入圖表庫／前端框架；趨勢為 inline SVG
+    days = _days(("2026-06-25", "# r"))
+    index = build_site_archive(days, status=_status())["index.html"]
+    lowered = index.lower()
+    for lib in ("chart.js", "d3.min", "plotly", "react", "vue.js"):
+        assert lib not in lowered
+
+
+@pytest.mark.unit
+def test_archive_status_only_on_index_not_archive_pages():
+    days = _days(("2026-06-25", "# 今日"), ("2026-06-24", "# 昨日"))
+    site = build_site_archive(days, status=_status())
+    assert "系統狀態" in site["index.html"]
+    assert "系統狀態" not in site["archive/2026-06-24.html"]
+
+
 @pytest.mark.unit
 def test_write_site_dumps_map_to_directory(tmp_path):
     site = build_site(report_md="# r", date="2026-06-25")

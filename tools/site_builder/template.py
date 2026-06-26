@@ -45,6 +45,21 @@ _SHELL_STYLE = """
   .narrative-zh, .narrative-en { display: none; }
   #lang-zh:checked ~ .narrative-zh { display: block; }
   #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
 """
 
 
@@ -70,6 +85,7 @@ _INDEX_TEMPLATE = Template(
   <p class="tagline">{{ positioning_line }}</p>
   <p class="meta">{{ date }}</p>
 </header>
+{% if status_html %}{{ status_html }}{% endif %}
 {% if tldr_html %}<section class="tldr">
 {{ tldr_html }}
 </section>{% endif %}
@@ -134,9 +150,12 @@ def render_index(
     narrative_zh_html: str = "",
     narrative_en_html: str = "",
     tldr_html: str = "",
+    status_html: str = "",
 ) -> str:
-    """渲染首頁 HTML：技術終端 shell 包住英文 TL;DR + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列。
+    """渲染首頁 HTML：技術終端 shell 包住系統狀態區 + 英文 TL;DR + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列。
 
+    `status_html` 為已渲染的系統狀態區 HTML（連續天數 + judge sparkline + 來源成功率；
+    空字串時不渲染該區段，向後相容 #6/#7/#8/#9）。
     `tldr_html` 為已渲染消毒的當日英文 TL;DR HTML（空字串時不渲染該區段，向後相容）。
     `narrative_*_html` 為已渲染消毒的中英敘事 HTML（皆空時不渲染敘事區，向後相容）。
     """
@@ -149,6 +168,7 @@ def render_index(
         narrative_zh_html=narrative_zh_html,
         narrative_en_html=narrative_en_html,
         tldr_html=tldr_html,
+        status_html=status_html,
     )
 
 
