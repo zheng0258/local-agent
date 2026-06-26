@@ -9,8 +9,15 @@
 
 from __future__ import annotations
 
-from .builder import build_site, build_site_archive
-from .loader import load_days
+from .builder import Narrative, build_site, build_site_archive
+from .loader import load_days, load_narrative
 from .writer import write_site
 
-__all__ = ["build_site", "build_site_archive", "load_days", "write_site"]
+__all__ = [
+    "Narrative",
+    "build_site",
+    "build_site_archive",
+    "load_days",
+    "load_narrative",
+    "write_site",
+]
