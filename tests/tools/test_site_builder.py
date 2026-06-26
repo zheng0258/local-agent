@@ -171,6 +171,49 @@ def test_archive_empty_corpus_returns_index_only():
     assert not any(p.startswith("archive/") for p in site)
 
 
+# --- Latest-day English TL;DR (issue #9): build_site_archive(latest_tldr=...) ---
+
+
+@pytest.mark.unit
+def test_archive_index_renders_latest_tldr_when_present():
+    days = _days(("2026-06-25", "# 最新內容"))
+    index = build_site_archive(days, latest_tldr="AI tooling moved fast today.")[
+        "index.html"
+    ]
+    assert "AI tooling moved fast today." in index
+
+
+@pytest.mark.unit
+def test_archive_index_omits_tldr_when_none():
+    days = _days(("2026-06-25", "# 最新內容"))
+    index = build_site_archive(days)["index.html"]
+    # 無 TL;DR 時不渲染該區段，且不報錯（向後相容 #6/#7/#8）
+    assert "tldr" not in index.lower()
+
+
+@pytest.mark.unit
+def test_archive_index_sanitizes_untrusted_tldr_html():
+    # TL;DR 源自 LLM 對外部內容的摘要（不可信）；公開站台必須中和 raw HTML
+    days = _days(("2026-06-25", "# r"))
+    index = build_site_archive(days, latest_tldr="bad <script>alert(1)</script> end")[
+        "index.html"
+    ]
+    assert "<script>" not in index
+    assert "alert(1)" not in index
+
+
+@pytest.mark.unit
+def test_archive_tldr_only_on_index_not_archive_pages():
+    days = _days(
+        ("2026-06-25", "# 今日"),
+        ("2026-06-24", "# 昨日"),
+    )
+    site = build_site_archive(days, latest_tldr="UNIQUE_TLDR_MARKER")
+    # 只出現在首頁最新天，不滲入歷史存檔頁
+    assert "UNIQUE_TLDR_MARKER" in site["index.html"]
+    assert "UNIQUE_TLDR_MARKER" not in site["archive/2026-06-24.html"]
+
+
 @pytest.mark.unit
 def test_write_site_dumps_map_to_directory(tmp_path):
     site = build_site(report_md="# r", date="2026-06-25")

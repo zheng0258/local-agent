@@ -100,14 +100,17 @@ def build_site(report_md: str, date: str) -> dict[str, str]:
 def build_site_archive(
     days: Iterable[DayBrief],
     narrative: Optional[Narrative] = None,
+    latest_tldr: Optional[str] = None,
 ) -> dict[str, str]:
     """純函數：完整歷史語料 → in-memory 站台 map（首頁 + 每天一頁存檔頁）。
 
     `days` 為 (date, report_md) 串，newest first。`narrative` 為手寫雙語專案敘事
-    （in-memory；None 時首頁不含敘事區，向後相容 #6/#7）。回傳：
-      - index.html：定位句 hero + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列
+    （in-memory；None 時首頁不含敘事區，向後相容 #6/#7）。`latest_tldr` 為當日英文
+    TL;DR 純文字（in-memory；None 時首頁不含 TL;DR 區段，向後相容，歷史天無此段）。回傳：
+      - index.html：定位句 hero + 當日英文 TL;DR + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列
       - archive/<date>.html：每天一頁，標示日期、渲染該天 report.md（維持繁中）
     存檔頁數 == 輸入天數。空語料則只回首頁。無 git / LLM / 網路 / 檔案副作用。
+    TL;DR 源自 LLM 對不可信內容的摘要，與 report 走同一消毒路徑（_render_body）。
     """
     day_list = list(days)
     site: dict[str, str] = {}
@@ -130,11 +133,14 @@ def build_site_archive(
     else:
         narrative_zh_html = narrative_en_html = ""
 
+    tldr_html = _render_body(latest_tldr) if latest_tldr else ""
+
     site["index.html"] = render_index(
         body_html=latest_body,
         date=latest_date,
         archive_links=links,
         narrative_zh_html=narrative_zh_html,
         narrative_en_html=narrative_en_html,
+        tldr_html=tldr_html,
     )
     return site
