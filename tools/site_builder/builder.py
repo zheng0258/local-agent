@@ -12,7 +12,8 @@ python-markdown 官方明言它不是 sanitizer，消毒責任在此。
 
 from __future__ import annotations
 
-from typing import Iterable, Tuple
+from dataclasses import dataclass
+from typing import Iterable, Optional, Tuple
 
 import markdown as _markdown
 import nh3
@@ -21,6 +22,19 @@ from .template import ArchiveLink, render_archive, render_index
 
 # (date, report_md) 對；newest first。純記憶體語料，不碰檔案。
 DayBrief = Tuple[str, str]
+
+
+@dataclass(frozen=True)
+class Narrative:
+    """手寫雙語專案敘事的 in-memory 載體（純資料，非內容本身）。
+
+    `zh_md` / `en_md` 為兩版手寫 markdown。純 builder 收它為記憶體引數（不碰檔案）；
+    薄 loader (load_narrative) 才從 config 檔讀出並切成這個型別。
+    """
+
+    zh_md: str
+    en_md: str
+
 
 # markdown('extra') 可產生的結構標籤；不含 img（避免 onerror/追蹤像素）。
 _ALLOWED_TAGS = {
@@ -83,12 +97,16 @@ def build_site(report_md: str, date: str) -> dict[str, str]:
     return {"index.html": index_html}
 
 
-def build_site_archive(days: Iterable[DayBrief]) -> dict[str, str]:
+def build_site_archive(
+    days: Iterable[DayBrief],
+    narrative: Optional[Narrative] = None,
+) -> dict[str, str]:
     """純函數：完整歷史語料 → in-memory 站台 map（首頁 + 每天一頁存檔頁）。
 
-    `days` 為 (date, report_md) 串，newest first。回傳：
-      - index.html：最新天內文 + 定位句 + 連往全部存檔天的導覽列
-      - archive/<date>.html：每天一頁，標示日期、渲染該天 report.md
+    `days` 為 (date, report_md) 串，newest first。`narrative` 為手寫雙語專案敘事
+    （in-memory；None 時首頁不含敘事區，向後相容 #6/#7）。回傳：
+      - index.html：定位句 hero + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列
+      - archive/<date>.html：每天一頁，標示日期、渲染該天 report.md（維持繁中）
     存檔頁數 == 輸入天數。空語料則只回首頁。無 git / LLM / 網路 / 檔案副作用。
     """
     day_list = list(days)
@@ -105,7 +123,18 @@ def build_site_archive(days: Iterable[DayBrief]) -> dict[str, str]:
         latest_body = _render_body(latest_md)
     else:
         latest_date, latest_body = "", ""
+
+    if narrative is not None:
+        narrative_zh_html = _render_body(narrative.zh_md)
+        narrative_en_html = _render_body(narrative.en_md)
+    else:
+        narrative_zh_html = narrative_en_html = ""
+
     site["index.html"] = render_index(
-        body_html=latest_body, date=latest_date, archive_links=links
+        body_html=latest_body,
+        date=latest_date,
+        archive_links=links,
+        narrative_zh_html=narrative_zh_html,
+        narrative_en_html=narrative_en_html,
     )
     return site

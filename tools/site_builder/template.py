@@ -35,6 +35,16 @@ _SHELL_STYLE = """
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
 """
 
 
@@ -60,6 +70,19 @@ _INDEX_TEMPLATE = Template(
   <p class="tagline">{{ positioning_line }}</p>
   <p class="meta">{{ date }}</p>
 </header>
+{% if narrative_zh_html or narrative_en_html %}<section class="narrative lang-toggle">
+  <input type="radio" name="lang" id="lang-zh" checked>
+  <input type="radio" name="lang" id="lang-en">
+  <div class="lang-tabs">
+    <label for="lang-zh">中</label><label for="lang-en">EN</label>
+  </div>
+  <div class="narrative-zh">
+{{ narrative_zh_html }}
+  </div>
+  <div class="narrative-en">
+{{ narrative_en_html }}
+  </div>
+</section>{% endif %}
 <article>
 {{ body_html }}
 </article>
@@ -105,14 +128,21 @@ def render_index(
     body_html: str,
     date: str,
     archive_links: Sequence[ArchiveLink] = (),
+    narrative_zh_html: str = "",
+    narrative_en_html: str = "",
 ) -> str:
-    """渲染首頁 HTML：技術終端 shell 包住最新天內文 + 存檔導覽列。"""
+    """渲染首頁 HTML：技術終端 shell 包住雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列。
+
+    `narrative_*_html` 為已渲染消毒的中英敘事 HTML（皆空時不渲染敘事區，向後相容）。
+    """
     return _INDEX_TEMPLATE.render(
         body_html=body_html,
         date=date,
         positioning_line=POSITIONING_LINE,
         shell_style=_SHELL_STYLE,
         archive_links=list(archive_links),
+        narrative_zh_html=narrative_zh_html,
+        narrative_en_html=narrative_en_html,
     )
 
 

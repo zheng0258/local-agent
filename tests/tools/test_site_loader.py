@@ -6,7 +6,8 @@
 
 import pytest
 
-from tools.site_builder import load_days
+from tools.site_builder import Narrative, load_days, load_narrative
+from tools.site_builder.loader import DEFAULT_NARRATIVE_PATH
 
 
 @pytest.mark.unit
@@ -62,3 +63,37 @@ def test_load_days_empty_dir_returns_empty(tmp_path):
 @pytest.mark.unit
 def test_load_days_missing_dir_returns_empty(tmp_path):
     assert load_days(tmp_path / "nope") == []
+
+
+# --- load_narrative (issue #8): 薄 loader 讀雙語敘事 config 檔 ---
+
+
+@pytest.mark.unit
+def test_load_narrative_splits_zh_and_en_sections(tmp_path):
+    cfg = tmp_path / "narrative.md"
+    cfg.write_text(
+        "<!-- 檔頭註解，忽略 -->\n"
+        "<!-- lang:zh -->\n## 標題\n繁中段落\n"
+        "<!-- lang:en -->\n## Title\nEnglish paragraph\n",
+        encoding="utf-8",
+    )
+    n = load_narrative(cfg)
+    assert isinstance(n, Narrative)
+    assert "繁中段落" in n.zh_md
+    assert "## 標題" in n.zh_md
+    assert "English paragraph" in n.en_md
+    # 不洩漏跨區塊內容
+    assert "English paragraph" not in n.zh_md
+    assert "繁中段落" not in n.en_md
+
+
+@pytest.mark.unit
+def test_load_narrative_default_config_has_both_languages():
+    # AC1：in-repo 預設 config 真實存在且中英兩版皆有內容
+    assert DEFAULT_NARRATIVE_PATH.is_file()
+    n = load_narrative()
+    assert n.zh_md.strip()
+    assert n.en_md.strip()
+    # 繁中提及定位詞、英文提及 local-LLM 多代理
+    assert "本地" in n.zh_md
+    assert "local" in n.en_md.lower()

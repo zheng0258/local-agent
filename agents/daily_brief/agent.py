@@ -44,7 +44,18 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 FETCH_STEPS = ["hatena", "hn", "reddit", "security", "rss"]
-ALL_STEPS = [*FETCH_STEPS, "dedup", "compress", "enrich", "digest", "judge", "report", "save", "notify", "deploy"]
+ALL_STEPS = [
+    *FETCH_STEPS,
+    "dedup",
+    "compress",
+    "enrich",
+    "digest",
+    "judge",
+    "report",
+    "save",
+    "notify",
+    "deploy",
+]
 
 
 @dataclass
@@ -61,7 +72,9 @@ class _RunContext:
 class DailyBriefAgent:
     AGENT_NAME = "daily-brief"
 
-    def __init__(self, llm: LLMBackend | None = None, judge_llm: LLMBackend | None = None) -> None:
+    def __init__(
+        self, llm: LLMBackend | None = None, judge_llm: LLMBackend | None = None
+    ) -> None:
         self._llm = llm or get_llm()
         self._judge_llm = judge_llm or get_judge_llm()
 
@@ -71,6 +84,7 @@ class DailyBriefAgent:
         # 唯讀健康查詢（pull）：短路，不跑 pipeline、不需 LLM
         if "--health" in shlex.split(args):
             from .health import HEALTH_HISTORY_FILE, load_history, render_health_table
+
             return render_health_table(load_history(HEALTH_HISTORY_FILE))
 
         force_steps, only_steps = _parse_args(args)
@@ -80,11 +94,12 @@ class DailyBriefAgent:
         llm_url = os.environ.get("LOCAL_LLM_URL", DEFAULT_LOCAL_LLM_URL)
         if not check_local_llm(llm_url):
             from tools.notifiers.telegram import send as tg_send
+
             tg_send(
                 f"⚠️ Daily Brief 無法啟動（{today}）\n"
                 f"LM Studio 未回應：{llm_url}\n"
                 f"建議：啟動 LM Studio 後重跑\n"
-                f"  python3 main.py \"/daily-brief\""
+                f'  python3 main.py "/daily-brief"'
             )
             logger.error("LM Studio 未回應（%s），pipeline 中止", llm_url)
             return f"Pipeline 中止：LM Studio 未回應（{llm_url}）"
@@ -121,16 +136,23 @@ class DailyBriefAgent:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
         source_data = _filter_top_articles(source_data)
         from .steps.dedup import DedupStep
+
         source_data = DedupStep().run(ctx, source_data).value
         from .steps.compress import CompressStep
-        compress_data = CompressStep(
-            self._run_compress, self._check_source_health
-        ).run(ctx, source_data).value
+
+        compress_data = (
+            CompressStep(self._run_compress, self._check_source_health)
+            .run(ctx, source_data)
+            .value
+        )
         from .steps.enrich import EnrichStep
+
         enrich_data = EnrichStep(self._run_enrich).run(ctx, compress_data).value
         from .steps.digest import DigestStep
+
         digests = DigestStep(self._run_digest).run(ctx, enrich_data).value
         from .steps.judge import JudgeStep
+
         judge_outcome = JudgeStep(self._run_judge).run(ctx, (enrich_data, digests))
         if judge_outcome.status is StepStatus.RAN:
             quality = QualityScore.from_dict(judge_outcome.value)
@@ -151,22 +173,31 @@ class DailyBriefAgent:
                         json.dumps(enrich_data, ensure_ascii=False)
                     ),
                 )
-                digests = DigestStep(self._run_digest).run(
-                    ctx, enrich_data, reflect=hint, force=True
-                ).value
+                digests = (
+                    DigestStep(self._run_digest)
+                    .run(ctx, enrich_data, reflect=hint, force=True)
+                    .value
+                )
                 JudgeStep(self._run_judge).run(ctx, (enrich_data, digests), force=True)
                 logger.info("Judge 回饋 digest 重跑完成")
         from .steps.report import ReportStep
+
         ReportStep(self._run_report, ctx.today).run(ctx, (enrich_data, digests))
         from .steps.save import SaveStep
+
         SaveStep(self._run_save, ctx.today).run(ctx, digests)
         from .steps.notify import NotifyStep
+
         NotifyStep(self._notify, ctx.today).run(ctx, digests)
         from .steps.deploy import DeployStep
-        from tools.site_builder import build_site_archive, load_days
-        # 全量重建 thunk：讀全部歷史天 → 整站 map（公開站 ⇔ 本機真實狀態一致）。
+        from tools.site_builder import build_site_archive, load_days, load_narrative
+
+        # 全量重建 thunk：讀全部歷史天 + 手寫雙語敘事 config → 整站 map
+        # （公開站 ⇔ 本機真實狀態一致；敘事中英切換，報告/存檔維持繁中）。
         DeployStep(
-            lambda: build_site_archive(load_days(OUTPUT_DIR)),
+            lambda: build_site_archive(
+                load_days(OUTPUT_DIR), narrative=load_narrative()
+            ),
             self._run_deploy_push,
             ctx.today,
         ).run(ctx, None)
@@ -226,7 +257,11 @@ class DailyBriefAgent:
                 "Pipeline 停止。"
             )
             ctx.notify_fn(msg)
-            logger.error("Fetch 成功 %d/%d，低於門檻，pipeline 停止", success_count, len(FETCH_STEPS))
+            logger.error(
+                "Fetch 成功 %d/%d，低於門檻，pipeline 停止",
+                success_count,
+                len(FETCH_STEPS),
+            )
             return None
 
         return source_data
@@ -286,16 +321,25 @@ class DailyBriefAgent:
         for i in range(0, len(raw), batch_size):
             batch = raw[i : i + batch_size]
             batch_json = json.dumps(batch, ensure_ascii=False)
-            result = parse_llm_json(self._complete(prompts.build_reddit_prompt(batch_json)))
+            result = parse_llm_json(
+                self._complete(prompts.build_reddit_prompt(batch_json))
+            )
             cleaned = clean_articles(result.get("articles", []))
             all_cleaned.extend(cleaned)
-            logger.info("reddit 批次 %d/%d：%d 篇 → %d 篇保留", i // batch_size + 1, n_batches, len(batch), len(cleaned))
+            logger.info(
+                "reddit 批次 %d/%d：%d 篇 → %d 篇保留",
+                i // batch_size + 1,
+                n_batches,
+                len(batch),
+                len(cleaned),
+            )
         logger.info("reddit LLM + 清洗完成（分批）：%d 篇", len(all_cleaned))
         return {"articles": [a.to_dict() for a in all_cleaned]}
 
     def _enrich_article(self, src: str, idx: int, article: dict) -> str | None:
         """對單篇文章抓留言並 LLM 摘要，失敗時回傳 None（best-effort）。"""
         from tools.fetchers import hn_comments, reddit_comments
+
         try:
             url = article.get("url", "")
             if src == "hn":
@@ -341,7 +385,9 @@ class DailyBriefAgent:
 
         with ThreadPoolExecutor(max_workers=4) as executor:
             futures = {
-                executor.submit(self._enrich_article, src, idx, result[src]["articles"][idx]): (src, idx)
+                executor.submit(
+                    self._enrich_article, src, idx, result[src]["articles"][idx]
+                ): (src, idx)
                 for src, idx in to_enrich
             }
             for future in as_completed(futures):
@@ -356,10 +402,16 @@ class DailyBriefAgent:
         """Layer 2: LLM compresses each source into themes + one-liners.
         Python pre-filters to *** articles before calling LLM.
         """
-        result: dict = {"_meta": {"compressed_at": datetime.now().isoformat(timespec="seconds")}}
+        result: dict = {
+            "_meta": {"compressed_at": datetime.now().isoformat(timespec="seconds")}
+        }
         for name in FETCH_STEPS:
             articles = source_data.get(name, {}).get("articles", [])
-            starred = [a for a in articles if isinstance(a, dict) and a.get("interest") == "***"]
+            starred = [
+                a
+                for a in articles
+                if isinstance(a, dict) and a.get("interest") == "***"
+            ]
             if not starred:
                 result[name] = {"themes": [], "articles": []}
                 logger.info("Step compress  : %s 無 *** 文章，略過 LLM", name)
@@ -381,12 +433,15 @@ class DailyBriefAgent:
                 result[name] = parsed
             else:
                 logger.warning(
-                    "Step compress  : %s LLM 回傳無效（缺 themes），使用原始 starred 資料", name
+                    "Step compress  : %s LLM 回傳無效（缺 themes），使用原始 starred 資料",
+                    name,
                 )
                 result[name] = {"themes": [], "articles": starred}
         return result
 
-    def _run_digest(self, compress_data: dict, reflect_context: str = "") -> tuple[list[dict], dict]:
+    def _run_digest(
+        self, compress_data: dict, reflect_context: str = ""
+    ) -> tuple[list[dict], dict]:
         # 逐來源分批呼叫 LLM，確保每個來源都被處理（避免 LLM 選擇性跳過）
         sources = [k for k in compress_data if k != "_meta"]
         all_digests: list[dict] = []
@@ -454,7 +509,9 @@ class DailyBriefAgent:
             content = re.sub(r"^```[a-z]*\n?", "", content).rstrip("`").strip()
         return content or "（報告生成失敗）"
 
-    def _run_judge(self, compress_data: dict, digests: list[dict], date: str | None = None) -> dict:
+    def _run_judge(
+        self, compress_data: dict, digests: list[dict], date: str | None = None
+    ) -> dict:
         # 只傳 url + one_liner 給 judge LLM，省 60-70% token
         slim_compress = {
             src: {
@@ -487,11 +544,16 @@ class DailyBriefAgent:
         valid_scores = [
             scores[dim]["score"]
             for dim in dimensions
-            if dim in scores and isinstance(scores.get(dim, {}).get("score"), (int, float))
+            if dim in scores
+            and isinstance(scores.get(dim, {}).get("score"), (int, float))
         ]
-        result["overall"] = round(sum(valid_scores) / len(valid_scores), 1) if valid_scores else 0.0
+        result["overall"] = (
+            round(sum(valid_scores) / len(valid_scores), 1) if valid_scores else 0.0
+        )
         result["judged_at"] = datetime.now().isoformat(timespec="seconds")
-        result["judge_model"] = os.environ.get("JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL)
+        result["judge_model"] = os.environ.get(
+            "JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL
+        )
 
         completeness_score = scores.get("completeness", {}).get("score")
         if isinstance(completeness_score, (int, float)) and completeness_score < 3:
@@ -507,6 +569,7 @@ class DailyBriefAgent:
 
     def _append_judge_history(self, judge_result: dict, date: str) -> None:
         from .config import OUTPUT_DIR
+
         history_file = OUTPUT_DIR / "_judge-history.json"
         history: list[dict] = []
         if history_file.exists():
@@ -517,18 +580,22 @@ class DailyBriefAgent:
         # 同一天重跑時替換舊記錄
         history = [r for r in history if r.get("date") != date]
         quality = QualityScore.from_dict(judge_result)
-        history.append({
-            "date": date,
-            "overall": quality.overall,
-            "scores": {
-                "relevance": quality.relevance,
-                "completeness": quality.completeness,
-                "faithfulness": quality.faithfulness,
-            },
-            "quality_alert": quality.quality_alert,
-        })
+        history.append(
+            {
+                "date": date,
+                "overall": quality.overall,
+                "scores": {
+                    "relevance": quality.relevance,
+                    "completeness": quality.completeness,
+                    "faithfulness": quality.faithfulness,
+                },
+                "quality_alert": quality.quality_alert,
+            }
+        )
         history.sort(key=lambda r: r["date"])
-        history_file.write_text(json.dumps(history, ensure_ascii=False, indent=2), encoding="utf-8")
+        history_file.write_text(
+            json.dumps(history, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
     @staticmethod
     def _check_source_health(compress_data: dict) -> list[str]:
@@ -552,11 +619,15 @@ class DailyBriefAgent:
         report_md = day_dir / "report.md"
         if report_md.exists():
             vault_report = VAULT_DAILY_BRIEF_DIR / f"{today}.md"
-            vault_report.write_text(report_md.read_text(encoding="utf-8"), encoding="utf-8")
+            vault_report.write_text(
+                report_md.read_text(encoding="utf-8"), encoding="utf-8"
+            )
             logger.info("Save: 寫入 %s", vault_report)
 
         vault_digest = VAULT_DAILY_BRIEF_DIR / f"{today}-digest.md"
-        vault_digest.write_text(_format_obsidian_digest(digests, today), encoding="utf-8")
+        vault_digest.write_text(
+            _format_obsidian_digest(digests, today), encoding="utf-8"
+        )
         logger.info("Save: 寫入 %s", vault_digest)
 
     def _run_deploy_push(self, build_dir: Path) -> None:
@@ -575,19 +646,36 @@ class DailyBriefAgent:
 
         def _git(*args: str, cwd: Path) -> None:
             subprocess.run(
-                ["git", *args], cwd=str(cwd), check=True,
-                capture_output=True, text=True,
+                ["git", *args],
+                cwd=str(cwd),
+                check=True,
+                capture_output=True,
+                text=True,
             )
 
         with tempfile.TemporaryDirectory(prefix="gh-pages-wt-") as tmp:
             worktree = Path(tmp) / "wt"
             # 以孤立 worktree checkout gh-pages（不存在則建空 orphan 分支）
             try:
-                _git("worktree", "add", "--force", "-B", branch,
-                     str(worktree), f"origin/{branch}", cwd=repo_root)
+                _git(
+                    "worktree",
+                    "add",
+                    "--force",
+                    "-B",
+                    branch,
+                    str(worktree),
+                    f"origin/{branch}",
+                    cwd=repo_root,
+                )
             except subprocess.CalledProcessError:
-                _git("worktree", "add", "--force", "--detach",
-                     str(worktree), cwd=repo_root)
+                _git(
+                    "worktree",
+                    "add",
+                    "--force",
+                    "--detach",
+                    str(worktree),
+                    cwd=repo_root,
+                )
                 _git("checkout", "--orphan", branch, cwd=worktree)
                 _git("rm", "-rf", "--quiet", ".", cwd=worktree)
             try:
@@ -615,7 +703,9 @@ class DailyBriefAgent:
                 # 清掉 worktree 註冊，主工作區保持乾淨
                 subprocess.run(
                     ["git", "worktree", "remove", "--force", str(worktree)],
-                    cwd=str(repo_root), capture_output=True, text=True,
+                    cwd=str(repo_root),
+                    capture_output=True,
+                    text=True,
                 )
 
     def _notify(
@@ -651,7 +741,9 @@ class DailyBriefAgent:
         ok1 = False
         if overview:
             if steps_dir:
-                (steps_dir / "telegram_overview.txt").write_text(overview, encoding="utf-8")
+                (steps_dir / "telegram_overview.txt").write_text(
+                    overview, encoding="utf-8"
+                )
             ok1 = send(overview)
             if not ok1:
                 logger.error("Step notify   : 第一封訊息發送失敗，telegram.done 不寫入")
@@ -659,7 +751,9 @@ class DailyBriefAgent:
         ok2 = False
         if tg_digest:
             if steps_dir:
-                (steps_dir / "telegram_digest.txt").write_text(tg_digest, encoding="utf-8")
+                (steps_dir / "telegram_digest.txt").write_text(
+                    tg_digest, encoding="utf-8"
+                )
             ok2 = send(tg_digest)
             if not ok2:
                 logger.error("Step notify   : 第二封訊息發送失敗，telegram.done 不寫入")
@@ -761,7 +855,9 @@ def _filter_top_articles(source_data: dict) -> dict:
     result: dict = {}
     for src, data in source_data.items():
         articles = data.get("articles", [])
-        top = [a for a in articles if isinstance(a, dict) and a.get("interest") == "***"]
+        top = [
+            a for a in articles if isinstance(a, dict) and a.get("interest") == "***"
+        ]
         if top:
             result[src] = {**data, "articles": top}
     return result
@@ -773,7 +869,9 @@ def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
         articles = content.get("articles", [])
         filtered[source_name] = {
             **content,
-            "articles": [a for a in articles if isinstance(a, dict) and a.get("url") in kept_urls],
+            "articles": [
+                a for a in articles if isinstance(a, dict) and a.get("url") in kept_urls
+            ],
         }
     return filtered
 
@@ -821,12 +919,12 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
     latest_source_mtime = max(a.stat().st_mtime for a in source_artifacts)
 
     downstream_check: list[tuple[str, Path]] = [
-        ("dedup",    steps_dir / "dedup.json"),
+        ("dedup", steps_dir / "dedup.json"),
         ("compress", steps_dir / "compress.json"),
-        ("enrich",   steps_dir / "enrich.json"),
-        ("digest",   steps_dir / "digest.json"),
-        ("judge",    steps_dir / "judge.json"),
-        ("report",   day_dir   / "report.md"),
+        ("enrich", steps_dir / "enrich.json"),
+        ("digest", steps_dir / "digest.json"),
+        ("judge", steps_dir / "judge.json"),
+        ("report", day_dir / "report.md"),
     ]
     stale |= {
         name
@@ -900,7 +998,9 @@ def _observe_and_escalate(
         record = health.observe_run(today, day_dir, steps_dir)
         history = health.append_record(record, health.HEALTH_HISTORY_FILE)
         findings = health.detect_chronic(history)
-        fresh = health.filter_new_escalations(findings, health.ESCALATION_STATE_FILE, today)
+        fresh = health.filter_new_escalations(
+            findings, health.ESCALATION_STATE_FILE, today
+        )
         if fresh:
             notify_fn(health.format_escalation(fresh, today))
             health.record_escalations(fresh, health.ESCALATION_STATE_FILE, today)
