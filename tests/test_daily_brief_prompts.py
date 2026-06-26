@@ -25,7 +25,7 @@ def test_judge_prompt_has_missed_urls_at_top_level():
     # 頂層 missed_urls
     assert '"missed_urls":' in p
     # completeness 物件不含 missed_urls（避免 LLM 混淆）
-    completeness_block = p[p.find('"completeness"'):p.find('"faithfulness"')]
+    completeness_block = p[p.find('"completeness"') : p.find('"faithfulness"')]
     assert "missed_urls" not in completeness_block
 
 
@@ -178,6 +178,7 @@ def test_fetch_prompts_contain_few_shot_examples():
 
 # ── build_comment_summary_prompt ────────────────────────────────
 
+
 def test_build_comment_summary_prompt_exists():
     assert hasattr(prompts, "build_comment_summary_prompt")
 
@@ -200,8 +201,30 @@ def test_build_comment_summary_prompt_specifies_60_char_limit():
 
 # ── build_digest_prompt_from_compress（更新）───────────────────
 
+
 def test_build_digest_prompt_from_compress_mentions_comment_summary():
     """更新後的 prompt 應提及 comment_summary 欄位與社群觀點追加。"""
     p = prompts.build_digest_prompt_from_compress("{}")
     assert "comment_summary" in p
     assert "社群觀點" in p
+
+
+# ── build_tldr_prompt（issue #9：英文 TL;DR）─────────────────────
+
+
+def test_build_tldr_prompt_exists():
+    assert hasattr(prompts, "build_tldr_prompt")
+
+
+def test_build_tldr_prompt_includes_digests_input():
+    digests_json = '{"digests": [{"title": "Foo", "summary": "bar"}]}'
+    p = prompts.build_tldr_prompt(digests_json)
+    assert digests_json in p
+
+
+def test_build_tldr_prompt_instructs_english_plaintext():
+    """TL;DR 必須是英文純文字，prompt 應明確要求英文且不包成 JSON。"""
+    p = prompts.build_tldr_prompt("{}")
+    assert "English" in p
+    # 純文字輸出，不包成 JSON
+    assert "不要包裝成 JSON" in p

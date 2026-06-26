@@ -378,6 +378,27 @@ def build_digest_prompt_from_compress(compress_json: str) -> str:
 ```"""
 
 
+# ── Step tldr：當日英文 TL;DR（吃 digests）──────────────────────────
+
+
+def build_tldr_prompt(digests_json: str) -> str:
+    return f"""\
+## Today's digests (digest.json)
+
+{digests_json}
+
+## Task
+
+Write a concise English TL;DR (3–5 sentences) summarising the most important
+tech / AI / security trends from today's digests above. Plain prose, no bullet
+list, no headings, no links. Cover the dominant themes, not every item.
+
+## Output
+
+直接輸出英文純文字，不要包裝成 JSON，不要加任何前綴或後綴。\
+"""
+
+
 # ── Step report v2：吃 compress.json ─────────────────────────────────
 
 

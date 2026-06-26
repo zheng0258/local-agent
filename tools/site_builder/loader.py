@@ -9,9 +9,10 @@
 
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from .builder import DayBrief, Narrative
 
@@ -45,6 +46,28 @@ def load_days(output_dir: Path | str) -> List[DayBrief]:
 
     days.sort(key=lambda pair: pair[0], reverse=True)
     return days
+
+
+def load_latest_tldr(output_dir: Path | str) -> Optional[str]:
+    """讀最新一天 `<date>/steps/tldr.json` 的 TL;DR 純文字，無則回 None。
+
+    「最新天」與首頁呈現一致：取有 report.md 的日期目錄中字典序最大者。只對「今天起」
+    的新產出生效——歷史天無 tldr.json 不報錯（回 None）。唯一碰檔案的 TL;DR 讀取點
+    （impure），與純 builder 解耦（純 builder 收記憶體 latest_tldr 引數）。
+    """
+    days = load_days(output_dir)
+    if not days:
+        return None
+    latest_date = days[0][0]
+    tldr_file = Path(output_dir) / latest_date / "steps" / "tldr.json"
+    if not tldr_file.is_file():
+        return None
+    try:
+        data = json.loads(tldr_file.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    text = data.get("tldr") if isinstance(data, dict) else None
+    return text or None
 
 
 def load_narrative(path: Path | str = DEFAULT_NARRATIVE_PATH) -> Narrative:

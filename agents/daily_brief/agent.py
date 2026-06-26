@@ -9,7 +9,7 @@ DailyBriefAgent — 每日科技趨勢收集。
   --force <step>...       強制重新執行指定步驟
   --only <step>...        只執行指定步驟
 
-可用 step 名稱：hatena / hn / reddit / security / dedup / compress / digest / judge / report / save / notify
+可用 step 名稱：hatena / hn / reddit / security / dedup / compress / digest / tldr / judge / report / save / notify
 """
 
 from __future__ import annotations
@@ -50,6 +50,7 @@ ALL_STEPS = [
     "compress",
     "enrich",
     "digest",
+    "tldr",
     "judge",
     "report",
     "save",
@@ -151,6 +152,10 @@ class DailyBriefAgent:
         from .steps.digest import DigestStep
 
         digests = DigestStep(self._run_digest).run(ctx, enrich_data).value
+        from .steps.tldr import TldrStep
+
+        # 當日英文 TL;DR（additive；失敗回 default 不 block 後續步驟）
+        TldrStep(self._run_tldr).run(ctx, digests)
         from .steps.judge import JudgeStep
 
         judge_outcome = JudgeStep(self._run_judge).run(ctx, (enrich_data, digests))
@@ -190,13 +195,20 @@ class DailyBriefAgent:
 
         NotifyStep(self._notify, ctx.today).run(ctx, digests)
         from .steps.deploy import DeployStep
-        from tools.site_builder import build_site_archive, load_days, load_narrative
+        from tools.site_builder import (
+            build_site_archive,
+            load_days,
+            load_latest_tldr,
+            load_narrative,
+        )
 
-        # 全量重建 thunk：讀全部歷史天 + 手寫雙語敘事 config → 整站 map
-        # （公開站 ⇔ 本機真實狀態一致；敘事中英切換，報告/存檔維持繁中）。
+        # 全量重建 thunk：讀全部歷史天 + 手寫雙語敘事 config + 當日英文 TL;DR → 整站 map
+        # （公開站 ⇔ 本機真實狀態一致；敘事中英切換，報告/存檔維持繁中；TL;DR 只在最新天）。
         DeployStep(
             lambda: build_site_archive(
-                load_days(OUTPUT_DIR), narrative=load_narrative()
+                load_days(OUTPUT_DIR),
+                narrative=load_narrative(),
+                latest_tldr=load_latest_tldr(OUTPUT_DIR),
             ),
             self._run_deploy_push,
             ctx.today,
@@ -480,6 +492,16 @@ class DailyBriefAgent:
         }
         logger.info("Digest LLM 完成：%d 篇摘要", len(all_digests))
         return all_digests, digest_data
+
+    def _run_tldr(self, digests: list[dict], reflect_context: str = "") -> str:
+        """對當日 digests 產生一段英文 TL;DR 純文字（prompt 集中於 prompts.py）。"""
+        digests_json = json.dumps({"digests": digests}, ensure_ascii=False)
+        prompt = prompts.build_tldr_prompt(digests_json)
+        if reflect_context:
+            prompt = f"{prompt}\n\n## 修正指示\n{reflect_context}"
+        text = self._complete(prompt).strip()
+        logger.info("TL;DR LLM 完成：%d 字元", len(text))
+        return text
 
     def _run_report(
         self,
@@ -923,6 +945,7 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
         ("compress", steps_dir / "compress.json"),
         ("enrich", steps_dir / "enrich.json"),
         ("digest", steps_dir / "digest.json"),
+        ("tldr", steps_dir / "tldr.json"),
         ("judge", steps_dir / "judge.json"),
         ("report", day_dir / "report.md"),
     ]

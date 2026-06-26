@@ -7,7 +7,7 @@
 import pytest
 
 from tools.site_builder import Narrative, load_days, load_narrative
-from tools.site_builder.loader import DEFAULT_NARRATIVE_PATH
+from tools.site_builder.loader import DEFAULT_NARRATIVE_PATH, load_latest_tldr
 
 
 @pytest.mark.unit
@@ -97,3 +97,43 @@ def test_load_narrative_default_config_has_both_languages():
     # 繁中提及定位詞、英文提及 local-LLM 多代理
     assert "本地" in n.zh_md
     assert "local" in n.en_md.lower()
+
+
+# --- load_latest_tldr (issue #9): 讀最新一天 steps/tldr.json ---
+
+
+def _make_day(tmp_path, date, *, report=True, tldr=None):
+    d = tmp_path / date
+    (d / "steps").mkdir(parents=True)
+    if report:
+        (d / "report.md").write_text("# r", encoding="utf-8")
+    if tldr is not None:
+        (d / "steps" / "tldr.json").write_text(
+            f'{{"tldr": "{tldr}"}}', encoding="utf-8"
+        )
+    return d
+
+
+@pytest.mark.unit
+def test_load_latest_tldr_reads_latest_day(tmp_path):
+    _make_day(tmp_path, "2026-06-24", tldr="old")
+    _make_day(tmp_path, "2026-06-25", tldr="newest TL;DR")
+    assert load_latest_tldr(tmp_path) == "newest TL;DR"
+
+
+@pytest.mark.unit
+def test_load_latest_tldr_none_when_latest_day_has_no_tldr(tmp_path):
+    # 歷史天有 tldr，但最新天沒有 → 不回填，回 None
+    _make_day(tmp_path, "2026-06-24", tldr="old")
+    _make_day(tmp_path, "2026-06-25", tldr=None)
+    assert load_latest_tldr(tmp_path) is None
+
+
+@pytest.mark.unit
+def test_load_latest_tldr_none_when_no_days(tmp_path):
+    assert load_latest_tldr(tmp_path) is None
+
+
+@pytest.mark.unit
+def test_load_latest_tldr_missing_dir_returns_none(tmp_path):
+    assert load_latest_tldr(tmp_path / "nope") is None

@@ -70,6 +70,9 @@ _INDEX_TEMPLATE = Template(
   <p class="tagline">{{ positioning_line }}</p>
   <p class="meta">{{ date }}</p>
 </header>
+{% if tldr_html %}<section class="tldr">
+{{ tldr_html }}
+</section>{% endif %}
 {% if narrative_zh_html or narrative_en_html %}<section class="narrative lang-toggle">
   <input type="radio" name="lang" id="lang-zh" checked>
   <input type="radio" name="lang" id="lang-en">
@@ -130,9 +133,11 @@ def render_index(
     archive_links: Sequence[ArchiveLink] = (),
     narrative_zh_html: str = "",
     narrative_en_html: str = "",
+    tldr_html: str = "",
 ) -> str:
-    """渲染首頁 HTML：技術終端 shell 包住雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列。
+    """渲染首頁 HTML：技術終端 shell 包住英文 TL;DR + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列。
 
+    `tldr_html` 為已渲染消毒的當日英文 TL;DR HTML（空字串時不渲染該區段，向後相容）。
     `narrative_*_html` 為已渲染消毒的中英敘事 HTML（皆空時不渲染敘事區，向後相容）。
     """
     return _INDEX_TEMPLATE.render(
@@ -143,6 +148,7 @@ def render_index(
         archive_links=list(archive_links),
         narrative_zh_html=narrative_zh_html,
         narrative_en_html=narrative_en_html,
+        tldr_html=tldr_html,
     )
 
 
