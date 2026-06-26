@@ -200,15 +200,18 @@ class DailyBriefAgent:
             load_days,
             load_latest_tldr,
             load_narrative,
+            load_status,
         )
 
-        # 全量重建 thunk：讀全部歷史天 + 手寫雙語敘事 config + 當日英文 TL;DR → 整站 map
-        # （公開站 ⇔ 本機真實狀態一致；敘事中英切換，報告/存檔維持繁中；TL;DR 只在最新天）。
+        # 全量重建 thunk：讀全部歷史天 + 手寫雙語敘事 config + 當日英文 TL;DR +
+        # judge/health 歷史推導的系統狀態 → 整站 map（公開站 ⇔ 本機真實狀態一致；
+        # 敘事中英切換，報告/存檔維持繁中；TL;DR 只在最新天；系統狀態展現 instrumentation）。
         DeployStep(
             lambda: build_site_archive(
                 load_days(OUTPUT_DIR),
                 narrative=load_narrative(),
                 latest_tldr=load_latest_tldr(OUTPUT_DIR),
+                status=load_status(OUTPUT_DIR),
             ),
             self._run_deploy_push,
             ctx.today,

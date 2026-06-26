@@ -18,6 +18,7 @@ from typing import Iterable, Optional, Tuple
 import markdown as _markdown
 import nh3
 
+from .status import SystemStatus, render_status_section
 from .template import ArchiveLink, render_archive, render_index
 
 # (date, report_md) 對；newest first。純記憶體語料，不碰檔案。
@@ -101,12 +102,15 @@ def build_site_archive(
     days: Iterable[DayBrief],
     narrative: Optional[Narrative] = None,
     latest_tldr: Optional[str] = None,
+    status: Optional[SystemStatus] = None,
 ) -> dict[str, str]:
     """純函數：完整歷史語料 → in-memory 站台 map（首頁 + 每天一頁存檔頁）。
 
     `days` 為 (date, report_md) 串，newest first。`narrative` 為手寫雙語專案敘事
     （in-memory；None 時首頁不含敘事區，向後相容 #6/#7）。`latest_tldr` 為當日英文
-    TL;DR 純文字（in-memory；None 時首頁不含 TL;DR 區段，向後相容，歷史天無此段）。回傳：
+    TL;DR 純文字（in-memory；None 時首頁不含 TL;DR 區段，向後相容，歷史天無此段）。
+    `status` 為已計算的系統狀態 DTO（in-memory；None 時首頁不含系統狀態區，歷史缺失時
+    優雅降級，向後相容）。回傳：
       - index.html：定位句 hero + 當日英文 TL;DR + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列
       - archive/<date>.html：每天一頁，標示日期、渲染該天 report.md（維持繁中）
     存檔頁數 == 輸入天數。空語料則只回首頁。無 git / LLM / 網路 / 檔案副作用。
@@ -135,6 +139,9 @@ def build_site_archive(
 
     tldr_html = _render_body(latest_tldr) if latest_tldr else ""
 
+    # 系統狀態區為**內部產生**的可信 markup（非外部不可信內容），不過 markdown／消毒。
+    status_html = render_status_section(status) if status is not None else ""
+
     site["index.html"] = render_index(
         body_html=latest_body,
         date=latest_date,
@@ -142,5 +149,6 @@ def build_site_archive(
         narrative_zh_html=narrative_zh_html,
         narrative_en_html=narrative_en_html,
         tldr_html=tldr_html,
+        status_html=status_html,
     )
     return site
