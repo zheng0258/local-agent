@@ -37,8 +37,13 @@ def _ctx(tmp_path, steps_to_run={"deploy"}, force=set()):
     )
 
 
-def _fake_build(report_md, date):
-    return {"index.html": f"<html>{date}</html>"}
+def _fake_build():
+    # 零參 thunk：內部已封裝「讀全部歷史天 → build_site_archive」全量重建。
+    return {
+        "index.html": "<html>index</html>",
+        "archive/2026-06-25.html": "<html>25</html>",
+        "archive/2026-06-24.html": "<html>24</html>",
+    }
 
 
 @pytest.mark.unit
@@ -47,10 +52,14 @@ def test_deploy_step_runs_builds_pushes_and_touches_sentinel(tmp_path):
     pushed = {}
 
     def fake_push(build_dir):
-        # push 在 build 目錄仍存活時被呼叫；當下檢查 builder 產出已落盤
+        # push 在 build 目錄仍存活時被呼叫；當下檢查全量站台產出已落盤
         from pathlib import Path
 
         pushed["had_index"] = (Path(build_dir) / "index.html").exists()
+        # 全量重建：存檔頁也應隨整站一起落盤
+        pushed["had_archive"] = (
+            Path(build_dir) / "archive" / "2026-06-25.html"
+        ).exists()
         pushed["called"] = True
 
     outcome = DeployStep(build=_fake_build, push=fake_push, today="2026-06-25").run(
@@ -61,6 +70,7 @@ def test_deploy_step_runs_builds_pushes_and_touches_sentinel(tmp_path):
     assert (tmp_path / "deploy.done").exists()
     assert pushed["called"] is True
     assert pushed["had_index"] is True
+    assert pushed["had_archive"] is True
 
 
 @pytest.mark.unit
