@@ -50,15 +50,11 @@ def judge(pytestconfig: pytest.Config) -> dict:
 
 @pytest.fixture
 def telegram_overview(pytestconfig: pytest.Config) -> str:
-    path = _steps_dir(pytestconfig) / "telegram_overview.txt"
-    if not path.exists():
-        pytest.skip("telegram_overview.txt not found")
-    return path.read_text(encoding="utf-8")
+    composed = _load_json(pytestconfig, "compose_tg.json")
+    return composed["overview"]
 
 
 @pytest.fixture
 def telegram_digest_txt(pytestconfig: pytest.Config) -> str:
-    path = _steps_dir(pytestconfig) / "telegram_digest.txt"
-    if not path.exists():
-        pytest.skip("telegram_digest.txt not found")
-    return path.read_text(encoding="utf-8")
+    composed = _load_json(pytestconfig, "compose_tg.json")
+    return composed["digest"]
