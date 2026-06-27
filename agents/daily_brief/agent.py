@@ -54,6 +54,7 @@ ALL_STEPS = [
     "judge",
     "report",
     "save",
+    "compose_tg",
     "notify",
     "deploy",
 ]
@@ -191,9 +192,14 @@ class DailyBriefAgent:
         from .steps.save import SaveStep
 
         SaveStep(self._run_save, ctx.today).run(ctx, digests)
+        from .steps.compose_tg import ComposeTgStep
         from .steps.notify import NotifyStep
 
-        NotifyStep(self._notify, ctx.today).run(ctx, digests)
+        # compose（生成兩封訊息純文字，持久化、重跑 LOAD 不重生）→ notify（send-only、逐封冪等）
+        composed = (
+            ComposeTgStep(self._run_compose_tg, ctx.today).run(ctx, digests).value
+        )
+        NotifyStep(tg_send, ctx.today).run(ctx, composed)
         from .steps.deploy import DeployStep
         from tools.site_builder import (
             build_site_archive,
@@ -733,15 +739,17 @@ class DailyBriefAgent:
                     text=True,
                 )
 
-    def _notify(
+    def _run_compose_tg(
         self,
         digests: list[dict],
         today: str,
-        steps_dir: Path | None = None,
         reflect_context: str = "",
-    ) -> bool:
-        from tools.notifiers.telegram import send
+    ) -> dict:
+        """生成兩封 Telegram 訊息純文字（不發送）；持久化供 NotifyStep 讀取後發送。
 
+        compose/notify 拆分後此函式只負責「生成」一半：兩次 27b LLM 生成。
+        重跑時 ComposeTgStep LOAD artifact，不會再進到這裡。
+        """
         # 限縮數量塞進單封 Telegram 訊息（4096 上限）：跨來源均衡挑選後送 LLM
         overview_json = json.dumps(
             _pick_top8_balanced(digests, n=_TG_OVERVIEW_MAX_ITEMS), ensure_ascii=False
@@ -763,27 +771,7 @@ class DailyBriefAgent:
         overview = _extract_tg_text(overview_raw)
         tg_digest = _extract_tg_text(digest_raw)
 
-        ok1 = False
-        if overview:
-            if steps_dir:
-                (steps_dir / "telegram_overview.txt").write_text(
-                    overview, encoding="utf-8"
-                )
-            ok1 = send(overview)
-            if not ok1:
-                logger.error("Step notify   : 第一封訊息發送失敗，telegram.done 不寫入")
-
-        ok2 = False
-        if tg_digest:
-            if steps_dir:
-                (steps_dir / "telegram_digest.txt").write_text(
-                    tg_digest, encoding="utf-8"
-                )
-            ok2 = send(tg_digest)
-            if not ok2:
-                logger.error("Step notify   : 第二封訊息發送失敗，telegram.done 不寫入")
-
-        return ok1 and ok2
+        return {"overview": overview, "digest": tg_digest}
 
     def _complete(self, prompt: str) -> str:
         return self._llm.complete(prompt, system=prompts.SYSTEM)
@@ -951,6 +939,7 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
         ("tldr", steps_dir / "tldr.json"),
         ("judge", steps_dir / "judge.json"),
         ("report", day_dir / "report.md"),
+        ("compose_tg", steps_dir / "compose_tg.json"),
     ]
     stale |= {
         name

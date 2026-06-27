@@ -336,7 +336,8 @@ def test_format_obsidian_digest_frontmatter():
     assert "https://a.com" in result
 
 
-def test_notify_uses_tg_overview_key():
+def test_compose_tg_extracts_overview_and_digest_text():
+    # compose 半邊：兩次 LLM 生成 → 解包出純文字（#12 拆分後 _notify 不再生成）
     from agents.daily_brief.agent import DailyBriefAgent
 
     responses = [
@@ -348,38 +349,9 @@ def test_notify_uses_tg_overview_key():
     agent = DailyBriefAgent(llm=mock_llm)
 
     digests = [{"title": "T", "url": "https://u.com", "source": "HN", "summary": "s"}]
+    composed = agent._run_compose_tg(digests, "2026-04-12")
 
-    with patch("tools.notifiers.telegram.send") as mock_send:
-        agent._notify(digests, "2026-04-12")
-        calls = [c[0][0] for c in mock_send.call_args_list]
-        assert "overview text" in calls
-        assert "digest text" in calls
-
-
-def test_notify_saves_telegram_artifacts(tmp_path):
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    responses = [
-        json.dumps({"tg_overview": "<b>overview</b>"}),
-        json.dumps({"tg_digest": "<b>digest</b>"}),
-    ]
-    mock_llm = MagicMock()
-    mock_llm.complete.side_effect = responses
-    agent = DailyBriefAgent(llm=mock_llm)
-
-    steps_dir = tmp_path / "steps"
-    steps_dir.mkdir()
-    digests = [{"title": "T", "url": "https://u.com", "source": "HN", "summary": "s"}]
-
-    with patch("tools.notifiers.telegram.send"):
-        agent._notify(digests, "2026-04-13", steps_dir=steps_dir)
-
-    overview_file = steps_dir / "telegram_overview.txt"
-    digest_file = steps_dir / "telegram_digest.txt"
-    assert overview_file.exists()
-    assert overview_file.read_text(encoding="utf-8") == "<b>overview</b>"
-    assert digest_file.exists()
-    assert digest_file.read_text(encoding="utf-8") == "<b>digest</b>"
+    assert composed == {"overview": "overview text", "digest": "digest text"}
 
 
 def test_parse_args_supports_new_steps():
@@ -396,7 +368,23 @@ def test_parse_args_supports_new_steps():
 
 
 def test_all_steps_count():
-    assert len(ALL_STEPS) == 15
+    assert len(ALL_STEPS) == 16
+
+
+def test_all_steps_contains_compose_tg_before_notify():
+    # issue #12：compose（生成）排在 notify（send-only）之前
+    assert "compose_tg" in ALL_STEPS
+    assert ALL_STEPS.index("save") < ALL_STEPS.index("compose_tg")
+    assert ALL_STEPS.index("compose_tg") < ALL_STEPS.index("notify")
+
+
+def test_parse_args_supports_compose_tg_step():
+    from agents.daily_brief.agent import _parse_args
+
+    force, _ = _parse_args("--force compose_tg")
+    assert "compose_tg" in force
+    _, only = _parse_args("--only compose_tg notify")
+    assert only == {"compose_tg", "notify"}
 
 
 def test_all_steps_contains_tldr_after_digest():
@@ -666,8 +654,8 @@ def test_run_judge_passes_slim_compress_to_llm():
     assert "bookmarks" not in call_prompt  # 數值欄位移除
 
 
-def test_notify_msg2_balances_and_caps_digests():
-    """_notify msg2 應跨來源均衡挑選，且不超過 _TG_DIGEST_MAX_ITEMS 則（單封 4096 限制）。"""
+def test_compose_tg_msg2_balances_and_caps_digests():
+    """compose msg2 應跨來源均衡挑選，且不超過 _TG_DIGEST_MAX_ITEMS 則（單封 4096 限制）。"""
     from agents.daily_brief.agent import DailyBriefAgent, _TG_DIGEST_MAX_ITEMS
 
     responses = [
@@ -689,8 +677,7 @@ def test_notify_msg2_balances_and_caps_digests():
         for i in range(20)
     ]
 
-    with patch("tools.notifiers.telegram.send"):
-        agent._notify(digests, "2026-04-14")
+    agent._run_compose_tg(digests, "2026-04-14")
 
     all_prompts = [c[0][0] for c in mock_llm.complete.call_args_list]
     msg2_prompt = next(p for p in all_prompts if "深度摘要（" in p)

@@ -32,20 +32,20 @@ SECURITY_BLOG_URLS = [
 
 # ── 評分門檻 ─────────────────────────────────────────────────────
 
-HATENA_DIGEST_THRESHOLD = 100    # 書籤數
-HN_DIGEST_THRESHOLD = 200        # 分數
-REDDIT_DIGEST_THRESHOLD = 300    # upvotes
-FALLBACK_TOP_N = 3               # 無符合門檻時取前 N 篇
+HATENA_DIGEST_THRESHOLD = 100  # 書籤數
+HN_DIGEST_THRESHOLD = 200  # 分數
+REDDIT_DIGEST_THRESHOLD = 300  # upvotes
+FALLBACK_TOP_N = 3  # 無符合門檻時取前 N 篇
 
 # ── Reddit 子版 ──────────────────────────────────────────────────
 
 REDDIT_SUBREDDITS: dict[str, list[str]] = {
-    "資安類":        ["netsec", "cybersecurity"],
-    "AI 類":         ["OpenAI", "LocalLLaMA", "ClaudeCode"],
+    "資安類": ["netsec", "cybersecurity"],
+    "AI 類": ["OpenAI", "LocalLLaMA", "ClaudeCode"],
     "AI 開發工具類": ["cursor_ai", "ChatGPT", "GoogleGeminiAI"],
-    "核心技術類":    ["programming", "technology"],
+    "核心技術類": ["programming", "technology"],
     "OSS・獨立開發類": ["opensource", "indiehackers", "webdev", "javascript"],
-    "職涯・實踐類":  ["cscareerquestions", "productivity"],
+    "職涯・實踐類": ["cscareerquestions", "productivity"],
 }
 
 # ── Obsidian vault（選填）─────────────────────────────────────────
@@ -127,10 +127,15 @@ STEP_CONFIGS: dict[str, StepConfig] = {
         strategy="error_aware",
         task_description="根據 compress + digest 資料生成純 markdown 格式的科技趨勢報告，不包 JSON fence",
     ),
-    "notify": StepConfig(
+    "compose_tg": StepConfig(
         max_retries=2,
         strategy="error_aware",
-        task_description="生成 Telegram 訊息 JSON（tg_overview 或 tg_digest key），限用 Telegram 允許的 HTML tag",
+        task_description="生成兩封 Telegram 訊息純文字（overview + digest），限用 Telegram 允許的 HTML tag，持久化供 notify 發送",
+    ),
+    "notify": StepConfig(
+        max_retries=2,
+        strategy="plain",
+        task_description="從 compose_tg 讀取兩封訊息並發送至 Telegram（逐封冪等，不生成內容）",
     ),
     "save": StepConfig(
         max_retries=2,
