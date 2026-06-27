@@ -137,4 +137,14 @@ STEP_CONFIGS: dict[str, StepConfig] = {
         strategy="plain",
         task_description="將 report.md 和 digest 存入 Obsidian vault",
     ),
+    "tldr": StepConfig(
+        max_retries=2,
+        strategy="plain",
+        task_description="將當日 digests 摘要成一段精簡英文 TL;DR（純文字），供 Showcase Site 首頁最新天呈現",
+    ),
+    "deploy": StepConfig(
+        max_retries=1,
+        strategy="plain",
+        task_description="重建 Showcase Site 全站並 force-push 到 gh-pages（git worktree 隔離）",
+    ),
 }

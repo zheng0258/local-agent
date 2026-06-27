@@ -2,7 +2,10 @@ import json
 from datetime import date
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from agents.daily_brief.agent import ALL_STEPS, FETCH_STEPS
+from agents.daily_brief.config import STEP_CONFIGS
 
 
 def _make_agent(llm_response: str):
@@ -37,6 +40,16 @@ def test_all_steps_order():
 
 def test_fetch_steps_unchanged():
     assert FETCH_STEPS == ["hatena", "hn", "reddit", "security", "rss"]
+
+
+@pytest.mark.unit
+def test_every_wired_step_has_supervisor_config():
+    # 回歸防護：每個 ALL_STEPS 步驟都必須在 STEP_CONFIGS 有條目，否則
+    # supervisor.run_step 的 `STEP_CONFIGS[name]` 會 KeyError 並 crash 整條
+    # pipeline。fake-supervisor 的 step 測試蓋不到真 supervisor 查表，故在此
+    # 加結構不變量守住（#6 deploy / #9 tldr 曾雙雙漏配）。
+    missing = [s for s in ALL_STEPS if s not in STEP_CONFIGS]
+    assert missing == [], f"STEP_CONFIGS 缺少步驟設定：{missing}"
 
 
 def test_run_digest_returns_digests_list():
