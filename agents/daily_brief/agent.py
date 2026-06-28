@@ -672,7 +672,7 @@ class DailyBriefAgent:
         import subprocess
         import tempfile
 
-        repo_root = _PROJECT_ROOT
+        repo_root = OUTPUT_DIR.parent.parent  # _PROJECT_ROOT/outputs/daily-brief → repo root
         branch = "gh-pages"
 
         def _git(*args: str, cwd: Path) -> None:
