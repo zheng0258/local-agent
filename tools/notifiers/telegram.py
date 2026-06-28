@@ -10,6 +10,7 @@ Telegram 通知工具（純函數，無 LLM）。
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import ssl
@@ -99,7 +100,17 @@ def send(
     except ImportError:
         ctx = ssl.create_default_context()
     try:
-        urllib.request.urlopen(url, data=data, context=ctx, timeout=30)
+        resp = urllib.request.urlopen(url, data=data, context=ctx, timeout=30)
+        # HTTP 2xx 不代表送達：Telegram 瞬時故障會回 200 + {"ok": false}。
+        # 必須檢查 body 的 ok 欄位，否則 NotifyStep 會誤 touch sentinel 造成靜默遺失。
+        try:
+            body = json.loads(resp.read().decode())
+        except (ValueError, UnicodeDecodeError) as e:
+            print(f"❌ Telegram 回應無法解析：{e}")
+            return False
+        if not body.get("ok"):
+            print(f"❌ Telegram 回應 ok=false：{body.get('description')}")
+            return False
         print("✅ Telegram 訊息傳送成功")
         return True
     except urllib.error.HTTPError as e:
