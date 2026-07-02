@@ -6,7 +6,6 @@ import json
 import os
 import time
 import urllib.request
-from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
@@ -16,18 +15,9 @@ from config.settings import DEFAULT_LOCAL_LLM_URL, LLMBackend
 
 from . import reflect_prompts
 from .config import STEP_CONFIGS
+from .step import StepResult  # StepResult 現住 step.py（消費者側）；此處 re-export 保相容
 
 logger = get_logger(__name__)
-
-
-@dataclass(frozen=True)
-class StepResult:
-    name: str
-    success: bool
-    output: Any
-    error: str | None
-    attempts: int
-    adjusted_prompts: tuple[str, ...] = ()
 
 
 class SupervisorAgent:

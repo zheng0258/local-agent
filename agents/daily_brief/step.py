@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Protocol
 
 from config import get_logger
 
@@ -17,6 +17,31 @@ from .codecs import ArtifactCodec, JsonCodec
 from .step_cache import Verdict, decide
 
 logger = get_logger(__name__)
+
+
+@dataclass(frozen=True)
+class StepResult:
+    """執行一個步驟（含重試）的結果。Step.run() 只讀 success + output。"""
+
+    name: str
+    success: bool
+    output: Any
+    error: str | None
+    attempts: int
+    adjusted_prompts: tuple[str, ...] = ()
+
+
+class Supervisor(Protocol):
+    """Step 對其執行環境需要的行為 seam：把 producer 交出去跑（含重試/self-heal）。
+
+    介面刻意只有 run_step —— 這是 Step 這個消費者唯一需要的表面。正式環境由
+    SupervisorAgent 結構性滿足；測試注入 tests/fakes.py 的 FakeSupervisor。
+    reflect_for_completeness 屬 orchestrator seam，不在此 Protocol 上。
+    """
+
+    def run_step(
+        self, name: str, fn: Callable[..., Any], force: bool = False
+    ) -> StepResult: ...
 
 
 class StepStatus(Enum):
