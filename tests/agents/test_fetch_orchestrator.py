@@ -1,24 +1,17 @@
 """_fetch_sources orchestrator — parallel raw / serial score / ≥2 gate, via SourceStep."""
 
 import json
-from types import SimpleNamespace
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
 from agents.daily_brief.agent import DailyBriefAgent, FETCH_STEPS
+from tests.fakes import make_step_ctx
 
 
-def _ctx(tmp_path, steps_to_run, force=set()):
-    steps_dir = tmp_path / "steps"
-    steps_dir.mkdir(exist_ok=True)
-    sup = SimpleNamespace()
-    sup.run_step = lambda name, fn, force=False: SimpleNamespace(success=True, output=fn())
-    return SimpleNamespace(
-        today="2026-06-21", day_dir=tmp_path, steps_dir=steps_dir,
-        steps_to_run=set(steps_to_run), force_steps=set(force),
-        supervisor=sup, notify_fn=lambda m: True,
-    )
+def _ctx(tmp_path, steps_to_run, force=set(), notify_fn=lambda m: True):
+    return make_step_ctx(tmp_path, steps_to_run=steps_to_run,
+                         force_steps=force, notify_fn=notify_fn)
 
 
 @pytest.mark.unit
@@ -67,8 +60,8 @@ def test_fetch_orchestrator_aborts_when_fewer_than_two_succeed(tmp_path):
     agent._score_raw_data = lambda name, raw: {"articles": [{"url": "http://hn"}]}
 
     alerts = []
-    ctx = _ctx(tmp_path, steps_to_run=set(FETCH_STEPS))
-    ctx.notify_fn = lambda m: alerts.append(m) or True
+    ctx = _ctx(tmp_path, steps_to_run=set(FETCH_STEPS),
+               notify_fn=lambda m: alerts.append(m) or True)
 
     result = agent._fetch_sources(ctx)
     assert result is None

@@ -21,7 +21,7 @@ import shlex
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Callable
+from typing import Callable
 
 from config import get_judge_llm, get_llm, get_logger, parse_llm_json
 from config.settings import (
@@ -35,11 +35,8 @@ from config.settings import (
 from . import prompts
 from .config import OUTPUT_DIR
 from .schemas import Digest, QualityScore, SourceCompress
-from .step import StepStatus
+from .step import StepStatus, Supervisor
 from .step_cache import Verdict, decide
-
-if TYPE_CHECKING:
-    from .supervisor import SupervisorAgent
 
 logger = get_logger(__name__)
 
@@ -67,7 +64,7 @@ class _RunContext:
     steps_dir: Path
     force_steps: set[str]
     steps_to_run: set[str]
-    supervisor: SupervisorAgent
+    supervisor: Supervisor
     notify_fn: Callable[[str], bool]
 
 

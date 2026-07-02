@@ -1,6 +1,5 @@
 """JudgeStep — scoring only; value = judge_result dict; raises when server down."""
 
-from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
@@ -8,20 +7,11 @@ import pytest
 from agents.daily_brief.codecs import JsonCodec
 from agents.daily_brief.step import StepStatus
 from agents.daily_brief.steps.judge import JudgeStep
-
-
-class _Supervisor:
-    def run_step(self, name, fn, force=False):
-        try:
-            return SimpleNamespace(success=True, output=fn(reflect_context=""))
-        except Exception:
-            return SimpleNamespace(success=False, output=None)
+from tests.fakes import make_step_ctx
 
 
 def _ctx(tmp_path, steps_to_run={"judge"}, force=set()):
-    return SimpleNamespace(steps_dir=tmp_path, day_dir=tmp_path, today="2026-06-21",
-                           steps_to_run=steps_to_run, force_steps=force,
-                           supervisor=_Supervisor())
+    return make_step_ctx(tmp_path, steps_to_run=steps_to_run, force_steps=force)
 
 
 @pytest.mark.unit
