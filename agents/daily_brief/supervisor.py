@@ -14,7 +14,7 @@ from config.settings import DEFAULT_LOCAL_LLM_URL, LLMBackend, check_local_llm
 
 from . import reflect_prompts
 from .config import STEP_CONFIGS
-from .step import StepResult  # StepResult 現住 step.py（消費者側）；此處 re-export 保相容
+from .step import StepResult  # StepResult 現住 step.py（消費者側）；run_step 回傳它
 
 logger = get_logger(__name__)
 

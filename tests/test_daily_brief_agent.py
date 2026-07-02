@@ -6,6 +6,7 @@ import pytest
 
 from agents.daily_brief.agent import ALL_STEPS, FETCH_STEPS
 from agents.daily_brief.config import STEP_CONFIGS
+from tests.fakes import FakeSupervisor
 
 
 def _make_agent(llm_response: str):
@@ -721,40 +722,17 @@ def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
         encoding="utf-8",
     )
 
-    run_step_calls: list[str] = []
-
-    class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
-            pass
-
-        def _is_judge_server_available(self) -> bool:
-            return True
-
-        def run_step(self, name, fn, force=False):
-            from agents.daily_brief.supervisor import StepResult
-
-            run_step_calls.append(name)
-            return StepResult(
-                name=name,
-                success=True,
-                output=fn(),
-                error=None,
-                attempts=1,
-            )
-
-        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
-            raise AssertionError("This test should not enter feedback loop")
-
+    sup = FakeSupervisor(forbid_reflect=True)
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
     agent._run_judge = MagicMock(return_value={"overall": 4.2})
 
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
         "agents.daily_brief.supervisor.SupervisorAgent",
-        FakeSupervisor,
+        lambda **kw: sup,
     ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
         agent.run("--only judge")
 
-    assert "judge" in run_step_calls
+    assert "judge" in sup.calls
     agent._run_judge.assert_called_once()
 
 
@@ -786,27 +764,8 @@ def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
         encoding="utf-8",
     )
 
-    class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
-            pass
-
-        def _is_judge_server_available(self) -> bool:
-            return True
-
-        def run_step(self, name, fn, force=False):
-            from agents.daily_brief.supervisor import StepResult
-
-            return StepResult(
-                name=name,
-                success=True,
-                output=fn(),
-                error=None,
-                attempts=1,
-            )
-
-        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
-            return ""
-
+    # 允許進入 feedback loop：reflect_for_completeness 預設回 ""（降級用原 prompt 重跑）
+    sup = FakeSupervisor()
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
     agent._run_digest = MagicMock(
         return_value=(
@@ -834,7 +793,7 @@ def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
 
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
         "agents.daily_brief.supervisor.SupervisorAgent",
-        FakeSupervisor,
+        lambda **kw: sup,
     ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
         agent.run("--only judge")
 
@@ -860,41 +819,17 @@ def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
         encoding="utf-8",
     )
 
-    judge_force_values: list[bool] = []
-
-    class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
-            pass
-
-        def _is_judge_server_available(self) -> bool:
-            return True
-
-        def run_step(self, name, fn, force=False):
-            from agents.daily_brief.supervisor import StepResult
-
-            if name == "judge":
-                judge_force_values.append(force)
-            return StepResult(
-                name=name,
-                success=True,
-                output=fn(),
-                error=None,
-                attempts=1,
-            )
-
-        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
-            raise AssertionError("This test should not enter feedback loop")
-
+    sup = FakeSupervisor(forbid_reflect=True)
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
     agent._run_judge = MagicMock(return_value={"overall": 4.2})
 
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
         "agents.daily_brief.supervisor.SupervisorAgent",
-        FakeSupervisor,
+        lambda **kw: sup,
     ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
         agent.run("--only judge --force judge")
 
-    assert judge_force_values == [True]
+    assert sup.forced["judge"] is True
 
 
 def test_judge_phase_uses_run_step_when_server_unavailable(tmp_path):
@@ -914,38 +849,16 @@ def test_judge_phase_uses_run_step_when_server_unavailable(tmp_path):
         encoding="utf-8",
     )
 
-    run_step_calls: list[str] = []
-
-    class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
-            pass
-
-        def run_step(self, name, fn, force=False):
-            from agents.daily_brief.supervisor import StepResult
-
-            run_step_calls.append(name)
-            try:
-                output = fn()
-                return StepResult(
-                    name=name, success=True, output=output, error=None, attempts=1
-                )
-            except Exception as exc:
-                return StepResult(
-                    name=name, success=False, output=None, error=str(exc), attempts=1
-                )
-
-        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
-            raise AssertionError("不應進入 feedback loop")
-
+    sup = FakeSupervisor(forbid_reflect=True)
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
 
     # server 無回應 = JudgeStep._produce 的 check_local_llm 探測回 False → raise → run_step 走 FAILED
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
-        "agents.daily_brief.supervisor.SupervisorAgent", FakeSupervisor
+        "agents.daily_brief.supervisor.SupervisorAgent", lambda **kw: sup
     ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=False):
         agent.run("--only judge")
 
-    assert "judge" in run_step_calls
+    assert "judge" in sup.calls
 
 
 def test_judge_failure_log_does_not_claim_report_skipped(tmp_path, caplog):
@@ -966,35 +879,11 @@ def test_judge_failure_log_does_not_claim_report_skipped(tmp_path, caplog):
         encoding="utf-8",
     )
 
-    class FakeSupervisor:
-        def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
-            pass
-
-        def _is_judge_server_available(self) -> bool:
-            return True
-
-        def run_step(self, name, fn, force=False):
-            from agents.daily_brief.supervisor import StepResult
-
-            if name == "judge":
-                return StepResult(
-                    name=name,
-                    success=False,
-                    output=None,
-                    error="LLM failed",
-                    attempts=2,
-                )
-            return StepResult(
-                name=name, success=True, output=fn(), error=None, attempts=1
-            )
-
-        def reflect_for_completeness(self, missed_urls, original_digest_prompt):
-            raise AssertionError("不應進入 feedback loop")
-
+    sup = FakeSupervisor(fail=frozenset({"judge"}), forbid_reflect=True)
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
 
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
-        "agents.daily_brief.supervisor.SupervisorAgent", FakeSupervisor
+        "agents.daily_brief.supervisor.SupervisorAgent", lambda **kw: sup
     ), caplog.at_level(logging.WARNING):
         agent.run("--only judge")
 
