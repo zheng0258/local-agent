@@ -5,13 +5,12 @@ from __future__ import annotations
 import json
 import os
 import time
-import urllib.request
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
 from config import get_logger, parse_llm_json
-from config.settings import DEFAULT_LOCAL_LLM_URL, LLMBackend
+from config.settings import DEFAULT_LOCAL_LLM_URL, LLMBackend, check_local_llm
 
 from . import reflect_prompts
 from .config import STEP_CONFIGS
@@ -107,7 +106,8 @@ class SupervisorAgent:
         self, missed_urls: list[str], original_digest_prompt: str
     ) -> str:
         """judge completeness < 3 時產出 digest 重跑用的 reflect 提示；server 無回應則降級回空字串。"""
-        if self._is_judge_server_available():
+        judge_url = os.environ.get("JUDGE_LLM_URL", DEFAULT_LOCAL_LLM_URL)
+        if check_local_llm(judge_url, timeout=3):
             return self._reflect_with_judge(missed_urls, original_digest_prompt)
         logger.warning("Judge server 無回應，降級：直接用原 prompt 重跑 digest")
         return ""
@@ -145,15 +145,6 @@ class SupervisorAgent:
         except Exception as exc:
             logger.warning("Judge reflect LLM 呼叫失敗：%s", exc)
             return ""
-
-    def _is_judge_server_available(self) -> bool:
-        """快速探測 judge LLM server 是否在線。"""
-        url = os.environ.get("JUDGE_LLM_URL", DEFAULT_LOCAL_LLM_URL)
-        try:
-            urllib.request.urlopen(f"{url}/v1/models", timeout=3)
-            return True
-        except Exception:
-            return False
 
     def _notify_failure(
         self,

@@ -179,9 +179,9 @@ def test_reflect_for_completeness_returns_hint_when_server_up(tmp_path):
 
     sup = SupervisorAgent(llm=MagicMock(), judge_llm=MagicMock(),
                           steps_dir=tmp_path, today="2026-06-21", notify_fn=lambda m: True)
-    sup._is_judge_server_available = lambda: True
     sup._reflect_with_judge = lambda missed, prompt: "REFLECT_HINT"
-    assert sup.reflect_for_completeness(["http://x"], "orig prompt") == "REFLECT_HINT"
+    with patch("agents.daily_brief.supervisor.check_local_llm", return_value=True):
+        assert sup.reflect_for_completeness(["http://x"], "orig prompt") == "REFLECT_HINT"
 
 
 @pytest.mark.unit
@@ -191,5 +191,5 @@ def test_reflect_for_completeness_degrades_to_empty_when_server_down(tmp_path):
 
     sup = SupervisorAgent(llm=MagicMock(), judge_llm=MagicMock(),
                           steps_dir=tmp_path, today="2026-06-21", notify_fn=lambda m: True)
-    sup._is_judge_server_available = lambda: False
-    assert sup.reflect_for_completeness(["http://x"], "orig prompt") == ""
+    with patch("agents.daily_brief.supervisor.check_local_llm", return_value=False):
+        assert sup.reflect_for_completeness(["http://x"], "orig prompt") == ""

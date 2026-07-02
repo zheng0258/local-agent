@@ -7,8 +7,11 @@ _judge-history 的側寫由注入的 _run_judge 內部處理（維持不變）�
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Callable
+
+from config.settings import DEFAULT_LOCAL_LLM_URL, check_local_llm
 
 from ..step import Step, StepOutput
 
@@ -28,7 +31,10 @@ class JudgeStep(Step):
 
     def _produce(self, ctx, input, reflect_context: str = "") -> StepOutput:
         compress_data, digests = input
-        if not ctx.supervisor._is_judge_server_available():
+        # fail-fast：judge server 無回應時 raise，讓 supervisor 走 retry/FAILED。
+        # 直接用共用工具 check_local_llm，不穿 supervisor seam（Supervisor Protocol = 只有 run_step）。
+        judge_url = os.environ.get("JUDGE_LLM_URL", DEFAULT_LOCAL_LLM_URL)
+        if not check_local_llm(judge_url, timeout=3):
             raise RuntimeError("judge LLM server 無回應")
         result = self._run_judge(compress_data, digests, date=ctx.today)
         return StepOutput(persist=result, value=result)

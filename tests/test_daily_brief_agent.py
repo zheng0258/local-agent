@@ -751,7 +751,7 @@ def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
         "agents.daily_brief.supervisor.SupervisorAgent",
         FakeSupervisor,
-    ):
+    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
         agent.run("--only judge")
 
     assert "judge" in run_step_calls
@@ -835,7 +835,7 @@ def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
         "agents.daily_brief.supervisor.SupervisorAgent",
         FakeSupervisor,
-    ):
+    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
         agent.run("--only judge")
 
     assert agent._run_judge.call_count == 2
@@ -891,7 +891,7 @@ def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
         "agents.daily_brief.supervisor.SupervisorAgent",
         FakeSupervisor,
-    ):
+    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
         agent.run("--only judge --force judge")
 
     assert judge_force_values == [True]
@@ -920,9 +920,6 @@ def test_judge_phase_uses_run_step_when_server_unavailable(tmp_path):
         def __init__(self, llm, judge_llm, steps_dir, today, notify_fn=None):
             pass
 
-        def _is_judge_server_available(self) -> bool:
-            return False
-
         def run_step(self, name, fn, force=False):
             from agents.daily_brief.supervisor import StepResult
 
@@ -942,9 +939,10 @@ def test_judge_phase_uses_run_step_when_server_unavailable(tmp_path):
 
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
 
+    # server 無回應 = JudgeStep._produce 的 check_local_llm 探測回 False → raise → run_step 走 FAILED
     with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
         "agents.daily_brief.supervisor.SupervisorAgent", FakeSupervisor
-    ):
+    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=False):
         agent.run("--only judge")
 
     assert "judge" in run_step_calls
