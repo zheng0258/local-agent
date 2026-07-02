@@ -110,20 +110,13 @@ def test_run_enrich_does_not_mutate_compress_data():
 
 # ── EnrichStep：idempotent（取代舊 _phase_enrich 測試）─────────────
 
-from types import SimpleNamespace
 from agents.daily_brief.step import StepStatus
 from agents.daily_brief.steps.enrich import EnrichStep
-
-
-class _FakeSupervisor:
-    def run_step(self, name, fn, force=False):
-        return SimpleNamespace(success=True, output=fn())
+from tests.fakes import make_step_ctx
 
 
 def _enrich_ctx(steps_dir, steps_to_run, force=set()):
-    return SimpleNamespace(steps_dir=steps_dir, day_dir=steps_dir,
-                           steps_to_run=steps_to_run, force_steps=force,
-                           supervisor=_FakeSupervisor())
+    return make_step_ctx(steps_dir, steps_to_run=steps_to_run, force_steps=force)
 
 
 def test_enrich_step_loads_existing_artifact(tmp_path):

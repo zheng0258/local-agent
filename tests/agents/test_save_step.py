@@ -6,17 +6,11 @@ import pytest
 
 from agents.daily_brief.step import StepStatus
 from agents.daily_brief.steps.save import SaveStep
-
-
-class _FakeSupervisor:
-    def run_step(self, name, fn, force=False):
-        return SimpleNamespace(success=True, output=fn())
+from tests.fakes import make_step_ctx
 
 
 def _ctx(tmp_path, steps_to_run={"save"}, force=set()):
-    return SimpleNamespace(steps_dir=tmp_path, day_dir=tmp_path,
-                           steps_to_run=steps_to_run, force_steps=force,
-                           supervisor=_FakeSupervisor())
+    return make_step_ctx(tmp_path, steps_to_run=steps_to_run, force_steps=force)
 
 
 @pytest.mark.unit

@@ -10,31 +10,11 @@ import pytest
 
 from agents.daily_brief.step import StepStatus
 from agents.daily_brief.steps.deploy import DeployStep
-
-
-class _FakeSupervisor:
-    def run_step(self, name, fn, force=False):
-        return SimpleNamespace(success=True, output=fn())
-
-
-class _FailingSupervisor:
-    """模擬 supervisor：producer 拋例外 → success=False（重試耗盡行為）。"""
-
-    def run_step(self, name, fn, force=False):
-        try:
-            return SimpleNamespace(success=True, output=fn())
-        except Exception:
-            return SimpleNamespace(success=False, output=None)
+from tests.fakes import make_step_ctx
 
 
 def _ctx(tmp_path, steps_to_run={"deploy"}, force=set()):
-    return SimpleNamespace(
-        steps_dir=tmp_path,
-        day_dir=tmp_path,
-        steps_to_run=steps_to_run,
-        force_steps=force,
-        supervisor=_FakeSupervisor(),
-    )
+    return make_step_ctx(tmp_path, steps_to_run=steps_to_run, force_steps=force)
 
 
 def _fake_build():
@@ -165,8 +145,8 @@ def test_deploy_step_push_failure_fails_without_sentinel(tmp_path):
     def failing_push(build_dir):
         raise RuntimeError("git push 失敗")
 
+    # 預設 FakeSupervisor 會捕捉 producer 例外 → FAILED（鏡射重試耗盡）
     ctx = _ctx(tmp_path)
-    ctx.supervisor = _FailingSupervisor()
     outcome = DeployStep(build=_fake_build, push=failing_push, today="2026-06-25").run(
         ctx, input=None
     )

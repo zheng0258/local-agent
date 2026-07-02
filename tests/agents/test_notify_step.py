@@ -11,26 +11,11 @@ import pytest
 
 from agents.daily_brief.step import StepStatus
 from agents.daily_brief.steps.notify import NotifyStep
-
-
-class _FakeSupervisor:
-    """Mimics supervisor: calls fn(); on exception returns success=False."""
-
-    def run_step(self, name, fn, force=False):
-        try:
-            return SimpleNamespace(success=True, output=fn(reflect_context=""))
-        except Exception:
-            return SimpleNamespace(success=False, output=None)
+from tests.fakes import make_step_ctx
 
 
 def _ctx(tmp_path, steps_to_run={"notify"}, force=set()):
-    return SimpleNamespace(
-        steps_dir=tmp_path,
-        day_dir=tmp_path,
-        steps_to_run=steps_to_run,
-        force_steps=force,
-        supervisor=_FakeSupervisor(),
-    )
+    return make_step_ctx(tmp_path, steps_to_run=steps_to_run, force_steps=force)
 
 
 def _composed(overview="OV", digest="DG"):

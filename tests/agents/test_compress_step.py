@@ -8,21 +8,11 @@ import pytest
 from agents.daily_brief.codecs import JsonCodec
 from agents.daily_brief.step import StepStatus
 from agents.daily_brief.steps.compress import CompressStep
-
-
-class _FakeSupervisor:
-    def run_step(self, name, fn, force=False):
-        return SimpleNamespace(success=True, output=fn())
+from tests.fakes import make_step_ctx
 
 
 def _ctx(tmp_path):
-    return SimpleNamespace(
-        steps_dir=tmp_path,
-        day_dir=tmp_path,
-        steps_to_run={"compress"},
-        force_steps=set(),
-        supervisor=_FakeSupervisor(),
-    )
+    return make_step_ctx(tmp_path, steps_to_run={"compress"})
 
 
 @pytest.mark.unit
@@ -56,8 +46,7 @@ def test_compress_step_artifact_path(tmp_path):
 @pytest.mark.unit
 def test_compress_step_default_is_empty_dict(tmp_path):
     step = CompressStep(run_compress=lambda *a, **k: {}, check_health=lambda d: None)
-    ctx = SimpleNamespace(steps_dir=tmp_path, steps_to_run=set(), force_steps=set(),
-                          supervisor=_FakeSupervisor())
+    ctx = make_step_ctx(tmp_path, steps_to_run=set())
     outcome = step.run(ctx, {"hn": {}})   # 不在 steps_to_run、無 artifact → SKIP
     assert outcome.status is StepStatus.SKIPPED
     assert outcome.value == {}

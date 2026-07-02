@@ -60,7 +60,7 @@ ALL_STEPS = [
 ]
 
 
-@dataclass
+@dataclass(frozen=True)
 class _RunContext:
     today: str
     day_dir: Path
