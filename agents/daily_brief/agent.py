@@ -82,9 +82,18 @@ class DailyBriefAgent:
 
         # 唯讀健康查詢（pull）：短路，不跑 pipeline、不需 LLM
         if "--health" in shlex.split(args):
-            from .health import HEALTH_HISTORY_FILE, load_history, render_health_table
+            from .health import (
+                HEALTH_HISTORY_FILE,
+                digest_source_shares,
+                load_history,
+                load_recent_digests,
+                render_health_table,
+            )
 
-            return render_health_table(load_history(HEALTH_HISTORY_FILE))
+            shares = digest_source_shares(load_recent_digests(OUTPUT_DIR, today))
+            return render_health_table(
+                load_history(HEALTH_HISTORY_FILE), digest_shares=shares
+            )
 
         force_steps, only_steps = _parse_args(args)
 

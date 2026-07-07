@@ -12,9 +12,11 @@ from agents.daily_brief.health import (
     append_record,
     classify_error,
     detect_chronic,
+    digest_source_shares,
     filter_new_escalations,
     format_escalation,
     load_history,
+    load_recent_digests,
     observe_run,
     record_escalations,
     render_health_table,
@@ -208,6 +210,72 @@ def test_filter_new_escalations_first_time_passes(tmp_path):
     assert filter_new_escalations([finding], state, "2026-06-21") == [finding]
 
 
+# ── digest 貢獻度 ─────────────────────────────────────────────────
+
+
+def _digest_artifact(sources):
+    return {
+        "generated_at": "2026-07-07T02:00:00",
+        "digests": [
+            {"title": f"t{i}", "url": f"https://x/{i}", "source": "顯示名",
+             "interest": "***", "summary": "s", "_source": src}
+            for i, src in enumerate(sources)
+        ],
+    }
+
+
+def test_digest_source_shares_counts_ratio():
+    artifacts = [
+        _digest_artifact(["rss", "rss", "hatena"]),
+        _digest_artifact(["hn"]),
+    ]
+    shares = digest_source_shares(artifacts)
+    assert shares == {"rss": 0.5, "hatena": 0.25, "hn": 0.25}
+
+
+def test_digest_source_shares_skips_entries_without_source_field():
+    # 舊 schema：digest 條目沒有 _source 欄位 → 靜默略過，不影響其他條目
+    old = {"generated_at": "x", "digests": [
+        {"title": "t", "url": "u", "source": "顯示名", "interest": "**", "summary": "s"},
+    ]}
+    shares = digest_source_shares([old, _digest_artifact(["rss"])])
+    assert shares == {"rss": 1.0}
+
+
+def test_digest_source_shares_empty_or_malformed_input():
+    assert digest_source_shares([]) == {}
+    assert digest_source_shares([{}, {"digests": "not-a-list"}, {"digests": [42]}]) == {}
+
+
+def _seed_digest(tmp_path, date, sources):
+    steps_dir = tmp_path / date / "steps"
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "digest.json").write_text(
+        json.dumps(_digest_artifact(sources)), encoding="utf-8"
+    )
+
+
+def test_load_recent_digests_reads_window_and_skips_missing_days(tmp_path):
+    _seed_digest(tmp_path, "2026-07-07", ["rss"])
+    _seed_digest(tmp_path, "2026-07-05", ["hn"])   # 07-06 缺檔 → 靜默略過
+    _seed_digest(tmp_path, "2026-06-01", ["reddit"])  # 超出 30 天視窗 → 不讀
+    artifacts = load_recent_digests(tmp_path, "2026-07-07", window=30)
+    assert digest_source_shares(artifacts) == {"rss": 0.5, "hn": 0.5}
+
+
+def test_load_recent_digests_skips_corrupt_file(tmp_path):
+    _seed_digest(tmp_path, "2026-07-07", ["rss"])
+    steps_dir = tmp_path / "2026-07-06" / "steps"
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "digest.json").write_text("{not json", encoding="utf-8")
+    artifacts = load_recent_digests(tmp_path, "2026-07-07", window=30)
+    assert digest_source_shares(artifacts) == {"rss": 1.0}
+
+
+def test_load_recent_digests_empty_dir(tmp_path):
+    assert load_recent_digests(tmp_path, "2026-07-07") == []
+
+
 # ── render ───────────────────────────────────────────────────────
 
 
@@ -236,3 +304,24 @@ def test_render_health_table_shows_rates():
 
 def test_render_health_table_empty():
     assert render_health_table([]) == "（尚無健康記錄）"
+
+
+def test_render_health_table_shows_digest_shares():
+    history = _history([
+        (20, {"hatena": OK, "rss": OK, "telegram": OK}),
+        (21, {"hatena": OK, "rss": OK, "telegram": OK}),
+    ])
+    table = render_health_table(history, digest_shares={"rss": 0.39, "hatena": 0.28})
+    hatena_line = next(l for l in table.splitlines() if "hatena" in l)
+    rss_line = next(l for l in table.splitlines() if l.strip().startswith("rss"))
+    telegram_line = next(l for l in table.splitlines() if "telegram" in l)
+    assert "digest 28%" in hatena_line
+    assert "digest 39%" in rss_line
+    assert "digest" not in telegram_line  # 遞送 subject 無占比欄
+    assert "digest" in table.splitlines()[0]  # 標題註明 digest 欄意義
+
+
+def test_render_health_table_without_shares_unchanged():
+    history = _history([(21, {"hatena": OK})])
+    table = render_health_table(history)
+    assert "digest" not in table

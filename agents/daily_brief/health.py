@@ -16,7 +16,7 @@ from __future__ import annotations
 import json
 from collections import Counter
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
 from typing import Mapping, Sequence
@@ -263,6 +263,58 @@ def record_escalations(
     state_file.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+# ── Digest 貢獻度 ─────────────────────────────────────────────────
+
+# digest 貢獻度統計的滑動視窗（日曆天）
+DIGEST_SHARE_WINDOW_DAYS = 30
+
+
+def digest_source_shares(artifacts: Sequence[Mapping]) -> dict[str, float]:
+    """統計各來源在最終 digest 條目中的占比（0.0–1.0）。純函數。
+
+    輸入為多日 digest artifact（`{"digests": [{..., "_source": key}, ...]}`）；
+    缺 `_source` 的條目（舊 schema）與形狀異常的 artifact 靜默略過。
+    """
+    counts: Counter[str] = Counter()
+    for artifact in artifacts:
+        digests = artifact.get("digests") if isinstance(artifact, Mapping) else None
+        if not isinstance(digests, list):
+            continue
+        for entry in digests:
+            if not isinstance(entry, Mapping):
+                continue
+            source = entry.get("_source")
+            if isinstance(source, str) and source:
+                counts[source] += 1
+    total = sum(counts.values())
+    if total == 0:
+        return {}
+    return {source: count / total for source, count in counts.items()}
+
+
+def load_recent_digests(
+    output_dir: Path, end_date: str, window: int = DIGEST_SHARE_WINDOW_DAYS
+) -> list[dict]:
+    """讀取近 window 個日曆天（含 end_date）的 digest artifact。純讀檔，不寫。
+
+    缺檔或壞檔的日子靜默略過。
+    """
+    end = datetime.strptime(end_date, "%Y-%m-%d")
+    artifacts: list[dict] = []
+    for offset in range(window):
+        day = (end - timedelta(days=offset)).strftime("%Y-%m-%d")
+        digest_file = output_dir / day / "steps" / "digest.json"
+        if not digest_file.exists():
+            continue
+        try:
+            data = json.loads(digest_file.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if isinstance(data, dict):
+            artifacts.append(data)
+    return artifacts
+
+
 # ── Render ───────────────────────────────────────────────────────
 
 
@@ -279,16 +331,22 @@ def format_escalation(findings: Sequence[ChronicFinding], today: str) -> str:
 
 
 def render_health_table(
-    history: Sequence[HealthRecord], window: int = CHRONIC_WINDOW_DAYS
+    history: Sequence[HealthRecord],
+    window: int = CHRONIC_WINDOW_DAYS,
+    digest_shares: Mapping[str, float] | None = None,
 ) -> str:
-    """pull 查詢用：印出近 window 天各 subject 的成功率表（純文字）。"""
+    """pull 查詢用：印出近 window 天各 subject 的成功率表（純文字）。
+
+    給定 digest_shares 時，來源列附上近 DIGEST_SHARE_WINDOW_DAYS 天的
+    digest 條目占比欄（遞送 subject 無此欄）。
+    """
     recent = _recent_by_days(history, window)
     if not recent:
         return "（尚無健康記錄）"
-    lines = [
-        f"Daily Brief 健康狀態（近 {len(recent)} 天，{recent[0].date} ~ {recent[-1].date}）",
-        "",
-    ]
+    title = f"Daily Brief 健康狀態（近 {len(recent)} 天，{recent[0].date} ~ {recent[-1].date}）"
+    if digest_shares:
+        title += f"；digest 欄 = 近 {DIGEST_SHARE_WINDOW_DAYS} 天 digest 條目占比"
+    lines = [title, ""]
     for subject in SUBJECTS:
         total = sum(1 for r in recent if subject in r.results)
         if total == 0:
@@ -299,6 +357,11 @@ def render_health_table(
             for r in recent
             if subject in r.results and r.results[subject] != OK
         ]
+        share = ""
+        if digest_shares and subject in digest_shares:
+            share = f"  digest {digest_shares[subject] * 100:.0f}%"
         suffix = f"  ⚠️ {Counter(fails).most_common(1)[0][0]}" if fails else ""
-        lines.append(f"  {subject:9} {ok:>2}/{total:<2}  {ok / total * 100:5.1f}%{suffix}")
+        lines.append(
+            f"  {subject:9} {ok:>2}/{total:<2}  {ok / total * 100:5.1f}%{share}{suffix}"
+        )
     return "\n".join(lines)
