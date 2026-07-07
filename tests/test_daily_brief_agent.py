@@ -940,3 +940,55 @@ def test_score_reddit_batched_splits_calls():
     assert max(call_sizes) <= 25, f"批次超過 25 篇：{call_sizes}"
     assert sum(call_sizes) == 154
     assert len(result["articles"]) == 154
+
+
+# ── --health 唯讀查詢接線 ─────────────────────────────────────────
+
+
+def test_health_flag_renders_digest_shares(tmp_path, monkeypatch):
+    """--health 短路：呈現 digest 貢獻度欄，且全程不呼叫 LLM。"""
+    import agents.daily_brief.health as health
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    history_file = tmp_path / "_health-history.json"
+    history_file.write_text(
+        json.dumps([{"date": today, "results": {"rss": "ok", "hatena": "ok"}}]),
+        encoding="utf-8",
+    )
+    steps_dir = tmp_path / today / "steps"
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": [
+            {"_source": "rss"}, {"_source": "rss"},
+            {"_source": "hatena"},
+            {"title": "舊 schema 條目，無 _source"},
+        ]}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", history_file)
+    monkeypatch.setattr("agents.daily_brief.agent.OUTPUT_DIR", tmp_path)
+
+    mock_llm = MagicMock()
+    out = DailyBriefAgent(llm=mock_llm, judge_llm=MagicMock()).run("--health")
+
+    rss_line = next(l for l in out.splitlines() if l.strip().startswith("rss"))
+    assert "digest 67%" in rss_line
+    mock_llm.complete.assert_not_called()
+
+
+def test_health_flag_survives_missing_digest_artifacts(tmp_path, monkeypatch):
+    """近 30 天完全沒有 digest artifact → 表照常 render，不崩潰。"""
+    import agents.daily_brief.health as health
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    history_file = tmp_path / "_health-history.json"
+    history_file.write_text(
+        json.dumps([{"date": today, "results": {"rss": "ok"}}]), encoding="utf-8"
+    )
+    monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", history_file)
+    monkeypatch.setattr("agents.daily_brief.agent.OUTPUT_DIR", tmp_path)
+
+    out = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock()).run("--health")
+    assert "rss" in out
