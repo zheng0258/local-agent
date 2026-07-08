@@ -62,7 +62,7 @@ tools/
 │   ├── hn.py
 │   ├── reddit.py
 │   ├── security_blogs.py
-│   └── browser.py              # playwright-cli 共用工具（hn / security_blogs 使用）
+│   └── browser.py              # playwright-cli 共用工具（hn 使用）
 ├── vector_store/                # 語義 dedup（embedding + cosine）
 │   ├── client.py
 │   ├── dedup.py
@@ -194,10 +194,9 @@ python lint/check_fetcher_interface.py
 - `open` 啟動長駐 daemon（不自動退出），必須用 `Popen` 放背景，再輪詢 `list` 等 session 就緒
 - `--raw eval "<expr>"` 回傳 JSON-encoded 字串，需 `json.loads()` 解碼一層
 - `eval` 在瀏覽器 context 執行（有 `document`）；`run-code` 在 Node.js context 執行（有 `page`，無 `document`）
-- JS 重度渲染頁面（aikido.dev、wiz.io）需 `page_load_wait=6` 秒，否則 DOM 尚未就緒
+- JS 重度渲染頁面需 `page_load_wait=6` 秒，否則 DOM 尚未就緒
 - 複雜提取用 `eval "(function(){...})()"` IIFE，不支援 `const`/`let`，用 `var`
-- aikido.dev DOM：文章用 `[fs-list-field="title"]` / `[fs-list-field="description"]`
-- wiz.io DOM：精選文章用 `h2`，其他用 `h3`
+- security 來源（aikido.dev、wiz.io）已改走 RSS feed，不再用 playwright（見 `docs/adr/0003`）
 
 ## LM Studio API
 

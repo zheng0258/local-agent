@@ -1,97 +1,70 @@
-"""Security blogs fetcher（aikido.dev、wiz.io）。使用 Playwright 渲染 JS 頁面。"""
+"""Security blogs fetcher（aikido.dev、wiz.io）。使用 RSS feed 取得文章清單。
+
+兩站皆提供標準 RSS 2.0 feed（調查見 docs/adr/0003），
+不再依賴 playwright DOM 抓取。
+"""
 
 from __future__ import annotations
 
-import json
-import subprocess
-import time
-import uuid
+import ssl
+import urllib.request
 
-from tools.fetchers.browser import _cli_bin, _run, _wait_for_session
-
-# JS 提取腳本（在瀏覽器 context 執行）
-_AIKIDO_JS = (
-    "(function(){"
-    "var seen={}; var arts=[];"
-    "document.querySelectorAll('a[href^=\"/blog/\"]').forEach(function(a){"
-    "var t=a.querySelector('[fs-list-field=\"title\"]');"
-    "var d=a.querySelector('[fs-list-field=\"description\"]');"
-    "var href=a.getAttribute('href');"
-    "if(t&&href&&!seen[href]){"
-    "seen[href]=1;"
-    "arts.push({title:t.textContent.trim(),"
-    "url:'https://www.aikido.dev'+href,"
-    "description:d?d.textContent.trim().slice(0,200):''});"
-    "}"
-    "});"
-    "return JSON.stringify(arts.slice(0,10));"
-    "})()"
-)
-
-_WIZ_JS = (
-    "(function(){"
-    "var seen={}; var arts=[];"
-    "document.querySelectorAll('a[href^=\"/blog/\"]').forEach(function(a){"
-    "var t=a.querySelector('h2,h3');"
-    "var href=a.getAttribute('href');"
-    "if(t&&href&&!seen[href]&&t.textContent.trim().length>10){"
-    "seen[href]=1;"
-    "arts.push({title:t.textContent.trim(),"
-    "url:'https://www.wiz.io'+href});"
-    "}"
-    "});"
-    "return JSON.stringify(arts.slice(0,10));"
-    "})()"
-)
+import defusedxml.ElementTree as ET
 
 _SOURCES: list[dict] = [
-    {"url": "https://www.aikido.dev/blog", "source": "aikido.dev", "js": _AIKIDO_JS},
-    {"url": "https://www.wiz.io/blog",     "source": "wiz.io",     "js": _WIZ_JS},
+    {"feed_url": "https://www.aikido.dev/blog/rss.xml", "source": "aikido.dev"},
+    {"feed_url": "https://www.wiz.io/feed/rss.xml", "source": "wiz.io"},
 ]
 
-_PAGE_LOAD_WAIT = 6  # JS 重度渲染需要等待
+_MAX_ARTICLES_PER_SOURCE = 10
+_DESCRIPTION_MAX_CHARS = 200
+
+
+def _ssl_context() -> ssl.SSLContext:
+    """優先用 certifi 憑證（繞過 macOS python.org 安裝的 SSL 問題）。"""
+    try:
+        import certifi
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        return ssl.create_default_context()
 
 
 def _fetch_articles(source: dict) -> list[dict]:
-    cli = _cli_bin()
-    session = f"sec-{uuid.uuid4().hex[:8]}"
-    base = cli + [f"-s={session}"]
-
-    open_proc = subprocess.Popen(
-        base + ["open", source["url"]],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+    req = urllib.request.Request(
+        source["feed_url"], headers={"User-Agent": "daily-brief/1.0"}
     )
     try:
-        if not _wait_for_session(cli, session):
-            raise RuntimeError(f"session '{session}' 未就緒")
-        time.sleep(_PAGE_LOAD_WAIT)
-
-        raw = _run(base + ["--raw", "eval", source["js"]])
-        # --raw eval 回傳 JSON 字串，需解碼一層
-        try:
-            inner = json.loads(raw)
-            articles = json.loads(inner) if isinstance(inner, str) else inner
-        except (json.JSONDecodeError, TypeError):
-            articles = []
-
-        for a in articles:
-            a["source"] = source["source"]
-        return articles
+        with urllib.request.urlopen(req, timeout=30, context=_ssl_context()) as resp:
+            xml_bytes = resp.read()
+        articles = _parse_rss(xml_bytes)[:_MAX_ARTICLES_PER_SOURCE]
+        return [{**a, "source": source["source"]} for a in articles]
     except Exception as e:
         return [{"source": source["source"], "error": str(e)}]
-    finally:
-        _run(base + ["close"])
-        open_proc.terminate()
-        try:
-            open_proc.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            open_proc.kill()
+
+
+def _parse_rss(xml_bytes: bytes) -> list[dict]:
+    """解析 RSS 2.0 feed，回傳 [{"title", "url", "description"}, ...]。"""
+    root = ET.fromstring(xml_bytes)
+    articles: list[dict] = []
+    for item in root.iter("item"):
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        description = (item.findtext("description") or "").strip()
+        articles.append(
+            {
+                "title": title,
+                "url": link,
+                "description": description[:_DESCRIPTION_MAX_CHARS],
+            }
+        )
+    return articles
 
 
 def fetch() -> list[dict]:
     """
-    抓取 aikido.dev 與 wiz.io 最新文章。
-    回傳格式：[{"title", "url", "source", "description"?}, ...]
+    抓取 aikido.dev 與 wiz.io 最新文章（RSS feed）。
+    回傳格式：[{"title", "url", "source", "description"}, ...]
     """
     articles: list[dict] = []
     for source in _SOURCES:
