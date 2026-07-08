@@ -315,6 +315,91 @@ def load_recent_digests(
     return artifacts
 
 
+# ── Judge 飽和偵測 ────────────────────────────────────────────────
+#
+# LLM-as-Judge 的分數若長期貼頂（quality_alert 只在 completeness < 3 觸發，
+# 而歷史 overall 從未低於 4.0），儀表就失去鑑別力卻沒人知道。
+# 比照慢性故障：純函數跨天 roll-up，只在 --health 加註警示，不動 judge step。
+
+JUDGE_SATURATION_WINDOW_DAYS = 30
+# 資料不足門檻：視窗內記錄少於此數即不判定（避免小樣本誤報）
+JUDGE_SATURATION_MIN_RECORDS = 30
+# 「貼頂」的 overall 下限：1–5 分制的次高分
+JUDGE_SATURATION_SCORE_FLOOR = 4.0
+# 貼頂天數占比 ≥ 此值即視為飽和
+JUDGE_SATURATION_RATIO = 0.9
+
+JUDGE_HISTORY_FILE = OUTPUT_DIR / "_judge-history.json"
+
+
+@dataclass(frozen=True)
+class JudgeSaturationFinding:
+    """judge 分數飽和的判定結果（含近 N 天分數分佈摘要）。"""
+
+    window_days: int                    # 實際檢視的記錄數
+    saturated_days: int                 # overall ≥ score_floor 的天數
+    score_floor: float
+    min_overall: float
+    max_overall: float
+    distribution: Mapping[float, int]   # overall 分數 → 天數
+
+
+def detect_judge_saturation(
+    history: Sequence[Mapping],
+    window: int = JUDGE_SATURATION_WINDOW_DAYS,
+    min_records: int = JUDGE_SATURATION_MIN_RECORDS,
+    score_floor: float = JUDGE_SATURATION_SCORE_FLOOR,
+    ratio: float = JUDGE_SATURATION_RATIO,
+) -> JudgeSaturationFinding | None:
+    """近 window 個日曆天內，overall ≥ score_floor 的天數占比 ≥ ratio 即飽和。
+
+    輸入形狀鏡像 `_judge-history.json`（每筆含 "date" 與 "overall"）。
+    視窗內記錄不足 min_records 筆視為資料不足，回傳 None 不誤報；
+    未飽和亦回傳 None。純函數，不讀檔。
+    """
+    overalls = _recent_judge_overalls(history, window)
+    if len(overalls) < min_records:
+        return None
+    saturated = [o for o in overalls if o >= score_floor]
+    if len(saturated) / len(overalls) < ratio:
+        return None
+    return JudgeSaturationFinding(
+        window_days=len(overalls),
+        saturated_days=len(saturated),
+        score_floor=score_floor,
+        min_overall=min(overalls),
+        max_overall=max(overalls),
+        distribution=dict(sorted(Counter(overalls).items())),
+    )
+
+
+def load_judge_history(history_file: Path) -> list[dict]:
+    """讀 judge 歷史檔（形狀同 `_judge-history.json`）。缺檔或壞檔回傳空 list。"""
+    if not history_file.exists():
+        return []
+    try:
+        raw = json.loads(history_file.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+    return [r for r in raw if isinstance(r, dict)] if isinstance(raw, list) else []
+
+
+def _recent_judge_overalls(history: Sequence[Mapping], window: int) -> list[float]:
+    """取最新記錄日往前 window 個日曆天內的 overall 值（形狀異常的記錄略過）。"""
+    dated: list[tuple[str, float]] = []
+    for record in history:
+        if not isinstance(record, Mapping):
+            continue
+        date, overall = record.get("date"), record.get("overall")
+        if isinstance(date, str) and isinstance(overall, (int, float)):
+            dated.append((date, float(overall)))
+    if not dated:
+        return []
+    dated.sort(key=lambda pair: pair[0])
+    latest = dated[-1][0]
+    return [o for d, o in dated if 0 <= _days_between(d, latest) < window]
+
+
 # ── Render ───────────────────────────────────────────────────────
 
 
@@ -334,11 +419,14 @@ def render_health_table(
     history: Sequence[HealthRecord],
     window: int = CHRONIC_WINDOW_DAYS,
     digest_shares: Mapping[str, float] | None = None,
+    judge_saturation: JudgeSaturationFinding | None = None,
 ) -> str:
     """pull 查詢用：印出近 window 天各 subject 的成功率表（純文字）。
 
     給定 digest_shares 時，來源列附上近 DIGEST_SHARE_WINDOW_DAYS 天的
     digest 條目占比欄（遞送 subject 無此欄）。
+    給定 judge_saturation 時，表尾加註「judge 已失去鑑別力」警示行
+    （含近 JUDGE_SATURATION_WINDOW_DAYS 天分數分佈摘要）。
     """
     recent = _recent_by_days(history, window)
     if not recent:
@@ -364,4 +452,19 @@ def render_health_table(
         lines.append(
             f"  {subject:9} {ok:>2}/{total:<2}  {ok / total * 100:5.1f}%{share}{suffix}"
         )
+    if judge_saturation is not None:
+        lines.extend(("", _format_judge_saturation(judge_saturation)))
     return "\n".join(lines)
+
+
+def _format_judge_saturation(finding: JudgeSaturationFinding) -> str:
+    """judge 飽和警示行：貼頂占比 + 分數分佈摘要 + 建議。"""
+    dist = " / ".join(
+        f"{score:.1f}×{count}" for score, count in finding.distribution.items()
+    )
+    return (
+        f"  ⚠️ judge 已失去鑑別力：近 {finding.window_days} 天有 "
+        f"{finding.saturated_days}/{finding.window_days} 天 overall ≥ "
+        f"{finding.score_floor:.1f}（分佈 {dist}）\n"
+        f"     ↳ 建議：更換 judge 模型（JUDGE_LLM_MODEL）或收緊評分 rubric"
+    )

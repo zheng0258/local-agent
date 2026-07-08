@@ -9,13 +9,16 @@ from agents.daily_brief.health import (
     ChronicFinding,
     ErrorClass,
     HealthRecord,
+    JudgeSaturationFinding,
     append_record,
     classify_error,
     detect_chronic,
+    detect_judge_saturation,
     digest_source_shares,
     filter_new_escalations,
     format_escalation,
     load_history,
+    load_judge_history,
     load_recent_digests,
     observe_run,
     record_escalations,
@@ -276,6 +279,77 @@ def test_load_recent_digests_empty_dir(tmp_path):
     assert load_recent_digests(tmp_path, "2026-07-07") == []
 
 
+# ── detect_judge_saturation ──────────────────────────────────────
+
+
+def _judge_records(overalls, start="2026-06-01"):
+    """依序生成連續日期的 judge 歷史記錄（形狀鏡像 _judge-history.json）。"""
+    from datetime import datetime, timedelta
+
+    base = datetime.strptime(start, "%Y-%m-%d")
+    return [
+        {
+            "date": (base + timedelta(days=i)).strftime("%Y-%m-%d"),
+            "overall": overall,
+            "scores": {"relevance": 5, "completeness": 5, "faithfulness": 5},
+            "quality_alert": False,
+        }
+        for i, overall in enumerate(overalls)
+    ]
+
+
+def test_detect_judge_saturation_fires_when_scores_pinned():
+    # 30 天中 29 天 overall ≥ 4.0（96.7% ≥ 90% 門檻）→ 飽和
+    records = _judge_records([5.0] * 27 + [4.0, 4.3, 3.0])
+    finding = detect_judge_saturation(records)
+    assert finding is not None
+    assert finding.window_days == 30
+    assert finding.saturated_days == 29
+    assert finding.min_overall == 3.0
+    assert finding.max_overall == 5.0
+
+
+def test_detect_judge_saturation_silent_when_scores_discriminate():
+    # 30 天中只有 26 天 ≥ 4.0（86.7% < 90%）→ 儀表仍有鑑別力
+    records = _judge_records([5.0] * 26 + [3.5, 3.0, 2.5, 3.8])
+    assert detect_judge_saturation(records) is None
+
+
+def test_detect_judge_saturation_insufficient_data():
+    # 歷史只有 29 天（雖全貼頂）→ 資料不足，不誤報
+    records = _judge_records([5.0] * 29)
+    assert detect_judge_saturation(records) is None
+
+
+def test_detect_judge_saturation_window_gaps_count_as_insufficient():
+    # 歷史很長，但最新 30 個日曆天內只有 20 筆（cron 漏跑）→ 資料不足
+    old = _judge_records([5.0] * 60, start="2026-01-01")
+    recent = _judge_records([5.0] * 20, start="2026-06-19")  # 06-19 ~ 07-08
+    assert detect_judge_saturation(old + recent) is None
+
+
+def test_load_judge_history_roundtrip(tmp_path):
+    f = tmp_path / "_judge-history.json"
+    records = _judge_records([5.0, 4.0])
+    f.write_text(json.dumps(records), encoding="utf-8")
+    assert load_judge_history(f) == records
+
+
+def test_load_judge_history_missing_or_corrupt_returns_empty(tmp_path):
+    assert load_judge_history(tmp_path / "nope.json") == []
+    f = tmp_path / "_judge-history.json"
+    f.write_text("{壞掉", encoding="utf-8")
+    assert load_judge_history(f) == []
+
+
+def test_detect_judge_saturation_skips_malformed_records():
+    # 形狀異常的記錄（缺 overall / 非 dict）靜默略過，不弄垮判定
+    records = _judge_records([5.0] * 30) + [{"date": "2026-07-01"}, "junk", 42]
+    finding = detect_judge_saturation(records)
+    assert finding is not None
+    assert finding.window_days == 30
+
+
 # ── render ───────────────────────────────────────────────────────
 
 
@@ -325,3 +399,27 @@ def test_render_health_table_without_shares_unchanged():
     history = _history([(21, {"hatena": OK})])
     table = render_health_table(history)
     assert "digest" not in table
+
+
+def test_render_health_table_shows_judge_saturation_warning():
+    history = _history([(20, {"hatena": OK}), (21, {"hatena": OK})])
+    finding = JudgeSaturationFinding(
+        window_days=30,
+        saturated_days=30,
+        score_floor=4.0,
+        min_overall=4.0,
+        max_overall=5.0,
+        distribution={4.0: 6, 4.3: 7, 4.7: 1, 5.0: 16},
+    )
+    table = render_health_table(history, judge_saturation=finding)
+    assert "judge 已失去鑑別力" in table
+    assert "30/30" in table          # 貼頂天數 / 檢視天數
+    assert "≥ 4.0" in table          # 門檻
+    assert "4.0×6" in table          # 分數分佈摘要
+    assert "5.0×16" in table
+
+
+def test_render_health_table_without_saturation_no_warning():
+    history = _history([(20, {"hatena": OK}), (21, {"hatena": OK})])
+    table = render_health_table(history, judge_saturation=None)
+    assert "judge" not in table
