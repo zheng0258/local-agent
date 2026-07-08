@@ -164,6 +164,27 @@ def test_build_judge_prompt_includes_inputs():
     assert digest in prompt
 
 
+def test_build_judge_prompt_includes_original_titles():
+    """judge prompt 應附上原始文章素材（fetch 階段原文 title），供 faithfulness 對照。"""
+    originals = (
+        '[{"url": "https://example.com/1", "original_title": "Raw English Title"}]'
+    )
+    prompt = prompts.build_judge_prompt("{}", "{}", originals)
+    assert originals in prompt
+
+
+def test_build_judge_prompt_faithfulness_grounded_in_original_material():
+    """faithfulness 評分基準應對照原始 title/描述，不再以 one_liner 作為忠實度依據。"""
+    prompt = prompts.build_judge_prompt("{}", "{}", "[]")
+    faithfulness_lines = [
+        line for line in prompt.splitlines() if "Faithfulness" in line
+    ]
+    assert faithfulness_lines, "prompt 應包含 Faithfulness 評分說明"
+    for line in faithfulness_lines:
+        assert "one_liner" not in line
+        assert "原始" in line
+
+
 def test_fetch_prompts_contain_few_shot_examples():
     """所有 fetch prompt 應包含具體 few-shot 範例以穩定評分。"""
     hatena_p = prompts.build_hatena_prompt("[]")
