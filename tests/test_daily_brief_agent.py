@@ -967,6 +967,7 @@ def test_health_flag_renders_digest_shares(tmp_path, monkeypatch):
         encoding="utf-8",
     )
     monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", history_file)
+    monkeypatch.setattr(health, "JUDGE_HISTORY_FILE", tmp_path / "_judge-history.json")
     monkeypatch.setattr("agents.daily_brief.agent.OUTPUT_DIR", tmp_path)
 
     mock_llm = MagicMock()
@@ -988,7 +989,44 @@ def test_health_flag_survives_missing_digest_artifacts(tmp_path, monkeypatch):
         json.dumps([{"date": today, "results": {"rss": "ok"}}]), encoding="utf-8"
     )
     monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", history_file)
+    monkeypatch.setattr(health, "JUDGE_HISTORY_FILE", tmp_path / "_judge-history.json")
     monkeypatch.setattr("agents.daily_brief.agent.OUTPUT_DIR", tmp_path)
 
     out = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock()).run("--health")
     assert "rss" in out
+    assert "judge" not in out  # judge 歷史缺檔 → 資料不足，不誤報
+
+
+def test_health_flag_flags_judge_saturation(tmp_path, monkeypatch):
+    """--health 接線：judge 歷史飽和時表尾出現警示行。"""
+    from datetime import timedelta
+
+    import agents.daily_brief.health as health
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today()
+    today_str = today.strftime("%Y-%m-%d")
+    history_file = tmp_path / "_health-history.json"
+    history_file.write_text(
+        json.dumps([{"date": today_str, "results": {"rss": "ok"}}]), encoding="utf-8"
+    )
+    judge_file = tmp_path / "_judge-history.json"
+    judge_file.write_text(
+        json.dumps([
+            {
+                "date": (today - timedelta(days=offset)).strftime("%Y-%m-%d"),
+                "overall": 5.0,
+                "scores": {"relevance": 5, "completeness": 5, "faithfulness": 5},
+                "quality_alert": False,
+            }
+            for offset in range(30)
+        ]),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", history_file)
+    monkeypatch.setattr(health, "JUDGE_HISTORY_FILE", judge_file)
+    monkeypatch.setattr("agents.daily_brief.agent.OUTPUT_DIR", tmp_path)
+
+    out = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock()).run("--health")
+    assert "judge 已失去鑑別力" in out
+    assert "30/30" in out

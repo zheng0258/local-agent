@@ -84,15 +84,21 @@ class DailyBriefAgent:
         if "--health" in shlex.split(args):
             from .health import (
                 HEALTH_HISTORY_FILE,
+                JUDGE_HISTORY_FILE,
+                detect_judge_saturation,
                 digest_source_shares,
                 load_history,
+                load_judge_history,
                 load_recent_digests,
                 render_health_table,
             )
 
             shares = digest_source_shares(load_recent_digests(OUTPUT_DIR, today))
+            saturation = detect_judge_saturation(load_judge_history(JUDGE_HISTORY_FILE))
             return render_health_table(
-                load_history(HEALTH_HISTORY_FILE), digest_shares=shares
+                load_history(HEALTH_HISTORY_FILE),
+                digest_shares=shares,
+                judge_saturation=saturation,
             )
 
         force_steps, only_steps = _parse_args(args)
