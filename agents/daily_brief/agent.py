@@ -171,7 +171,9 @@ class DailyBriefAgent:
         TldrStep(self._run_tldr).run(ctx, digests)
         from .steps.judge import JudgeStep
 
-        judge_outcome = JudgeStep(self._run_judge).run(ctx, (enrich_data, digests))
+        judge_outcome = JudgeStep(self._run_judge).run(
+            ctx, (enrich_data, digests, source_data)
+        )
         if judge_outcome.status is StepStatus.RAN:
             quality = QualityScore.from_dict(judge_outcome.value)
             if (
@@ -196,7 +198,9 @@ class DailyBriefAgent:
                     .run(ctx, enrich_data, reflect=hint, force=True)
                     .value
                 )
-                JudgeStep(self._run_judge).run(ctx, (enrich_data, digests), force=True)
+                JudgeStep(self._run_judge).run(
+                    ctx, (enrich_data, digests, source_data), force=True
+                )
                 logger.info("Judge 回饋 digest 重跑完成")
         from .steps.report import ReportStep
 
@@ -339,7 +343,9 @@ class DailyBriefAgent:
             if min_interest
             else clean_articles(result.get("articles", []))
         )
-        result["articles"] = [article.to_dict() for article in cleaned]
+        result["articles"] = _attach_original_fields(
+            [article.to_dict() for article in cleaned], raw
+        )
         logger.info("%s LLM + 清洗完成：%d 篇", name, len(result["articles"]))
         return result
 
@@ -367,7 +373,11 @@ class DailyBriefAgent:
                 len(cleaned),
             )
         logger.info("reddit LLM + 清洗完成（分批）：%d 篇", len(all_cleaned))
-        return {"articles": [a.to_dict() for a in all_cleaned]}
+        return {
+            "articles": _attach_original_fields(
+                [a.to_dict() for a in all_cleaned], raw
+            )
+        }
 
     def _enrich_article(self, src: str, idx: int, article: dict) -> str | None:
         """對單篇文章抓留言並 LLM 摘要，失敗時回傳 None（best-effort）。"""
@@ -553,7 +563,11 @@ class DailyBriefAgent:
         return content or "（報告生成失敗）"
 
     def _run_judge(
-        self, compress_data: dict, digests: list[dict], date: str | None = None
+        self,
+        compress_data: dict,
+        digests: list[dict],
+        source_data: dict | None = None,
+        date: str | None = None,
     ) -> dict:
         # 只傳 url + one_liner 給 judge LLM，省 60-70% token
         slim_compress = {
@@ -572,8 +586,13 @@ class DailyBriefAgent:
             logger.warning("Step judge     : slim_compress 為空，judge 結果可能不可靠")
         compress_json = json.dumps(slim_compress, ensure_ascii=False)
         digest_json = json.dumps({"digests": digests}, ensure_ascii=False)
+        original_pairs = _original_pairs_for_digests(digests, source_data or {})
         raw = self._judge_llm.complete(
-            prompts.build_judge_prompt(compress_json, digest_json),
+            prompts.build_judge_prompt(
+                compress_json,
+                digest_json,
+                json.dumps(original_pairs, ensure_ascii=False),
+            ),
             system=prompts.SYSTEM,
         )
         result = parse_llm_json(raw)
@@ -899,6 +918,68 @@ def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
             ],
         }
     return filtered
+
+
+_ORIGINAL_DESC_MAX_CHARS = 200
+
+
+def _attach_original_fields(articles: list[dict], raw: list) -> list[dict]:
+    """以 URL 對齊，把 fetch 階段未經 LLM 改寫的原始 title/描述附回評分後條目。
+
+    LLM 評分會把 title 翻成繁中；faithfulness 去循環化需要原始素材落盤。
+    回傳新 list（不 mutate 輸入）；既有欄位不動（on-disk schema 只加不改）。
+    HN raw 的 `url` 是原文連結、`hn_url` 才是 scored artifact 用的討論串 URL，兩者皆入索引。
+    """
+    originals: dict[str, dict] = {}
+    for item in raw or []:
+        if not isinstance(item, dict):
+            continue
+        description = str(
+            item.get("description") or item.get("summary") or ""
+        ).strip()
+        fields = {"original_title": str(item.get("title", ""))}
+        if description:
+            fields["original_description"] = description[:_ORIGINAL_DESC_MAX_CHARS]
+        for url_key in ("url", "hn_url"):
+            url = item.get(url_key)
+            if url:
+                originals[url] = fields
+    return [
+        {**article, **originals[article.get("url", "")]}
+        if article.get("url", "") in originals
+        else dict(article)
+        for article in articles
+    ]
+
+
+def _original_pairs_for_digests(
+    digests: list[dict], source_data: dict
+) -> list[dict]:
+    """faithfulness 去循環化：以 URL 對齊，為每條 digest 配上 fetch 階段原始素材。
+
+    對照基準是 source artifact 的 original_title（未經 LLM 改寫）；
+    舊 artifact 無此欄位時退回 artifact 的 title（graceful degradation）。
+    維持 slim context：只帶 title/描述，不帶全文。
+    """
+    articles_by_url = {
+        article.url: article
+        for src in FETCH_STEPS
+        for article in SourceCompress.from_dict(source_data.get(src, {})).articles
+        if article.url
+    }
+    pairs: list[dict] = []
+    for digest in (Digest.from_dict(d) for d in digests):
+        article = articles_by_url.get(digest.url)
+        pair = {
+            "url": digest.url,
+            "original_title": (
+                (article.original_title or article.title) if article else ""
+            ),
+        }
+        if article and article.original_description:
+            pair["original_description"] = article.original_description
+        pairs.append(pair)
+    return pairs
 
 
 def _compute_force_steps(

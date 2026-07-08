@@ -505,11 +505,17 @@ def build_report_prompt_from_compress(
 # ── Step judge：LLM-as-Judge 評估 digest 品質 ─────────────────────────
 
 
-def build_judge_prompt(compress_json: str, digest_json: str) -> str:
+def build_judge_prompt(
+    compress_json: str, digest_json: str, original_titles_json: str = "[]"
+) -> str:
     return f"""\
 ## 可用文章（compress.json -- 已篩選 *** + 主題分群）
 
 {compress_json}
+
+## 原始文章素材（fetch 階段原文 title/描述，未經 LLM 改寫；以 URL 對應 digest 條目）
+
+{original_titles_json}
 
 ## 生成的摘要（digest.json）
 
@@ -521,7 +527,7 @@ def build_judge_prompt(compress_json: str, digest_json: str) -> str:
 
 - Relevance（相關性）：選出的文章是否符合 AI 工具、資安、開發相關主題？
 - Completeness（完整性）：compress 中的 *** 文章是否都被納入摘要？
-- Faithfulness（忠實度）：摘要是否忠實反映原文標題與 one_liner？有無自行編造內容？
+- Faithfulness（忠實度）：摘要是否忠實反映上方「原始文章素材」的原始 title 與描述？有無超出原始素材、自行編造的內容？（原始素材可能為日文/英文，摘要為繁中翻譯屬正常，不算不忠實）
 
 **重要規則**：
 - 每個 reasoning 欄位只寫評分理由文字，不要在 reasoning 裡列出任何 URL

@@ -655,6 +655,92 @@ def test_run_judge_passes_slim_compress_to_llm():
     assert "bookmarks" not in call_prompt  # 數值欄位移除
 
 
+def _judge_agent_and_mock():
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    llm_resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 4, "reasoning": "ok"},
+                "completeness": {"score": 4, "reasoning": "ok"},
+                "faithfulness": {"score": 4, "reasoning": "ok"},
+            },
+            "missed_urls": [],
+        }
+    )
+    mock_judge = MagicMock()
+    mock_judge.complete.return_value = llm_resp
+    return DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge), mock_judge
+
+
+def test_run_judge_pairs_digests_with_original_titles():
+    """judge 輸入應以 URL 對齊，附上各 digest 條目對應的原始 title（去循環化的對照基準）。"""
+    agent, mock_judge = _judge_agent_and_mock()
+
+    source_data = {
+        "hn": {
+            "articles": [
+                {
+                    "title": "繁中翻譯標題",
+                    "url": "https://example.com/1",
+                    "original_title": "Raw Original Title",
+                    "original_description": "raw desc",
+                    "interest": "***",
+                }
+            ],
+            "fetched_at": "2026-07-08T02:00:00",
+        }
+    }
+    compress_data = {
+        "hn": {
+            "themes": ["AI"],
+            "articles": [
+                {
+                    "title": "繁中翻譯標題",
+                    "url": "https://example.com/1",
+                    "one_liner": "核心摘要",
+                    "interest": "***",
+                }
+            ],
+        }
+    }
+    digests = [
+        {
+            "title": "繁中翻譯標題",
+            "url": "https://example.com/1",
+            "source": "HN",
+            "summary": "s",
+        }
+    ]
+
+    agent._run_judge(compress_data, digests, source_data)
+
+    call_prompt = mock_judge.complete.call_args[0][0]
+    assert "Raw Original Title" in call_prompt  # 原始 title 進 judge prompt
+    assert "raw desc" in call_prompt  # 原始描述（若有）一併附上
+
+
+def test_run_judge_original_title_falls_back_to_source_title():
+    """舊 source artifact 無 original_title 時，退回 artifact 的 title 欄位（graceful）。"""
+    agent, mock_judge = _judge_agent_and_mock()
+
+    source_data = {
+        "hatena": {
+            "articles": [
+                {"title": "Legacy Artifact Title", "url": "https://example.com/2"}
+            ]
+        }
+    }
+    digests = [
+        {"title": "譯", "url": "https://example.com/2", "source": "Hatena", "summary": "s"}
+    ]
+
+    agent._run_judge({}, digests, source_data)
+
+    call_prompt = mock_judge.complete.call_args[0][0]
+    assert "Legacy Artifact Title" in call_prompt
+
+
 def test_compose_tg_msg2_balances_and_caps_digests():
     """compose msg2 應跨來源均衡挑選，且不超過 _TG_DIGEST_MAX_ITEMS 則（單封 4096 限制）。"""
     from agents.daily_brief.agent import DailyBriefAgent, _TG_DIGEST_MAX_ITEMS
@@ -734,6 +820,51 @@ def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
 
     assert "judge" in sup.calls
     agent._run_judge.assert_called_once()
+
+
+def test_run_wires_source_data_into_judge(tmp_path):
+    """--only judge 時，run() 應把載入的 source artifact（含 original_title）接進 judge。"""
+    import agents.daily_brief.agent as agent_module
+    from agents.daily_brief.agent import DailyBriefAgent
+
+    today = date.today().strftime("%Y-%m-%d")
+    steps_dir = tmp_path / today / "steps"
+    steps_dir.mkdir(parents=True)
+    hatena_article = {
+        "title": "繁中翻譯標題",
+        "url": "https://example.com/1",
+        "original_title": "Raw Original Title",
+        "interest": "***",
+        "score": 100,
+    }
+    (steps_dir / "hatena.json").write_text(
+        json.dumps({"articles": [hatena_article]}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (steps_dir / "compress.json").write_text(
+        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    sup = FakeSupervisor(forbid_reflect=True)
+    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
+    agent._run_judge = MagicMock(return_value={"overall": 4.2})
+
+    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
+        "agents.daily_brief.supervisor.SupervisorAgent",
+        lambda **kw: sup,
+    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
+        agent.run("--only judge")
+
+    agent._run_judge.assert_called_once()
+    source_data = agent._run_judge.call_args[0][2]
+    assert source_data["hatena"]["articles"][0]["original_title"] == (
+        "Raw Original Title"
+    )
 
 
 def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):

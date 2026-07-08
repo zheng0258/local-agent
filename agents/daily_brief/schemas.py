@@ -12,13 +12,19 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Article:
-    """compress 後單篇文章的 typed view。comment_summary 缺值為空字串。"""
+    """compress / source 單篇文章的 typed view。缺值一律為空字串。
+
+    original_title / original_description 是 fetch 階段未經 LLM 改寫的原始素材
+    （source artifact 才有；舊 artifact 缺值時為空字串，讀取端自行 fallback title）。
+    """
 
     title: str
     url: str
     one_liner: str
     interest: str
     comment_summary: str
+    original_title: str
+    original_description: str
 
     @classmethod
     def from_dict(cls, raw: dict) -> "Article":
@@ -29,6 +35,8 @@ class Article:
             one_liner=raw.get("one_liner", ""),
             interest=raw.get("interest", ""),
             comment_summary=raw.get("comment_summary", ""),
+            original_title=raw.get("original_title", ""),
+            original_description=raw.get("original_description", ""),
         )
 
 
