@@ -28,14 +28,6 @@ from tools.lms_lifecycle import ensure_models_loaded, get_loaded_models
 _STABILIZE_SECONDS = 600
 
 
-def _tg(msg: str) -> None:
-    try:
-        from tools.notifiers.telegram import send as tg_send
-        tg_send(msg)
-    except Exception:
-        pass
-
-
 def main() -> None:
     setup_logging()
     logger = logging.getLogger(__name__)
@@ -46,10 +38,10 @@ def main() -> None:
     models = [judge_model, llm_model]
 
     # Step 1: 確保 LM Studio 已啟動
+    # 失敗只留 log 不推播：main.py 02:00 會再做一次 ensure_llm_ready，
+    # 真失敗時由 main.py 發唯一告警，避免 01:45/02:00 連發兩封。
     if not ensure_llm_ready():
-        msg = "LM Studio 未啟動且無法自動喚醒，模型載入中止。daily-brief 將無法執行。"
-        logger.error(msg)
-        _tg(f"✗ {msg}")
+        logger.error("LM Studio 未啟動且無法自動喚醒，模型載入中止。daily-brief 將無法執行。")
         sys.exit(1)
 
     # Step 2: 載入模型
@@ -59,15 +51,12 @@ def main() -> None:
     loaded = get_loaded_models()
     missing = [m for m in models if m not in loaded]
     if missing:
-        msg = f"模型載入失敗，lms ps 中缺少：{', '.join(missing)}"
-        logger.error(msg)
-        _tg(f"✗ {msg}")
+        logger.error("模型載入失敗，lms ps 中缺少：%s", ", ".join(missing))
         sys.exit(1)
 
     # Step 4: 若是剛才才載入，等待 API 穩定
     if freshly_loaded:
         logger.info("模型剛載入，等待 %ds 確保 LM Studio API 就緒...", _STABILIZE_SECONDS)
-        _tg(f"模型載入完成，等待 {_STABILIZE_SECONDS // 60} 分鐘讓 API 穩定...")
         time.sleep(_STABILIZE_SECONDS)
         logger.info("等待完畢，模型就緒")
     else:

@@ -27,13 +27,11 @@ class SupervisorAgent:
         judge_llm: LLMBackend,
         steps_dir: Path,
         today: str,
-        notify_fn: Callable[[str], bool] | None = None,
     ) -> None:
         self._llm = llm
         self._judge_llm = judge_llm
         self._steps_dir = steps_dir
         self._today = today
-        self._notify_fn = notify_fn
 
     def run_step(
         self,
@@ -91,8 +89,7 @@ class SupervisorAgent:
                     if backoff > 0:
                         time.sleep(backoff)
 
-        diagnosis = adjusted_prompts[-1][:200] if adjusted_prompts else last_error
-        self._notify_failure(name, last_error, cfg.max_retries, diagnosis, force=force)
+        self._record_failure(name, last_error, force=force)
         return StepResult(
             name=name,
             success=False,
@@ -146,17 +143,14 @@ class SupervisorAgent:
             logger.warning("Judge reflect LLM 呼叫失敗：%s", exc)
             return ""
 
-    def _notify_failure(
-        self,
-        name: str,
-        error: str,
-        attempts: int,
-        diagnosis: str,
-        force: bool = False,
-    ) -> None:
-        """發 Telegram 告警，同一步驟同一天只發一次（force 重跑時重置）。"""
+    def _record_failure(self, name: str, error: str, force: bool = False) -> None:
+        """把失敗記入 alerts.json，同一步驟同一天只記一次（force 重跑時重置）。
+
+        不即時推播：pipeline 結尾的 _send_alerts_summary 讀 alerts.json
+        彙總成單封 Telegram，避免 N 個步驟失敗收 N+1 封。
+        """
         alerts_file = self._steps_dir / "alerts.json"
-        alerts: dict[str, str] = {}
+        alerts: dict[str, Any] = {}
         if alerts_file.exists():
             try:
                 alerts = json.loads(alerts_file.read_text(encoding="utf-8"))
@@ -164,18 +158,9 @@ class SupervisorAgent:
                 alerts = {}
 
         if name in alerts and not force:
-            logger.info("Step %s: 告警已發送過（%s），略過重複告警", name, alerts[name])
+            logger.info("Step %s: 失敗已記錄過（%s），略過重複記錄", name, alerts[name])
             return
 
-        msg = (
-            f"⚠️ Daily Brief 步驟失敗（{self._today}）\n\n"
-            f"步驟：{name}（嘗試 {attempts} 次）\n"
-            f"錯誤：{error[:300]}\n"
-            f"診斷：{diagnosis[:300]}\n\n"
-            f"建議：python3 main.py \"/daily-brief --force {name}\""
-        )
-        if self._notify_fn:
-            self._notify_fn(msg)
         alerts[name] = {
             "failed_at": datetime.now().isoformat(timespec="seconds"),
             "error": error[:300],

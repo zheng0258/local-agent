@@ -112,7 +112,7 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **load_model.py 故障處理**：
 - LM Studio 未啟動 → 自動 `open -a "LM Studio"` + `lms server start`，最多等 3 分鐘
-- 模型載入失敗（lms ps 缺少） → Telegram 告警 + exit 1（main.py 不會執行）
+- 模型載入失敗（lms ps 缺少） → log + exit 1（**不發 Telegram**：main.py 02:00 會再試一次喚醒，真失敗時由 main.py 發唯一告警）
 - 若是剛才才載入模型 → 等 600s 讓 API 穩定
 
 **手動補跑**：`run_daily_brief.command`（雙點擊）或直接執行 `python3 main.py "/daily-brief"`（跳過 load_model.py，確保 LM Studio 已手動啟動）
@@ -138,7 +138,7 @@ outputs/daily-brief/{today}/
 │   ├── hn.json
 │   ├── reddit.json
 │   ├── security.json
-│   ├── alerts.json      # 步驟失敗記錄（某 step 重試耗盡 → 彙總 Telegram 告警，非每日必有）
+│   ├── alerts.json      # 步驟失敗記錄（重試耗盡只寫此檔不即時推播；pipeline 結尾彙總成單封 Telegram，`_QUIET_STEPS` 如 deploy 不進摘要）
 │   ├── compress.json    # 各來源語義壓縮（themes + *** articles + one_liner）
 │   ├── enrich.json      # HN/Reddit 留言摘要（comment_summary 欄位）
 │   ├── digest.json      # 跨來源深度摘要

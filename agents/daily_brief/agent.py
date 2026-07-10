@@ -133,7 +133,6 @@ class DailyBriefAgent:
             judge_llm=self._judge_llm,
             steps_dir=steps_dir,
             today=today,
-            notify_fn=tg_send,
         )
         ctx = _RunContext(
             today=today,
@@ -1042,15 +1041,20 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
     return stale
 
 
+# 失敗不推播的步驟：仍寫 alerts.json / 入 health 記錄，只是不進 Telegram 摘要。
+# deploy（gh-pages push）尚未驗證穩定，transient 失敗常見；驗證穩定後移出此集合。
+_QUIET_STEPS: frozenset[str] = frozenset({"deploy"})
+
+
 def _send_alerts_summary(
     steps_dir: Path,
     today: str,
     notify_fn: Callable[[str], bool],
 ) -> None:
-    """Fix B: pipeline 結束後發一則彙總告警（每天只發一次）。
+    """pipeline 結束後發一則彙總告警（每天只發一次）。
 
-    個別步驟失敗時 supervisor._notify_failure 已即時發送；
-    此函式在 pipeline 最後補發「今日整體失敗摘要」，方便使用者一眼看清楚哪些來源缺失。
+    步驟失敗時 supervisor 只寫 alerts.json 不即時推播；
+    此函式在 pipeline 最後把當日失敗彙總成單封 Telegram（_QUIET_STEPS 除外）。
     """
     alerts_file = steps_dir / "alerts.json"
     summary_done = steps_dir / "alerts_summary.done"
@@ -1063,7 +1067,9 @@ def _send_alerts_summary(
     except (json.JSONDecodeError, OSError):
         return
 
+    alerts = {k: v for k, v in alerts.items() if k not in _QUIET_STEPS}
     if not alerts:
+        summary_done.touch()
         return
 
     lines = [

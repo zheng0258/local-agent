@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, call, patch
 import pytest
 
 
-def _make_supervisor(tmp_path, llm_resp="", judge_resp="", notify_fn=None):
+def _make_supervisor(tmp_path, llm_resp="", judge_resp=""):
     from agents.daily_brief.supervisor import SupervisorAgent
 
     llm = MagicMock()
@@ -17,7 +17,6 @@ def _make_supervisor(tmp_path, llm_resp="", judge_resp="", notify_fn=None):
         judge_llm=judge_llm,
         steps_dir=tmp_path,
         today="2026-04-20",
-        notify_fn=notify_fn,
     ), llm, judge_llm
 
 
@@ -50,15 +49,16 @@ def test_plain_step_retries_without_reflect(tmp_path):
 
 @pytest.mark.unit
 def test_plain_step_fails_after_max_retries(tmp_path):
-    mock_notify = MagicMock(return_value=True)
-    supervisor, llm, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
+    supervisor, llm, _ = _make_supervisor(tmp_path)
     fn = MagicMock(side_effect=RuntimeError("always fails"))
 
     result = supervisor.run_step("judge", fn)
 
     assert result.success is False
     assert result.attempts == 2  # max_retries=2 for judge
-    mock_notify.assert_called_once()
+    # 重試耗盡 → 記入 alerts.json（不即時推播，由 pipeline 結尾彙總）
+    alerts = json.loads((tmp_path / "alerts.json").read_text(encoding="utf-8"))
+    assert "judge" in alerts
 
 
 @pytest.mark.unit
@@ -82,8 +82,8 @@ def test_error_aware_step_calls_reflect_on_failure(tmp_path):
 
 @pytest.mark.unit
 def test_alert_dedup_same_step_same_day(tmp_path):
-    mock_notify = MagicMock(return_value=True)
-    supervisor, _, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
+    """同一步驟同一天第二次失敗不覆寫 alerts.json 既有記錄。"""
+    supervisor, _, _ = _make_supervisor(tmp_path)
     fn = MagicMock(side_effect=RuntimeError("fail"))
 
     supervisor.run_step("judge", fn)
@@ -91,13 +91,14 @@ def test_alert_dedup_same_step_same_day(tmp_path):
     fn.side_effect = RuntimeError("fail again")
     supervisor.run_step("judge", fn)
 
-    assert mock_notify.call_count == 1
+    alerts = json.loads((tmp_path / "alerts.json").read_text(encoding="utf-8"))
+    assert alerts["judge"]["error"] == "fail"
 
 
 @pytest.mark.unit
 def test_force_clears_alert(tmp_path):
-    mock_notify = MagicMock(return_value=True)
-    supervisor, _, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
+    """force 重跑後再失敗 → 重置記錄（覆寫為新錯誤）。"""
+    supervisor, _, _ = _make_supervisor(tmp_path)
     fn = MagicMock(side_effect=RuntimeError("fail"))
 
     supervisor.run_step("judge", fn)
@@ -105,7 +106,8 @@ def test_force_clears_alert(tmp_path):
     fn.side_effect = RuntimeError("fail again")
     supervisor.run_step("judge", fn, force=True)
 
-    assert mock_notify.call_count == 2
+    alerts = json.loads((tmp_path / "alerts.json").read_text(encoding="utf-8"))
+    assert alerts["judge"]["error"] == "fail again"
 
 
 @pytest.mark.unit
@@ -157,10 +159,9 @@ def test_judge_uses_error_aware_strategy(tmp_path):
 
 
 @pytest.mark.unit
-def test_notify_failure_writes_error_to_alerts(tmp_path):
-    """_notify_failure 應把 error 一起寫入 alerts.json，而非只寫純時間戳字串。"""
-    mock_notify = MagicMock(return_value=True)
-    supervisor, _, _ = _make_supervisor(tmp_path, notify_fn=mock_notify)
+def test_record_failure_writes_error_to_alerts(tmp_path):
+    """_record_failure 應把 error 一起寫入 alerts.json，而非只寫純時間戳字串。"""
+    supervisor, _, _ = _make_supervisor(tmp_path)
     fn = MagicMock(side_effect=RuntimeError("model not found"))
 
     supervisor.run_step("judge", fn)
@@ -178,7 +179,7 @@ def test_reflect_for_completeness_returns_hint_when_server_up(tmp_path):
     from agents.daily_brief.supervisor import SupervisorAgent
 
     sup = SupervisorAgent(llm=MagicMock(), judge_llm=MagicMock(),
-                          steps_dir=tmp_path, today="2026-06-21", notify_fn=lambda m: True)
+                          steps_dir=tmp_path, today="2026-06-21")
     sup._reflect_with_judge = lambda missed, prompt: "REFLECT_HINT"
     with patch("agents.daily_brief.supervisor.check_local_llm", return_value=True):
         assert sup.reflect_for_completeness(["http://x"], "orig prompt") == "REFLECT_HINT"
@@ -190,6 +191,6 @@ def test_reflect_for_completeness_degrades_to_empty_when_server_down(tmp_path):
     from agents.daily_brief.supervisor import SupervisorAgent
 
     sup = SupervisorAgent(llm=MagicMock(), judge_llm=MagicMock(),
-                          steps_dir=tmp_path, today="2026-06-21", notify_fn=lambda m: True)
+                          steps_dir=tmp_path, today="2026-06-21")
     with patch("agents.daily_brief.supervisor.check_local_llm", return_value=False):
         assert sup.reflect_for_completeness(["http://x"], "orig prompt") == ""
