@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-24</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-24</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-24</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2103895.html" rel="noopener noreferrer">相當於 Claude 4.5 Opus「Qwen3.6-27B」免費發布，壓倒前代 397B</a></td>
+<td>847</td>
+<td>***</td>
+<td>AI 模型發布</td>
+<td>小參數大效能，效率時代來臨</td>
+</tr>
+<tr>
+<td><a href="https://www.nikkei.com/article/DGXZQOGN223ZH0S6A420C2000000/" rel="noopener noreferrer">埃隆·馬斯克氏，收購美國 AI 新興「Cursor」10 萬億日元 受 Anthropic 刺激</a></td>
+<td>723</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI 編輯器成為戰略入口</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2103998.html" rel="noopener noreferrer">「Agent 模式」在「Word」、「Excel」、「PowerPoint」中一般提供</a></td>
+<td>612</td>
+<td>***</td>
+<td>AI Agent</td>
+<td>Office 全面轉型為助手</td>
+</tr>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/23/news038.html" rel="noopener noreferrer">MCP 存在嚴重漏洞 相關軟件下載量超 1.5 億次</a></td>
+<td>589</td>
+<td>***</td>
+<td>AI 資安</td>
+<td>AI 協議層重大漏洞</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2103886.html" rel="noopener noreferrer">微軟新 IME「Copilot Keyboard」正式發布</a></td>
+<td>456</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI 輸入法走向成熟</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2103886.html" rel="noopener noreferrer">微軟新 IME「Copilot Keyboard」正式發布～然後它回來了！穩定性和運行速度大幅提升</a> (456 users) — 微軟 Copilot 輸入法回歸，效能大提升</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2103895.html" rel="noopener noreferrer">相當於 Claude 4.5 Opus「Qwen3.6-27B」免費發布，壓倒前代 397B</a> (847 users) — Qwen3.6 小模型性能超越前代大參數</li>
+<li><a href="https://developers.gmo.jp/technology/81971/" rel="noopener noreferrer">Harness Engineering的本質 ──重新設計傳統開發紀律，讓Agent能夠運作</a> (312 users) — 重構開發流程以支援 Agent 協作</li>
+<li><a href="https://acro-engineer.hatenablog.com/entry/2026/04/23/120000" rel="noopener noreferrer">大 AI Agent 時代！按照 AG-UI 標準構建應用</a> (287 users) — 跟隨 AG-UI 標準建構 Agent 應用</li>
+<li><a href="https://gigazine.net/news/20260423-openai-privacy-filter/" rel="noopener noreferrer">OpenAI 以開源形式發布將文件中的個人姓名、郵箱、電話等個人信息进行掩碼防止洩露的「OpenAI Privacy Filter」</a> (398 users) — OpenAI 推出開源 PII 掩碼工具</li>
+<li><a href="https://akspot.april-knights.com/technology/21135/" rel="noopener noreferrer">【kintone×Claude Code】非工程師的人事自力設計構建「簡歷篩選自動化系統」的故事</a> (234 users) — 非工程師用 AI 自建簡歷篩選系統</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2103998.html" rel="noopener noreferrer">「Agent 模式」在「Word」、「Excel」、「PowerPoint」中一般提供／不僅可以詢問怎麼做，還可以直接委託執行</a> (612 users) — Office 全面導入可直接執行的 Agent 模式</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/23/news038.html" rel="noopener noreferrer">MCP 存在嚴重漏洞 相關軟件下載量超 1.5 億次</a> (589 users) — MCP 嚴重漏洞影響 1.5 億下載</li>
+<li><a href="https://www.nikkei.com/article/DGXZQOGN223ZH0S6A420C2000000/" rel="noopener noreferrer">埃隆·馬斯克氏，收購美國 AI 新興「Cursor」10 萬億日元 受 Anthropic 刺激</a> (723 users) — 馬斯克收購 AI 編譯器 Cursor</li>
+<li><a href="https://speakerdeck.com/minorun365/ze-ren-aruaieziento-kosozi-she-dekai-fa-siyou" rel="noopener noreferrer">「負責任的 AI Agent」還是自己開發吧！</a> (178 users) — 建議自研可靠 AI Agent 系统</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47866697" rel="noopener noreferrer">我們發現了一個穩定的 Firefox 識別碼，可連結所有您的私密 Tor 身份</a></td>
+<td>387pt</td>
+<td>***</td>
+<td>隱私安全</td>
+<td>Tor 匿名性遭指紋技術威脅</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47876043" rel="noopener noreferrer">Bitwarden CLI 在持續的 Checkmarx 供應鏈攻擊中遭竊取</a></td>
+<td>521pt</td>
+<td>***</td>
+<td>供應鏈攻擊</td>
+<td>Checkmarx CI/CD被滲透</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47866697" rel="noopener noreferrer">我們發現了一個穩定的 Firefox 識別碼，可連結所有您的私密 Tor 身份</a> (387pt) — Firefox 指紋技術可追蹤所有 Tor 匿名身份</li>
+<li><a href="https://news.ycombinator.com/item?id=47876043" rel="noopener noreferrer">Bitwarden CLI 在持續的 Checkmarx 供應鏈攻擊中遭竊取</a> (521pt) — Bitwarden CLI 因 Checkmarx 供應鏈攻擊遭竊取</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1stl0fq/bitwarden_cli_compromised_in_ongoing_checkmarx/" rel="noopener noreferrer">Bitwarden CLI 遭供應鏈攻擊</a></td>
+<td>2847</td>
+<td>312</td>
+<td>***</td>
+<td>供應鏈攻擊</td>
+<td>r/cybersecurity</td>
+<td>密碼管理工具遭竊取</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology/comments/1stdvof/google_says_75_of_the_companys_new_code_is/" rel="noopener noreferrer">Google 稱 75% 新程式碼由 AI 生成</a></td>
+<td>4521</td>
+<td>687</td>
+<td>***</td>
+<td>AI 開發</td>
+<td>r/technology</td>
+<td>AI 編程大規模採用里程碑</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/javascript/comments/1stdpe7/a_selfpropagating_npm_worm_is_actively_spreading/" rel="noopener noreferrer">npm 自我傳播蠕蟲正竄開發環境</a></td>
+<td>3298</td>
+<td>456</td>
+<td>***</td>
+<td>供應鏈攻擊</td>
+<td>r/javascript</td>
+<td>npm 生態系遭蠕蟲感染</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sswok7/pack2theroot_cve202641651_crossdistro_local/" rel="noopener noreferrer">Pack2TheRoot 跨發行版權限提升漏洞</a></td>
+<td>1876</td>
+<td>234</td>
+<td>***</td>
+<td>系統漏洞</td>
+<td>r/netsec</td>
+<td>CVE-2026-41651 跨發行版提權</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1stl0fq/bitwarden_cli_compromised_in_ongoing_checkmarx/" rel="noopener noreferrer">Bitwarden CLI 遭供應鏈攻擊</a> (2847 ups) — r/cybersecurity — Bitwarden CLI 遭 Checkmarx 供應鏈攻擊
+2. <a href="https://www.reddit.com/r/javascript/comments/1stdpe7/a_selfpropagating_npm_worm_is_actively_spreading/" rel="noopener noreferrer">npm 自我傳播蠕蟲正竄開發環境</a> (3298 ups) — r/javascript — 自我傳播 npm 蠕蟲正竄開發者環境
+3. <a href="https://www.reddit.com/r/netsec/comments/1sswok7/pack2theroot_cve202641651_crossdistro_local/" rel="noopener noreferrer">Pack2TheRoot 跨發行版權限提升漏洞</a> (1876 ups) — r/netsec — Cross-Distro 本地權限提升漏洞 CVE-2026-41651</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/technology/comments/1stdvof/google_says_75_of_the_companys_new_code_is/" rel="noopener noreferrer">Google 稱 75% 新程式碼由 AI 生成</a> (4521 ups) — r/technology — Google 表示 75% 新程式碼為 AI 生成</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/shai-hulud-npm-bitwarden-cli-compromise" rel="noopener noreferrer">Is Shai-Hulud Back? Compromised Bitwarden CLI Contains a Self-Propagating npm Worm</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Bitwarden CLI 遭植入自傳播 npm 蠕蟲</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 開發工具巨頭爭奪戰】</strong> — 馬斯克收購 Cursor、Qwen3.6-27B 免費發布、Google 宣告 75% 程式碼 AI 生成，顯示 AI 編程工具成為戰略高地，同時小參數高效能模型正在重塑開源生態系競爭格局。</p>
+</li>
+<li>
+<p><strong>【供應鏈攻擊升級潮】</strong> — Bitwarden CLI 遭 Checkmarx CI/CD 滲透、npm 自我傳播蠕蟲橫掃開發環境，兩起事件均涉及自動化流程被滲透，顯示供應鏈攻擊正從單一包污染轉向橫向移動的蠕蟲化模式。</p>
+</li>
+<li>
+<p><strong>【AI Agent 工程化躍進】</strong> — AG-UI 標準提出、Office Agent 模式全面導入、MCP 協議漏洞曝光，顯示 AI Agent 正從概念驗證進入大規模工程化階段，但標準化與安全性仍是關鍵挑戰。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Bitwarden CLI 供應鏈攻擊</strong>：Hatena + HN + Reddit + 資安部落格同步出現 — Checkmarx CI/CD工具被竊取導致密碼管理工具遭植入蠕蟲，四平台同時關注顯示此為重大安全事件</li>
+<li><strong>npm 蠕蟲威脅</strong>：Reddit + 資安部落格 — Shai-Hulud 式自傳播蠕蟲透過 Bitwarden CLI 擴散，前端生態系面臨新的供应链威脅型態</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

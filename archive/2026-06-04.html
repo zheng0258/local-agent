@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-04</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-04</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-04</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「根本沒法用了」── GitHub Copilot 6月1日新計費制度引發社群不滿，部分用戶宣布轉用其他工具</td>
+<td>141</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>計量付費引發反彈，用戶轉向替代方案</td>
+</tr>
+<tr>
+<td>熱門自律型代理程式「Hermes Agent」推出桌面版應用程式，支援 Windows/Mac/Linux</td>
+<td>64</td>
+<td>***</td>
+<td>AI 代理程式</td>
+<td>跨平台支援推動個人化部署普及</td>
+</tr>
+<tr>
+<td>CAMPFIRE 員工誤將 GitHub 認證資訊上傳至個人開發伺服器，公布遭駭原因</td>
+<td>52</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>憑證管理疏失導致系統遭駭</td>
+</tr>
+<tr>
+<td>使用 Cloudflare Agents 打造會自我微管理的 AI 代理程式</td>
+<td>38</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>雲端框架實現任務自動拆解與監控</td>
+</tr>
+<tr>
+<td>改為計量付費後 GitHub Copilot 遭抱怨「信用點數消耗過快」，爭議聲浪不斷</td>
+<td>37</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>定價透明度爭議持續，競爭對手加速優化</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li>「根本沒法用了」── GitHub Copilot 6月1日新計費制度引發社群不滿，部分用戶宣布轉用其他工具 (141 users) — 新計費引發不滿，部分用戶轉用替代工具</li>
+<li>熱門自律型代理程式「Hermes Agent」推出桌面版應用程式，支援 Windows/Mac/Linux (64 users) — Hermes Agent 推出跨平台桌面版應用程式</li>
+<li>CAMPFIRE 員工誤將 GitHub 認證資訊上傳至個人開發伺服器，公布遭駭原因 (52 users) — CAMPFIRE 員工誤傳 GitHub 憑證致遭駭</li>
+<li>使用 Cloudflare Agents 打造會自我微管理的 AI 代理程式 (38 users) — 運用 Cloudflare Agents 打造自我微管理 AI</li>
+<li>改為計量付費後 GitHub Copilot 遭抱怨「信用點數消耗過快」，爭議聲浪不斷 (37 users) — 計量付費後點數消耗過快，爭議持續</li>
+<li>Claude Opus 4.8 提示詞工程最佳實踐 — 官方指南重點整理 - Qiita (23 users) — 整理 Claude Opus 4.8 提示詞工程最佳實踐</li>
+<li>快速掌握「Microsoft Build 2026」重點：Windows AI API 支援 GPU、搭載 RTX Spark 的開發用 PC、本地 SLM 新模型、以代理程式為前提的新設備，以及 OpenClaw 安全沙箱與個人代理程式 (12 users) — Build 2026 重點: GPU AI API、本地 SLM 與代理程式</li>
+<li>AI「Mutos」正式可用於強化網路安全，數位大臣稱其為重大一步 (11 users) — AI Mutos 正式應用於強化網路安全</li>
+<li>Microsoft 試驗公開整合 AI 代理程式的「Intelligent Terminal 0.1」，為 Windows Terminal 分支版並內建錯誤自動偵測與代理程式管理功能 (9 users) — Microsoft 公開測試內建 AI 代理程式的終端機</li>
+<li>讓 AI 代理程式閱讀一年新聞並建立 4,500 筆長期記憶，實驗揭示的課題 - LayerX 工程師部落格 (8 users) — AI 代理程式建立長期記憶的實驗與課題</li>
+<li>將「Codex」應用於 App 開發以外！透過職能外掛讓 AI 扮演業務、製作、投資等角色，並支援文件與簡報修改、共享網站建立 (5 users) — Codex 透過外掛擴展至業務與簡報應用</li>
+<li>Microsoft 發布基於 OpenClaw 的常駐型 AI 代理程式「Scout」，作為自動執行任務的「Autopilot」首發產品 (4 users) — Microsoft 發布基於 OpenClaw 的常駐型 AI</li>
+<li>微軟強化 Edge 本地 AI，實現近乎零成本的翻譯功能 (4 users) — 微軟強化 Edge 本地 AI，實現近零成本翻譯</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAI-Code-1-Flash 程式碼生成模型</td>
+<td>519pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>社群質疑基準偏低與非開源，重視推理速度</td>
+</tr>
+<tr>
+<td>僅靠喇叭即可遠端入侵你的電腦：Katana BadUSB</td>
+<td>500pt</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>聲波驅動周邊入侵，揭露硬體供應鏈盲點</td>
+</tr>
+<tr>
+<td>Gemma 4 12B：統一的無編碼器多模態模型</td>
+<td>271pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>輕量架構降低部署門檻，社群關注Mac相容性</td>
+</tr>
+<tr>
+<td>Let's Encrypt 的後量子時代：憑證升級計畫</td>
+<td>107pt</td>
+<td>***</td>
+<td>密碼學</td>
+<td>推動網際網路基礎設施抗量子加密遷移</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li>MAI-Code-1-Flash 程式碼生成模型 (519pt) — 高效能 AI 程式碼生成模型
+   💬 社群觀點：社群質疑模型基準偏低、非開源，51%正確率恐難勝任可靠編碼。使用者更看重推理速度，認為行銷過度吹噓，建議優先評估效能指標</li>
+<li>僅靠喇叭即可遠端入侵你的電腦：Katana BadUSB (500pt) — 喇叭聲波驅動 BadUSB 遠端入侵
+   💬 社群觀點：社群高度讚賞研究，但嚴厲批評廠商漠視資安。擔憂未認證藍牙韌體與BadUSB隱患，並指責業界輕忽軟體安全週期。</li>
+<li>Gemma 4 12B：統一的無編碼器多模態模型 (271pt) — 輕量級無編碼器多模態 AI 模型
+   💬 社群觀點：社群聚焦無編碼器架構，質疑Google開放動機。對16GB顯存行銷持保留態度，並關注小模型實用性與Mac相容性。</li>
+<li>Let's Encrypt 的後量子</li>
+</ol>
+</article>
+</main>
+</body>
+</html>

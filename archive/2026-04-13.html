@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-13</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-13</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026 年 4 月 13-14 日</h1>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/tasty_dunlin998/n/nf1b04ebc7600" rel="noopener noreferrer">讓 DESIGN.md 以真正能用的日文 UI 形態</a></td>
+<td>534</td>
+<td>**</td>
+<td>OSS 開發</td>
+<td>AI 時代的日文開發者工具本地化</td>
+</tr>
+<tr>
+<td><a href="https://www.publickey1.jp/blog/26/aifoundry_localmaclinux.html" rel="noopener noreferrer">Microsoft 正式推出可透過安裝程式分發的本地 AI 環境「Foundry Local」，同時支援 Mac 與 Linux</a></td>
+<td>281</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>企業級本地 AI 部署的新選擇</td>
+</tr>
+<tr>
+<td><a href="https://diamond.jp/articles/-/387171" rel="noopener noreferrer">「日本農業效率低落」「用 AI 和感測器取代就好」高呼的人所不知的農業本質</a></td>
+<td>195</td>
+<td>*</td>
+<td>其他科技話題</td>
+<td>AI 應用邊界反思</td>
+</tr>
+<tr>
+<td><a href="https://nihonbuson.hatenadiary.jp/entry/QA-activities-in-response-to-generated-code" rel="noopener noreferrer">翻譯文章「AI 程式碼生成工具加速下，品質保證活動該如何應對」</a></td>
+<td>181</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>QA 工程在 AI 時代的轉型挑戰</td>
+</tr>
+<tr>
+<td><a href="https://internet.watch.impress.co.jp/docs/yajiuma/2101090.html" rel="noopener noreferrer">Mac 連續運作 49.7 天會發生無法連上網路的 Bug。對使用者的影響為何？</a></td>
+<td>89</td>
+<td>*</td>
+<td>其他科技話題</td>
+<td>macOS 隱藏 Bug 曝光</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章</h3>
+<ol>
+<li><a href="https://note.com/tasty_dunlin998/n/nf1b04ebc7600" rel="noopener noreferrer">讓 DESIGN.md 以真正能用的日文 UI 形態</a> (534 users) — DESIGN.md 的日文 UI 本地化專案</li>
+<li><a href="https://www.publickey1.jp/blog/26/aifoundry_localmaclinux.html" rel="noopener noreferrer">Microsoft 正式推出可透過安裝程式分發的本地 AI 環境「Foundry Local」，同時支援 Mac 與 Linux</a> (281 users) — 企業級本地 AI 環境跨平台支援</li>
+<li><a href="https://diamond.jp/articles/-/387171" rel="noopener noreferrer">「日本農業效率低落」「用 AI 和感測器取代就好」高呼的人所不知的農業本質</a> (195 users) — 農業現代化的本質反思</li>
+<li><a href="https://nihonbuson.hatenadiary.jp/entry/QA-activities-in-response-to-generated-code" rel="noopener noreferrer">翻譯文章「AI 程式碼生成工具加速下，品質保證活動該如何應對」</a> (181 users) — AI 時代 QA 活動的重構</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/13/news057.html" rel="noopener noreferrer">「開發者不要再使用 Secret（機密金鑰）」GitHub 介紹「今天就能做」的 4 項資安對策</a> (17 users) — GitHub 資安最佳實踐</li>
+<li><a href="https://tagomoris.hatenablog.com/entry/2026/04/13/095426" rel="noopener noreferrer">加入 Sakura Internet 一年半後成為雲端服務產品負責人</a> (65 users) — 日本雲端產業職涯發展</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2604/13/news068.html" rel="noopener noreferrer">個人網站「懸垂與我．com」令人驚嘆，將全國超過 1 萬座「可拉單槓的公園」製作地圖</a> (76 users) — 獨立開發者的數據地圖專案</li>
+<li><a href="https://zenn.dev/investaitech/articles/16d21fdd32e730" rel="noopener noreferrer">【前篇】PowerPoint 的內容其實是「巢狀的盒子」——用 python-pptx 徹底揭露投影片結構</a> (87 users) — PPT 內部結構解析</li>
+<li><a href="https://levtech.jp/media/detail_844/" rel="noopener noreferrer">【Brynhildr】自 FF11 廢人以來 20 多年製作遠端桌面工具的理由</a> (104 users) — 獨立開發者的心路歷程</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/topic/special/2098901.html" rel="noopener noreferrer">VRAM 消耗減 60% 的衝擊。App Mode 與 GeForce RTX 讓 ComfyUI 更親民</a> (84 users) — ComfyUI 性能優化指南</li>
+</ol>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47738883" rel="noopener noreferrer">Tell HN：Docker pull 因足球賽 Cloudflare 封鎖在西班牙失敗</a></td>
+<td>975</td>
+<td>***</td>
+<td>Security</td>
+<td>CDN Geo-block 導致依賴中斷</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47746610" rel="noopener noreferrer">單一二元運算子實現所有初等函數</a></td>
+<td>535</td>
+<td>*</td>
+<td>Other Tech</td>
+<td>數學與程式語言理論</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47733217" rel="noopener noreferrer">利用並操縱最知名的 AI Agent 基準測試</a></td>
+<td>538</td>
+<td>***</td>
+<td>Security</td>
+<td>AI 評估基準的漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47741701" rel="noopener noreferrer">DIY 汽水製作</a></td>
+<td>520</td>
+<td>*</td>
+<td>Other Tech</td>
+<td>極客 DIY 文化</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47738827" rel="noopener noreferrer">重拾慣用設計（2023）</a></td>
+<td>583</td>
+<td>*</td>
+<td>Other Tech</td>
+<td>設計哲學回顧</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47738883" rel="noopener noreferrer">Tell HN：Docker pull 因足球賽 Cloudflare 封鎖在西班牙失敗</a> (975 points) — 大型活動期間的 CDN 封鎖問題</li>
+<li><a href="https://news.ycombinator.com/item?id=47746610" rel="noopener noreferrer">單一二元運算子實現所有初等函數</a> (535 points) — 數學表達的極簡化探索</li>
+<li><a href="https://news.ycombinator.com/item?id=47733217" rel="noopener noreferrer">利用並操縱最知名的 AI Agent 基準測試</a> (538 points) — AI 測試基準的可操縱性研究</li>
+<li><a href="https://news.ycombinator.com/item?id=47741701" rel="noopener noreferrer">DIY 汽水製作</a> (520 points) — 家庭汽水製作指南</li>
+<li><a href="https://news.ycombinator.com/item?id=47738827" rel="noopener noreferrer">重拾慣用設計（2023）</a> (583 points) — 習慣性設計原則回顧</li>
+<li><a href="https://news.ycombinator.com/item?id=47739313" rel="noopener noreferrer">七個國家現已幾乎完全依靠再生能源發電（2024）</a> (602 points) — 再生能源轉型成功案例</li>
+<li><a href="https://news.ycombinator.com/item?id=47739260" rel="noopener noreferrer">Pro Max 5x 配額在 1.5 小時內耗盡，儘管使用量適中</a> (685 points) — AI 服務配額計算透明度問題</li>
+<li><a href="https://news.ycombinator.com/item?id=47742200" rel="noopener noreferrer">Show HN: boringBar – macOS 的任務列風格 Dock 替代品</a> (408 points) — macOS 桌面工具</li>
+<li><a href="https://news.ycombinator.com/item?id=47741527" rel="noopener noreferrer">問 HN：你正在做什麼？（2026 年 4 月）</a> (247 points) — 社群脈動調查</li>
+<li><a href="https://news.ycombinator.com/item?id=47747017" rel="noopener noreferrer">Apple 的意外護城河：「AI 輸家」如何最終獲勝</a> (254 points) — Apple 的 AI 策略分析</li>
+</ol>
+<h2>Reddit（16 個子版）</h2>
+<h3>r/technology — 科技新聞</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/technology" rel="noopener noreferrer">Hacker Uses Claude and ChatGPT to Breach Multiple Government Agencies</a></td>
+<td>12,500</td>
+<td>***</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology" rel="noopener noreferrer">Oracle's new CFO got $26M in stock after layoffs</a></td>
+<td>10,149</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology" rel="noopener noreferrer">Sam Altman's home targeted in second attack</a></td>
+<td>9,930</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology" rel="noopener noreferrer">Microsoft exec suggests AI agents will need to buy software licenses</a></td>
+<td>3,342</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology" rel="noopener noreferrer">Iran's forced nationwide internet blackout</a></td>
+<td>3,141</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/netsec — 網路安全</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec" rel="noopener noreferrer">CVE-2025-8061: From User-land to Ring 0</a></td>
+<td>14</td>
+<td>***</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec" rel="noopener noreferrer">One Uppercase Letter Breaks Every Nuxt App</a></td>
+<td>5</td>
+<td>***</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec" rel="noopener noreferrer">Claude + Humans vs nginx: CVE-2026-27654</a></td>
+<td>24</td>
+<td>***</td>
+</tr>
+</tbody>
+</table>
+<h3>r/cybersecurity — 資安</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity" rel="noopener noreferrer">'I Built' - Mods, can we please get a 'built with A.I' tag</a></td>
+<td>827</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity" rel="noopener noreferrer">Iran's forced nationwide internet blackout</a></td>
+<td>383</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity" rel="noopener noreferrer">Hackers claim control over Venice San Marco anti-flood pumps</a></td>
+<td>227</td>
+<td>**</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity" rel="noopener noreferrer">thermaltake.com hacked with a ClickFix attack</a></td>
+<td>44</td>
+<td>***</td>
+</tr>
+</tbody>
+</table>
+<h3>r/OpenAI — OpenAI 相關</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/OpenAI" rel="noopener noreferrer">Sam Altman's House targeted second time</a></td>
+<td>331</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/OpenAI" rel="noopener noreferrer">Updates to Codex usage on Plus</a></td>
+<td>66</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/LocalLLaMA — 本地 LLM</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA" rel="noopener noreferrer">Audio processing landed in llama-server with Gemma-4</a></td>
+<td>351</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA" rel="noopener noreferrer">we have a new weight class...</a></td>
+<td>314</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA" rel="noopener noreferrer">Gemma 4 - lazy model or am I crazy?</a></td>
+<td>121</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/ClaudeCode — Claude Code</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode" rel="noopener noreferrer">For the people that are having problems with ClaudeCode</a></td>
+<td>186</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode" rel="noopener noreferrer">The creator of Claude Code notes on the current Caching Issue</a></td>
+<td>138</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode" rel="noopener noreferrer">Are we on the brink of seeing an infinite number of clones?</a></td>
+<td>124</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/ChatGPT — ChatGPT</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/ChatGPT" rel="noopener noreferrer">My manager watching how I work after I hit the Claude usage limit</a></td>
+<td>5,886</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ChatGPT" rel="noopener noreferrer">'Average vibe coder discourse'</a></td>
+<td>1,696</td>
+<td>***</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ChatGPT" rel="noopener noreferrer">The confidence lol</a></td>
+<td>1,074</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ChatGPT" rel="noopener noreferrer">AI Race</a></td>
+<td>999</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/programming — 程式設計</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/programming" rel="noopener noreferrer">Java 26 new Feature Breakdown With Examples</a></td>
+<td>60</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming" rel="noopener noreferrer">Flat Error Codes Are Not Enough</a></td>
+<td>104</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/indiehackers — 獨立開發者</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/indiehackers" rel="noopener noreferrer">Friday Share Fever 🕺 Let's share your project!</a></td>
+<td>28</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/indiehackers" rel="noopener noreferrer">OpenShots - Free, open-source alternative to TinyShots</a></td>
+<td>22</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/webdev — Web 開發</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/webdev" rel="noopener noreferrer">Do you feel like you're losing your actual coding ability because of AI?</a></td>
+<td>169</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/webdev" rel="noopener noreferrer">what is right here? self host postgres or Supabase</a></td>
+<td>77</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/javascript — JavaScript</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/javascript" rel="noopener noreferrer">Release Re2js v2 - A pure JS RegExp engine that defeats ReDoS</a></td>
+<td>18</td>
+<td>***</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/javascript" rel="noopener noreferrer">I built an open-source WYSIWYG editor in vanilla JavaScript</a></td>
+<td>29</td>
+<td>**</td>
+</tr>
+</tbody>
+</table>
+<h3>r/cscareerquestions — CS 職涯</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cscareerquestions" rel="noopener noreferrer">Left industry for 5 years, how fucked am I?</a></td>
+<td>182</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cscareerquestions" rel="noopener noreferrer">2yoe deciding between 2 offers</a></td>
+<td>47</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h3>r/productivity — 生產力</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>得分</th>
+<th>興趣度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/productivity" rel="noopener noreferrer">Pro tip: this is the only study hack you need</a></td>
+<td>80</td>
+<td>*</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/productivity" rel="noopener noreferrer">Do you ever delay replying to emails just because it feels mentally exhausting?</a></td>
+<td>28</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://aikido.dev" rel="noopener noreferrer">GlassWorm goes native: New Zig dropper infects every IDE on your machine</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>供應鏈攻擊擴散至開發環境</td>
+</tr>
+<tr>
+<td><a href="https://aikido.dev" rel="noopener noreferrer">axios compromised on npm: maintainer account hijacked, RAT deployed</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>核心 HTTP 套件遭植入後門</td>
+</tr>
+<tr>
+<td><a href="https://aikido.dev" rel="noopener noreferrer">TeamPCp deploys CanisterWorm on NPM following Trivy compromise</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>安全工具被入侵的惡性循環</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>本週核心趨勢總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 資安威脅升級】</strong></li>
+<li>黑客使用 Claude/ChatGPT 入侵政府機構</li>
+<li>npm 生態系連續遭攻（axios、Trivy）</li>
+<li>
+<p>GlassWorm 目標轉向開發者 IDE</p>
+</li>
+<li>
+<p><strong>【本地 AI 爆發】</strong></p>
+</li>
+<li>Microsoft Foundry Local 跨平台支援</li>
+<li>WebGPU 瀏覽器端運行 Gemma-4/Qwen 3.5</li>
+<li>
+<p>隱私優先的邊緣運算趨勢</p>
+</li>
+<li>
+<p><strong>【AI 開發工具生態動盪】</strong></p>
+</li>
+<li>Claude Code 快取機制爭議</li>
+<li>QA 工程在 AI 生成代碼時代的轉型</li>
+<li>Vibe Coder 文化現象</li>
+</ol>
+<h3>跨平台熱門話題重疊</h3>
+<ul>
+<li><strong>Sam Altman 住家遭襲</strong>：Hatena、Reddit r/OpenAI、r/technology 同步報導</li>
+<li><strong>伊朗斷網事件</strong>：Hatena、Reddit r/cybersecurity、r/technology 三處關注</li>
+<li><strong>AI Agent 基準測試操縱</strong>：Hacker News + 多篇技術分析</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

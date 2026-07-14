@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief — 2026-07-14</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">2026-07-14</p>
+</header>
+<section class="status"><h2>系統狀態</h2><div class="status-grid"><div class="status-streak"><span class="status-num">18</span><span class="status-label">連續運作天數</span></div><div class="status-trend"><span class="status-label">judge 品質分趨勢（最新 5.0/5）</span><svg class="spark" viewBox="0 0 240 40" role="img" aria-label="judge quality trend" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" points="4.0,10.4 6.5,4.0 9.1,4.0 11.6,4.0 14.2,4.0 16.7,4.0 19.3,10.4 21.8,10.4 24.4,10.4 26.9,10.4 29.5,4.0 32.0,4.0 34.6,4.0 37.1,4.0 39.7,10.4 42.2,8.5 44.8,4.0 47.3,4.0 49.9,10.4 52.4,4.0 55.0,5.9 57.5,4.0 60.1,10.4 62.6,4.0 65.2,4.0 67.7,10.4 70.3,4.0 72.8,8.5 75.4,10.4 77.9,4.0 80.5,10.4 83.0,8.5 85.6,4.0 88.1,4.0 90.7,8.5 93.2,10.4 95.8,4.0 98.3,8.5 100.9,4.0 103.4,4.0 106.0,8.5 108.5,4.0 111.1,5.9 113.6,4.0 116.2,4.0 118.7,10.4 121.3,10.4 123.8,4.0 126.4,4.0 128.9,4.0 131.5,4.0 134.0,10.4 136.6,4.0 139.1,4.0 141.7,4.0 144.2,4.0 146.8,4.0 149.3,4.0 151.9,4.0 154.4,8.5 157.0,4.0 159.5,10.4 162.1,4.0 164.6,4.0 167.2,8.5 169.7,8.5 172.3,5.9 174.8,4.0 177.4,10.4 179.9,10.4 182.5,4.0 185.0,8.5 187.6,4.0 190.1,8.5 192.7,8.5 195.2,10.4 197.8,4.0 200.3,4.0 202.9,4.0 205.4,10.4 208.0,8.5 210.5,4.0 213.1,4.0 215.6,4.0 218.2,10.4 220.7,10.4 223.3,4.0 225.8,10.4 228.4,4.0 230.9,10.4 233.5,4.0 236.0,4.0"/><circle cx="236.0" cy="4.0" r="2.5" fill="currentColor"/></svg></div></div><ul class="status-rates"><li><span class="status-src">hatena</span><span class="status-pct">91%</span><span class="status-frac">81/89</span></li><li><span class="status-src">hn</span><span class="status-pct">96%</span><span class="status-frac">85/89</span></li><li><span class="status-src">reddit</span><span class="status-pct">93%</span><span class="status-frac">83/89</span></li><li><span class="status-src">rss</span><span class="status-pct">94%</span><span class="status-frac">58/62</span></li><li><span class="status-src">security</span><span class="status-pct">99%</span><span class="status-frac">88/89</span></li><li><span class="status-src">telegram</span><span class="status-pct">93%</span><span class="status-frac">83/89</span></li><li><span class="status-src">vault</span><span class="status-pct">100%</span><span class="status-frac">88/88</span></li></ul></section>
+<section class="tldr">
+<p>The rapid integration of AI coding assistants into developer workflows is driving significant efficiency gains but simultaneously exposing critical challenges around token overhead, unauthorized data exfiltration, and the urgent need for secure sandboxing and automated quality controls. Concurrently, AI security has emerged as a primary threat vector, with malicious actors weaponizing generative models for everything from explosive design to sophisticated memory-injection attacks that compromise autonomous agents. Meanwhile, traditional cybersecurity remains under intense pressure, as critical firmware and driver vulnerabilities, browser extension compromises, and state-level cyber conflicts underscore the necessity for robust zero-trust architectures and automated patch management.</p>
+</section>
+<section class="narrative lang-toggle">
+  <input type="radio" name="lang" id="lang-zh" checked>
+  <input type="radio" name="lang" id="lang-en">
+  <div class="lang-tabs">
+    <label for="lang-zh">中</label><label for="lang-en">EN</label>
+  </div>
+  <div class="narrative-zh">
+<h2>這是什麼</h2>
+<p>一套<strong>本地 LLM 多代理自主系統</strong>。每天清晨，它在我自己的機器上自主醒來，
+從 Hatena、Hacker News、Reddit、資安部落格與 RSS 五個來源策展出「當日值得關注的技術趨勢」，
+寫成一份完整報告、同步進筆記庫，並把精華推播到 Telegram。整條流程不依賴任何雲端推理服務。</p>
+<h2>架構亮點</h2>
+<ul>
+<li><strong>多代理 pipeline</strong>：抓取、語義去重、跨來源壓縮、留言增強、深度摘要、品質評審到發佈，
+  各階段職責單一、可獨立執行與測試。</li>
+<li><strong>冪等步驟</strong>：每一步把結果存成當日 artifact，重跑時自動略過已完成步驟；
+  單一步驟可用 <code>--force</code> 強制重算、用 <code>--only</code> 單獨執行。補跑安全、不重抓資料。</li>
+<li><strong>韌性而非脆弱</strong>：任一來源失敗不會中斷整條流程；只要 ≥2 個來源成功就照常產出報告，
+  系統優雅降級而非全盤崩潰。</li>
+<li><strong>可觀測性</strong>：每次執行留下健康記錄，跨天偵測慢性故障才主動告警，偶發抖動靜默吞下，
+  不製造告警疲勞。</li>
+<li><strong>LLM-as-Judge 自評</strong>：產物以 relevance／completeness／faithfulness 三軸自我評分並逐日記錄，
+  讓品質可被追蹤而非憑感覺。</li>
+</ul>
+<p>設計理念：倉庫即記錄系統、地圖而非手冊、選無聊技術、單一失敗不阻塞全局。</p>
+  </div>
+  <div class="narrative-en">
+<h2>What this is</h2>
+<p>A <strong>local-LLM multi-agent autonomous system</strong>. Every morning it wakes up on my own machine and
+curates the day's notable technical trends from five sources — Hatena, Hacker News, Reddit,
+security blogs and RSS — into a full report, syncs it into my notes, and pushes the highlights
+to Telegram. The whole pipeline runs without any cloud inference service.</p>
+<h2>Architecture highlights</h2>
+<ul>
+<li><strong>Multi-agent pipeline</strong>: fetch, semantic dedup, cross-source compression, comment enrichment,
+  deep digest, quality judging and deploy — each stage has a single responsibility and can be
+  run and tested in isolation.</li>
+<li><strong>Idempotent steps</strong>: every step persists its result as a per-day artifact and is skipped on
+  re-run once complete; any step can be re-computed with <code>--force</code> or run alone with <code>--only</code>.
+  Re-runs are safe and never re-fetch data needlessly.</li>
+<li><strong>Resilient, not brittle</strong>: a single failing source never halts the pipeline; as long as ≥2
+  sources succeed the report still ships. The system degrades gracefully instead of collapsing.</li>
+<li><strong>Observability</strong>: each run leaves a health record; chronic failures are detected across days
+  before escalating, while transient flakes are silently absorbed — no alert fatigue.</li>
+<li><strong>LLM-as-Judge self-scoring</strong>: outputs are self-rated on relevance, completeness and
+  faithfulness and logged daily, so quality is tracked rather than guessed.</li>
+</ul>
+<p>Design ethos: the repo is the system of record, a map not a manual, boring technology, and no
+single failure blocks the whole.</p>
+  </div>
+</section>
+<article>
+<h1>趨勢話題：2026-07-14</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/fuyunoki/items/5818688d20225aa8088a?utm_campaign=popular_items&amp;utm_medium=twitter&amp;utm_source=dlvr.it" rel="noopener noreferrer">Claude Code 入門指南：讀完這篇就夠了（2026年版）</a></td>
+<td>1000</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>新手工程師必讀的Claude Code完整入門指南</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/aiplus/article/2607/13/2000000187/" rel="noopener noreferrer">專注動畫的影片生成AI「AnimeGen」免費公開，可商用｜日本AI新創AIdeaLab</a></td>
+<td>144</td>
+<td>***</td>
+<td>AI產品動態</td>
+<td>日本新創公開可商用的動畫生成AI模型</td>
+</tr>
+<tr>
+<td><a href="https://note.com/aidealab/n/nf73e7091ec95" rel="noopener noreferrer">正式公開專注動畫的影片生成AI模型「AnimeGen」｜AIdeaLab</a></td>
+<td>21</td>
+<td>***</td>
+<td>AI產品動態</td>
+<td>AIdeaLab團隊宣布AnimeGen模型正式上線</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2124427.html" rel="noopener noreferrer">桌面版Claude Code應用程式內建瀏覽器，支援分頁瀏覽外部網站、文件或議題追蹤器</a></td>
+<td>18</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>桌面版內建瀏覽器可分頁查閱文件與追蹤器</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260713-claude-code-consuming-token/" rel="noopener noreferrer">Claude Code 僅在接收指令前的初始數據就消耗約3.3萬Token，實際應用環境下達7.5萬</a></td>
+<td>14</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>接收指令前初始資料即耗用約三萬三Token</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/fuyunoki/items/5818688d20225aa8088a?utm_campaign=popular_items&amp;utm_medium=twitter&amp;utm_source=dlvr.it" rel="noopener noreferrer">Claude Code 入門指南：讀完這篇就夠了（2026年版）</a> (1000 users) — 新手工程師必讀的Claude Code完整入門指南</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2607/13/2000000187/" rel="noopener noreferrer">專注動畫的影片生成AI「AnimeGen」免費公開，可商用｜日本AI新創AIdeaLab</a> (144 users) — 日本新創公開可商用的動畫生成AI模型</li>
+<li><a href="https://note.com/aidealab/n/nf73e7091ec95" rel="noopener noreferrer">正式公開專注動畫的影片生成AI模型「AnimeGen」｜AIdeaLab</a> (21 users) — AIdeaLab團隊宣布AnimeGen模型正式上線</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2124427.html" rel="noopener noreferrer">桌面版Claude Code應用程式內建瀏覽器，支援分頁瀏覽外部網站、文件或議題追蹤器</a> (18 users) — 桌面版內建瀏覽器可分頁查閱文件與追蹤器</li>
+<li><a href="https://gigazine.net/news/20260713-claude-code-consuming-token/" rel="noopener noreferrer">Claude Code 僅在接收指令前的初始數據就消耗約3.3萬Token，實際應用環境下達7.5萬</a> (14 users) — 接收指令前初始資料即耗用約三萬三Token</li>
+<li><a href="https://gigazine.net/news/20260713-gates-heir-phia-cookie-stuffing/" rel="noopener noreferrer">比爾蓋茲之女共同創辦的購物助理App「Phia」遭指控使用假點擊與Cookie stuffing不正獲取報酬</a> (13 users) — 蓋茲之女創辦購物App遭控假點擊不正獲利</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2607/13/news090.html" rel="noopener noreferrer">OpenAI 瀏覽器「ChatGPT Atlas」將停止服務，上線不到一年即結束</a> (13 users) — OpenAI自製瀏覽器上線不足一年宣布停服</li>
+<li><a href="https://gigazine.net/news/20260713-terrorist-group-use-ai/" rel="noopener noreferrer">伊斯蘭極端組織「博科聖地」被發現利用AI設計爆裂物與維修武器</a> (12 users) — 極端組織利用AI設計爆裂物引發業界擔憂</li>
+<li><a href="https://www.nikkei.com/article/DGXZQOUC1383Z0T10C26A7000000/" rel="noopener noreferrer">日清食品遭非法存取導致系統停擺，影響冷凍食品出貨業務</a> (11 users) — 日清食品遭非法存取致系統停擺影響出貨</li>
+<li><a href="https://speakerdeck.com/ysknsid25/dmm-dot-com-gou-ru-gai-shan-tui-jin-timu-niokerucoderabbitwoyong-ita-rebiyuhurogai-shan-no-li" rel="noopener noreferrer">DMM.com 購買優化團隊導入 CodeRabbit 改善程式審查流程實例</a> (10 users) — DMM團隊導入AI工具優化程式審查流程</li>
+<li><a href="https://gigazine.net/news/20260713-grok-build-sending-data/" rel="noopener noreferrer">Grok Build 遭調查發現會明文傳送機密資訊，甚至上傳未開啟檔案與Git歷史紀錄</a> (8 users) — Grok Build遭爆明文外洩機密與上傳Git紀錄</li>
+<li><a href="https://speakerdeck.com/mae616/aiqu-dong-kai-fa-wakuhuroshe-ji" rel="noopener noreferrer">AI驅動開發：工作流程設計</a> (7 users) — 探討以Claude Code建構AI開發工作流</li>
+<li><a href="https://xtech.nikkei.com/atcl/nxt/column/18/00001/11888/" rel="noopener noreferrer">富士通FDE團隊10天試作AI代理程式，協助伊頓系超市店長營運</a> (6 users) — 富士通十天開發AI代理程式輔助超市營運</li>
+<li><a href="https://www.technologyreview.jp/s/385960/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/" rel="noopener noreferrer">LLM 內部究竟在想什麼？Anthropic 發現的隱藏空間與概念處理機制</a> (6 users) — Anthropic揭曉LLM內部隱藏空間與運作機制</li>
+<li><a href="https://www.afpbb.com/articles/-/3643828" rel="noopener noreferrer">法國擬召見俄羅斯大使，就俄國對歐洲各國發動網路攻擊一事提出抗議</a> (4 users) — 法國擬召見俄大使抗議歐洲遭網攻事件</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48889637" rel="noopener noreferrer">Zig 創作者直言不諱，Anthropic 卻顧左右而言他</a></td>
+<td>1231pt</td>
+<td>***</td>
+<td>AI基礎建設</td>
+<td>開發者痛批 Anthropic 回應虛浮</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48892468" rel="noopener noreferrer">Grok CLI 意外將整個家目錄上傳至 GCS</a></td>
+<td>297pt</td>
+<td>***</td>
+<td>AI資安</td>
+<td>Grok CLI 意外上傳家目錄引發疑慮</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48894752" rel="noopener noreferrer">蘋果全新 SpeechAnalyzer API 基準測試: 對決 Whisper 及其前代版本</a></td>
+<td>148pt</td>
+<td>***</td>
+<td>AI基礎建設</td>
+<td>蘋果語音 API 性能對決 Whisper</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48892859" rel="noopener noreferrer">Show HN: Clawk – 為程式碼 AI 代理提供一次性 Linux 虛擬機，而非你的筆記型電腦</a></td>
+<td>128pt</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>為 AI 程式代理提供一次性虛擬機</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48889637" rel="noopener noreferrer">Zig 創作者直言不諱，Anthropic 卻顧左右而言他</a> (1231pt) — 開發者痛批 Anthropic 回應虛浮
+   💬 社群觀點：觀點兩極：部分視轉Rust為行銷或受限AI資料，亦有聲音肯定技術實效。Zig作者反應被批情緒化，顯示選語言重實用。</li>
+<li><a href="https://news.ycombinator.com/item?id=48892468" rel="noopener noreferrer">Grok CLI 意外將整個家目錄上傳至 GCS</a> (297pt) — Grok CLI 意外上傳家目錄引發疑慮
+   💬 社群觀點：社群警告AI代理不應預設讀取全目錄，爭議在於使用者自責或開發者未預設沙盒。強烈建議於VM運行，並採選擇加入機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=48894752" rel="noopener noreferrer">蘋果全新 SpeechAnalyzer API 基準測試: 對決 Whisper 及其前代版本</a> (148pt) — 蘋果語音 API 性能對決 Whisper
+   💬 社群觀點：肯定端側效能，但爭議閉源限制應用。建議以最新開源模型對標，並期待公開權重與支援舊裝置。</li>
+<li><a href="https://news.ycombinator.com/item?id=48892859" rel="noopener noreferrer">Show HN: Clawk – 為程式碼 AI 代理提供一次性 Linux 虛擬機，而非你的筆記型電腦</a> (128pt) — 為 AI 程式代理提供一次性虛擬機
+   💬 社群觀點：肯定VM隔離概念，但多建議改用Docker或無權限帳號。擔憂容器逃逸風險，認為沙箱專案氾濫，呼籲補充實作細節並強化差異化</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uv6qbn/dell_bios_passwords_weak_xor_encryption_allows/" rel="noopener noreferrer">Dell BIOS 密碼：弱 XOR 加密允許從 SPI 快閃記憶體復原 (CVE-2026-40639)</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>讀取SPI晶片即可破解BIOS密碼</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uuquzx/vulnerability_in_realtek_driver_allows_dma/" rel="noopener noreferrer">Realtek 驅動程式漏洞允許從使用者模式濫用 DMA 控制器，無需額外硬體或驅動程式</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>驅動漏洞讓軟體直接濫用DMA控制器</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uv54e4/persistence_via_fake_amsi_provider_playbook/" rel="noopener noreferrer">透過偽造 AMSI 提供者維持存續性｜實戰手冊與偵測策略</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>偽造AMSI提供者隱藏惡意程式存續</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1uv6qbn/dell_bios_passwords_weak_xor_encryption_allows/" rel="noopener noreferrer">Dell BIOS 密碼：弱 XOR 加密允許從 SPI 快閃記憶體復原 (CVE-2026-40639)</a> (- ups) — r/netsec — 讀取SPI晶片即可破解BIOS密碼
+2. <a href="https://www.reddit.com/r/netsec/comments/1uuquzx/vulnerability_in_realtek_driver_allows_dma/" rel="noopener noreferrer">Realtek 驅動程式漏洞允許從使用者模式濫用 DMA 控制器，無需額外硬體或驅動程式</a> (- ups) — r/netsec — 驅動漏洞讓軟體直接濫用DMA控制器
+3. <a href="https://www.reddit.com/r/netsec/comments/1uv54e4/persistence_via_fake_amsi_provider_playbook/" rel="noopener noreferrer">透過偽造 AMSI 提供者維持存續性｜實戰手冊與偵測策略</a> (- ups) — r/netsec — 偽造AMSI提供者隱藏惡意程式存續</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/code-quality-when-vibe-coding" rel="noopener noreferrer">如何使用 AI 程式碼與 Vibe Coding 維持程式碼品質標準</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>用自動化檢查，確保AI開發程式碼品質</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與工作流優化】</strong> — Claude Code 桌面版內建瀏覽器與初始 Token 消耗分析引發關注，DMM 導入 CodeRabbit 優化審查流程，顯示企業正積極將 AI 編程助手整合至日常開發與 CI/CD 管道，以提升產能並降低技術債。</li>
+<li><strong>【AI 代理資安與資料外洩風險】</strong> — Grok Build 與 Grok CLI 被曝存在明文外洩與無意上傳家目錄漏洞，極端組織亦被發現利用 AI 設計爆裂物，凸顯 AI 工具預設權限過大與缺乏沙盒隔離的致命弱點。</li>
+<li><strong>【企業基礎設施與終端防禦威脅】</strong> — 日清食品遭非法存取停擺、微軟創紀錄 Patch Tuesday、Dell BIOS 弱加密與 Realtek DMA 漏洞頻傳，顯示傳統硬體與雲端權限管理仍為攻擊者首選目標，零信任與自動化修補成為必修課題。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 工具鏈的隱私與權限控管</strong>：Hatena + HN + Reddit 同步出現 — Grok CLI/Build 的資料外洩事件與社群對 VM 沙盒隔離的呼聲，顯示開發者強烈要求 AI 代理必須預設最小權限與選擇加入機制。</li>
+<li><strong>AI 輔助開發的品質與流程標準化</strong>：Hatena + HN + 資安部落格 同步出現 — 從 Claude Code 工作流設計、DMM 的 AI Code Review 實戰，到 Vibe Coding 下的自動化品質檢查，業界共識已從「追求生成速度」轉向「建立嚴格的審查與測試閘道」。</li>
+</ul>
+</article>
+<nav class="archive">
+<p class="meta">存檔（連續 94 天）</p>
+<ul>
+  <li><a href="archive/2026-07-14.html">2026-07-14</a></li>
+  <li><a href="archive/2026-07-13.html">2026-07-13</a></li>
+  <li><a href="archive/2026-07-12.html">2026-07-12</a></li>
+  <li><a href="archive/2026-07-11.html">2026-07-11</a></li>
+  <li><a href="archive/2026-07-10.html">2026-07-10</a></li>
+  <li><a href="archive/2026-07-09.html">2026-07-09</a></li>
+  <li><a href="archive/2026-07-08.html">2026-07-08</a></li>
+  <li><a href="archive/2026-07-07.html">2026-07-07</a></li>
+  <li><a href="archive/2026-07-06.html">2026-07-06</a></li>
+  <li><a href="archive/2026-07-05.html">2026-07-05</a></li>
+  <li><a href="archive/2026-07-04.html">2026-07-04</a></li>
+  <li><a href="archive/2026-07-03.html">2026-07-03</a></li>
+  <li><a href="archive/2026-07-02.html">2026-07-02</a></li>
+  <li><a href="archive/2026-07-01.html">2026-07-01</a></li>
+  <li><a href="archive/2026-06-30.html">2026-06-30</a></li>
+  <li><a href="archive/2026-06-29.html">2026-06-29</a></li>
+  <li><a href="archive/2026-06-28.html">2026-06-28</a></li>
+  <li><a href="archive/2026-06-27.html">2026-06-27</a></li>
+  <li><a href="archive/2026-06-26.html">2026-06-26</a></li>
+  <li><a href="archive/2026-06-25.html">2026-06-25</a></li>
+  <li><a href="archive/2026-06-24.html">2026-06-24</a></li>
+  <li><a href="archive/2026-06-23.html">2026-06-23</a></li>
+  <li><a href="archive/2026-06-22.html">2026-06-22</a></li>
+  <li><a href="archive/2026-06-21.html">2026-06-21</a></li>
+  <li><a href="archive/2026-06-20.html">2026-06-20</a></li>
+  <li><a href="archive/2026-06-19.html">2026-06-19</a></li>
+  <li><a href="archive/2026-06-18.html">2026-06-18</a></li>
+  <li><a href="archive/2026-06-17.html">2026-06-17</a></li>
+  <li><a href="archive/2026-06-16.html">2026-06-16</a></li>
+  <li><a href="archive/2026-06-15.html">2026-06-15</a></li>
+  <li><a href="archive/2026-06-14.html">2026-06-14</a></li>
+  <li><a href="archive/2026-06-13.html">2026-06-13</a></li>
+  <li><a href="archive/2026-06-12.html">2026-06-12</a></li>
+  <li><a href="archive/2026-06-11.html">2026-06-11</a></li>
+  <li><a href="archive/2026-06-10.html">2026-06-10</a></li>
+  <li><a href="archive/2026-06-09.html">2026-06-09</a></li>
+  <li><a href="archive/2026-06-08.html">2026-06-08</a></li>
+  <li><a href="archive/2026-06-07.html">2026-06-07</a></li>
+  <li><a href="archive/2026-06-06.html">2026-06-06</a></li>
+  <li><a href="archive/2026-06-05.html">2026-06-05</a></li>
+  <li><a href="archive/2026-06-04.html">2026-06-04</a></li>
+  <li><a href="archive/2026-06-03.html">2026-06-03</a></li>
+  <li><a href="archive/2026-06-02.html">2026-06-02</a></li>
+  <li><a href="archive/2026-06-01.html">2026-06-01</a></li>
+  <li><a href="archive/2026-05-31.html">2026-05-31</a></li>
+  <li><a href="archive/2026-05-30.html">2026-05-30</a></li>
+  <li><a href="archive/2026-05-29.html">2026-05-29</a></li>
+  <li><a href="archive/2026-05-28.html">2026-05-28</a></li>
+  <li><a href="archive/2026-05-27.html">2026-05-27</a></li>
+  <li><a href="archive/2026-05-26.html">2026-05-26</a></li>
+  <li><a href="archive/2026-05-25.html">2026-05-25</a></li>
+  <li><a href="archive/2026-05-24.html">2026-05-24</a></li>
+  <li><a href="archive/2026-05-23.html">2026-05-23</a></li>
+  <li><a href="archive/2026-05-22.html">2026-05-22</a></li>
+  <li><a href="archive/2026-05-21.html">2026-05-21</a></li>
+  <li><a href="archive/2026-05-20.html">2026-05-20</a></li>
+  <li><a href="archive/2026-05-19.html">2026-05-19</a></li>
+  <li><a href="archive/2026-05-18.html">2026-05-18</a></li>
+  <li><a href="archive/2026-05-17.html">2026-05-17</a></li>
+  <li><a href="archive/2026-05-16.html">2026-05-16</a></li>
+  <li><a href="archive/2026-05-15.html">2026-05-15</a></li>
+  <li><a href="archive/2026-05-14.html">2026-05-14</a></li>
+  <li><a href="archive/2026-05-13.html">2026-05-13</a></li>
+  <li><a href="archive/2026-05-12.html">2026-05-12</a></li>
+  <li><a href="archive/2026-05-11.html">2026-05-11</a></li>
+  <li><a href="archive/2026-05-10.html">2026-05-10</a></li>
+  <li><a href="archive/2026-05-09.html">2026-05-09</a></li>
+  <li><a href="archive/2026-05-08.html">2026-05-08</a></li>
+  <li><a href="archive/2026-05-07.html">2026-05-07</a></li>
+  <li><a href="archive/2026-05-06.html">2026-05-06</a></li>
+  <li><a href="archive/2026-05-05.html">2026-05-05</a></li>
+  <li><a href="archive/2026-05-04.html">2026-05-04</a></li>
+  <li><a href="archive/2026-05-03.html">2026-05-03</a></li>
+  <li><a href="archive/2026-05-02.html">2026-05-02</a></li>
+  <li><a href="archive/2026-05-01.html">2026-05-01</a></li>
+  <li><a href="archive/2026-04-30.html">2026-04-30</a></li>
+  <li><a href="archive/2026-04-29.html">2026-04-29</a></li>
+  <li><a href="archive/2026-04-28.html">2026-04-28</a></li>
+  <li><a href="archive/2026-04-27.html">2026-04-27</a></li>
+  <li><a href="archive/2026-04-26.html">2026-04-26</a></li>
+  <li><a href="archive/2026-04-25.html">2026-04-25</a></li>
+  <li><a href="archive/2026-04-24.html">2026-04-24</a></li>
+  <li><a href="archive/2026-04-23.html">2026-04-23</a></li>
+  <li><a href="archive/2026-04-22.html">2026-04-22</a></li>
+  <li><a href="archive/2026-04-21.html">2026-04-21</a></li>
+  <li><a href="archive/2026-04-20.html">2026-04-20</a></li>
+  <li><a href="archive/2026-04-19.html">2026-04-19</a></li>
+  <li><a href="archive/2026-04-18.html">2026-04-18</a></li>
+  <li><a href="archive/2026-04-17.html">2026-04-17</a></li>
+  <li><a href="archive/2026-04-16.html">2026-04-16</a></li>
+  <li><a href="archive/2026-04-15.html">2026-04-15</a></li>
+  <li><a href="archive/2026-04-14.html">2026-04-14</a></li>
+  <li><a href="archive/2026-04-13.html">2026-04-13</a></li>
+  <li><a href="archive/2026-04-12.html">2026-04-12</a></li>
+</ul>
+</nav>
+</main>
+</body>
+</html>

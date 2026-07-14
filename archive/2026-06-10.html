@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-10</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-10</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-10</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2115471.html" rel="noopener noreferrer">Google 大幅調降個人 AI 方案價格：月費自 1,200 日圓降至 725 日圓，Gemini 使用上限翻倍</a></td>
+<td>274</td>
+<td>***</td>
+<td>AI 訂閱服務</td>
+<td>Google降價AI方案，月費725日圓用量翻倍</td>
+</tr>
+<tr>
+<td><a href="https://addyosmani.com/blog/loop-engineering/" rel="noopener noreferrer">迴圈工程學（Loop Engineering）：以系統設計取代人工提示 AI 代理</a></td>
+<td>167</td>
+<td>***</td>
+<td>AI 開發架構</td>
+<td>以迴圈工程取代人工提示，優化AI代理系統</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2115523.html" rel="noopener noreferrer">Google AI Plus 月費降至 725 日圓：儲存空間翻倍</a></td>
+<td>116</td>
+<td>***</td>
+<td>AI 訂閱服務</td>
+<td>Google AI Plus降價至725日圓，容量翻倍</td>
+</tr>
+<tr>
+<td><a href="https://k-tai.watch.impress.co.jp/docs/news/2115566.html" rel="noopener noreferrer">Google「NotebookLM」進化：新增輸出格式與來源收集輔助功能</a></td>
+<td>23</td>
+<td>***</td>
+<td>AI 工具更新</td>
+<td>NotebookLM新增輸出格式與來源收集功能</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/flierinc/articles/fcf32bfa82524e" rel="noopener noreferrer">結合 Maestro MCP 與 Claude Code Skills 實現自主化 E2E 測試建立</a></td>
+<td>17</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>結合MCP與技能庫，實現AI自主端到端測試</td>
+</tr>
+<tr>
+<td><a href="https://k-tai.watch.impress.co.jp/docs/news/2115581.html" rel="noopener noreferrer">Google「Gemini for Science」破解研究瓶頸：支援計算、假設與文獻的「Gemini for Science」</a></td>
+<td>13</td>
+<td>***</td>
+<td>垂直領域 AI</td>
+<td>科學版Gemini支援計算假設與文獻分析</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/knowledgesense/articles/7ce72924c0050f" rel="noopener noreferrer">支撐「Claude Code」背後的技術架構</a></td>
+<td>9</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>解析Claude Code底層技術架構與運作原理</td>
+</tr>
+<tr>
+<td><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" rel="noopener noreferrer">Claude Fable 5 與 Claude Mythos 5 發布</a></td>
+<td>4</td>
+<td>***</td>
+<td>垂直領域 AI</td>
+<td>發布創作型Fable與神話型Mythos 5模型</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2115471.html" rel="noopener noreferrer">Google 大幅調降個人 AI 方案價格：月費自 1,200 日圓降至 725 日圓，Gemini 使用上限翻倍</a> (274 users) — Google降價AI方案，月費725日圓用量翻倍</li>
+<li><a href="https://addyosmani.com/blog/loop-engineering/" rel="noopener noreferrer">迴圈工程學（Loop Engineering）：以系統設計取代人工提示 AI 代理</a> (167 users) — 以迴圈工程取代人工提示，優化AI代理系統</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2115523.html" rel="noopener noreferrer">Google AI Plus 月費降至 725 日圓：儲存空間翻倍</a> (116 users) — Google AI Plus降價至725日圓，容量翻倍</li>
+<li><a href="https://k-tai.watch.impress.co.jp/docs/news/2115566.html" rel="noopener noreferrer">Google「NotebookLM」進化：新增輸出格式與來源收集輔助功能</a> (23 users) — NotebookLM新增輸出格式與來源收集功能</li>
+<li><a href="https://zenn.dev/flierinc/articles/fcf32bfa82524e" rel="noopener noreferrer">結合 Maestro MCP 與 Claude Code Skills 實現自主化 E2E 測試建立</a> (17 users) — 結合MCP與技能庫，實現AI自主端到端測試</li>
+<li><a href="https://k-tai.watch.impress.co.jp/docs/news/2115581.html" rel="noopener noreferrer">Google「Gemini for Science」破解研究瓶頸：支援計算、假設與文獻的「Gemini for Science」</a> (13 users) — 科學版Gemini支援計算假設與文獻分析</li>
+<li><a href="https://zenn.dev/knowledgesense/articles/7ce72924c0050f" rel="noopener noreferrer">支撐「Claude Code」背後的技術架構</a> (9 users) — 解析Claude Code底層技術架構與運作原理</li>
+<li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" rel="noopener noreferrer">Claude Fable 5 與 Claude Mythos 5 發布</a> (4 users) — 發布創作型Fable與神話型Mythos 5模型</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48463808" rel="noopener noreferrer">Claude Fable 5 模型發布</a></td>
+<td>553pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>Fable 5模型今日正式對外發布。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48457830" rel="noopener noreferrer">微軟開源工具遭入侵，AI 開發者密碼遭竊</a></td>
+<td>448pt</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>微軟開源專案遭駭，密碼遭竊。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48463811" rel="noopener noreferrer">系統卡片：Claude Fable 5 與 Claude Mythos 5 [PDF]</a></td>
+<td>133pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>解析Fable 5與Mythos 5提示卡。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48453275" rel="noopener noreferrer">Let's Encrypt 禁止在受美國制裁地區使用憑證 [PDF]</a></td>
+<td>126pt</td>
+<td>***</td>
+<td>網路政策</td>
+<td>Let's Encrypt停發制裁區憑證。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48464140" rel="noopener noreferrer">與 Mythos 協作的實際體驗</a></td>
+<td>19pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>實測與Mythos協作的開發體驗。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48463808" rel="noopener noreferrer">Claude Fable 5 模型發布</a> (553pt) — Fable 5模型今日正式對外發布。
+   💬 社群觀點：社群反應熱烈，釐清分公眾與企業版。雖讚賞其卓越效能，但對安全限制引發的漏洞賞金風險與倫理疑慮關注度高。</li>
+<li><a href="https://news.ycombinator.com/item?id=48457830" rel="noopener noreferrer">微軟開源工具遭入侵，AI 開發者密碼遭竊</a> (448pt) — 微軟開源專案遭駭，密碼遭竊。
+   💬 社群觀點：社群憂供應鏈攻擊常態化與AI協作破壞權限，對微軟資安信任崩塌。建議嚴控SBOM與冷卻期，但嘆僅屬治標。</li>
+<li><a href="https://news.ycombinator.com/item?id=48463811" rel="noopener noreferrer">系統卡片：Claude Fable 5 與 Claude Mythos 5 [PDF]</a> (133pt) — 解析Fable 5與Mythos 5提示卡。
+   💬 社群觀點：目前僅見管理員通知，討論已導向更早的同題文章。此篇暫無實質社群觀點、爭議或建議。</li>
+<li><a href="https://news.ycombinator.com/item?id=48453275" rel="noopener noreferrer">Let's Encrypt 禁止在受美國制裁地區使用憑證 [PDF]</a> (126pt) — Let's Encrypt停發制裁區憑證。
+   💬 社群觀點：社群認知美方合規屬必然，但質疑執法邊界與違背初衷。實務建議制裁區改用 ZeroSSL 或 Actalis 等歐洲憑證商。</li>
+<li><a href="https://news.ycombinator.com/item?id=48464140" rel="noopener noreferrer">與 Mythos 協作的實際體驗</a> (19pt) — 實測與Mythos協作的開發體驗。
+   💬 社群觀點：社群質疑行銷話術與作者中立性，認為實戰未顯著勝過現有模型；雖肯定長上下文與驗證能力，但指出準確性與介面待優化。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u10g5c/i_found_23_chrome_extensions_hijacking_758000/" rel="noopener noreferrer">發現 23 個 Chrome 擴充功能竊取 75.8 萬用戶搜尋紀錄以賺取聯屬行銷收益</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>擴充功能竊取用戶搜尋紀錄牟利</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u0wykc/ai_agents_may_always_fall_for_prompt_injections/" rel="noopener noreferrer">AI 智能體可能永遠無法免疫提示詞注入攻擊</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>AI智能體難免遭提示詞注入攻擊</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u13ff7/winget_code_execution_persistence_and_detection/" rel="noopener noreferrer">WinGet：程式碼執行、持久化與偵測策略</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>WinGet被惡用於執行程式與持久化</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1u0m2ha/for_the_2nd_time_in_weeks_microsoft_packages/" rel="noopener noreferrer">數週內第二次：Microsoft 套件被植入憑證竊取程式</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>微軟套件遭植入憑證竊取程式</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1u0yuyz/meta_says_israeli_spyware_firm_targeted_whatsapp/" rel="noopener noreferrer">Meta 表示以色列間諜軟體公司再次針對 WhatsApp 用戶</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>以色列間諜軟體鎖定WhatsApp用戶</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1u1b207/introducing_claude_fable_5/" rel="noopener noreferrer">隆重推出 Claude Fable 5</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>推出新模型Claude Fable 5</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1u11aid/welcome_to_the_world_claude_fable_5/" rel="noopener noreferrer">歡迎來到 Claude Fable 5 的世界</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>全面解鎖Claude Fable 5功能</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1u1bdke/enjoy_fable_on_your_claude_plan_while_it_lasts/" rel="noopener noreferrer">趁還能用的時候，好好享受 Claude 方案中的 Fable 功能吧</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>把握機會使用Claude Fable功能</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1u17kr2/scoop_a_neutered_version_of_mythos_called_claude/" rel="noopener noreferrer">爆料：經過削弱版的 Mythos（命名為 Claude Fable）今日登場。價格昂貴（Opus 的兩倍），但或許沒有人根據初始 Mythos 定價（Opus 的五倍）想像的那麼貴。</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>削弱版Mythos更名Fable定價曝光</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1u1c554/claude_fable_5_and_claude_mythos_5/" rel="noopener noreferrer">Claude Fable 5 與 Claude Mythos 5 模型發布</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/GoogleGeminiAI</td>
+<td>雙模型Fable與Mythos同步發布</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1u100ip/gemini_is_getting_a_bit_too_good_at_remembering/" rel="noopener noreferrer">Gemini 在不同對話間記憶上下文的能力變得有點太強了，這真的很驚人</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/GoogleGeminiAI</td>
+<td>Gemini跨對話記憶能力大幅強化</td>
+</tr>
+<tr>
+<td><a href="https://pixeldrive.pro/" rel="noopener noreferrer">我自行架設 NLLB 模型，讓影像生成 API 能渲染 70 種以上語言的文字</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>開發工具類</td>
+<td>pixeldrive.pro</td>
+<td>自架NLLB讓AI繪圖支援多語文字</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u10g5c/i_found_23_chrome_extensions_hijacking_758000/" rel="noopener noreferrer">發現 23 個 Chrome 擴充功能竊取 75.8 萬用戶搜尋紀錄以賺取聯屬行銷收益</a> (- ups) — r/netsec — 擴充功能竊取用戶搜尋紀錄牟利
+2. <a href="https://www.reddit.com/r/netsec/comments/1u0wykc/ai_agents_may_always_fall_for_prompt_injections/" rel="noopener noreferrer">AI 智能體可能永遠無法免疫提示詞注入攻擊</a> (- ups) — r/netsec — AI智能體難免遭提示詞注入攻擊
+3. <a href="https://www.reddit.com/r/netsec/comments/1u13ff7/winget_code_execution_persistence_and_detection/" rel="noopener noreferrer">WinGet：程式碼執行、持久化與偵測策略</a> (- ups) — r/netsec — WinGet被惡用於執行程式與持久化
+4. <a href="https://www.reddit.com/r/cybersecurity/comments/1u0m2ha/for_the_2nd_time_in_weeks_microsoft_packages/" rel="noopener noreferrer">數週內第二次：Microsoft 套件被植入憑證竊取程式</a> (- ups) — r/cybersecurity — 微軟套件遭植入憑證竊取程式
+5. <a href="https://www.reddit.com/r/cybersecurity/comments/1u0yuyz/meta_says_israeli_spyware_firm_targeted_whatsapp/" rel="noopener noreferrer">Meta 表示以色列間諜軟體公司再次針對 WhatsApp 用戶</a> (- ups) — r/cybersecurity — 以色列間諜軟體鎖定WhatsApp用戶</p>
+<p><strong>AI 類</strong>
+6. <a href="https://www.reddit.com/r/ClaudeCode/comments/1u1b207/introducing_claude_fable_5/" rel="noopener noreferrer">隆重推出 Claude Fable 5</a> (- ups) — r/ClaudeCode — 推出新模型Claude Fable 5
+7. <a href="https://www.reddit.com/r/ClaudeCode/comments/1u11aid/welcome_to_the_world_claude_fable_5/" rel="noopener noreferrer">歡迎來到 Claude Fable 5 的世界</a> (- ups) — r/ClaudeCode — 全面解鎖Claude Fable 5功能
+8. <a href="https://www.reddit.com/r/ClaudeCode/comments/1u1bdke/enjoy_fable_on_your_claude_plan_while_it_lasts/" rel="noopener noreferrer">趁還能用的時候，好好享受 Claude 方案中的 Fable 功能吧</a> (- ups) — r/ClaudeCode — 把握機會使用Claude Fable功能
+9. <a href="https://www.reddit.com/r/ClaudeCode/comments/1u17kr2/scoop_a_neutered_version_of_mythos_called_claude/" rel="noopener noreferrer">爆料：經過削弱版的 Mythos（命名為 Claude Fable）今日登場。價格昂貴（Opus 的兩倍），但或許沒有人根據初始 Mythos 定價（Opus 的五倍）想像的那麼貴。</a> (- ups) — r/ClaudeCode — 削弱版Mythos更名Fable定價曝光
+10. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1u1c554/claude_fable_5_and_claude_mythos_5/" rel="noopener noreferrer">Claude Fable 5 與 Claude Mythos 5 模型發布</a> (- ups) — r/GoogleGeminiAI — 雙模型Fable與Mythos同步發布
+11. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1u100ip/gemini_is_getting_a_bit_too_good_at_remembering/" rel="noopener noreferrer">Gemini 在不同對話間記憶上下文的能力變得有點太強了，這真的很驚人</a> (- ups) — r/GoogleGeminiAI — Gemini跨對話記憶能力大幅強化</p>
+<p><strong>開發工具類</strong>
+12. <a href="https://pixeldrive.pro/" rel="noopener noreferrer">我自行架設 NLLB 模型，讓影像生成 API 能渲染 70 種以上語言的文字</a> (- ups) — pixeldrive.pro — 自架NLLB讓AI繪圖支援多語文字</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/exploring-binding-gyp-npm-build-system" rel="noopener noreferrer">等等，binding.gyp 還能做什麼？探索 npm 最離譜的建置系統</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>解析 npm 建置工具的潛在風險</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/red-hat-npm-packages-compromised-credential-stealing-worm" rel="noopener noreferrer">Red Hat npm 套件遭入侵，散佈憑證竊取蠕蟲</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm 套件遭入侵散佈竊密蠕蟲</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/" rel="noopener noreferrer">駭客利用 Meta AI 客服機器人竊取 Instagram 帳號</a></td>
+<td>KrebsOnSecurity</td>
+<td>***</td>
+<td>駭客操縱AI客服竊取IG帳號</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/winrar-flaw-exploited-by-russia-aligned.html" rel="noopener noreferrer">親俄組織利用 WinRAR 漏洞在烏克蘭部署竊取程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>親俄勢力挾漏洞部署竊取程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/researchers-build-self-replicating-ai.html" rel="noopener noreferrer">研究人員打造完全基於本地開權重模型運作的自複製 AI 蠕蟲</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>研究員開發本地AI自複製蠕蟲</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/chrome-v8-zero-day-cve-2026-11645.html" rel="noopener noreferrer">Chrome V8 零日漏洞 CVE-2026-11645 遭實戰利用，請立即修補</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>瀏覽器V8零日漏洞遭利用需修補</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/new-frost-attack-lets-websites-track.html" rel="noopener noreferrer">新型 FROST 攻擊可利用 SSD 存取時間追蹤使用者開啟的網站與應用程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>SSD側信道攻擊可窺探使用慣習</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/hades-pypi-attack-19-packages-poisoned.html" rel="noopener noreferrer">Hades PyPI 攻擊：19 個套件遭投毒以自動執行 Bun 憑證竊取程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>PyPI套件遭投毒竊取開發憑證</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/litellm-flaw-cve-2026-42271-exploited.html" rel="noopener noreferrer">LiteLLM 漏洞 CVE-2026-42271 遭實戰利用，可鏈接至未經驗證的 RCE</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI框架漏洞可觸發遠端程式碼執行</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/one-character-linux-kernel-flaw-enables.html" rel="noopener noreferrer">單一字符 Linux 核心漏洞可取得本地 Root 權限，利用程式已公開</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Linux核心漏洞可提權至Root</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/microsoft-foundry-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Microsoft Foundry 為生產環境 AI 代理新增執行階段、工具與治理功能</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>企業AI代理新增治理與工具功能</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 模型分級與定價戰】</strong> — Google 大幅調降 AI Plus 價格並翻倍用量，Anthropic 同步推出 Fable 5 與 Mythos 5 雙模型矩陣，顯示 AI 服務正從參數競賽轉向成本效益與場景適配，加速大眾化普及。</li>
+<li><strong>【軟體供應鏈與 AI 基礎設施資安危機】</strong> — 微軟開源專案、npm/PyPI 套件相繼遭入侵投毒，WinGet 與 LiteLLM 等關鍵工具曝出嚴重漏洞，凸顯依賴管理與零信任架構已成開發者首要防線。</li>
+<li><strong>【AI 代理工程化與自動化測試】</strong> — Loop Engineering 與 Maestro MCP 技術崛起，取代傳統人工提示詞調整；Microsoft Foundry 強化企業級 AI 代理治理，推動 AI 應用從實驗走向穩定生產環境。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Claude Fable 5 / Mythos 5 發布</strong>：Hatena + HN + Reddit 同步出現 — 社群對新模型效能與定價策略高度關注，並引發安全限制與商業化分級討論。</li>
+<li><strong>軟體供應鏈攻擊常態化</strong>：HN + Reddit + 資安部落格 — 微軟開源專案、npm/PyPI 套件相繼遭入侵，開發者普遍呼籲強化 SBOM 與依賴審查機制。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-13</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-13</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-13</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.nikkei.com/article/DGXZQOUB130SI0T10C26A5000000/" rel="noopener noreferrer">AI Mythos 的存取權，三菱 UFJ 銀行等 3 大巨頭銀行即將取得</a></td>
+<td>487</td>
+<td>***</td>
+<td>企業級 AI 應用</td>
+<td>日本金融業全面擁抱生成式AI里程碑</td>
+</tr>
+<tr>
+<td>【RAG】僅靠「關鍵字搜尋 1 次」就能提升精度。</td>
+<td>356</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>挑戰多輪檢索的技術常識</td>
+</tr>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/claude-code-multi-agent-design-patterns/" rel="noopener noreferrer">Anthropic 提出的多 Agent 設計模式 5 選～從本機完結到 AWS 實作意象～</a></td>
+<td>298</td>
+<td>***</td>
+<td>AI 架構設計</td>
+<td>標準化多代理系統實作指南</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2107980.html" rel="noopener noreferrer">購物與預約也能用 AI 自動化的「Gemini Intelligence」</a></td>
+<td>267</td>
+<td>***</td>
+<td>AI 自動化</td>
+<td>Google 推動個人助理執行化</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260513-hackers-attack-foxconn/" rel="noopener noreferrer">Foxconn 遭駭客攻擊，8TB 資料含 1100 萬件以上檔案外洩</a></td>
+<td>245</td>
+<td>***</td>
+<td>資安事件</td>
+<td>供應鏈攻擊波及全球製造業</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.nikkei.com/article/DGXZQOUB130SI0T10C26A5000000/" rel="noopener noreferrer">AI Mythos 的存取權，三菱 UFJ 銀行等 3 大巨頭銀行即將取得</a> (487 users) — 日本三大銀行取得 AI Mythos 存取權，金融業AI轉型加速</li>
+<li>【RAG】僅靠「關鍵字搜尋 1 次」就能提升精度。 (356 users) — RAG技術單次檢索即可顯著提升回答精準度</li>
+<li><a href="https://dev.classmethod.jp/articles/claude-code-multi-agent-design-patterns/" rel="noopener noreferrer">Anthropic 提出的多 Agent 設計模式 5 選～從本機完結到 AWS 實作意象～</a> (298 users) — 涵蓋本地到雲端的多Agent架構設計模式</li>
+<li><a href="https://gigazine.net/news/20260513-hackers-attack-foxconn/" rel="noopener noreferrer">Foxconn 遭駭客攻擊，8TB 資料含 1100 萬件以上檔案外洩</a> (245 users) — 富士康遭大規模駭客攻擊，供應鏈資安受重創</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2107980.html" rel="noopener noreferrer">購物與預約也能用 AI 自動化的「Gemini Intelligence」</a> (267 users) — Gemini Intelligence 實現日常任務AI自動化</li>
+<li><a href="https://applech2.com/archives/20260513-openai-certificate-revocation-broke-older-chatgpt-mac-apps.html" rel="noopener noreferrer">macOS 更新後 Gatekeeper 執行應用程式驗證，持有 5 月 8 日失效的舊 OpenAI 憑證的 ChatGPT、Codex、Alt 瀏覽器遭判定為惡意軟體</a> (189 users) — macOS安全更新誤判OpenAI舊憑證應用程式</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48111896" rel="noopener noreferrer">Needle：將 Gemini 工具調用能力蒸餾至 26M 模型</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>AI 模型壓縮</td>
+<td>邊緣設備實現自主工具調用突破</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48112042" rel="noopener noreferrer">CERT 發布 dnsmasq 六項嚴重安全漏洞的 CVE</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>網路安全</td>
+<td>廣泛用於路由器與嵌入式系統</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48111896" rel="noopener noreferrer">Needle：將 Gemini 工具調用能力蒸餾至 26M 模型</a> (342pt) — 超小型模型實現邊緣端自主工具調用</li>
+<li><a href="https://news.ycombinator.com/item?id=48112042" rel="noopener noreferrer">CERT 發布 dnsmasq 六項嚴重安全漏洞的 CVE</a> (287pt) — 輕量級DNS伺服器曝多項嚴重漏洞</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cscareerquestions/comments/1tb026z/" rel="noopener noreferrer">友人公司 4 名工程師完成原本 12 人工作，AI 代理處理其餘</a></td>
+<td>4521</td>
+<td>387</td>
+<td>***</td>
+<td>AI 生產力</td>
+<td>r/cscareerquestions</td>
+<td>AI代理團隊的真實效能驗證</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tbeako/" rel="noopener noreferrer">不滿研究者洩漏兩個 Windows 11 零日漏洞：Bitlocker 繞過與權限提升</a></td>
+<td>3876</td>
+<td>256</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>r/cybersecurity</td>
+<td>企業加密防護面臨重大挑戰</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tbs8rm/" rel="noopener noreferrer">我完全不會寫程式卻在 30 分鐘內用 AI 做出三個完整網頁應用</a></td>
+<td>3245</td>
+<td>198</td>
+<td>***</td>
+<td>AI 開發革命</td>
+<td>r/ClaudeCode</td>
+<td>零程式背景者快速驗證產品構想</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1tbi8at/" rel="noopener noreferrer">熱門 Go 函式庫 fsnotify 因維護者權限變更引發供應鏈警報</a></td>
+<td>2987</td>
+<td>312</td>
+<td>***</td>
+<td>供應鏈安全</td>
+<td>r/programming</td>
+<td>開源維權透明度引發疑慮</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1tb8gv6/" rel="noopener noreferrer">看完 Numberphile 影片後我寫出質數最小線覆蓋的世界紀錄解法</a></td>
+<td>2754</td>
+<td>167</td>
+<td>***</td>
+<td>技術突破</td>
+<td>r/programming</td>
+<td>AI輔助將282小時運算縮至22分鐘</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1tbeako/" rel="noopener noreferrer">不滿研究者洩漏兩個 Windows 11 零日漏洞：Bitlocker 繞過與權限提升</a> (3876 ups) — r/cybersecurity — 研究者洩露BlueHammer計畫相關零日漏洞
+2. <a href="https://www.reddit.com/r/programming/comments/1tbi8at/" rel="noopener noreferrer">熱門 Go 函式庫 fsnotify 因維護者權限變更引發供應鏈警報</a> (2987 ups) — r/programming — fsnotify維護者權限突變引發信任危機
+3. <a href="https://www.reddit.com/r/programming/comments/1tblknw/" rel="noopener noreferrer">事後分析：TanStack npm 供應鏈遭入侵事件</a> (2654 ups) — r/programming — npm生態系供應鏈攻擊深度分析</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/cscareerquestions/comments/1tb026z/" rel="noopener noreferrer">友人公司 4 名工程師完成原本 12 人工作，AI 代理處理其餘</a> (4521 ups) — r/cscareerquestions — AI代理團隊實現3倍生產力提升
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tbs8rm/" rel="noopener noreferrer">我完全不會寫程式卻在 30 分鐘內用 AI 做出三個完整網頁應用</a> (3245 ups) — r/ClaudeCode — 公民開發者時代來臨
+3. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tb7edc/" rel="noopener noreferrer">繼承 Vibe 工程師的三個月舊倉庫，寫下生涯最爽 PR</a> (2897 ups) — r/ClaudeCode — AI輔助重整技術債的實戰案例
+4. <a href="https://www.reddit.com/r/programming/comments/1tb8gv6/" rel="noopener noreferrer">看完 Numberphile 影片後我寫出質數最小線覆蓋的世界紀錄解法</a> (2754 ups) — r/programming — AI輔助打破學術演算法世界紀錄</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised" rel="noopener noreferrer">小 Shai-Hulud 回歸：npm 惡意蠕蟲攻擊逾 160 個套件，含 Mistral 與 TanStack</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm生態系遭自動化蠕蟲大規模入侵</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/why-agentic-ai-is-securitys-next-blind.html" rel="noopener noreferrer">Agent AI 是資安下個盲點</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>自主AI代理成為防禦新弱點</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/copy-fail-linux-vulnerability.html" rel="noopener noreferrer">Copy.Fail Linux 漏洞</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>Linux檔案複製機制嚴重安全漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/openai-launches-daybreak-for-ai-powered.html" rel="noopener noreferrer">OpenAI 推出 Daybreak：AI 驅動漏洞檢測與補丁驗證</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI從被攻擊目標轉向防禦工具</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/mini-shai-hulud-worm-compromises.html" rel="noopener noreferrer">Mini Shai-Hulud 蠕蟲入侵 TanStack、Mistral AI 等多個套件</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>透過妥協發布密钥上傳惡意代碼</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/gemstuffer-abuses-150-rubygems-to.html" rel="noopener noreferrer">GemStuffer 濫用 150+ RubyGems 外洩 UK 市政門戶資料</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>供應鏈攻擊擴展至公共部門</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/rubygems-suspends-new-signups-after.html" rel="noopener noreferrer">RubyGems 暫停註冊以應對大量惡意套件上傳</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>開源包管理面臨系統性威脅</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/new-trickmo-variant-uses-ton-c2-and.html" rel="noopener noreferrer">新 TrickMo 變體使用 TON C2 與 SOCKS5 建立 Android 網路樞紐</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>加密貨幣網路作為C2通道</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/llms-and-text-in-text-steganography.html" rel="noopener noreferrer">LLM 與文本隱寫術</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>LLM降低隱寫術使用門檻</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/openais-gpt-5-5-is-as-good-as-mythos-at-finding-security-vulnerabilities.html" rel="noopener noreferrer">OpenAI 的 GPT-5.5 在發現安全漏洞方面與 Mythos 一樣強大</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>通用LLM媲美專用漏洞檢測工具</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【供應鏈安全危機】</strong> — npm與RubyGems生態系同日爆發多起供應鏈攻擊事件，Mini Shai-Hulud蠕蟲入侵160+套件、GemStuffer外洩英國市政資料。跨平台討論顯示企業需重新審視開源依賴管理與發布驗證機制，信任鏈條的脆弱性成為2026年最大資安挑戰。</p>
+</li>
+<li>
+<p><strong>【AI 生產力革命驗證】</strong> — Reddit上多則實戰案例證實AI代理可顯著提升開發效率：4人完成12人工作量、零程式背景者30分鐘打造三套網頁應用。同時Anthropic提出標準化多Agent設計模式，顯示AI從實驗性工具轉向生產力基礎設施的關鍵轉折點。</p>
+</li>
+<li>
+<p><strong>【零日漏洞洩露潮】</strong> — Windows 11 Bitlocker繞過與LPE零日被不滿研究者洩露、Linux Copy.Fail漏洞曝光。跨平台關注顯示傳統責任披露機制面臨挑戰，而OpenAI同時推出Daybreak漏洞檢測工具與GPT-5.5展示媲美專用工具的檢測能力，攻防雙邊皆由AI驅動成為新常態。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI開發工具進化</strong>：Hatena + HN + Reddit 同步出現 — Needle微型模型、Anthropic多Agent模式、RAG精度優化顯示AI工具正朝邊緣化與標準化發展</li>
+<li><strong>供應鏈攻擊</strong>：HN + r/programming — dnsmasq漏洞與fsnotify/TanStack供應鏈事件形成开源生態安全信任危機</li>
+<li><strong>AI資安雙面性</strong>：r/cybersecurity + Schneier — Agent AI成為新盲點 vs GPT-5.5漏洞檢測能力，AI同時是威脅與防禦的核心</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

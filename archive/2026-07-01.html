@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-01</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-01</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-01</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/wataru86/items/b859f1578191a1e15808" rel="noopener noreferrer">使用Claude Code四個月後，精選10大推薦指令與技巧</a></td>
+<td>356</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>實戰指令與除錯自動化指南</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/06/gemini-study-notebooks" rel="noopener noreferrer">Google於Gemini提供學習用「Study Notebooks」，可依學習主題提供課程與練習題</a></td>
+<td>182</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>個人化學習與企業培訓新體驗</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/Syuparn/items/0001f93221d4d7556271" rel="noopener noreferrer">【永久免費】推薦「人類LLM」- Qiita</a></td>
+<td>57</td>
+<td>***</td>
+<td>開源模型</td>
+<td>社群協作優化與隱私部署選擇</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/wataru86/items/b859f1578191a1e15808" rel="noopener noreferrer">使用Claude Code四個月後，精選10大推薦指令與技巧</a> (356 users) — Claude Code四個月實戰心得與十大指令技巧</li>
+<li><a href="https://gihyo.jp/article/2026/06/gemini-study-notebooks" rel="noopener noreferrer">Google於Gemini提供學習用「Study Notebooks」，可依學習主題提供課程與練習題</a> (182 users) — Gemini新增學習筆記功能，自訂課程與練習題</li>
+<li><a href="https://qiita.com/Syuparn/items/0001f93221d4d7556271" rel="noopener noreferrer">【永久免費】推薦「人類LLM」- Qiita</a> (57 users) — 免費人類LLM推薦，開放社群協作與使用</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2606/30/news133.html" rel="noopener noreferrer">Aflac遭未經授權存取，約438萬筆個人資訊外洩，含部分帳戶資訊</a> (39 users) — Aflac遭駭客入侵，逾四百萬筆個資外洩</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2121209.html" rel="noopener noreferrer">Aflac遭未經授權存取，438萬筆個人資訊外洩</a> (24 users) — Aflac資安漏洞導致四百萬筆用戶資料外流</li>
+<li><a href="https://gigazine.net/news/20260630-microsoft-memora-harmonic-memory/" rel="noopener noreferrer">防止AI Agent「失憶」的Microsoft長期記憶架構「Memora」是什麼？</a> (23 users) — 微軟Memora架構，解決AI Agent長期記憶問題</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2120998.html" rel="noopener noreferrer">Amazon公開AI整合開發環境「Kiro IDE 1.0」～導入「指示Agent製作」的新UI／「規格驅動」型AI IDE，CLI、Web、iOS應用同步展開</a> (19 users) — Amazon Kiro IDE上線，支援Agent開發與多平台</li>
+<li><a href="https://www.m3tech.blog/entry/2026/06/29/170000" rel="noopener noreferrer">為了不害怕供應鏈攻擊，自製讓套件「休眠」的Proxy</a> (17 users) — 自製Proxy讓套件休眠，有效防禦供應鏈攻擊</li>
+<li><a href="https://ai.watch.impress.co.jp/docs/serial/dojo/2121172.html" rel="noopener noreferrer">清水理史的「AI道場」體驗正式推出的「Copilot Cowork」平時沉默寡言，但換個問法就變成滔滔不絕的「熱心守門員」</a> (15 users) — Copilot Cowork實測，巧妙問法激發AI詳細解答</li>
+<li><a href="https://zenn.dev/nexta_/articles/858e92ee22b4a4" rel="noopener noreferrer">Claude Code重複出現三次相同Bug後，會自動轉化為規則的故事</a> (15 users) — Claude Code遇三次同類Bug，自動轉為防錯規則</li>
+<li><a href="https://devblog.lac.co.jp/entry/20260630" rel="noopener noreferrer">對取得OSCP也有幫助！解說Kali Linux環境建置（tmux與日誌管理）</a> (6 users) — 詳解Kali Linux環境建置，助攻OSCP證照考取</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48730729" rel="noopener noreferrer">歐洲數位身分錢包依賴 Google 與 Apple 的安全服務</a></td>
+<td>609pt</td>
+<td>***</td>
+<td>數位主權</td>
+<td>歐盟身分驗證仰賴美商技術引發爭議</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48734373" rel="noopener noreferrer">Claude Code 正以隱寫技術標記請求</a></td>
+<td>567pt</td>
+<td>***</td>
+<td>AI 隱私</td>
+<td>反濫用標記機制觸發隱私與倫理擔憂</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48727116" rel="noopener noreferrer">LongCat-2.0：總參數 1.6T、活躍 48B 的大規模混合專家模型</a></td>
+<td>241pt</td>
+<td>***</td>
+<td>開源模型</td>
+<td>超大參數 MoE 模型引發架構與落地討論</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48730729" rel="noopener noreferrer">歐洲數位身分錢包依賴 Google 與 Apple 的安全服務</a> (609pt) — 歐盟數位錢包仰賴美廠安全技術
+   💬 社群觀點：社群批評歐盟數位身分過度依賴美商，背離數位主權。建議改用開源去中心化技術或網頁驗證，並籲立法者介入修正。</li>
+<li><a href="https://news.ycombinator.com/item?id=48734373" rel="noopener noreferrer">Claude Code 正以隱寫技術標記請求</a> (567pt) — AI程式助手以隱寫術標記請求
+   💬 社群觀點：社群批評隱寫手法近似惡意軟體，恐誤傷合法用戶。反濫用與隱私界線成爭議，部分人已改用本地部署避開監控。</li>
+<li><a href="https://news.ycombinator.com/item?id=48727116" rel="noopener noreferrer">LongCat-2.0：總參數 1.6T、活躍 48B 的大規模混合專家模型</a> (241pt) — 開源MoE模型參數達1.6T
+   💬 社群觀點：社群推測出自美團、可能沿用DeepSeek架構。爭議在於無下載被疑行銷；盼補充llama.cpp支援與硬體數據。</li>
+<li><a href="https://news.ycombinator.com/item?id=48727177" rel="noopener noreferrer">具記憶體安全性的上下文切換技術</a> (191pt) — 記憶體安全技術優化情境切換
+   💬 社群觀點：肯定堆疊管理屬記憶體安全視角，釐清API風險。部分認為切換核心在於訊號排程。建議沿用舊機制需防護，或改用基址偏移處理複製</li>
+<li><a href="https://news.ycombinator.com/item?id=48730713" rel="noopener noreferrer">Zluda 6 發布（在非 NVIDIA 顯示卡上執行原生 CUDA 應用程式）</a> (101pt) — 跨平台工具讓非N卡跑CUDA
+   💬 社群觀點：社群關注LLM與PhysX應用，但對開發路線變更存疑，且擔憂違反NVIDIA授權條款，法律爭議成焦點。</li>
+<li><a href="https://news.ycombinator.com/item?id=48735444" rel="noopener noreferrer">Gemini 影像 Flash Lite 模型（Nano Banana 2 Lite）</a> (81pt) — 高效能輕量版影像生成模型
+   💬 社群觀點：盛讚秒級生成與編輯優化，利於快速應用；批評比較圖隱去對手、說明不清且定價偏貴。另擔憂房產業濫用AI美化引發反感。</li>
+<li><a href="https://news.ycombinator.com/item?id=48735770" rel="noopener noreferrer">Claude Science 科學研究工具</a> (70pt) — AI輔助學術研究新工具上線
+   💬 社群觀點：社群質疑可靠性與學術誠信，擔憂助長論文工廠劣化研究。批評初期穩定性差，認為偏重商業佈局而非實質助研。</li>
+<li><a href="https://news.ycombinator.com/item?id=48735554" rel="noopener noreferrer">Debian 中的 Xsnow 抗議軟體與供應鏈安全</a> (45pt) — 開源套件引發供應鏈安全疑慮
+   💬 社群觀點：觀點兩極：支持者視為言論自由；反對者擔憂破壞Debian供應鏈安全，且恐使敏感地區使用者面臨現實風險。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ujl1k0/auditing_openreception_16_cves_in_an_endtoend/" rel="noopener noreferrer">審計 OpenReception：端到端加密預約平台中的 16 個 CVE（未授權管理員建立、帳戶接管、E2E 繞過）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>粉碎E2E加密絕對安全迷思</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uj2a4w/enterprise_tech_in_shell_out_progress_kemp/" rel="noopener noreferrer">企業技術入，Shell 出（Progress Kemp LoadMaster 未初始化堆疊至預認證遠端程式碼執行 CVE-2026-8037）- watchTowr Labs</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>企業網關設備曝高危預認證RCE</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1ujl1k0/auditing_openreception_16_cves_in_an_endtoend/" rel="noopener noreferrer">審計 OpenReception：端到端加密預約平台中的 16 個 CVE（未授權管理員建立、帳戶接管、E2E 繞過）</a> (- ups) — r/netsec — 預約平台曝16漏洞，E2E加密遭繞過
+2. <a href="https://www.reddit.com/r/netsec/comments/1uj2a4w/enterprise_tech_in_shell_out_progress_kemp/" rel="noopener noreferrer">企業技術入，Shell 出（Progress Kemp LoadMaster 未初始化堆疊至預認證遠端程式碼執行 CVE-2026-8037）- watchTowr Labs</a> (- ups) — r/netsec — 企業設備曝堆疊漏洞，可預認證RCE</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/langflow-rce-exploited-to-deploy-monero.html" rel="noopener noreferrer">Langflow 遠端程式碼執行漏洞遭利用，在暴露的 AI 應用端點部署門羅幣挖礦程式</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>AI低程式碼平台成挖礦跳板</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/guardfall-exposes-open-source-ai-coding.html" rel="noopener noreferrer">GuardFall 暴露開源 AI 程式碼代理面臨數十年前的 Shell 注入風險</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>開源AI代理曝Shell注入風險</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/282-ios-apps-found-leaking-llm-api-keys.html" rel="noopener noreferrer">研究顯示 282 款 iOS AI 應用程式洩露 API 金鑰與 AI 代理存取權</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>近三百款iOS AI App洩漏API金鑰</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/attackers-exploit-simplehelp-cve-2026.html" rel="noopener noreferrer">攻擊者利用 SimpleHelp CVE-2026-48558 漏洞部署 TaskWeaver 與 Djinn 竊取器</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>SimpleHelp漏洞被植入侵取器</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/new-bioshocking-attack-tricks-ai.html" rel="noopener noreferrer">新型 BioShocking 攻擊欺騙 AI 瀏覽器洩露使用者憑證</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>BioShocking攻擊誘騙AI瀏覽器</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/progress-kemp-loadmaster-flaw-could-let.html" rel="noopener noreferrer">Progress Kemp LoadMaster 漏洞可能讓攻擊者在未驗證下執行 Root 指令</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>LoadMaster漏洞可免驗證執行指令</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/oracle-e-business-suite-flaw-cve-2026.html" rel="noopener noreferrer">Oracle E-Business Suite 漏洞 CVE-2026-46817 遭野生環境積極利用</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Oracle EBS漏洞遭野生環境利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/apple-patches-30-ios-macos-safari-flaws.html" rel="noopener noreferrer">Apple 修復 30 餘項 iOS、macOS 與 Safari 漏洞，含 AI 發現的 WebKit 缺陷</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Apple修補三十餘項系統與瀏覽器漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/ai-development/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">講座：可信賴的生產力：保障 AI 加速開發的安全性</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>講座探討保障AI加速開發安全性</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/elastic-atlas-agent-memory/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Elastic 基於認知科學開源 Atlas 代理記憶體系統</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Elastic開源認知科學AI記憶系統</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/azuredevops-copilot-autofix/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Microsoft 透過 Copilot Autofix 將 AI 漏洞修復帶入 Azure DevOps</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Microsoft推AI自動修復DevOps漏洞</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與效能優化】</strong> — 各大平台密集探討 AI 輔助編程與代理架構的演進，如 Claude Code 的實戰技巧與自我修正機制、Amazon Kiro IDE 的規格驅動開發，以及微軟與 Elastic 推出的長期記憶系統，顯示 AI 正從單次對話轉向具備連續性與自主性的生產力核心。</li>
+<li><strong>【AI 應用安全與供應鏈防護】</strong> — 隨著 AI 工具與代理快速普及，其底層安全風險同步浮現。開源 AI 代理曝出 Shell 注入、iOS 應用洩漏 API 金鑰、以及新型 BioShocking 攻擊欺騙 AI 瀏覽器，凸顯開發者必須在整合 AI 時強制導入沙盒隔離與憑證管理。</li>
+<li><strong>【企業基礎設施與核心系統漏洞】</strong> — 傳統企業網關與 ERP 系統持續成為攻擊焦點，Progress Kemp LoadMaster 的預認證 RCE 與 Oracle EBS 漏洞遭野生環境利用，加上 Aflac 百萬筆個資外洩事件，警示企業需加速落實零信任架構與自動化漏洞修復管線。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理與開發工具安全</strong>：Hatena + HN + RSS 同步出現 — 開發者熱議 Claude Code 與 Kiro IDE 的效能提升，同時資安界嚴謹檢視 AI 代理的 Shell 注入風險與隱寫追蹤爭議。</li>
+<li><strong>供應鏈與基礎設施威脅</strong>：Hatena + HN + Reddit + RSS 同步出現 — 自製 Proxy 防禦套件攻擊、Debian 套件爭議，以及 LoadMaster 與 OpenReception 的嚴重漏洞，反映開源依賴與企業網關正成為攻防前線。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

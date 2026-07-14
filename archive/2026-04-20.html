@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-20</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-20</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-20</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/akasara/articles/ab24affd00d788" rel="noopener noreferrer">Claude Design 來臨之日</a></td>
+<td>342</td>
+<td>***</td>
+<td>AI 設計工具</td>
+<td>AI 對 Web 設計師職業的衝擊評估</td>
+</tr>
+<tr>
+<td><a href="https://www.perryts.com/" rel="noopener noreferrer">Perry — TypeScript 原生編譯</a></td>
+<td>287</td>
+<td>***</td>
+<td>開發工具</td>
+<td>TypeScript 直接編譯至原生碼的新突破</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/shunya_sudo/articles/claude-code-45-automation-tasks" rel="noopener noreferrer">東大研究生用 Claude Code 自動化日常任務</a></td>
+<td>256</td>
+<td>***</td>
+<td>AI 開發與自動化</td>
+<td>45 個日常任務的完整實踐記錄</td>
+</tr>
+<tr>
+<td><a href="https://www.docswell.com/s/tadashi0713/KR82N3-docker-3shake-webinar" rel="noopener noreferrer">打造安全容器鏡像的新產業標準</a></td>
+<td>198</td>
+<td>***</td>
+<td>Web 資安與標準化</td>
+<td>Docker 推出硬化鏡像新安全標準</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/headwaters/articles/0595f9c0a1fadb" rel="noopener noreferrer">GitHub Copilot 真正的強項</a></td>
+<td>176</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>解析核心競爭優勢與生態整合</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/akasara/articles/ab24affd00d788" rel="noopener noreferrer">Claude Design 來臨之日</a> (342 users) — AI 設計工具對 Web 設計師職業的影響評估</li>
+<li><a href="https://dev.classmethod.jp/articles/claude-code-working-in-english-environment-setup/" rel="noopener noreferrer">用 Claude Code 建立英語學習環境</a> (234 users) — 以 AI 為輔助打造沉浸式英語開發環境</li>
+<li><a href="https://www.perryts.com/" rel="noopener noreferrer">Perry — TypeScript 原生編譯</a> (287 users) — TypeScript 直接編譯至原生碼的新工具</li>
+<li><a href="https://zenn.dev/headwaters/articles/0595f9c0a1fadb" rel="noopener noreferrer">GitHub Copilot 真正的強項</a> (176 users) — 解析 GitHub Copilot 的核心競爭優勢</li>
+<li><a href="https://www.docswell.com/s/tadashi0713/KR82N3-docker-3shake-webinar" rel="noopener noreferrer">打造安全容器鏡像的新產業標準</a> (198 users) — Docker 推出硬化鏡像新安全標準</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2102748.html" rel="noopener noreferrer">Claude 新服務是設計</a> (165 users) — AI 設計工具「Claude Design」正式啟動服務</li>
+<li><a href="https://zenn.dev/shunya_sudo/articles/claude-code-45-automation-tasks" rel="noopener noreferrer">東大研究生用 Claude Code 自動化日常任務</a> (256 users) — AI 自動化 45 個日常任務的完整實踐記錄</li>
+<li><a href="https://songmu.jp/riji/entry/2026-04-19-supply-chain-security-with-dependabot.html" rel="noopener noreferrer">供應鏈攻擊防護與 Dependabot 應用</a> (143 users) — 運用 Dependabot 強化供應鏈資安防護</li>
+<li><a href="https://azukiazusa.dev/blog/gh-agent-skill-management/" rel="noopener noreferrer">gh 命令可安裝管理代理技能</a> (128 users) — GitHub CLI 新增 AI 代理技能管理功能</li>
+<li><a href="https://speakerdeck.com/j5ik2o/zhong-pan-debeng-huai-sasenaiaiqu-dong-kai-fa" rel="noopener noreferrer">不讓終盤崩壞的 AI 驅動開發</a> (156 users) — AI 開發中避免專案後期失控的方法論</li>
+<li><a href="https://note.com/kgsi/n/n7c4bb71abe80" rel="noopener noreferrer">Claude Design 將如何改變設計行為</a> (134 users) — 探討 AI 工具對設計工作流程的深層影響</li>
+<li><a href="https://zenn.dev/solvio/articles/901772dcec88cc" rel="noopener noreferrer">Claude Code 桌面版與 CLI 差異</a> (112 users) — 比較桌面版與 CLI 版本的功能差異</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47824976" rel="noopener noreferrer">Vercel 表示內部系統遭入侵</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>資安事件</td>
+<td>頂尖雲端平台遭未經授權訪問</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47825520" rel="noopener noreferrer">Show HN：Google Gemini 正在掃描您的照片——歐盟說不</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>AI 隱私監管</td>
+<td>凸顯 GDPR 與 AI 數據使用的衝突</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47824945" rel="noopener noreferrer">Notion 洩漏所有公開頁面編輯者的電子郵件地址</a></td>
+<td>256pt</td>
+<td>***</td>
+<td>資安事件</td>
+<td>API 漏洞導致數百萬用戶 Email 暴露</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47816960" rel="noopener noreferrer">Opus 4.6 與 Opus 4.7 的匿名請求 token 比較</a></td>
+<td>178pt</td>
+<td>***</td>
+<td>AI 技術</td>
+<td>分析版本間隱私保護機制差異</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47824976" rel="noopener noreferrer">Vercel 表示內部系統遭入侵</a> (342pt) — Vercel 內部系統遭入侵</li>
+<li><a href="https://news.ycombinator.com/item?id=47825520" rel="noopener noreferrer">Show HN：Google Gemini 正在掃描您的照片——歐盟說不</a> (287pt) — Gemini 掃描用戶照片遭歐盟反對</li>
+<li><a href="https://news.ycombinator.com/item?id=47824945" rel="noopener noreferrer">Notion 洩漏所有公開頁面編輯者的電子郵件地址</a> (256pt) — Notion 洩漏公開頁面編輯者 Email</li>
+<li><a href="https://news.ycombinator.com/item?id=47816960" rel="noopener noreferrer">Opus 4.6 與 Opus 4.7 的匿名請求 token 比較</a> (178pt) — 比較不同版本 Opus 的匿名請求 token</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1spvwqs/vercel_says_internal_systems_hit_in_breach/" rel="noopener noreferrer">Vercel 宣布內部系統遭入侵</a></td>
+<td>2847</td>
+<td>312</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>社群深入分析攻擊路徑與影響</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1spwg4r/vercel_reportedly_breached_by_shinyhunters_non/" rel="noopener noreferrer">Vercel 遭 ShinyHunters 入侵，非敏感金鑰外洩</a></td>
+<td>2134</td>
+<td>267</td>
+<td>***</td>
+<td>資安</td>
+<td>r/programming</td>
+<td>ShinyHunters 承認入侵行動</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sou4zz/mad_bugs_even_cat_readmetxt_is_not_safe/" rel="noopener noreferrer">MAD Bugs：連「cat readme.txt」也不安全</a></td>
+<td>1876</td>
+<td>198</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>新型攻擊挑戰傳統安全假設</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1spxtut/opus_47_vs_46_after_3_days_of_real_coding_side_by/" rel="noopener noreferrer">Opus 4.7 vs 4.6：三天實戰編碼評比</a></td>
+<td>1567</td>
+<td>234</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>真實專案場景的能力對比</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1spypte/ok_boys_its_over_no_subscription_required/" rel="noopener noreferrer">訂閱時代結束：免費方案登場</a></td>
+<td>1432</td>
+<td>189</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>市場競爭帶來價格下壓趨勢</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1spvwqs/vercel_says_internal_systems_hit_in_breach/" rel="noopener noreferrer">Vercel 宣布內部系統遭入侵</a> (2847 ups) — r/cybersecurity — Vercel 內部系統遭入侵洩漏
+2. <a href="https://www.reddit.com/r/programming/comments/1spwg4r/vercel_reportedly_breached_by_shinyhunters_non/" rel="noopener noreferrer">Vercel 遭 ShinyHunters 入侵，非敏感金鑰外洩</a> (2134 ups) — r/programming — ShinyHunters 入侵 Vercel
+3. <a href="https://www.reddit.com/r/netsec/comments/1sou4zz/mad_bugs_even_cat_readmetxt_is_not_safe/" rel="noopener noreferrer">MAD Bugs：連「cat readme.txt」也不安全</a> (1876 ups) — r/netsec — 基礎檔案指令也存在新型漏洞攻擊</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1spxtut/opus_47_vs_46_after_3_days_of_real_coding_side_by/" rel="noopener noreferrer">Opus 4.7 vs 4.6：三天實戰編碼評比</a> (1567 ups) — r/ClaudeCode — Anthropic 編碼模型實測比對
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1spypte/ok_boys_its_over_no_subscription_required/" rel="noopener noreferrer">訂閱時代結束：免費方案登場</a> (1432 ups) — r/ClaudeCode — AI coding 工具無須訂閱
+3. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1sprdm8/llamacpp_speculative_checkpointing_was_merged/" rel="noopener noreferrer">llama.cpp 猜測性檢查點功能已合併</a> (987 ups) — r/LocalLLaMA — LLM 推理效能優化新功能</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat" rel="noopener noreferrer">Axios npm 套件遭竊：維護者帳號被劫持，RAT 惡意程式被部署</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>知名 HTTP 庫遭劫持植入遠程木马</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine" rel="noopener noreferrer">GlassWorm 原生版：新型 Zig 投放程式感染所有 IDE</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>針對開發者環境的新型攻擊手段</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/telnyx-pypi-compromised-teampcp-canisterworm" rel="noopener noreferrer">熱門 telnyx 套件在 PyPI 上被 TeamPCP 攔截</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>包命名攔截與 typosquatting 攻擊</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 設計工具崛起】</strong> — Claude Design 正式推出，標誌著大模型公司垂直切入 UI/UX 設計領域。日本市場多篇分析文章探討 AI 對設計師職業的衝擊，從「執行者」轉向「策展人」的角色轉變成為熱議焦點。</p>
+</li>
+<li>
+<p><strong>【雲端平台資安事件】</strong> — Vercel 內部系統遭 ShinyHunters 入侵，同一天 Notion 也曝出 API 漏洞洩漏用戶 Email。這起跨平台同步關注的事件凸顯即使是頂尖 SaaS 公司也難以完全避免供應鏈與社會工程攻擊。</p>
+</li>
+<li>
+<p><strong>【供應鏈攻擊升温】</strong> — Axios npm 套件維護者帳號被劫持、Telnyx PyPI 包遭攔截、GlassWorm Zig 投放程式感染 IDE——多起針對開發者生態的攻擊在短期內密集爆發，迫使業界重新審視依賴管理與憑證保護策略。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Vercel 入侵事件</strong>：Hatena + HN + Reddit (r/cybersecurity, r/programming) 同步出現 — 全球開發者社群高度關注的資安事件</li>
+<li><strong>Opus 版本對比</strong>：HN + Reddit (r/ClaudeCode) — 技術用戶對 Anthropic 編碼模型迭代的深度討論</li>
+<li><strong>供應鏈資安</strong>：Hatena + aikido.dev 部落格 — 日本開發者與國際安全研究員共同關注的威脅趨勢</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

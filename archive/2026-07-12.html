@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-12</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-12</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-12</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[輕鬆入門循環工程學（Loop Engineering）</td>
+<td>DocsWell](https://www.docswell.com/s/harinezumi/K3J9JJ-2026-07-10-202543)</td>
+<td>232</td>
+<td>***</td>
+<td>AI代理工程</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/kamo78/articles/kaji-guarded-loop-engineering" rel="noopener noreferrer">避免在循環工程學（Loop Engineering）失敗的測試架設計</a></td>
+<td>144</td>
+<td>***</td>
+<td>AI代理工程</td>
+<td>建構測試框架防範AI編碼代理假成功</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260711-browser4/" rel="noopener noreferrer">免費的 AI 瀏覽器自動化工具「Browser4」</a></td>
+<td>54</td>
+<td>***</td>
+<td>瀏覽器自動化</td>
+<td>開源CLI工具實現AI瀏覽器自動化爬蟲</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/aktsmm/items/7b92f95325893cb4e5a3" rel="noopener noreferrer">GPT-5.6 有什麼改變？Luna / Terra / Sol 的差異與實務選用指南</a></td>
+<td>54</td>
+<td>***</td>
+<td>大模型實務</td>
+<td>解析OpenAI三款新模型差異與實務選用</td>
+</tr>
+<tr>
+<td><a href="https://ritou.hatenablog.com/entry/2026/07/10/210745" rel="noopener noreferrer">深入理解 Email Verification Protocol</a></td>
+<td>52</td>
+<td>***</td>
+<td>Web資安</td>
+<td>瀏覽器原生郵件驗證協議強化Web資安</td>
+</tr>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/20260710-aws-mcp-server-oauth/" rel="noopener noreferrer">[更新] AWS MCP Server 支援 AI Agent 透過 OAuth 2.1 連接，實測分享</a></td>
+<td>16</td>
+<td>***</td>
+<td>雲端串接</td>
+<td>AWS MCP支援OAuth讓AI代理安全串接</td>
+</tr>
+<tr>
+<td><a href="https://developers.googleblog.com/litertjs-googles-high-performance-web-ai-inference/" rel="noopener noreferrer">LiteRT.js：Google 的高效能 Web AI 推論解決方案</a></td>
+<td>13</td>
+<td>***</td>
+<td>瀏覽器端AI</td>
+<td>Google推JS綁定讓瀏覽器高效執行AI</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.docswell.com/s/harinezumi/K3J9JJ-2026-07-10-202543" rel="noopener noreferrer">輕鬆入門循環工程學（Loop Engineering）| DocsWell</a> (232 users) — 設計AI代理循環指令架構取代直接提示</li>
+<li><a href="https://zenn.dev/kamo78/articles/kaji-guarded-loop-engineering" rel="noopener noreferrer">避免在循環工程學（Loop Engineering）失敗的測試架設計</a> (144 users) — 建構測試框架防範AI編碼代理假成功</li>
+<li><a href="https://gigazine.net/news/20260711-browser4/" rel="noopener noreferrer">免費的 AI 瀏覽器自動化工具「Browser4」</a> (54 users) — 開源CLI工具實現AI瀏覽器自動化爬蟲</li>
+<li><a href="https://qiita.com/aktsmm/items/7b92f95325893cb4e5a3" rel="noopener noreferrer">GPT-5.6 有什麼改變？Luna / Terra / Sol 的差異與實務選用指南</a> (54 users) — 解析OpenAI三款新模型差異與實務選用</li>
+<li><a href="https://ritou.hatenablog.com/entry/2026/07/10/210745" rel="noopener noreferrer">深入理解 Email Verification Protocol</a> (52 users) — 瀏覽器原生郵件驗證協議強化Web資安</li>
+<li><a href="https://dev.classmethod.jp/articles/20260710-aws-mcp-server-oauth/" rel="noopener noreferrer">[更新] AWS MCP Server 支援 AI Agent 透過 OAuth 2.1 連接，實測分享</a> (16 users) — AWS MCP支援OAuth讓AI代理安全串接</li>
+<li><a href="https://developers.googleblog.com/litertjs-googles-high-performance-web-ai-inference/" rel="noopener noreferrer">LiteRT.js：Google 的高效能 Web AI 推論解決方案</a> (13 users) — Google推JS綁定讓瀏覽器高效執行AI</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48861717" rel="noopener noreferrer">QuadRF 可偵測無人機並穿透牆壁查看 WiFi</a></td>
+<td>698pt</td>
+<td>***</td>
+<td>硬體資安</td>
+<td>射頻技術穿牆偵測無人機與WiFi</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48870381" rel="noopener noreferrer">Ghost Font：人類可讀但 AI 無法辨識的字型</a></td>
+<td>140pt</td>
+<td>***</td>
+<td>AI防禦</td>
+<td>特殊字型阻斷AI識別，保留人類閱讀</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48861717" rel="noopener noreferrer">QuadRF 可偵測無人機並穿透牆壁查看 WiFi</a> (698pt) — 射頻技術穿牆偵測無人機與WiFi
+   💬 社群觀點：看好機場反制無人機與消費級訊號分析潛力，但指僅限5.8GHz、售價暴漲至500美元，且憂慮法規打壓。</li>
+<li><a href="https://news.ycombinator.com/item?id=48870381" rel="noopener noreferrer">Ghost Font：人類可讀但 AI 無法辨識的字型</a> (140pt) — 特殊字型阻斷AI識別，保留人類閱讀
+   💬 社群觀點：社群質疑實用性，指AI易受訓破解；字體閱讀吃力且對色弱者不友善，恐淪為無效的圖碼軍備競賽，僅宜作趣味體驗。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uto85z/scanning_malicious_websites_with_arbitrary_number/" rel="noopener noreferrer">使用任意數量 VPN 隧道掃描惡意網站（第二部分）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>網路安全</td>
+<td>r/netsec</td>
+<td>藉多條VPN隧道安全掃描惡意網站</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1uto85z/scanning_malicious_websites_with_arbitrary_number/" rel="noopener noreferrer">使用任意數量 VPN 隧道掃描惡意網站（第二部分）</a> (- ups) — r/netsec — 藉多條VPN隧道安全掃描惡意網站</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/critical-zimbra-flaw-could-let-crafted_0483473395.html" rel="noopener noreferrer">Zimbra 嚴重漏洞：精心構造的郵件可在使用者會話中執行惡意程式碼</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Zimbra網頁客戶端漏洞致任意代碼執行</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/urgent-progress-tells-sharefile.html" rel="noopener noreferrer">緊急：Progress 要求 ShareFile 客戶關閉儲存區控制器以應對安全威脅</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>緊急關閉控制器以應對外部安全威脅</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/attackers-exploit-ill-bloom.html" rel="noopener noreferrer">攻擊者利用「Ill Bloom」漏洞竊走逾 500 萬美元加密錢包資產</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>錢包恢復短語漏洞遭利用致資產失竊</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/07/friday-squid-blogging-squidbleed-vulnerability.html" rel="noopener noreferrer">週五魷魚部落格：「Squidbleed」漏洞</a></td>
+<td>Schneier Blog</td>
+<td>***</td>
+<td>Squid代理漏洞洩漏請求需緊急修補</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/wolfejam/agentsmd-kept-true-stop-the-rot-step-by-step-and-watch-your-agent-trust-it-3mjb" rel="noopener noreferrer">讓 AGENTS.md 保持準確：逐步防止腐化並建立 Agent 信任</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>建立驗證機制防止AGENTS.md設定腐化</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/lovestaco/i-finally-counted-my-tokens-before-they-hatched-32i4" rel="noopener noreferrer">我終於在 Token 孵化前算清楚了</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>部署微AI程式審查前務必精算Token成本</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/alloydb-ai-proxy-models/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">AlloyDB 推出 Proxy Model 架構：以資料庫內本地推論取代外部 LLM 呼叫</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>資料庫內本地推論取代外部大模型呼叫</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理工程與可靠性】</strong> — 開發者正從單純提示詞轉向結構化的「循環工程學」與設定檔防呆機制，透過測試框架與狀態斷言解決 AI 編碼工具的幻覺與假成功問題，確保企業級部署的穩定性。</li>
+<li><strong>【瀏覽器端 AI 推論與隱私防禦】</strong> — Google 推出 LiteRT.js 與新一代郵件驗證協議，推動 AI 運算與身分驗證下沉至客戶端；同時社群探索 Ghost Font 等被動式反爬蟲技術，反映前端隱私與資安的雙軌演進。</li>
+<li><strong>【關鍵資安漏洞與威脅應變】</strong> — Zimbra、Squid 與 ShareFile 等基礎設施曝出嚴重漏洞，加密錢包亦遭「Ill Bloom」漏洞侵襲；產業緊急呼籲關閉控制器與升級修補，顯示供應鏈與零日攻擊的防禦壓力持續升高。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理開發與測試</strong>：Hatena + RSS 同步出現 — 循環工程學與 AGENTS.md 防腐化機制成為保障 AI 代理可靠性的核心議題。</li>
+<li><strong>瀏覽器端 AI 與資安</strong>：Hatena + HN — LiteRT.js 推論優化與 Ghost Font 反識別技術，共同反映前端環境的 AI 應用與隱私對抗趨勢。</li>
+<li><strong>主動威脅偵測與防禦</strong>：HN + Reddit — QuadRF 射頻穿牆偵測與多 VPN 隧道掃描惡意網站，展現硬體與網路層級的主動式資安監控需求。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

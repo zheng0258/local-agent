@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-30</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-30</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-30</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/nttdata_tech/articles/bf6b694144e55a" rel="noopener noreferrer">在大型專案的 Slack 中常駐 3 名 AI 員工，第二年在加入一週後就深入設計根本</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 企業導入</td>
+<td>NTT DATA 實戰案例，AI 深入設計層級</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/tokium_dev/articles/ca6f30192f6379" rel="noopener noreferrer">將工作交給 Claude Code 的那一天——剩下的是「判斷」與「責任」</a></td>
+<td>256</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>角色重新定義的關鍵反思</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/i-inose/items/14f212258dc350857a94" rel="noopener noreferrer">【Claude Code 入門】Skills 徹底解說 - 從機制到實戰</a></td>
+<td>198</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Skills 功能完整教學</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/wwwave/articles/4d21d34ad604ba" rel="noopener noreferrer">將 Code Review 交給 Claude Code 以減輕團隊負擔</a></td>
+<td>175</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>自動化程式碼審查實作</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/layerx/articles/a99cd11af487fc" rel="noopener noreferrer">安全運行 AI 代理的技術——研究沙盒</a></td>
+<td>163</td>
+<td>***</td>
+<td>AI 安全</td>
+<td>代理隔離技術解析</td>
+</tr>
+<tr>
+<td><a href="https://note.com/kawaidesign/n/nce2f82c62f1f" rel="noopener noreferrer">【完整版】Claude Code 運用 40 選</a></td>
+<td>142</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>實戰技巧大全</td>
+</tr>
+<tr>
+<td><a href="https://github.com/warpdotdev/warp" rel="noopener noreferrer">GitHub - warpdotdev/warp: 源自終端機的代理開發環境</a></td>
+<td>128</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI 原生終端機解決方案</td>
+</tr>
+<tr>
+<td><a href="https://www.aboutamazon.com/news/aws/bedrock-openai-models" rel="noopener noreferrer">AWS 與 OpenAI 宣布擴大合作夥伴關係</a></td>
+<td>115</td>
+<td>***</td>
+<td>AI 企業導入</td>
+<td>Bedrock 整合 GPT 系列模型</td>
+</tr>
+<tr>
+<td><a href="https://techtarget.itmedia.co.jp/tt/news/2604/28/news07.html" rel="noopener noreferrer">「可以用 OpenClaw 嗎？」IT 部門首先應該考慮的事</a></td>
+<td>98</td>
+<td>***</td>
+<td>AI 企業導入</td>
+<td>IT 決策框架指南</td>
+</tr>
+<tr>
+<td><a href="https://voluntas.ghost.io/opencode-go/" rel="noopener noreferrer">試用了 OpenCode Go</a></td>
+<td>87</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開源編碼工具體驗</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/headwaters/articles/f79b8d64ba1442" rel="noopener noreferrer">GitHub Copilot 真正的強項 2</a></td>
+<td>76</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>深度解析核心優勢</td>
+</tr>
+<tr>
+<td><a href="https://github.com/mattpocock/skills" rel="noopener noreferrer">GitHub - mattpocock/skills: 來自 .claude 目錄的個人技能目錄</a></td>
+<td>64</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Skills 管理開源專案</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/nttdata_tech/articles/bf6b694144e55a" rel="noopener noreferrer">在大型專案的 Slack 中常駐 3 名 AI 員工，第二年在加入一週後就深入設計根本</a> (287 users) — NTT DATA 導入三名 AI 員工的企業級實踐經驗</li>
+<li><a href="https://zenn.dev/tokium_dev/articles/ca6f30192f6379" rel="noopener noreferrer">將工作交給 Claude Code 的那一天——剩下的是「判斷」與「責任」</a> (256 users) — AI 時代開發者角色重新定義的反思</li>
+<li><a href="https://qiita.com/i-inose/items/14f212258dc350857a94" rel="noopener noreferrer">【Claude Code 入門】Skills 徹底解說 - 從機制到實戰</a> (198 users) — Skills 功能從基礎到進階完整教學</li>
+<li><a href="https://zenn.dev/wwwave/articles/4d21d34ad604ba" rel="noopener noreferrer">將 Code Review 交給 Claude Code 以減輕團隊負擔</a> (175 users) — 自動化程式碼審查實戰方法</li>
+<li><a href="https://zenn.dev/layerx/articles/a99cd11af487fc" rel="noopener noreferrer">安全運行 AI 代理的技術——研究沙盒</a> (163 users) — AI 代理隔離與管控技術</li>
+<li><a href="https://note.com/kawaidesign/n/nce2f82c62f1f" rel="noopener noreferrer">【完整版】Claude Code 運用 40 選</a> (142 users) — 40 個實戰運用技巧匯整</li>
+<li><a href="https://github.com/warpdotdev/warp" rel="noopener noreferrer">GitHub - warpdotdev/warp: 源自終端機的代理開發環境</a> (128 users) — AI 原生終端機開發工具</li>
+<li><a href="https://www.aboutamazon.com/news/aws/bedrock-openai-models" rel="noopener noreferrer">AWS 與 OpenAI 宣布擴大合作夥伴關係</a> (115 users) — 雲端與 AI 模型生態系整合</li>
+<li><a href="https://techtarget.itmedia.co.jp/tt/news/2604/28/news07.html" rel="noopener noreferrer">「可以用 OpenClaw 嗎？」IT 部門首先應該考慮的事</a> (98 users) — IT 部門 AI 工具評估框架</li>
+<li><a href="https://voluntas.ghost.io/opencode-go/" rel="noopener noreferrer">試用了 OpenCode Go</a> (87 users) — 開源 AI 編碼工具試用報告</li>
+<li><a href="https://zenn.dev/headwaters/articles/f79b8d64ba1442" rel="noopener noreferrer">GitHub Copilot 真正的強項 2</a> (76 users) — Copilot 核心優勢深度解析</li>
+<li><a href="https://github.com/mattpocock/skills" rel="noopener noreferrer">GitHub - mattpocock/skills: 來自 .claude 目錄的個人技能目錄</a> (64 users) — .claude 技能管理開源工具</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47952722" rel="noopener noreferrer">HERMES.md 在提交訊息中導致请求路由到額外使用費計费</a></td>
+<td>387pt</td>
+<td>***</td>
+<td>AI/爭議</td>
+<td>Anthropic 計費錯誤引發不滿</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47952181" rel="noopener noreferrer">Copy Fail – CVE-2026-31431</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>資安/Linux</td>
+<td>Linux 提權漏洞影響廣泛</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47951786" rel="noopener noreferrer">Ramp的Sheets AI外洩財務數據</a></td>
+<td>298pt</td>
+<td>***</td>
+<td>AI/資安</td>
+<td>AI 處理敏感數據的警示案例</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47949642" rel="noopener noreferrer">Mistral Medium 3.5</a></td>
+<td>256pt</td>
+<td>***</td>
+<td>AI/產品發布</td>
+<td>歐洲 AI 廠商新模型推出</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47949939" rel="noopener noreferrer">Cursor Camp</a></td>
+<td>189pt</td>
+<td>***</td>
+<td>AI/社群活動</td>
+<td>Cursor 開發者營建立生態系</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47952722" rel="noopener noreferrer">HERMES.md 在提交訊息中導致请求路由到額外使用費計费</a> (387pt) — Anthropic HERMES.md 導致意外計費約 200 美元</li>
+<li><a href="https://news.ycombinator.com/item?id=47952181" rel="noopener noreferrer">Copy Fail – CVE-2026-31431</a> (342pt) — Linux 複製功能漏洞允許提權至 root</li>
+<li><a href="https://news.ycombinator.com/item?id=47951786" rel="noopener noreferrer">Ramp的Sheets AI外洩財務數據</a> (298pt) — Sheets AI 意外洩漏用戶財務資料給他人</li>
+<li><a href="https://news.ycombinator.com/item?id=47949642" rel="noopener noreferrer">Mistral Medium 3.5</a> (256pt) — Mistral 推出新模型提升推理與上下文能力</li>
+<li><a href="https://news.ycombinator.com/item?id=47949939" rel="noopener noreferrer">Cursor Camp</a> (189pt) — Cursor 舉辦開發者營促進社群交流</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sz5aoi/the_internet_is_falling_down_falling_down_falling/" rel="noopener noreferrer">網際網路正在崩潰 (cPanel &amp; WHM 身份驗證繞過 CVE-2026-41940)</a></td>
+<td>4.2k</td>
+<td>387</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>威脅全球主機服務的關鍵漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sze8dx/new_critical_cve_root_on_every_major_linux/" rel="noopener noreferrer">新關鍵 CVE - 所有主要 Linux 發行版根權限漏洞</a></td>
+<td>3.8k</td>
+<td>256</td>
+<td>***</td>
+<td>資安/Linux</td>
+<td>r/cybersecurity</td>
+<td>Copy.fail 漏洞技術分析</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1szduu3/copy_fail_exploit_lets_732_bytes_hijack_linux/" rel="noopener noreferrer">Copy Fail 利用技術讓 732 位元組劫持 Linux 系統並悄悄獲取 root</a></td>
+<td>3.5k</td>
+<td>198</td>
+<td>***</td>
+<td>資安/Linux</td>
+<td>r/netsec</td>
+<td>極小化攻擊代碼分析</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1sz8ym4/hermesmd_anthropic_bug_causes_200_extra_charge/" rel="noopener noreferrer">HERMES.md: Anthropic 錯誤導致額外收取 200 美元且拒絕退款</a></td>
+<td>2.9k</td>
+<td>176</td>
+<td>***</td>
+<td>AI/爭議</td>
+<td>r/ClaudeCode</td>
+<td>計費透明度引發討論</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sz9eeb/copyfail_unprivileged_to_root_in_a_small_python/" rel="noopener noreferrer">Copy.fail - 小型 Python 腳本實現普通用戶到 root 提權</a></td>
+<td>2.7k</td>
+<td>145</td>
+<td>***</td>
+<td>資安/Linux</td>
+<td>r/cybersecurity</td>
+<td>race condition 利用技術</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1sz094x/someone_compromised_saps_npm_packages_and_used/" rel="noopener noreferrer">有人竄改了 SAP 的 npm 套件並利用 CI 管道攻擊自身</a></td>
+<td>2.4k</td>
+<td>132</td>
+<td>***</td>
+<td>資安/供應鏈</td>
+<td>r/programming</td>
+<td>CI 管道被反噬的供應鏈攻擊</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sz3u3l/the_thymeleaf_template_injection_that_only_hurts/" rel="noopener noreferrer">只會在你允許時才造成伤害的 Thymeleaf 模板注入</a></td>
+<td>1.8k</td>
+<td>98</td>
+<td>***</td>
+<td>資安/Web</td>
+<td>r/netsec</td>
+<td>條件性觸發的模板注入</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1sze8dx/new_critical_cve_root_on_every_major_linux/" rel="noopener noreferrer">新關鍵 CVE - 所有主要 Linux 發行版根權限漏洞</a> (3.8k ups) — r/cybersecurity — Linux 系統調用漏洞影響所有發行版
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1sz9eeb/copyfail_unprivileged_to_root_in_a_small_python/" rel="noopener noreferrer">Copy.fail - 小型 Python 腳本實現普通用戶到 root 提權</a> (2.7k ups) — r/cybersecurity — 複製功能 race condition 提權技術
+3. <a href="https://www.reddit.com/r/netsec/comments/1sz5aoi/the_internet_is_falling_down_falling_down_falling/" rel="noopener noreferrer">網際網路正在崩潰 (cPanel &amp; WHM 身份驗證繞過 CVE-2026-41940)</a> (4.2k ups) — r/netsec — cPanel 鑑權繞過威脅數百萬網站
+4. <a href="https://www.reddit.com/r/netsec/comments/1szduu3/copy_fail_exploit_lets_732_bytes_hijack_linux/" rel="noopener noreferrer">Copy Fail 利用技術讓 732 位元組劫持 Linux 系統並悄悄獲取 root</a> (3.5k ups) — r/netsec — 極小化攻擊載體技術分析
+5. <a href="https://www.reddit.com/r/netsec/comments/1sz3u3l/the_thymeleaf_template_injection_that_only_hurts/" rel="noopener noreferrer">只會在你允許時才造成伤害的 Thymeleaf 模板注入</a> (1.8k ups) — r/netsec — 情境控制型模板注入漏洞</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1sz8ym4/hermesmd_anthropic_bug_causes_200_extra_charge/" rel="noopener noreferrer">HERMES.md: Anthropic 錯誤導致額外收取 200 美元且拒絕退款</a> (2.9k ups) — r/ClaudeCode — 路由機制缺陷導致計費爭議</p>
+<p><strong>供應鏈攻擊類</strong>
+1. <a href="https://www.reddit.com/r/programming/comments/1sz094x/someone_compromised_saps_npm_packages_and_used/" rel="noopener noreferrer">有人竄改了 SAP 的 npm 套件並利用 CI 管道攻擊自身</a> (2.4k ups) — r/programming — 高度技術性的供應鏈反向攻擊</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/mythos-ready-checklist" rel="noopener noreferrer">Mythos-Ready Checklist：Agentic AI 威脅防護指南</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI 代理威脅防護檢查清單</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/fake-tanstack-packages-steal-env-files" rel="noopener noreferrer">Fake TanStack 套件：27 分鐘發布四個惡意版本竊取 .env</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>快速供應鏈攻擊案例分析</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/mini-shai-hulud-has-appeared" rel="noopener noreferrer">Mini Shai-Hulud：針對 SAP npm 套件的 Bun 祕密竊取器</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>針對 Bun 運行時的定制攻擊</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/browser-extensions-supply-chain-attack" rel="noopener noreferrer">瀏覽器外掛應視為供應鏈攻擊載體</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>外掛納入供應鏈安全管理</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/roundcube-xss-cookie-tossing" rel="noopener noreferrer">Roundcube XSS 加 Cookie Tossing 攻擊鏈</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>郵件系統組合攻擊分析</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/xss-vulnerabilities-in-mailcow" rel="noopener noreferrer">Mailcow 跨站腳本攻擊 (XSS) 漏洞</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>開源郵件系統 XSS 漏洞</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【Claude Code 生態系爆發】</strong> — Hatena 上大量文章討論 Claude Code 的 Skills 功能、實戰技巧與企業導入案例，NTT DATA 等日本企業分享 AI 員工常駐 Slack 的經驗。這顯示日本市場正積極將 AI 從實驗推向實質生產力工具，Skills 機制成為能力擴展的關鍵。</p>
+</li>
+<li>
+<p><strong>【Copy.fail Linux 漏洞風暴】</strong> — HN 與 Reddit 同步關注 Copy.fail（CVE-2026-31431）漏洞，影響所有主要 Linux 發行版。攻擊代碼僅需 732 位元組即可提權至 root，技術分析顯示利用複製功能的 race condition。此漏洞凸顯看似無害的系統功能也可能隐藏致命缺陷。</p>
+</li>
+<li>
+<p><strong>【供應鏈攻擊進化潮】</strong> — Reddit 報導 SAP npm 套件遭竄改後利用 CI 管道反向攻擊，aikido.dev 分析偽造 TanStack 套件與 Bun 平台攻擊。供應鏈攻擊正從單純竊取數據轉向更複雜的橫向移動與反噬，瀏覽器外掛也被納入攻擊載體範疇。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>HERMES.md 計費爭議</strong>：Hatena + HN + Reddit 同步出現 — Anthropic HERMES.md 路由錯誤導致用戶被多收 200 美元且退款遭拒，引發对 AI API 計費透明度的廣泛討論</li>
+<li><strong>Copy.fail 漏洞</strong>：HN + r/cybersecurity + r/netsec — Linux 提權漏洞技術分析橫跨三個平台，顯示資安社群對此高度關注</li>
+<li><strong>AI 安全防護</strong>：Hatena + aikido.dev — 研究沙盒技術與 Mythos-Ready Checklist 同時強調 AI 代理安全是當前熱點</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

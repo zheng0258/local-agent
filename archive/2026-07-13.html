@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-13</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-13</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-13</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/ai_eng_tech/n/n1ef4d57df219" rel="noopener noreferrer">從知名工程師公開 .claude/skills 的浪潮中，學習如何撰寫優質的 Claude Code Skills</a></td>
+<td>27</td>
+<td>***</td>
+<td>AI 開發工具最佳實踐</td>
+<td>公開配置檔帶起優質AI技能教學</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260712-bun-zig-rust/" rel="noopener noreferrer">使用 AI「Claude」將開發工具「Bun」的 53 萬行 Zig 程式碼全面改寫為 Rust，Zig 作者亦在部落格回應</a></td>
+<td>25</td>
+<td>***</td>
+<td>AI 程式碼重構與移植</td>
+<td>Claude輔助Bun底層Zig移植Rust</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/enterprise/articles/2607/10/news042.html" rel="noopener noreferrer">將耗時 6.5 年的程式碼解析壓縮至 20 小時：運用 Claude 挑戰 4.6 億行舊有程式碼的實戰術</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI 程式碼重構與移植</td>
+<td>Claude二十小時速析四億行舊程式</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://note.com/ai_eng_tech/n/n1ef4d57df219" rel="noopener noreferrer">從知名工程師公開 .claude/skills 的浪潮中，學習如何撰寫優質的 Claude Code Skills</a> (27 users) — 公開配置檔帶起優質AI技能教學</li>
+<li><a href="https://gigazine.net/news/20260712-bun-zig-rust/" rel="noopener noreferrer">使用 AI「Claude」將開發工具「Bun」的 53 萬行 Zig 程式碼全面改寫為 Rust，Zig 作者亦在部落格回應</a> (25 users) — Claude輔助Bun底層Zig移植Rust</li>
+<li><a href="https://www.itmedia.co.jp/enterprise/articles/2607/10/news042.html" rel="noopener noreferrer">將耗時 6.5 年的程式碼解析壓縮至 20 小時：運用 Claude 挑戰 4.6 億行舊有程式碼的實戰術</a> (8 users) — Claude二十小時速析四億行舊程式</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48880170" rel="noopener noreferrer">透過現代程式碼代理開發舊型與新型應用程式（Terry Tao）</a></td>
+<td>309pt</td>
+<td>***</td>
+<td>AI 程式碼代理與開發工具</td>
+<td>現代AI代理可高效重構舊系統並開發新應用</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48823981" rel="noopener noreferrer">僅需 100 行 Lisp 程式碼的 AI 代理</a></td>
+<td>216pt</td>
+<td>***</td>
+<td>AI 程式碼代理與開發工具</td>
+<td>百行Lisp即可建構自主運作AI代理</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48878682" rel="noopener noreferrer">Show HN: Mindwalk – 在程式碼庫的 3D 地圖上重播 AI 程式碼代理操作</a></td>
+<td>135pt</td>
+<td>***</td>
+<td>AI 程式碼代理與開發工具</td>
+<td>以三維地圖重播AI代理的程式碼修改軌跡</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48880406" rel="noopener noreferrer">Motorola MR2600 路由器的未授權遠端程式碼執行（RCE）漏洞</a></td>
+<td>60pt</td>
+<td>***</td>
+<td>網路資安與系統漏洞</td>
+<td>摩托羅拉路由器曝未授權遠端代碼執行漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48881498" rel="noopener noreferrer">自動研究、Claude 與約束優化</a></td>
+<td>15pt</td>
+<td>***</td>
+<td>AI 程式碼代理與開發工具</td>
+<td>結合Claude與約束優化實現自動化研究流程</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48880170" rel="noopener noreferrer">透過現代程式碼代理開發舊型與新型應用程式（Terry Tao）</a> (309pt) — 現代AI代理可高效重構舊系統並開發新應用
+   💬 社群觀點：主流肯定LLM生成視覺化與教學的實用性，視為高效輔助工具；部分看好純數學潛力，亦有質疑僅屬興趣或存利益衝突。</li>
+<li><a href="https://news.ycombinator.com/item?id=48823981" rel="noopener noreferrer">僅需 100 行 Lisp 程式碼的 AI 代理</a> (216pt) — 百行Lisp即可建構自主運作AI代理
+   💬 社群觀點：讚賞 Lisp 呼叫 eval 的優雅，但擔憂資安風險，建議採用沙箱；部分質疑創新性與 AI 生成痕跡。</li>
+<li><a href="https://news.ycombinator.com/item?id=48878682" rel="noopener noreferrer">Show HN: Mindwalk – 在程式碼庫的 3D 地圖上重播 AI 程式碼代理操作</a> (135pt) — 以三維地圖重播AI代理的程式碼修改軌跡
+   💬 社群觀點：社群盛讚3D空間UI，認為能解決終端日誌難追蹤痛點；但部分人質疑實用性，擔憂增加操作摩擦，並建議支援特定工具與影片示範。</li>
+<li><a href="https://news.ycombinator.com/item?id=48880406" rel="noopener noreferrer">Motorola MR2600 路由器的未授權遠端程式碼執行（RCE）漏洞</a> (60pt) — 摩托羅拉路由器曝未授權遠端代碼執行漏洞
+   💬 社群觀點：社群指出該機實為Zoom代工且原廠棄修；擔憂用戶須負遭駭法律責任，並建議白帽黑客自行修補漏洞。</li>
+<li><a href="https://news.ycombinator.com/item?id=48881498" rel="noopener noreferrer">自動研究、Claude 與約束優化</a> (15pt) — 結合Claude與約束優化實現自動化研究流程
+   💬 社群觀點：社群強調目標函數與評測指標至關重要，批評基準測試參數未對齊導致結果失真，警告應避免採用劣質指標以免誤導研究。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://projectdiscovery.io/blog/hacking-apple-with-sql-injection" rel="noopener noreferrer">駭入蘋果：從 SQL 注入到遠端程式碼執行</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安漏洞與遠端攻擊</td>
+<td>r/cybersecurity</td>
+<td>解析SQL注入引發蘋果系統遠端攻擊。</td>
+</tr>
+<tr>
+<td><a href="https://i.redd.it/45iufwfiztch1.jpeg" rel="noopener noreferrer">又來了！！！（工具限制或問題再現）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 工具限制與服務推廣</td>
+<td>r/technology</td>
+<td>AI工具頻現限制或舊問題重現引發反彈。</td>
+</tr>
+<tr>
+<td><a href="https://support.claude.com/en/articles/15424964-claude-fable-5-promotional-access" rel="noopener noreferrer">Fable 與 50% 額度上限提升延長至 7 月 19 日</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 工具限制與服務推廣</td>
+<td>r/Claude</td>
+<td>Fable額度提升活動延長至七月十九日。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://projectdiscovery.io/blog/hacking-apple-with-sql-injection" rel="noopener noreferrer">駭入蘋果：從 SQL 注入到遠端程式碼執行</a> (- ups) — r/cybersecurity — 解析SQL注入引發蘋果系統遠端攻擊。</p>
+<p><strong>AI 類</strong>
+1. <a href="https://i.redd.it/45iufwfiztch1.jpeg" rel="noopener noreferrer">又來了！！！（工具限制或問題再現）</a> (- ups) — r/technology — AI工具頻現限制或舊問題重現引發反彈。
+2. <a href="https://support.claude.com/en/articles/15424964-claude-fable-5-promotional-access" rel="noopener noreferrer">Fable 與 50% 額度上限提升延長至 7 月 19 日</a> (- ups) — r/Claude — Fable額度提升活動延長至七月十九日。</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/" rel="noopener noreferrer">駭客利用 Meta AI 客服機器人劫持 Instagram 帳戶</a></td>
+<td>KrebsOnSecurity</td>
+<td>***</td>
+<td>駭客藉AI客服接管IG帳戶</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/compromised-jscrambler-8140-npm-release.html" rel="noopener noreferrer">遭入侵的 jscrambler npm 套件於安裝時釋放 Rust 資訊竊取器</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>惡意npm套件安裝即竊取資訊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/laser-attack-resets-tangem-wallet.html" rel="noopener noreferrer">雷射攻擊可重設無法修復的 Tangem 錢包卡片密碼</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>雷射脈衝可重設加密錢包密碼</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/new-modbeacon-rat-uses-grpc-streaming.html" rel="noopener noreferrer">新型 MODBEACON 遠端存取特洛伊木馬使用 gRPC 串流加密 C2 流量</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>新木馬以gRPC加密串流隱藏連線</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/nomurasan/i-measured-claude-codes-prompt-cache-cost-three-ways-85-of-it-wasnt-mine-to-trim-48hm" rel="noopener noreferrer">我以三種方式測量 Claude Code 的提示詞快取成本，發現 85% 並非我能刪減的</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>測量Claude快取成本發現難優化</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/cloudflare-hyper-bug-fix/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cloudflare 發現 hyper HTTP/1 實作中的競態條件漏洞</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>修補Rust網路庫hyper的競態漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/akrites-open-source-ai-threats/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Linux 基金會推出 Akrites 保護關鍵開源軟體免受 AI 驅動威脅</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>新計畫Akrites防護開源AI威脅</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/openai-libunwind-core-dumps/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">OpenAI 將崩潰除錯視為流行病學，修復 18 年歷史的 GNU libunwind 漏洞</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>以流行病學思維修復18年底層漏洞</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 驅動程式碼重構與系統現代化】</strong> — 跨平台高度關注 AI 代理在底層語言移植（如 Zig 轉 Rust）、舊系統解析與除錯上的突破，顯示企業正加速利用 AI 清理技術債與優化開發流程。</li>
+<li><strong>【AI 工具鏈的效能優化與成本管控】</strong> — 開發者社群積極探索提示詞快取成本優化、極簡代理架構（如 100 行 Lisp）與自動化研究流程，反映 AI 輔助編程進入精細化營運階段。</li>
+<li><strong>【AI 時代的資安威脅與供應鏈防禦】</strong> — 從 npm 套件投毒、AI 客服劫持到硬體錢包物理攻擊，威脅向量日益多元；業界同步推出 Akrites 等計畫強化開源基礎設施韌性。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 程式碼代理與開發工具</strong>：Hatena + HN + Reddit 同步出現 — 探討 AI 代理效能邊界、視覺化追蹤與工具使用限制</li>
+<li><strong>資安漏洞與供應鏈威脅</strong>：HN + Reddit + RSS 同步出現 — 聚焦路由器 RCE 漏洞、npm 套件投毒與 AI 客服攻擊防禦</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-27</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-27</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-27</h1>
+<hr>
+<h2>Hatena Bookmark（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/moritalous/items/3c5269610f26e23c5b04" rel="noopener noreferrer">Claude Code VSCode 擴充機能提升開發體驗</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>VSCode 整合提升 AI 輔助編程效率</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/ino_h/articles/2026-04-23-claude-code-plugins-ranking" rel="noopener noreferrer">2026 Claude Code 官方插件與 MCP 伺服器推薦</a></td>
+<td>256</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>MCP 開放標準深化工具整合生態</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/microsoft/articles/agent-package-manager-handson" rel="noopener noreferrer">Microsoft 推出 APM 簡化 Agent 包管理</a></td>
+<td>234</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>企業級 Agent 標準化管理方案</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/awesome_kou/articles/campfire-github-breach-2026" rel="noopener noreferrer">CAMPFIRE 因 GitHub 漏洞導致 22.5 萬人資料外洩</a></td>
+<td>198</td>
+<td>***</td>
+<td>資安與系統可靠性</td>
+<td>供應鏈攻擊凸顯第三方風險</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260424-anthropic-claude-code-quality/" rel="noopener noreferrer">Anthropic 調查 Claude 品質下降並重置用戶限制</a></td>
+<td>176</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>大規模服務品質控制挑戰</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li>
+<p><a href="https://qiita.com/moritalous/items/3c5269610f26e23c5b04" rel="noopener noreferrer">Claude Code VSCode 擴充機能提升開發體驗</a> (287 users) — 介紹 Claude Code VSCode 擴充功能，支援語意搜尋與自動生成，AI 原生開發工具成為主流</p>
+</li>
+<li>
+<p><a href="https://zenn.dev/microsoft/articles/agent-package-manager-handson" rel="noopener noreferrer">Microsoft 推出 APM 簡化 Agent 包管理</a> (234 users) — Agent Package Manager 提供統一標準，企業級 AI 架構朝向模組化發展</p>
+</li>
+<li>
+<p><a href="https://zenn.dev/ino_h/articles/2026-04-23-claude-code-plugins-ranking" rel="noopener noreferrer">2026 Claude Code 官方插件與 MCP 伺服器推薦</a> (256 users) — MCP 作為 AI 工具整合開放標準，幫助選擇最佳擴展插件</p>
+</li>
+<li>
+<p><a href="https://zenn.dev/awesome_kou/articles/campfire-github-breach-2026" rel="noopener noreferrer">CAMPFIRE 因 GitHub 漏洞導致 22.5 萬人資料外洩</a> (198 users) — 供應鏈攻擊風險提醒企業審慎評估外部 API 資安等級</p>
+</li>
+<li>
+<p><a href="https://gigazine.net/news/20260424-anthropic-claude-code-quality/" rel="noopener noreferrer">Anthropic 調查 Claude 品質下降並重置用戶限制</a> (176 users) — 凸顯大規模 AI 服務在快速擴張時面臨的品質控制挑戰</p>
+</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1svvh6j/bell_canada_homehub_3000_unauthenticated_dos/" rel="noopener noreferrer">貝爾加拿大 HomeHub 3000 - 未認證 DoS 攻擊影響 124 萬路由器（已向 CRTC 投訴）</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>IoT 設備嚴重漏洞凸顯網路邊緣風險</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1svvh6j/bell_canada_homehub_3000_unauthenticated_dos/" rel="noopener noreferrer">貝爾加拿大 HomeHub 3000 - 未認證 DoS 攻擊影響 124 萬路由器（已向 CRTC 投訴）</a> (2847 ups) — r/cybersecurity — 未認證 DoS 攻擊影響大規模 IoT 設備</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具生態系成熟化】</strong> — Claude Code VSCode 整合與 Microsoft APM 顯示 AI Agent 正快速標準化，類似傳統 npm/pip 的生態系正在成形中。MCP 協議作為開放標準，讓模型能安全連接外部工具與資料源。</li>
+<li><strong>【供應鏈資安風險】</strong> — CAMPFIRE 事件顯示即使平台本身無漏洞，依賴的 GitHub 服務漏洞仍導致 22.5 萬人資料外洩。凸顯現代開發中第三方服務整合的風險評估至關重要。</li>
+<li><strong>【IoT 設備安全漏洞】</strong> — 貝爾加拿大路由器未認證 DoS 攻擊影響 124 萬台設備，顯示網路邊緣設備仍是資安弱點。大量消費級 IoT 產品缺乏基本安全驗證機制。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI Agent 標準化</strong>：Hatena 集中討論 — 顯示日本市場對企業級 AI 工具鏈高度關注</li>
+<li><strong>資安供應鏈風險</strong>：Hatena + Reddit 分別從軟體與硬體角度呈現 — 凸顯資安意識跨層次滲透</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

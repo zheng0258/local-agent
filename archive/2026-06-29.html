@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-29</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-29</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-29</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://blog.wh-plus.co.jp/entry/2026/06/23/113209" rel="noopener noreferrer">使用 NotebookLM 讓需求定義變得更輕鬆 ― 為規格驅動開發（SDD）鋪路</a></td>
+<td>191</td>
+<td>***</td>
+<td>AI 輔助開發</td>
+<td>用NotebookLM梳理需求，推進規格驅動開發</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/book/2026/978-4-297-15727-2" rel="noopener noreferrer">LLM 資訊擷取入門</a></td>
+<td>123</td>
+<td>***</td>
+<td>AI 技術應用</td>
+<td>掌握LLM從非結構化資料提取資訊技巧</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/aktsmm/items/6b2ef723c2e660c93731" rel="noopener noreferrer">🚀 選擇本地 LLM 別再只挑「VRAM 塞得進的最大模型」了？用 whichllm 在 RTX 4060 Ti 16GB 上實測</a></td>
+<td>76</td>
+<td>***</td>
+<td>本地 LLM 部署</td>
+<td>超越VRAM限制，實測whichllm優化本地部署</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://blog.wh-plus.co.jp/entry/2026/06/23/113209" rel="noopener noreferrer">使用 NotebookLM 讓需求定義變得更輕鬆 ― 為規格驅動開發（SDD）鋪路</a> (191 users) — 用NotebookLM梳理需求，推進規格驅動開發</li>
+<li><a href="https://gihyo.jp/book/2026/978-4-297-15727-2" rel="noopener noreferrer">LLM 資訊擷取入門</a> (123 users) — 掌握LLM從非結構化資料提取資訊技巧</li>
+<li><a href="https://qiita.com/aktsmm/items/6b2ef723c2e660c93731" rel="noopener noreferrer">🚀 選擇本地 LLM 別再只挑「VRAM 塞得進的最大模型」了？用 whichllm 在 RTX 4060 Ti 16GB 上實測</a> (76 users) — 超越VRAM限制，實測whichllm優化本地部署</li>
+<li><a href="https://www.techno-edge.net/article/2026/06/28/5232.html" rel="noopener noreferrer">媲美 Opus 4.8 的開源模型「GLM-5.2」、僅需 4.5GB VRAM 的程式碼特化 AI「Gemma4-12B-Coder」等 5 項生成式 AI 技術解析</a> (37 users) — 解析GLM-5.2等開源模型與低VRAM程式AI</li>
+<li><a href="https://zenn.dev/nrs/articles/e4a2ae8a9fb785" rel="noopener noreferrer">使用 takt exec 輕鬆入門循環工程（Loop Engineering）</a> (33 users) — 透過takt exec工具快速實踐循環工程概念</li>
+<li><a href="https://zenn.dev/acntechjp/articles/22f7b6f9258008" rel="noopener noreferrer">資深工程師幾乎不再親自寫程式碼的原因</a> (28 users) — 資深工程師轉向架構設計與AI協作，少寫程式</li>
+<li><a href="https://dev.classmethod.jp/articles/aws-lambda-introduces-microvms/" rel="noopener noreferrer">【更新】用於在沙盒環境中驗證不可信程式碼的 AWS Lambda MicroVMs 現已可用</a> (11 users) — AWS Lambda微虛擬機安全驗證不可信程式碼</li>
+<li><a href="https://www.seangoedecke.com/how-i-use-llms-in-2026/" rel="noopener noreferrer">2026 年資深工程師如何使用 LLM</a> (8 users) — 資深工程師在2026年高效整合LLM實務心法</li>
+<li><a href="https://qiita.com/4q_sano/items/2c9d2686bdbc5e085191" rel="noopener noreferrer">別把 Claude Code 僅限於「寫程式 AI」：使用官方 document-skills 自動化處理 PDF、Excel、Word、PowerPoint</a> (6 users) — 活用Claude Code文件技能自動化處理多格式檔</li>
+<li><a href="https://jbpress.ismedia.jp/articles/-/94958" rel="noopener noreferrer">「只會寫程式的工程師沒有未來」SCSK 堀井大砂談「AI 驅動開發」如何打破日本多重外包結構</a> (5 users) — AI驅動開發打破日本外包結構，工程師需轉型</li>
+<li><a href="https://cloud.google.com/blog/ja/topics/developers-practitioners/10-indispensable-prompts-our-team-refuses-to-build-without/" rel="noopener noreferrer">開發者必看：開發過程中不可或缺的 10 個提示詞</a> (5 users) — 掌握10個關鍵提示詞，大幅提升開發團隊效率</li>
+<li><a href="https://ipcrawl.com/" rel="noopener noreferrer">IP Crawl — 開放網路攝影機目錄</a> (4 users) — 揭露開放網路攝影機目錄，警示弱密碼資安風險</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48707719" rel="noopener noreferrer">歐盟擬在密室中推動「聊天控制」立法（後門加密爭議）</a></td>
+<td>328</td>
+<td>***</td>
+<td>隱私監管</td>
+<td>歐盟密議聊天控制法案，引發後門加密爭議。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48706714" rel="noopener noreferrer">OpenAI Codex 排除敏感檔案的問題至今仍未解決</a></td>
+<td>132</td>
+<td>***</td>
+<td>AI 資安</td>
+<td>AI工具敏感檔過濾機制至今未解決。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48708941" rel="noopener noreferrer">我用 Claude Code 為我的 MRI 影像尋求第二意見</a></td>
+<td>70</td>
+<td>***</td>
+<td>AI 醫療應用</td>
+<td>人工智慧編碼工具輔助醫學影像判讀。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48707719" rel="noopener noreferrer">歐盟擬在密室中推動「聊天控制」立法（後門加密爭議）</a> (328pt) — 歐盟密議聊天控制法案，引發後門加密爭議。
+   💬 社群觀點：社群強烈反對歐盟後門立法，指其違背民主、恐成監控工具且技術無效。雖建議聯絡反對議員，但普遍對政策與隱私未來深感悲觀。</li>
+<li><a href="https://news.ycombinator.com/item?id=48706714" rel="noopener noreferrer">OpenAI Codex 排除敏感檔案的問題至今仍未解決</a> (132pt) — AI工具敏感檔過濾機制至今未解決。
+   💬 社群觀點：社群指出仰賴AI忽略敏感檔案會產生錯誤安全感，模型易繞過限制。建議改用容器隔離或調整檔案權限，而非依賴代理防護。</li>
+<li><a href="https://news.ycombinator.com/item?id=48708941" rel="noopener noreferrer">我用 Claude Code 為我的 MRI 影像尋求第二意見</a> (70pt) — 人工智慧編碼工具輔助醫學影像判讀。
+   💬 社群觀點：社群普遍質疑AI判讀醫學影像的可靠性，警告勿依賴。建議僅用AI輔助提問或分析報告文字，診斷務必尋求人類醫師第二意見。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://projectblack.io/blog/local-ai-for-cyber-security/" rel="noopener noreferrer">我嘗試用本機 AI 模型（Qwen 3.6 27b）進行資安研究，效果出乎意料地好</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>-</td>
+<td>本機AI模型顯著提升資安研究成效</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://projectblack.io/blog/local-ai-for-cyber-security/" rel="noopener noreferrer">我嘗試用本機 AI 模型（Qwen 3.6 27b）進行資安研究，效果出乎意料地好</a> (- ups) — r/- — 本機AI模型顯著提升資安研究成效</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/" rel="noopener noreferrer">CISA 管理員在 GitHub 洩漏 AWS GovCloud 金鑰</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>政府雲端金鑰因管理員疏忽洩露</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/microsoft-warns-of-photo-zip-phishing.html" rel="noopener noreferrer">微軟警告針對飯店業的 Photo ZIP 釣魚活動，植入 Node.js 程式碼</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>飯店業遭 ZIP 釣魚郵件植入惡意程式</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/heartlinmachado/how-i-built-a-rag-system-over-more-than-100-uscis-administrative-appeals-office-decisions-with-1gl8" rel="noopener noreferrer">如何使用 Gemini 建置涵蓋百筆 USCIS 行政上訴裁決的 RAG 系統</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>以 Gemini 建構移民局裁決 RAG 系統</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/lovestaco/ignore-all-previous-instructions-a-devs-guide-to-prompt-injection-1naj" rel="noopener noreferrer">忽略所有先前指示：開發者的提示詞注入指南</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>解析提示詞注入原理與防禦指南</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/aws-finops-agent/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">AWS 預覽用於成本分析與優化的 FinOps Agent</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AWS 推出自動優化雲端支出的 AI 代理</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/vercel-eve-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Vercel 推出 Eve：用於建構 AI Agent 的開源框架</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Vercel 發布開源框架加速開發 AI 代理</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 驅動開發與工程流程重塑】</strong> — 資深工程師角色正從手動編碼轉向架構設計與 AI 協作，循環工程與規格驅動開發（SDD）工具如雨後春筍般湧現，標誌著軟體交付模式進入高效能迭代時代。</li>
+<li><strong>【本地化部署與開源模型實測】</strong> — 開發者不再盲目追求最大模型，轉而關注 VRAM 限制下的最佳化策略（如 whichllm、Gemma4-12B-Coder），本機 AI 在資安研究與隱私保護場景中展現強大潛力。</li>
+<li><strong>【雲端資安威脅與隱私監管爭議】</strong> — 從歐盟後門加密立法爭議、AI 編碼工具敏感檔案過濾缺陷，到政府雲端金鑰洩漏與新型釣魚攻擊，資安防禦與隱私監管成為跨平台高度關注的核心命題。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助開發與工具鏈整合</strong>：Hatena + HN + RSS 同步出現 — 從提示詞工程、Claude Code 文件處理到 FinOps/Eve 代理框架，AI 已全面滲透開發者日常工作流。</li>
+<li><strong>隱私監管與資安威脅</strong>：HN + RSS + Hatena 同步出現 — 歐盟聊天控制法案引發強烈反對，同時雲端憑證管理疏失與 AI 工具敏感資料外洩風險促使企業加速部署隔離與防禦機制。</li>
+<li><strong>本地 AI 與開源模型應用</strong>：Hatena + Reddit 同步出現 — 受限於雲端隱私與成本，開發者與資安團隊積極轉向本機部署開源模型，追求資料主權與高效能平衡。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

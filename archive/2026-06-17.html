@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-17</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-17</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-17</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/arm_techblog/articles/7712cde19988c8" rel="noopener noreferrer">2026年6月當前的 Claude Code 開發流程</a></td>
+<td>163</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>解析標準工作流降低認知負荷</td>
+</tr>
+<tr>
+<td><a href="https://www.nikkei.com/article/DGXZQOGN16BC70W6A610C2000000/" rel="noopener noreferrer">SpaceX 以 9.6 兆日圓收購美國新興程式設計 AI 公司 Cursor</a></td>
+<td>59</td>
+<td>***</td>
+<td>AI 產業佈局</td>
+<td>巨頭重金收購重塑編程市場</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/hataluck/articles/0752919b305a9f" rel="noopener noreferrer">為應對 AI 海量輸出而打造：降低認知負荷的專屬 Skill 工具</a></td>
+<td>40</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>過濾冗長輸出提升協作效率</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/06/mdn-mcp-server" rel="noopener noreferrer">MDN 正式提供 MCP 伺服器服務</a></td>
+<td>37</td>
+<td>***</td>
+<td>AI 基礎建設</td>
+<td>統一文檔存取解決幻覺問題</td>
+</tr>
+<tr>
+<td><a href="https://blog.cloudnative.co.jp/articles/claude-code-enterprise-starter-kit-best-practices/" rel="noopener noreferrer">安全地在企業內部分發 Claude Code 的架構設計｜官方管理功能與 Starter Kit</a></td>
+<td>20</td>
+<td>***</td>
+<td>企業資安</td>
+<td>官方管理功能與部署指南</td>
+</tr>
+<tr>
+<td><a href="https://sakana.ai/marlin/" rel="noopener noreferrer">Sakana Marlin — 您的虛擬首席戰略長（CSO）</a></td>
+<td>12</td>
+<td>***</td>
+<td>AI 戰略應用</td>
+<td>輔助高階決策與資源配置</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260616-google-chrome-update-disable-adblockers/" rel="noopener noreferrer">Google Chrome 下次更新將正式禁用 uBlock Origin 等熱門廣告阻擋器</a></td>
+<td>11</td>
+<td>***</td>
+<td>瀏覽器生態</td>
+<td>架構轉變引發隱私與壟斷爭議</td>
+</tr>
+<tr>
+<td><a href="https://www.publickey1.jp/blog/26/gitlabaigitproject_switch50.html" rel="noopener noreferrer">GitLab 發表專為 AI 代理人設計的次世代 Git 相容程式碼管理服務「Project Switch」，速度提升 50 倍且 Token 用量減半</a></td>
+<td>7</td>
+<td>***</td>
+<td>AI 基礎建設</td>
+<td>提速 50 倍且 Token 用量減半</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260616-anthropic-ai-controls-open-letter/" rel="noopener noreferrer">資安專家致函白宮要求解除禁令：「停止 Claude Fable 與 Mythos 服務將對網路攻擊者更有利」</a></td>
+<td>6</td>
+<td>***</td>
+<td>AI 治理</td>
+<td>籲防攻擊者趁虛轉向無監管工具</td>
+</tr>
+<tr>
+<td><a href="https://blog.shibayu36.org/entry/2026/06/15/173000" rel="noopener noreferrer">在京阿嘉會議發表「利用 AI Slack Bot 自動化非定型業務」的實踐心得</a></td>
+<td>5</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>自動化行政流程降低溝通斷層</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/chanyou0311/zuo-tutezhong-warinisinai-taiminosemanteitukureiyayu-cheng-noxian-zai-di" rel="noopener noreferrer">不止於開發：Timi 語意層（Semantic Layer）培育的當前進程</a></td>
+<td>5</td>
+<td>***</td>
+<td>數據基礎建設</td>
+<td>打破資料孤島推進分析平民化</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/arm_techblog/articles/7712cde19988c8" rel="noopener noreferrer">2026年6月當前的 Claude Code 開發流程</a> (163 users) — 詳細解析標準開發工作流，涵蓋需求解析至除錯閉環。</li>
+<li><a href="https://www.nikkei.com/article/DGXZQOGN16BC70W6A610C2000000/" rel="noopener noreferrer">SpaceX 以 9.6 兆日圓收購美國新興程式設計 AI 公司 Cursor</a> (59 users) — 巨頭重金收購重塑編程市場。</li>
+<li><a href="https://zenn.dev/hataluck/articles/0752919b305a9f" rel="noopener noreferrer">為應對 AI 海量輸出而打造：降低認知負荷的專屬 Skill 工具</a> (40 users) — 過濾AI冗長輸出專為降低認知負荷。</li>
+<li><a href="https://gihyo.jp/article/2026/06/mdn-mcp-server" rel="noopener noreferrer">MDN 正式提供 MCP 伺服器服務</a> (37 users) — MDN推出MCP伺服器統一AI文檔存取。</li>
+<li><a href="https://blog.cloudnative.co.jp/articles/claude-code-enterprise-starter-kit-best-practices/" rel="noopener noreferrer">安全地在企業內部分發 Claude Code 的架構設計｜官方管理功能與 Starter Kit</a> (20 users) — 企業安全部署Claude Code架構指南。</li>
+<li><a href="https://sakana.ai/marlin/" rel="noopener noreferrer">Sakana Marlin — 您的虛擬首席戰略長（CSO）</a> (12 users) — 虛擬戰略長Marlin輔助企業高階決策。</li>
+<li><a href="https://gigazine.net/news/20260616-google-chrome-update-disable-adblockers/" rel="noopener noreferrer">Google Chrome 下次更新將正式禁用 uBlock Origin 等熱門廣告阻擋器</a> (11 users) — Chrome將禁用廣告阻擋器重塑瀏覽器。</li>
+<li><a href="https://www.publickey1.jp/blog/26/gitlabaigitproject_switch50.html" rel="noopener noreferrer">GitLab 發表專為 AI 代理人設計的次世代 Git 相容程式碼管理服務「Project Switch」，速度提升 50 倍且 Token 用量減半</a> (7 users) — GitLab推AI代碼管理提速50倍省Token。</li>
+<li><a href="https://gigazine.net/news/20260616-anthropic-ai-controls-open-letter/" rel="noopener noreferrer">資安專家致函白宮要求解除禁令：「停止 Claude Fable 與 Mythos 服務將對網路攻擊者更有利」</a> (6 users) — 專家籲白宮解除AI禁令防攻擊者趁虛。</li>
+<li><a href="https://blog.shibayu36.org/entry/2026/06/15/173000" rel="noopener noreferrer">在京阿嘉會議發表「利用 AI Slack Bot 自動化非定型業務」的實踐心得</a> (5 users) — 分享Slack Bot自動化非定型業務實戰。</li>
+<li><a href="https://speakerdeck.com/chanyou0311/zuo-tutezhong-warinisinai-taiminosemanteitukureiyayu-cheng-noxian-zai-di" rel="noopener noreferrer">不止於開發：Timi 語意層（Semantic Layer）培育的當前進程</a> (5 users) — 語意層技術突破開發限制推進數據應用。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48546294" rel="noopener noreferrer">LinkedIn 求職邀請中的後門漏洞</a></td>
+<td>1500pt</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>假求職邀請暗藏惡意腳本</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48555993" rel="noopener noreferrer">現在執行本地模型已經很好用了</a></td>
+<td>495pt</td>
+<td>***</td>
+<td>AI 模型部署</td>
+<td>本地模型省錢高效衝擊雲端定價</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48552687" rel="noopener noreferrer">研究者稱：聯邦調查局因修復程式碼提示而非越獄指令而對 Fable 5 大驚失色</a></td>
+<td>473pt</td>
+<td>***</td>
+<td>AI 監管爭議</td>
+<td>FBI誤判修復提示為越獄指令</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48553224" rel="noopener noreferrer">SpaceX 將以 600 億美元收購 Cursor</a></td>
+<td>468pt</td>
+<td>***</td>
+<td>AI 產業佈局</td>
+<td>天價收購引發泡沫與分發管道佈局質疑</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48558766" rel="noopener noreferrer">Claude：多款模型出現高頻錯誤</a></td>
+<td>68pt</td>
+<td>***</td>
+<td>AI 模型穩定性</td>
+<td>頻繁當機致工作流中斷轉投競品</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48556163" rel="noopener noreferrer">SubQ 1.1 小型模型技術報告</a></td>
+<td>66pt</td>
+<td>***</td>
+<td>AI 模型技術</td>
+<td>降本長語境潛力但遭質疑架構黑盒</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48554814" rel="noopener noreferrer">Qwen-Robot Suite：實體世界智能基礎模型套件</a></td>
+<td>40pt</td>
+<td>***</td>
+<td>具身智能</td>
+<td>實體應用潛力受讚賞待硬體落地</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48557535" rel="noopener noreferrer">GateGPT：在 80 MHz FPGA 上以每秒 5.6 萬 token 運行 Transformer KV 快取</a></td>
+<td>26pt</td>
+<td>***</td>
+<td>AI 硬體優化</td>
+<td>極低頻高效運算遭質疑實用價值</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48558545" rel="noopener noreferrer">玩家警惕：Steam 創意工坊發現竊取帳號的惡意桌布</a></td>
+<td>23pt</td>
+<td>***</td>
+<td>平台資安</td>
+<td>第三方漏洞竊取憑證須關閉權限</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48546294" rel="noopener noreferrer">LinkedIn 求職邀請中的後門漏洞</a> (1500pt) — 此事件揭露 LinkedIn 求職邀請函中隱藏惡意後門程式，屬於典型的社交工程與供應鏈攻擊手法。
+   💬 社群觀點：社群警告假求職邀請暗藏惡意腳本，恐竊取憑證或供應鏈攻擊。開發者須警惕，勿執行不明程式，並呼籲建立網安通報機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=48555993" rel="noopener noreferrer">現在執行本地模型已經很好用了</a> (495pt) — 本地端執行生成式 AI 模型的技術成熟度已達實用階段，能滿足多數日常開發與資料分析需求。
+   💬 社群觀點：本地模型省錢高效，衝擊雲端定價成主流。惟硬體門檻高、工具呼叫易幻覺且需耗時調校，尚難全面取代頂尖雲端服務。</li>
+<li><a href="https://news.ycombinator.com/item?id=48552687" rel="noopener noreferrer">研究者稱：聯邦調查局因修復程式碼提示而非越獄指令而對 Fable 5 大驚失色</a> (473pt) — 此事件指出 FBI 針對《Fable 5》的調查實屬誤判，開發者使用的僅是修復程式碼的提示詞，卻被誤認為 AI 越獄指令。
+   💬 社群觀點：社群質疑FBI行動實為政治打壓或敲詐。技術指修復漏洞必涉攻擊邏輯，使防護失效，並批Anthropic安全策略矛盾。</li>
+<li><a href="https://news.ycombinator.com/item?id=48553224" rel="noopener noreferrer">SpaceX 將以 600 億美元收購 Cursor</a> (468pt) — 市場傳出 SpaceX 擬以 600 億美元天價收購 AI 程式碼編輯器 Cursor，此舉若成真將徹底改變 AI 開發工具的市場版圖。
+   💬 社群觀點：社群質疑600億收購IDE屬泡沫，指產品有瑕疵且競爭激烈。多認為意在佈局AI分發管道，對追趕對手效益存疑。</li>
+<li><a href="https://news.ycombinator.com/item?id=48558766" rel="noopener noreferrer">Claude：多款模型出現高頻錯誤</a> (68pt) — Anthropic 旗下 Claude 系列模型近期頻傳高頻錯誤與系統當機，嚴重影響依賴其進行 AI 輔助編碼的開發者工作流。
+   💬 社群觀點：主流抱怨頻繁當機致工作流中斷，轉投競品。爭議聚焦Anthropic過度依賴AI編碼致系統不穩，呼籲回歸人工除錯。</li>
+<li><a href="https://news.ycombinator.com/item?id=48556163" rel="noopener noreferrer">SubQ 1.1 小型模型技術報告</a> (66pt) — SubQ 1.1 技術報告發布，主打透過新型架構實現小型模型的長語境處理與大幅降本。
+   💬 社群觀點：社群肯定其大幅降本與長語境潛力，但強烈質疑架構不透明，擔憂淪為行銷炒作，並關注百萬語境下的硬體需求與推論速度。</li>
+<li><a href="https://news.ycombinator.com/item?id=48554814" rel="noopener noreferrer">Qwen-Robot Suite：實體世界智能基礎模型套件</a> (40pt) — 阿里巴巴推出 Qwen-Robot Suite，提供專為實體機器人設計的感知、規劃與控制基礎模型套件。
+   💬 社群觀點：社群高度讚賞 Qwen 持續領先的表現，並肯定其實體應用潛力；同時積極詢問可適配的硬體平台與落地場景。</li>
+<li><a href="https://news.ycombinator.com/item?id=48557535" rel="noopener noreferrer">GateGPT：在 80 MHz FPGA 上以每秒 5.6 萬 token 運行 Transformer KV 快取</a> (26pt) — GateGPT 研究展示於 80 MHz 低功耗 FPGA 上實現 Transformer KV 快取的高頻運算技術，旨在探索邊緣端 AI 推論的硬體優化路徑。
+   💬 社群觀點：社群質疑模型參數極少且上下文僅16字，高吞吐量指標缺乏實用價值；CPU實作更快，對FPGA部署大模型持保留態度。</li>
+<li><a href="https://news.ycombinator.com/item?id=48558545" rel="noopener noreferrer">玩家警惕：Steam 創意工坊發現竊取帳號的惡意桌布</a> (23pt) — Steam 創意工坊近期爆發惡意桌布事件，該程式透過第三方軟體漏洞竊取玩家登入憑證。
+   💬 社群觀點：漏洞屬第三方軟體非Steam；原文疑AI生成引發爭議。社群指風險已久，建議勿下載不明桌布並關閉代碼執行權限。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u6smzb/emptyciphertext_panic_in_awsencryptionprovider/" rel="noopener noreferrer">aws-encryption-provider 的空白密文恐慌漏洞（與 AWS 合作披露 CVD）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>雲端資安</td>
+<td>r/netsec</td>
+<td>空白密文觸發系統當機需緊急防禦</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>雲端資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u6smzb/emptyciphertext_panic_in_awsencryptionprovider/" rel="noopener noreferrer">aws-encryption-provider 的空白密文恐慌漏洞（與 AWS 合作披露 CVD）</a> (- ups) — r/netsec — AWS 官方加密組件遇空白密文觸發系統恐慌導致服務當機，維運團隊需立即評估升級。</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/new-rokarolla-android-malware-steals.html" rel="noopener noreferrer">新型 Rokarolla Android 惡意軟體竊取 PIN、簡訊驗證碼與加密貨幣錢包</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>新型安卓惡意軟體竊取PIN與錢包</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/attackers-exploit-three-fortinet.html" rel="noopener noreferrer">攻擊者利用 Fortinet FortiSandbox 三項漏洞，其中一項上週剛修復</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>攻擊者利用FortiSandbox三項漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/china-linked-sprysocks-backdoor-expands.html" rel="noopener noreferrer">中國關聯的 SprySOCKS 後門擴展至 Windows，採用驅動程式隱藏技術</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>中國後門擴至Windows採驅動隱藏</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/fake-microsoft-alerts-used-to-deploy.html" rel="noopener noreferrer">偽冒微軟警示訊息被用於散佈北韓 NarwhalRAT 惡意軟體</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>偽冒微軟警示散佈北韓RAT惡意軟體</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/cisco-releases-security-updates-for.html" rel="noopener noreferrer">Cisco 發布 SD-WAN Manager 漏洞安全更新，該漏洞正遭活躍利用</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Cisco發布SD-WAN漏洞更新防利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/cisa-flags-litespeed-cpanel-plugin-flaw.html" rel="noopener noreferrer">CISA 標記 LiteSpeed cPanel 外掛漏洞遭利用進行 Root 權限提升</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>CISA警示LiteSpeed外掛提權漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/chinese-hackers-abused-google-workspace.html" rel="noopener noreferrer">中國駭客濫用 Google Workspace 規則竊取科研與國防郵件</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>中國駭客濫用Workspace規則竊郵件</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/north-korean-hackers-are-turning.html" rel="noopener noreferrer">北韓駭客將開發工具轉為惡意軟體散佈管道</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>北韓駭客將開發工具轉惡意軟體管道</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/152-chrome-wallpaper-extensions-with.html" rel="noopener noreferrer">152 個 Chrome 桌布擴充套件遭下架，涉及廣告軟體與假流量</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>逾百Chrome桌布擴充套件因假流量下架</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/06/anthropics-project-glasswing-update.html" rel="noopener noreferrer">Anthropic「Project Glasswing」計畫進展：AI 輔助漏洞修復</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>Anthropic計畫推進AI輔助漏洞修復</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/sriram7737/the-llm-is-not-the-final-authority-building-trust-infrastructure-for-ai-agents-221i" rel="noopener noreferrer">LLM 並非最終裁判：為 AI 代理建構信任基礎設施</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>建構AI代理信任基礎設施取代LLM裁決</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/gitsergecrypto/ai-agents-hallucinate-here-is-how-to-cryptographically-notarize-their-outputfor-001-4eop" rel="noopener noreferrer">AI 代理會幻覺？教你如何用 0.01 美元進行密碼學核證</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>低成本密碼學核證防AI代理幻覺</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/parallel-agents-production/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：以 MCP 自動化網頁操作：打造不崩潰的基礎設施</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>以MCP自動化網頁操作打造穩健基礎</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/stack-overflow-for-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">AI 程式碼代理擁有專屬的 Stack Overflow 知識庫</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AI程式碼代理專屬知識庫上線</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/xcode-27-agents-device-hub/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Xcode 27 強化 AI 代理整合、重塑介面並推出 DeviceHub</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Xcode27強化AI代理整合與新介面</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/claude-code-harnesses/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Anthropic 解析 Claude 如何建構自訂執行框架以協調 AI 代理團隊</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Claude自訂框架協調AI代理團隊運作</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/spring-boot-4-1/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Spring Boot 4.1 新增 gRPC 自動配置、SSRF 防護與 Kotlin 2.3 支援</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>SpringBoot4.1新增gRPC與SSRF防護</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與基礎建設狂飙】</strong> — Claude Code 標準化流程、GitLab Project Switch 與 Xcode 27 的 AI 代理整合，顯示 AI 輔助編程已從單點工具邁向企業級基礎設施，大幅降低開發認知負荷與營運成本。</li>
+<li><strong>【AI 信任機制與資安防禦升級】</strong> — 面對 Claude 頻傳錯誤與 AI 代理幻覺問題，產業正加速導入密碼學核證、MCP 協議與獨立信任基礎設施，同時資安專家呼籲以透明技術防禦取代粗暴禁令。</li>
+<li><strong>【平台生態演變與供應鏈威脅】</strong> — Chrome 禁用傳統廣告阻擋器重塑瀏覽器規範，而 LinkedIn、Steam 與開發工具鏈屢現惡意後門，凸顯 AI 時代下應用程式與依賴管理的資安盲區。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>SpaceX 收購 Cursor</strong>：Hatena + HN 同步熱議 — 巨頭重金入局開發工具市場，引發對 AI 泡沫與分發管道壟斷的戰略討論。</li>
+<li><strong>AI 代理信任與幻覺防禦</strong>：HN + RSS 同步出現 — 從本地模型部署到密碼學核證與 MCP 協議，建構可稽核的 AI 執行環境成共識。</li>
+<li><strong>供應鏈與平台資安威脅</strong>：Hatena + HN + RSS 同步出現 — 從瀏覽器擴充套件到開發工具與雲端加密組件，攻擊面持續向基礎建設與依賴鏈滲透。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

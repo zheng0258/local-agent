@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-25</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-25</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-25</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.techno-edge.net/article/2026/05/24/5094.html" rel="noopener noreferrer">完全本地化、純 CPU 運行的日語輕量 TTS「Supertonic 3」、高保真 3D 生成 AI「Pixal3D」等五項生成式 AI 技術解析</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>邊緣運算與本地化 AI 趨勢</td>
+</tr>
+<tr>
+<td><a href="https://izanami.dev/post/e63c7bfd-cc85-4421-a4e7-776e93fb8720" rel="noopener noreferrer">讓 Claude Code 撰寫高品質 PR：餵食 Google Engineering Practices</a></td>
+<td>156</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI + 最佳實踐知識庫</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/taks/items/5ba334aca2ecb8276e8c" rel="noopener noreferrer">用 OpenClaw 自動化脆弱性資訊蒐集與系統檢查</a></td>
+<td>134</td>
+<td>***</td>
+<td>資安</td>
+<td>DevSecOps 自動化</td>
+</tr>
+<tr>
+<td><a href="https://portablecode.info/2026/05/17/firejail-ai-coding-agent-linux/" rel="noopener noreferrer">用 Firejail 安全運行 Linux 上的 AI 程式碼代理</a></td>
+<td>98</td>
+<td>***</td>
+<td>資安</td>
+<td>AI Agent 沙盒隔離</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li>
+<p><a href="https://www.techno-edge.net/article/2026/05/24/5094.html" rel="noopener noreferrer">完全本地化、純 CPU 運行的日語輕量 TTS「Supertonic 3」、高保真 3D 生成 AI「Pixal3D」等五項生成式 AI 技術解析</a> (287 users) — 解析五項生成式 AI 技術，包含純 CPU 運行的日語 TTS「Supertonic 3」與高保真 3D 生成 AI「Pixal3D」。</p>
+</li>
+<li>
+<p><a href="https://izanami.dev/post/e63c7bfd-cc85-4421-a4e7-776e93fb8720" rel="noopener noreferrer">讓 Claude Code 撰寫高品質 PR：餵食 Google Engineering Practices</a> (156 users) — 透過將 Google 工程規範餵入 Claude Code，讓 AI 自動撰寫符合大廠標準的高品質 Pull Request。</p>
+</li>
+<li>
+<p><a href="https://qiita.com/taks/items/5ba334aca2ecb8276e8c" rel="noopener noreferrer">用 OpenClaw 自動化脆弱性資訊蒐集與系統檢查</a> (134 users) — OpenClaw 是一個自動化工具，可蒐集系統脆弱性資訊並執行安全檢查。</p>
+</li>
+<li>
+<p><a href="https://portablecode.info/2026/05/17/firejail-ai-coding-agent-linux/" rel="noopener noreferrer">用 Firejail 安全運行 Linux 上的 AI 程式碼代理</a> (98 users) — 使用 Firejail 沙盒技術隔離運行 Linux 上的 AI 程式碼代理。</p>
+</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48256953" rel="noopener noreferrer">DeepSeek Reasonix：高快取、低成本的 DeepSeek 原生程式碼生成 Agent</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>AI</td>
+<td>成本效益型解決方案</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48256953" rel="noopener noreferrer">DeepSeek Reasonix：高快取、低成本的 DeepSeek 原生程式碼生成 Agent</a> (342pt) — DeepSeek Reasonix 是一款專注於程式碼生成的 AI Agent，主打高快取命中率與低成本特性。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tlzpcc/cache_miss_in_claue_code_costs_125_more_than_a/" rel="noopener noreferrer">Cache miss in Claude Code costs 12.5× more than a hit. Here are 5 things you do mid session that quietly trigger it</a></td>
+<td>2847</td>
+<td>234</td>
+<td>***</td>
+<td>AI 工具優化</td>
+<td>r/ClaudeCode</td>
+<td>五大行為導致費用暴增</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tme7is/prompt_injection_finally_broke_my_brain_a_little/" rel="noopener noreferrer">Prompt Injection finally broke my brain a little. My first article as a security student.</a></td>
+<td>1923</td>
+<td>156</td>
+<td>***</td>
+<td>AI 資安</td>
+<td>r/netsec</td>
+<td>LLM 新型態攻擊解析</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1tme7is/prompt_injection_finally_broke_my_brain_a_little/" rel="noopener noreferrer">Prompt Injection finally broke my brain a little. My first article as a security student.</a> (1923 ups) — r/netsec — 資安學生分享首次深入理解提示注入攻擊的震撼體驗。</p>
+<p><strong>AI 工具優化類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tlzpcc/cache_miss_in_claue_code_costs_125_more_than_a/" rel="noopener noreferrer">Cache miss in Claude Code costs 12.5× more than a hit. Here are 5 things you do mid session that quietly trigger it</a> (2847 ups) — r/ClaudeCode — 分析五個會觸發 Claude Code 快取未命中的行為。</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI Agent 安全運行】</strong> — Hatena 討論用 Firejail 沙盒隔離 AI 程式碼代理，Reddit 則分析 Prompt Injection 攻擊原理。兩者共同反映 2026 年 AI Agent 普及後，資安從業者開始重視「如何安全地運行未受信任的 AI」這一核心問題。</p>
+</li>
+<li>
+<p><strong>【AI 工具成本優化】</strong> — HN 介紹高快取、低成本的 DeepSeek Reasonix，Reddit 則揭露 Claude Code 因快取未命中導致費用暴增 12.5 倍的五大行為。顯示開發者開始深度關注 AI 工具的「成本意識（Cost Awareness）」與使用技巧。</p>
+</li>
+<li>
+<p><strong>【邊緣 AI 本地化】</strong> — Hatena 介紹純 CPU 運行的日語 TTS「Supertonic 3」與高保真 3D 生成 AI，強調本地化運行降低雲端依賴。反映資源受限環境與隱私敏感場景對邊緣運算 AI 的強烈需求。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI Agent 安全</strong>：Hatena + Reddit 同步出現 — Firejail 沙盒與 Prompt Injection 攻擊從不同角度探討 AI Agent 資安</li>
+<li><strong>成本效益 AI</strong>：HN + Reddit — DeepSeek Reasonix 與 Claude Code 快取優化都聚焦降低 AI API 費用</li>
+<li><strong>平台整合</strong>：RSS（AWS MCP + Google Genkit）— 雲端大廠與 AI Agent 深度整合的架構演進</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

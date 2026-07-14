@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-17</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-17</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-17</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.sbbit.jp/article/cont1/185291" rel="noopener noreferrer">【最強入門】Claude Code 太強大…非工程師業務變革的「神設定」與活用 5 選</a></td>
+<td>342</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>非工程師也能用 Claude Code 激變工作流程</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/sharu389no/items/ab5bf50d9f68e7c8de56" rel="noopener noreferrer">在社内使用 Claude Code 的「AI 代理程式安全」實作篇</a></td>
+<td>218</td>
+<td>***</td>
+<td>AI 安全</td>
+<td>企業導入 Claude Code 的 AI 安全實踐指南</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/dahatake/items/ce9917268d8d18aa9b6c" rel="noopener noreferrer">可將佔 Vibe Coding 令牌消耗量 40-60% 的 Markdown 文件讀取令牌壓縮高達 98% 以上的 markdown-query 技能</a></td>
+<td>187</td>
+<td>***</td>
+<td>AI 效能優化</td>
+<td>將 Markdown 讀取令牌消耗壓縮 98% 的優化技巧</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/acntechjp/articles/b82cebfa0e4d50" rel="noopener noreferrer">讓 Claude Code 將儲存庫轉為單張工作流程圖的提示詞</a></td>
+<td>156</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>用提示詞將 Git 儲存庫視覺化為流程圖</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/optimisuke/articles/40529cd970cbf0" rel="noopener noreferrer">直接從 Claude Code 操作已登錄的 Chrome — playwright-cli attach</a></td>
+<td>134</td>
+<td>***</td>
+<td>RPA 自動化</td>
+<td>透過 Claude Code 控制已登入的 Chrome</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2605/16/news027.html" rel="noopener noreferrer">OpenAI 為「ChatGPT」新增個人資產管理功能，與金融帳戶連線</a></td>
+<td>98</td>
+<td>***</td>
+<td>AI 應用場景</td>
+<td>ChatGPT 整合銀行帳戶提供資產管理功能</td>
+</tr>
+<tr>
+<td><a href="https://japan.zdnet.com/article/35247599/" rel="noopener noreferrer">Linux 核心發現「ssh-keysign-pwn」脆弱性--最近第 4 次</a></td>
+<td>87</td>
+<td>***</td>
+<td>資安</td>
+<td>Linux 核心 SSH 簽名機制再曝安全漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.sbbit.jp/article/cont1/185291" rel="noopener noreferrer">【最強入門】Claude Code 太強大…非工程師業務變革的「神設定」與活用 5 選</a> (342 users) — 非工程師也能用 Claude Code 激變工作流程</li>
+<li><a href="https://qiita.com/sharu389no/items/ab5bf50d9f68e7c8de56" rel="noopener noreferrer">在社内使用 Claude Code 的「AI 代理程式安全」實作篇</a> (218 users) — 企業導入 Claude Code 的 AI 安全實踐指南</li>
+<li><a href="https://qiita.com/dahatake/items/ce9917268d8d18aa9b6c" rel="noopener noreferrer">可將佔 Vibe Coding 令牌消耗量 40-60% 的 Markdown 文件讀取令牌壓縮高達 98% 以上的 markdown-query 技能</a> (187 users) — 將 Markdown 讀取令牌消耗壓縮 98% 的優化技巧</li>
+<li><a href="https://zenn.dev/acntechjp/articles/b82cebfa0e4d50" rel="noopener noreferrer">讓 Claude Code 將儲存庫轉為單張工作流程圖的提示詞</a> (156 users) — 用提示詞將 Git 儲存庫視覺化為流程圖</li>
+<li><a href="https://zenn.dev/optimisuke/articles/40529cd970cbf0" rel="noopener noreferrer">直接從 Claude Code 操作已登錄的 Chrome — playwright-cli attach</a> (134 users) — 透過 Claude Code 控制已登入的 Chrome</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2605/16/news027.html" rel="noopener noreferrer">OpenAI 為「ChatGPT」新增個人資產管理功能，與金融帳戶連線</a> (98 users) — ChatGPT 整合銀行帳戶提供資產管理功能</li>
+<li><a href="https://japan.zdnet.com/article/35247599/" rel="noopener noreferrer">Linux 核心發現「ssh-keysign-pwn」脆弱性--最近第 4 次</a> (87 users) — Linux 核心 SSH 簽名機制再曝安全漏洞</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48130468" rel="noopener noreferrer">掌控校園的每一台投影機和攝影機</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>IoT/資安</td>
+<td>集中控制校園所有投影機和攝影機</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48130468" rel="noopener noreferrer">掌控校園的每一台投影機和攝影機</a> (287pt) — 集中控制校園所有投影機和攝影機</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1te9ma6/the_4th_linux_kernel_flaw_this_month_can_lead_to/" rel="noopener noreferrer">本月第四個 Linux core 漏洞可竊取 SSH host 金鑰</a></td>
+<td>1847</td>
+<td>234</td>
+<td>***</td>
+<td>資安漏洞</td>
+<td>r/cybersecurity</td>
+<td>Linux核心漏洞可竊取SSH host金鑰</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tew7h0/if_using_your_claude_for_your_frontend_data_grids/" rel="noopener noreferrer">使用 Claude 做前端資料網格，此技能可節省 80% token</a></td>
+<td>892</td>
+<td>156</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>Claude資料網格技能省80% token</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tev9ah/is_there_literally_even_one/" rel="noopener noreferrer">Is there literally even one？</a></td>
+<td>567</td>
+<td>89</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>引發熱議的討論話題</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1te9ma6/the_4th_linux_kernel_flaw_this_month_can_lead_to/" rel="noopener noreferrer">本月第四個 Linux core 漏洞可竊取 SSH host 金鑰</a> (1847 ups) — r/cybersecurity — Linux核心漏洞可竊取SSH host金鑰</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tew7h0/if_using_your_claude_for_your_frontend_data_grids/" rel="noopener noreferrer">使用 Claude 做前端資料網格，此技能可節省 80% token</a> (892 ups) — r/ClaudeCode — Claude資料網格技能省80% token
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tev9ah/is_there_literally_even_one/" rel="noopener noreferrer">Is there literally even one？</a> (567 ups) — r/ClaudeCode — 引發熱議的討論話題</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/penetration-testing-vs-red-teaming-whats-the-difference" rel="noopener noreferrer">滲透測試與紅隊演練：兩者有何差異？</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>解析滲透測試與紅隊演練的關鍵差異與應用場景</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具效能優化】</strong> — Claude Code 相關內容橫跨 Hatena 與 Reddit，涵蓋業務自動化、token 壓縮技巧（最高達 98%）、儲存庫可視化等多面向應用，顯示企業級 AI 代理程式導入進入實用階段。</li>
+<li><strong>【Linux SSH 供應鏈安全危機】</strong> — 本月第 4 個 Linux 核心 SSH 相關漏洞（ssh-keysign-pwn）同時出現在 Hatena、Reddit r/cybersecurity 討論，顯示基礎設施層級安全問題引發跨平台高度關注。</li>
+<li><strong>【AI 應用場景垂直擴展】</strong> — OpenAI ChatGPT 新增金融資產管理功能，標誌著大型語言模型從通用對話向高價值垂直領域（金融、網路防禦）深度整合。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Linux SSH 漏洞</strong>：Hatena + Reddit r/cybersecurity 同步出現 — 本月第 4 個相關漏洞引發供應鏈安全審視</li>
+<li><strong>Claude Code 應用</strong>：Hatena + Reddit r/ClaudeCode — 非工程師使用與 token 優化技巧成為熱議焦點</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

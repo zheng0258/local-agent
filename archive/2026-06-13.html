@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-13</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-13</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-13</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://internet.watch.impress.co.jp/docs/news/2116742.html" rel="noopener noreferrer">警視廳警示「二段階式釣魚郵件」：反利用收件者注意力</a></td>
+<td>156</td>
+<td>***</td>
+<td>網路資安威脅警示</td>
+<td>警視廳警示二段階釣魚郵件新手法</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/0rv3/articles/b6a7172bfda1ed" rel="noopener noreferrer">使用 Claude Code × Obsidian 建構「記憶雙層架構」</a></td>
+<td>37</td>
+<td>***</td>
+<td>AI 開發工具與代理工作流</td>
+<td>結合 AI 編程與筆記軟體建構雙層記憶</td>
+</tr>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2606/12/news014.html" rel="noopener noreferrer">無需程式基礎？非工程師使用熱門「Claude Code」打造渴望已久的工具</a></td>
+<td>30</td>
+<td>***</td>
+<td>AI 開發工具與代理工作流</td>
+<td>非工程師也能用 AI 編程工具自製應用</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/har1101/ezienteitukuragniawsderu-men-siyou" rel="noopener noreferrer">在 AWS 上入門代理型 RAG（Agentic RAG）！</a></td>
+<td>23</td>
+<td>***</td>
+<td>AI 開發工具與代理工作流</td>
+<td>於雲端平台快速入門代理型 RAG 技術</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260612-zed-deltadb/" rel="noopener noreferrer">Zed 發表新型版本控制系統「DeltaDB」：可將 AI 指示紀錄納入版本歷史</a></td>
+<td>12</td>
+<td>***</td>
+<td>AI 開發工具與代理工作流</td>
+<td>新版版控系統將 AI 指示納入版本紀錄</td>
+</tr>
+<tr>
+<td><a href="https://github.blog/changelog/2026-06-11-github-agentic-workflows-is-now-in-public-preview/" rel="noopener noreferrer">GitHub 代理工作流（Agentic Workflows）正式公開預覽</a></td>
+<td>9</td>
+<td>***</td>
+<td>AI 開發工具與代理工作流</td>
+<td>開發平台正式開放代理工作流預覽</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://internet.watch.impress.co.jp/docs/news/2116742.html" rel="noopener noreferrer">警視廳警示「二段階式釣魚郵件」：反利用收件者注意力</a> (156 users) — 警視廳警示二段階釣魚郵件新手法</li>
+<li><a href="https://zenn.dev/0rv3/articles/b6a7172bfda1ed" rel="noopener noreferrer">使用 Claude Code × Obsidian 建構「記憶雙層架構」</a> (37 users) — 結合 AI 編程與筆記軟體建構雙層記憶</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2606/12/news014.html" rel="noopener noreferrer">無需程式基礎？非工程師使用熱門「Claude Code」打造渴望已久的工具</a> (30 users) — 非工程師也能用 AI 編程工具自製應用</li>
+<li><a href="https://speakerdeck.com/har1101/ezienteitukuragniawsderu-men-siyou" rel="noopener noreferrer">在 AWS 上入門代理型 RAG（Agentic RAG）！</a> (23 users) — 於雲端平台快速入門代理型 RAG 技術</li>
+<li><a href="https://gigazine.net/news/20260612-zed-deltadb/" rel="noopener noreferrer">Zed 發表新型版本控制系統「DeltaDB」：可將 AI 指示紀錄納入版本歷史</a> (12 users) — 新版版控系統將 AI 指示納入版本紀錄</li>
+<li><a href="https://github.blog/changelog/2026-06-11-github-agentic-workflows-is-now-in-public-preview/" rel="noopener noreferrer">GitHub 代理工作流（Agentic Workflows）正式公開預覽</a> (9 users) — 開發平台正式開放代理工作流預覽</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48500012" rel="noopener noreferrer">AI 代理在嘗試掃描 DN42 時讓營運者破產</a></td>
+<td>1281pt</td>
+<td>***</td>
+<td>AI 應用與開發工具</td>
+<td>自動掃描代理失控導致營運者破產</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48502347" rel="noopener noreferrer">Kimi K2.7-Code：具備更高 Token 效率的開源程式碼模型</a></td>
+<td>319pt</td>
+<td>***</td>
+<td>AI 應用與開發工具</td>
+<td>開源程式碼模型大幅提升 Token 效率</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48500447" rel="noopener noreferrer">AUR 套件遭入侵，植入資訊竊取程式與 Rootkit</a></td>
+<td>225pt</td>
+<td>***</td>
+<td>資安威脅與隱私風險</td>
+<td>套件倉庫遭入侵植入竊密與 Rootkit</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48495928" rel="noopener noreferrer">惡意軟體開發者在間諜軟體中植入核武與生武文字</a></td>
+<td>71pt</td>
+<td>***</td>
+<td>資安威脅與隱私風險</td>
+<td>間諜軟體隱寫核武生武字串掩人耳目</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48505161" rel="noopener noreferrer">展示 HN：從網頁介面批次刪除 Claude 對話紀錄的腳本</a></td>
+<td>34pt</td>
+<td>***</td>
+<td>資安威脅與隱私風險</td>
+<td>網頁腳本支援批次清除 AI 對話紀錄</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48500012" rel="noopener noreferrer">AI 代理在嘗試掃描 DN42 時讓營運者破產</a> (1281pt) — 自動掃描代理失控導致營運者破產
+   💬 社群觀點：社群疑事件真偽，視之為黑色幽默。爭議聚焦責任歸屬，強烈建議部署AI務必設定費用上限，新手勿盲目上線以免災難擴大。</li>
+<li><a href="https://news.ycombinator.com/item?id=48502347" rel="noopener noreferrer">Kimi K2.7-Code：具備更高 Token 效率的開源程式碼模型</a> (319pt) — 開源程式碼模型大幅提升 Token 效率
+   💬 社群觀點：主流讚譽高性價比與實用效能；爭議在美企資料隱私；建議關注修正授權與實戰部署經驗。</li>
+<li><a href="https://news.ycombinator.com/item?id=48500447" rel="noopener noreferrer">AUR 套件遭入侵，植入資訊竊取程式與 Rootkit</a> (225pt) — 套件倉庫遭入侵植入竊密與 Rootkit
+   💬 社群觀點：社群憂AUR信任模型脆弱，已第三次遭入侵。建議勿pipe腳本、留意誤判，強調須自行驗證，解釋其難進企業環境。</li>
+<li><a href="https://news.ycombinator.com/item?id=48495928" rel="noopener noreferrer">惡意軟體開發者在間諜軟體中植入核武與生武文字</a> (71pt) — 間諜軟體隱寫核武生武字串掩人耳目
+   💬 社群觀點：社群指此手法可規避AI審查，引發安全限制去留爭議。建議採雙層模型篩檢，將觸發防護視為惡意標記，並強化沙箱與人工複核。</li>
+<li><a href="https://news.ycombinator.com/item?id=48505161" rel="noopener noreferrer">展示 HN：從網頁介面批次刪除 Claude 對話紀錄的腳本</a> (34pt) — 網頁腳本支援批次清除 AI 對話紀錄
+   💬 社群觀點：社群質疑雲端刪除無法確保資料徹底清除，建議改用無痕模式或本機部署模型以保障隱私，亦有使用者認為應直接重開帳號。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.lrqa.com/en/cyber-labs/cracking-credhist-dpapi/" rel="noopener noreferrer">舊密碼不死：濫用 CREDHIST 進行離線憑證復原</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>憑證破解與離線攻擊</td>
+<td>r/cybersecurity</td>
+<td>利用歷史憑證檔進行離線密碼破解</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u3m7yj/marking_your_own_homework_check_point_remote/" rel="noopener noreferrer">自己出題自己考（Check Point 遠端存取 VPN IKEv1 驗證繞過 CVE-2026-50751）- watchTowr Labs</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>企業網路與遠端存取風險</td>
+<td>r/netsec</td>
+<td>企業遠端存取驗證機制遭繞過</td>
+</tr>
+<tr>
+<td><a href="https://www.redcaller.com/docs/references/mcp-client-oauth-refresh-token-support?rev=june2026" rel="noopener noreferrer">主要 AI 客戶端搭載有缺陷的 OAuth 實作（2026 年 6 月更新）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI應用授權機制缺陷</td>
+<td>r/netsec</td>
+<td>主流人工智慧客戶端授權機制缺陷</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>憑證破解與離線攻擊</strong>
+1. <a href="https://www.lrqa.com/en/cyber-labs/cracking-credhist-dpapi/" rel="noopener noreferrer">舊密碼不死：濫用 CREDHIST 進行離線憑證復原</a> (- ups) — r/cybersecurity — 利用歷史憑證檔進行離線密碼破解</p>
+<p><strong>企業網路與遠端存取風險</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u3m7yj/marking_your_own_homework_check_point_remote/" rel="noopener noreferrer">自己出題自己考（Check Point 遠端存取 VPN IKEv1 驗證繞過 CVE-2026-50751）- watchTowr Labs</a> (- ups) — r/netsec — 企業遠端存取驗證機制遭繞過</p>
+<p><strong>AI應用授權機制缺陷</strong>
+1. <a href="https://www.redcaller.com/docs/references/mcp-client-oauth-refresh-token-support?rev=june2026" rel="noopener noreferrer">主要 AI 客戶端搭載有缺陷的 OAuth 實作（2026 年 6 月更新）</a> (- ups) — r/netsec — 主流人工智慧客戶端授權機制缺陷</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/code-is-written-everywhere" rel="noopener noreferrer">程式碼無處不在編寫，開發者裝置成為唯一盲點</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>程式碼分散編寫，開發者裝置成安全盲點</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/sboms-everyones-generating-them-no-ones-using-them" rel="noopener noreferrer">2026 年的 SBOM：人人都在生成，卻無人真正使用</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>SBOM 普及卻遭閒置，供應鏈應用成難題</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理與開發工具普及】</strong> — 從 GitHub 開放代理工作流預覽到 Zed 推出支援 AI 指示的版本控制系統，AI 已深度嵌入軟體工程核心流程。非工程師亦能透過自然語言建構應用，標誌著全民開發與自動化協作時代正式來臨。</li>
+<li><strong>【AI 應用資安與供應鏈風險】</strong> — 駭客手法快速演進，包括利用間諜軟體隱寫敏感字串規避 AI 審查，以及 LangGraph 等框架漏洞鏈引發的遠端代碼執行威脅。開源套件倉庫與 AI 客戶端授權缺陷顯示供應鏈與基礎架構防禦亟需強化。</li>
+<li><strong>【憑證管理與端點防禦弱點】</strong> — 離線憑證破解技術與遠端存取 VPN 驗證繞過漏洞頻傳，凸顯傳統防禦機制在分散式開發與遠端辦公環境下的盲點。企業需加速導入零信任架構與自動化機密掃描，以應對日益複雜的離線與語意層級攻擊。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理失控與安全邊界</strong>：Hatena + HN + Reddit 同步出現 — 開發者社群高度關注 AI 代理缺乏費用上限與執行權限管控，可能導致基礎設施破產或惡意代碼執行，呼籲強制部署沙盒與雙層審查機制。</li>
+<li><strong>資安威脅與隱私防護升級</strong>：HN + Reddit — 從 AUR 套件入侵、OAuth 授權缺陷到離線憑證破解，顯示攻擊者正針對供應鏈信任模型與驗證協議弱點發動精準打擊，企業需重新評估資料主權與端點防禦策略。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

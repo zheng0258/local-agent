@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-03</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-03</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-03</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://joho-todai.com/ai-tokens-ninety-percent-garbage/" rel="noopener noreferrer">AI 權杖（Token）的九成都是垃圾：Netflix 資深工程師揭露開源優化方案</a></td>
+<td>205</td>
+<td>***</td>
+<td>AI 效能優化</td>
+<td>剔除冗餘 Token 大幅降低運算與雲端成本</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2113562.html" rel="noopener noreferrer">OpenAI 推出 Codex 應用程式，支援 Windows 桌面操作與遠端連線</a></td>
+<td>45</td>
+<td>***</td>
+<td>AI 工具開發</td>
+<td>AI Agent 延伸至作業系統層級重塑桌面工作流</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2113806.html" rel="noopener noreferrer">Anthropic 因修復漏洞，重置 Claude Pro/Max 的使用額度上限</a></td>
+<td>26</td>
+<td>***</td>
+<td>AI 平台營運</td>
+<td>主動重置額度確保付費用戶與 API 客戶服務穩定</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260602-gemma-4-on-2016-xeon/" rel="noopener noreferrer">10 年前的 Xeon 伺服器也能流暢運行最新 AI，解析無 GPU 下實現實用速度的優化手法</a></td>
+<td>12</td>
+<td>***</td>
+<td>AI 硬體適配</td>
+<td>軟體深度優化突破硬體門檻提供低成本部署路徑</td>
+</tr>
+<tr>
+<td><a href="https://www.anthropic.com/news/expanding-project-glasswing" rel="noopener noreferrer">擴展 Glasswing 計畫：Anthropic 攜手夥伴強化軟體供應鏈安全</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI 安全治理</td>
+<td>聯合生態系夥伴建立透明風險管理與漏洞修補標準</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://joho-todai.com/ai-tokens-ninety-percent-garbage/" rel="noopener noreferrer">AI 權杖（Token）的九成都是垃圾：Netflix 資深工程師揭露開源優化方案</a> (205 users) — Netflix 資深工程師公開開源工具，能有效識別並剔除訓練與推論過程中高達九成的冗餘 Token。</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2113562.html" rel="noopener noreferrer">OpenAI 推出 Codex 應用程式，支援 Windows 桌面操作與遠端連線</a> (45 users) — OpenAI 正式發布 Codex 桌面版應用程式，讓使用者能直接透過 AI 指令操控 Windows 系統並進行遠端連線管理。</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2113806.html" rel="noopener noreferrer">Anthropic 因修復漏洞，重置 Claude Pro/Max 的使用額度上限</a> (26 users) — Anthropic 為修復系統安全漏洞，主動重置 Claude Pro 與 Max 訂閱用戶的使用額度上限。</li>
+<li><a href="https://gigazine.net/news/20260602-gemma-4-on-2016-xeon/" rel="noopener noreferrer">10 年前的 Xeon 伺服器也能流暢運行最新 AI，解析無 GPU 下實現實用速度的優化手法</a> (12 users) — 研究顯示透過軟體層級的深度優化，十年前的 Xeon 伺服器無需配備 GPU 即可流暢執行最新 AI 模型。</li>
+<li><a href="https://www.anthropic.com/news/expanding-project-glasswing" rel="noopener noreferrer">擴展 Glasswing 計畫：Anthropic 攜手夥伴強化軟體供應鏈安全</a> (8 users) — Anthropic 宣布擴大 Glasswing 計畫，聯合生態系夥伴共同強化 AI 軟體供應鏈的安全防護機制。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48369863" rel="noopener noreferrer">擴展玻璃翼計畫（Project Glasswing）</a></td>
+<td>96pt</td>
+<td>***</td>
+<td>AI 安全治理</td>
+<td>規模擴展與技術整合強化供應鏈防護架構</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48372547" rel="noopener noreferrer">重新思考將搜尋視為程式碼生成</a></td>
+<td>8pt</td>
+<td>***</td>
+<td>搜尋技術演進</td>
+<td>以程式碼生成思維重構查詢語言提升檢索效率</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48369863" rel="noopener noreferrer">擴展玻璃翼計畫（Project Glasswing）</a> (96pt) — 此計畫旨在透過技術整合與夥伴協作，全面升級 AI 軟體供應鏈的安全防護架構。
+   💬 社群觀點：社群多視之為行銷與稀缺策略，質疑利他動機。擔憂AI社工威脅、技術不透明及風險警告過度渲染，強調需確保修補程式可重現性。</li>
+<li><a href="https://news.ycombinator.com/item?id=48372547" rel="noopener noreferrer">重新思考將搜尋視為程式碼生成</a> (8pt) — 研究提出將傳統搜尋技術重新定義為程式碼生成問題，期望透過結構化查詢語言提升資訊檢索效率。
+   💬 社群觀點：社群肯定其提升搜尋效率與減少輪次的潛力，類比查詢語言化。然質疑模型掌握程式碼庫的能力，擔憂生成查詢的效能與客服負擔。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>-</td>
+<td>-</td>
+<td>本週無 Reddit 資料輸入</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+- | - | -</p>
+<p><strong>AI 類</strong>
+- | - | -</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/mythos-vs-harness" rel="noopener noreferrer">讓位吧，Mythos。即將登場的是……任何具備良好框架的其他模型</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>具備良好框架的模型將取代Mythos，生態系整合成競爭核心</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 效能優化與硬體適配】</strong> — Netflix 工程師揭露剔除冗餘 Token 的開源方案，搭配舊款 Xeon 伺服器無 GPU 運行的軟體優化技術，顯示業界正積極透過資料處理與架構調整突破效能瓶頸。此趨勢將大幅降低雲端運算成本，使預算有限的企業與邊緣節點得以普及 AI 應用。</li>
+<li><strong>【AI 工具開發與平台營運】</strong> — OpenAI 推出支援 Windows 桌面遠端操控的 Codex 應用程式，將 AI Agent 能力延伸至作業系統層級；Anthropic 則因安全漏洞主動重置用戶額度。兩者反映 AI 平台正從純對話介面轉向系統級自動化，同時供應商對資安應變與用戶信任的維護已成為營運核心。</li>
+<li><strong>【AI 安全治理與供應鏈防護】</strong> — Anthropic 擴展 Glasswing 計畫並聯合生態系夥伴強化軟體供應鏈安全，顯示隨著 AI 系統複雜度攀升，第三方元件與開源庫的風險管理已成為產業共識。建立可驗證的安全標準與透明修補機制，將是未來 AI 基礎設施的必備條件。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Glasswing / Project Glasswing 計畫</strong>：Hatena + HN 同步出現 — 兩平台均高度關注 Anthropic 擴展供應鏈安全防護的動向，HN 社群雖肯定其架構升級價值，但也對行銷策略與技術透明度提出質疑。</li>
+<li><strong>AI 模型框架生態競爭</strong>：HN + Security Blog 同步出現 — 討論焦點從單一模型性能轉向框架支援度與開發者體驗，具備完善生態系整合的模型將逐步取代過往標竿產品。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

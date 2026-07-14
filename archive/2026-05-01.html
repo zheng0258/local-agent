@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-01</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-01</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-01</h1>
+<hr>
+<h2>Hatena Bookmark（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/aeyesec/articles/7e4a1e3c83e81b" rel="noopener noreferrer">Linux 核心漏洞「CopyFail (CVE-2026-31431)」在 EC2 的 Ubuntu 22.04 上實證</a></td>
+<td>256</td>
+<td>***</td>
+<td>Linux 核心資安</td>
+<td>雲端環境成功利用實證</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/aeyesec/articles/7e4a1e3c83e81b" rel="noopener noreferrer">Linux 核心漏洞「CopyFail (CVE-2026-31431)」在 EC2 的 Ubuntu 22.04 上實證</a> (256 users) — CopyFail 漏洞在 AWS EC2 Ubuntu 22.04 實證利用</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47965108" rel="noopener noreferrer">CopyFail 漏洞未向各發行版揭露</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>軟體安全威脅</td>
+<td>負責任揭露流程爭議</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47964617" rel="noopener noreferrer">PyTorch Lightning AI 訓練庫發現 Shai-Hulud 主題惡意軟體</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>AI 生態與治理爭議</td>
+<td>供應鏈攻擊污染 ML 框架</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47957294" rel="noopener noreferrer">Zig 專案對抗 AI 貢獻政策的理由</a></td>
+<td>231pt</td>
+<td>***</td>
+<td>AI 生態與治理爭議</td>
+<td>開源授權 vs AI 訓練權限</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47965108" rel="noopener noreferrer">CopyFail 漏洞未向各發行版揭露</a> (342pt) — 重要漏洞未適時通知各發行版</li>
+<li><a href="https://news.ycombinator.com/item?id=47964617" rel="noopener noreferrer">PyTorch Lightning AI 訓練庫發現 Shai-Hulud 主題惡意軟體</a> (287pt) — AI 訓練庫遭植入惡意軟體污染</li>
+<li><a href="https://news.ycombinator.com/item?id=47957294" rel="noopener noreferrer">Zig 專案對抗 AI 貢獻政策的理由</a> (231pt) — Zig 團隊反對將程式碼用於 AI 訓練</li>
+<li><a href="https://news.ycombinator.com/item?id=47963204" rel="noopener noreferrer">Claude Code 拒絕處理或額外收費如果提交的提交訊息提到「OpenClaw」</a> (156pt) — Claude Code 針對特定關鍵字設限收費</li>
+<li><a href="https://news.ycombinator.com/item?id=47960507" rel="noopener noreferrer">Granite 4.1：IBM 的 80 億參數模型媲美 320 億 MoE</a> (134pt) — IBM 小模型性能超越大規模 MoE 架構</li>
+<li><a href="https://news.ycombinator.com/item?id=47957688" rel="noopener noreferrer">哥布林從哪裡來</a> (98pt) — 探討 AI 生成內容的來源追溯問題</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/javascript/comments/1szyda3/north_korean_threat_group_published_60_malicious/" rel="noopener noreferrer">北韓威脅團體發布 60+ 惡意 npm 套件，專門欺騙 AI 編碼代理安裝</a></td>
+<td>4521</td>
+<td>387</td>
+<td>***</td>
+<td>資安供應鏈攻擊</td>
+<td>r/javascript</td>
+<td>針對 AI 代理的社會工程攻擊</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1szr9ni/open_source_package_with_1_million_monthly/" rel="noopener noreferrer">月下載百萬的開源套件竊取用戶憑證</a></td>
+<td>3876</td>
+<td>254</td>
+<td>***</td>
+<td>資安供應鏈攻擊</td>
+<td>r/cybersecurity</td>
+<td>高下載量不等於安全</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1szwytx/six_layers_that_turned_my_claude_code_into_a_247/" rel="noopener noreferrer">六層架構讓我的 Claude Code 成為全天候開發團隊</a></td>
+<td>2134</td>
+<td>189</td>
+<td>***</td>
+<td>AI 開發工具與自動化</td>
+<td>r/ClaudeCode</td>
+<td>實作 AI 自動開發架構分享</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1szr9ni/open_source_package_with_1_million_monthly/" rel="noopener noreferrer">月下載百萬的開源套件竊取用戶憑證</a> (3876 ups) — r/cybersecurity — 百萬下載開源包竊取用戶帳號憑證
+2. <a href="https://www.reddit.com/r/javascript/comments/1szyda3/north_korean_threat_group_published_60_malicious/" rel="noopener noreferrer">北韓威脅團體發布 60+ 惡意 npm 套件，專門欺騙 AI 編碼代理安裝</a> (4521 ups) — r/javascript — 北韓惡意 npm 包專攻 AI 編碼代理</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1szwytx/six_layers_that_turned_my_claude_code_into_a_247/" rel="noopener noreferrer">六層架構讓我的 Claude Code 成為全天候開發團隊</a> (2134 ups) — r/ClaudeCode — 六層架構打造 AI 24 小時自動開發團隊
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1szsk5q/did_we_just_reinvent_junior_devs_again/" rel="noopener noreferrer">我們剛才是不是又重新發明了初級開發者</a> (1876 ups) — r/ClaudeCode — AI 工具是否讓初級開發者角色重現</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/pytorch-lightning-pypi-compromise-mini-shai-hulud" rel="noopener noreferrer">熱門 PyTorch Lightning 套件遭 Mini Shai-Hulud 駭入</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>PyTorch Lightning 遭駭，供應鏈攻擊</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【Linux 核心資安】</strong> — CopyFail (CVE-2026-31431) 漏洞在 Hatena 與 HN 同步出現，實證顯示雲端環境（EC2 Ubuntu 22.04）可被利用。爭議點在於研究者未依負責任揭露流程事先通知各發行版，凸顯學術研究與實證安全之間的張力。</p>
+</li>
+<li>
+<p><strong>【AI 供應鏈攻擊】</strong> — PyTorch Lightning 遭「Shai-Hulud」惡意軟體污染、百萬下載開源包竊取憑證、北韓針對 AI 編碼代理發布惡意 npm 套件。三個事件共同指向 AI/ML 生態系統成為供應鏈攻擊的新目標，且攻擊者開始針對 AI 代理的自動決策行為設計誘餌。</p>
+</li>
+<li>
+<p><strong>【AI 開發者角色演變】</strong> — Zig 專案反對 AI 訓練使用其程式碼、Claude Code 關鍵字限制政策、「是否重新發明初級開發者」討論。這三則反映 AI 編碼工具普及後，開源授權法理、AI 工具商業策略、以及人類開發者職涯定位的三重挑戰。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>CopyFail 漏洞</strong>：Hatena + HN 同步出現 — 日本技術社群與全球開發者同時關注同一 Linux 核心漏洞，顯示跨地區資訊流通加速</li>
+<li><strong>PyTorch Lightning 惡意軟體</strong>：HN + Reddit + 資安部落格 — ML/AI框架供應鏈攻擊成為跨平台熱議，突顯該領域資安脆弱性</li>
+<li><strong>AI 編碼代理威脅</strong>：Reddit + HN — 北韓惡意 npm 與 Zig 授權爭議均指向 AI 代理的自動安裝/使用行為帶來的新型風險</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

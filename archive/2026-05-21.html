@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-21</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-21</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-21</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.publickey1.jp/blog/26/googleantigravity_20osdoom.html" rel="noopener noreferrer">Google 發表「Antigravity 2.0」。以從零開發 OS 並執行 Doom 作為演示，展現效率與高階開發能力</a></td>
+<td>847</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Google 新 OS 框架以執行 Doom 展示開發效率</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2605/20/news137.html" rel="noopener noreferrer">GitHub 內部倉庫未授權存取，確認與「惡意 VS Code 擴充功能」有關，約 3800 筆可能外洩</a></td>
+<td>723</td>
+<td>***</td>
+<td>網路安全</td>
+<td>GitHub 外洩與惡意 VS Code 擴充有關，約 3800 筆庫受影響</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/ubie_dev/articles/modern-web-guidance" rel="noopener noreferrer">Google Modern Web Guidance 技能登場。解決 AI 撰寫過時 CSS・JS 的問題</a></td>
+<td>512</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Google 新技能解決 AI 撰寫過時前端代碼問題</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.publickey1.jp/blog/26/googleantigravity_20osdoom.html" rel="noopener noreferrer">Google 發表「Antigravity 2.0」。以從零開發 OS 並執行 Doom 作為演示，展現效率與高階開發能力</a> (847 users) — Google 推出 Antigravity 2.0 框架，讓開發者能從零開始建立完整作業系統，透過執行 Doom 展示效能</li>
+<li><a href="https://gihyo.jp/article/2026/05/github-internal-code-leak-potential" rel="noopener noreferrer">[快訊] GitHub 調查內部倉庫未授權存取，確認員工裝置遭入侵</a> (723 users) — GitHub 確認發生內部倉庫未授權存取事件，調查顯示員工裝置遭到入侵</li>
+<li><a href="https://gihyo.jp/article/2026/05/github-internal-code-leak-potential" rel="noopener noreferrer">[速報] GitHub 調查內部倉庫未授權存取</a> (723 users) — GitHub 調查內部倉庫未授權存取事件</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2605/20/news137.html" rel="noopener noreferrer">GitHub 內部倉庫未授權存取，確認與「惡意 VS Code 擴充功能」有關，約 3800 筆可能外洩</a> (723 users) — GitHub 確認約 3800 筆倉庫可能因惡意 VS Code 擴充功能而外洩</li>
+<li><a href="https://zenn.dev/ubie_dev/articles/modern-web-guidance" rel="noopener noreferrer">Google Modern Web Guidance 技能登場。解決 AI 撰寫過時 CSS・JS 的問題</a> (512 users) — Google 推出 Modern Web Guidance 技能，專門針對 AI 生成過時前端代碼的問題提供解決方案</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48205626" rel="noopener noreferrer">Qwen3.7-Max：Agent 邊疆</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>Qwen 最新模型探索 AI Agent 能力邊界</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48209323" rel="noopener noreferrer">AI 編碼循環的形式驗證閘門</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>AI 開發品質</td>
+<td>以形式驗證確保 AI 生成代碼正確性</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48209668" rel="noopener noreferrer">Show HN：Lance – 單一模型實現影像/視訊生成與理解</a></td>
+<td>156pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>單一模型同時處理視覺生成與內容理解</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48205626" rel="noopener noreferrer">Qwen3.7-Max：Agent 邊疆</a> (342pt) — Qwen3.7-Max 代表阿里雲最新一代 AI 模型，專注於拓展 Agent（智能代理）能力邊界</li>
+<li><a href="https://news.ycombinator.com/item?id=48209323" rel="noopener noreferrer">AI 編碼循環的形式驗證閘門</a> (287pt) — 形式驗證技術作為 AI 生成代碼的品質閘門，確保邏輯正確性與安全性</li>
+<li><a href="https://news.ycombinator.com/item?id=48209668" rel="noopener noreferrer">Show HN：Lance – 單一模型實現影像/視訊生成與理解</a> (156pt) — Lance 專案實現單一神經網絡同時處理視覺生成與內容理解任務，打破傳統分離架構</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tiiyxq/github_hit_by_a_compromised_vscode_extension/" rel="noopener noreferrer">GitHub 遭外掛攻擊</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>GitHub 遭外掛攻擊，數千倉庫受侵</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1tit07u/gemini_35_deleted_28745_lines_broke_production/" rel="noopener noreferrer">Gemini 3.5 生產事故</a></td>
+<td>1923</td>
+<td>203</td>
+<td>***</td>
+<td>AI</td>
+<td>r/GoogleGeminiAI</td>
+<td>Gemini 3.5 誤刪數萬行程式碼</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tifjya/when_filenames_become_attack_surfaces_weaponizing/" rel="noopener noreferrer">檔名成為攻擊載體</a></td>
+<td>1456</td>
+<td>87</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>檔名解析漏洞可被利用進行攻擊</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1tiiyxq/github_hit_by_a_compromised_vscode_extension/" rel="noopener noreferrer">GitHub 遭外掛攻擊</a> (2847 ups) — r/netsec — Reddit 資安社群討論 GitHub 遭受駭 VS Code 擴充功能攻擊的事件細節
+2. <a href="https://www.reddit.com/r/netsec/comments/1tifjya/when_filenames_become_attack_surfaces_weaponizing/" rel="noopener noreferrer">檔名成為攻擊載體</a> (1456 ups) — r/netsec — 新型攻擊技術利用檔名解析漏洞作為惡意程式載體，繞過傳統內容檢測
+3. <a href="https://www.reddit.com/r/webdev/comments/1timaba/github_confirms_breach_of_3800_repos_via/" rel="noopener noreferrer">GitHub 外掛資安漏洞</a> (982 ups) — r/webdev — Web 開發社群討論 GitHub 確認的資安事件，惡意外掛導致 3800 筆倉庫受影響</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1tit07u/gemini_35_deleted_28745_lines_broke_production/" rel="noopener noreferrer">Gemini 3.5 生產事故</a> (1923 ups) — r/GoogleGeminiAI — 用戶報告 Gemini 3.5 在編碼任務中誤刪 28,745 行程式碼，導致生產環境故障
+2. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1tifbe3/google_seriously_ruined_gemini_with_these_new/" rel="noopener noreferrer">Gemini 新增限制</a> (1645 ups) — r/GoogleGeminiAI — Gemini API 新增使用限制引發開發者社群反彈，包括請求頻率與內容過濾調整
+3. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1ti6fmj/google_just_dropped_a_whole_new_gemini_pricing/" rel="noopener noreferrer">Gemini 新定價方案</a> (1234 ups) — r/GoogleGeminiAI — Google 為 Gemini API 推出全新定價方案，調整各級別模型的價格結構
+4. <a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">Cursor rules 開源</a> (876 ups) — r/Cursor_AI — Cursor AI 開源其 rules 社群註冊表，讓開發者共享與重用 AI 編碼規範配置</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/github-breached-vs-code-extension" rel="noopener noreferrer">GitHub 透過惡意 VS Code 外掛遭入侵：為何開發者裝置才是真正目標</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>GitHub 因惡意 VS Code 外掛遭入侵，開發者裝置成目標</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/durabletask-package-compromised-mini-shai-hulud" rel="noopener noreferrer">Microsoft 的 PyPi durabletask 套件遭竊取。Mini Shai Hulud 攻擊再次...</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Microsoft PyPI 套件遭竊取，供應鏈攻擊再現</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【GitHub 供應鏈攻擊事件】</strong> — GitHub 遭惡意 VS Code 擴充功能入侵，約 3800 筆倉庫可能外洩。此事件同時出現在 Hatena、Reddit 及資安部落格，顯示跨平台高度關注。攻擊者透過竊取開發者裝置的 PAT 憑證進行側翼攻擊，凸顯端點安全的重要性。</p>
+</li>
+<li>
+<p><strong>【AI Agent 架構演進】</strong> — Qwen3.7-Max 展現 Agent 能力突破，AWS 提出代理漂移檢測框架，Grab 分享大規模多代理實踐。這些來自 HN、RSS 的內容共同指向 AI 從單次對話向自主代理系統的架構轉變，上下文管理成為關鍵技術挑戰。</p>
+</li>
+<li>
+<p><strong>【供應鏈攻擊防禦新武器】</strong> — Pip 26.1 引入依賴冷卻機制、eBPF 取代傳統監控、MCP Tunnels 提供安全私有訪問。這些防禦技術的集中出現，反映產業對供應鏈攻擊從被動應對轉向主動架構級防護。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>GitHub VS Code 擴充功能攻擊</strong>：Hatena + Reddit + aikido.dev 同步出現 — 惡意擴充功能導致數千倉庫外洩，多平台深度討論</li>
+<li><strong>AI 代理架構</strong>：HN + RSS — Qwen Agent 能力與漂移檢測框架共同關注代理系統的長期穩定性</li>
+<li><strong>供應鏈安全</strong>：Hatena + Reddit + RSS — VS Code 外掛與 PyPI 套件攻擊凸顯開發工具鏈的系統性風險</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

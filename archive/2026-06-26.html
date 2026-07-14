@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-26</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-26</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-26</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://levtech.jp/media/detail_881/" rel="noopener noreferrer">至今仍保留「定期更換密碼」規則的企業，背後發生了什麼事？</a></td>
+<td>219</td>
+<td>***</td>
+<td>資安政策</td>
+<td>定期改密碼反增風險，應轉向多因素驗證。</td>
+</tr>
+<tr>
+<td><a href="https://tech.coincheck.blog/entry/codex-ttx" rel="noopener noreferrer">使用 Codex 進行災害應變桌面演練 - Coincheck 技術部落格</a></td>
+<td>84</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>導入 AI 輔助災害演練，優化應變流程。</td>
+</tr>
+<tr>
+<td><a href="https://karapaia.com/archives/611806.html" rel="noopener noreferrer">僅餘數個月緩衝期。國際情報機構警告 AI 帶來的毀滅性網路攻擊威脅迫在眉睫</a></td>
+<td>15</td>
+<td>***</td>
+<td>AI 威脅與網路資安</td>
+<td>國際警告 AI 攻擊迫在眉睫，須加速佈防。</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/layerx/articles/6f510abfc3fa72" rel="noopener noreferrer">正因處於 AI 時代，更應該閱讀程式碼</a></td>
+<td>10</td>
+<td>***</td>
+<td>AI 開發與程式文化</td>
+<td>AI 時代更需理解程式碼，避免過度依賴。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://levtech.jp/media/detail_881/" rel="noopener noreferrer">至今仍保留「定期更換密碼」規則的企業，背後發生了什麼事？</a> (219 users) — 定期改密碼反增風險，應轉向多因素驗證。</li>
+<li><a href="https://tech.coincheck.blog/entry/codex-ttx" rel="noopener noreferrer">使用 Codex 進行災害應變桌面演練 - Coincheck 技術部落格</a> (84 users) — 導入 AI 輔助災害演練，優化應變流程。</li>
+<li><a href="https://karapaia.com/archives/611806.html" rel="noopener noreferrer">僅餘數個月緩衝期。國際情報機構警告 AI 帶來的毀滅性網路攻擊威脅迫在眉睫</a> (15 users) — 國際警告 AI 攻擊迫在眉睫，須加速佈防。</li>
+<li><a href="https://zenn.dev/layerx/articles/6f510abfc3fa72" rel="noopener noreferrer">正因處於 AI 時代，更應該閱讀程式碼</a> (10 users) — AI 時代更需理解程式碼，避免過度依賴。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48664814" rel="noopener noreferrer">Anthropic 指控阿里巴巴非法提取 Claude AI 模型能力</a></td>
+<td>706</td>
+<td>***</td>
+<td>AI 模型爭議</td>
+<td>阿里被指非法抽取Claude模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48671468" rel="noopener noreferrer">LastPass 通知用戶再次發生資料外洩</a></td>
+<td>364</td>
+<td>***</td>
+<td>資安防護</td>
+<td>LastPass再爆資料外洩警示用戶</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48668033" rel="noopener noreferrer">Cloudflare 推出全員可用的自管 OAuth 服務</a></td>
+<td>310</td>
+<td>***</td>
+<td>身份驗證</td>
+<td>Cloudflare推免費自管OAuth服務</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48672779" rel="noopener noreferrer">AI 的政治偏見: 各大模型立場解析</a></td>
+<td>31</td>
+<td>***</td>
+<td>AI 模型爭議</td>
+<td>剖析各大AI模型政治立場偏見</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48664814" rel="noopener noreferrer">Anthropic 指控阿里巴巴非法提取 Claude AI 模型能力</a> (706pt) — 阿里被指非法抽取Claude模型
+   💬 社群觀點：社群多斥Anthropic雙標與政治行銷，指其自身依賴爬蟲資料。技術面認為蒸餾難防，疑為第三方繞規或虛張聲勢。</li>
+<li><a href="https://news.ycombinator.com/item?id=48671468" rel="noopener noreferrer">LastPass 通知用戶再次發生資料外洩</a> (364pt) — LastPass再爆資料外洩警示用戶
+   💬 社群觀點：社群不滿LastPass頻發外洩，擔憂雲端密碼管理器風險。此次雖未波及密碼庫，但多數人轉向本地工具或改用忘記密碼功能。</li>
+<li><a href="https://news.ycombinator.com/item?id=48668033" rel="noopener noreferrer">Cloudflare 推出全員可用的自管 OAuth 服務</a> (310pt) — Cloudflare推免費自管OAuth服務
+   💬 社群觀點：用戶讚其穩定平價，卻憂過度擴張雲端恐危及免費方案。社群對自管OAuth感到困惑，並警惕第三方授權的安全風險。</li>
+<li><a href="https://news.ycombinator.com/item?id=48672779" rel="noopener noreferrer">AI 的政治偏見: 各大模型立場解析</a> (31pt) — 剖析各大AI模型政治立場偏見
+   💬 社群觀點：社群質疑左右光譜評測主觀，指AI精細回答不等於全面。多數認為傳統框架過時，建議批判檢視，勿盲目信任模型。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://slcyber.io/research-center/cargowise-webtracker-the-keys-were-in-the-cargo/" rel="noopener noreferrer">CargoWise WebTracker：金鑰藏於貨物之中</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>供應鏈軟體資安風險</td>
+<td>r/netsec</td>
+<td>物流追蹤軟體曝金鑰隱藏資安漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ufdc3k/cve202552465_geoserver_arbitrary_file_write/" rel="noopener noreferrer">CVE-2025-52465 GeoServer 任意檔案寫入漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>地理資訊系統漏洞</td>
+<td>r/netsec</td>
+<td>地理資訊伺服器曝任意檔案寫入漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://slcyber.io/research-center/cargowise-webtracker-the-keys-were-in-the-cargo/" rel="noopener noreferrer">CargoWise WebTracker：金鑰藏於貨物之中</a> (-) — r/netsec — 物流追蹤軟體曝金鑰隱藏資安漏洞
+2. <a href="https://www.reddit.com/r/netsec/comments/1ufdc3k/cve202552465_geoserver_arbitrary_file_write/" rel="noopener noreferrer">CVE-2025-52465 GeoServer 任意檔案寫入漏洞</a> (-) — r/netsec — 地理資訊伺服器曝任意檔案寫入漏洞</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/compromised-github-action-codfish-steals-secrets" rel="noopener noreferrer">遭竄改的 GitHub Action codfish/semantic-release-action 竊取 CI/CD 機密</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>竄改工具竊取CI/CD機密</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/over-140-popular-mastra-npm-packages-hit-by-supply-chain-attack" rel="noopener noreferrer">超過 140 個熱門 Mastra npm 套件遭供應鏈攻擊</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>逾百熱門套件遭供應鏈攻擊</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 威脅與防禦升級】</strong> — 國際情報機構警告 AI 驅動的自動化攻擊迫在眉睫，駭客已開始濫用 AI 客服竊取帳號並開發干擾 AI 分析的惡意軟體，企業防禦必須加速轉向 MFA、零信任與輸入隔離。</li>
+<li><strong>【軟體供應鏈與 CI/CD 風險】</strong> — GitHub Action 遭竄改、npm 套件大規模投毒、物流軟體金鑰硬編碼等事件頻發，凸顯第三方依賴與自動化部署管道的脆弱性，開發者需強化靜態分析（SAST）與權限最小化原則。</li>
+<li><strong>【身份驗證轉型與模型治理】</strong> — LastPass 頻發外洩引發雲端密碼管理信任危機，推動身份驗證朝向自管 OAuth 與本地化轉型；同時 AI 模型版權爭議與政治偏見問題，迫使業界重新評估模型透明化、資料合規與人類審查機制。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 安全威脅</strong>：Hatena + HN + Reddit 同步出現 — 國際預警 AI 攻擊窗口縮短，新型惡意軟體與客服漏洞顯示攻防正式進入 AI 對 AI 階段。</li>
+<li><strong>供應鏈與憑證風險</strong>：HN + r/netsec + 資安部落格 — LastPass 外洩與 GitHub/npm 投毒事件並發，揭示集中式密碼管理與第三方套件依賴的系統性弱點。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

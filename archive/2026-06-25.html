@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-25</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-25</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-25</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/explaza/articles/d0aeb08fcd1888" rel="noopener noreferrer">放棄個人提示詞技巧，打造團隊循環的AI驅動開發循環實錄</a></td>
+<td>120</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>以團隊協作循環取代個人提示詞工程</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2606/24/news123.html" rel="noopener noreferrer">「無法更改密碼」抱怨聲不斷 BIGLOBE 因資訊外洩可能呼籲更改</a></td>
+<td>36</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>BIGLOBE資料外洩恐引發密碼更改潮</td>
+</tr>
+<tr>
+<td><a href="https://ai.watch.impress.co.jp/docs/news/2119574.html" rel="noopener noreferrer">Claude 新增可作為 Slack 團隊成員接受任務的功能</a></td>
+<td>12</td>
+<td>***</td>
+<td>AI協作平台</td>
+<td>Claude化身Slack成員自動處理任務</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2119472.html" rel="noopener noreferrer">在「Slack」中「@Claude 這個交給你！」～Anthropic 發布「Claude Tag」</a></td>
+<td>10</td>
+<td>***</td>
+<td>AI協作平台</td>
+<td>Slack標註功能讓委派AI任務更簡單</td>
+</tr>
+<tr>
+<td><a href="https://eng-blog.iij.ad.jp/archives/36775" rel="noopener noreferrer">新型攻擊手法「Velvet DDoS」介紹與調查補充 | IIJ 工程師部落格</a></td>
+<td>7</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>剖析新型Velvet DDoS攻擊技術特徵</td>
+</tr>
+<tr>
+<td><a href="https://tech-blog.rakus.co.jp/entry/20260624/devin" rel="noopener noreferrer">【Devin 活用】調查 Spring Boot 3.5 → 4 主要版本升級的影響</a></td>
+<td>7</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>利用Devin自動評估框架升級影響</td>
+</tr>
+<tr>
+<td><a href="https://workos.com/auth-md" rel="noopener noreferrer">auth.md — 智能體註冊開放協議</a></td>
+<td>5</td>
+<td>***</td>
+<td>AI協作平台</td>
+<td>規範AI智能體註冊流程的開放協議</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/explaza/articles/d0aeb08fcd1888" rel="noopener noreferrer">放棄個人提示詞技巧，打造團隊循環的AI驅動開發循環實錄</a> (120 users) — 以團隊協作循環取代個人提示詞工程</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2606/24/news123.html" rel="noopener noreferrer">「無法更改密碼」抱怨聲不斷 BIGLOBE 因資訊外洩可能呼籲更改</a> (36 users) — BIGLOBE資料外洩恐引發密碼更改潮</li>
+<li><a href="https://ai.watch.impress.co.jp/docs/news/2119574.html" rel="noopener noreferrer">Claude 新增可作為 Slack 團隊成員接受任務的功能</a> (12 users) — Claude化身Slack成員自動處理任務</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2119472.html" rel="noopener noreferrer">在「Slack」中「@Claude 這個交給你！」～Anthropic 發布「Claude Tag」</a> (10 users) — Slack標註功能讓委派AI任務更簡單</li>
+<li><a href="https://eng-blog.iij.ad.jp/archives/36775" rel="noopener noreferrer">新型攻擊手法「Velvet DDoS」介紹與調查補充 | IIJ 工程師部落格</a> (7 users) — 剖析新型Velvet DDoS攻擊技術特徵</li>
+<li><a href="https://tech-blog.rakus.co.jp/entry/20260624/devin" rel="noopener noreferrer">【Devin 活用】調查 Spring Boot 3.5 → 4 主要版本升級的影響</a> (7 users) — 利用Devin自動評估框架升級影響</li>
+<li><a href="https://workos.com/auth-md" rel="noopener noreferrer">auth.md — 智能體註冊開放協議</a> (5 users) — 規範AI智能體註冊流程的開放協議</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48660711" rel="noopener noreferrer">RubyLLM：支援各大 AI 供應商的 Ruby 開發框架</a></td>
+<td>215</td>
+<td>***</td>
+<td>AI開發框架</td>
+<td>統一串接各大 AI 模型的 Ruby 開發框架</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48646659" rel="noopener noreferrer">Krea 2：百億參數最強開源圖像生成模型</a></td>
+<td>201</td>
+<td>***</td>
+<td>多模態生成</td>
+<td>開源百億參數頂尖圖像生成模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48658095" rel="noopener noreferrer">Haystack：專為生產環境智能體與檢索增強設計的開源框架</a></td>
+<td>67</td>
+<td>***</td>
+<td>AI開發框架</td>
+<td>聚焦生產級智能體與檢索增強的開源框架</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48661911" rel="noopener noreferrer">CAPTCHA 防機器人機制已失效二十年</a></td>
+<td>46</td>
+<td>***</td>
+<td>網路資安</td>
+<td>傳統驗證碼機制遭破解已達二十年</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48646165" rel="noopener noreferrer">peerd：純瀏覽器端運行的 AI 智能體測試框架</a></td>
+<td>24</td>
+<td>***</td>
+<td>AI開發框架</td>
+<td>純瀏覽器端運行的 AI 智能體測試工具</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48662999" rel="noopener noreferrer">Gemini 3.5 Flash 新增電腦操作功能</a></td>
+<td>22</td>
+<td>***</td>
+<td>AI開發框架</td>
+<td>快速模型新增直接操控電腦功能</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48660711" rel="noopener noreferrer">RubyLLM：支援各大 AI 供應商的 Ruby 開發框架</a> (215pt) — 統一串接各大 AI 模型的 Ruby 開發框架
+   💬 社群觀點：社群肯定其易用性與生態，但指出進階參數調整、快取與可觀測性待優化；部分質疑動態語言對 AI 開發的適配性。</li>
+<li><a href="https://news.ycombinator.com/item?id=48646659" rel="noopener noreferrer">Krea 2：百億參數最強開源圖像生成模型</a> (201pt) — 開源百億參數頂尖圖像生成模型
+   💬 社群觀點：社群讚賞其開源權重、技術報告與多風格能力；但指Qwen VAE為缺點，且本地部署易出錯，建議改用GGUF格式。</li>
+<li><a href="https://news.ycombinator.com/item?id=48658095" rel="noopener noreferrer">Haystack：專為生產環境智能體與檢索增強設計的開源框架</a> (67pt) — 聚焦生產級智能體與檢索增強的開源框架
+   💬 社群觀點：主流肯定其開源與產線價值，但爭議歐盟背景卻收集使用數據，並批評命名。建議需與LangChain等框架全面比較。</li>
+<li><a href="https://news.ycombinator.com/item?id=48661911" rel="noopener noreferrer">CAPTCHA 防機器人機制已失效二十年</a> (46pt) — 傳統驗證碼機制遭破解已達二十年
+   💬 社群觀點：社群視其為持續的攻防軍備競賽，非徹底失效；但普遍抱怨嚴重干擾真實使用者，且對文章夾帶商業推銷存疑。</li>
+<li><a href="https://news.ycombinator.com/item?id=48646165" rel="noopener noreferrer">peerd：純瀏覽器端運行的 AI 智能體測試框架</a> (24pt) — 純瀏覽器端運行的 AI 智能體測試工具
+   💬 社群觀點：社群肯定技術實作，但質疑安全設計易受注入，建議改用獨立帳號或廉價伺服器。同時批評文件冗長浮誇、體驗不佳。</li>
+<li><a href="https://news.ycombinator.com/item?id=48662999" rel="noopener noreferrer">Gemini 3.5 Flash 新增電腦操作功能</a> (22pt) — 快速模型新增直接操控電腦功能
+   💬 社群觀點：社群質疑電腦操作功能緩慢不安全且缺MCP與UI，疑為行銷噱頭；惟肯定其性價比高，整體評價兩極。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uea8bx/cve202620971_samsung_android_kernel_uaf_affecting/" rel="noopener noreferrer">CVE-2026-20971：影響三星S9至S25的Android核心UAF漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>行動作業系統漏洞</td>
+<td>r/netsec</td>
+<td>三星系統核心漏洞波及S9至S25</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ueiif9/exploiting_vulnerabilities_in_johnson_johnson_web/" rel="noopener noreferrer">利用強生公司網頁應用程式的漏洞進行攻擊</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>企業網路漏洞</td>
+<td>r/netsec</td>
+<td>強生網頁應用遭漏洞攻擊</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uehrug/tanstack_npm_compromise_42_packages_published/" rel="noopener noreferrer">TanStack npm遭入侵：竊取CI/CD權限發布惡意套件</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>軟體供應鏈安全</td>
+<td>r/netsec</td>
+<td>TanStack遭入侵竊取權限發布套件</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1uea8bx/cve202620971_samsung_android_kernel_uaf_affecting/" rel="noopener noreferrer">CVE-2026-20971：影響三星S9至S25的Android核心UAF漏洞</a> (- ups) — r/netsec — 三星系統核心漏洞波及S9至S25
+2. <a href="https://www.reddit.com/r/netsec/comments/1ueiif9/exploiting_vulnerabilities_in_johnson_johnson_web/" rel="noopener noreferrer">利用強生公司網頁應用程式的漏洞進行攻擊</a> (- ups) — r/netsec — 強生網頁應用遭漏洞攻擊
+3. <a href="https://www.reddit.com/r/netsec/comments/1uehrug/tanstack_npm_compromise_42_packages_published/" rel="noopener noreferrer">TanStack npm遭入侵：竊取CI/CD權限發布惡意套件</a> (- ups) — r/netsec — TanStack遭入侵竊取權限發布套件</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/npm-v12-block-postinstall" rel="noopener noreferrer">npm v12 帶來數年來最大的安全性提升</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm預設封鎖腳本，強化供應鏈安全。</td>
+</tr>
+<tr>
+<td><a href="https://www.wiz.io/blog/ai-rewriting-secops-playbook" rel="noopener noreferrer">人工智慧如何重寫安全營運（SecOps）作戰手冊</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>AI自動化威脅應變，重塑安全營運。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 協作與智能體標準化】</strong> — 團隊正拋棄個人提示詞工程，轉向 Slack 整合、auth.md 註冊協議與 Haystack 等生產級框架，推動 AI 代理在企業工作流中的標準化落地。</li>
+<li><strong>【軟體供應鏈與 CI/CD 防禦】</strong> — TanStack 與 Cordyceps 等工具鏈遭入侵或曝出缺陷，促使 npm v12 預設封鎖腳本與 GitHub 封堵常見攻擊模式，自動化部署管道安全成為防護核心。</li>
+<li><strong>【AI 驅動攻防與自動化威脅】</strong> — 傳統 CAPTCHA 失效與 Velvet DDoS 攻擊浮現，同時 Agentic AI 已進入自主攻防實戰，迫使企業導入 AI 驅動的 SecOps 與無感驗證機制。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 智能體協作與框架</strong>：Hatena + HN 同步出現 — 團隊工作流與開源框架正加速取代個人提示詞工程</li>
+<li><strong>軟體供應鏈與 CI/CD 防禦</strong>：HN + Reddit + 資安部落格 — 從 npm 封鎖腳本到 GitHub 封堵攻擊模式，自動化管道安全成焦點</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

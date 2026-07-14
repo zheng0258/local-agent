@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-11</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-11</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-11</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/Koukyosyumei/items/3bd4696237ea64c38971" rel="noopener noreferrer">為 Claude Code 與 Codex 打造超高速且超安全沙盒的方法</a></td>
+<td>71</td>
+<td>***</td>
+<td>AI 開發工具與安全實踐</td>
+<td>建立AI代碼執行的高速安全沙盒</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/oikon48/claude-codetohanesunituitekao-etemiru" rel="noopener noreferrer">思考 Claude Code 與防護柵欄（Harness）</a></td>
+<td>53</td>
+<td>***</td>
+<td>AI 開發工具與安全實踐</td>
+<td>探討AI編程工具的防護機制應用</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260710-colibri-glm/" rel="noopener noreferrer">推論引擎「Colibrì」登場，讓 7440 億參數巨大 AI「GLM-5.2」在 25GB 記憶體普通 PC 上運行</a></td>
+<td>34</td>
+<td>***</td>
+<td>模型推論與本地部署</td>
+<td>新推論引擎讓超大模型於低規PC運行</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/Koukyosyumei/items/3bd4696237ea64c38971" rel="noopener noreferrer">為 Claude Code 與 Codex 打造超高速且超安全沙盒的方法</a> (71 users) — 建立AI代碼執行的高速安全沙盒</li>
+<li><a href="https://speakerdeck.com/oikon48/claude-codetohanesunituitekao-etemiru" rel="noopener noreferrer">思考 Claude Code 與防護柵欄（Harness）</a> (53 users) — 探討AI編程工具的防護機制應用</li>
+<li><a href="https://gigazine.net/news/20260710-colibri-glm/" rel="noopener noreferrer">推論引擎「Colibrì」登場，讓 7440 億參數巨大 AI「GLM-5.2」在 25GB 記憶體普通 PC 上運行</a> (34 users) — 新推論引擎讓超大模型於低規PC運行</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2607/10/news114.html" rel="noopener noreferrer">「宛如真人」OpenAI 新模型「GPT-Live」的對話能力引發話題，能無縫思考並進行對話</a> (30 users) — OpenAI發布無縫思考對話新模型</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2607/10/2000000179/" rel="noopener noreferrer">Claude 全面重置使用限制，與競品「GPT-5.6」公開同日……OpenAI 高層：「他們慌了」</a> (19 users) — AI龍頭競爭升溫，Claude重置限制</li>
+<li><a href="https://speakerdeck.com/tomoyakitaura/sre-guardrails-the-7" rel="noopener noreferrer">SRE 的累積成為 AI 驅動開發的防護柵欄 ― 7 大實踐</a> (10 users) — 將SRE經驗轉為AI開發安全防護</li>
+<li><a href="https://gigazine.net/news/20260710-meta-muse-spark-1-1/" rel="noopener noreferrer">Meta 發表自研 AI「Muse Spark 1.1」，基準測試分數與 Claude Opus 4.8 相當</a> (8 users) — Meta新模型性能比肩Claude頂規</li>
+<li><a href="https://scrapbox.io/kawasima/Generation-then-comprehension" rel="noopener noreferrer">先生成後理解（Generation-then-comprehension）</a> (6 users) — 剖析AI編程先代碼後理解的風險</li>
+<li><a href="https://microsoft.github.io/flint-chart/" rel="noopener noreferrer">Flint：AI 時代的視覺化語言</a> (5 users) — 微軟推出AI時代專用視覺化語言</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48849066" rel="noopener noreferrer">GPT-5.6 發布</a></td>
+<td>1487pt</td>
+<td>***</td>
+<td>大模型前沿發布</td>
+<td>最新世代大模型正式發布</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48842459" rel="noopener noreferrer">Show HN：在效能低落電腦上順利執行 GLM 5.2</a></td>
+<td>816pt</td>
+<td>***</td>
+<td>輕量級本地部署</td>
+<td>優化讓低規電腦順利運行大模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48847834" rel="noopener noreferrer">Show HN：將網頁應用程式逆向工程化為 Agent 工具</a></td>
+<td>41pt</td>
+<td>***</td>
+<td>AI Agent 開發工具</td>
+<td>自動解析網頁轉為 AI 操作工具</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48849066" rel="noopener noreferrer">GPT-5.6 發布</a> (1487pt) — 最新世代大模型正式發布
+   💬 社群觀點：社群肯定其基準測試領先與意圖理解能力，中階型號性價比佳；但質疑版本更迭噱頭與高定價，部分用戶仍猶豫是否轉換。</li>
+<li><a href="https://news.ycombinator.com/item?id=48842459" rel="noopener noreferrer">Show HN：在效能低落電腦上順利執行 GLM 5.2</a> (816pt) — 優化讓低規電腦順利運行大模型
+   💬 社群觀點：社群讚賞極客精神，但關注推理速度與硬碟壽命，並建議測試全載入記憶體或分散式運算以優化效能。</li>
+<li><a href="https://news.ycombinator.com/item?id=48847834" rel="noopener noreferrer">Show HN：將網頁應用程式逆向工程化為 Agent 工具</a> (41pt) — 自動解析網頁轉為 AI 操作工具
+   💬 社群觀點：社群盛讚其自動化逆向能力與代理潛力，但擔憂瀏覽器執行封閉源LLM的安全性，恐誤刪帳號或誤訂閱，並關注開源狀態。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. -</p>
+<p><strong>AI 類</strong>
+1. -</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/injective-labs-github-compromise-pushes.html" rel="noopener noreferrer">Injective Labs GitHub 倉庫遭入侵，發布竊取錢包金鑰的 npm 套件</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Injective GitHub遭駭，npm套件竊取錢包金鑰</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/six-new-u-boot-flaws-could-let.html" rel="noopener noreferrer">六項新 U-Boot 漏洞可能讓惡意映像檔導致裝置當機或於開機時執行程式碼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>U-Boot六漏洞恐致裝置當機或開機執碼</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/researcher-details-whatsapp-to-host.html" rel="noopener noreferrer">研究人員詳述利用三項 OpenClaw 漏洞的 WhatsApp 至主機攻擊鏈</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>OpenClaw三漏洞串聯WhatsApp至主機攻擊鏈</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/unpatched-xring-flaw-in-xquic-lets.html" rel="noopener noreferrer">XQUIC 中未修補的 XRING 漏洞讓遠端用戶端可摧毀 HTTP/3 伺服器</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>XQUIC未補洞致HTTP/3伺服器遭合法流量摧毀</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/exposed-hacker-server-reveals-wp.html" rel="noopener noreferrer">洩露的駭客伺服器揭開 WP-SHELLSTORM 植入數千個 WordPress 站點後門</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>駭客伺服器洩露，WP-SHELLSTORM植入數千後門</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/hackers-use-fake-microsoft-entra.html" rel="noopener noreferrer">駭客使用偽造 Microsoft Entra 通行金鑰註冊以取得 Microsoft 365 存取權限</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>偽造Entra通行金鑰註冊，駭客滲透M365</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/dormant-github-accounts-help-attackers.html" rel="noopener noreferrer">休眠 GitHub 帳號協助攻擊者掩人耳目並繪製企業組織架構</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>休眠GitHub帳號助駭客隱匿並繪製企業架構</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/artyhoo/agentsmd-is-advisory-heres-what-it-takes-to-make-it-executable-111a" rel="noopener noreferrer">AGENTS.md 僅供參考：如何使其具備可執行性</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>AGENTS.md僅為建議，教你讓它真正可執行</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/wolfejam/your-agentsmd-is-already-stale-and-your-agent-trusts-it-completely-2nfh" rel="noopener noreferrer">你的 AGENTS.md 已經過時——而你的 AI 代理完全信任它</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>AGENTS.md易過時，AI代理卻盲目全信</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/cloudflare-temp-accounts/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cloudflare 推出臨時帳號以供自主部署 Worker</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Cloudflare推臨時帳號，讓AI代理直布Worker</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/slack-agentic-e2e-testing-ui/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Slack 推出代理驅動端到端測試以提升 UI 測試自動化韌性</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Slack推AI代理驅動E2E測試，強化UI韌性</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/copilot-cli-terminal-ga/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">GitHub Copilot CLI 新增分頁與免設定檔工具配置，終端機介面全面重塑</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Copilot CLI終端機重設計，新增分頁與免設定</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/datadog-ai-production-migration/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Datadog 如何使用 Claude 與 Cursor 進行測試驅動的產品遷移</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Datadog用Claude與Cursor測試驅動生產遷移</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 編程安全與防護柵欄】</strong> — 企業導入 AI 開發工具時，極度重視沙盒隔離、SRE 實踐與 AGENTS.md 版本控管，以防範自動化流程失控與資安漏洞。</li>
+<li><strong>【大模型本地化與邊緣運算】</strong> — Colibrì 推論引擎與 GLM-5.2 的優化技術讓 7440 億參數模型得以在 25GB 記憶體 PC 運行，大幅降低算力門檻，推動 AI 基礎設施從雲端轉向本地與邊緣端。</li>
+<li><strong>【AI Agent 自動化基礎設施躍升】</strong> — 從網頁逆向工程轉 Agent、Cloudflare 臨時帳號部署 Worker，到 Slack 代理驅動 UI 測試，AI 代理正快速整合至無伺服器架構與 CI/CD 流程，重塑開發與測試工作流。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 編程工具安全與防護</strong>：Hatena + RSS 同步出現 — 開發者與企業共同聚焦 AI 代理的權限控管、沙盒隔離與 AGENTS.md 動態更新機制。</li>
+<li><strong>大模型本地部署與優化</strong>：Hatena + HN 同步出現 — 技術社群與媒體共同關注 Colibrì 引擎讓 GLM-5.2 於低規硬體運行的實測，探討效能與硬體壽命平衡。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

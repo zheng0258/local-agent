@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-30</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-30</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-30</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/takupeso/articles/claude-ontology-knowledge-structuring" rel="noopener noreferrer">賦予 Claude「本體論」知識，成本减半、速度提升 3 倍？</a></td>
+<td>239</td>
+<td>***</td>
+<td>AI 模型優化</td>
+<td>注入本體論知識降本三倍提速</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/branbran/articles/5730c47e1abac9" rel="noopener noreferrer">超實用的 Claude Design 實用技巧</a></td>
+<td>198</td>
+<td>***</td>
+<td>AI 設計工具</td>
+<td>掌握Claude Design互動技巧</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260629-ornith-agentic-coding-ai/" rel="noopener noreferrer">性能媲美 Claude Opus 4.7 的程式碼 AI 模型「Ornith-1.0」登場，並提供可本地執行的小型模型</a></td>
+<td>94</td>
+<td>***</td>
+<td>AI 程式碼生成</td>
+<td>本地Ornith模型媲美Opus</td>
+</tr>
+<tr>
+<td><a href="https://acro-engineer.hatenablog.com/entry/2026/06/29/120000" rel="noopener noreferrer">Claude 模型從「擴展思考」轉向「適應思考」</a></td>
+<td>44</td>
+<td>***</td>
+<td>模型推理機制</td>
+<td>Claude轉向適應思考機制</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/kenimo49/items/fd13ea9436bbb3985dfc" rel="noopener noreferrer">你的 .env 會被燒錄進 Docker 映像檔，任何人都能擷取</a></td>
+<td>11</td>
+<td>***</td>
+<td>容器部署資安</td>
+<td>防.env燒錄Docker映像外洩</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260629-deepseek-dspark/" rel="noopener noreferrer">DeepSeek 公開「DSpark」技術，使 AI 語言模型生成速度提升最高 85%</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI 推理加速</td>
+<td>DSpark技術讓生成提速近九成</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/takupeso/articles/claude-ontology-knowledge-structuring" rel="noopener noreferrer">賦予 Claude「本體論」知識，成本减半、速度提升 3 倍？</a> (239 users) — 注入本體論知識降本三倍提速</li>
+<li><a href="https://zenn.dev/branbran/articles/5730c47e1abac9" rel="noopener noreferrer">超實用的 Claude Design 實用技巧</a> (198 users) — 掌握Claude Design互動技巧</li>
+<li><a href="https://gigazine.net/news/20260629-ornith-agentic-coding-ai/" rel="noopener noreferrer">性能媲美 Claude Opus 4.7 的程式碼 AI 模型「Ornith-1.0」登場，並提供可本地執行的小型模型</a> (94 users) — 本地Ornith模型媲美Opus</li>
+<li><a href="https://acro-engineer.hatenablog.com/entry/2026/06/29/120000" rel="noopener noreferrer">Claude 模型從「擴展思考」轉向「適應思考」</a> (44 users) — Claude轉向適應思考機制</li>
+<li><a href="https://qiita.com/kenimo49/items/fd13ea9436bbb3985dfc" rel="noopener noreferrer">你的 .env 會被燒錄進 Docker 映像檔，任何人都能擷取</a> (11 users) — 防.env燒錄Docker映像外洩</li>
+<li><a href="https://gigazine.net/news/20260629-deepseek-dspark/" rel="noopener noreferrer">DeepSeek 公開「DSpark」技術，使 AI 語言模型生成速度提升最高 85%</a> (8 users) — DSpark技術讓生成提速近九成</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48721903" rel="noopener noreferrer">Qwen 3.6 27B 是本地開發的最佳選擇</a></td>
+<td>112</td>
+<td>***</td>
+<td>本地大模型部署</td>
+<td>本地大模型部署與開發首選</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48721903" rel="noopener noreferrer">Qwen 3.6 27B 是本地開發的最佳選擇</a> (112pt) — 本地大模型部署與開發首選
+   💬 社群觀點：肯定Qwen穩定性勝Llama，但擔憂27B記憶體需求高致硬體成本昂。案例未反映真實開發，建議先用9B版於24G筆電評估</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<h2><strong>資安類</strong></h2>
+<h2><strong>AI 類</strong></h2>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/06/popa-botnet-linked-to-publicly-traded-israeli-firm/" rel="noopener noreferrer">「Popa」機器人網路連結至以色列上市公司</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>以色列上市公司牽涉Popa機器人網路</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/" rel="noopener noreferrer">誰在營運「紳士」勒索軟體組織？</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>紳士勒索軟體組織背後營運者成謎</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/" rel="noopener noreferrer">荷蘭查扣 800 台伺服器，逮捕 2 名協助網路攻擊者</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>荷蘭查扣八百伺服器逮捕駭客幫兇</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/lawmakers-demand-answers-as-cisa-tries-to-contain-data-leak/" rel="noopener noreferrer">CISA 試圖控制資料外洩，立法者要求說明</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>CISA資料外洩引發立法者嚴厲質詢</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/alleged-kimwolf-botmaster-dort-arrested-charged-in-u-s-and-canada/" rel="noopener noreferrer">涉嫌 Kimwolf 機器人網路主腦「Dort」在美加遭逮捕起訴</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>機器人網路主腦Dort於美加遭逮捕</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/patch-tuesday-may-2026-edition/" rel="noopener noreferrer">2026年5月修補星期二</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>五月修補星期二系統漏洞更新指引</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/mustang-panda-uses-zoho-workdrive-as.html" rel="noopener noreferrer">中國背景「野馬熊貓」利用 Zoho WorkDrive 作為攻擊印度政府指令通道</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>野馬熊貓濫用雲端服務攻擊印度政府</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/weekly-recap-linux-kernel-flaws-ai.html" rel="noopener noreferrer">⚡ 每週回顧：Linux 核心漏洞、AI 惡意軟體手法、Turla 後門、資訊竊取工具等</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>週報涵蓋Linux漏洞與AI惡意軟體</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/236000-dcloud-uni-app-sites-used-in.html" rel="noopener noreferrer">23.6 萬個 DCloud Uni-App 網站被用於加密貨幣詐騙、釣魚與錢包掏空</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>逾二十萬開發框架網站遭用於詐騙</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/gamaredon-expands-ukraine-attacks-with.html" rel="noopener noreferrer">Gamaredon 以新惡意軟體與濫用雲端服務擴大對烏克蘭攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>俄資駭客集團擴大打擊烏克蘭規模</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/microsoft-removes-119-edge-extensions.html" rel="noopener noreferrer">微軟移除 119 個將惡意軟體隱藏於圖片與字型中的 Edge 擴充套件</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>微軟下架百餘款藏惡意程式瀏覽器外掛</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/public-poc-released-for-critical.html" rel="noopener noreferrer">嚴重 libssh2 CVE-2026-55200 客戶端 SSH 漏洞公開 PoC</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>嚴重SSH客戶端漏洞公開驗證程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/hijacked-npm-and-go-packages-use-vs.html" rel="noopener noreferrer">遭劫持的 npm 與 Go 套件利用 VS Code 工作部署 Python 資訊竊取工具</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>劫持程式套件藉開發工具部署竊密程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/ukraine-says-russian-intelligence-used.html" rel="noopener noreferrer">烏克蘭稱俄國情報單位使用假客服簡訊竊取通訊憑證</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>俄情報單位偽裝客服簡訊竊取憑證</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/fbi-warns-russian-intelligence-hackers.html" rel="noopener noreferrer">FBI 警告俄國駭客鎖定 Signal 備份復原金鑰</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>FBI警告駭客鎖定通訊軟體備份金鑰</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/06/factoring-rsa-keys-with-many-zeros.html" rel="noopener noreferrer">分解含有大量零的 RSA 金鑰</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>研究揭示含大量零的RSA金鑰易被分解</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/06/one-million-passports-leaked-online.html" rel="noopener noreferrer">一百萬本護照資料遭洩露於網際網路</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>百萬護照資料遭洩露於公開網路</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/mqasimca/stop-your-agent-emailing-the-wrong-recipients-387e" rel="noopener noreferrer">防止你的 AI 代理寄錯郵件收件人</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>防止人工智慧代理寄錯郵件收件人</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/renolu/what-autogpt-ships-in-2026-a-low-code-platform-for-continuous-ai-agents-3lc7" rel="noopener noreferrer">AutoGPT 在 2026 年發布的內容：用於持續運行 AI 代理的低程式碼平台</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>AutoGPT推出AI代理持續運行平台</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/ai-coding-outpaces-governance/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">GitLab 研究發現：AI 工具加速程式編寫，但未提升整體軟體交付速度</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AI加速編碼卻未提升整體交付速度</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 模型推理優化與本地化部署】</strong> — Claude 轉向適應思考與本體論注入、Ornith 與 Qwen 本地模型崛起，顯示大模型正從盲目擴參轉向推理效率優化與邊緣部署，企業加速追求高性價比與隱私優先的自主可控方案。</li>
+<li><strong>【開發供應鏈與 AI 代理資安風險】</strong> — Docker 憑證燒錄盲點、npm/Go 套件劫持、AI 代理誤寄郵件與持續運行風險頻傳，凸顯現代 DevOps 與自動化流程高度依賴第三方生態，權限控管與依賴審查已成基礎必修。</li>
+<li><strong>【國家級網路作戰與雲端供應鏈攻擊】</strong> — 俄烏衝突背景下駭客集團濫用 Zoho、Signal 備份金鑰與合法雲端服務掩護攻擊，顯示網路作戰日益依賴供應鏈滲透，零信任架構與跨國執法協作成為防禦關鍵。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 推理與本地部署</strong>：Hatena + HN 同步出現 — 開發者與企業加速追求高性價比、隱私優先的本地化與高效推理方案</li>
+<li><strong>開發環境供應鏈安全</strong>：Hatena + RSS 同步出現 — 現代 DevOps 與 AI 自動化流程面臨第三方依賴與權限外洩的嚴峻挑戰</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

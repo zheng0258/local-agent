@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-04</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-04</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-04</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://internet.watch.impress.co.jp/docs/column/netliteracy/2117321.html" rel="noopener noreferrer">識破可疑郵件的人也會上當：警惕偽裝成內部警示的二階段釣魚郵件</a></td>
+<td>132</td>
+<td>***</td>
+<td>資安威脅與漏洞防護</td>
+<td>警惕偽裝內部警示的二階段釣魚郵件</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/gys/articles/fable5-local-llm-ask-cli" rel="noopener noreferrer">用 Claude Code Fable 5 打造本地 LLM 輔助 CLI，工作流比程式碼更令人驚嘆</a></td>
+<td>129</td>
+<td>***</td>
+<td>AI工具與開發實踐</td>
+<td>用Fable 5建本地CLI，工作流令人驚嘆</td>
+</tr>
+<tr>
+<td><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5" rel="noopener noreferrer">提示 Claude Fable 5 的使用技巧</a></td>
+<td>84</td>
+<td>***</td>
+<td>AI工具與開發實踐</td>
+<td>掌握Fable 5提示技巧，提升AI生成品質</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://internet.watch.impress.co.jp/docs/column/netliteracy/2117321.html" rel="noopener noreferrer">識破可疑郵件的人也會上當：警惕偽裝成內部警示的二階段釣魚郵件</a> (132 users) — 新型釣魚攻擊採用兩階段手法，針對心理弱點精準入侵。</li>
+<li><a href="https://zenn.dev/gys/articles/fable5-local-llm-ask-cli" rel="noopener noreferrer">用 Claude Code Fable 5 打造本地 LLM 輔助 CLI，工作流比程式碼更令人驚嘆</a> (129 users) — 本地端執行架構確保資料不外洩，推動工作流自動化。</li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5" rel="noopener noreferrer">提示 Claude Fable 5 的使用技巧</a> (84 users) — 官方發布提示工程指南，提升模型穩定性與降低誤用風險。</li>
+<li><a href="https://qiita.com/okssusucha/items/d17ac3c49e568266123d" rel="noopener noreferrer">curl 全面停止 7 月漏洞回報：AI 垃圾內容變優秀的逆說</a> (61 users) — AI自動產生低質量漏洞回報淹沒維護者，社群亟需篩選機制。</li>
+<li><a href="https://zenn.dev/rapls/articles/7a1bac83df8b21" rel="noopener noreferrer">讓 AI 撰寫 80% 程式碼的半年實戰總結：有效的 3 點與失敗的 3 點</a> (53 users) — 掌握AI適用邊界避免技術債，平衡產能與維護成本。</li>
+<li><a href="https://gmo-cybersecurity.com/blog/19-year-old-linux-kernel-zero-day/" rel="noopener noreferrer">報告 Linux 核心被忽視 19 年以上的零日漏洞：CVE-2026-43456</a> (47 users) — 長期未修補漏洞威脅全球基礎設施，需立即評估升級措施。</li>
+<li><a href="https://gist.github.com/mala/30c4e87c9ab150054e2f722b8256157e" rel="noopener noreferrer">2026 年密碼輸入框 maxlength 限制導致誤判長密碼可註冊的問題</a> (38 users) — 前端硬式限制阻礙強密碼政策，應改用後端驗證機制。</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2607/03/2000000158/" rel="noopener noreferrer">將 Claude Fable 5 納入訂閱制標準功能：Anthropic 工程師於 X 貼文透露 7/8 後將盡快恢復</a> (23 users) — 解決服務不穩定問題，加速先進推理模型普及化。</li>
+<li><a href="https://gigazine.net/news/20260703-ai-agent-ransomware/" rel="noopener noreferrer">史上首起 AI 代理型勒索軟體感染案例報告</a> (9 users) — AI代理自主執行擴散加密，傳統防護面臨指數級挑戰。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48768951" rel="noopener noreferrer">在地智慧權</a></td>
+<td>442pt</td>
+<td>***</td>
+<td>本地部署與隱私自主</td>
+<td>強調AI模型本地運行與數據自主權</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48769639" rel="noopener noreferrer">專為網頁開發者設計的 Safari MCP 伺服器</a></td>
+<td>219pt</td>
+<td>***</td>
+<td>AI開發工具與架構創新</td>
+<td>提供瀏覽器原生MCP串接簡化流程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48776232" rel="noopener noreferrer">請克勞德停止試圖記憶隨機雜物</a></td>
+<td>87pt</td>
+<td>***</td>
+<td>模型記憶與上下文管理</td>
+<td>關閉非必要記憶功能以提升回答精確度</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48768951" rel="noopener noreferrer">在地智慧權</a> (442pt) — 強調AI模型本地運行與數據自主權，反對雲端壟斷。
+   💬 社群觀點：社群力挺在地AI以保障隱私，反對雲端壟斷。建議制定路由標準靈活切換，但憂慮法規模糊與合規門檻將阻礙發展。</li>
+<li><a href="https://news.ycombinator.com/item?id=48769639" rel="noopener noreferrer">專為網頁開發者設計的 Safari MCP 伺服器</a> (219pt) — 提供瀏覽器原生MCP串接簡化流程，補齊Apple生態AI缺口。
+   💬 社群觀點：肯定填補網頁AI測試缺口，但質疑蘋果支援度。多數偏好Playwright或Chrome工具，並關注模擬器與隱私。</li>
+<li><a href="https://news.ycombinator.com/item?id=48776232" rel="noopener noreferrer">請克勞德停止試圖記憶隨機雜物</a> (87pt) — 關閉非必要記憶功能以提升回答精確度，解決自動記憶干擾任務問題。
+   💬 社群觀點：社群認為自動記憶常干擾任務，建議關閉功能或依賴既有文件。部分人質疑作者觀點矛盾，認為大模型將自然取代此機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=48775921" rel="noopener noreferrer">Jamesob 的在地執行最新 LLM 指南</a> (79pt) — 個人裝置部署最新開源模型完整教學，降低部署成本並優化推理效率。
+   💬 社群觀點：主流首選48GB顯存或Mac M系列，40k美元高階配置不實用。建議管理預期、善用模型量化，並關注新語音辨識工具。</li>
+<li><a href="https://news.ycombinator.com/item?id=48776464" rel="noopener noreferrer">將程式碼轉為圖片並讓模型 OCR，Fable 成本降低 60%</a> (42pt) — 程式碼轉圖經OCR處理節省六成API成本，試圖繞過文字代計費機制。
+   💬 社群觀點：社群多視為計價漏洞，疑模型已內建免費OCR；轉圖恐大幅增加輸出代幣與延遲，實效有限且易遭修補，建議謹慎評估。</li>
+<li><a href="https://news.ycombinator.com/item?id=48774368" rel="noopener noreferrer">程式作為權重：模糊函數的程式設計範式</a> (28pt) — 以程式碼定義神經權重探索新範式，橋接傳統程式邏輯與深度學習。
+   💬 社群觀點：社群肯定目標，但質疑新任務泛化能力，認為概念晦澀且疑為神經活動快取。開發者認為直接令LLM產碼更簡便，對非文字應用存疑。</li>
+<li><a href="https://news.ycombinator.com/item?id=48775483" rel="noopener noreferrer">持久記憶的三層解剖：比較 ContextNest、Mem0 與 Zep</a> (17pt) — 解析三款工具多層記憶架構核心差異，協助評估長期對話記憶模組。
+   💬 社群觀點：社群質疑文章客觀性，認為內容實為自家產品的行銷宣傳，缺乏中立比較。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>-</td>
+<td>-</td>
+<td>本日無相關熱門討論</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. -</p>
+<p><strong>AI 類</strong>
+1. -</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/compromised-github-action-codfish-steals-secrets" rel="noopener noreferrer">GitHub Action codfish/semantic-release-action 遭入侵：竊取 CI/CD 憑證的供應鏈攻擊</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>惡意外掛竊取CI/CD憑證</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/authentication-bypass-phpbb-technical-writeup" rel="noopener noreferrer">phpBB 預設組態的驗證繞過漏洞（CVE-2026-48611）技術解析</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>phpBB預設組態藏驗證漏洞</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/07/fbi-seizes-netnut-proxy-platform-popa-botnet/" rel="noopener noreferrer">聯邦調查局查封 NetNut 代理平台與 Popa 機器人網路</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>FBI查封住宅代理平台與機器人網路</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/" rel="noopener noreferrer">駭客利用 Meta AI 客服機器人竊取 Instagram 帳號</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>駭客濫用AI客服盜取社群帳號</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/north-korea-linked-npm-packages-mimic.html" rel="noopener noreferrer">北韓關聯的 npm 套件偽裝 Rollup Polyfill 竊取開發者機密</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>北韓駭客偽裝npm套件竊取開發機密</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/ai-agent-exploits-langflow-rce-to.html" rel="noopener noreferrer">AI 代理利用 Langflow RCE 漏洞自動化執行資料庫勒索攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI代理自動利用漏洞執行勒索攻擊</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理化與自動化攻防】</strong> — AI 代理技術正從開發輔助邁向自主執行階段，不僅用於建構高效工作流與科學研究，更被駭客武器化為新型勒索軟體與自動化攻擊工具，標誌著「AI 對 AI」攻防時代的來臨。</li>
+<li><strong>【供應鏈安全與基礎設施韌性】</strong> — 從 GitHub Action 遭入侵、npm 套件投毒到 Linux 核心零日漏洞，第三方依賴與歷史技術債成為企業資安最大隱患，迫使組織全面檢視零信任架構與憑證生命週期管理。</li>
+<li><strong>【本地部署與隱私自主權】</strong> — 面對雲端 API 成本上升與數據洩露風險，開發者與企業加速轉向本地端 LLM 部署與邊緣運算，社群熱烈討論硬體選型、模型量化與隱私路由標準，推動 AI 民主化與數位主權。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理型威脅</strong>：Hatena + RSS 同步出現 — 首起 AI 代理勒索軟體案例曝光，駭客已能利用 Langflow 等框架漏洞自動化執行資料庫加密攻擊。</li>
+<li><strong>本地 AI 部署與隱私</strong>：HN + Hatena 同步出現 — 開發者積極實踐 Fable 5 本地 CLI 與開源模型私有化部署，社群普遍擔憂雲端壟斷與數據合規門檻。</li>
+<li><strong>供應鏈憑證劫持</strong>：HN + RSS + Hatena 同步出現 — 無論是 curl 漏洞回報噪音、npm 套件偽裝還是 CI/CD 憑證竊取，第三方工具鏈信任危機已成為跨平台核心痛點。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-26</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-26</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-26</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.technologyreview.jp/s/383499/anthropics-code-with-claude-showed-off-codings-future-whether-you-like-it-or-not/" rel="noopener noreferrer">「把一切交給 Claude」僅一年就劇變的軟體開發</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Claude 從輔助工具轉型為自主開發者</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260525-noroboto/" rel="noopener noreferrer">看似普通合約書，「假字體」卻讓 AI 讀出不同內容的「Noroboto」攻擊是什麼？</a></td>
+<td>194</td>
+<td>***</td>
+<td>AI 資安攻防</td>
+<td>偽造字體欺騙多模態 AI 的新型攻擊</td>
+</tr>
+<tr>
+<td><a href="https://developers.cyberagent.co.jp/blog/archives/63983/" rel="noopener noreferrer">實施了進行弱點診斷・威脅建模的 Security Agent | CyberAgent Developers Blog</a></td>
+<td>156</td>
+<td>***</td>
+<td>DevSecOps</td>
+<td>企業級 AI 安全自動化實踐案例</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.technologyreview.jp/s/383499/anthropics-code-with-claude-showed-off-codings-future-whether-you-like-it-or-not/" rel="noopener noreferrer">「把一切交給 Claude」僅一年就劇變的軟體開發</a> (287 users) — Claude 引領軟體開發劇變，AI 程式化未來已來</li>
+<li><a href="https://gigazine.net/news/20260525-noroboto/" rel="noopener noreferrer">看似普通合約書，「假字體」卻讓 AI 讀出不同內容的「Noroboto」攻擊是什麼？</a> (194 users) — 偽造字體欺騙 AI 讀取不同內容的新型網路攻擊</li>
+<li><a href="https://developers.cyberagent.co.jp/blog/archives/63983/" rel="noopener noreferrer">實施了進行弱點診斷・威脅建模的 Security Agent | CyberAgent Developers Blog</a> (156 users) — CyberAgent 導入 AI 安全代理進行威脅建模與弱點診斷</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48266906" rel="noopener noreferrer">荷蘭查扣 800 伺服器，逮捕 2 名網路攻擊幫兇</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>網路安全執法</td>
+<td>歐洲打擊幫派型網路犯罪的系統性行動</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48266906" rel="noopener noreferrer">荷蘭查扣 800 伺服器，逮捕 2 名網路攻擊幫兇</a> (342pt) — 荷蘭查扣 800 伺服器，逮捕 2 名網路攻擊幫兇</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tn6yrv/threat_intel_shinyhunters_leaks_94gb_database_of/" rel="noopener noreferrer">Threat Intel: ShinyHunters 外洩 7-Eleven 9.4GB 加盟商資料庫</a></td>
+<td>856</td>
+<td>73</td>
+<td>***</td>
+<td>資料外洩</td>
+<td>r/netsec</td>
+<td>大型零售業供應鏈資料外洩事件</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tnbyat/how_credential_brokering_prevents_ai_agents_from/" rel="noopener noreferrer">憑證中介如何防止 AI 代理透過提示注入竊取儲證</a></td>
+<td>624</td>
+<td>89</td>
+<td>***</td>
+<td>AI 安全</td>
+<td>r/cybersecurity</td>
+<td>防禦提示注入的架構設計方案</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tn8urm/cisco_patches_critical_100_flaw_in_secure/" rel="noopener noreferrer">Cisco 修復 Secure Workload API 嚴重漏洞</a></td>
+<td>534</td>
+<td>67</td>
+<td>***</td>
+<td>CVE 漏洞</td>
+<td>r/cybersecurity</td>
+<td>CVSS 10.0 企業級安全產品漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tmq9kz/can_someone_explain_the_real_difference_between/" rel="noopener noreferrer">Claude Code 中 Hooks、Skills、Plugins 等差異解析</a></td>
+<td>487</td>
+<td>102</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>Claude Code 擴展機制深度解析</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1tn8utn/nuextract3_released_openweight_4b_vlm_for/" rel="noopener noreferrer">NuExtract3 發布：4B 開權重 VLM 支援 Markdown/OCR</a></td>
+<td>412</td>
+<td>58</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>r/LocalLLaMA</td>
+<td>消費級硬體可運行的文件萃取 VLM</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1tn6yrv/threat_intel_shinyhunters_leaks_94gb_database_of/" rel="noopener noreferrer">Threat Intel: ShinyHunters 外洩 7-Eleven 9.4GB 加盟商資料庫</a> (856 ups) — r/netsec — ShinyHunters 外洩 7-Eleven 9.4GB 加盟商資料
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1tnbyat/how_credential_brokering_prevents_ai_agents_from/" rel="noopener noreferrer">憑證中介如何防止 AI 代理透過提示注入竊取儲證</a> (624 ups) — r/cybersecurity — Credential brokering 防 AI 提示注入攻擊
+3. <a href="https://www.reddit.com/r/cybersecurity/comments/1tn8urm/cisco_patches_critical_100_flaw_in_secure/" rel="noopener noreferrer">Cisco 修復 Secure Workload API 嚴重漏洞</a> (534 ups) — r/cybersecurity — Cisco 修復 Secure Workload API 嚴重漏洞
+4. <a href="https://www.reddit.com/r/netsec/comments/1tnbz96/how_credential_brokering_prevents_ai_agents_from/" rel="noopener noreferrer">憑證中介如何防止 AI 代理透過提示注入竊取儲證</a> (512 ups) — r/netsec — Credential brokering 防 AI 提示注入攻擊
+5. <a href="https://www.reddit.com/r/netsec/comments/1tnbcp1/cve202121735_zte_h168n_wizard_whitelist_exposed/" rel="noopener noreferrer">CVE-2021-21735: ZTE H168N 洩露 PPPoE 與 WLAN 秘密</a> (389 ups) — r/netsec — ZTE H168N 路由器洩露 PPPoE/WLAN 憑證</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tmq9kz/can_someone_explain_the_real_difference_between/" rel="noopener noreferrer">Claude Code 中 Hooks、Skills、Plugins 等差異解析</a> (487 ups) — r/ClaudeCode — 解析 Claude Code 各擴展機制差異
+2. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1tn8utn/nuextract3_released_openweight_4b_vlm_for/" rel="noopener noreferrer">NuExtract3 發布：4B 開權重 VLM 支援 Markdown/OCR</a> (412 ups) — r/LocalLLaMA — NuExtract3 發布：4B VLM 支援 OCR 與萃取</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/ghost-cms-cve-2026-26980-exploited-to.html" rel="noopener noreferrer">Ghost CMS CVE-2026-26980 遭利用竊取 700+ 網站進行 ClickFix 攻擊</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Ghost CMS 嚴重漏洞導致大規模點擊詐騙攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/trapdoor-supply-chain-attack-spreads.html" rel="noopener noreferrer">TrapDoor 供應鏈攻擊透過 npm、PyPI 和 CratesIO 傳播憑證竊取惡意軟體</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>跨包管理器供應鏈攻擊竊取開發者憑證</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/how-dangerous-is-anthropics-mythos-ai.html" rel="noopener noreferrer">Anthropic 的 Mythos AI 有多危險？</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>專家評估 Anthropic Mythos AI 潛在安全風險</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/whyshell/htb-monitorsfour-writeup-381k" rel="noopener noreferrer">HTB — MonitorsFour | 解題報告</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>HackTheBox MonitorsFour 機器渗透測試解題</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/kaz123/building-a-remote-mcp-knowledge-base-on-cloudflare-workers-4ofg" rel="noopener noreferrer">建立輕量級遠端 MCP 知識庫於 Cloudflare Workers</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>邊緣運算部署遠端 MCP 知識庫架構實作</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/microsoft-mdash/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Microsoft 推出 MDASH 用於大規模 AI 漏洞研究</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>微軟推出 AI 系統大規模漏洞研究平台</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/node-js-file-system/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">NodeJS 提案內建虛擬檔案系統，引發關於 AI 生成貢獻的辯論</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>NodeJS vfs 提案引發 AI 貢獻審查爭議</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 安全攻防】</strong> — AI 驅動的開發與攻擊同時進階，Noroboto 假字體攻擊展示視覺模型可被操縱，而 Credential brokering 與 Security Agent 則提供相應防禦方案，攻防戰線全面 AI 化。</p>
+</li>
+<li>
+<p><strong>【供應鏈與漏洞威脅】</strong> — TrapDoor 跨包管理器攻擊与 Ghost CMS 大規模利用顯示供應鏈攻擊持續演進，同時 Cisco CVSS 10.0 漏洞凸顯「防禦者本身被攻破」的風險層面。</p>
+</li>
+<li>
+<p><strong>【AI 自主開發轉型】</strong> — Claude Code 一年內從輔助工具躍升為「自主開發者」，加上微軟 MDASH AI 漏洞研究平台與 NodeJS AI 貢獻爭議，顯示 AI 正在重塑軟體開發的全鏈路。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 安全</strong>：Hatena + Reddit + RSS 同步出現 — Noroboto、Credential brokering、Mythos 風險評估、MDASH 平台構建跨平台 AI 安全熱議題</li>
+<li><strong>供應鏈攻擊</strong>：RSS + Reddit — TrapDoor 跨生態系憑證竊取與 CMS 漏洞利用形成供應鏈威脅雙重打擊</li>
+<li><strong>AI 開發工具</strong>：Hatena + Reddit — Claude Code 的自主開發能力與擴展機制解析反映日本與全球開發者關注</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

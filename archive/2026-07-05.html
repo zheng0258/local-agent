@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-05</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-05</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-05</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/hirokimiyano/n/n1b225eeec21d" rel="noopener noreferrer">標示 1TB 實為 240GB 的陷阱：偽造 USB 啃蝕自衛隊機密系統一年與日本盲點｜宮野宏樹</a></td>
+<td>87</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>偽造 USB 竊取自衛隊機密</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/fuwamoekissaten/articles/bb5f5364838ced" rel="noopener noreferrer">於本地大型語言模型運行 Pi 代理程式</a></td>
+<td>86</td>
+<td>***</td>
+<td>AI 代理</td>
+<td>本地部署平衡隱私與效能</td>
+</tr>
+<tr>
+<td><a href="https://www.nikkei.com/article/DGXZQOGM039GI0T00C26A7000000/" rel="noopener noreferrer">阿里巴巴禁用美國 Anthropic 程式設計人工智慧</a></td>
+<td>42</td>
+<td>***</td>
+<td>AI 工具</td>
+<td>科技脫鉤下工具鏈自主化</td>
+</tr>
+<tr>
+<td><a href="https://adventures.nodeland.dev/archive/cve-2026-48931-shouldnt-have-been-a-cve/" rel="noopener noreferrer">CVE-2026-48931 本不該成為通用漏洞編號</a></td>
+<td>11</td>
+<td>***</td>
+<td>漏洞管理</td>
+<td>漏洞編號定義與審核爭議</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/ryu1maniwa25/articles/fable5-agent-sop-setup" rel="noopener noreferrer">趁 Claude Fable 5 仍可使用，導入並整備人工智慧代理標準作業程序</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI 代理</td>
+<td>搶先建立 AI 代理 SOP</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://note.com/hirokimiyano/n/n1b225eeec21d" rel="noopener noreferrer">標示 1TB 實為 240GB 的陷阱：偽造 USB 啃蝕自衛隊機密系統一年與日本盲點｜宮野宏樹</a> (87 users) — 揭露自衛隊機密系統遭偽造 USB 滲透，暴露硬體採購與供應鏈信任鏈盲點。</li>
+<li><a href="https://zenn.dev/fuwamoekissaten/articles/bb5f5364838ced" rel="noopener noreferrer">於本地大型語言模型運行 Pi 代理程式</a> (86 users) — 實戰示範本地部署 LLM 代理，有效避免敏感資料上傳雲端，適合隱私要求嚴苛場景。</li>
+<li><a href="https://www.nikkei.com/article/DGXZQOGM039GI0T00C26A7000000/" rel="noopener noreferrer">阿里巴巴禁用美國 Anthropic 程式設計人工智慧</a> (42 users) — 阿里禁用美國 AI 工具轉向自主研發，凸顯地緣政治下關鍵技術鏈本土化之迫切。</li>
+<li><a href="https://adventures.nodeland.dev/archive/cve-2026-48931-shouldnt-have-been-a-cve/" rel="noopener noreferrer">CVE-2026-48931 本不該成為通用漏洞編號</a> (11 users) — 剖析 CVE 編號爭議，指出審核標準模糊導致資安團隊面臨雜訊干擾。</li>
+<li><a href="https://zenn.dev/ryu1maniwa25/articles/fable5-agent-sop-setup" rel="noopener noreferrer">趁 Claude Fable 5 仍可使用，導入並整備人工智慧代理標準作業程序</a> (8 users) — 建議企業趁模型穩定期建立 AI 代理 SOP，以降低未來遷移成本與合規風險。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48780801" rel="noopener noreferrer">Leanstral 1.5：讓形式化驗證證明普及化</a></td>
+<td>324pt</td>
+<td>***</td>
+<td>AI 工具</td>
+<td>形式化驗證普及化</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48785485" rel="noopener noreferrer">工作區實例或消費帳戶間潛在的 Session/快取洩漏問題</a></td>
+<td>204pt</td>
+<td>***</td>
+<td>平台資安</td>
+<td>快取缺陷致跨帳戶洩漏</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48786781" rel="noopener noreferrer">YouTube 創作者私人影片外洩事件</a></td>
+<td>121pt</td>
+<td>***</td>
+<td>平台資安</td>
+<td>權限漏洞致私密影片外洩</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48780801" rel="noopener noreferrer">Leanstral 1.5：讓形式化驗證證明普及化</a> (324pt) — 結合 AI 的形式化驗證工具，降低程式正確性證明門檻，縮減人工審查成本。
+   💬 社群觀點：肯定形式化驗證潛力，但質疑基準過時且前沿模型已能找出相同漏洞。建議完善提示指引，並支援多元驗證工具。</li>
+<li><a href="https://news.ycombinator.com/item?id=48785485" rel="noopener noreferrer">工作區實例或消費帳戶間潛在的 Session/快取洩漏問題</a> (204pt) — 揭露雲端工作區因 Session 或快取機制缺陷，可能引發跨帳戶資料潛在洩漏風險。
+   💬 社群觀點：主流認為屬長上下文幻覺或快取誤解，非真實洩漏；技術面指出問題發生於快取未命中時，建議將動態內容移出提示字。</li>
+<li><a href="https://news.ycombinator.com/item?id=48786781" rel="noopener noreferrer">YouTube 創作者私人影片外洩事件</a> (121pt) — 平台存取漏洞致使創作者私密影片遭越權瀏覽，凸顯大型平台在權限隔離與提示詞注入防護上的盲點。
+   💬 社群觀點：社群嚴批 Google 忽視提示詞注入漏洞，重功能輕安全；質疑官方定性，擔憂資料外洩，呼籲強化權限隔離與法律責任。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<p><strong>AI 類</strong></p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/amazon-q-vulnerability" rel="noopener noreferrer">MCP 自動執行漏洞：從 Git Clone 到 Amazon Q VS Code 外掛的雲端入侵</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>MCP 漏洞致外掛遭雲端入侵</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/north-korean-hackers-publish-108.html" rel="noopener noreferrer">北韓駭客在 PolinRider 行動中發布 108 個惡意套件與擴充功能</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>北韓駭客發布百餘惡意套件與擴充功能</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/unpatched-flaws-disclosed-in-filesystem.html" rel="noopener noreferrer">內建於百萬嵌入式裝置的檔案系統曝出未修補漏洞</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>百萬嵌入式裝置檔案系統曝未修補漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/new-bad-epoll-linux-kernel-flaw-lets.html" rel="noopener noreferrer">新曝光 "Bad Epoll" Linux 核心漏洞讓一般用戶可取得 Root 權限，影響 Android</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Linux 核心漏洞讓一般用戶可獲 Root 權限</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/identity-lifecycle-management.html" rel="noopener noreferrer">身分生命週期管理並非為 AI 代理而設計</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>現有身分管理系統未針對 AI 代理設計</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理治理與安全】</strong> — 從 Hatena 的 SOP 整備、RSS 的身分管理缺口，到 HN 的 Session 洩漏，顯示 AI 代理在企業部署時面臨的管控制度與技術挑戰。</li>
+<li><strong>【供應鏈與工具鏈風險】</strong> — Hatena 的偽造 USB、Security 的 MCP 漏洞、RSS 的北韓惡意套件，共同指向硬體與開發工具供應鏈的脆弱性。</li>
+<li><strong>【基礎設施與平台漏洞】</strong> — HN 的 YouTube 外洩、RSS 的 Linux 與嵌入式漏洞，凸顯核心系統與大型平台在快速迭代下的安全盲點。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理與工具安全</strong>：Hatena (SOP/Local) + HN (Session) + RSS (Identity) + Security (MCP) — 跨平台關注 AI 應用落地時的安全與治理問題。</li>
+<li><strong>供應鏈與實體攻擊</strong>：Hatena (USB) + RSS (North Korea/Embedded) — 實體裝置與軟體供應鏈成為駭客主要攻擊路徑。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

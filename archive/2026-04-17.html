@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-17</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-17</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-17</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.techno-edge.net/article/2026/04/17/4997.html" rel="noopener noreferrer">「1.58 位元進化所以 8GB 足夠。請交給我」Bonsai 這麼說，植入 MacBook Neo 體驗性能差距</a></td>
+<td>487</td>
+<td>***</td>
+<td>AI 邊緣計算</td>
+<td>本地 AI 突破小型化門檻</td>
+</tr>
+<tr>
+<td><a href="https://japan.cnet.com/article/35246560/" rel="noopener noreferrer">OpenAI 的「Codex」大幅更新，PC 應用程式操作與自動化變可能</a></td>
+<td>423</td>
+<td>***</td>
+<td>AI Agent</td>
+<td>RPA 市場將被重定義</td>
+</tr>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/17/news034.html" rel="noopener noreferrer">NIST 終於放棄「漏洞全數分析」CVE 暴增導致崩潰，改變方針</a></td>
+<td>356</td>
+<td>***</td>
+<td>資安政策</td>
+<td>漏洞管理進入新時代</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260417-mozilla-thunderbolt/" rel="noopener noreferrer">Mozilla 發布 AI 執行環境「Thunderbolt」</a></td>
+<td>298</td>
+<td>***</td>
+<td>企業 AI平台</td>
+<td>自託管挑戰雲端巨頭</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/serial/aistream/2102602.html" rel="noopener noreferrer">超越人類智慧的「Claude Mythos」限定發布開始</a></td>
+<td>267</td>
+<td>***</td>
+<td>AI安全</td>
+<td>AI紅隊成為新戰線</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.techno-edge.net/article/2026/04/17/4997.html" rel="noopener noreferrer">「1.58 位元進化所以 8GB 足夠。請交給我」Bonsai 這麼說，植入 MacBook Neo 體驗性能差距</a> (487 users) — Bonsai AI透過量化技術可在8GB記憶體設備運行</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/17/news034.html" rel="noopener noreferrer">NIST 終於放棄「漏洞全數分析」CVE 暴增導致崩潰，改變方針</a> (356 users) — NIST因CVE暴增轉向優先級篩選模式</li>
+<li><a href="https://gigazine.net/news/20260417-mozilla-thunderbolt/" rel="noopener noreferrer">Mozilla 發布 AI 執行環境「Thunderbolt」</a> (298 users) — 企業自託管AI執行環境完整解決方案</li>
+<li><a href="https://japan.cnet.com/article/35246560/" rel="noopener noreferrer">OpenAI 的「Codex」大幅更新，PC 應用程式操作與自動化變可能</a> (423 users) — Codex獲得直接操作PC應用程式能力</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/articles/2604/17/news071.html" rel="noopener noreferrer">OpenAI「Codex」刷新，支援 PC 直接操作成為泛用作業 agent</a> (312 users) — 進化為通用型PC作業代理</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/serial/aistream/2102602.html" rel="noopener noreferrer">超越人類智慧的「Claude Mythos」限定發布開始</a> (267 users) — 專為AI紅隊測試設計的限定版本</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47792538" rel="noopener noreferrer">Cloudflare's AI Platform: an inference layer designed for agents</a></td>
+<td>456pt</td>
+<td>***</td>
+<td>AI基礎設施</td>
+<td>邊緣推論為Agent優化</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47792764" rel="noopener noreferrer">Qwen3.6-35B-A3B: Agentic coding power, now open to all</a></td>
+<td>389pt</td>
+<td>***</td>
+<td>開放模型</td>
+<td>中國AI進入開放生態</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47799322" rel="noopener noreferrer">The beginning of scarcity in AI</a></td>
+<td>367pt</td>
+<td>***</td>
+<td>AI產業分析</td>
+<td>算力數據資源告急</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47793411" rel="noopener noreferrer">Claude Opus 4.7</a></td>
+<td>298pt</td>
+<td>**</td>
+<td>AI模型發布</td>
+<td>Anthropic最新旗艦模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47796469" rel="noopener noreferrer">Codex for almost everything</a></td>
+<td>234pt</td>
+<td>**</td>
+<td>AI趨勢討論</td>
+<td>專精型AI快速泛化</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47792538" rel="noopener noreferrer">Cloudflare's AI Platform: an inference layer designed for agents</a> (456pt) — 專為AI代理設計的邊緣推論層平台</li>
+<li><a href="https://news.ycombinator.com/item?id=47792764" rel="noopener noreferrer">Qwen3.6-35B-A3B: Agentic coding power, now open to all</a> (389pt) — Alibaba開放具代理能力的代碼生成模型</li>
+<li><a href="https://news.ycombinator.com/item?id=47799322" rel="noopener noreferrer">The beginning of scarcity in AI</a> (367pt) — AI資源稀缺時代可能已來臨</li>
+<li><a href="https://news.ycombinator.com/item?id=47793411" rel="noopener noreferrer">Claude Opus 4.7</a> (298pt) — Anthropic發布最新旗艦AI模型</li>
+<li><a href="https://news.ycombinator.com/item?id=47796469" rel="noopener noreferrer">Codex for almost everything</a> (234pt) — 討論Codex類AI擴展到所有任務領域</li>
+<li><a href="https://news.ycombinator.com/item?id=47792718" rel="noopener noreferrer">The future of everything is lies, I guess: Where do we go from here?</a> (156pt) — 質疑AI發展方向與過度行銷問題</li>
+<li><a href="https://news.ycombinator.com/item?id=47801255" rel="noopener noreferrer">Show HN: SPICE simulation → oscilloscope → verification with Claude Code</a> (134pt) — 電子工程領域AI工作流實作展示</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/" rel="noopener noreferrer">新微軟 Defender「RedSun」零日 PoC 取得 SYSTEM 權限</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>零日漏洞</td>
+<td>r/cybersecurity</td>
+<td>防禦軟體本身被突破</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/" rel="noopener noreferrer">Anthropic 的 MCP 協議有影響 20 萬伺服器的關鍵缺陷</a></td>
+<td>2134</td>
+<td>98</td>
+<td>***</td>
+<td>AI資安</td>
+<td>r/cybersecurity</td>
+<td>協議層漏洞影響廣泛</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1snglu3/redsun_how_windows_defenders_remediation_became_a/" rel="noopener noreferrer">RedSun：Windows Defender 修復如何變成 SYSTEM 檔案寫入</a></td>
+<td>1876</td>
+<td>87</td>
+<td>***</td>
+<td>漏洞分析</td>
+<td>r/netsec</td>
+<td>信任邊界設計錯誤案例</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1sn5vdd/opus_47/" rel="noopener noreferrer">Opus 4.7 🔥🔥</a></td>
+<td>1567</td>
+<td>234</td>
+<td>**</td>
+<td>AI模型</td>
+<td>r/ClaudeCode</td>
+<td>社群熱烈討論新版本</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1snem8w/haproxy_http3_http1_desync_crossprotocol/" rel="noopener noreferrer">HAProxy HTTP/3 至 HTTP/1 脫節：跨協議夾帶</a></td>
+<td>1234</td>
+<td>67</td>
+<td>***</td>
+<td>網路安全</td>
+<td>r/netsec</td>
+<td>新型跨協議攻擊手法</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1snvged/new_microsoft_defender_redsun_zeroday_poc_grants/" rel="noopener noreferrer">新微軟 Defender「RedSun」零日 PoC 取得 SYSTEM 權限</a> (2847 ups) — r/cybersecurity — 零日漏洞可獲取最高權限
+2. <a href="https://www.reddit.com/r/netsec/comments/1snglu3/redsun_how_windows_defenders_remediation_became_a/" rel="noopener noreferrer">RedSun：Windows Defender 修復如何變成 SYSTEM 檔案寫入</a> (1876 ups) — r/netsec — 修復機制被利用進行權限提升
+3. <a href="https://www.reddit.com/r/cybersecurity/comments/1snxye5/anthropics_mcp_protocol_has_critical_flaw/" rel="noopener noreferrer">Anthropic 的 MCP 協議有影響 20 萬伺服器的關鍵缺陷</a> (2134 ups) — r/cybersecurity — MCP協議層嚴重漏洞
+4. <a href="https://www.reddit.com/r/netsec/comments/1snem8w/haproxy_http3_http1_desync_crossprotocol/" rel="noopener noreferrer">HAProxy HTTP/3 至 HTTP/1 脫節：跨協議夾帶</a> (1234 ups) — r/netsec — 跨協議狀態機脫節漏洞</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1sn5vdd/opus_47/" rel="noopener noreferrer">Opus 4.7 🔥🔥</a> (1567 ups) — r/ClaudeCode — 新版本引發高度興奮討論
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1snpmv4/opus_47_is_amazing/" rel="noopener noreferrer">Opus 4.7 超強</a> (1289 ups) — r/ClaudeCode — 使用者盛讚表現驚人</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/nist-nvd-changes-2026" rel="noopener noreferrer">NIST NVD縮減背景下的可靠 CVE 來源</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>替代漏洞情報管道評估指南</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/axios-cve-2026-40175-a-critical-bug-thats-not-exploitable" rel="noopener noreferrer">Axios 嚴重漏洞實測無法利用</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>CVSS評分與實際風險落差案例</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine" rel="noopener noreferrer">GlassWorm 新型 Zig 投放程式入侵 IDE</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>針對開發者工具鏈的攻擊</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI Agent PC自動化革命】</strong> — OpenAI Codex重大更新獲得直接操作PC應用程式能力，標誌著AI從「內容生成」轉向「任務執行」的關鍵跨越。此突破結合視覺理解與動作規劃，使單一AI代理可處理跨軟體的複雜工作流，可能徹底重塑RPA市場與個人生產力工具格局。</p>
+</li>
+<li>
+<p><strong>【AI資安攻防新戰線】</strong> — 微軟Defender「RedSun」零日漏洞、Anthropic MCP協議缺陷同時爆發，凸顯AI系統本身成為攻擊目標。同時Claude Mythos專為紅隊測試發布，反映業界意識到AI安全需從「被動防禦」轉向「主動對抗性測試」的新範式。</p>
+</li>
+<li>
+<p><strong>【AI小型化與去中心化部署】</strong> — Bonsai實現8GB記憶體運行、Mozilla Thunderbolt提供企業自託管方案、Cloudflare推出邊緣推論平台，三者共同指向AI部署的去中心化趨勢。此回應了隱私保護、資安風險與資源稀缺的多重焦慮，可能重塑AI基礎設施競爭格局。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Codex PC操作能力</strong>：Hatena + HN 同步出現 — OpenAI Codex獲得PC應用程式直接操作能力成為跨平台熱點，日本與全球開發者同關注此自動化突破</li>
+<li><strong>Opus 4.7發布</strong>：HN + r/ClaudeCode — Anthropic最新旗艦模型發布在技術社群與使用者端同步引發熱烈討論</li>
+<li><strong>NIST CVE政策改變</strong>：Hatena + aikido.dev — 漏洞管理體系重組在新聞與專業部落格同步被深入分析，反映產業界高度關注</li>
+<li><strong>AI資源稀缺論</strong>：HN單點爆發 — 「The beginning of scarcity in AI」在HN獲得高關注，顯示產業界對算力、電力、數據供應的焦慮已浮現</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

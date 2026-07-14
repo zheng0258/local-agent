@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-23</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-23</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-23</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/tkydev/articles/2026-05-21_ct_log" rel="noopener noreferrer">「URL 未公開」為何行不通 — CT Log 監控實測</a></td>
+<td>342</td>
+<td>***</td>
+<td>Web 安全技術</td>
+<td>CT Log 監控讓隱藏 HTTPS 服務失效</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260522-flux-erase-black-forest-labs/" rel="noopener noreferrer">FLUX 開発チームが AI 物体削除ツール「Erase」を発表、無料トライアル提供</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 工具與應用</td>
+<td>生成式 in-painting 技術移除影像物件</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2605/22/news097.html" rel="noopener noreferrer">CapCut が Google Gemini と連携、動画生成から編集まで一貫化</a></td>
+<td>256</td>
+<td>***</td>
+<td>AI 工具與應用</td>
+<td>文字提示直接生成影片並編輯</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/tkydev/articles/2026-05-21_ct_log" rel="noopener noreferrer">「URL 未公開」為何行不通 — CT Log 監控實測</a> (342 users) — CT Log 全局監控讓隱藏 HTTPS 服務策略失效</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li>（本日無精選文章）(0pt) — 略過</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tkmsp9/5561_github_repos_got_malicious_cicd_commits/" rel="noopener noreferrer">GitHub CI/CD 攻撃、6 時間で 5,561 リポジトリが悪意注入</a></td>
+<td>4,521</td>
+<td>387</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>Megalodon 供應鏈攻擊污染五千儲存庫</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tkdedb/millions_of_nginx_servers_face_fresh_zeroday/" rel="noopener noreferrer">NGINX の新しいゼロデイ脆弱性「nginx-poolslip」が百万台のサーバーを脅かす</a></td>
+<td>3,892</td>
+<td>256</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>零日漏洞威脅全球百萬伺服器</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tkkq0m/zyxel_lowpriv_account_leaked_superadmin_ftps_and/" rel="noopener noreferrer">Zyxel ルーターの低権限アカウントがスーパーアドミン、FTPS などの機密を漏洩</a></td>
+<td>2,134</td>
+<td>178</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>低權帳號可提升取得超管憑證</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tkjy4u/claude_code_dropped_workflows/" rel="noopener noreferrer">Claude Code が/workflows ワークフロー機能を追加</a></td>
+<td>1,876</td>
+<td>142</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>新增自動化工作流腳本功能</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1tkmsp9/5561_github_repos_got_malicious_cicd_commits/" rel="noopener noreferrer">GitHub CI/CD 攻撃、6 時間で 5,561 リポジトリが悪意注入</a> (4,521 ups) — r/cybersecurity — Megalodon 供應鏈攻擊污染五千儲存庫
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1tkdedb/millions_of_nginx_servers_face_fresh_zeroday/" rel="noopener noreferrer">NGINX の新しいゼロデイ脆弱性「nginx-poolslip」が百万台のサーバーを脅かす</a> (3,892 ups) — r/cybersecurity — 零日漏洞威脅全球百萬伺服器
+3. <a href="https://www.reddit.com/r/netsec/comments/1tkkq0m/zyxel_lowpriv_account_leaked_superadmin_ftps_and/" rel="noopener noreferrer">Zyxel ルーターの低権限アカウントがスーパーアドミン、FTPS などの機密を漏洩</a> (2,134 ups) — r/netsec — 低權帳號可提升取得超管憑證</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tkjy4u/claude_code_dropped_workflows/" rel="noopener noreferrer">Claude Code が/workflows ワークフロー機能を追加</a> (1,876 ups) — r/ClaudeCode — 新增自動化工作流腳本功能</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/megalodon-github-attack-targets-5561.html" rel="noopener noreferrer">Megalodon GitHub 攻撃が 5,561 リポジトリに悪意のある CI/CD を植える</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>供應鏈攻擊展現高度組織化手法</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/cisco-patches-cvss-100-secure-workload.html" rel="noopener noreferrer">Cisco が CVSS 10.0 の Secure Workload REST API 脆弱性を修正</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>最高嚴重性遠端代碼執行漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/macos-kernel-memory-corruption-exploit.html" rel="noopener noreferrer">Anthropic の Mythos AI が macOS M5 メモリ破損脆弱性の発見に利用される</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI 輔助漏洞挖掘邁向實用化</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/cisa-adds-exploited-langflow-and-trend.html" rel="noopener noreferrer">CISA が Langflow と Trend Micro Apex One の Exploited 脆弱性を KEV に追加</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>已遭利用漏洞納入 KEV 清單</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【供應鏈攻擊】</strong> — Megalodon 攻擊在六小時內污染超過五千個 GitHub 儲存庫，跨 Reddit 與安全部落格同步報導，凸顯 CI/CD 管道的安全弱點成為攻擊者首要目標</li>
+<li><strong>【零日漏洞風暴】</strong> — NGINX 新發現的「nginx-poolslip」零日漏洞威脅全球數百萬伺服器，結合 Cisco CVSS 10.0 漏洞修復企劃，顯示基礎設施層級的高嚴重性風險</li>
+<li><strong>【AI 工具化浪潮】</strong> — FLUX Erase、CapCut+Gemini 整合、Claude Code workflows 以及 Wiz+Claude Enterprise 合規 API，顯示 AI 正快速從概念驗證進入實際生產力工具階段</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Megalodon GitHub 攻擊</strong>：Hatena + HN + Reddit + 資安部落格同步出現 — 供應鏈攻擊成為跨平台焦點，突顯開源生態安全危機</li>
+<li><strong>AI 驅動漏洞研究</strong>：Reddit + 資安部落格 — Mythos AI 發現 macOS M5 漏洞展現 AI 在安全研究領域的突破</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

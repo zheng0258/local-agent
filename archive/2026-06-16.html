@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-16</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-16</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-16</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/acrosstudioblog/articles/38509c0473683a" rel="noopener noreferrer">別再寫提示詞了——新範式循環工程的真面目</a></td>
+<td>621</td>
+<td>***</td>
+<td>AI 開發工程</td>
+<td>提示詞工程轉向循環開發新範式</td>
+</tr>
+<tr>
+<td><a href="https://www.watch.impress.co.jp/docs/news/2116974.html" rel="noopener noreferrer">谷歌公開人工智慧知識共享格式</a></td>
+<td>226</td>
+<td>***</td>
+<td>AI 基礎設施</td>
+<td>谷歌推出開放格式促進資料共享</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/topic/feature/2117008.html" rel="noopener noreferrer">試用全能人工智慧代理的魔力與隱憂</a></td>
+<td>196</td>
+<td>***</td>
+<td>AI 應用工具</td>
+<td>全能人工智慧代理展現高效與風險</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2117005.html" rel="noopener noreferrer">主流對話模型登陸設計平台支援魔法圖層</a></td>
+<td>35</td>
+<td>***</td>
+<td>AI 應用工具</td>
+<td>主流模型登陸設計平台支援圖層</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/acrosstudioblog/articles/38509c0473683a" rel="noopener noreferrer">別再寫提示詞了——新範式循環工程的真面目</a> (621 users) — 提示詞工程轉向循環開發新範式</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2116974.html" rel="noopener noreferrer">谷歌公開人工智慧知識共享格式</a> (226 users) — 谷歌推出開放格式促進資料共享</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/topic/feature/2117008.html" rel="noopener noreferrer">試用全能人工智慧代理的魔力與隱憂</a> (196 users) — 全能人工智慧代理展現高效與風險</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2117005.html" rel="noopener noreferrer">主流對話模型登陸設計平台支援魔法圖層</a> (35 users) — 主流模型登陸設計平台支援圖層</li>
+<li><a href="https://platform.claude.com/docs/en/release-notes/system-prompts" rel="noopener noreferrer">系統提示詞平台設定文件</a> (33 users) — 平台文件更新系統提示詞設定</li>
+<li><a href="https://gigazine.net/news/20260615-chinese-drivers-fool-tesla-autopilot/" rel="noopener noreferrer">中國司機用娃娃頭欺騙特斯拉監控系統</a> (28 users) — 物理欺騙手段繞過自動駕駛監控</li>
+<li><a href="https://tech-blog.rakus.co.jp/entry/20260615/ai-adoption-standardization" rel="noopener noreferrer">直面人工智慧驅動開發的組織標準化</a> (22 users) — 企業推動人工智慧開發流程標準化</li>
+<li><a href="https://codezine.jp/article/detail/24532" rel="noopener noreferrer">領域知識才是人工智慧時代的開發實力</a> (12 users) — 軟體開發核心價值轉向領域知識</li>
+<li><a href="https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing" rel="noopener noreferrer">開放知識格式如何改善資料共享</a> (9 users) — 開放格式提升跨平台資料流通效率</li>
+<li><a href="https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf" rel="noopener noreferrer">谷歌開源知識目錄專案正式上線</a> (7 users) — 官方開源知識目錄加速生態落地</li>
+<li><a href="https://gigazine.net/news/20260615-z-ai-glm-5-2/" rel="noopener noreferrer">中國企業緊急發布最新模型並宣布免費公開</a> (5 users) — 中國推出最新模型並宣布免費公開</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2606/15/news015.html" rel="noopener noreferrer">日本人工智慧公司首款商用調查工具實測</a> (4 users) — 首款商用人工智慧調查工具實測</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48540854" rel="noopener noreferrer">CrankGPT 開源本地大模型框架</a></td>
+<td>436pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>簡化 AI 應用部署流程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48536776" rel="noopener noreferrer">Apple 自研基礎模型架構</a></td>
+<td>400pt</td>
+<td>***</td>
+<td>AI 基礎設施</td>
+<td>強化端側 AI 運算效能與隱私保護</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48539078" rel="noopener noreferrer">Anthropic 模型安全防護機制解析</a></td>
+<td>182pt</td>
+<td>***</td>
+<td>AI 模型安全</td>
+<td>解析防越獄機制提升系統安全性</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48537641" rel="noopener noreferrer">OpenRouter 多模型路由整合 API</a></td>
+<td>167pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>自動優化延遲與推論成本</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48540854" rel="noopener noreferrer">CrankGPT 開源本地大模型框架</a> (436pt) — 開源本地大模型框架，簡化 AI 應用部署。
+   💬 社群觀點：社群對真實性存疑，但認同反壟斷概念。部分笑稱太耗力，並建議優化手機載入與探討實際能耗。</li>
+<li><a href="https://news.ycombinator.com/item?id=48536776" rel="noopener noreferrer">Apple 自研基礎模型架構</a> (400pt) — 蘋果公開自研模型架構，強化端側 AI 效能。
+   💬 社群觀點：開發者質疑實為雲端 API 包裝，擔憂儲存膨脹與金鑰安全；同時警惕蘋果藉此建立生態壁壘，未來或強制轉向自家模型。</li>
+<li><a href="https://news.ycombinator.com/item?id=48539078" rel="noopener noreferrer">Anthropic 模型安全防護機制解析</a> (182pt) — 解析 Claude 防越獄機制，提升模型安全性。
+   💬 社群觀點：社群肯定安全策略賦予話語權，但質疑為壟斷控制藉口。受出口管制與算力瓶頸限制，模型難長久封鎖，預期將不久公開。</li>
+<li><a href="https://news.ycombinator.com/item?id=48537641" rel="noopener noreferrer">OpenRouter 多模型路由整合 API</a> (167pt) — 整合多模型路由 API，自動優化延遲與成本。
+   💬 社群觀點：社群指融合 API 耗時費錢，且裁決成效存疑。建議僅限高價值任務使用，日常仍推薦直接呼叫單一頂尖模型。</li>
+<li><a href="https://news.ycombinator.com/item?id=48542100" rel="noopener noreferrer">Ask HN：有誰用本地模型取代 Claude/GPT 進行日常程式開發？</a> (105pt) — 開發者分享以本地模型替代雲端大模型的經驗。
+   💬 社群觀點：本地模型速度與複雜程式能力仍落後雲端，受硬體限制。建議依需求選用中型開源模型搭配自動化流程，日常開發仍以雲端為主。</li>
+<li><a href="https://news.ycombinator.com/item?id=48542433" rel="noopener noreferrer">個人搭建家用 AI 伺服器與低成本推論平台</a> (75pt) — 個人搭建家用 AI 伺服器，實現低成本模型推理。
+   💬 社群觀點：社群聚焦 GitOps 流程、模型推論與 PR 審核。多數分享相似架構，認同 AI 輔助編碼與自動化部署，少數質疑為噱頭。</li>
+<li><a href="https://news.ycombinator.com/item?id=48543392" rel="noopener noreferrer">Rust 與 C/C++ 記憶體安全漏洞對比分析</a> (37pt) — 對比 Rust 與 C/C++ 漏洞差異，驗證記憶體安全。
+   💬 社群觀點：社群質疑 CVE 比較無效，Rust 仍有 UB 與型別漏洞爭議。但承認其正取代 C/C++，明確空值處理與遷移趨勢獲肯定。</li>
+<li><a href="https://news.ycombinator.com/item?id=48542970" rel="noopener noreferrer">利用 Slack 影片嵌入機制建立端到端加密通訊通道</a> (18pt) — 利用 Slack 影片建立加密通道，繞過企業資安。
+   💬 社群觀點：社群期盼主流平台能內嵌完整功能的小程式，並指出中國微信與支付寶已成熟實踐此模式，建議西方服務跟進。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u6gzs7/searchleak_how_we_turned_m365_copilot_into_a/" rel="noopener noreferrer">SearchLeak：如何將 M365 Copilot 轉化為一鍵資料外洩工具</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>M365 Copilot 遭利用，一鍵引發資洩。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u6gzs7/searchleak_how_we_turned_m365_copilot_into_a/" rel="noopener noreferrer">SearchLeak：如何將 M365 Copilot 轉化為一鍵資料外洩工具</a> (- ups) — r/netsec — M365 Copilot 遭利用，一鍵引發資洩。</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/one-click-microsoft-365-copilot-flaw.html" rel="noopener noreferrer">一次點擊即可觸發的 Microsoft 365 Copilot 漏洞，恐讓攻擊者竊取郵件、檔案與 MFA 驗證碼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>M365 Copilot 一鍵漏洞恐竊取資料</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/weekly-recap-chrome-0-day-unifi.html" rel="noopener noreferrer">⚡ 每週資安回顧：Chrome 零日漏洞與多款熱門軟體風險</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>彙整 Chrome 零日與多款熱門軟體漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/popular-wordpress-plugin-scripts.html" rel="noopener noreferrer">熱門 WordPress 外掛腳本遭篡改，於網站植入隱藏後門</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>熱門 WP 外掛遭篡改植入網站後門</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/palo-alto-warns-of-active-exploitation.html" rel="noopener noreferrer">Palo Alto 警告 PAN-OS GlobalProtect VPN 漏洞正遭主動利用</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>PAN-OS VPN 漏洞正遭駭客主動攻擊</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發範式轉移】</strong> — 提示詞工程正從單次指令轉向循環迭代，本地化部署與輕量治理閘道降低落地門檻，前端工具鏈與 UI 框架全面朝向 Agent 原生架構演進。</li>
+<li><strong>【資料共享與基礎設施標準化】</strong> — 谷歌公開 OKF 格式與知識目錄打破資料孤島，蘋果強化端側模型架構，推動跨平台資料流通與隱私保護的基礎建設。</li>
+<li><strong>【AI 應用安全與攻防現狀】</strong> — M365 Copilot 曝出一鍵資洩漏洞，特斯拉監控遭物理欺騙，企業協作平台與自動化 Agent 的權限邊界與錯誤處理成為資安焦點。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>M365 Copilot 資安風險</strong>：Hatena（全能代理隱憂）+ HN（Anthropic 安全/Slack 繞過）+ Reddit/TheHackerNews（一鍵漏洞） — 企業導入 AI 輔助工具後，權限控管與資料外洩防護成為跨平台共識。</li>
+<li><strong>本地化與端側 AI 部署</strong>：Hatena（領域知識/標準化）+ HN（CrankGPT/Apple 模型/家庭實驗室）+ RSS（低階 PC 跑 LLM） — 開發者與企業積極探索離線推理與邊緣運算，以降低雲端依賴並強化資料隱私。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

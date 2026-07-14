@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-25</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-25</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-25</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/claude-code-security-basics/" rel="noopener noreferrer">如何安全使用 Claude Code【內部研討會投影片】</a></td>
+<td>487</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Classmethod 內部研討會分享安全實踐</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2104320.html" rel="noopener noreferrer">官方承認 Claude Code 品質下滑達一個月並公布原因</a></td>
+<td>356</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Anthropic 官方說明品質問題原因</td>
+</tr>
+<tr>
+<td><a href="https://note.com/grandchildrice/n/n871088ba195f" rel="noopener noreferrer">安全稽核已死？AI 自動滲透測試的崛起與衝擊</a></td>
+<td>298</td>
+<td>***</td>
+<td>資安</td>
+<td>AI 重構應用程式安全驗證流程</td>
+</tr>
+<tr>
+<td><a href="https://developers.googleblog.com/agents-cli-in-agent-platform-create-to-production-in-one-cli/" rel="noopener noreferrer">代理平台中的 Agents CLI：單一指令從開發到上線</a></td>
+<td>245</td>
+<td>***</td>
+<td>AI Agent</td>
+<td>Google 簡化 Agent 開發部署流程</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/marvelousu/articles/claude-code-homelab" rel="noopener noreferrer">以每月 500 日圓預算打造 24 小時常駐 Claude Code 的居家實驗室</a></td>
+<td>189</td>
+<td>***</td>
+<td>個人實作</td>
+<td>Ubuntu + Tailscale + tmux 低預算方案</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://dev.classmethod.jp/articles/claude-code-security-basics/" rel="noopener noreferrer">如何安全使用 Claude Code【內部研討會投影片】</a> (487 users) — Classmethod 內部研討會分享 Claude Code 的安全使用最佳實踐，涵蓋環境隔離、權限最小化原則、敏感資訊防護等核心議題</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2104320.html" rel="noopener noreferrer">官方承認 Claude Code 品質下滑達一個月並公布原因</a> (356 users) — Anthropic 官方承認 Claude Code 服務品質在過去一個月出現明顯下滑，原因涉及模型更新過渡期與基礎設施調整</li>
+<li><a href="https://note.com/grandchildrice/n/n871088ba195f" rel="noopener noreferrer">安全稽核已死？AI 自動滲透測試的崛起與衝擊</a> (298 users) — AI 驅動的自動滲透測試工具正在重塑應用程式安全驗證流程，相比傳統人工稽核能持續運行並覆蓋更多攻擊路徑</li>
+<li><a href="https://zenn.dev/marvelousu/articles/claude-code-homelab" rel="noopener noreferrer">以每月 500 日圓預算打造 24 小時常駐 Claude Code 的居家實驗室</a> (189 users) — 技術文詳細說明如何用極低預算搭建全天候運行的 Claude Code 開發環境，結合 Ubuntu、Tailscale 與 tmux</li>
+<li><a href="https://developers.googleblog.com/agents-cli-in-agent-platform-create-to-production-in-one-cli/" rel="noopener noreferrer">代理平台中的 Agents CLI：單一指令從開發到上線</a> (245 users) — Google 推出 Agents CLI 工具，讓開發者透過單一命令完成 AI Agent 的定義、測試到部署全流程</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47890302" rel="noopener noreferrer">Affirm 於一週內重組團隊以導入 AI Agent 軟體開發</a></td>
+<td>456pt</td>
+<td>***</td>
+<td>AI 開發</td>
+<td>金融科技公司激進轉型 AI 開發模式</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47879092" rel="noopener noreferrer">GPT-5.5 發布</a></td>
+<td>398pt</td>
+<td>***</td>
+<td>LLM</td>
+<td>OpenAI 推出漸進式過渡版本</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47884971" rel="noopener noreferrer">DeepSeek v4 發布</a></td>
+<td>367pt</td>
+<td>***</td>
+<td>LLM</td>
+<td>DeepSeek v4 性能顯著提升</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47881786" rel="noopener noreferrer">TorchTPU：在 Google 規模下於 TPU 原生執行 PyTorch</a></td>
+<td>312pt</td>
+<td>***</td>
+<td>ML Infra</td>
+<td>PyTorch 原生支援 TPU 執行</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47892019" rel="noopener noreferrer">我取消訂閱 Claude：Token 問題、品質下降與客服不佳</a></td>
+<td>289pt</td>
+<td>***</td>
+<td>AI 開發</td>
+<td>用戶因多種問題取消訂閱</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47888465" rel="noopener noreferrer">聆聽你的 AI Agent 如何苦於除錯你的程式碼</a></td>
+<td>276pt</td>
+<td>***</td>
+<td>AI 開發</td>
+<td>實錄 AI Agent 除錯思考過程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47890841" rel="noopener noreferrer">Show HN：Browser Harness – 賦予 LLM 自由完成任何瀏覽器任務的能力</a></td>
+<td>234pt</td>
+<td>***</td>
+<td>AI Agent</td>
+<td>LLM 自主操控瀏覽器框架</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47875843" rel="noopener noreferrer">英國生物銀行健康數據持續外洩至 GitHub</a></td>
+<td>198pt</td>
+<td>***</td>
+<td>資安</td>
+<td>敏感健康數據外洩至 GitHub</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47878905" rel="noopener noreferrer">近期 Claude Code 品質報告更新</a></td>
+<td>167pt</td>
+<td>***</td>
+<td>AI 開發</td>
+<td>Anthropic 公布品質恢復進展</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47890302" rel="noopener noreferrer">Affirm 於一週內重組團隊以導入 AI Agent 軟體開發</a> (456pt) — 金融科技公司 Affirm 在極短時間內重組工程團隊架構，全面轉向以 AI Agent 為核心的軟體開發模式</li>
+<li><a href="https://news.ycombinator.com/item?id=47879092" rel="noopener noreferrer">GPT-5.5 發布</a> (398pt) — OpenAI 正式推出 GPT-5.5，作為 GPT-4 與完整 GPT-5 之間的過渡版本，推理能力大幅提升</li>
+<li><a href="https://news.ycombinator.com/item?id=47884971" rel="noopener noreferrer">DeepSeek v4 發布</a> (367pt) — DeepSeek 發布最新 v4 版本大型語言模型，在多個基準測試中展現顯著性能提升</li>
+<li><a href="https://news.ycombinator.com/item?id=47881786" rel="noopener noreferrer">TorchTPU：在 Google 規模下於 TPU 原生執行 PyTorch</a> (312pt) — Google 推出 TorchTPU，讓 PyTorch 框架能夠在 TPU 硬體上原生執行</li>
+<li><a href="https://news.ycombinator.com/item?id=47892019" rel="noopener noreferrer">我取消訂閱 Claude：Token 問題、品質下降與客服不佳</a> (289pt) — 用戶詳細分享取消 Claude 訂閱的經歷，反映企業用戶對訂閱制 AI 服務的期待落差</li>
+<li><a href="https://news.ycombinator.com/item?id=47888465" rel="noopener noreferrer">聆聽你的 AI Agent 如何苦於除錯你的程式碼</a> (276pt) — 趣味文章記錄 AI Agent 在嘗試除錯使用者程式碼時的思考過程與掙扎</li>
+<li><a href="https://news.ycombinator.com/item?id=47890841" rel="noopener noreferrer">Show HN：Browser Harness – 賦予 LLM 自由完成任何瀏覽器任務的能力</a> (234pt) — Browser Harness 是一個讓 LLM 能夠自主操控瀏覽器完成複雜任務的框架</li>
+<li><a href="https://news.ycombinator.com/item?id=47875843" rel="noopener noreferrer">英國生物銀行健康數據持續外洩至 GitHub</a> (198pt) — 英國生物銀行包含數百萬人的敏感健康數據持續被上傳至 GitHub 公開倉庫</li>
+<li><a href="https://news.ycombinator.com/item?id=47878905" rel="noopener noreferrer">近期 Claude Code 品質報告更新</a> (167pt) — Anthropic 發布 Claude Code 最新品質報告，顯示服務穩定性與代碼生成準確度已逐步恢復</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1str4k9/cve202634621_adobe_acrobat_reader_zeroday_was_on/" rel="noopener noreferrer">CVE-2026-34621：Adobe Acrobat Reader 零日漏洞潛伏 VirusTotal 136 天才被命名</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>Adobe Reader 零日漏洞潛伏百天</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1suh47t/cohere_terrarium_cve20265752_and_openai_codex_cli/" rel="noopener noreferrer">Cohere Terrarium 與 OpenAI Codex CLI 跨 CVE 分析：AI 程式沙盒逃逸</a></td>
+<td>1923</td>
+<td>89</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>跨 CVE 剖析 AI 沙盒逃逸漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sukfsn/automated_reverse_engineering_of_malicious/" rel="noopener noreferrer">自動化逆向分析惡意 Android 電視盒</a></td>
+<td>1567</td>
+<td>78</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>IoT 設備供應鏈攻擊分析</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1su60sd/9_months_ago_in_gemini_25_pro_era_vs_now_in/" rel="noopener noreferrer">Gemini 2.5 Pro 與 3.1 Pro 時代對比：舊版已跌出前十</a></td>
+<td>1234</td>
+<td>92</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>r/GoogleGeminiAI</td>
+<td>模型迭代快速，舊版迅速淘汰</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1sujada/gemini_32/" rel="noopener noreferrer">Gemini 3.2</a></td>
+<td>876</td>
+<td>67</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>r/GoogleGeminiAI</td>
+<td>Gemini 3.2 模型最新動態</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1str4k9/cve202634621_adobe_acrobat_reader_zeroday_was_on/" rel="noopener noreferrer">CVE-2026-34621：Adobe Acrobat Reader 零日漏洞潛伏 VirusTotal 136 天才被命名</a> (2847 ups) — r/netsec — 安全研究人員發現 Adobe Acrobat Reader 存在嚴重零日漏洞，相關惡意樣本已在 VirusTotal 潛伏 136 天
+2. <a href="https://www.reddit.com/r/netsec/comments/1suh47t/cohere_terrarium_cve20265752_and_openai_codex_cli/" rel="noopener noreferrer">Cohere Terrarium 與 OpenAI Codex CLI 跨 CVE 分析：AI 程式沙盒逃逸</a> (1923 ups) — r/netsec — 深度技術分析比較 Cohere Terrarium 與 OpenAI Codex CLI 的沙盒實現，識別出多個潛在逃逸漏洞
+3. <a href="https://www.reddit.com/r/cybersecurity/comments/1sukfsn/automated_reverse_engineering_of_malicious/" rel="noopener noreferrer">自動化逆向分析惡意 Android 電視盒</a> (1567 ups) — r/cybersecurity — 研究團隊開發自動化流程分析被惡意篡改的 Android 電視盒固件，發現其內建礦工程式與 C&amp;C 通訊模組</p>
+<p><strong>AI 模型類</strong>
+1. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1su60sd/9_months_ago_in_gemini_25_pro_era_vs_now_in/" rel="noopener noreferrer">Gemini 2.5 Pro 與 3.1 Pro 時代對比：舊版已跌出前十</a> (1234 ups) — r/GoogleGeminiAI — 使用者對比九個月前 Gemini 2.5 Pro 與當前 3.1 Pro 時代的模型排行榜變化，發現舊版模型已全面跌出前十
+2. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1sujada/gemini_32/" rel="noopener noreferrer">Gemini 3.2</a> (876 ups) — r/GoogleGeminiAI — Reddit 社群討論 Google 即將推出的 Gemini 3.2 模型預期功能與改進方向</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 開發工具品質與信任】</strong> — Claude Code 在 Hatena 和 HN 雙平台出現品質下滑討論，Anthropic 官方承認問題並公布原因。同時 Classmethod 發布安全使用指南，反映企業用戶在效率與風險間的權衡考量。</p>
+</li>
+<li>
+<p><strong>【AI Agent 平台化與企業導入】</strong> — Google 推出 Agents CLI 簡化開發流程，Affirm 一週內重組團隊導入 AI Agent。顯示 AI 代理工具正從實驗階段進入企業級生產環境，開發者生態快速成熟。</p>
+</li>
+<li>
+<p><strong>【AI 相關資安風險】</strong> — Reddit 上 AI 沙盒逃逸漏洞分析與 Hatena 的 AI 自動滲透測試文章，顯示 AI 本身既是攻擊工具也是防禦手段。安全邊界模糊化成為新挑戰。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Claude Code 品質問題</strong>：Hatena + HN 同步出現 — 日本與全球開發者同時關注服務穩定性，官方回應成為焦點</li>
+<li><strong>大型模型發布戰</strong>：HN + Reddit — GPT-5.5、DeepSeek v4、Gemini 3.x 密集發布，模型競賽進入白熱化</li>
+<li><strong>AI 資安雙面性</strong>：Hatena + Reddit — AI 自動滲透測試與沙盒逃逸漏洞分析，展現攻防兩端應用</li>
+<li><strong>瀏覽器自動化</strong>：HN — Browser Harness 框架開啟 LLM 操控瀏覽器的新應用場景</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

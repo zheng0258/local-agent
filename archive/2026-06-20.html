@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-20</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-20</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-20</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/stak22/articles/3ea03d0e3ca025" rel="noopener noreferrer">AI 代理能自主進行自我改善的 self-improvement 技能表現亮眼</a></td>
+<td>248</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI代理具備自主優化能力</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2118390.html" rel="noopener noreferrer">「VS Code」開發團隊解析 Token 節省法，OpenAI 與 Anthropic 重點剖析／大幅削減「GitHub Copilot」成本與延遲</a></td>
+<td>196</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>VSCode團隊解析Token節省法</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/aws_japan/articles/aws-blocks-ai-agent-intro" rel="noopener noreferrer">不連接 AWS 也能測試？實測新服務「AWS Blocks」</a></td>
+<td>101</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AWSBlocks支援離線測試代理</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2606/19/news102.html" rel="noopener noreferrer">「錄製」螢幕操作→AI 代勞作業，Codex 新增「錄製與重現」功能</a></td>
+<td>101</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Codex新增螢幕錄製實現代勞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/stak22/articles/3ea03d0e3ca025" rel="noopener noreferrer">AI 代理能自主進行自我改善的 self-improvement 技能表現亮眼</a> (248 users) — AI代理具備自主優化能力</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2118390.html" rel="noopener noreferrer">「VS Code」開發團隊解析 Token 節省法，OpenAI 與 Anthropic 重點剖析／大幅削減「GitHub Copilot」成本與延遲</a> (196 users) — VSCode團隊解析Token節省法</li>
+<li><a href="https://zenn.dev/aws_japan/articles/aws-blocks-ai-agent-intro" rel="noopener noreferrer">不連接 AWS 也能測試？實測新服務「AWS Blocks」</a> (101 users) — AWSBlocks支援離線測試代理</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2606/19/news102.html" rel="noopener noreferrer">「錄製」螢幕操作→AI 代勞作業，Codex 新增「錄製與重現」功能</a> (101 users) — Codex新增螢幕錄製實現代勞</li>
+<li><a href="https://japan.cnet.com/article/35249158/" rel="noopener noreferrer">只需輸入「修復這張照片」，ChatGPT 生成過激圖片的漏洞遭曝光</a> (68 users) — ChatGPT曝指令生成不當圖漏洞</li>
+<li><a href="https://developers.cyberagent.co.jp/blog/archives/64334/" rel="noopener noreferrer">直面約 2,000 人使用的 Claude Code。| CyberAgent 開發者部落格</a> (19 users) — ClaudeCode吸引兩千開發者</li>
+<li><a href="https://workshop.yusuke.run/cloudflare-agents" rel="noopener noreferrer">Cloudflare Agents 實作工作坊</a> (16 users) — 提供CloudflareAgents實作教學</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/serial/vibcode/2117898.html" rel="noopener noreferrer">終於將應用程式部署至雲端！邊學習環境差異，邊與 AI 一同部署至暫存環境【從零開始的 Vibecoding】</a> (12 users) — AI輔助完成應用程式雲端部署</li>
+<li><a href="https://gigazine.net/news/20260619-unpatchable-exploit-targets-apple-a12-a13/" rel="noopener noreferrer">搭載 A12 與 A13 晶片之 Apple 裝置發現無法修補的漏洞「usbliter8」</a> (11 users) — Apple舊晶片曝無法修補漏洞</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2118410.html" rel="noopener noreferrer">暫停新用戶申請的「GitHub Copilot」個人方案，歷經約 2 個月終於重新開放</a> (10 users) — Copilot個人方案恢復開放</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48590505" rel="noopener noreferrer">MCP 的零觸控 OAuth 驗證方案</a></td>
+<td>4pt</td>
+<td>***</td>
+<td>AI工具生態整合</td>
+<td>零觸控OAuth驗證，簡化MCP授權</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48590505" rel="noopener noreferrer">MCP 的零觸控 OAuth 驗證方案</a> (4pt) — 零觸控OAuth驗證，簡化MCP授權
+   💬 社群觀點：社群對用途感到困惑，關注密碼保護等安全性，並質疑其實用性，認為現有 AI 輔助部署已足夠簡便，新方案優勢不明顯。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u9y7yw/squidbleed_cve202647729_heartbleedstyle/" rel="noopener noreferrer">Squidbleed (CVE-2026-47729) - 類似 Heartbleed 的漏洞，會從所有版本的 Squid Proxy 預設配置中洩漏內部記憶體</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>網路基礎架構資安漏洞</td>
+<td>r/netsec</td>
+<td>Squid曝類Heartbleed記憶體洩漏</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ua20fg/openbsd_mpls_kernel_stack_leaks_remotely/" rel="noopener noreferrer">OpenBSD MPLS 核心堆疊遭遠端洩漏 (CVE-2026-56099)</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>網路基礎架構資安漏洞</td>
+<td>r/netsec</td>
+<td>OpenBSD核心堆疊遭遠端洩漏</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u9y7yw/squidbleed_cve202647729_heartbleedstyle/" rel="noopener noreferrer">Squidbleed (CVE-2026-47729) - 類似 Heartbleed 的漏洞，會從所有版本的 Squid Proxy 預設配置中洩漏內部記憶體</a> (- ups) — r/netsec — Squid曝類Heartbleed記憶體洩漏
+2. <a href="https://www.reddit.com/r/netsec/comments/1ua20fg/openbsd_mpls_kernel_stack_leaks_remotely/" rel="noopener noreferrer">OpenBSD MPLS 核心堆疊遭遠端洩漏 (CVE-2026-56099)</a> (- ups) — r/netsec — OpenBSD核心堆疊遭遠端洩漏</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u9ybfu/monitoring_the_claude_execution_layer_with/" rel="noopener noreferrer">使用 OpenTelemetry 監控 Claude 執行層</a> (- ups) — r/netsec — OpenTelemetry監控Claude執行層</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/autojack-attack-lets-one-web-page.html" rel="noopener noreferrer">AutoJack 攻擊：單一網頁即可劫持 AI 代理並在主機執行程式碼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>AutoJack單頁劫持AI代理執行程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/cisa-warns-fortinet-customers-as.html" rel="noopener noreferrer">CISA 警告 Fortinet 客戶，FortiBleed 漏洞已影響逾 8.6 萬台 FortiGate 設備</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>CISA警告FortiBleed波及八萬設備</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/f5-patches-two-critical-nginx-open.html" rel="noopener noreferrer">F5 修補 NGINX 開源版兩項可導致遠端程式碼執行的嚴重漏洞</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>F5修補NGINX兩項遠端執行漏洞</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/06/a-record-breaking-patch-tuesday-for-june-2026/" rel="noopener noreferrer">2026年6月創紀錄的「修補星期二」</a></td>
+<td>KrebOnSecurity</td>
+<td>***</td>
+<td>六月修補星期二更新數創歷史新高</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/operation-endgame-disrupts-socgholish.html" rel="noopener noreferrer">「終局行動」摧毀 SocGholish 伺服器，清除近 1.5 萬個受感染 WordPress 網站</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>終局行動摧毀SocGholish清淨萬站</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/salesforce-disables-klue-app.html" rel="noopener noreferrer">OAuth Token 遭濫用洩露客戶資料，Salesforce 停用 Klue 應用程式整合</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>OAuth權杖遭濫用致資料外洩停用</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理自主化與開發工具进化】</strong> — 跨平台關注 AI 代理的自我優化、螢幕操作自動化與雲端部署輔助，顯示開發工具正從輔助編碼邁向全自動工作流。</li>
+<li><strong>【基礎架構與網路協議資安漏洞】</strong> — Reddit 與資安部落格集中曝光 Squid、OpenBSD、FortiGate 等關鍵基礎設施的記憶體洩漏與遠端執行風險，迫使企業加速修補。</li>
+<li><strong>【AI 應用安全與權限控管】</strong> — 針對 AI 代理的權限劫持（AutoJack）、零觸控 OAuth 驗證與持續授權機制成為跨平台熱議焦點，反映自動化與安全性的拉鋸戰。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理開發與部署</strong>：Hatena + HN + RSS 同步出現 — 聚焦代理自主優化、邊緣部署與無伺服器執行環境。</li>
+<li><strong>網路設備與協議漏洞</strong>：HN + Reddit + RSS 同步出現 — 針對 Proxy、核心堆疊與防火牆的資安修補與防禦策略。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

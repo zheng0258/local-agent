@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-20</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-20</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-20</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/" rel="noopener noreferrer">重要更新：Gemini CLI 過渡到 Antigravity CLI</a></td>
+<td>856</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Google AI CLI 戰略性重命名顯示代理化方向</td>
+</tr>
+<tr>
+<td><a href="https://japan.cnet.com/article/35247698/" rel="noopener noreferrer">Google 發表無休止工作的 AI 代理「Gemini Spark」，關閉 PC 仍可運作</a></td>
+<td>742</td>
+<td>***</td>
+<td>AI 代理技術</td>
+<td>雲端原生背景運作的突破性功能</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260519-cloudflare-claude-mythos-preview/" rel="noopener noreferrer">Cloudflare 驗證 Anthropic 未公開 AI 模型「Mythos」，漏洞調查顯現實力</a></td>
+<td>634</td>
+<td>***</td>
+<td>AI/資安交叉</td>
+<td>白帽研究意外發現未發布產品</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2109896.html" rel="noopener noreferrer">Windows 六年前 allegedly 修正的漏洞仍未修復</a></td>
+<td>521</td>
+<td>***</td>
+<td>Windows 資安</td>
+<td>漏洞管理流程受質疑</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li>
+<p><a href="https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/" rel="noopener noreferrer">重要更新：Gemini CLI 過渡到 Antigravity CLI</a> (856 users) — Google 正式將 Gemini CLI 重命名為 Antigravity CLI，標誌著 AI 開發者工具向代理化演進</p>
+</li>
+<li>
+<p><a href="https://japan.cnet.com/article/35247698/" rel="noopener noreferrer">Google 發表無休止工作的 AI 代理「Gemini Spark」，關閉 PC 仍可運作</a> (742 users) — 突破性的背景運作能力讓長程任務可全天候執行</p>
+</li>
+<li>
+<p><a href="https://gigazine.net/news/20260519-cloudflare-claude-mythos-preview/" rel="noopener noreferrer">Cloudflare 驗證 Anthropic 未公開 AI 模型「Mythos」，漏洞調查顯現實力</a> (634 users) — 漏洞研究中意外驗證 Anthropic 未公開模型，顯示社群技術實力</p>
+</li>
+<li>
+<p><a href="https://pc.watch.impress.co.jp/docs/news/2109896.html" rel="noopener noreferrer">Windows 六年前 allegedly 修正的漏洞仍未修復</a> (521 users) — 宣稱已修補的漏洞實際上仍存在，微軟漏洞管理受質疑</p>
+</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48196570" rel="noopener noreferrer">Gemini 3.5 Flash</a></td>
+<td>2847pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>Google 最新快速型模型，效能速度兼備</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48196609" rel="noopener noreferrer">Gemini Omni</a></td>
+<td>2631pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>全能型多模態模型，朝單一通用架構演進</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48190454" rel="noopener noreferrer">CISA 管理員在 GitHub 洩露 AWS GovCloud 密鑰</a></td>
+<td>2156pt</td>
+<td>***</td>
+<td>資安事件</td>
+<td>美國政府機密雲端金鑰意外公開</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48192383" rel="noopener noreferrer">展示 HN: Forge – Guardrails 將 8B 模型代理任務從 53% 提升至 99%</a></td>
+<td>1923pt</td>
+<td>***</td>
+<td>AI 效能優化</td>
+<td>小模型透過架構優化達到大模型實用性</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=48196570" rel="noopener noreferrer">Gemini 3.5 Flash</a> (2847pt) — Google 推出平衡推理速度與準確度的最新 AI 模型，適合即時應用場景</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=48196609" rel="noopener noreferrer">Gemini Omni</a> (2631pt) — 整合視覺、語言、代碼推理的多模態全能模型</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=48190454" rel="noopener noreferrer">CISA 管理員在 GitHub 洩露 AWS GovCloud 密鑰</a> (2156pt) — 被稱為「史上最糟洩露」的政府機密金鑰事件</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=48192383" rel="noopener noreferrer">展示 HN: Forge – Guardrails 將 8B 模型代理任務從 53% 提升至 99%</a> (1923pt) — 證明小模型透過約束機制可大幅提升代理任務成功率</p>
+</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1th95rq/the_worst_leak_that_i_ve_witnessed_us/" rel="noopener noreferrer">'The Worst Leak That I've Witnessed': U.S. Cybersecurity Agency Leaves Its Digital Keys Out in Public on GitHub</a></td>
+<td>8742</td>
+<td>567</td>
+<td>***</td>
+<td>資安事件</td>
+<td>r/cybersecurity</td>
+<td>CISA 金鑰洩露震撼業界</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1thcanx/314_npm_packages_just_got_compromised_271_antv/" rel="noopener noreferrer">314 npm packages just got compromised, 271 @antv, echarts-for-react, size-sensor, timeago.js</a></td>
+<td>6234</td>
+<td>423</td>
+<td>***</td>
+<td>供應鏈攻擊</td>
+<td>r/programming</td>
+<td>大規模 npm 套件遭入侵</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1ti5nav/github_announces_internal_data_breached/" rel="noopener noreferrer">GitHub announces internal data breached.</a></td>
+<td>5891</td>
+<td>389</td>
+<td>***</td>
+<td>資安事件</td>
+<td>r/cybersecurity</td>
+<td>GitHub 宣布內部數據被入侵</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1theffd/qwen_is_cooking_hard/" rel="noopener noreferrer">Qwen is cooking hard</a></td>
+<td>4567</td>
+<td>312</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>r/LocalLLaMA</td>
+<td>Qwen 模型表現引發熱烈討論</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1thkwgk/bytedance_released_an_open_source_model_that/" rel="noopener noreferrer">bytedance released an open source model that attempts to do just about anything with only 3b parameters</a></td>
+<td>4123</td>
+<td>278</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>r/LocalLLaMA</td>
+<td>30 億參數多功能開源模型</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1thxw7s/ghosttree_unveiling_path_manipulation_techniques/" rel="noopener noreferrer">GhostTree: Unveiling Path Manipulation Techniques to Bypass Windows Security</a></td>
+<td>3845</td>
+<td>201</td>
+<td>***</td>
+<td>攻擊技術</td>
+<td>r/netsec</td>
+<td>新型路徑操縱繞過 Windows 防護</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ti05hk/sleeping_agent_silent_persistent_c2_through_web/" rel="noopener noreferrer">Sleeping Agent: Silent persistent C2 through Web Push</a></td>
+<td>3421</td>
+<td>187</td>
+<td>***</td>
+<td>APT 技術</td>
+<td>r/netsec</td>
+<td>透過 Web Push API 建立隱蔽 C2 通道</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1th95rq/the_worst_leak_that_i_ve_witnessed_us/" rel="noopener noreferrer">'The Worst Leak That I've Witnessed': U.S. Cybersecurity Agency...</a> (8742 ups) — r/cybersecurity — CISA 意外將 AWS GovCloud 金鑰上傳至公開 GitHub
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1ti5nav/github_announces_internal_data_breached/" rel="noopener noreferrer">GitHub announces internal data breached.</a> (5891 ups) — r/cybersecurity — GitHub 證實內部數據遭入侵，影響範圍待調查
+3. <a href="https://www.reddit.com/r/netsec/comments/1thxw7s/ghosttree_unveiling_path_manipulation_techniques/" rel="noopener noreferrer">GhostTree: Unveiling Path Manipulation Techniques...</a> (3845 ups) — r/netsec — 路徑操縱技術可繞過 Windows 多層安全防護
+4. <a href="https://www.reddit.com/r/netsec/comments/1ti05hk/sleeping_agent_silent_persistent_c2_through_web/" rel="noopener noreferrer">Sleeping Agent: Silent persistent C2 through Web Push</a> (3421 ups) — r/netsec — 利用 Web Push API 建立隱蔽的命令控制通道
+5. <a href="https://www.reddit.com/r/netsec/comments/1thjpl5/pathfinding_labs_deploy_test_and_learn_from_100/" rel="noopener noreferrer">Pathfinding Labs: Deploy, test, and learn from 100+ intentionally vulnerable AWS environments</a> (2934 ups) — r/netsec — 提供百餘個故意脆弱的 AWS 環境供滲透測試練習</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1theffd/qwen_is_cooking_hard/" rel="noopener noreferrer">Qwen is cooking hard</a> (4567 ups) — r/LocalLLaMA — Alibaba Qwen 系列在多個基準測試中表現優異
+2. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1thkwgk/bytedance_released_an_open_source_model_that/" rel="noopener noreferrer">bytedance released an open source model that attempts to do just about anything with only 3b parameters</a> (4123 ups) — r/LocalLLaMA — ByteDance 推出高效率的 30 億參數多功能模型</p>
+<p><strong>供應鏈攻擊類</strong>
+1. <a href="https://www.reddit.com/r/programming/comments/1thcanx/314_npm_packages_just_got_compromised_271_antv/" rel="noopener noreferrer">314 npm packages just got compromised, 271 @antv...</a> (6234 ups) — r/programming — @antv 生態系 271 個套件遭供應鏈攻擊</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/the-new-phishing-click-how-oauth.html" rel="noopener noreferrer">新釣魚點擊：OAuth 同意如何繞過 MFA</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>新型釣魚攻擊利用 OAuth 流程漏洞竊取令牌</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/04/russia-hacked-routers-to-steal-microsoft-office-tokens/" rel="noopener noreferrer">俄羅斯駭客入侵路由器竊取 Microsoft Office 憑證令牌</a></td>
+<td>krebsonsecurity.com</td>
+<td>***</td>
+<td>APT 透過路由器攔截 Office 365 登入令牌</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/github-actions-supply-chain-attack.html" rel="noopener noreferrer">受歡迎的 GitHub Action 標籤被重定向至假冒提交以竊取 CI/CD 憑證</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>Git tag 重定向攻擊竊取 CI/CD 敏感憑證</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/mini-shai-hulud-pushes-malicious-antv.html" rel="noopener noreferrer">Mini Shai-Hulud 透過被入侵的維護者帳戶推送惡意 AntV npm 套件</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>威脅組織入侵維護者帳號注入惡意代碼</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/tanstack-supply-chain-attack/" rel="noopener noreferrer">TanStack 詳述複雜的 npm 供應鏈攻擊，42 個套件遭入侵</a></td>
+<td>infoq.com</td>
+<td>***</td>
+<td>多層跳板攻擊展現高度組織化能力</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【CISA 金鑰洩露事件】</strong> — 美國網安機構 CISA 管理員意外將 AWS GovCloud 機密金鑰上傳至公開 GitHub，被專家稱為「見過的史上最糟洩露」。此事件同時出現在 HN、r/cybersecurity、r/programming、r/technology 等多個平台，凸顯即使是專業資安機構也存在嚴重的人為疏失風險。</p>
+</li>
+<li>
+<p><strong>【Google AI 產品大舉動】</strong> — Google 今日密集發布多款 AI 相關更新：Gemini CLI 重命名為 Antigravity CLI、推出雲端背景運作的 Gemini Spark 代理、發布快速型 Gemini 3.5 Flash 模型，以及全能型 Gemini Omni。這顯示 Google 正全面推進 AI 代理化和多模態整合戰略。</p>
+</li>
+<li>
+<p><strong>【大規模供應鏈攻擊】</strong> — npm 生態系遭遇重大供應鏈攻擊，波及 314 個套件（其中 271 個屬 @antv），TanStack 也有 42 個套件遭入侵。同時 GitHub Action Git tag 重定向攻擊竊取 CI/CD 憑證，顯示供應鏈攻擊成為當前最嚴重的威脅向量。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>CISA 金鑰洩露</strong>：Hatena + HN + r/cybersecurity + r/programming + r/technology 同步出現 — 政府級資安事故成為跨平台最大話題</li>
+<li><strong>供應鏈攻擊</strong>：r/programming + RSS 部落格同步報導 — npm 與 GitHub Action 攻擊顯示開發者生態系面臨系統性風險</li>
+<li><strong>小參數模型突破</strong>：HN + r/LocalLLaMA 共同關注 — Forge+Guardrails 將 8B 模型效能提升至 99%，ByteDance 3B 模型展現高效率，證明參數量非唯一指標</li>
+<li><strong>Google AI 生態</strong>：Hatena + HN 雙平台密集出现 — Gemini 系列四大更新顯示 Google 在 AI 代理與多模態方向的全面佈局</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

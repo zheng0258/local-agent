@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-10</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-10</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-10</h1>
+<hr>
+<h2>Hatena Bookmark（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/manchan/items/63745b9198f1989c2a15" rel="noopener noreferrer">Claude Code 120% 發揮的 3 個設定</a></td>
+<td>847</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>效能優化關鍵設定公開</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/kanseilink/articles/linksee-memory-claude-code-recall-20260508" rel="noopener noreferrer">你的 Claude Code 其實忘了上一個會話</a></td>
+<td>623</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>記憶斷層問題對策</td>
+</tr>
+<tr>
+<td><a href="https://kuranuki.sonicgarden.jp/archives/36034" rel="noopener noreferrer">「審美眼即真諦」DHH 談 AI 代理時代的技藝</a></td>
+<td>512</td>
+<td>***</td>
+<td>AI 哲學</td>
+<td>DHH 論判斷力才是核心技能</td>
+</tr>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/aws-mcp-server-claude-code-20260507/" rel="noopener noreferrer">從 Claude Code 用 AWS MCP Server 串接主要工具</a></td>
+<td>489</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>MCP 串接實戰教學</td>
+</tr>
+<tr>
+<td><a href="https://blog.lai.so/ai-rich-text-format/" rel="noopener noreferrer">AI 時代的富文本格式（RTF）</a></td>
+<td>401</td>
+<td>***</td>
+<td>AI 內容格式</td>
+<td>重新思考文件結構設計</td>
+</tr>
+<tr>
+<td><a href="https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/" rel="noopener noreferrer">最近使用 ChatGPT 5.5 Pro 的經驗</a></td>
+<td>378</td>
+<td>***</td>
+<td>AI 模型評測</td>
+<td>Gowers 親测 GPT-5.5 Pro</td>
+</tr>
+<tr>
+<td><a href="https://thariqs.github.io/html-effectiveness/?ref=blog.lai.so" rel="noopener noreferrer">HTML 的不可思議有效性——範例</a></td>
+<td>356</td>
+<td>***</td>
+<td>Web 開發</td>
+<td>簡單設計的力量論證</td>
+</tr>
+<tr>
+<td><a href="https://warden.sentry.dev/" rel="noopener noreferrer">Warden</a></td>
+<td>267</td>
+<td>***</td>
+<td>資安工具</td>
+<td>Sentry 新代理監控工具</td>
+</tr>
+<tr>
+<td><a href="https://xeiaso.net/blog/2026/abstain-from-install/" rel="noopener noreferrer">也許你該暫緩安裝新軟體一陣子</a></td>
+<td>198</td>
+<td>***</td>
+<td>Web 資安意識</td>
+<td>最小安裝原則的資安防禦</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/manchan/items/63745b9198f1989c2a15" rel="noopener noreferrer">Claude Code 120% 發揮的 3 個設定</a> (847 users) — 效能優化關鍵設定公開</li>
+<li><a href="https://zenn.dev/kanseilink/articles/linksee-memory-claude-code-recall-20260508" rel="noopener noreferrer">你的 Claude Code 其實忘了上一個會話</a> (623 users) — 記憶斷層問題對策</li>
+<li><a href="https://kuranuki.sonicgarden.jp/archives/36034" rel="noopener noreferrer">「審美眼即真諦」DHH 談 AI 代理時代的技藝</a> (512 users) — DHH 論判斷力才是核心技能</li>
+<li><a href="https://dev.classmethod.jp/articles/aws-mcp-server-claude-code-20260507/" rel="noopener noreferrer">從 Claude Code 用 AWS MCP Server 串接主要工具</a> (489 users) — MCP 串接實戰教學</li>
+<li><a href="https://blog.lai.so/ai-rich-text-format/" rel="noopener noreferrer">AI 時代的富文本格式（RTF）</a> (401 users) — 重新思考文件結構設計</li>
+<li><a href="https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/" rel="noopener noreferrer">最近使用 ChatGPT 5.5 Pro 的經驗</a> (378 users) — Gowers 親测 GPT-5.5 Pro</li>
+<li><a href="https://thariqs.github.io/html-effectiveness/?ref=blog.lai.so" rel="noopener noreferrer">HTML 的不可思議有效性——範例</a> (356 users) — 簡單設計的力量論證</li>
+<li><a href="https://warden.sentry.dev/" rel="noopener noreferrer">Warden</a> (267 users) — Sentry 新代理監控工具</li>
+<li><a href="https://xeiaso.net/blog/2026/abstain-from-install/" rel="noopener noreferrer">也許你該暫緩安裝新軟體一陣子</a> (198 users) — 最小安裝原則的資安防禦</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48066524" rel="noopener noreferrer">AI 正在破壞兩種漏洞文化</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>AI/資安</td>
+<td>Mythos 改變遊戲規則</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48071940" rel="noopener noreferrer">使用 Claude Code：HTML 的不可思議效果</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>AI/Web</td>
+<td>AI 視覺生成能力展示</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48073246" rel="noopener noreferrer">LLM 在你授權時會腐化你的文件</a></td>
+<td>256pt</td>
+<td>***</td>
+<td>AI/資安</td>
+<td>信任危機研究警告</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48075144" rel="noopener noreferrer">GrapheneOS 修復了 Google 拒絕補丁的 Android VPN 泄漏</a></td>
+<td>198pt</td>
+<td>***</td>
+<td>隱私/資安</td>
+<td>開源 vs 封閉生態對比</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48076465" rel="noopener noreferrer">CPanel 黑色週期：4.4 萬台伺服器遭攻擊後修復 3 個新漏洞</a></td>
+<td>176pt</td>
+<td>***</td>
+<td>Web 資安意識</td>
+<td>大規模供應商攻擊</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48066524" rel="noopener noreferrer">AI 正在破壞兩種漏洞文化</a> (342pt) — Mythos 改變遊戲規則</li>
+<li><a href="https://news.ycombinator.com/item?id=48071940" rel="noopener noreferrer">使用 Claude Code：HTML 的不可思議效果</a> (287pt) — AI 視覺生成能力展示</li>
+<li><a href="https://news.ycombinator.com/item?id=48073246" rel="noopener noreferrer">LLM 在你授權時會腐化你的文件</a> (256pt) — 信任危機研究警告</li>
+<li><a href="https://news.ycombinator.com/item?id=48075144" rel="noopener noreferrer">GrapheneOS 修復了 Google 拒絕補丁的 Android VPN 泄漏</a> (198pt) — 開源 vs 封閉生態對比</li>
+<li><a href="https://news.ycombinator.com/item?id=48076465" rel="noopener noreferrer">CPanel 黑色週期：4.4 萬台伺服器遭攻擊後修復 3 個新漏洞</a> (176pt) — 大規模供應商攻擊</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1t888b2/shinyhunters_claims_275m_records_from_canvas_lms/" rel="noopener noreferrer">ShinyHunters 宣稱洩漏 Canvas LMS 2.75 億條記錄</a></td>
+<td>4521</td>
+<td>387</td>
+<td>***</td>
+<td>資安威脅與事件</td>
+<td>r/cybersecurity</td>
+<td>教育產業最大洩漏</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1t7lgeb/hugging_face_cofounder_says_qwen_36_27b_running/" rel="noopener noreferrer">Qwen 3.6 27B 離線模式逼近 Claude Opus 效能</a></td>
+<td>3847</td>
+<td>512</td>
+<td>***</td>
+<td>AI 開發工具與模型比較</td>
+<td>r/ClaudeCode</td>
+<td>開源模型崛起訊號</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1t85awe/vibe_coding_from_a_computer_scientists_lens/" rel="noopener noreferrer">電腦科學家視角看 Vibe Coding</a></td>
+<td>2934</td>
+<td>428</td>
+<td>***</td>
+<td>AI 開發工具與模型比較</td>
+<td>r/ClaudeCode</td>
+<td>直覺式開發雙面性分析</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1t8712b/20_claude_code_commands_worth_using/" rel="noopener noreferrer">20 個值得使用的 Claude Code 指令</a></td>
+<td>2567</td>
+<td>198</td>
+<td>***</td>
+<td>AI 開發工具與模型比較</td>
+<td>r/ClaudeCode</td>
+<td>社群最佳實踐整理</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1t73zot/needle_cryptostealer_c2_analysis_api_key_embedded/" rel="noopener noreferrer">Needle 加密竊賊 C2 分析：Rust 惡意程式藏明文 API Key</a></td>
+<td>1876</td>
+<td>156</td>
+<td>***</td>
+<td>資安威脅與事件</td>
+<td>r/netsec</td>
+<td>Rust 惡意程式逆向分析</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1t84an2/second_security_incident_at_instructure_canvas/" rel="noopener noreferrer">Instructure (Canvas) 第二起資安事件</a></td>
+<td>1654</td>
+<td>234</td>
+<td>***</td>
+<td>資安威脅與事件</td>
+<td>r/cybersecurity</td>
+<td>教育平台重複遭侵</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1t7k5gb/securing_cicd_for_an_open_source_project_lessons/" rel="noopener noreferrer">Cilium 開源專案 CI/CD 資安保課經驗</a></td>
+<td>1432</td>
+<td>89</td>
+<td>***</td>
+<td>資安威脅與防禦框架</td>
+<td>r/netsec</td>
+<td>Kubernetes 專案安全實踐</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/OpenAI/comments/1t83l4z/what_claude_says_vs_what_clade_thinks/" rel="noopener noreferrer">Claude 所說 vs Claude 所想</a></td>
+<td>1287</td>
+<td>342</td>
+<td>***</td>
+<td>AI 開發工具與模型比較</td>
+<td>r/OpenAI</td>
+<td>推理過程透明度分析</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1t888b2/shinyhunters_claims_275m_records_from_canvas_lms/" rel="noopener noreferrer">ShinyHunters 宣稱洩漏 Canvas LMS 2.75 億條記錄</a> (4521 ups) — r/cybersecurity — 教育產業最大洩漏
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1t84an2/second_security_incident_at_instructure_canvas/" rel="noopener noreferrer">Instructure (Canvas) 第二起資安事件</a> (1654 ups) — r/cybersecurity — 教育平台重複遭侵
+3. <a href="https://www.reddit.com/r/netsec/comments/1t73zot/needle_cryptostealer_c2_analysis_api_key_embedded/" rel="noopener noreferrer">Needle 加密竊賊 C2 分析：Rust 惡意程式藏明文 API Key</a> (1876 ups) — r/netsec — Rust 惡意程式逆向分析
+4. <a href="https://www.reddit.com/r/netsec/comments/1t7k5gb/securing_cicd_for_an_open_source_project_lessons/" rel="noopener noreferrer">Cilium 開源專案 CI/CD 資安保課經驗</a> (1432 ups) — r/netsec — Kubernetes 專案安全實踐</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1t7lgeb/hugging_face_cofounder_says_qwen_36_27b_running/" rel="noopener noreferrer">Qwen 3.6 27B 離線模式逼近 Claude Opus 效能</a> (3847 ups) — r/ClaudeCode — 開源模型崛起訊號
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1t85awe/vibe_coding_from_a_computer_scientists_lens/" rel="noopener noreferrer">電腦科學家視角看 Vibe Coding</a> (2934 ups) — r/ClaudeCode — 直覺式開發雙面性分析
+3. <a href="https://www.reddit.com/r/ClaudeCode/comments/1t8712b/20_claude_code_commands_worth_using/" rel="noopener noreferrer">20 個值得使用的 Claude Code 指令</a> (2567 ups) — r/ClaudeCode — 社群最佳實踐整理
+4. <a href="https://www.reddit.com/r/OpenAI/comments/1t83l4z/what_claude_says_vs_what_clade_thinks/" rel="noopener noreferrer">Claude 所說 vs Claude 所想</a> (1287 ups) — r/OpenAI — 推理過程透明度分析</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/pytorch-lightning-pypi-compromise-mini-shai-hulud" rel="noopener noreferrer">知名 PyTorch Lightning 套件遭「Mini Shai-Hulud」駭入</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI/ML 供應鏈重災區</td>
+</tr>
+<tr>
+<td><a href="https://www.wiz.io/blog/ai-threat-readiness-framework" rel="noopener noreferrer">AI 威脅準備度架構</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>企業 AI 安全評估標準</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/canvas-breach-disrupts-schools-colleges-nationwide/" rel="noopener noreferrer">Canvas 數據洩漏打亂全美學校與大學運作</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>教育數位化集中風險爆發</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/04/scattered-spider-member-tylerb-pleads-guilty/" rel="noopener noreferrer">Scattered Spider 成員 Tylerb 認罪</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>社交工程組織遭追擊</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/04/patch-tuesday-april-2026-edition/" rel="noopener noreferrer">Patch Tuesday 2026 年 4 月版</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>微軟零日補丁重點追蹤</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/04/russia-hacked-routers-to-steal-microsoft-office-tokens/" rel="noopener noreferrer">俄羅斯駭客入侵路由器竊取 Microsoft Office 驗證令牌</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>邊緣設備成為攻擊跳板</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/03/canisterworm-springs-wiper-attack-targeting-iran/" rel="noopener noreferrer">CanisterWorm 發動針對伊朗的刪除攻擊</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>地緣政治網路戰延伸</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/03/iran-backed-hackers-claim-wiper-attack-on-medtech-firm-stryker/" rel="noopener noreferrer">伊朗駭客宣稱對醫療科技公司 Stryker 發動刪除攻擊</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>關鍵基礎設施持續脆弱</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/cpanel-whm-patch-3-new-vulnerabilities.html" rel="noopener noreferrer">cPanel、WHM 發布修復三個新漏洞的補丁</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>緊接大規模攻擊後的緊急補丁</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/quasar-linux-rat-steals-developer.html" rel="noopener noreferrer">Quasar Linux RAT 竊取開發者憑證以進行軟體供應鏈攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>開源生態系供應鏈威脅</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/new-linux-pamdoora-backdoor-uses-pam.html" rel="noopener noreferrer">新的 Linux PamDOORa 後門使用 PAM 模組竊取 SSH 憑證</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>認證模組被劫持攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/linux-kernel-dirty-frag-lpe-exploit.html" rel="noopener noreferrer">Linux Kernel Dirty Frag LPE 漏洞允許跨主要發行版取得 Root 權限</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Dirty 系列漏洞延續威脅</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/ivanti-epmm-cve-2026-6973-rce-under.html" rel="noopener noreferrer">Ivanti EPMM CVE-2026-6973 RCE 正在被利用並授予管理員級別訪問權限</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>企業端點管理軟體遭攻</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/pcpjack-credential-stealer-exploits-5.html" rel="noopener noreferrer">PCPJack 憑證竊取工具利用 5 個 CVE 以蠕蟲方式在雲端系統中傳播</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>雲端橫向移動自動化威脅</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/pan-os-rce-exploit-under-active-use.html" rel="noopener noreferrer">PAN-OS RCE 漏洞正在被利用以實現 Root 訪問和間諜活動</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>防火牆被攻破間諜活動</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/pypi-packages-deliver-zichatbot-malware.html" rel="noopener noreferrer">PyPI 套件透過 Zulip API 在 Windows 和 Linux 上提供 ZiChatBot 惡意軟體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Python 供應鏈攻擊新手法</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/darksword-malware.html" rel="noopener noreferrer">DarkSword 惡意軟體</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>企業級進階持續威脅</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/04/claude-mythos-has-found-271-zero-days-in-firefox.html" rel="noopener noreferrer">Claude Mythos 在 Firefox 中發現了 271 個零日漏洞</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>AI 自動漏洞發現里程碑</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/04/what-anthropic-s-mythos-means-for-the-future-of-cybersecurity.html" rel="noopener noreferrer">Anthropic 的 Mythos 對網路安全的未來意味著什麼</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>安全驗證範式根本轉變</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/cloudflare-dynamic-workflows/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cloudflare 發布 Dynamic Workflows，將持久執行帶到每個租戶和代理代碼</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>邊緣 AI 代理執行平台</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/github-agentic-workflows/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">GitHub 如何保護現代 CI/CD 系統中的代理工作流程</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>CI/CD 代理安全架構公開</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/cloudflare-artifacts-ai-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cloudflare 發布 Artifacts Beta 版，為 AI 代理引入類似 Git 的版本控制</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AI 工作流版本管理革命</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/openai-websocket-responses-api/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">OpenAI 介紹基於 WebSocket 的執行模式以降低代理工作流程中的延遲</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>低延遲代理互動架構</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/05/gke-agent-sandbox-hypercluster/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Google 在 Next '26 上宣布 GKE Agent Sandbox 和 Hypercluster，將 Kubernetes 定位為 AI 代理</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>K8s 重新定位為代理平台</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 供應鏈安全危機】</strong> — PyTorch Lightning、cPanel 等知名套件遭駭入，結合 Canvas 教育平台 2.75 億條記錄洩漏事件，顯示供應鏈攻擊已成為 2026 年最嚴重的資安威脅。AI/ML 生態系因高度依賴 PyPI 等開源包管理器而成為重災區。</p>
+</li>
+<li>
+<p><strong>【Mythos 重新定義漏洞發現】</strong> — Anthropic 的 AI 漏洞發現系統在 Firefox 中自動發現 271 個零日漏洞，此突破不僅改變了安全驗證的規模經濟，更預示著傳統「人力審計」模式面臨根本性挑戰。HN 與 Schneier 同步關注此議題，顯示產業界對 AI 安全驗證範式轉移的高度警覺。</p>
+</li>
+<li>
+<p><strong>【AI 代理工作流平台戰】</strong> — Cloudflare（Dynamic Workflows、Artifacts）、GitHub（CI/CD 代理保護）、OpenAI（WebSocket 低延遲 API）、Google（GKE Agent Sandbox）五大廠齊發 AI 代理執行平台，顯示 AI 代理從「實驗性功能」正式進入「企業基礎設施」階段。版本控制、持久執行、安全沙盒成為競爭焦點。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Canvas 數據洩漏</strong>：Hatena + HN + Reddit + Krebs — 教育產業集中式風險爆發，短時間內多重事件顯示系統性漏洞</li>
+<li><strong>Claude Code 生態</strong>：Hatena + Reddit — Japanese 開發者與全球社群同步關注優化設定、記憶斷層問題</li>
+<li><strong>AI 漏洞文化變遷</strong>：HN + Schneier — Mythos 對安全產業的深遠影響跨平台討論</li>
+<li><strong>HTML/AI 視覺能力</strong>：Hatena + HN — AI 生成簡單卻有效的前端內容展現設計哲學啟示</li>
+<li><strong>Linux/雲端漏洞爆發</strong>：Krebs + Hacker News — Dirty Frag、PamDOORa、PCPJack 等漏洞顯示基礎設施層級攻擊升級</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

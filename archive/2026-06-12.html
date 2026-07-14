@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-12</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-12</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-12</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2116352.html" rel="noopener noreferrer">Google 免費公開最高快 4 倍的 LLM「DiffusionGemma」</a></td>
+<td>125</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>四倍速開源大模型降低部署門檻</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260611-xiaomi-mimo-code/" rel="noopener noreferrer">小米公開類似 Claude Code 的 AI 代理「MiMo Code」並開源，盲測擊敗 Claude Code</a></td>
+<td>79</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開源編程代理盲測勝對手</td>
+</tr>
+<tr>
+<td><a href="https://www.techno-edge.net/article/2026/06/11/5171.html" rel="noopener noreferrer">Claude Fable 5 成功忠實還原了我无论如何都無法重現的遊戲（CloseBox）</a></td>
+<td>22</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>模型精準重現玩家難復現遊戲</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260611-openclaw-ai-phishing/" rel="noopener noreferrer">證實 AI 也會落入釣魚詐騙陷阱，1 封偽裝上司的郵件即導致 AWS 認證資訊外洩</a></td>
+<td>16</td>
+<td>***</td>
+<td>AI 資安威脅</td>
+<td>人工智慧遭釣魚詐騙致憑證外洩</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260611-cisa-prioritizing-security/" rel="noopener noreferrer">美國政府為應對 AI 威脅，將最嚴重漏洞的修復期限設為「3 天」</a></td>
+<td>13</td>
+<td>***</td>
+<td>監管應對</td>
+<td>美方規定致命漏洞三日內強制修復</td>
+</tr>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2606/10/news082.html" rel="noopener noreferrer">Anthropic 開始提供 Mythos 級模型「Claude Fable 5」，將 5000 萬行 Ruby 程式碼遷移時間從 2 個月縮短至 1 天</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>模型將程式碼遷移時間縮至一天</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2116352.html" rel="noopener noreferrer">Google 免費公開最高快 4 倍的 LLM「DiffusionGemma」</a> (125 users) — 推出推理速度達主流模型 4 倍的開源 LLM，大幅降低開發門檻並重塑開源 AI 生態。</li>
+<li><a href="https://gigazine.net/news/20260611-xiaomi-mimo-code/" rel="noopener noreferrer">小米公開類似 Claude Code 的 AI 代理「MiMo Code」並開源，盲測擊敗 Claude Code</a> — 硬體廠跨足 AI 編程助手市場，開源方案憑藉本地化優化挑戰商業模型壟斷。</li>
+<li><a href="https://www.techno-edge.net/article/2026/06/11/5171.html" rel="noopener noreferrer">Claude Fable 5 成功忠實還原了我无论如何都無法重現的遊戲（CloseBox）</a> — 展現卓越情境理解與邏輯推演能力，為遊戲開發與自動化測試帶來革命性潛力。</li>
+<li><a href="https://gigazine.net/news/20260611-openclaw-ai-phishing/" rel="noopener noreferrer">證實 AI 也會落入釣魚詐騙陷阱，1 封偽裝上司的郵件即導致 AWS 認證資訊外洩</a> — AI 代理易受社會工程學攻擊，傳統人工防範機制失效，亟需建立專屬安全協議。</li>
+<li><a href="https://gigazine.net/news/20260611-cisa-prioritizing-security/" rel="noopener noreferrer">美國政府為應對 AI 威脅，將最嚴重漏洞的修復期限設為「3 天」</a> — CISA 強制 3 天內修復高危漏洞，AI 自動化攻擊縮短利用窗口，重塑全球資安響應基準。</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2606/10/news082.html" rel="noopener noreferrer">Anthropic 開始提供 Mythos 級模型「Claude Fable 5」，將 5000 萬行 Ruby 程式碼遷移時間從 2 個月縮短至 1 天</a> — 企業級模型將海量舊系統遷移壓縮至單日，加速全球傳統 IT 基礎設施現代化轉型。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48490826" rel="noopener noreferrer">MiMo Code 現已發布並開源</a></td>
+<td>259pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開源工具上線，加速開發流程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48489229" rel="noopener noreferrer">Anthropic 為 Claude Fable 的隱形防護欄道歉</a></td>
+<td>152pt</td>
+<td>***</td>
+<td>AI 透明度與監管</td>
+<td>隱形防護引爭議，官方公開致歉</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48492215" rel="noopener noreferrer">AMD 拒修的遠端程式碼執行（RCE）漏洞</a></td>
+<td>70pt</td>
+<td>***</td>
+<td>系統資安</td>
+<td>晶片商拒修漏洞，引發資安警覺</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48462928" rel="noopener noreferrer">Show HN：Claw Patrol，專為 AI 代理設計的資安防火牆</a></td>
+<td>38pt</td>
+<td>***</td>
+<td>AI 資安</td>
+<td>AI 代理防火牆上線，強化執行安全</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48490826" rel="noopener noreferrer">MiMo Code 現已發布並開源</a> (259pt) — 終端機整合與持久記憶功能加速開發，提供輕量可自訂的 AI 輔助編碼替代方案。
+   💬 社群觀點：多視其為 OpenCode 分支，肯定終端 AI 與持久記憶；但質疑開源純粹性、雲端依賴與中文排版，並關注記憶體需求。</li>
+<li><a href="https://news.ycombinator.com/item?id=48489229" rel="noopener noreferrer">Anthropic 為 Claude Fable 的隱形防護欄道歉</a> (152pt) — 後端自動攔截或修改提示詞機制引發透明度爭議，凸顯模型黑箱與使用者知情權衝突。
+   💬 社群觀點：社群痛批道歉僅為公關作秀，指隱形防護欄實為惡意攔截以護航優勢。強烈建議系統應明確拒絕而非暗改提示，並擔憂資料政策。</li>
+<li><a href="https://news.ycombinator.com/item?id=48492215" rel="noopener noreferrer">AMD 拒修的遠端程式碼執行（RCE）漏洞</a> (70pt) — 晶片商拒絕修復嚴重 RCE 漏洞，暴露硬體供應鏈軟體維護落差，加速企業評估轉向開源系統。
+   💬 社群觀點：社群痛批AMD軟體低落與更新粗糙，指CRC32驗證不安全。用戶轉投Nvidia或Linux，呼籲AMD應優先補強軟體與資安。</li>
+<li><a href="https://news.ycombinator.com/item?id=48462928" rel="noopener noreferrer">Show HN：Claw Patrol，專為 AI 代理設計的資安防火牆</a> (38pt) — 透過攔截與監控代理外部請求防止越權操作，為自動化工作流提供即時執行階段防線。
+   💬 社群觀點：社群讚賞其創新架構，但擔憂預設允許政策的安全風險。關注憑證路由與流程中斷，並與現有金鑰工具對比，多視為互補。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u2vd03/hacking_google_with_ai_for_500000/" rel="noopener noreferrer">使用 AI 駭入 Google 贏得 50 萬美元</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>AI 自動攻擊 Google 獲高額獎勵</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology/comments/1u2jt3g/landmark_german_ruling_declares_googles_ai/" rel="noopener noreferrer">德國里程碑式判決宣告 Google 的 AI 摘要屬於 Google 自身的言論，並須為錯誤答案負責</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>法規責任</td>
+<td>r/technology</td>
+<td>德國判例確立 AI 摘要錯誤責任</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1u2tqud/are_you_guys_still_using_the_superpowers_skill/" rel="noopener noreferrer">大家還在使用 Superpowers 技能嗎？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>社群熱議 AI 編碼輔助插件使用率</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安與法規類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u2vd03/hacking_google_with_ai_for_500000/" rel="noopener noreferrer">使用 AI 駭入 Google 贏得 50 萬美元</a> (-) — r/netsec — AI 自動化生成攻擊指令突破雲端架構，迫使企業部署主動式監控機制。
+2. <a href="https://www.reddit.com/r/netsec/comments/1u2tagh/prompt_injection_attacking_the_analysts_ai/" rel="noopener noreferrer">提示詞注入：攻擊分析師的 AI 工具</a> (-) — r/netsec — 剖析提示詞注入繞過安全防護手法，威脅金融醫療等依賴 AI 決策領域。
+3. <a href="https://www.reddit.com/r/cybersecurity/comments/1u2xei3/chaotic_eclipse_strikes_again_new_zeroday_unlocks/" rel="noopener noreferrer">Chaotic Eclipse 再出擊：新零日漏洞四小時內破解 BitLocker</a> (-) — r/cybersecurity — 新型零日漏洞快速繞過磁碟加密，凸顯作業系統底層漏洞致命性。
+4. <a href="https://www.reddit.com/r/cybersecurity/comments/1u2e8sc/angry_bug_hunter_with_microsoft_beef_drops_new/" rel="noopener noreferrer">與微軟結怨的白帽駭客釋出新型 Windows 零日漏洞</a> (-) — r/cybersecurity — 白帽研究員因不滿回報機制轉而公開漏洞細節，暴露企業協作信任裂痕。
+5. <a href="https://www.reddit.com/r/ChatGPT/comments/1u2ra19/please_help_me_find_alice_chatgpt_and_gemini_both/" rel="noopener noreferrer">請幫我尋找"Alice"：ChatGPT 和 Gemini 都將她的資料洩露到我的對話中</a> (-) — r/ChatGPT — 模型跨帳戶輸出私人對話紀錄，引發訓練資料隔離與個資保護機制嚴峻質疑。
+6. <a href="https://www.reddit.com/r/technology/comments/1u2jt3g/landmark_german_ruling_declares_googles_ai/" rel="noopener noreferrer">德國里程碑式判決宣告 Google 的 AI 摘要屬於 Google 自身的言論，並須為錯誤答案負責</a> (-) — r/technology — 法院認定 AI 生成摘要視為平台自身陳述，營運商須承擔法律責任。</p>
+<p><strong>AI 開發工具類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1u2tqud/are_you_guys_still_using_the_superpowers_skill/" rel="noopener noreferrer">大家還在使用 Superpowers 技能嗎？</a> (-) — r/ClaudeCode — 開發者討論 Claude Code Superpowers 插件採用率，聚焦複雜重构效能與過度依賴風險。
+2. <a href="https://www.reddit.com/r/opensource/comments/1u33qso/what_is_programming_with_ai_like/" rel="noopener noreferrer">FOSS Harness Deck 儀表板 - 用於 AI 工具鏈輸出的開源儀表板</a> (-) — r/opensource — 即時視覺化模型推理延遲與 Token 消耗，降低企業部署 AI 管道的監控門檻。
+3. <a href="https://www.reddit.com/r/cscareerquestions/comments/1u33qso/what_is_programming_with_ai_like/" rel="noopener noreferrer">使用 AI 輔助程式開發的實際體驗如何？</a> (-) — r/cscareerquestions — 工程師分享 AI 輔助編碼工作流變化，反映產業正重新定義程式設計師核心競爭力。</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/npm-v12-block-postinstall" rel="noopener noreferrer">npm v12 預設停用安裝腳本，實現數年來最大資安突破</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm 預設停用安裝腳本強化供應鏈資安</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/" rel="noopener noreferrer">荷蘭查扣 800 台伺服器，逮捕 2 名協助網路攻擊者</a></td>
+<td>KrebsOnSecurity</td>
+<td>***</td>
+<td>荷蘭查扣八百伺服器並逮捕兩名攻擊協助者</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/alleged-kimwolf-botmaster-dort-arrested-charged-in-u-s-and-canada/" rel="noopener noreferrer">涉嫌操控 Kimwolf 機器人網路的「Dort」遭逮捕，在美加被起訴</a></td>
+<td>KrebsOnSecurity</td>
+<td>***</td>
+<td>Kimwolf操控者遭美加逮捕起訴</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/canvas-breach-disrupts-schools-colleges-nationwide/" rel="noopener noreferrer">Canvas 資料外洩事件波及全美各大中小學</a></td>
+<td>KrebsOnSecurity</td>
+<td>***</td>
+<td>Canvas資料外洩波及全美各大中小學</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/the-gentlemen-ransomware-claims-478.html" rel="noopener noreferrer">勒索軟體「The Gentlemen」已致 478 名受害者，具備蠕蟲式傳播能力</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>蠕蟲型勒索軟體已致四百七十八名受害者</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/threatsday-bulletin-worm-code-leaked-ai.html" rel="noopener noreferrer">ThreatsDay 快訊：蠕蟲程式外洩、AI 代理遭釣魚、Claude Code 修復漏洞等 28 則新聞</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>安全快訊涵蓋蠕蟲外洩與AI代理釣魚</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/oceanlotus-hits-vietnam-investors-with.html" rel="noopener noreferrer">OceanLotus 以 SPECTRALVIPER 攻擊越南投資人，展開 FireAnt 行動</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>越籍駭客組織以新工具攻擊越南投資人</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/github-to-disable-npm-install-scripts.html" rel="noopener noreferrer">GitHub 將預設停用 npm 安裝腳本，以阻斷供應鏈攻擊</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>GitHub預設停用npm腳本阻斷供應鏈攻擊</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/willianpinho/i-made-claude-gpt-and-gemini-predict-the-entire-2026-world-cup-heres-the-experiment-design-2nm1" rel="noopener noreferrer">我讓 Claude、GPT 與 Gemini 預測 2026 世界盃全部賽程，實驗設計公開</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>公開三大AI模型預測世界盃賽程實驗設計</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/octave_nkurunziza_afb0512/how-senior-software-engineers-use-ai-3enc" rel="noopener noreferrer">資深軟體工程師如何運用 AI</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>資深工程師整合AI提升開發效率實務</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/gerimate/i-built-a-python-agent-that-uses-a-vector-db-as-memory-not-retrieval-135e" rel="noopener noreferrer">我建構了一個使用向量資料庫作為「記憶」而非「檢索」的 Python Agent</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>以向量資料庫建構記憶體型PythonAgent</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/openai-frontier-models-aws/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">OpenAI 的 GPT-5.5 與 Codex 於 Amazon Bedrock 正式上線</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>GPT-5.5與Codex正式登陸AWS Bedrock</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/ibm-hashicorp-vault-ldap-secrets/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">IBM Vault Enterprise 2.0 為企業身分安全帶來自動化的 LDAP 密碼管理</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>IBM Vault自動化管理LDAP強化企業安全</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/06/google-gemma4-12b-local-coding/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Gemma 4 12B 以無編碼器架構，實現端側多模態 Agent 工作流</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Gemma4無編碼器架構實現端側多模態Agent</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 編程代理白熱化競爭】</strong> — 小米 MiMo Code 開源盲測勝出、Anthropic Claude Fable 5 加速代碼遷移，加上社群熱議 Superpowers 插件，顯示 AI 輔助開發已從片段生成邁向全系統重構與自動化工作流。</li>
+<li><strong>【AI 代理資安威脅與防禦升級】</strong> — 研究證實 AI 代理易遭釣魚詐騙導致憑證外洩，美國政府強制 3 天內修復高危漏洞，GitHub 與 npm 同步預設停用安裝腳本，專為 Agent 設計的防火牆 Claw Patrol 應運而生。</li>
+<li><strong>【模型透明度與法律責任爭議】</strong> — Anthropic 隱形防護欄機制引發透明度爭議，德國法院裁定 AI 摘要錯誤由平台承擔法律責任，同時大模型跨帳戶洩露隱私資料事件頻傳，推動業界重新檢視資料沙盒與合規機制。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助編程工具</strong>：Hatena + HN + Reddit 同步出現 — 小米 MiMo Code 與 Claude Fable 5 引發全球開發者對開源替代方案與效率提升的熱烈討論。</li>
+<li><strong>AI 代理資安與供應鏈防禦</strong>：HN + Reddit + 資安部落格 — 社群關注 AI 代理防火牆與 npm 腳本停用策略，反映自動化流程成為新型攻擊面，防禦重心轉向執行階段與依賴管理。</li>
+<li><strong>模型黑箱與法規責任</strong>：HN + Reddit — 隱形防護欄道歉與德國 AI 摘要判決並行，凸顯大語言模型在透明度、資料隱私與法律歸屬上的監管缺口。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

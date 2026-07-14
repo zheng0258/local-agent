@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-26</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-26</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-26</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/ot12/items/06420caf41a34a910c53" rel="noopener noreferrer">因 Opus 4.7 登場，Claude Code 開發者與官方開始說「這就別做了」的 6 件事</a></td>
+<td>未提供</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Opus 4.7 後六項應停止做法，提示工程與上下文管理策略轉型</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/ot12/items/06420caf41a34a910c53" rel="noopener noreferrer">因 Opus 4.7 登場，Claude Code 開發者與官方開始說「這就別做了」的 6 件事</a> (未提供 users) — Anthropic 推出 Opus 4.7 模型後，Claude Code 生態系出現重大最佳實踐轉變</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47899844" rel="noopener noreferrer">由 AI Agent 維護的 Karpathy 風格 LLM wiki（Markdown 和 Git）</a></td>
+<td>未提供</td>
+<td>***</td>
+<td>AI</td>
+<td>AI 自動維護 LLM 技術文庫，驗證 Agent 獨立承擔知識庫維護能力</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47897790" rel="noopener noreferrer">開放原始碼記憶層，讓任何 AI Agent 都能像 Claude.ai 和 ChatGPT 一樣運作</a></td>
+<td>未提供</td>
+<td>***</td>
+<td>AI</td>
+<td>開放源碼記憶層賦予 Agent 長期記憶能力，支援對話歷史與知識檢索</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47899844" rel="noopener noreferrer">由 AI Agent 維護的 Karpathy 風格 LLM wiki（Markdown 和 Git）</a> (未提供 pt) — 項目展示完全由 AI Agent 自動維護的大型語言模型技術文庫</li>
+<li><a href="https://news.ycombinator.com/item?id=47897790" rel="noopener noreferrer">開放原始碼記憶層，讓任何 AI Agent 都能像 Claude.ai 和 ChatGPT 一樣運作</a> (未提供 pt) — 開放源碼專案提供可插拔的長期記憶模組</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1supqng/54_days_of_ssh_honeypot_data_269k_connections_48k/" rel="noopener noreferrer">54 天 SSH 誘捕數據：26.9 萬連線、4.8 萬密碼</a></td>
+<td>未提供</td>
+<td>未提供</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>SSH 誘捕揭露暴力破解模式與人類攻擊者痕跡</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sv6gty/largescale_security_audit_of_1764_vibecoded_apps/" rel="noopener noreferrer">1764 個 AI 生成 App 大審查：7% 資料庫外洩風險</a></td>
+<td>未提供</td>
+<td>未提供</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>AI 生成 App 藏 hardcoded 金鑰與認證漏洞重災區</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1svfqfe/attempting_to_evade_an_ai_soc_with_offensive/" rel="noopener noreferrer">嘗試用攻勢 Agent 規避 AI 安全運營中心</a></td>
+<td>未提供</td>
+<td>未提供</td>
+<td>***</td>
+<td>AI 攻防</td>
+<td>r/netsec</td>
+<td>以 AI 攻勢代理測試並規避 AI 防禦系統</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1supqng/54_days_of_ssh_honeypot_data_269k_connections_48k/" rel="noopener noreferrer">54 天 SSH 誘捕數據：26.9 萬連線、4.8 萬密碼</a> (未提供 ups) — r/cybersecurity — 研究者部署 SSH 誘捕系統記錄暴力破解嘗試與弱密碼模式
+2. <a href="https://www.reddit.com/r/netsec/comments/1sv6gty/largescale_security_audit_of_1764_vibecoded_apps/" rel="noopener noreferrer">1764 個 AI 生成 App 大審查：7% 資料庫外洩風險</a> (未提供 ups) — r/netsec — 大規模審計發現 AI 生成 App 存在硬編碼憑證問題
+3. <a href="https://www.reddit.com/r/netsec/comments/1suq2kx/media_player_pivot_how_i_got_back_into_my_own/" rel="noopener noreferrer">媒體播放器繞道：如何奪回伺服器控制權</a> (未提供 ups) — r/netsec — 利用媒體播放器漏洞作為攻擊跳板滲透伺服器</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1svfqfe/attempting_to_evade_an_ai_soc_with_offensive/" rel="noopener noreferrer">嘗試用攻勢 Agent 規避 AI 安全運營中心</a> (未提供 ups) — r/netsec — 紅隊測試使用攻勢 AI Agent 對抗 AI 驅動的 SOC
+2. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1sv8ukj/google_appears_to_be_preparing_a_major_shift_in/" rel="noopener noreferrer">Google Gemini 即將實施使用限制機制</a> (未提供 ups) — r/GoogleGeminiAI — 逆向工程發現 Gemini 客戶端代碼中的使用限制相關字串</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI Agent 能力邊界拓展】</strong> — HN 同步出現 AI 自動維護技術文庫與開源記憶層專案，顯示 AI Agent 正從單點任務執行者演進為具備長期記憶與自主維護能力的系統級角色，降低企業自建智能代理的門檻</li>
+<li><strong>【AI 生成代碼資安隱憂】</strong> — Reddit 上 1764 個 AI 生成 App 審計揭露 7% 資料庫外洩風險，結合攻勢 Agent 規避 AI SOC 的測試報告，凸顯 vibe coding 模式雖提升開發效率但引入系統性資安缺陷</li>
+<li><strong>【攻防自動化競賽升溫】</strong> — SSH 誘捕數據揭示傳統暴力破解仍活躍，同時攻勢 AI Agent 對抗防禦 AI SOC 的測試顯示自動化攻防正進入新階段，攻擊端可能利用規模優勢耗盡防禦資源</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI Agent 工具化</strong>：Hatena + HN — 日本市場關注 Claude Code 最佳實踐轉變，全球同步關注 AI Agent 記憶架構與自動維護能力，反映 Agent 技術正從研究走向大規模應用</li>
+<li><strong>AI 資安風險</strong>：HN + r/netsec — 開源記憶層賦予 Agent 新能力的同時，Reddit 同步討論 AI 生成代碼漏洞與攻勢 Agent 測試，顯示能力提升伴隨風險擴張的双重性</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

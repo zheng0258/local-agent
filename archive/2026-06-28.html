@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-28</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-28</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-28</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/yuyanz/items/5c96232d188ecfb2544b" rel="noopener noreferrer">受限現場以輕量 RPA 實踐 M365 Copilot</a></td>
+<td>147</td>
+<td>***</td>
+<td>AI 企業導入與實務</td>
+<td>受限環境以輕量 RPA 導入 Copilot</td>
+</tr>
+<tr>
+<td><a href="https://blog.lai.so/pi-coding-agent/" rel="noopener noreferrer">打造 AI 代理：用 Pi Coding Agent 自訂缺失功能</a></td>
+<td>79</td>
+<td>***</td>
+<td>AI 開發工具與代理</td>
+<td>自訂 Pi Coding Agent 補足功能缺口</td>
+</tr>
+<tr>
+<td><a href="https://tech.medpeer.co.jp/entry/2026/06/26/122446" rel="noopener noreferrer">全公司導入 Claude Enterprise 評估與未執行事項</a></td>
+<td>49</td>
+<td>***</td>
+<td>AI 企業導入與實務</td>
+<td>企業導入 Claude Enterprise 評估現況</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260627-hister/" rel="noopener noreferrer">免費網頁索引引擎 Hister 可轉 MCP 伺服器</a></td>
+<td>36</td>
+<td>***</td>
+<td>AI 基礎設施與監管</td>
+<td>自架 Hister 網頁索引轉 MCP 串接 AI</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/yuyanz/items/5c96232d188ecfb2544b" rel="noopener noreferrer">受限現場以輕量 RPA 實踐 M365 Copilot</a> (147 users) — 受限環境以輕量 RPA 導入 Copilot</li>
+<li><a href="https://blog.lai.so/pi-coding-agent/" rel="noopener noreferrer">打造 AI 代理：用 Pi Coding Agent 自訂缺失功能</a> (79 users) — 自訂 Pi Coding Agent 補足功能缺口</li>
+<li><a href="https://tech.medpeer.co.jp/entry/2026/06/26/122446" rel="noopener noreferrer">全公司導入 Claude Enterprise 評估與未執行事項</a> (49 users) — 企業導入 Claude Enterprise 評估現況</li>
+<li><a href="https://gigazine.net/news/20260627-hister/" rel="noopener noreferrer">免費網頁索引引擎 Hister 可轉 MCP 伺服器</a> (36 users) — 自架 Hister 網頁索引轉 MCP 串接 AI</li>
+<li><a href="https://engineering.mercari.com/blog/entry/20260616-0f89ad4c7b/" rel="noopener noreferrer">吞噬修正 PR 讓審查更聰明：Claude Code 自改善</a> (22 users) — Claude Code 借 PR 修正自我強化</li>
+<li><a href="https://herdr.dev/" rel="noopener noreferrer">herdr：專為 AI 代理設計的 tmux 多工器</a> (16 users) — 專為 AI 代理優化的終端多工器 herdr</li>
+<li><a href="https://dev.classmethod.jp/articles/kash02_claude_context/" rel="noopener noreferrer">Claude 指令效力範圍：CLAUDE.md 與記憶整理</a> (11 users) — 釐清 Claude 指令與記憶生效範圍</li>
+<li><a href="https://note.com/shi3zblog/n/n8f37fada607b" rel="noopener noreferrer">隨意用 UE5 與 Claude Code 實作看看</a> (10 users) — 結合 UE5 與 Claude Code 快速實作</li>
+<li><a href="https://deno.com/blog/v2.9" rel="noopener noreferrer">Deno 2.9 版本發佈</a> (7 users) — Deno 2.9 更新強化開發與資安</li>
+<li><a href="https://qiita.com/Takashi_Masumori/items/f7aab1e87a4175f0ccc8" rel="noopener noreferrer">控制 Copilot Cowork 用量計費的想法整理</a> (6 users) — 優化 Copilot Cowork 用量與計費策略</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2120574.html" rel="noopener noreferrer">OpenAI 發布 GPT-5.6 受美政府限僅限公開</a> (6 users) — GPT-5.6 發布受美政府限制公開</li>
+<li><a href="https://www.afpbb.com/articles/-/3641462" rel="noopener noreferrer">美國 Anthropic 獲政府核准部分恢復最新模型</a> (4 users) — Anthropic 獲准部分恢復最新模型</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48696585" rel="noopener noreferrer">DSpark：推論解碼加速大型語言模型推論</a></td>
+<td>649pt</td>
+<td>***</td>
+<td>AI推論與硬體設計</td>
+<td>新架構加速LLM推論解碼</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48698617" rel="noopener noreferrer">匿名 GitHub 帳號大量投放未公開的零日漏洞</a></td>
+<td>272pt</td>
+<td>***</td>
+<td>資安防護與漏洞分析</td>
+<td>匿名帳號洩露未公開零日漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48694631" rel="noopener noreferrer">剖析一場失敗的（國家級？）攻擊</a></td>
+<td>126pt</td>
+<td>***</td>
+<td>資安防護與漏洞分析</td>
+<td>解析一場疑似國家級攻擊行動</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48696585" rel="noopener noreferrer">DSpark：推論解碼加速大型語言模型推論</a> (649pt) — 新架構加速LLM推論解碼
+   💬 社群觀點：社群讚賞其高效能與開源精神，認為大幅降低成本並超越美廠。用戶肯定低價實用性，建議支援消費級顯卡，預測專屬小模型將普及。</li>
+<li><a href="https://news.ycombinator.com/item?id=48698617" rel="noopener noreferrer">匿名 GitHub 帳號大量投放未公開的零日漏洞</a> (272pt) — 匿名帳號洩露未公開零日漏洞
+   💬 社群觀點：社群質疑多非真正零日，預期AI加速挖掘漏洞，短期激增後隨修補回落。部分不滿廠商修補慢，認為公開披露反能加速防護，強調應正</li>
+<li><a href="https://news.ycombinator.com/item?id=48694631" rel="noopener noreferrer">剖析一場失敗的（國家級？）攻擊</a> (126pt) — 解析一場疑似國家級攻擊行動
+   💬 社群觀點：主流認AI助長釣魚危害，疑屬國家級駭客；部分疑文本真實性。建議強化開發者訓練、核實發件細節，並以容器隔離程式。</li>
+<li><a href="https://news.ycombinator.com/item?id=48698559" rel="noopener noreferrer">後神話時代的網路安全：保持冷靜並繼續前行</a> (65pt) — 資安戰術常變需保持冷靜應對
+   💬 社群觀點：社群質疑廠商恐嚇行銷與上市時程，但認同AI找漏洞能力已真實存在。應冷靜面對模型存取造成的攻守不對稱，持續強化防禦。</li>
+<li><a href="https://news.ycombinator.com/item?id=48660021" rel="noopener noreferrer">AI 正在設計人類無法想像的無線電晶片</a> (17pt) — AI設計超越人類直覺的射頻晶片
+   💬 社群觀點：多認為技術僅是遺傳演算法與暴力搜尋的延續，質疑其創造力、穩健性與量產限制，並批評標題過度誇大。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uh04d0/slow_json_stream_64_connections_at_1_bs_takes/" rel="noopener noreferrer">慢速 JSON 串流：64 個連線以每秒 1 位元組的速率，在 2 分鐘內癱瘓 PHP/Laravel</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>Web應用層攻擊</td>
+<td>r/netsec</td>
+<td>慢速JSON串流兩分鐘癱瘓PHP後端</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1uh04d0/slow_json_stream_64_connections_at_1_bs_takes/" rel="noopener noreferrer">慢速 JSON 串流：64 個連線以每秒 1 位元組的速率，在 2 分鐘內癱瘓 PHP/Laravel</a> (- ups) — r/netsec — 慢速JSON串流兩分鐘癱瘓PHP後端</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/npm-cooldown-account-changes-announcement" rel="noopener noreferrer">npm 現於偵測到高風險帳號變更後，凍結高影響力帳號</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm偵測風險變更後凍結帳號防攻擊</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/06/a-record-breaking-patch-tuesday-for-june-2026/" rel="noopener noreferrer">2026年6月創紀錄的更新星期二</a></td>
+<td>KrebsOnSecurity</td>
+<td>***</td>
+<td>六月修補星期二更新數量創歷史新高</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/new-sharkloader-malware-deploys-cobalt.html" rel="noopener noreferrer">新型 SharkLoader 惡意軟體於 StrikeShark 網路攻擊中部署 Cobalt Strike</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>新型惡意軟體於攻擊中部署控制工具</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與代理進化】</strong> — 日本市場積極探索輕量 RPA 橋接 Copilot、自訂 Pi Coding Agent 補足功能缺口，以及利用 Claude Code 吸收 PR 紀錄進行自我強化，顯示 AI 輔助開發正從通用提示走向深度客製化與自動化。</li>
+<li><strong>【AI 基礎設施與監管政策】</strong> — OpenAI GPT-5.6 受美政府限制僅限公開 API，而 Anthropic 獲準部分恢復企業服務，同時社群關注 DSpark 開源推論架構與 AI 設計射頻晶片，反映產業在合規審查與硬體創新間尋找平衡。</li>
+<li><strong>【資安威脅演進與供應鏈防護】</strong> — 從匿名 GitHub 帳號洩露零日漏洞、慢速 JSON 串流癱瘓 PHP 後端，到 npm 推出帳號凍結冷卻機制與 Record-breaking Patch Tuesday，顯示攻守不對稱加劇，企業需強化基礎架構預設值與開源生態防禦。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助開發與資安風險</strong>：Hatena 聚焦 AI 編碼工具與代理實務，HN 與 Reddit 同步警告 AI 加速漏洞挖掘與新型態後端攻擊，凸顯效能提升伴隨的防禦挑戰。</li>
+<li><strong>供應鏈與基礎設施韌性</strong>：Hatena 與資安部落格關注 npm 帳號凍結與修補星期二規模，HN 與 Reddit 探討國家級攻擊與後端架構脆弱性，跨平台共識指向強化自動化更新與容器隔離策略。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

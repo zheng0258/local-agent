@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-31</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-31</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-31</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#" rel="noopener noreferrer">嘗試實作類圖表工具之 MCP Server 使用者介面發現架構複雜</a></td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>實作圖表工具 MCP Server UX 架構複雜</td>
+</tr>
+<tr>
+<td><a href="#" rel="noopener noreferrer">AI 快速掃描系統漏洞之新型資安威脅實證</a></td>
+<td>-</td>
+<td>***</td>
+<td>系統資安威脅</td>
+<td>AI 數分鐘內即可掃描出系統漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="#" rel="noopener noreferrer">嘗試實作類圖表工具之 MCP Server 使用者介面發現架構複雜</a> (- users) — 實作圖表工具 MCP Server UX 架構複雜</li>
+<li><a href="#" rel="noopener noreferrer">VS Code 新版更新：支援免帳號登入的私人金鑰管理</a> (- users) — 新版支援私人金鑰管理，免帳號登入</li>
+<li><a href="#" rel="noopener noreferrer">AI 快速掃描系統漏洞之新型資安威脅實證</a> (- users) — AI 數分鐘內即可掃描出系統漏洞</li>
+<li><a href="#" rel="noopener noreferrer">免費工具可清除圖檔中可見與隱形之 AI 浮水印</a> (- users) — 免費工具可清除圖檔可見與隱形浮水印</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#" rel="noopener noreferrer">合法 TLS 線路攔截的平行重建</a></td>
+<td>-</td>
+<td>***</td>
+<td>TLS 協議分析</td>
+<td>解析合法 TLS 流量攔截之平行重建技術</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="#" rel="noopener noreferrer">合法 TLS 線路攔截的平行重建</a> (-pt) — 解析合法 TLS 流量攔截之平行重建技術</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#" rel="noopener noreferrer">LLMReaper: 透過瀏覽器擴充功能以DOM方式竊取AI對話</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>揭露利用瀏覽器擴充功能與DOM技術竊取AI對話的資安漏洞</td>
+</tr>
+<tr>
+<td><a href="#" rel="noopener noreferrer">Opus 4.8過度防範提示注入且浪費Token，屬重大版本倒退</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>Opus 4.8更新後過度防範提示注入，導致效能與Token浪費</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="#" rel="noopener noreferrer">LLMReaper: 透過瀏覽器擴充功能以DOM方式竊取AI對話</a> (- ups) — r/cybersecurity — 揭露利用瀏覽器擴充功能與DOM技術竊取AI對話的資安漏洞
+2. <a href="#" rel="noopener noreferrer">駭客入侵印度最大考試評閱門戶: 繞過驗證至接管帳號</a> (- ups) — r/cybersecurity — 駭客成功繞過驗證機制，全面接管印度最大考試評閱系統
+3. <a href="#" rel="noopener noreferrer">你正在對AI代理進行滲透測試嗎？</a> (- ups) — r/cybersecurity — 探討針對AI代理系統進行安全滲透測試的現況與方法
+4. <a href="#" rel="noopener noreferrer">提醒: 務必禁止Claude讀取你的.env環境變數檔</a> (- ups) — r/cybersecurity — 警告開發者需嚴格限制Claude權限，防止洩漏敏感環境變數</p>
+<p><strong>AI 類</strong>
+1. <a href="#" rel="noopener noreferrer">開放五百万Codex用戶重置使用限制</a> (- ups) — r/OpenAI — OpenAI為五百萬Codex用戶重新開放API使用額度
+2. <a href="#" rel="noopener noreferrer">社群反饋與意見交流</a> (- ups) — r/ClaudeCode — 收集並分享Claude Code使用者的實際使用體驗與建議
+3. <a href="#" rel="noopener noreferrer">Opus 4.8過度防範提示注入且浪費Token，屬重大版本倒退</a> (- ups) — r/LocalLLaMA — Opus 4.8更新後過度防範提示注入，導致效能與Token浪費
+4. <a href="#" rel="noopener noreferrer">PSA: Claude近期異常為框架版本倒退，非模型問題</a> (- ups) — r/ClaudeCode — 澄清Claude近期異常係因客戶端框架版本倒退，非模型本身問題
+5. <a href="#" rel="noopener noreferrer">Opus 4.8表現卓越，堪稱殺手級模型</a> (- ups) — r/LocalLLaMA — 使用者高度評價Opus 4.8的強大能力與實用性</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#" rel="noopener noreferrer">惡意 VS Code 擴充套件導致 GitHub 遭入侵: 為何開發者裝置才是真正目標</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>惡意擴充套件入侵GitHub，開發者裝置成攻擊核心。</td>
+</tr>
+<tr>
+<td><a href="#" rel="noopener noreferrer">為何開發者機器已成為供應鏈攻擊的首要目標</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>開發者機器遭鎖定為供應鏈攻擊首要目標。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理與系統資安】</strong> — 跨平台顯示開發者與企業正高度關注 AI 代理（Agent）的潛在漏洞，從 Reddit 的 LLMReaper DOM 竊取技術、滲透測試討論，到 Hatena 的 AI 快速漏洞掃描實證，反映資安防禦正加速向 AI 應用層延伸。</li>
+<li><strong>【開發者環境與供應鏈防護】</strong> — VS Code 擴充套件惡意入侵、GitHub 遭劫持及 .env 環境變數洩漏警告頻現，顯示開發者本機與 CI/CD 鏈路已成為供應鏈攻擊的核心目標，工具链安全與權限管控成為當務之急。</li>
+<li><strong>【AI 模型效能優化與版本管理】</strong> — Opus 4.8 的 Token 浪費爭議、Claude 框架版本倒退澄清，以及 RAG 工作流與本地代理部署的興起，顯示社群正從單純追求模型能力轉向關注實際部署成本、Token 效率與系統穩定性。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理資安與滲透測試</strong>：Hatena + Reddit — AI 漏洞掃描技術與代理系統（Agent）的 DOM/擴充功能攻擊手法同步引發關注，顯示資安測試正與 AI 開發深度結合。</li>
+<li><strong>開發者工具鏈安全</strong>：Hatena + Reddit + 資安部落格 — VS Code 金鑰管理、惡意擴充套件入侵與 .env 權限警告跨平台出現，強調開發環境防護已成為供應鏈安全的首要防線。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

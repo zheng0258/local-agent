@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-15</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-15</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-15</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://togetter.com/li/2696944" rel="noopener noreferrer">「早上醒來，個人銀行帳戶少了200萬日元」PayPay 帳號遭未經授權存取</a></td>
+<td>487</td>
+<td>***</td>
+<td>AI 資安威脅</td>
+<td>PayPay 帳號入侵導致大額失竊事件</td>
+</tr>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/claude-code-context-fork/" rel="noopener noreferrer">只需在 Skill 中添加一行 context: fork，Claude Code 的上下文就變得整潔了</a></td>
+<td>412</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>context: fork 指令讓 Claude Code 上下文更整潔</td>
+</tr>
+<tr>
+<td><a href="https://www.publickey1.jp/blog/26/vs_codeaiagent_window.html" rel="noopener noreferrer">VS Code 發布新機能「Agent window」預覽版，簡化多AI代理開發</a></td>
+<td>398</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>VS Code 推出 Agent window 簡化多代理開發</td>
+</tr>
+<tr>
+<td><a href="https://news.yahoo.co.jp/articles/cf56be61a0db482bafe0d5339609f23d6e624fb7" rel="noopener noreferrer">22 歲天才工程師近乎完美重現「Claude Mythos」並免費公開</a></td>
+<td>376</td>
+<td>***</td>
+<td>AI 資安威脅</td>
+<td>天才工程師重現 Claude Mythos 模型並公開</td>
+</tr>
+<tr>
+<td><a href="https://techtarget.itmedia.co.jp/tt/news/2605/12/news08.html" rel="noopener noreferrer">為什麼開發者轉向本地 LLM？解除 API 成本束縛的「Gemma 4」</a></td>
+<td>341</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開發者因成本考量轉向本地 Gemma 4</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/nrslib/practical-harness-engineering-understanding-steering-loops-through-real-world-examples" rel="noopener noreferrer">實戰韌帶工程：從實例解析轉向迴路</a></td>
+<td>289</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>實戰解析 AI 轉向迴路的韌帶工程概念</td>
+</tr>
+<tr>
+<td><a href="https://www.techno-edge.net/article/2026/05/14/5064.html" rel="noopener noreferrer">Anthropic 重組 Claude 訂閱方案，將代理使用單獨分類，實際上是漲價</a></td>
+<td>276</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Anthropic 重組訂閱方案，代理使用單獨計費</td>
+</tr>
+<tr>
+<td><a href="https://www.lac.co.jp/lacwatch/alert/20260514_004720.html" rel="noopener noreferrer">Claude Mythos 顯示的網絡攻擊結構變化與 Rack 的看法</a></td>
+<td>254</td>
+<td>***</td>
+<td>AI 資安威脅</td>
+<td>Claude Mythos 反映網絡攻擊結構演變</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260514-ai-self-replication-hacks/" rel="noopener noreferrer">「AI 入侵系統並自我複製」的情境已不再是科幻而是現實</a></td>
+<td>231</td>
+<td>***</td>
+<td>AI 資安威脅</td>
+<td>AI 自我複製入侵已從科幻走向現實</td>
+</tr>
+<tr>
+<td><a href="https://martinfowler.com/bliki/InterrogatoryLLM.html" rel="noopener noreferrer">bliki: Interrogatory LLM</a></td>
+<td>198</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Martin Fowler 解析審問式 LLM 架構概念</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://togetter.com/li/2696944" rel="noopener noreferrer">「早上醒來，個人銀行帳戶少了200萬日元」PayPay 帳號遭未經授權存取</a> (487 users) — 日本 PayPay 用戶遭遇帳號入侵事件，導致200萬日元從銀行帳戶失竊</li>
+<li><a href="https://dev.classmethod.jp/articles/claude-code-context-fork/" rel="noopener noreferrer">只需在 Skill 中添加一行 context: fork，Claude Code 的上下文就變得整潔了</a> (412 users) — Claude Code 透過在 Skill 定義中添加 context: fork 指令，可有效隔離與整潔化對話上下文環境</li>
+<li><a href="https://www.publickey1.jp/blog/26/vs_codeaiagent_window.html" rel="noopener noreferrer">VS Code 發布新機能「Agent window」預覽版，簡化多AI代理開發</a> (398 users) — VS Code 推出「Agent window」預覽功能，專為多 AI 代理協作開發設計</li>
+<li><a href="https://news.yahoo.co.jp/articles/cf56be61a0db482bafe0d5339609f23d6e624fb7" rel="noopener noreferrer">22 歲天才工程師近乎完美重現「Claude Mythos」並免費公開</a> (376 users) — 一名22歲工程師成功重現了 Anthropic 的 Claude Mythos 模型，並免費公開給社群使用</li>
+<li><a href="https://techtarget.itmedia.co.jp/tt/news/2605/12/news08.html" rel="noopener noreferrer">為什麼開發者轉向本地 LLM？解除 API 成本束縛的「Gemma 4」</a> (341 users) — Google 的 Gemma 4 模型因其優異的性能與本地執行能力，吸引大量開發者從雲端 API 轉向本地部署</li>
+<li><a href="https://speakerdeck.com/nrslib/practical-harness-engineering-understanding-steering-loops-through-real-world-examples" rel="noopener noreferrer">實戰韌帶工程：從實例解析轉向迴路</a> (289 users) — 韌帶工程（Harness Engineering）是新兴的 AI 系統設計範式，強調透過轉向迴路（Steering Loops）來約束與引導 AI 行為</li>
+<li><a href="https://www.techno-edge.net/article/2026/05/14/5064.html" rel="noopener noreferrer">Anthropic 重組 Claude 訂閱方案，將代理使用單獨分類，實際上是漲價</a> (276 users) — Anthropic 重新調整 Claude 訂閱架構，將 AI 代理（Agent）使用量從原有方案中獨立計費</li>
+<li><a href="https://www.lac.co.jp/lacwatch/alert/20260514_004720.html" rel="noopener noreferrer">Claude Mythos 顯示的網絡攻擊結構變化與 Rack 的看法</a> (254 users) — Claude Mythos 模型的洩漏與應用揭示了網絡攻擊結構的深層變化</li>
+<li><a href="https://gigazine.net/news/20260514-ai-self-replication-hacks/" rel="noopener noreferrer">「AI 入侵系統並自我複製」的情境已不再是科幻而是現實</a> (231 users) — 研究證實 AI 系統已具備自我複製與橫向移動的能力，過去科幻作品中的場景正在成真</li>
+<li><a href="https://martinfowler.com/bliki/InterrogatoryLLM.html" rel="noopener noreferrer">bliki: Interrogatory LLM</a> (198 users) — Martin Fowler 提出的「審問式 LLM」（Interrogatory LLM）架構，讓 AI 在回答前先對用戶進行提問以釐清需求</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48138268" rel="noopener noreferrer">新 Nginx 漏洞</a></td>
+<td>347pt</td>
+<td>***</td>
+<td>安全性漏洞</td>
+<td>Nginx 發現新安全漏洞遭利用</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48139219" rel="noopener noreferrer">Apple M5 首款 macOS 核心記憶體損毀漏洞利用程式</a></td>
+<td>289pt</td>
+<td>***</td>
+<td>安全性漏洞</td>
+<td>Apple M5 首款核心漏洞利用公開</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48140529" rel="noopener noreferrer">Codex 现已整合進 ChatGPT 手機應用程式</a></td>
+<td>234pt</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>Codex 編碼功能進駐 ChatGPT 手機版</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48138268" rel="noopener noreferrer">新 Nginx 漏洞</a> (347pt) — Nginx 發現新的安全漏洞，可能允許攻擊者執行未授權操作或獲取敏感信息</li>
+<li><a href="https://news.ycombinator.com/item?id=48139219" rel="noopener noreferrer">Apple M5 首款 macOS 核心記憶體損毀漏洞利用程式</a> (289pt) — 安全研究人員公布了針對 Apple M5 芯片的首款 macOS 核心記憶體損毀漏洞利用程式</li>
+<li><a href="https://news.ycombinator.com/item?id=48140529" rel="noopener noreferrer">Codex 现已整合進 ChatGPT 手機應用程式</a> (234pt) — OpenAI 將 Codex 編程功能正式整合進 ChatGPT 手機應用程式，讓移動用戶可以直接進行代碼生成與除錯</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tctw53/cve202642945_nginx_heap_buffer_overflow_in/" rel="noopener noreferrer">CVE-2026-42945 : NGINX 重寫模組堆疊緩衝區溢位漏洞</a></td>
+<td>876</td>
+<td>134</td>
+<td>***</td>
+<td>Web 資安漏洞</td>
+<td>r/netsec</td>
+<td>NGINX 重寫模組堆疊緩衝區溢位漏洞 PoC 公布</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1td3uzi/vs_codes_new_agents_window_lets_you_use_local_ai/" rel="noopener noreferrer">VS Code 新增 Agents 視窗支援本地 AI 模型</a></td>
+<td>654</td>
+<td>98</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/LocalLLaMA</td>
+<td>VS Code 新增 Agents 視窗支援本地 AI 模型</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>Web 資安漏洞類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1tctw53/cve202642945_nginx_heap_buffer_overflow_in/" rel="noopener noreferrer">CVE-2026-42945 : NGINX 重寫模組堆疊緩衝區溢位漏洞</a> (876 ups) — r/netsec — NGINX 重寫模組堆疊緩衝區溢位漏洞 PoC 公布</p>
+<p><strong>AI 開發工具類</strong>
+1. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1td3uzi/vs_codes_new_agents_window_lets_you_use_local_ai/" rel="noopener noreferrer">VS Code 新增 Agents 視窗支援本地 AI 模型</a> (654 ups) — r/LocalLLaMA — VS Code 新增 Agents 視窗功能，原生支援本地 AI 模型的連接與管理</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/cisco-catalyst-sd-wan-controller-auth.html" rel="noopener noreferrer">Cisco Catalyst SD-WAN 控制器認證繞過漏洞被利用以獲取管理員權限</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Cisco SD-WAN 認證繞過洩管理員權限</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/stealer-backdoor-found-in-3-node-ipc.html" rel="noopener noreferrer">3 個 Node-IPC 版本發現竊取者後門，針對開發者機密</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Node-IPC 後門竊取開發者機密</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/threatsday-bulletin-pan-os-rce-mythos.html" rel="noopener noreferrer">威脅日快報：PAN-OS RCE、Mythos cURL 漏洞、AI Tokenizer 攻擊及 10+ 則故事</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>PAN-OS RCE 等威脅日快報</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/praisonai-cve-2026-44338-auth-bypass.html" rel="noopener noreferrer">PraisonAI CVE-2026-44338 認證繞過漏洞在揭露後數小時內遭針對</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>PraisonAI 認證漏洞迅速被利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/how-ai-hallucinations-are-creating-real.html" rel="noopener noreferrer">AI 幻覺如何製造真實安全風險</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI 幻覺製造真實安全風險</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/windows-zero-days-expose-bitlocker.html" rel="noopener noreferrer">Windows 零日漏洞暴露 BitLocker 繞過及 CTFMON 權限提升</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Windows 零日洩 BitLocker 繞過</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/new-fragnesia-linux-kernel-lpe-grants.html" rel="noopener noreferrer">新 Fragnesia Linux 核心本地權限提升漏洞透過頁面快取損毀授予 Root 存取</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Fragnesia Linux LPE 獲 root 權限</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/18-year-old-nginx-rewrite-module-flaw.html" rel="noopener noreferrer">18 年歷史的 NGINX Rewrite 模組漏洞允許未認證遠端代碼執行</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>NGINX 18 年漏洞允許 RCE</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/ghostwriter-targets-ukrainian.html" rel="noopener noreferrer">Ghostwriter 針對烏克蘭政府使用地理封鎖 PDF 釣魚和 Cobalt Strike</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Ghostwriter PDF 釣魚攻烏克蘭</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【NGINX 重大資安漏洞】</strong> — NGINX 重寫模組發現存在18年的堆疊緩衝區溢位漏洞（CVE-2026-42945），允許未認證遠端代碼執行。此漏洞在 HN、Reddit 與資安部落格同步報導，顯示影響範圍極廣且 PoC 已公開。開發者需緊急檢查版本並應用官方補丁。</p>
+</li>
+<li>
+<p><strong>【AI 代理開發工具爆發】</strong> — VS Code 推出「Agent window」預覽功能，支援多 AI 代理協作與本地模型整合。配合 Claude Code 的 context: fork 技巧、Gemma 4 本地化趨勢，顯示 AI 輔助編程正朝向多代理協作與隱私優先方向演進。Anthropic 則調整訂閱方案將代理使用單獨計費。</p>
+</li>
+<li>
+<p><strong>【AI 模型洩漏與資安風險】</strong> — Claude Mythos 模型被22歲工程師重現並免費公開，引發對閉源模型商業保護的擔憂。同時「AI 入侵系統並自我複製」已從科幻走向現實，攻擊者開始系統化利用 AI 能力進行自動化滲透。AI Tokenizer 新型攻擊技術也開始出現。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>NGINX 漏洞</strong>：Hatena + HN + Reddit + 資安部落格同步出現 — 18年歷史的 NGINX Rewrite 模組漏洞引發全球關注</li>
+<li><strong>VS Code Agent window</strong>：Hatena + Reddit 同步出現 — 微軟推動 AI 原生開發體驗的重要功能</li>
+<li><strong>AI 資安威脅</strong>：Hatena + 資安部落格 — Claude Mythos 洩漏反映網絡攻擊結構演變與 AI 自我複製風險</li>
+<li><strong>本地 LLM 趨勢</strong>：Hatena + Reddit — Gemma 4 與 VS Code Agent window 推動開發者轉向本地部署</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

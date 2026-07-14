@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-28</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-28</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-28</h1>
+<hr>
+<h2>Hatena Bookmark（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://newspicks.com/news/16754918/body/" rel="noopener noreferrer">【超入門】Claude Code 使用教學～初心者一天內完成 CLAUDE.md 與 skills 設定最短流程～</a></td>
+<td>342</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>零基礎快速上手 AI 編程助手</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2112189.html" rel="noopener noreferrer">Anthropic 推出漏洞自動修正功能「Claude Code」外掛</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI 自動偵測並修復程式碼漏洞</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2112012.html" rel="noopener noreferrer">AMD 廣泛處理器發現漏洞～從 Athlon 3000 到 Ryzen 9000/AI 300 系列均受影響</a></td>
+<td>521</td>
+<td>***</td>
+<td>資安風險與對策</td>
+<td>緊急 BIOS 更新，硬體層級威脅</td>
+</tr>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2605/27/news012.html" rel="noopener noreferrer">2026 年 6 月 Windows 11 可能無法啟動？「Secure Boot 憑證」過期風險</a></td>
+<td>456</td>
+<td>***</td>
+<td>資安風險與對策</td>
+<td>系統啟動危機，需提前準備</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/khale/articles/web-session-jwt-cookie-history" rel="noopener noreferrer">「不要將 JWT 放在 localStorage」為何被強調，Cookie 回歸的時序整理</a></td>
+<td>198</td>
+<td>***</td>
+<td>資安風險與對策</td>
+<td>Web 認證安全最佳實踐反思</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li>
+<p><a href="https://newspicks.com/news/16754918/body/" rel="noopener noreferrer">【超入門】Claude Code 使用教學～初心者一天內完成 CLAUDE.md 與 skills 設定最短流程～</a> (342 users) — 針對初學者設計的 Claude Code AI 開發工具快速入門指南，涵蓋 CLAUDE.md 配置檔案與 skills 功能的最短設定流程。</p>
+</li>
+<li>
+<p><a href="https://pc.watch.impress.co.jp/docs/news/2112189.html" rel="noopener noreferrer">Anthropic 推出漏洞自動修正功能「Claude Code」外掛</a> (287 users) — Anthropic 為其 Claude Code 開發工具推出自動漏洞檢測與修正外掛，透過 AI 識別程式碼中的安全性弱點並提供修復建議。</p>
+</li>
+<li>
+<p><a href="https://forest.watch.impress.co.jp/docs/news/2112012.html" rel="noopener noreferrer">AMD 廣泛處理器發現漏洞～從 Athlon 3000 到 Ryzen 9000/AI 300 系列均受影響</a> (521 users) — AMD 揭露影響範圍極廣的處理器硬體漏洞，涵蓋從入門級 Athlon 3000 系列到旗艦 Ryzen 9000 及 AI 300 系列產品。</p>
+</li>
+<li>
+<p><a href="https://atmarkit.itmedia.co.jp/ait/articles/2605/27/news012.html" rel="noopener noreferrer">2026 年 6 月 Windows 11 可能無法啟動？「Secure Boot 憑證」過期風險</a> (456 users) — Windows 11 Secure Boot 機制使用的簽名憑證即將於 2026 年 6 月過期，可能导致系統無法正常啟動。</p>
+</li>
+<li>
+<p><a href="https://zenn.dev/khale/articles/web-session-jwt-cookie-history" rel="noopener noreferrer">「不要將 JWT 放在 localStorage」為何被強調，Cookie 回歸的時序整理</a> (198 users) — 深入分析 Web 會話管理演進歷程，說明為何將 JWT 儲存在 localStorage 會增加 XSS 攻擊風險。</p>
+</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48296794" rel="noopener noreferrer">我認為 Anthropic 和 OpenAI 已找到產品市場契合點</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>AI Commercialization</td>
+<td>LLM 進入商業化成熟期的信號</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48296794" rel="noopener noreferrer">我認為 Anthropic 和 OpenAI 已找到產品市場契合點</a> (342pt) — Hacker News 討論串分析 Anthropic 與 OpenAI 在企業市場的策略定位，認為兩家公司已找到明確的產品市場契合點。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tp73x5/glassworm_takedown_yearlong_developer_supply/" rel="noopener noreferrer">GlassWorm 行動：針對開發者的供應鏈攻擊被摧毀</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>開發者供應鏈攻擊</td>
+<td>r/cybersecurity</td>
+<td>VS Code 與 npm 惡意外掛遭瓦解</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tp9kta/new_phishing_technique_vaultjacking_one_captured/" rel="noopener noreferrer">新型釣魚技術 Vaultjacking：單一 PIN 可竊取整個 Google 密碼庫</a></td>
+<td>1923</td>
+<td>89</td>
+<td>***</td>
+<td>密碼管理漏洞與釣魚技術</td>
+<td>r/netsec</td>
+<td>生物特徵認證旁路攻擊新威脅</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1tp73x5/glassworm_takedown_yearlong_developer_supply/" rel="noopener noreferrer">GlassWorm 行動：針對開發者的供應鏈攻擊被摧毀</a> (2847 ups) — r/cybersecurity — 安全研究團隊瓦解長期的 GlassWorm 供應鏈攻擊行動，該惡意軟體竊取 VS Code 擴充功能與 npm 套件中的敏感配置。
+2. <a href="https://www.reddit.com/r/netsec/comments/1tp9kta/new_phishing_technique_vaultjacking_one_captured/" rel="noopener noreferrer">新型釣魚技術 Vaultjacking：單一 PIN 可竊取整個 Google 密碼庫</a> (1923 ups) — r/netsec — 揭露新型 Vaultjacking 釣魚攻擊技術，攻擊者只需獲取單一 PIN 碼即可解密整個 Google 密碼管理員儲存的密碼庫。</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/codex-remote-ui-steals-ai-tokens" rel="noopener noreferrer">看似合法的 Codex Remote UI 暗中竊取 AI 金鑰</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>偽裝成合法 Ui 的惡意工具竊取 AI API 金鑰</td>
+</tr>
+<tr>
+<td><a href="https://www.wiz.io/blog/durabletask-teampcp-supply-chain-attack" rel="noopener noreferrer">durabletask：TeamPCP 最新的 PyPi comprometimento</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>Python 套件 durabletask 遭 TeamPCP 駭客竊取</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 開發工具安全化】</strong> — Claude Code 等 AI 編程助手快速普及，同時 Anthropic 推出漏洞自動修正功能，顯示 AI 工具正從「效率提升」向「安全內建」演進。開發者既享受 AI 帶來的生产力，也面臨惡意套件竊取 API 金鑰的新威脅。</p>
+</li>
+<li>
+<p><strong>【供應鏈攻擊集中爆發】</strong> — GlassWorm 行動、durabletask 竊取案、Codex Remote UI 等多起供應鏈攻擊集中在近期被揭露，目標涵蓋 VS Code 擴充功能、npm 套件、PyPi 包。攻擊者大膽針對開發者工具鏈下標，竊取 AWS、GitHub、Stripe 等多平台金鑰。</p>
+</li>
+<li>
+<p><strong>【硬體與認證層級威脅】</strong> — AMD 大範圍處理器漏洞影響從入門到旗艦全系列，需 BIOS 更新；Windows 11 Secure Boot 憑證即將過期可能造成系統無法啟動。硬體層級漏洞與認證基礎設施問題顯示攻擊面正在向更底層擴展。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>供應鏈攻擊</strong>：Hatena + Reddit + Security Blog 同步出現 — GlassWorm 相關報導跨平台爆發，顯示攻擊規模之大引發全球關注</li>
+<li><strong>AI 金鑰竊取</strong>：Reddit + Security Blog — Codex Remote UI 與 npm 惡意包皆目標 Claude AI 用戶，反映 AI 工具成為新攻擊靶心</li>
+<li><strong>AI 商業化成熟</strong>：Hatena + HN — Claude Code 教學熱度與 OpenAI/Anthropic PMF 討論，顯示 AI 從技術驗證進入企業採用期</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

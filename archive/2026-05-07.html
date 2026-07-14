@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-07</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-07</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-07</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2605/06/news023.html" rel="noopener noreferrer">Anthropic 發布金融業專用 10 種 AI Agent 模板</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI Agent 產業化</td>
+<td>金融業垂直領域專用化里程碑</td>
+</tr>
+<tr>
+<td><a href="https://blog.takuros.net/entry/2026/05/06/135413" rel="noopener noreferrer">《生成 AI 時代的憑證與權限設計 — 以 Claude Code 為起點》寫作計畫</a></td>
+<td>156</td>
+<td>***</td>
+<td>AI 安全架構</td>
+<td>企業級 AI Agent 權限管理議題</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/k9i/articles/20260504_cc_to_codex" rel="noopener noreferrer">為 Claude Code 用戶撰寫的 Codex 入門指南</a></td>
+<td>98</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開發者遷移與比較指南需求增長</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.itmedia.co.jp/news/articles/2605/06/news023.html" rel="noopener noreferrer">Anthropic 發布金融業專用 10 種 AI Agent 模板</a> (287 users) — Anthropic 推出金融業專用 AI Agent 模板</li>
+<li><a href="https://blog.takuros.net/entry/2026/05/06/135413" rel="noopener noreferrer">《生成 AI 時代的憑證與權限設計 — 以 Claude Code 為起點》寫作計畫</a> (156 users) — 生成 AI 時代的認證與權限設計寫作計畫</li>
+<li><a href="https://zenn.dev/k9i/articles/20260504_cc_to_codex" rel="noopener noreferrer">為 Claude Code 用戶撰寫的 Codex 入門指南</a> (98 users) — Claude Code 用戶的 Codex 入門指南</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48031684" rel="noopener noreferrer">AI Agent 現在可以建立 Cloudflare 帳戶、購買網域並部署應用</a></td>
+<td>387pt</td>
+<td>***</td>
+<td>AI Agent</td>
+<td>全流程自動化實現，自主執行者時代來臨</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48037128" rel="noopener noreferrer">Vibe coding 和 Agent 工程比我想像中更靠近</a></td>
+<td>256pt</td>
+<td>***</td>
+<td>開發者工具</td>
+<td>自然語言驅動開發實務驗證</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48037724" rel="noopener noreferrer">Show HN: Tilde.run – 擁有交易式版本控制檔案系統的 Agent 沙盒</a></td>
+<td>198pt</td>
+<td>***</td>
+<td>DevOps</td>
+<td>Agent 安全執行與回滾機制</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48006967" rel="noopener noreferrer">程式碼從未被證明是瓶頸</a></td>
+<td>176pt</td>
+<td>***</td>
+<td>軟體工程</td>
+<td>AI 時代重新審視開發本質瓶頸</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48037986" rel="noopener noreferrer">Claude 更高的使用限制以及與 SpaceX 的運算合作</a></td>
+<td>145pt</td>
+<td>***</td>
+<td>AI 基礎設施</td>
+<td>GPU 資源競爭與跨界合作</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48038873" rel="noopener noreferrer">Google Chrome 在未經同意下靜默安裝 4GB AI 模型到你的裝置</a></td>
+<td>132pt</td>
+<td>***</td>
+<td>隱私與資安</td>
+<td>邊緣 AI 部署引發透明度爭議</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48031684" rel="noopener noreferrer">AI Agent 現在可以建立 Cloudflare 帳戶、購買網域並部署應用</a> (387pt) — AI Agent 自動完成註冊與部署全流程</li>
+<li><a href="https://news.ycombinator.com/item?id=48006967" rel="noopener noreferrer">程式碼從未被證明是瓶頸</a> (176pt) — 真正瓶頸不在程式碼本身</li>
+<li><a href="https://news.ycombinator.com/item?id=48037986" rel="noopener noreferrer">Claude 更高的使用限制以及與 SpaceX 的運算合作</a> (145pt) — Anthropic 提升限制並聯手 SpaceX 擴容</li>
+<li><a href="https://news.ycombinator.com/item?id=48037128" rel="noopener noreferrer">Vibe coding 和 Agent 工程比我想像中更靠近</a> (256pt) — 自然語言開發時代即將來臨</li>
+<li><a href="https://news.ycombinator.com/item?id=48037724" rel="noopener noreferrer">Show HN: Tilde.run – 擁有交易式版本控制檔案系統的 Agent 沙盒</a> (198pt) — 支援版本控制的 Agent 安全沙盒平台</li>
+<li><a href="https://news.ycombinator.com/item?id=48038873" rel="noopener noreferrer">Google Chrome 在未經同意下靜默安裝 4GB AI 模型到你的裝置</a> (132pt) — Chrome 靜默下載 AI 模型引發隱私爭議</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1t57mk5/chrome_is_quietly_installing_a_4gb_ai_model_on/" rel="noopener noreferrer">Chrome 靜默安裝 4GB AI 模型</a></td>
+<td>2847</td>
+<td>312</td>
+<td>***</td>
+<td>資安隱私</td>
+<td>r/cybersecurity</td>
+<td>瀏覽器信任邊界擴張引發疑慮</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1t5cbhz/palo_alto_firewall_zeroday_under_active/" rel="noopener noreferrer">Palo Alto 防火牆零日漏洞遭利用</a></td>
+<td>1923</td>
+<td>187</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>r/cybersecurity</td>
+<td>企業邊界防禦遭突破，緊急補丁需求</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1t5d3tm/pyghidramcp_meets_ghidra_gui_drive_projectwide_re/" rel="noopener noreferrer">pyghidra-mcp 整合 Ghidra GUI</a></td>
+<td>1456</td>
+<td>89</td>
+<td>***</td>
+<td>逆向工程 AI</td>
+<td>r/netsec</td>
+<td>AI 驅動二進位分析降低門檻</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1t57xuu/25x_faster_inference_with_qwen_36_27b_using_mtp/" rel="noopener noreferrer">Qwen 3.6 推論速度提升 2.5 倍</a></td>
+<td>1089</td>
+<td>156</td>
+<td>***</td>
+<td>本地 AI</td>
+<td>r/LocalLLaMA</td>
+<td>MTP 技術讓邊緣部署更實用</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1t5hs98/doubled_rate_limits_for_claude_code/" rel="noopener noreferrer">Claude Code 速率限制加倍</a></td>
+<td>734</td>
+<td>67</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>API 可用性提升，生態系擴張訊號</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1t57mk5/chrome_is_quietly_installing_a_4gb_ai_model_on/" rel="noopener noreferrer">Chrome 靜默安裝 4GB AI 模型</a> (2847 ups) — r/cybersecurity — Chrome 悄悄在用戶設備部署大型 AI 模型
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1t5cbhz/palo_alto_firewall_zeroday_under_active/" rel="noopener noreferrer">Palo Alto 防火牆零日漏洞遭利用</a> (1923 ups) — r/cybersecurity — 企業級防火牆零日漏洞正被活躍攻擊</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1t5d3tm/pyghidramcp_meets_ghidra_gui_drive_projectwide_re/" rel="noopener noreferrer">pyghidra-mcp 整合 Ghidra GUI</a> (1456 ups) — r/netsec — 以本地 AI 驅動 Ghidra 進行逆向工程分析
+2. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1t57xuu/25x_faster_inference_with_qwen_36_27b_using_mtp/" rel="noopener noreferrer">Qwen 3.6 推論速度提升 2.5 倍</a> (1089 ups) — r/LocalLLaMA — MTP 技術讓本地編程 AI 實用化
+3. <a href="https://www.reddit.com/r/ClaudeCode/comments/1t5hs98/doubled_rate_limits_for_claude_code/" rel="noopener noreferrer">Claude Code 速率限制加倍</a> (734 ups) — r/ClaudeCode — Claude Code API 速率限制放寬一倍</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/critical-vulnerability-in-pan-os-exploited-in-the-wild-cve-2026-0300" rel="noopener noreferrer">PAN-OS 關鍵緩衝區溢位漏洞遭野外利用</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>CVE-2026-0300，防火牆遭突破需緊急補救</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI Agent 自主化突破】</strong> — AI Agent 已能獨立完成帳戶註冊、網域購買到應用程式部署的全流程，標誌著從「輔助工具」轉向「自主執行者」的關鍵轉折點。Tilde.run 等沙盒工具的出現，正為企業級採用解決安全與回滾的工程化痛點。</p>
+</li>
+<li>
+<p><strong>【邊緣 AI 隱私爭議】</strong> — Chrome 靜默安裝 4GB AI 模型引發跨平台討論，體現大型科技公司推動邊緣 AI 功能時與用戶自主權之間的緊張關係。資安社群對瀏覽器作為信任根被擴展功能保持高度警覺。</p>
+</li>
+<li>
+<p><strong>【企業級資安威脅升級】</strong> — Palo Alto 防火牆零日漏洞（CVE-2026-0300）遭野外利用，凸顯企業網路邊界防禦的脆弱性。同時 AI Agent 權限設計議題浮現，傳統人類中心的安全模型亟需重新思考。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Chrome AI 模型隱私爭議</strong>：HN + r/cybersecurity — 瀏覽器靜默部署 AI 模型引發透明度與信任危機</li>
+<li><strong>Palo Alto 零日漏洞</strong>：r/cybersecurity + wiz.io —企業防火牆嚴重漏洞跨平台同步警訊</li>
+<li><strong>AI Agent 工程化</strong>：Hatena + HN — 從金融業模板到自主部署，Agent 產業化雙軌推進</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

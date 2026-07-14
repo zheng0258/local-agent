@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-02</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-02</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-02</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://corp.moneyforward.com/news/info/20260501-mf-press-1/" rel="noopener noreferrer">GitHub 遭不正當存取事件公告與致歉（第一報）</a></td>
+<td>847</td>
+<td>***</td>
+<td>資安事件</td>
+<td>企業級供應鏈攻擊引發關注</td>
+</tr>
+<tr>
+<td><a href="https://infomation-sytem-security.hatenablog.com/entry/linux-kernel-vulnerability-cve-2026-31431-copy-fail" rel="noopener noreferrer">影響所有 Linux 系統！數秒內奪取 root 權限的「Copy Fail」漏洞真相</a></td>
+<td>723</td>
+<td>***</td>
+<td>系統漏洞</td>
+<td>CVE-2026-31431 極高嚴重性</td>
+</tr>
+<tr>
+<td><a href="https://japan.zdnet.com/article/35247092/" rel="noopener noreferrer">Anthropic 發表「Claude Security」——實現從漏洞掃描到修補生成的全自動化</a></td>
+<td>612</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>DevSecOps 全面自動化新里程碑</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/sabakan1/articles/bd286802d6a91d" rel="noopener noreferrer">將安全診斷全交給 AI 後，每月成本僅需 0.5 美元的故事</a></td>
+<td>534</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>小型團隊企業級安全解決方案</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/04/pnpm-v11-release" rel="noopener noreferrer">pnpm 11.0 發布——預設對新發布的依賴套件延遲一天解析</a></td>
+<td>489</td>
+<td>***</td>
+<td>開發工具</td>
+<td>供應鏈安全防禦新機制</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://corp.moneyforward.com/news/info/20260501-mf-press-1/" rel="noopener noreferrer">GitHub 遭不正當存取事件公告與致歉（第一報）</a> (847 users) — GitHub 發生資安事件，部分系統遭外部不正當存取</li>
+<li><a href="https://note.com/npaka/n/n8fb9f73d2ce3" rel="noopener noreferrer">CODEX 遊戲開發提示詞整理｜npaka</a> (412 users) — 遊戲開發用 CODEX 提示詞整理</li>
+<li><a href="https://zenn.dev/sabakan1/articles/bd286802d6a91d" rel="noopener noreferrer">將安全診斷全交給 AI 後，每月成本僅需 0.5 美元的故事</a> (534 users) — AI 自動安全診斷月成本僅 0.5 美元</li>
+<li><a href="https://japan.zdnet.com/article/35247092/" rel="noopener noreferrer">Anthropic 發表「Claude Security」——實現從漏洞掃描到修補生成的全自動化</a> (612 users) — Claude Security 自動化漏洞掃描修復</li>
+<li><a href="https://note.com/npaka/n/n51962b239b68" rel="noopener noreferrer">CODEX iOS 應用開發提示詞整理｜npaka</a> (378 users) — iOS 開發用 CODEX 提示詞整理</li>
+<li><a href="https://infomation-sytem-security.hatenablog.com/entry/linux-kernel-vulnerability-cve-2026-31431-copy-fail" rel="noopener noreferrer">影響所有 Linux 系統！數秒內奪取 root 權限的「Copy Fail」漏洞真相</a> (723 users) — Linux 致命漏洞數秒取得 root 權限</li>
+<li><a href="https://developers.openai.com/codex/use-cases/collections/game-development" rel="noopener noreferrer">Game development – Codex｜OpenAI Developers</a> (298 users) — OpenAI Codex 遊戲開發官方文件</li>
+<li><a href="https://gihyo.jp/article/2026/04/pnpm-v11-release" rel="noopener noreferrer">pnpm 11.0 發布——預設對新發布的依賴套件延遲一天解析</a> (489 users) — pnpm 11.0 新增依賴延遲解析機制</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>今日無足夠資料產生注目話題</em></td>
+<td>0pt</td>
+<td>—</td>
+<td>—</td>
+<td>HN 本日未提供文章數據</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<p><em>本日 Hacker News 無可用文章資料</em></p>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1t0x7n6/major_ai_clients_shipping_with_broken_oauth/" rel="noopener noreferrer">主要 AI 客戶端搭載破損的 OAuth 實作</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>AI 產品身份驗證嚴重缺陷</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1t0m1pn/for_linux_kernel_vulnerabilities_there_is_no/" rel="noopener noreferrer">針對 Linux 核心漏洞，不會提前通知發行版</a></td>
+<td>2134</td>
+<td>203</td>
+<td>***</td>
+<td>系統安全</td>
+<td>r/programming</td>
+<td>漏洞披露政策重大改變</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1t0u33g/apple_accidentally_left_claudemd_files_in_todays/" rel="noopener noreferrer">Apple 意外在今日應用程式更新中遺留 Claude.md 檔案</a></td>
+<td>1876</td>
+<td>94</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>Apple AI 策略意外洩漏</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1t023cb/gemini_now_can_generate_docs_sheets_slides_and/" rel="noopener noreferrer">Gemini 現可直接在對話中生成 Docs、Sheets、Slides 和 PDF</a></td>
+<td>1654</td>
+<td>87</td>
+<td>***</td>
+<td>AI 產品創新</td>
+<td>r/GoogleGeminiAI</td>
+<td>工作流程整合新突破</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1t0x7n6/major_ai_clients_shipping_with_broken_oauth/" rel="noopener noreferrer">主要 AI 客戶端搭載破損的 OAuth 實作</a> (2847 ups) — r/netsec — 大型 AI 產品上市時 OAuth 資安有漏洞
+2. <a href="https://www.reddit.com/r/programming/comments/1t0m1pn/for_linux_kernel_vulnerabilities_there_is_no/" rel="noopener noreferrer">針對 Linux 核心漏洞，不會提前通知發行版</a> (2134 ups) — r/programming — Linux 核心漏洞不事先通知各發行版</p>
+<p><strong>AI 產品創新與開發生態類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1t0u33g/apple_accidentally_left_claudemd_files_in_todays/" rel="noopener noreferrer">Apple 意外在今日應用程式更新中遺留 Claude.md 檔案</a> (1876 ups) — r/ClaudeCode — Apple 更新誤留 Claude.md 開發者檔案
+2. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1t023cb/gemini_now_can_generate_docs_sheets_slides_and/" rel="noopener noreferrer">Gemini 現可直接在對話中生成 Docs、Sheets、Slides 和 PDF</a> (1654 ups) — r/GoogleGeminiAI — Gemini 可直接輸出 Google 文件與 PDF</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/red-agent-claude-opus" rel="noopener noreferrer">Red Agent and Claude Opus: 大規模生產環境安全防護</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>AI 紅隊自動測試生產目標安全性</td>
+</tr>
+<tr>
+<td><a href="https://www.wiz.io/blog/github-actions-security-ai-powered-actions-vulnerabilities" rel="noopener noreferrer">AI 驅動 GitHub Actions 安全風險分析（下）</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>探討 AI 自動化流程中的安全漏洞</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【Linux 高嚴重性漏洞】</strong> — CVE-2026-31431「Copy Fail」漏洞影響所有 Linux 系統，攻擊者可於數秒內取得 root 權限。同時 Linux 核心團隊宣布改變漏洞披露政策，不再提前通知發行版，兩則消息引發跨平台廣泛討論。</p>
+</li>
+<li>
+<p><strong>【AI 安全自動化趨勢】</strong> — Anthropic 推出 Claude Security 實現漏洞掃描到修補的全自動化，Wiz 展示 AI 驅動紅隊演練能力。日本開發者更分享將安全診斷成本壓縮至每月 0.5 美元的實戰案例，顯示 AI 正在重塑 DevSecOps。</p>
+</li>
+<li>
+<p><strong>【供應鏈安全意識提升】</strong> — GitHub 遭不正當存取事件、pnpm 導入依賴延遲解析機制、AI 客戶端 OAuth 實作缺陷，多起事件凸顯供應鏈與依賴管理成為資安焦點。開發者開始重新思考信任模型與審計流程。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Linux Copy Fail 漏洞</strong>：Hatena + Reddit 同步出現 — 日本技術社群與全球程式員同時關注此極高嚴重性系統漏洞</li>
+<li><strong>AI 產品 OAuth 資安問題</strong>：Reddit r/netsec — 暴露快速上市壓力下安全審查被犧牲的產業現狀</li>
+<li><strong>AI 輔助開發提示詞整理</strong>：Hatena 獨有 — npaka 整理的遊戲與 iOS 開發 CODEX 提示詞反映日本開發者對 AI 工具的深度採用</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

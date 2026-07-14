@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-14</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-14</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-14</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/ktdatascience/items/3c8949b62ce1dfe7a024" rel="noopener noreferrer">讓 Claude Code 管理人生三個月，最有效的竟不是自動化</a></td>
+<td>31</td>
+<td>***</td>
+<td>AI 個人化應用</td>
+<td>AI管理生活三月，核心在於輔助決策。</td>
+</tr>
+<tr>
+<td><a href="https://ikyle.me/blog/2026/how-to-setup-a-local-coding-agent-on-macos" rel="noopener noreferrer">如何在 macOS 上設定本地端程式碼 Agent</a></td>
+<td>25</td>
+<td>***</td>
+<td>本地 Agent 部署</td>
+<td>部署macOS本地Agent，保障開發隱私。</td>
+</tr>
+<tr>
+<td><a href="https://xenospectrum.com/agents-last-exam-benchmark-gpt-5-5-beats-claude-fable-5/" rel="noopener noreferrer">最新 AI「Claude Fable 5」落敗：在操控 55 種產業工具的終極實戰基準測試「ALE」中，GPT-5.5 奪冠的原因</a></td>
+<td>24</td>
+<td>***</td>
+<td>AI 實戰評估</td>
+<td>實戰測試GPT-5.5奪冠，展現Agent優勢。</td>
+</tr>
+<tr>
+<td><a href="https://developers.cloudflare.com/agents/" rel="noopener noreferrer">在 Cloudflare 上建構 AI Agent</a></td>
+<td>19</td>
+<td>***</td>
+<td>邊緣運算架構</td>
+<td>借Cloudflare邊緣架構，快速部署Agent。</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/06/github-copilot-cli-lsp-setup" rel="noopener noreferrer">GitHub 推出 Copilot CLI 專屬「LSP Setup」技能，支援定義跳轉與型別資訊以輔助程式碼理解</a></td>
+<td>7</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Copilot CLI新增LSP，強化程式碼理解。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/ktdatascience/items/3c8949b62ce1dfe7a024" rel="noopener noreferrer">讓 Claude Code 管理人生三個月，最有效的竟不是自動化</a> (31 users) — AI管理生活三月，核心在於輔助決策。</li>
+<li><a href="https://ikyle.me/blog/2026/how-to-setup-a-local-coding-agent-on-macos" rel="noopener noreferrer">如何在 macOS 上設定本地端程式碼 Agent</a> (25 users) — 部署macOS本地Agent，保障開發隱私。</li>
+<li><a href="https://xenospectrum.com/agents-last-exam-benchmark-gpt-5-5-beats-claude-fable-5/" rel="noopener noreferrer">最新 AI「Claude Fable 5」落敗：在操控 55 種產業工具的終極實戰基準測試「ALE」中，GPT-5.5 奪冠的原因</a> (24 users) — 實戰測試GPT-5.5奪冠，展現Agent優勢。</li>
+<li><a href="https://developers.cloudflare.com/agents/" rel="noopener noreferrer">在 Cloudflare 上建構 AI Agent</a> (19 users) — 借Cloudflare邊緣架構，快速部署Agent。</li>
+<li><a href="https://gihyo.jp/article/2026/06/github-copilot-cli-lsp-setup" rel="noopener noreferrer">GitHub 推出 Copilot CLI 專屬「LSP Setup」技能，支援定義跳轉與型別資訊以輔助程式碼理解</a> (7 users) — Copilot CLI新增LSP，強化程式碼理解。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48511072" rel="noopener noreferrer">關於美國政府指令暫停存取 Fable 5 與 Mythos 5 模型的聲明</a></td>
+<td>2946</td>
+<td>***</td>
+<td>AI 政策監管</td>
+<td>美政府暫停存取特定 AI 模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48507020" rel="noopener noreferrer">如何在 macOS 上設定本機編碼 AI 代理</a></td>
+<td>455</td>
+<td>***</td>
+<td>本機部署</td>
+<td>macOS 本機編碼 AI 代理指南</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48516379" rel="noopener noreferrer">Arch Linux 認為惡意軟體事件已受控：影響逾 1,500 個套件</a></td>
+<td>204</td>
+<td>***</td>
+<td>系統安全</td>
+<td>Arch Linux 惡意軟體已受控</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48516504" rel="noopener noreferrer">AI 開源工具專案募資 730 萬美元後一夜間被封存</a></td>
+<td>189</td>
+<td>***</td>
+<td>開源生態</td>
+<td>募資千萬的 AI 開源專案突停</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48513728" rel="noopener noreferrer">牧人的狗：由最危險的 AI 模型製作的遊戲</a></td>
+<td>151</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>以高風險 AI 模型製作的遊戲</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48515454" rel="noopener noreferrer">RTX 5080 與 RTX 3090 雙卡組合：Qwen 3.6 27B Q8 達 80 Tok/s</a></td>
+<td>106</td>
+<td>***</td>
+<td>硬體效能</td>
+<td>雙顯卡跑 Qwen 27B 達 80 字</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48515385" rel="noopener noreferrer">Show HN：Paca – 專為人類與 AI 協作設計的輕量級 Jira 替代品</a></td>
+<td>101</td>
+<td>***</td>
+<td>開發工具</td>
+<td>專為人類與 AI 協作的任務工具</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48518969" rel="noopener noreferrer">在家使用 AI 輔助編程而不破產</a></td>
+<td>69</td>
+<td>***</td>
+<td>成本控制</td>
+<td>低成本在家部署 AI 輔助編程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48518684" rel="noopener noreferrer">GLM 5.2 正式發布</a></td>
+<td>56</td>
+<td>***</td>
+<td>模型發布</td>
+<td>智譜 GLM 5.2 大模型發布</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48511072" rel="noopener noreferrer">關於美國政府指令暫停存取 Fable 5 與 Mythos 5 模型的聲明</a> (2946pt) — 美政府暫停存取特定 AI 模型</li>
+<li><a href="https://news.ycombinator.com/item?id=48507020" rel="noopener noreferrer">如何在 macOS 上設定本機編碼 AI 代理</a> (455pt) — macOS 本機編碼 AI 代理指南
+   💬 社群觀點：讀者肯定實用性，但強調需大記憶體；推薦oMLX與llama.cpp簡化流程。另質疑短基準測試難準確評估MTP加速。</li>
+<li><a href="https://news.ycombinator.com/item?id=48516379" rel="noopener noreferrer">Arch Linux 認為惡意軟體事件已受控：影響逾 1,500 個套件</a> (204pt) — Arch Linux 惡意軟體已受控
+   💬 社群觀點：社群警告勿盲裝AUR，建議審查構建檔或改用Docker。破除Linux無毒迷思，並提供檢測指令，強調軟體供應鏈安全。</li>
+<li><a href="https://news.ycombinator.com/item?id=48516504" rel="noopener noreferrer">AI 開源工具專案募資 730 萬美元後一夜間被封存</a> (189pt) — 募資千萬的 AI 開源專案突停
+   💬 社群觀點：社群驚嘆燒錢速度與無預警停更，認為此舉反證風投AI基礎設施投資迷思，並質疑其宣稱市佔率與真實應用規模。</li>
+<li><a href="https://news.ycombinator.com/item?id=48513728" rel="noopener noreferrer">牧人的狗：由最危險的 AI 模型製作的遊戲</a> (151pt) — 以高風險 AI 模型製作的遊戲
+   💬 社群觀點：標題被指誇大，玩法被評缺乏新意。手機版介面遮擋致無法遊玩，但羊群AI互動獲讚，玩家建議增設高難度與牧人視角。</li>
+<li><a href="https://news.ycombinator.com/item?id=48515454" rel="noopener noreferrer">RTX 5080 與 RTX 3090 雙卡組合：Qwen 3.6 27B Q8 達 80 Tok/s</a> (106pt) — 雙顯卡跑 Qwen 27B 達 80 字
+   💬 社群觀點：社群讚賞本地高效能與隱私，但擔憂高成本與700W耗電散熱。部分建議改用雲API，並呼籲補充優化理論與硬體指南。</li>
+<li><a href="https://news.ycombinator.com/item?id=48515385" rel="noopener noreferrer">Show HN：Paca – 專為人類與 AI 協作設計的輕量級 Jira 替代品</a> (101pt) — 專為人類與 AI 協作的任務工具
+   💬 社群觀點：社群認為Jira正被淘汰，偏好輕量、支援CLI與AI協作的工具。但擔憂個人化流程難推廣，建議聚焦自託管與多代理開發。</li>
+<li><a href="https://news.ycombinator.com/item?id=48518969" rel="noopener noreferrer">在家使用 AI 輔助編程而不破產</a> (69pt) — 低成本在家部署 AI 輔助編程
+   💬 社群觀點：主流首選便宜雲端API；自架雖省長期費用但硬體成本高昂。建議依隱私需求選擇，或採固定月費控管開支。</li>
+<li><a href="https://news.ycombinator.com/item?id=48518684" rel="noopener noreferrer">GLM 5.2 正式發布</a> (56pt) — 智譜 GLM 5.2 大模型發布
+   💬 社群觀點：社群讚賞中方開放授權，對比美國限制政策；但質疑發布倉促、缺基準測試與倫理說明，期待成西方模型替代。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u4lqa8/getting_the_pid_from_random_numbers_in_php/" rel="noopener noreferrer">從 PHP 的隨機數中獲取 PID</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>漏洞分析</td>
+<td>r/netsec</td>
+<td>PHP隨機數特徵可反推進程標識</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u46wbb/why_use_applevel_auth_when_every_database_has/" rel="noopener noreferrer">為何每個資料庫都有認證機制，卻還要使用應用程式層級認證？（Splunk Enterprise CVE-2026-20253 認證前遠端程式碼執行漏洞）- watchTowr Labs</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>認證防禦</td>
+<td>r/netsec</td>
+<td>資料庫認證不足需疊加應用層驗證</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u4jjia/the_axios_npm_compromise_was_visible_in_registry/" rel="noopener noreferrer">Axios npm 遭入侵事件在任何人執行 npm install 前，已於註冊中心中繼資料中顯現</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>供應鏈安全</td>
+<td>r/netsec</td>
+<td>註冊中心中繼資料異常可預警入侵</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u4lqa8/getting_the_pid_from_random_numbers_in_php/" rel="noopener noreferrer">從 PHP 的隨機數中獲取 PID</a> (- ups) — r/netsec — PHP隨機數特徵可反推進程標識
+2. <a href="https://www.reddit.com/r/netsec/comments/1u46wbb/why_use_applevel_auth_when_every_database_has/" rel="noopener noreferrer">為何每個資料庫都有認證機制，卻還要使用應用程式層級認證？（Splunk Enterprise CVE-2026-20253 認證前遠端程式碼執行漏洞）- watchTowr Labs</a> (- ups) — r/netsec — 資料庫認證不足需疊加應用層驗證
+3. <a href="https://www.reddit.com/r/netsec/comments/1u4jjia/the_axios_npm_compromise_was_visible_in_registry/" rel="noopener noreferrer">Axios npm 遭入侵事件在任何人執行 npm install 前，已於註冊中心中繼資料中顯現</a> (- ups) — r/netsec — 註冊中心中繼資料異常可預警入侵</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/fable-5-release-full-fathom" rel="noopener noreferrer">深入解讀 Anthropic Mythos 級別公開發布的脈絡</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>頂尖模型公開化，推動AI生態與安全</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/critical-splunk-enterprise-flaw-lets.html" rel="noopener noreferrer">Splunk Enterprise 嚴重漏洞允許攻擊者未經驗證執行程式碼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>企業日誌平台曝未驗證執行代碼漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/us-orders-anthropic-to-suspend-fable-5.html" rel="noopener noreferrer">美國下令 Anthropic 暫停外國人士存取 Fable 5 與 Mythos 5 模型</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>美國限令Anthropic暫停外籍存取模型</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/over-400-arch-linux-aur-packages.html" rel="noopener noreferrer">逾 400 個 Arch Linux AUR 套件遭劫持部署竊取器與 eBPF Rootkit</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>多Arch套件遭劫持植入竊密與Rootkit</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/google-sues-chinese-smishing-network.html" rel="noopener noreferrer">Google 起訴中國簡訊釣魚網絡，指其利用 Gemini AI 進行釣魚</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Google起訴中國簡訊釣魚網濫用AI作案</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 模型監管與存取限制】</strong> — 美國政府指令暫停 Fable 5 與 Mythos 5 存取，Anthropic 配合下架並發布開發者遷移指南，反映地緣政治與合規標準正深度介入前沿 AI 基礎設施的流通。</li>
+<li><strong>【本機 AI 部署與隱私保護】</strong> — macOS 本地 Agent 設定教學、雙顯卡跑大模型實測與低成本自架策略引發熱議，開發者日益重視資料主權、離線推論效能與長期成本控制。</li>
+<li><strong>【軟體供應鏈與系統安全】</strong> — Arch Linux AUR 惡意軟體劫持、Axios npm 註冊中心異常預警、Splunk 嚴重漏洞與 Linux 後門事件頻傳，凸顯開源生態脆弱性與企業資安防禦的迫切需求。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>本機 AI 部署</strong>：Hatena + HN 同步出現 — 開發者積極探索 macOS 與消費級硬體自架 Agent 以保障隱私與降低雲端依賴。</li>
+<li><strong>AI 模型政策監管</strong>：HN + RSS 同步出現 — 美國限令與 Anthropic 下架事件引發全球開發者尋找替代方案與緊急遷移指南。</li>
+<li><strong>軟體供應鏈安全</strong>：HN + Reddit + RSS 同步出現 — Arch Linux 套件劫持與 npm 註冊中心異常預警機制成為跨平台資安討論焦點。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

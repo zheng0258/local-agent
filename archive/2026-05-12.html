@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-12</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-12</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-12</h1>
+<hr>
+<h2>Hatena Bookmark（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://blog.takuros.net/entry/2026/05/11/080037" rel="noopener noreferrer">Chrome DevTools MCP 功能強大，實現人類想要的自動化</a></td>
+<td>487</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>DevTools 整合 MCP 實現瀏覽器調試自動化</td>
+</tr>
+<tr>
+<td><a href="https://cloud.google.com/blog/ja/topics/developers-practitioners/level-up-your-agents-announcing-googles-official-skills-repository" rel="noopener noreferrer">Google 發布官方 Skills 倉庫強化 AI 代理</a></td>
+<td>423</td>
+<td>***</td>
+<td>AI 代理</td>
+<td>Google 推出官方技能倉庫強化 AI 代理</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260511-chatgpt-experience-math/" rel="noopener noreferrer">ChatGPT 5.5 Pro 一小時完成博士級數學研究</a></td>
+<td>398</td>
+<td>***</td>
+<td>AI 能力突破</td>
+<td>ChatGPT 5.5 一小時完成博士級數學研究</td>
+</tr>
+<tr>
+<td><a href="https://blog.n8n.io/production-ai-playbook-evaluation-and-monitoring/" rel="noopener noreferrer">生產環境 AI 實戰攻略：評估與監控</a></td>
+<td>312</td>
+<td>***</td>
+<td>AI 運用作業</td>
+<td>AI 生產環境評估與監控實戰指南</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260511-octonous-open-beta-mozilla-ai/" rel="noopener noreferrer">Mozilla.ai 推出跨服務 AI 自動化工具 Octonous</a></td>
+<td>276</td>
+<td>***</td>
+<td>AI 自動化工具</td>
+<td>Mozilla 推出跨服務 AI 自動化工具</td>
+</tr>
+<tr>
+<td><a href="https://claude.com/blog/claude-platform-on-aws" rel="noopener noreferrer">Claude 平台正式登陸 AWS 雲端</a></td>
+<td>245</td>
+<td>***</td>
+<td>AI 平台整合</td>
+<td>Claude 平台正式登陸 AWS 雲端服務</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://blog.takuros.net/entry/2026/05/11/080037" rel="noopener noreferrer">Chrome DevTools MCP 功能強大，實現人類想要的自動化</a> (487 users) — DevTools 整合 MCP，程式自動化更輕鬆</li>
+<li><a href="https://cloud.google.com/blog/ja/topics/developers-practitioners/level-up-your-agents-announcing-googles-official-skills-repository" rel="noopener noreferrer">Google 發布官方 Skills 倉庫強化 AI 代理</a> (423 users) — Google 推出官方技能倉庫強化 AI 代理</li>
+<li><a href="https://gigazine.net/news/20260511-chatgpt-experience-math/" rel="noopener noreferrer">ChatGPT 5.5 Pro 一小時完成博士級數學研究</a> (398 users) — ChatGPT 5.5 一小時完成博士級數學研究</li>
+<li><a href="https://blog.n8n.io/production-ai-playbook-evaluation-and-monitoring/" rel="noopener noreferrer">生產環境 AI 實戰攻略：評估與監控</a> (312 users) — AI 生產環境評估與監控實戰指南</li>
+<li><a href="https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/" rel="noopener noreferrer">Mythos 發現 curl 安全漏洞</a> (289 users) — curl 函式庫發現嚴重安全漏洞</li>
+<li><a href="https://claude.com/blog/claude-platform-on-aws" rel="noopener noreferrer">Claude 平台正式登陸 AWS 雲端</a> (245 users) — Claude 平台正式登陸 AWS 雲端服務</li>
+<li><a href="https://gigazine.net/news/20260511-octonous-open-beta-mozilla-ai/" rel="noopener noreferrer">Mozilla.ai 推出跨服務 AI 自動化工具 Octonous</a> (276 users) — Mozilla 推出跨服務 AI 自動化工具</li>
+<li><a href="https://gigazine.net/news/20260511-ai-agentic-misalignment/" rel="noopener noreferrer">AI 受反派文本影響威脅人類，Anthropic 已修復</a> (234 users) — AI 受負面文本影響威脅人類</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48100706" rel="noopener noreferrer">TanStack：多個 npm 最新版本遭竄改</a></td>
+<td>324pt</td>
+<td>***</td>
+<td>供應鏈安全</td>
+<td>npm 套件遭竄改的供應鏈攻擊事件</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48094641" rel="noopener noreferrer">Google 表示犯罪駭客利用 AI 發現重大軟體漏洞</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>AI 與資安</td>
+<td>駭客運用 AI 自動挖掘軟體漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48086190" rel="noopener noreferrer">硬體驗證作為壟斷的推動者</a></td>
+<td>156pt</td>
+<td>***</td>
+<td>硬體信任機制</td>
+<td>硬體驗證機制如何成為企業壟斷工具</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48100706" rel="noopener noreferrer">TanStack：多個 npm 最新版本遭竄改</a> (324pt) — npm 套件遭竄改的供應鏈攻擊事件</li>
+<li><a href="https://news.ycombinator.com/item?id=48094641" rel="noopener noreferrer">Google 表示犯罪駭客利用 AI 發現重大軟體漏洞</a> (287pt) — 駭客運用 AI 自動挖掘軟體漏洞</li>
+<li><a href="https://news.ycombinator.com/item?id=48086190" rel="noopener noreferrer">硬體驗證作為壟斷的推動者</a> (156pt) — 硬體驗證機制如何成為企業壟斷工具</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+（今日無 Reddit 相關文章）</p>
+<p><strong>AI 類</strong>
+（今日無 Reddit 相關文章）</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/metamorphosis-mythos-era" rel="noopener noreferrer">安全變革：應對自主 AI 攻擊的 Mythos 架構檢查清單</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>自主 AI 攻擊防護架構檢查清單</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 代理開發工具化】</strong> — Chrome DevTools MCP、Google Skills 倉庫、Mozilla Octonous 等顯示 AI 代理正從實驗走向生產級工具，瀏覽器與雲端平台積極整合標準化協議降低開發門檻。</p>
+</li>
+<li>
+<p><strong>【供應鏈攻擊密集爆發】</strong> — TanStack npm 竄改、TeamPCP 入侵 Checkmarx Jenkins 外掛、假 OpenAI 庫登 Hugging Face 榜首，顯示攻擊者對開發工具鏈的針對性攻擊持續升級。</p>
+</li>
+<li>
+<p><strong>【AI 雙面刃：攻防能力突破】</strong> — AI 既能協助發現 curl 漏洞（Mythos），也被駭客用於開發首個 AI 輔助零日漏洞繞過 2FA，顯示 AI 正同時重塑防禦與攻擊的邊界。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理開發</strong>：Hatena + RSS — DevTools MCP、Google Skills、Coder Agents 自託管等顯示代理工具生態快速成熟</li>
+<li><strong>供應鏈安全</strong>：HN + RSS — npm 竄改、Jenkins 外掛入侵等事件顯示開發者依賴鏈路成為攻擊熱點</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-07</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-07</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-07</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2606/05/news061.html" rel="noopener noreferrer">Google 正式發布面向 AI Agent 的「Android CLI」，應用程式開發速度提升 3 倍</a></td>
+<td>68</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Google 推出專為 AI Agent 設計的 Android CLI，允許開發者以自然語言指令驅動程式碼生成與專案建置。</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/long-910/items/76779fc1d8602dab73b3" rel="noopener noreferrer">淺解 CVE-2026-49975「HTTP/2 Bomb」：AI 比人類更早發現的漏洞</a></td>
+<td>50</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>AI 系統率先偵測並通報 HTTP/2 Bomb 漏洞，凸顯人工智慧在資安威脅發現上的優勢。</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260606-llm-checker/" rel="noopener noreferrer">免費在本地 PC 運行 AI 模型的檢測工具「LLM Checker」</a></td>
+<td>30</td>
+<td>***</td>
+<td>AI 本地部署</td>
+<td>免費本地端工具，提供低門檻的模型效能評估與安全測試方案。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2606/05/news061.html" rel="noopener noreferrer">Google 正式發布面向 AI Agent 的「Android CLI」，應用程式開發速度提升 3 倍</a> (68 users) — Google 推出專為 AI Agent 設計的 Android CLI，允許開發者以自然語言指令驅動程式碼生成與專案建置。</li>
+<li><a href="https://qiita.com/long-910/items/76779fc1d8602dab73b3" rel="noopener noreferrer">淺解 CVE-2026-49975「HTTP/2 Bomb」：AI 比人類更早發現的漏洞</a> (50 users) — 本文深入解析 CVE-2026-49975「HTTP/2 Bomb」漏洞，該漏洞可透過特定 HTTP/2 封包構造導致伺服器資源耗盡。</li>
+<li><a href="https://gigazine.net/news/20260606-llm-checker/" rel="noopener noreferrer">免費在本地 PC 運行 AI 模型的檢測工具「LLM Checker」</a> (30 users) — LLM Checker 是一款免費的本地端工具，允許開發者與研究人員在個人電腦上直接執行並檢測大型語言模型。</li>
+<li><a href="https://zenn.dev/ttaniguchi/articles/instant-question-html-notes" rel="noopener noreferrer">無論移動中或睡前，與 Codex 共同培育的「技術筆記」</a> (28 users) — 作者分享如何運用 Codex AI 隨時隨地（包含通勤與睡前）共同撰寫與整理技術筆記。</li>
+<li><a href="https://note.com/genaird/n/n6be0a775853f" rel="noopener noreferrer">將 Obsidian 變身 AI 助理的新功能</a> (28 users) — Obsidian 近期更新內建 AI 助理功能，使該知識管理軟體具備語意搜尋、自動摘要與內容生成能力。</li>
+<li><a href="https://blog.cloudnative.co.jp/articles/security-features-need-field-fit/" rel="noopener noreferrer">為什麼 Web 服務沒有實作 SSO 或 MFA？</a> (19 users) — 本文探討多數 Web 服務仍未全面導入 SSO（單一登入）或 MFA（多因素驗證）的技術與商業原因。</li>
+<li><a href="https://claude.com/blog/using-llms-to-secure-source-code" rel="noopener noreferrer">使用大型語言模型保護原始碼安全</a> (14 users) — 文章介紹如何運用大型語言模型自動掃描、審查並修復原始碼中的潛在資安漏洞。</li>
+<li><a href="https://azukiazusa.dev/blog/goal-command-use-case-vitest/" rel="noopener noreferrer">/goal 指令活用範例：將 Vitest 執行速度提升 6 倍</a> (12 users) — 本文提供 /goal 指令的實戰範例，透過優化測試配置與平行執行策略，將 Vitest 單元測試的運行速度提升六倍。</li>
+<li><a href="https://zenn.dev/edhiblemeer/articles/claude-code-opus48-tool-corruption" rel="noopener noreferrer">Claude Code (Opus 4.8) 所有工具呼叫當機：日本語環境易踩的未修復 Bug 與避開方法</a> (8 users) — 作者指出 Claude Code (Opus 4.8) 存在未修復的 Bug，在日語環境下執行工具呼叫時容易導致程式當機。</li>
+<li><a href="https://github.com/stablyai/orca" rel="noopener noreferrer">GitHub - stablyai/orca：Orca 是結合編碼 Agent 的下一代 IDE</a> (6 users) — Orca 是由 Stably AI 開發的下一代整合開發環境，深度結合編碼 Agent 實現自動化程式生成與除錯。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tydjnh/ghosts_in_the_cloud_chinese_hackers_hid_in/" rel="noopener noreferrer">雲端幽靈：中國駭客在 Microsoft 365 網路中隱匿長達 18 個月</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>中國駭客組織利用高級持久性威脅技術，在 Microsoft 365 企業環境中隱匿長達一年半。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1tylzy2/coheres_unreleased_coding_model_early_access_for/" rel="noopener noreferrer">Cohere 尚未發布的程式碼模型（LocalLLaMA 早期存取）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與本地部署</td>
+<td>r/LocalLLaMA</td>
+<td>Cohere 內部開發的未公開程式碼生成模型，已透過 LocalLLaMA 社群開放早期測試。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1tyb3np/deepseek_v4_flash_is_amazing_wip_llamacpp_pr_24162/" rel="noopener noreferrer">DeepSeek V4 Flash 太驚人了！（llama.cpp PR #24162 進行中）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與本地部署</td>
+<td>r/LocalLLaMA</td>
+<td>DeepSeek V4 Flash 模型展現卓越效能，目前正透過 llama.cpp 進行技術整合。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tyco76/claude_code_is_down_again/" rel="noopener noreferrer">Claude Code 又當機了！</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>Claude Code 服務再次發生中斷或當機問題，直接影響使用者正常操作。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1tydjnh/ghosts_in_the_cloud_chinese_hackers_hid_in/" rel="noopener noreferrer">雲端幽靈：中國駭客在 Microsoft 365 網路中隱匿長達 18 個月</a> (- ups) — r/cybersecurity — 中國駭客組織利用高級持久性威脅技術，在 Microsoft 365 企業環境中隱匿長達一年半。</p>
+<p><strong>AI 開發工具與 IDE</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tyco76/claude_code_is_down_again/" rel="noopener noreferrer">Claude Code 又當機了！</a> (- ups) — r/ClaudeCode — Claude Code 服務再次發生中斷或當機問題，直接影響使用者正常操作。
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tykqod/experiment_i_modded_the_cc_prompts_and_proved_to/" rel="noopener noreferrer">實驗：我修改了 Claude Code 的提示詞，並向自己證明所有爛程式碼都是因為 Anthropic 假設我們根本不是程式設計師所致。</a> (- ups) — r/ClaudeCode — 使用者透過修改 Claude Code 系統提示詞，驗證其預設設定對程式碼品質的負面影響。
+3. <a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">我們開源了一個 .cursor/rules 配置的社群註冊表 — 獲得 888 個 GitHub Star。你的設定裡有哪些規則？</a> (- ups) — r/Cursor_AI — 開發者開源社群維護的 Cursor IDE 規則配置註冊表，已獲近九百個 GitHub Star。</p>
+<p><strong>AI 模型與本地部署技術</strong>
+1. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1tylzy2/coheres_unreleased_coding_model_early_access_for/" rel="noopener noreferrer">Cohere 尚未發布的程式碼模型（LocalLLaMA 早期存取）</a> (- ups) — r/LocalLLaMA — Cohere 內部開發的未公開程式碼生成模型，已透過 LocalLLaMA 社群開放早期測試。
+2. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1tyb3np/deepseek_v4_flash_is_amazing_wip_llamacpp_pr_24162/" rel="noopener noreferrer">DeepSeek V4 Flash 太驚人了！（llama.cpp PR #24162 進行中）</a> (- ups) — r/LocalLLaMA — DeepSeek V4 Flash 模型展現卓越效能，目前正透過 llama.cpp 進行技術整合。
+3. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1tyjkfh/moq_ggufs_and_gsq_lowbit_ggufs_are_about_to_get/" rel="noopener noreferrer">MoQ GGUF 與 GSQ：低位元 GGUF 格式即將大幅改進</a> (- ups) — r/LocalLLaMA — MoQ 與 GSQ 量化技術將大幅優化低位元 GGUF 格式，提升低記憶體環境下的推理品質。
+4. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1tya05j/aa_comparison_of_the_latest_local_models/" rel="noopener noreferrer">最新本地模型的 AA（自動評估）比較</a> (- ups) — r/LocalLLaMA — 針對近期發布的本地語言模型進行自動化基準測試與性能對比。</p>
+<p><strong>ChatGPT 與 Gemini 平台動態</strong>
+1. <a href="https://www.reddit.com/r/ChatGPT/comments/1tyhftl/didnt_see_that_coming/" rel="noopener noreferrer">完全沒料到會這樣（ChatGPT 新功能或模型更新）</a> (- ups) — r/ChatGPT — ChatGPT 推出令人意外的新模型功能或技術更新，大幅超出市場預期。
+2. <a href="https://www.reddit.com/r/ChatGPT/comments/1tyj5vm/who_dis/" rel="noopener noreferrer">這是誰？（ChatGPT 新模型或功能發布）</a> (- ups) — r/ChatGPT — ChatGPT 發布神秘新模型或隱藏功能，引發社群廣泛猜測與實測。
+3. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1ty8nl1/the_new_limits_are_harsh/" rel="noopener noreferrer">新的使用限制太嚴格了（Gemini）</a> (- ups) — r/GoogleGeminiAI — Google</p>
+</article>
+</main>
+</body>
+</html>

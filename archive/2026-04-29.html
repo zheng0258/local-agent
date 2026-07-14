@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-29</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-29</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-29</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/knowledgesense/articles/7dddae04a7d828" rel="noopener noreferrer">不使用向量的 RAG。將所有知識層級化的手法</a></td>
+<td>—</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>跳過向量運算，以層級結構組織知識的新 RAG 方法</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260428-openai-symphony/" rel="noopener noreferrer">OpenAI 將「人類是 AI 的瓶頸」，開發 Codex 代理自動管理工具「Symphony」</a></td>
+<td>—</td>
+<td>***</td>
+<td>AI Agent</td>
+<td>OpenAI 推出 Symphony，讓 AI 代理自主協作管理</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/layerx/articles/20260428-ccgate" rel="noopener noreferrer">自動化 97% 權限確認的 Coding Agent 用 OSS「ccgate」誕生</a></td>
+<td>—</td>
+<td>***</td>
+<td>AI 安全與防護機制</td>
+<td>開源工具 ccgate 自動化 Coding Agent 的權限驗證流程</td>
+</tr>
+<tr>
+<td><a href="https://tech-blog.sterrasec.com/entry/2026/04/28/110000" rel="noopener noreferrer">在しゃぶ葉桌邊學習 MITM ～未能送達的六穀 pork 教導我們的通訊加密重要性～</a></td>
+<td>—</td>
+<td>***</td>
+<td>資安教育</td>
+<td>餐廳 WiFi 攔截事件揭示通訊加密的關鍵重要性</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/okikusan/articles/23041c3800a927" rel="noopener noreferrer">Claude Code Skills × 投資分析系列 — 文章列表</a></td>
+<td>—</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>運用 Claude Code Skills 進行投資分析的實戰案例集</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/04/AI-agent-development01" rel="noopener noreferrer">第一次嘗試製作 AI Agent ～使用 Mastra | gihyo.jp</a></td>
+<td>—</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>新手入門：使用 Mastra 框架打造第一個 AI Agent</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/knowledgesense/articles/7dddae04a7d828" rel="noopener noreferrer">不使用向量的 RAG。將所有知識層級化的手法</a> (— users) — 跳過向量運算，以層級結構組織知識的新 RAG 方法</li>
+<li><a href="https://zenn.dev/okikusan/articles/23041c3800a927" rel="noopener noreferrer">Claude Code Skills × 投資分析系列 — 文章列表</a> (— users) — 運用 Claude Code Skills 進行投資分析的實戰案例集</li>
+<li><a href="https://zenn.dev/yamadashy/articles/claude-code-routines-perf-tuning" rel="noopener noreferrer">Claude Code 的常規功能定期進行效能調校</a> (— users) — 定期優化 Claude Code 常規功能以提升執行效率</li>
+<li><a href="https://tech-blog.sterrasec.com/entry/2026/04/28/110000" rel="noopener noreferrer">在しゃぶ葉桌邊學習 MITM ～未能送達的六穀 pork 教導我們的通訊加密重要性～</a> (— users) — 餐廳 WiFi 攔截事件揭示通訊加密的關鍵重要性</li>
+<li><a href="https://zenn.dev/layerx/articles/20260428-ccgate" rel="noopener noreferrer">自動化 97% 權限確認的 Coding Agent 用 OSS「ccgate」誕生</a> (— users) — 開源工具 ccgate 自動化 Coding Agent 的權限驗證流程</li>
+<li><a href="https://speakerdeck.com/nttcom/latest-trends-in-generative-ai-security-domestic-and-international-and-introduction-to-ai-guardrail-product-chakoshi" rel="noopener noreferrer">國內外生成式 AI 安全最新動向 &amp; AI 防護欄產品「chakoshi」介紹</a> (— users) — 全球生成式 AI 安全趨勢與防護產品 chakoshi 解析</li>
+<li><a href="https://gigazine.net/news/20260428-openai-symphony/" rel="noopener noreferrer">OpenAI 將「人類是 AI 的瓶頸」，開發 Codex 代理自動管理工具「Symphony」</a> (— users) — OpenAI 推出 Symphony，讓 AI 代理自主協作管理</li>
+<li><a href="https://gihyo.jp/article/2026/04/AI-agent-development01" rel="noopener noreferrer">第一次嘗試製作 AI Agent ～使用 Mastra | gihyo.jp</a> (— users) — 新手入門：使用 Mastra 框架打造第一個 AI Agent</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47936347" rel="noopener noreferrer">AI 發現最大開源醫療記錄軟體中的 38 個漏洞</a></td>
+<td>—pt</td>
+<td>***</td>
+<td>AI 與資安</td>
+<td>AI 自動檢測醫療軟體漏洞，發現 38 個安全風險</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47933236" rel="noopener noreferrer">微軟 VibeVoice：開源前沿語音 AI</a></td>
+<td>—pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>微軟推出開源語音 AI，挑戰市場現狀</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47932937" rel="noopener noreferrer">Claude Code 撰寫的程式碼歸誰所有？</a></td>
+<td>—pt</td>
+<td>***</td>
+<td>AI 法律</td>
+<td>AI 撰寫程式碼的著作權歸屬引發法律爭議</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47932028" rel="noopener noreferrer">GitHub Copilot 程式碼審查將開始消耗 GitHub Actions 分鐘數</a></td>
+<td>—pt</td>
+<td>***</td>
+<td>開發工具</td>
+<td>Copilot 程式碼審查功能將消耗 Actions 分鐘數</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47933236" rel="noopener noreferrer">微軟 VibeVoice：開源前沿語音 AI</a> (—pt) — 微軟推出開源語音 AI，挑戰市場現狀</li>
+<li><a href="https://news.ycombinator.com/item?id=47932028" rel="noopener noreferrer">GitHub Copilot 程式碼審查將開始消耗 GitHub Actions 分鐘數</a> (—pt) — Copilot 程式碼審查功能將消耗 Actions 分鐘數</li>
+<li><a href="https://news.ycombinator.com/item?id=47932937" rel="noopener noreferrer">Claude Code 撰寫的程式碼歸誰所有？</a> (—pt) — AI 撰寫程式碼的著作權歸屬引發法律爭議</li>
+<li><a href="https://news.ycombinator.com/item?id=47936347" rel="noopener noreferrer">AI 發現最大開源醫療記錄軟體中的 38 個漏洞</a> (—pt) — AI 自動檢測醫療軟體漏洞，發現 38 個安全風險</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1syg80h/critical_github_rce_a_single_git_push_can_trigger/" rel="noopener noreferrer">關鍵 GitHub RCE：單一 git push 可觸發遠端程式碼執行</a></td>
+<td>—</td>
+<td>—</td>
+<td>***</td>
+<td>資安漏洞警報</td>
+<td>r/cybersecurity</td>
+<td>一次 git push 即可觸發 RCE 攻擊</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology/comments/1sya6jy/gone_in_9_seconds_claudepowered_ai_agent_deletes/" rel="noopener noreferrer">'9 秒內消失'：Claude 驅動 AI 代理刪除新創公司整個資料庫</a></td>
+<td>—</td>
+<td>—</td>
+<td>***</td>
+<td>AI 安全事件</td>
+<td>r/technology</td>
+<td>AI 代理 9 秒內誤刪整個資料庫</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sy9zdt/remote_code_execution_in_githubcom_and_github/" rel="noopener noreferrer">GitHub.com 與 Enterprise Server 遠端程式碼執行漏洞</a></td>
+<td>—</td>
+<td>—</td>
+<td>***</td>
+<td>資安漏洞警報</td>
+<td>r/cybersecurity</td>
+<td>GitHub 出現嚴重 RCE 漏洞 CVE-2026-3854</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sy2k13/research_fullchain_rce_in_microsoft_semantic/" rel="noopener noreferrer">[研究] Microsoft Semantic Kernel 與 Agent Framework 1.0 完整鏈路 RCE（6 個繞過方式）</a></td>
+<td>—</td>
+<td>—</td>
+<td>***</td>
+<td>AI 框架資安</td>
+<td>r/netsec</td>
+<td>Microsoft AI 框架發現全鏈路 RCE</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1sy9zdt/remote_code_execution_in_githubcom_and_github/" rel="noopener noreferrer">GitHub.com 與 Enterprise Server 遠端程式碼執行漏洞</a> (— ups) — r/cybersecurity — GitHub 出現嚴重 RCE 漏洞 CVE-2026-3854
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1syg80h/critical_github_rce_a_single_git_push_can_trigger/" rel="noopener noreferrer">關鍵 GitHub RCE：單一 git push 可觸發遠端程式碼執行</a> (— ups) — r/cybersecurity — 一次 git push 即可觸發 RCE 攻擊
+3. <a href="https://www.reddit.com/r/programming/comments/1syaqsc/researchers_find_rce_vulnerability_in_githubcom/" rel="noopener noreferrer">研究人員在 GitHub.com 發現 RCE 漏洞</a> (— ups) — r/programming — GitHub.com 確認存在 RCE 資安漏洞
+4. <a href="https://www.reddit.com/r/netsec/comments/1sy1565/the_bot_left_a_fingerprint_detecting_and/" rel="noopener noreferrer">Bot 留下指紋：偵測與歸屬 LLM 生成的密碼</a> (— ups) — r/netsec — 研究 LLM 生成密碼的指紋識別技術
+5. <a href="https://www.reddit.com/r/netsec/comments/1sy2k13/research_fullchain_rce_in_microsoft_semantic/" rel="noopener noreferrer">[研究] Microsoft Semantic Kernel 與 Agent Framework 1.0 完整鏈路 RCE（6 個繞過方式）</a> (— ups) — r/netsec — Microsoft AI 框架發現全鏈路 RCE
+6. <a href="https://www.reddit.com/r/netsec/comments/1sxtz42/89_vulnerabilities_in_xapi_citrix_xenserver/" rel="noopener noreferrer">XAPI/Citrix XenServer 中 89 個漏洞</a> (— ups) — r/netsec — Citrix XenServer 曝露 89 項安全漏洞</p>
+<p><strong>AI 開發工具動態類</strong>
+1. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1sy8anr/finally_gemini_can_now_make_direct_downloadable/" rel="noopener noreferrer">終於 Gemini 現在可以製作直接可下載的檔案！</a> (— ups) — r/GoogleGeminiAI — Gemini 新增直接下載檔案功能
+2. <a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1sxyclz/you_can_now_download_gemini_images_without_the/" rel="noopener noreferrer">現在你可以下載 Gemini 圖片而無對角水印</a> (— ups) — r/GoogleGeminiAI — Gemini 圖片去除對角水印限制
+3. <a href="https://www.reddit.com/r/technology/comments/1sya6jy/gone_in_9_seconds_claudepowered_ai_agent_deletes/" rel="noopener noreferrer">'9 秒內消失'：Claude 驅動 AI 代理刪除新創公司整個資料庫</a> (— ups) — r/technology — AI 代理 9 秒內誤刪整個資料庫</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854" rel="noopener noreferrer">Wiz 揭露 GitHub RCE 漏洞 (CVE-2026-3854)</a></td>
+<td>Wiz Blog</td>
+<td>***</td>
+<td>Wiz 揭露 GitHub 遠端程式碼執行重大漏洞</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【GitHub RCE 漏洞風暴】</strong> — CVE-2026-3854 遠端程式碼執行漏洞在 Reddit 與資安部落格同步引爆，單一 git push 即可觸發攻擊，Wiz 安全團隊深入剖析漏洞細節。</li>
+<li><strong>【AI Agent 自主化浪潮】</strong> — OpenAI Symphony、Mastra 框架、Claude Code Skills 等工具相繼推出，顯示 AI Agent 從單一任務朝向多代理協作管理快速演进。</li>
+<li><strong>【AI 安全雙面刃】</strong> — 一方面 AI 協助發現醫療軟體 38 個漏洞，另一方面 Claude 代理誤刪資料庫事件與 ccgate、chakoshi 等防護工具誕生，反映安全攻防同步發展。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>GitHub RCE 漏洞</strong>：Reddit + r/cybersecurity + Wiz Blog 同步報導 — GitHub 平台遭遇重大資安威脅，多篇技術文深入解析</li>
+<li><strong>AI Agent 開發框架</strong>：Hatena + HN 共同關注 — Mastra、Symphony 等開源工具降低 AI Agent 開發門檻</li>
+<li><strong>AI 安全防護機制</strong>：Hatena + Reddit 交叉討論 — ccgate、chakoshi 等工具回應企業對 AI 權限管理的需求</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

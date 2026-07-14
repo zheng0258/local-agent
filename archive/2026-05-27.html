@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-27</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-27</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-27</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://wirelesswire.jp/2026/05/93759/" rel="noopener noreferrer">Microsoft 因費用高漲禁止 AI 使用。AI 降低人件費是幻想嗎？</a></td>
+<td>487</td>
+<td>***</td>
+<td>AI 商業化</td>
+<td>企業重估 AI ROI，成本可能高於節省</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/emi_ndk/items/a36051a97d3b0670bedd" rel="noopener noreferrer">【完整版】AI 安全地獄圖 2026 - CVE・攻擊手法・防禦策全解</a></td>
+<td>423</td>
+<td>***</td>
+<td>AI 資安</td>
+<td>提示注入、模型竊取等新型攻擊整理</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/smartround_dev/articles/478c195bf914b6" rel="noopener noreferrer">內製持續驗證供應鏈攻擊防護「實效」的 GitHub 審計基礎</a></td>
+<td>256</td>
+<td>***</td>
+<td>供應鏈安全</td>
+<td>自建審計平台監控依賴包篡改</td>
+</tr>
+<tr>
+<td><a href="https://github.com/AgriciDaniel/claude-obsidian" rel="noopener noreferrer">GitHub - AgriciDaniel/claude-obsidian: Claude + Obsidian 知識夥伴</a></td>
+<td>198</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>本地知識庫 RAG 與對話整合</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://wirelesswire.jp/2026/05/93759/" rel="noopener noreferrer">Microsoft 因費用高漲禁止 AI 使用。AI 降低人件費是幻想嗎？</a> (487 users) — AI 服務成本激增，企業重估投資報酬率與自動化策略</li>
+<li><a href="https://qiita.com/emi_ndk/items/a36051a97d3b0670bedd" rel="noopener noreferrer">【完整版】AI 安全地獄圖 2026 - CVE・攻擊手法・防禦策全解</a> (423 users) — 系統化整理 AI 專屬漏洞與提示注入、數據投毒等防禦對策</li>
+<li><a href="https://zenn.dev/smartround_dev/articles/478c195bf914b6" rel="noopener noreferrer">內製持續驗證供應鏈攻擊防護「實效」的 GitHub 審計基礎</a> (256 users) — 結合自動檢測與人工複核的可信開發流程基礎設施</li>
+<li><a href="https://github.com/AgriciDaniel/claude-obsidian" rel="noopener noreferrer">GitHub - AgriciDaniel/claude-obsidian: Claude + Obsidian 知識夥伴</a> (198 users) — 支援双向引用與智能檢索的個人知識管理工具</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48272984" rel="noopener noreferrer">使用 AI 更慢地寫出更好的程式碼</a></td>
+<td>387pt</td>
+<td>***</td>
+<td>AI 開發方法論</td>
+<td>鏈式推理降低幻覺與邏輯錯誤</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48278610" rel="noopener noreferrer">外包加上本地 AI 很快會比前沿實驗室更具經濟效益</a></td>
+<td>356pt</td>
+<td>***</td>
+<td>AI 經濟模型</td>
+<td>中小企業獲得實驗室級能力的路徑</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48281226" rel="noopener noreferrer">語言模型需要睡眠</a></td>
+<td>298pt</td>
+<td>***</td>
+<td>AI 架構研究</td>
+<td>記憶鞏固與災難性遺忘解決方案</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48237012" rel="noopener noreferrer">使用無聊的語言搭配 LLM</a></td>
+<td>267pt</td>
+<td>***</td>
+<td>提示工程</td>
+<td>平淡語言提升輸出準確度</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48278407" rel="noopener noreferrer">Eagle 3.1：EAGLE、vLLM 與 TorchSpec 團隊的合作</a></td>
+<td>234pt</td>
+<td>***</td>
+<td>AI 開發框架</td>
+<td>三大開源工具鏈標準化整合</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48272984" rel="noopener noreferrer">使用 AI 更慢地寫出更好的程式碼</a> (387pt) — 反直覺發現：增加思考步驟提升程式碼品質與穩定性</li>
+<li><a href="https://news.ycombinator.com/item?id=48278610" rel="noopener noreferrer">外包加上本地 AI 很快會比前沿實驗室更具經濟效益</a> (356pt) — 本地部署加專業審核的成本效益遠超頂尖實驗室</li>
+<li><a href="https://news.ycombinator.com/item?id=48281226" rel="noopener noreferrer">語言模型需要睡眠</a> (298pt) — 睡眠機制進行權重重組與知識整合，提升訓練穩定性</li>
+<li><a href="https://news.ycombinator.com/item?id=48237012" rel="noopener noreferrer">使用無聊的語言搭配 LLM</a> (267pt) — 簡潔直白提示更接近訓練資料風格，減少過度解讀</li>
+<li><a href="https://news.ycombinator.com/item?id=48278407" rel="noopener noreferrer">Eagle 3.1：EAGLE、vLLM 與 TorchSpec 團隊的合作</a> (234pt) — 推理加速、服務化與類型驗證的统一框架</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1to1kq0/7zip_cve202648095_ntfs_heap_overflow_can_trigger/" rel="noopener noreferrer">7-Zip CVE-2026-48095：透過重新命名檔案觸發的 NTFS 堆疊溢位漏洞</a></td>
+<td>2847</td>
+<td>186</td>
+<td>***</td>
+<td>資安漏洞</td>
+<td>r/cybersecurity</td>
+<td>廣泛使用的壓縮軟體高風險漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1toa05t/encrypted_dns_in_2026_doh_dot_doq_and_doh3/" rel="noopener noreferrer">2026 年加密 DNS：DoH、DoT、DoQ 和 DoH3 協議比較</a></td>
+<td>1923</td>
+<td>142</td>
+<td>***</td>
+<td>網路安全</td>
+<td>r/netsec</td>
+<td>四種加密 DNS 安全性與效能全面評比</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tocc3v/navigating_lax_load_balancers_when_an/" rel="noopener noreferrer">穿越寬鬆負載平衡器：交會點如何帶你進入系統</a></td>
+<td>1567</td>
+<td>98</td>
+<td>***</td>
+<td>網路安全</td>
+<td>r/netsec</td>
+<td>會話劫持繞過內網隔離的研究</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1to6w1d/ai_engineer_builds_i_got_fired_panic_button_that/" rel="noopener noreferrer">AI 工程師打造「我被開除了」恐慌按鈕</a></td>
+<td>3421</td>
+<td>287</td>
+<td>***</td>
+<td>AI 倫理</td>
+<td>r/ClaudeCode</td>
+<td>自動公開程式碼的防裁員工具引發討論</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1to1kq0/7zip_cve202648095_ntfs_heap_overflow_can_trigger/" rel="noopener noreferrer">7-Zip CVE-2026-48095：透過重新命名檔案觸發的 NTFS 堆疊溢位漏洞</a> (2847 ups) — r/cybersecurity — 檔案重命名觸發堆疊溢位，可執行任意程式碼
+2. <a href="https://www.reddit.com/r/netsec/comments/1toa05t/encrypted_dns_in_2026_doh_dot_doq_and_doh3/" rel="noopener noreferrer">2026 年加密 DNS：DoH、DoT、DoQ 和 DoH3 協議比較</a> (1923 ups) — r/netsec — 抗審查能力與延遲表現的多維度分析
+3. <a href="https://www.reddit.com/r/netsec/comments/1tocc3v/navigating_lax_load_balancers_when_an/" rel="noopener noreferrer">穿越寬鬆負載平衡器：交會點如何帶你進入系統</a> (1567 ups) — r/netsec — 負載平衡器設定疏失導致內網繞過攻擊</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1to6w1d/ai_engineer_builds_i_got_fired_panic_button_that/" rel="noopener noreferrer">AI 工程師打造「我被開除了」恐慌按鈕</a> (3421 ups) — r/ClaudeCode — 反映技術失業恐懼蔓延的社會心理現象</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/mini-shai-hulud-teampcp-hits-antv-supply-chain" rel="noopener noreferrer">The Worm That Keeps on Digging: TeamPCP Hits @antv in Latest Wave</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>TeamPCP 持續攻擊 Apache AntV 供應鏈</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/alleged-kimwolf-botmaster-dort-arrested-charged-in-u-s-and-canada/" rel="noopener noreferrer">被指控的 Kimwolf 機器人控制者「Dort」在美加被捕並被起訴</a></td>
+<td>krebsonsecurity.com</td>
+<td>***</td>
+<td>殭屍網路主遭跨國執法逮捕，控制百萬設備</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/05/canvas-breach-disrupts-schools-colleges-nationwide/" rel="noopener noreferrer">Canvas 數據庫洩漏擾亂全國學校和大學</a></td>
+<td>krebsonsecurity.com</td>
+<td>***</td>
+<td>教育產業雲端服務商配置缺陷致資料外洩</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/04/patch-tuesday-april-2026-edition/" rel="noopener noreferrer">2026 年 4 月補丁星期二</a></td>
+<td>krebsonsecurity.com</td>
+<td>***</td>
+<td>Windows 核心與 Office 多項高風險漏洞修補</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/muddywater-uses-dll-side-loading-in.html" rel="noopener noreferrer">MuddyWater 使用 DLL 側載入技術針對 9 個國家進行間諜活動</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>利用合法簽名 DLL 繞過企業安全軟體</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/microsoft-patches-sharepoint-rce-flaw.html" rel="noopener noreferrer">Microsoft 修補 SharePoint RCE 漏洞 CVE-2026-45659</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>已在野外被利用的遠程式碼執行漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/mfa-prompt-bombing-why-your-second.html" rel="noopener noreferrer">MFA 提示轟炸：為什麼你的第二因子無法保護你</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>社交工程結合疲勞攻擊繞過雙重驗證</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/iranian-hackers-deploy-minifast-and.html" rel="noopener noreferrer">伊朗黑客通過釣魚和 SEO 毒化部署 MiniFast 和 MiniJunk V2</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>針對外交與能源部門的國家級釣魚攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/knowledgedeliver-lms-flaw-exploited-to.html" rel="noopener noreferrer">KnowledgeDeliver LMS 漏洞被用來部署 Godzilla 和 Cobalt Strike</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>企業培訓平台文件上傳漏洞被利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/lazarus-deploys-remotepe-memory-only.html" rel="noopener noreferrer">Lazarus 針對金融和加密貨幣公司部署 RemotePE 純內存 RAT</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>朝鮮組織無文件攻擊金融機構</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/zero-day-exploit-against-windows-bitlocker.html" rel="noopener noreferrer">針對 Windows BitLocker 的零日利用</a></td>
+<td>schneier.com</td>
+<td>***</td>
+<td>繞過磁碟加密取得休眠金鑰的零日漏洞</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/eyesofish/claude-codes-plan-mode-is-prompt-engineering-not-hard-enforcement-1mm2" rel="noopener noreferrer">Claude Code 的計劃模式是提示工程，而不是硬執行</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>結構化輸出要求實現分步推理的本質分析</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 經濟效益重估】</strong> — Microsoft 限制 AI 使用與 HN「外包+本地 AI」討論共同反映企業對 AI 投資報酬率的務實反思。訂閱費與 API 成本可能超過人力節省，迫使組織重新評估自動化策略與成熟度落差。</p>
+</li>
+<li>
+<p><strong>【新型攻擊面擴張】</strong> — AI 安全地獄圖、供應鏈攻擊（TeamPCP）、零日漏洞（BitLocker）等資訊顯示攻擊手法快速演進。安全團隊面臨 AI 模型竊取、提示注入、簽名 DLL 側載入等多重威脅。</p>
+</li>
+<li>
+<p><strong>【AI 開發方法論成熟】</strong> — HN 集中討論慢速推理、睡眠機制、平淡語言提示等技術，顯示 AI 開發從「快速採用」轉向「品質優化」。Eagle 3.1 框架整合則象徵工具鏈標準化進程。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 成本與效益</strong>：Hatena + HN — Microsoft 限制使用與外包經濟模型分析，反映企業級 ROI 評估熱潮</li>
+<li><strong>供應鏈安全</strong>：Hatena + wiz.io — GitHub 審計平台與 TeamPCP 攻擊報告，顯示依賴包監控成為焦點</li>
+<li><strong>AI 安全威脅</strong>：Hatena + HN（間接） — AI 地獄圖與開發方法論並存，反映攻守雙方同步演進</li>
+<li><strong>國家級 APT 活動</strong>：Security Blogs 集中報導 — MuddyWater、Lazarus、TeamPCP 顯示多國持續滲透攻擊</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

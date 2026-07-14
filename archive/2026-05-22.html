@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-22</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-22</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-22</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://gigazine.net/news/20260521-qwen-3-7/" rel="noopener noreferrer">Alibaba 發布 Qwen3.7-Max，支援 35 小時自律作業</a></td>
+<td>847</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>超長時自律代理突破現有限制</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2110125.html" rel="noopener noreferrer">Google Antigravity 2.0：從 AI IDE 轉型為代理管理應用</a></td>
+<td>623</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開發環境進化為代理管理平台</td>
+</tr>
+<tr>
+<td><a href="https://www.publickey1.jp/blog/26/apigooglelinuxaimarkdownmanaged_agent_api.html" rel="noopener noreferrer">Google 推出 Managed Agent API，一鍵啟動 Linux 環境 AI 代理</a></td>
+<td>591</td>
+<td>***</td>
+<td>AI 代理</td>
+<td>單一 API 呼叫啟動雲端 AI 代理</td>
+</tr>
+<tr>
+<td><a href="https://developers.freee.co.jp/entry/freee-claude-enterprise-scim" rel="noopener noreferrer">以 SCIM × IaC 安全部署 Claude Enterprise 全公司權限管理</a></td>
+<td>512</td>
+<td>***</td>
+<td>企業安全</td>
+<td>以 SCIM 與 IaC 實現企業級權限管理</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2110578.html" rel="noopener noreferrer">1Password 與 Codex 整合，透過本地 MCP 安全管理機密</a></td>
+<td>478</td>
+<td>***</td>
+<td>資安整合</td>
+<td>本地 MCP 實現機密資訊安全整合</td>
+</tr>
+<tr>
+<td><a href="https://internet.watch.impress.co.jp/docs/yajiuma/2110485.html" rel="noopener noreferrer">Microsoft 逐步廢除 SMS 認證，轉推 Passkey</a></td>
+<td>445</td>
+<td>***</td>
+<td>身份認證</td>
+<td>認證方式從 SMS 過渡到 Passkey</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/sanpi34/articles/claude-code-pricing-shift-2026" rel="noopener noreferrer">Claude Code 無限使用即將終結？六月定價調整全解析</a></td>
+<td>389</td>
+<td>***</td>
+<td>開發工具</td>
+<td>開發者需因應定價策略改變調整</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://gigazine.net/news/20260521-qwen-3-7/" rel="noopener noreferrer">Alibaba 發布 Qwen3.7-Max，支援 35 小時自律作業</a> (847 users) — 新模型實現超長時自律代理作業</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2110125.html" rel="noopener noreferrer">Google Antigravity 2.0：從 AI IDE 轉型為代理管理應用</a> (623 users) — AI 開發環境進化為代理管理平台</li>
+<li><a href="https://www.publickey1.jp/blog/26/apigooglelinuxaimarkdownmanaged_agent_api.html" rel="noopener noreferrer">Google 推出 Managed Agent API，一鍵啟動 Linux 環境 AI 代理</a> (591 users) — 單一 API 呼叫啟動雲端 AI 代理</li>
+<li><a href="https://developers.freee.co.jp/entry/freee-claude-enterprise-scim" rel="noopener noreferrer">以 SCIM × IaC 安全部署 Claude Enterprise 全公司權限管理</a> (512 users) — 以 SCIM 與 IaC 實現企業級權限管理</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2110578.html" rel="noopener noreferrer">1Password 與 Codex 整合，透過本地 MCP 安全管理機密</a> (478 users) — 本地 MCP 實現機密資訊安全整合</li>
+<li><a href="https://internet.watch.impress.co.jp/docs/yajiuma/2110485.html" rel="noopener noreferrer">Microsoft 逐步廢除 SMS 認證，轉推 Passkey</a> (445 users) — 認證方式從 SMS 過渡到 Passkey</li>
+<li><a href="https://zenn.dev/sanpi34/articles/claude-code-pricing-shift-2026" rel="noopener noreferrer">Claude Code 無限使用即將終結？六月定價調整全解析</a> (389 users) — 開發者需因應定價策略改變調整</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>제목</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48222733" rel="noopener noreferrer">在 2021 MacBook 上使用 Gemma4-31B 本地索引一年影片</a></td>
+<td>2847pt</td>
+<td>***</td>
+<td>AI/ML</td>
+<td>在 2021 MacBook 運行 31B AI 模型索引一年影片</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48223693" rel="noopener noreferrer">我們逆向了 Docker Sandbox 的未文件化 MicroVM API</a></td>
+<td>1923pt</td>
+<td>***</td>
+<td>資安研究</td>
+<td>逆向分析 Docker Sandbox 未文件化 MicroVM API</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48221896" rel="noopener noreferrer">Show HN：我投入四年精通離線密碼破解</a></td>
+<td>1756pt</td>
+<td>***</td>
+<td>密碼學</td>
+<td>四年專心研究離線密碼破解技術</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48225040" rel="noopener noreferrer">Launch HN：Runtime – 團隊專屬的沙盒化程式碼智能體</a></td>
+<td>1634pt</td>
+<td>***</td>
+<td>AI/開發工具</td>
+<td>團隊專屬的沙盒化作程式碼智能體平台</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48221415" rel="noopener noreferrer">FatGid：FreeBSD 14.x 核心本地權限提升漏洞</a></td>
+<td>1489pt</td>
+<td>***</td>
+<td>系統安全</td>
+<td>FreeBSD 14.x 核心發現本地權限提升漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48222733" rel="noopener noreferrer">在 2021 MacBook 上使用 Gemma4-31B 本地索引一年影片</a> (2847pt) — 在 2021 MacBook 運行 31B AI 模型索引一年影片</li>
+<li><a href="https://news.ycombinator.com/item?id=48223693" rel="noopener noreferrer">我們逆向了 Docker Sandbox 的未文件化 MicroVM API</a> (1923pt) — 逆向分析 Docker Sandbox 未文件化 MicroVM API</li>
+<li><a href="https://news.ycombinator.com/item?id=48221896" rel="noopener noreferrer">Show HN：我投入四年精通離線密碼破解</a> (1756pt) — 四年專心研究離線密碼破解技術</li>
+<li><a href="https://news.ycombinator.com/item?id=48225040" rel="noopener noreferrer">Launch HN：Runtime – 團隊專屬的沙盒化程式碼智能體</a> (1634pt) — 團隊專屬的沙盒化作程式碼智能體平台</li>
+<li><a href="https://news.ycombinator.com/item?id=48221415" rel="noopener noreferrer">FatGid：FreeBSD 14.x 核心本地權限提升漏洞</a> (1489pt) — FreeBSD 14.x 核心發現本地權限提升漏洞</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tjowgo/cve202640369_twelve_bytes_to_escape_the_browser/" rel="noopener noreferrer">CVE-2026-40369：十二位元組逃離瀏覽器沙盒</a></td>
+<td>8742</td>
+<td>423</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>極小載荷實現瀏覽器沙盒逃逸</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tjow98/cve202640369_twelve_bytes_to_escape_the_browser/" rel="noopener noreferrer">CVE-2026-40369：十二位元組逃離瀏覽器沙盒</a></td>
+<td>7531</td>
+<td>389</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>瀏覽器安全防護遭受重大挑戰</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tjptvi/github_actions_cache_poisoning_is_eating_open/" rel="noopener noreferrer">GitHub Actions快取投毒正吞噬開源生態系</a></td>
+<td>6234</td>
+<td>312</td>
+<td>***</td>
+<td>CI/CD安全</td>
+<td>r/netsec</td>
+<td>依賴快取污染威脅開源專案安全</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1tjowgo/cve202640369_twelve_bytes_to_escape_the_browser/" rel="noopener noreferrer">CVE-2026-40369：十二位元組逃離瀏覽器沙盒</a> (8742 ups) — r/cybersecurity — 極小載荷實現瀏覽器沙盒逃逸
+2. <a href="https://www.reddit.com/r/netsec/comments/1tjow98/cve202640369_twelve_bytes_to_escape_the_browser/" rel="noopener noreferrer">CVE-2026-40369：十二位元組逃離瀏覽器沙盒</a> (7531 ups) — r/netsec — 瀏覽器安全防護遭受重大挑戰</p>
+<p><strong>CI/CD安全類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1tjptvi/github_actions_cache_poisoning_is_eating_open/" rel="noopener noreferrer">GitHub Actions快取投毒正吞噬開源生態系</a> (6234 ups) — r/netsec — 依賴快取污染威脅開源專案安全</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/mini-shai-hulud-is-back-tanstack-compromised" rel="noopener noreferrer">迷你沙伊胡魯德回歸：npm 蠕蟲攻擊影響 160+套件，含 Mistral 與 Tanstack</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm 蠕蟲攻擊擴散，160+套件遭竄改</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI Agent 代理化浪潮】</strong> — Google、Alibaba 等巨頭紛紛推出自主型 AI 代理產品，從 IDE 輔助工具轉型為可獨立執行長時任務的代理系統。Qwen3.7-Max 支援 35 小時自律作業、Google Managed Agent API 一鍵啟動 Linux 環境代理，顯示 AI 開發工具正進入「代理管理」新階段。</p>
+</li>
+<li>
+<p><strong>【供應鏈安全危機】</strong> — 同日出現多起供應鏈攻擊：npm 蠕蟲竄改 160+套件、GitHub Actions 快取投毒威脅開源生態。結合瀏覽器沙盒逃逸漏洞 CVE-2026-40369，顯示攻擊面從依賴管理擴展到執行環境本身，企業需重新審視多層防禦策略。</p>
+</li>
+<li>
+<p><strong>【邊緣 AI 本地化部署】</strong> — Gemma4-31B 成功在 2021 MacBook 本地運行，配合 1Password MCP 機密管理整合，顯示企業可在不犧牲隱私的前提下部署大型 AI 模型。此趨勢與雲端代理服務並行發展，形成混合式 AI 架構。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>瀏覽器沙盒逃逸</strong>：Reddit r/cybersecurity + r/netsec 同步熱議 — CVE-2026-40369 僅需 12 位元組載荷逃逸，顛覆傳統防禦認知</li>
+<li><strong>AI Agent 沙盒化</strong>：Hatena + HN — Google Managed Agent API、Runtime 平台皆強調安全隔離執行環境</li>
+<li><strong>供應鏈攻擊</strong>：Reddit + aikido.dev — npm 蠕蟲與 GitHub Actions 快取投毒同時曝光，凸顯開源生態脆弱性</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

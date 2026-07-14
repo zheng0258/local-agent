@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-11</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-11</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-11</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.gizmodo.jp/2026/05/2026_local_llm_matome.html" rel="noopener noreferrer">免費可用的 AI「本地 LLM」的進化令人驚嘆</a></td>
+<td>487</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>免費本地 LLM 技術快速進化中</td>
+</tr>
+<tr>
+<td><a href="https://www.techno-edge.net/article/2026/05/10/5049.html" rel="noopener noreferrer">針對 128GB+ 記憶體 Mac 的巨型 LLM 引擎「ds4」如何改寫本地推理常規</a></td>
+<td>356</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Mac 上運行 284B 參數巨型模型</td>
+</tr>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/20260506-agent-toolkit-for-aws/" rel="noopener noreferrer">[更新] AWS 正式推出 AI 編程代理技能集「Agent Toolkit for AWS」！</a></td>
+<td>289</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AWS 推出 AI 編程代理工具包</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/robustonian/articles/codex_with_local_llm" rel="noopener noreferrer">用本地 LLM 驅動 Codex</a></td>
+<td>234</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>以本地 LLM 運行的 Codex 方案</td>
+</tr>
+<tr>
+<td><a href="https://nowokay.hatenablog.com/entry/2026/05/09/164006" rel="noopener noreferrer">如果 AI 來寫，用 HTML 比 Markdown 更好的討論</a></td>
+<td>178</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI 生成內容時 HTML 優於 Markdown</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/btiw/articles/4420d8b95d3e09" rel="noopener noreferrer">Claude Code 的個人開發與安全管理的實踐</a></td>
+<td>167</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Claude Code 開發安全管理實戰</td>
+</tr>
+<tr>
+<td><a href="https://scgajge12.hatenablog.com/entry/supplychain_bughunter" rel="noopener noreferrer">從 Bug Hunter 視角看軟體供應鏈入門</a></td>
+<td>145</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>漏洞獵人解讀軟體供應鏈安全</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/kimuson/articles/pi-coding-agent-with-opencode-go" rel="noopener noreferrer">OpenCode Go + pi-coding-agent 推薦</a></td>
+<td>123</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>OpenCode 與代碼代理集成指南</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.gizmodo.jp/2026/05/2026_local_llm_matome.html" rel="noopener noreferrer">免費可用的 AI「本地 LLM」的進化令人驚嘆</a> (487 users) — 免費本地 LLM 技術正以驚人速度進化，讓個人電腦也能運行先前需雲端資源的強大模型</li>
+<li><a href="https://nowokay.hatenablog.com/entry/2026/05/09/164006" rel="noopener noreferrer">如果 AI 來寫，用 HTML 比 Markdown 更好的討論</a> (178 users) — 文章探討當 AI 作為內容生成者時，HTML 格式可能比 Markdown 更具優勢的原因</li>
+<li><a href="https://dev.classmethod.jp/articles/20260506-agent-toolkit-for-aws/" rel="noopener noreferrer">[更新] AWS 正式推出 AI 編程代理技能集「Agent Toolkit for AWS」！</a> (289 users) — AWS 正式發布專為 AI 編程代理設計的工具套件，允許 AI 代理直接操作 AWS 服務與資源</li>
+<li><a href="https://zenn.dev/robustonian/articles/codex_with_local_llm" rel="noopener noreferrer">用本地 LLM 驅動 Codex</a> (234 users) — 這是一項讓 GitHub Copilot 的 Codex 工具使用本地 LLM 運行的技術方案</li>
+<li><a href="https://www.techno-edge.net/article/2026/05/10/5049.html" rel="noopener noreferrer">針對 128GB+ 記憶體 Mac 的巨型 LLM 引擎「ds4」如何改寫本地推理常規</a> (356 users) — 技術文章展示如何在 M4 Max 128GB MacBook Pro 上運行 284B 參數的 DeepSeek V4 Flash 模型</li>
+<li><a href="https://zenn.dev/btiw/articles/4420d8b95d3e09" rel="noopener noreferrer">Claude Code 的個人開發與安全管理的實踐</a> (167 users) — 文章分享使用 Claude Code 進行個人開發專案時的安全管理最佳實踐</li>
+<li><a href="https://scgajge12.hatenablog.com/entry/supplychain_bughunter" rel="noopener noreferrer">從 Bug Hunter 視角看軟體供應鏈入門</a> (145 users) — 知名漏洞獵人以自身經驗解讀軟體供應鏈安全的入門知識</li>
+<li><a href="https://zenn.dev/kimuson/articles/pi-coding-agent-with-opencode-go" rel="noopener noreferrer">OpenCode Go + pi-coding-agent 推薦</a> (123 users) — 文章推薦 OpenCode Go 與 pi-coding-agent 的組合使用，提供去中心化、可自託管的 AI 編程解決方案</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48080702" rel="noopener noreferrer">Gemini API 文件搜尋現在支援多模態</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>AI</td>
+<td>Gemini API 文件搜尋支援多模態，擴充分析能力。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48080702" rel="noopener noreferrer">Gemini API 文件搜尋現在支援多模態</a> (342pt) — Google Gemini API 的文件搜尋功能新增多模態支援，可同時處理文字、圖像、表格等多種格式内容</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1t8p0jn/college_student_hacks_taiwan_highspeed_rail_line/" rel="noopener noreferrer">大學生用軟體無線電駭停台灣高鐵四列車</a></td>
+<td>2.4k</td>
+<td>187</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>學生用 SDR 軟體駭入高鐵系統停四列車</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1t8cwyx/getting_llms_drunk_to_find_remote_linux_kernel/" rel="noopener noreferrer">利用 AI 酒醉法尋找 Linux 核心 OOB Write 漏洞</a></td>
+<td>1.9k</td>
+<td>143</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>利用 AI 隨機性發現 Linux 核心遠端寫入漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1t92jb3/the_compression_of_the_exploit_timeline_why_nday/" rel="noopener noreferrer">為何 n-day 間隔與 90 天圍欄期正在失效</a></td>
+<td>1.6k</td>
+<td>98</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>漏洞利用時間軸壓縮使傳統保護機制失靈</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1t97cfb/this_new_model_is_insane/" rel="noopener noreferrer">這款新模型太瘋狂了</a></td>
+<td>856</td>
+<td>67</td>
+<td>***</td>
+<td>AI</td>
+<td>r/ClaudeCode</td>
+<td>新發布的 AI 模型展現驚人能力</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/OpenAI/comments/1t8hngi/not_a_good_day_for_team_claude_mythos_is_just/" rel="noopener noreferrer">對 Claude 團隊來說不是好日子，Mythos 只是行銷炒作</a></td>
+<td>734</td>
+<td>89</td>
+<td>***</td>
+<td>AI</td>
+<td>r/OpenAI</td>
+<td>質疑 Claude Mythos 功能僅是行銷宣傳</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">開放原始碼 .cursor/rules 社群註冊表獲 GitHub 888 顆星</a></td>
+<td>623</td>
+<td>45</td>
+<td>***</td>
+<td>AI</td>
+<td>r/Cursor_AI</td>
+<td>開發者社群共享 Cursor AI 設定規則庫</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1t8p0jn/college_student_hacks_taiwan_highspeed_rail_line/" rel="noopener noreferrer">大學生用軟體無線電駭停台灣高鐵四列車</a> (2.4k ups) — r/cybersecurity — 大學生使用軟體定義無線電（SDR）設備成功駭入台灣高鐵系統，迫使四列車緊急停車
+2. <a href="https://www.reddit.com/r/netsec/comments/1t8cwyx/getting_llms_drunk_to_find_remote_linux_kernel/" rel="noopener noreferrer">利用 AI 酒醉法尋找 Linux 核心 OOB Write 漏洞</a> (1.9k ups) — r/netsec — 研究人員開發「AI 酒醉法」，透過提高 AI 隨機性參數來發現傳統方法難找的 Linux 核心 OOB Write 漏洞
+3. <a href="https://www.reddit.com/r/netsec/comments/1t92jb3/the_compression_of_the_exploit_timeline_why_nday/" rel="noopener noreferrer">為何 n-day 間隔與 90 天圍欄期正在失效</a> (1.6k ups) — r/netsec — 分析文章論證傳統漏洞管理策略（n-day 間隔、90 天圍欄期）正因利用時間軸壓縮而失效</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1t97cfb/this_new_model_is_insane/" rel="noopener noreferrer">這款新模型太瘋狂了</a> (856 ups) — r/ClaudeCode — Reddit 用戶分享對全新 AI 編程模型的驚嘆體驗，稱其能力「太瘋狂」
+2. <a href="https://www.reddit.com/r/OpenAI/comments/1t8hngi/not_a_good_day_for_team_claude_mythos_is_just/" rel="noopener noreferrer">對 Claude 團隊來說不是好日子，Mythos 只是行銷炒作</a> (734 ups) — r/OpenAI — 社群討論質疑 Claude 團隊宣傳的 Mythos 功能僅是行銷炒作，缺乏實質技術創新
+3. <a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">開放原始碼 .cursor/rules 社群註冊表獲 GitHub 888 顆星</a> (623 ups) — r/Cursor_AI — 開發者社群建立開放原始碼的 .cursor/rules 註冊表，收集共享高品質的 Cursor AI 設定規則</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/mini-shai-hulud-has-appeared" rel="noopener noreferrer">Mini Shai-Hulud 以 Bun 祕密竊取器針對 SAP npm 套件</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>新型攻擊利用 Bun 竊取 SAP npm 套件中的祕密</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/ollama-out-of-bounds-read-vulnerability.html" rel="noopener noreferrer">Ollama 越界讀取漏洞允許遠端程序記憶體洩漏</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>Ollama 越界讀取致記憶體洩漏</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/05/rowhammer-attack-against-nvidia-chips.html" rel="noopener noreferrer">Rowhammer 攻擊針對 NVIDIA 晶片</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>Rowhammer 攻擊威脅 NVIDIA 晶片</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/engineering-ai/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">展示：AI 速度下的工程學：來自第一個代理加速軟體專案的教訓</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AI 代理加速軟體的工程實踐與教訓</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【本地 LLM 爆發式進化】</strong> — 日本市場高度關注免費本地 LLM 的快速進步，從輕量模型到 284B 參數巨型模型都能在消費級 Mac 運行。這一趨勢結合 AWS Agent Toolkit 等雲端 AI 工具，顯示本地與雲端 AI 部署正在形成新的生態系。</p>
+</li>
+<li>
+<p><strong>【AI 輔助開發工具多元化】</strong> — 從 AWS Agent Toolkit、OpenCode Go + pi-coding-agent 到 Cursor AI 社群註冊表，AI 編程工具正從單點解決方案轉向開放、可組合的生態系。開發者同時追求數據主權與開發效率，推動本地化、開源方案發展。</p>
+</li>
+<li>
+<p><strong>【資安威脅加速進化】</strong> — 三個層次的威脅同步升級：供應鏈攻擊（npm/Bun）、硬體層級攻擊（Rowhammer 針對 NVIDIA）、射頻層級攻擊（SDR 駭高鐵）。同時 AI 被用於漏洞挖掘，壓縮了傳統防禦的時間窗口。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>本地 LLM 部署</strong>：Hatena + HN + Reddit 同步出現 — 日本市場關注本地 LLM 進化，全球市場關注相關工具與漏洞</li>
+<li><strong>AI 編程代理</strong>：Hatena + Reddit — AWS Agent Toolkit 與 Claude Code 等新工具反映 AI 代理成為開發主流趨勢</li>
+<li><strong>供應鏈安全</strong>：Hatena + Reddit + 資安部落格 — npm、Bun 等生態系的供應鏈攻擊成為跨平台關注焦點</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

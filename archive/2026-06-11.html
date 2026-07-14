@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-11</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-11</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-11</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/at_hirabayashi/n/n83b77ea94ddc" rel="noopener noreferrer">淡化 Claude Code 產出網頁設計的「標準模板感」（續：用 Claude Code 翻新公司官網）</a></td>
+<td>389</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>優化Claude網頁產出，打破模板感</td>
+</tr>
+<tr>
+<td><a href="https://note.com/ichi_twnovel/n/n63b755c5426c" rel="noopener noreferrer">敵人根本不用讓你相信謊言——「感知駭客」資訊戰時代來臨</a></td>
+<td>292</td>
+<td>***</td>
+<td>資安防護</td>
+<td>感知駭客時代來臨，資訊戰轉向心理操控</td>
+</tr>
+<tr>
+<td><a href="https://finance.biggo.jp/news/MUh9q54BrAZSr0oS5ID7" rel="noopener noreferrer">開源專案「context-mode」登頂 GitHub 趨勢榜首：AI 程式開發成本降 98%，有望化解 Token 焦慮</a></td>
+<td>192</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開源工具優化上下文，大幅壓降開發成本</td>
+</tr>
+<tr>
+<td><a href="https://codezine.jp/article/detail/24513" rel="noopener noreferrer">Claude Fable 5 開啟長時程自主代理人的時代：Anthropic「Code with Claude」主題演講</a></td>
+<td>49</td>
+<td>***</td>
+<td>AI 代理技術</td>
+<td>長程自主代理時代來臨，重塑程式開發流程</td>
+</tr>
+<tr>
+<td><a href="https://github.com/mksglu/context-mode" rel="noopener noreferrer">GitHub - mksglu/context-mode：AI 程式開發代理人的上下文視窗最佳化工具</a></td>
+<td>10</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開源工具精煉上下文，提升AI代理效率</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/BrainDirection/items/5215ea3cd1ec635a1636" rel="noopener noreferrer">免 VPN 從外部直連內部網路：Cloudflare Zero Trust（免費版）ZTNA 建置教學</a></td>
+<td>8</td>
+<td>***</td>
+<td>資安防護</td>
+<td>零信任架構取代VPN，免費方案安全連線</td>
+</tr>
+<tr>
+<td><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-live-3-5-translate/" rel="noopener noreferrer">使用 Gemini 3.5 Live Translate 實現流暢自然的語音即時翻譯</a></td>
+<td>7</td>
+<td>***</td>
+<td>AI 應用技術</td>
+<td>語音即時翻譯升級，實現流暢自然對話</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2606/10/news126.html" rel="noopener noreferrer">AI 代理人也會中釣魚詐騙嗎？美國資安企業以 OpenClaw 實測結果出爐</a></td>
+<td>5</td>
+<td>***</td>
+<td>資安防護</td>
+<td>AI代理面臨釣魚威脅，實測揭露安全漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://note.com/at_hirabayashi/n/n83b77ea94ddc" rel="noopener noreferrer">淡化 Claude Code 產出網頁設計的「標準模板感」（續：用 Claude Code 翻新公司官網）</a> (389 users) — 優化Claude網頁產出，打破模板感</li>
+<li><a href="https://note.com/ichi_twnovel/n/n63b755c5426c" rel="noopener noreferrer">敵人根本不用讓你相信謊言——「感知駭客」資訊戰時代來臨</a> (292 users) — 感知駭客時代來臨，資訊戰轉向心理操控</li>
+<li><a href="https://finance.biggo.jp/news/MUh9q54BrAZSr0oS5ID7" rel="noopener noreferrer">開源專案「context-mode」登頂 GitHub 趨勢榜首：AI 程式開發成本降 98%，有望化解 Token 焦慮</a> (192 users) — 開源工具優化上下文，大幅壓降開發成本</li>
+<li><a href="https://codezine.jp/article/detail/24513" rel="noopener noreferrer">Claude Fable 5 開啟長時程自主代理人的時代：Anthropic「Code with Claude」主題演講</a> (49 users) — 長程自主代理時代來臨，重塑程式開發流程</li>
+<li><a href="https://github.com/mksglu/context-mode" rel="noopener noreferrer">GitHub - mksglu/context-mode：AI 程式開發代理人的上下文視窗最佳化工具</a> (10 users) — 開源工具精煉上下文，提升AI代理效率</li>
+<li><a href="https://qiita.com/BrainDirection/items/5215ea3cd1ec635a1636" rel="noopener noreferrer">免 VPN 從外部直連內部網路：Cloudflare Zero Trust（免費版）ZTNA 建置教學</a> (8 users) — 零信任架構取代VPN，免費方案安全連線</li>
+<li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-live-3-5-translate/" rel="noopener noreferrer">使用 Gemini 3.5 Live Translate 實現流暢自然的語音即時翻譯</a> (7 users) — 語音即時翻譯升級，實現流暢自然對話</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2606/10/news126.html" rel="noopener noreferrer">AI 代理人也會中釣魚詐騙嗎？美國資安企業以 OpenClaw 實測結果出爐</a> (5 users) — AI代理面臨釣魚威脅，實測揭露安全漏洞</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48473166" rel="noopener noreferrer">AWS Bedrock 將強制要求與 Anthropic 共享數據以支援 Mythos 及未來模型</a></td>
+<td>351</td>
+<td>***</td>
+<td>雲端 AI 合規</td>
+<td>社群擔憂數據共享違反企業合規與歐盟規範</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48443644" rel="noopener noreferrer">重啟 Papers with Code</a></td>
+<td>166</td>
+<td>***</td>
+<td>AI 研究生態</td>
+<td>社群強烈盼重啟，痛批當前SOTA宣稱無程式碼佐證</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48478471" rel="noopener noreferrer">DiffusionGemma：文字生成速度提升 4 倍</a></td>
+<td>106</td>
+<td>***</td>
+<td>AI 模型優化</td>
+<td>社群看好其端側部署與雙向上下文優勢</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48477400" rel="noopener noreferrer">Apache Burr：建構可靠的 AI 代理與應用程式</a></td>
+<td>90</td>
+<td>***</td>
+<td>AI 代理框架</td>
+<td>社群對框架必要性存疑，多採自建或雲端服務</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48476136" rel="noopener noreferrer">0.01 歐元銀行轉帳可能危及銀行 AI 代理安全性</a></td>
+<td>79</td>
+<td>***</td>
+<td>AI 代理資安</td>
+<td>社群批評銀行強推AI代理危及財務安全</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48477851" rel="noopener noreferrer">GitHub API 請求相關的身分驗證問題</a></td>
+<td>75</td>
+<td>***</td>
+<td>開發者工具</td>
+<td>社群指 GitHub API 與驗證頻繁當機，波及多款工具</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48451789" rel="noopener noreferrer">史丹佛 2026 防禦駭客計畫 – 經驗教訓簡報</a></td>
+<td>69</td>
+<td>***</td>
+<td>資安與倫理</td>
+<td>社群強烈抨擊史丹佛推動軍事AI，擔憂倫理失守</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48479452" rel="noopener noreferrer">Claude Desktop 啟動虛擬機器卻無法停止</a></td>
+<td>9</td>
+<td>***</td>
+<td>AI 客戶端</td>
+<td>用戶不滿虛擬機器強制啟動、佔用大量記憶體</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48473166" rel="noopener noreferrer">AWS Bedrock 將強制要求與 Anthropic 共享數據以支援 Mythos 及未來模型</a> (351pt) — 社群擔憂數據共享違反企業合規與歐盟規範，質疑留存機制洩漏機密與遭政府監控，預警此模式將成常態，建議企業審慎評估導入。
+   💬 社群觀點：社群擔憂數據共享違反企業合規與歐盟規範，質疑留存機制洩漏機密與遭政府監控，預警此模式將成常態，建議企業審慎評估導入。</li>
+<li><a href="https://news.ycombinator.com/item?id=48443644" rel="noopener noreferrer">重啟 Papers with Code</a> (166pt) — 社群強烈盼重啟，痛批當前SOTA宣稱無程式碼佐證。建議擴大領域、強制附帶可重現程式碼，並提供RSS。
+   💬 社群觀點：社群強烈盼重啟，痛批當前SOTA宣稱無程式碼佐證。建議擴大領域、強制附帶可重現程式碼，並提供RSS。</li>
+<li><a href="https://news.ycombinator.com/item?id=48478471" rel="noopener noreferrer">DiffusionGemma：文字生成速度提升 4 倍</a> (106pt) — 社群看好其端側部署與雙向上下文優勢，適合程式輔助。但擔憂本地模型品質不及廉價API，強調須平衡速度與生成效果。
+   💬 社群觀點：社群看好其端側部署與雙向上下文優勢，適合程式輔助。但擔憂本地模型品質不及廉價API，強調須平衡速度與生成效果。</li>
+<li><a href="https://news.ycombinator.com/item?id=48477400" rel="noopener noreferrer">Apache Burr：建構可靠的 AI 代理與應用程式</a> (90pt) — 社群對框架必要性存疑，多採自建或雲端服務。主流認為適用性取決於任務深度，建議依場景評估，並關注狀態管理與驗證。
+   💬 社群觀點：社群對框架必要性存疑，多採自建或雲端服務。主流認為適用性取決於任務深度，建議依場景評估，並關注狀態管理與驗證。</li>
+<li><a href="https://news.ycombinator.com/item?id=48476136" rel="noopener noreferrer">0.01 歐元銀行轉帳可能危及銀行 AI 代理安全性</a> (79pt) — 社群批評銀行強推AI代理危及財務安全，屬嚴重疏忽；雖有人質疑實戰難度，但多主張撤除AI或強化防護，否則將撤資。
+   💬 社群觀點：社群批評銀行強推AI代理危及財務安全，屬嚴重疏忽；雖有人質疑實戰難度，但多主張撤除AI或強化防護，否則將撤資。</li>
+<li><a href="https://news.ycombinator.com/item?id=48477851" rel="noopener noreferrer">GitHub API 請求相關的身分驗證問題</a> (75pt) — 社群指 GitHub API 與驗證頻繁當機，波及多款工具。使用者不滿頻發事故，質疑平台穩定性，並建議考慮自架服務。
+   💬 社群觀點：社群指 GitHub API 與驗證頻繁當機，波及多款工具。使用者不滿頻發事故，質疑平台穩定性，並建議考慮自架服務。</li>
+<li><a href="https://news.ycombinator.com/item?id=48451789" rel="noopener noreferrer">史丹佛 2026 防禦駭客計畫 – 經驗教訓簡報</a> (69pt) — 社群強烈抨擊史丹佛推動軍事AI，擔憂倫理失守與科技軍武化；亦有聲音指出矽谷素來深涉國防研發，對此見怪不怪。
+   💬 社群觀點：社群強烈抨擊史丹佛推動軍事AI，擔憂倫理失守與科技軍武化；亦有聲音指出矽谷素來深涉國防研發，對此見怪不怪。</li>
+<li><a href="https://news.ycombinator.com/item?id=48479452" rel="noopener noreferrer">Claude Desktop 啟動虛擬機器卻無法停止</a> (9pt) — 用戶不滿虛擬機器強制啟動、佔用大量記憶體且無法關閉，批評體驗差；雖疑為效能優化，但強烈要求改為選配。
+   💬 社群觀點：用戶不滿虛擬機器強制啟動、佔用大量記憶體且無法關閉，批評體驗差；雖疑為效能優化，但強烈要求改為選配。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u1neao/more_evidence_that_words_dont_mean_what_we/" rel="noopener noreferrer">詞語意涵誤區：Ivanti Sentry 登入前命令注入漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>登入前命令注入漏洞，警示安全詞彙誤區</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1u1zvgq/fedramp_penetration_testing_how_to_pass_your_ato/" rel="noopener noreferrer">FedRAMP 滲透測試：通過 ATO 審查與加速雲端授權</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>掌握滲透測試技巧，加速雲端合規授權</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1u1u785/microsoft_defender_rogueplanet_zeroday_grants/" rel="noopener noreferrer">Microsoft Defender RoguePlanet 零日漏洞致系統提權</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>Defender 零日漏洞致已更新系統遭提權</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1u27odp/microsoft_patches_yellowkey_greenplasma/" rel="noopener noreferrer">Microsoft 修補 YellowKey 等三大零日漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>微軟修補三大零日漏洞，阻斷惡意利用</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u26s8n/diffusiongemma_4x_faster_text_generation/" rel="noopener noreferrer">DiffusionGemma：文字生成速度提升四倍</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI</td>
+<td>r/LocalLLaMA</td>
+<td>DiffusionGemma 生成速度提升四倍</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u26oyp/diffusiongemma_the_developer_guide_google/" rel="noopener noreferrer">DiffusionGemma 開發者指南：Google 官方實戰教學</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI</td>
+<td>r/LocalLLaMA</td>
+<td>Google 釋出 DiffusionGemma 開發指南</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u1za0m/cohere_released_north_mini_code_its_first/" rel="noopener noreferrer">Cohere 發布 North Mini Code：首款開源 AI 編碼模型</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI</td>
+<td>r/LocalLLaMA</td>
+<td>Cohere 推出首款開源 AI 編碼代理模型</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1u277fg/flashmemorydeepseekv4_lightning_index_ultralong/" rel="noopener noreferrer">FlashMemory-DeepSeek-V4：超長上下文閃電索引技術</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI</td>
+<td>r/LocalLLaMA</td>
+<td>前瞻注意力技術實現超長上下文閃電索引</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/webdev/comments/1u1zoi3/89_npm_packages_got_compromised_again_deleting/" rel="noopener noreferrer">89 個 npm 套件再遭入侵：刪除無法清除恶意程式</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>開發實務</td>
+<td>r/webdev</td>
+<td>八十餘 npm 套件遭入侵，刪除無法清毒</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cscareerquestions/comments/1u1iomv/really_dont_understand_the_hype_around_ai_writes/" rel="noopener noreferrer">理性看待 AI 編程：質疑取代九成程式碼熱潮</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>職涯實踐</td>
+<td>r/cscareerquestions</td>
+<td>理性看待 AI 編程，質疑取代九成程式碼論</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1u1neao/more_evidence_that_words_dont_mean_what_we/" rel="noopener noreferrer">詞語意涵誤區：Ivanti Sentry 登入前命令注入漏洞</a> (- ups) — r/netsec — 登入前命令注入漏洞，警示安全詞彙誤區
+2. <a href="https://www.reddit.com/r/netsec/comments/1u1zvgq/fedramp_penetration_testing_how_to_pass_your_ato/" rel="noopener noreferrer">FedRAMP 滲透測試：通過 ATO 審查與加速雲端授權</a> (- ups) — r/netsec — 掌握滲透測試技巧，加速雲端合規授權
+3. <a href="https://www.reddit.com/r/cybersecurity/comments/1u1u785/microsoft_defender_rogueplanet_zeroday_grants/" rel="noopener noreferrer">Microsoft Defender RoguePlanet 零日漏洞致系統提權</a> (- ups) — r/cybersecurity — Defender 零日漏洞致已更新系統遭提權
+4. <a href="https://www.reddit.com/r/cybersecurity/comments/1u27odp/microsoft_patches_yellowkey_greenplasma/" rel="noopener noreferrer">Microsoft 修補 YellowKey 等三大零日漏洞</a> (- ups) — r/cybersecurity — 微軟修補三大零日漏洞，阻斷惡意利用</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u26s8n/diffusiongemma_4x_faster_text_generation/" rel="noopener noreferrer">DiffusionGemma：文字生成速度提升四倍</a> (- ups) — r/LocalLLaMA — DiffusionGemma 生成速度提升四倍
+2. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u26oyp/diffusiongemma_the_developer_guide_google/" rel="noopener noreferrer">DiffusionGemma 開發者指南：Google 官方實戰教學</a> (- ups) — r/LocalLLaMA — Google 釋出 DiffusionGemma 開發指南
+3. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u1za0m/cohere_released_north_mini_code_its_first/" rel="noopener noreferrer">Cohere 發布 North Mini Code：首款開源 AI 編碼模型</a> (- ups) — r/LocalLLaMA — Cohere 推出首款開源 AI 編碼代理模型
+4. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1u277fg/flashmemorydeepseekv4_lightning_index_ultralong/" rel="noopener noreferrer">FlashMemory-DeepSeek-V4：超長上下文閃電索引技術</a> (- ups) — r/LocalLLaMA — 前瞻注意力技術實現超長上下文閃電索引</p>
+<p><strong>開發實務與職涯類</strong>
+1. <a href="https://www.reddit.com/r/webdev/comments/1u1zoi3/89_npm_packages_got_compromised_again_deleting/" rel="noopener noreferrer">89 個 npm 套件再遭入侵：刪除無法清除恶意程式</a> (- ups) — r/webdev — 八十餘 npm 套件遭入侵，刪除無法清毒
+2. <a href="https://www.reddit.com/r/cscareerquestions/comments/1u1iomv/really_dont_understand_the_hype_around_ai_writes/" rel="noopener noreferrer">理性看待 AI 編程：質疑取代九成程式碼熱潮</a> (- ups) — r/cscareerquestions — 理性看待 AI 編程，質疑取代九成程式碼論</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/compromised-rust-crate-onering-performs-code-exfiltration" rel="noopener noreferrer">遭竄改的 Rust 套件 onering 執行程式碼外洩</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Rust套件遭竄改竊取程式碼</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/phpbb-authentication-bypass-rce" rel="noopener noreferrer">影響數千萬使用者的 phpBB 嚴重驗證繞過漏洞</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>phpBB驗證繞過漏洞影響數千萬人</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理效能與上下文工程】</strong> — 跨平台高度關注 AI 代理的長時程自主執行與上下文管理技術。Claude Fable 5 與開源工具 context-mode 的出現，顯示業界正積極解決 Token 成本高昂與上下文視窗限制，推動 AI 從「即時協作」邁向「可靠自主執行」。</li>
+<li><strong>【端側模型加速與開源編碼生態】</strong> — DiffusionGemma 生成速度提升四倍與 Cohere North Mini Code 的發布，顯示端側部署與開源編碼模型正快速成熟。開發者社群在期待本地化高效推理的同時，也理性質疑 AI 完全取代人類程式碼的熱潮，強調工程驗證與除錯能力仍是核心。</li>
+<li><strong>【供應鏈攻擊與零信任防禦升級】</strong> — 從 npm/Rust 套件遭竄改、Microsoft Defender 零日漏洞，到銀行 AI 代理的微額轉帳風險，顯示攻擊鏈已深度滲透開發工具鏈與金融核心。企業正加速導入 ZTNA 零信任架構與嚴格權限隔離，以應對 AI 驅動的自動化威脅。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>DiffusionGemma 端側推理優化</strong>：Hatena + HN + Reddit 同步出現 — 社群一致看好其四倍生成速度與雙向上下文優勢，但呼籲企業需權衡本地模型品質與延遲成本。</li>
+<li><strong>AI 代理安全與合規風險</strong>：HN + Reddit + RSS 同步出現 — 從 AWS Bedrock 數據共享爭議、銀行微交易漏洞到 AI 釣魚實測，顯示 AI 代理接入核心業務時，權限控管與隱私合規已成跨平台最高警報。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

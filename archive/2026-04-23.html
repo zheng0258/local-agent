@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-23</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-23</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-23</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/shintaroamaike/articles/69a7611880420d" rel="noopener noreferrer">關於那份生產力提升，現場默默承擔的成本</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 經濟學</td>
+<td>AI 導入的隱藏 TCO 分析</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2103516.html" rel="noopener noreferrer">「Firefox 150」正式發布 ～使用 Anthropic 最強模型「Mythos」修復大量漏洞</a></td>
+<td>412</td>
+<td>***</td>
+<td>瀏覽器/AI</td>
+<td>AI 自動修復安全漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/aiplus/articles/2604/22/news105.html" rel="noopener noreferrer">SpaceX 獲得 AI 編輯器「Cursor」收購權，將在 AI 模型開發上合作</a></td>
+<td>356</td>
+<td>***</td>
+<td>M&amp;A/AI</td>
+<td>星鏈運算 + AI 編輯器整合</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/rkaga/how-to-approach-harness-engineering" rel="noopener noreferrer">如何面對 Harness Engineering — 超越規則文件設計開發流程</a></td>
+<td>198</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>以程式碼定義流程約束</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/pepabo/articles/claude-code-rules-skills-split" rel="noopener noreferrer">透過三層結構將 CLAUDE.md 體積縮小 83% — 實測與試錯記錄</a></td>
+<td>245</td>
+<td>***</td>
+<td>Claude Code</td>
+<td>PEPABO 實戰優化案例</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/shintaroamaike/articles/69a7611880420d" rel="noopener noreferrer">關於那份生產力提升，現場默默承擔的成本</a> (287 users) — AI 提升生產力背後，現場需默默吸收的隱藏成本</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2103516.html" rel="noopener noreferrer">「Firefox 150」正式發布 ～使用 Anthropic 最強模型「Mythos」修復大量漏洞</a> (412 users) — Firefox 用 AI 模型修漏洞，強化翻譯與 PDF 編輯</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/22/news015.html" rel="noopener noreferrer">【Google 推薦】從 Gemini 獲得滿意回答的「結構化提示詞」實踐指南</a> (178 users) — Google 推薦！結構化提示詞讓 Gemini 回答更精準</li>
+<li><a href="https://speakerdeck.com/rkaga/how-to-approach-harness-engineering" rel="noopener noreferrer">如何面對 Harness Engineering — 超越規則文件設計開發流程</a> (198 users) — Harness Engineering：超越規則文件的流程設計思維</li>
+<li><a href="https://speakerdeck.com/nrslib/practical-harness-engineering-ai-agent-control-enabled-by-takt" rel="noopener noreferrer">實踐 Harness Engineering：透過 TAKT 實現 AI Agent 控制</a> (167 users) — 用 TAKT 框架實現 AI Agent 的 Harness Engineering 控制</li>
+<li><a href="https://zenn.dev/cscloud_blog/articles/devops-agent-guardduty-integration" rel="noopener noreferrer">AWS DevOps Agent 與 GuardDuty 整合後進行想像中的安全事件調查的故事</a> (134 users) — AWS DevOps Agent 整合 GuardDuty 自動調查安全事件</li>
+<li><a href="https://gigazine.net/news/20260422-anthropic-claude-subscribe-small-test/" rel="noopener noreferrer">Anthropic 正在測試將「Claude Code」僅限於 Max 付費方案的變更</a> (223 users) — Anthropic 測試將 Claude Code 限於 Max 付費方案</li>
+<li><a href="https://zenn.dev/kimifan/articles/pqc-kuwashii" rel="noopener noreferrer">Go 1.24 起 TLS 已在不知不覺中運行 PQC（抗量子密碼）</a> (201 users) — Go 1.24 悄悄導入抗量子密碼 PQC 保護 TLS 連線</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/articles/2604/22/news105.html" rel="noopener noreferrer">SpaceX 獲得 AI 編輯器「Cursor」收購權，將在 AI 模型開發上合作</a> (356 users) — SpaceX 收購 Cursor，展開 AI 模型開發合作</li>
+<li><a href="https://speakerdeck.com/gotalab555/mu-de-huasutonohanesushe-ji-hanesunobian-geng-rong-yi-xing-wogao-merutamenoyou-xian-shun-wei" rel="noopener noreferrer">以目標為優先的 Harness 設計 ～提高 Harness 變更容易性的優先順序～</a> (145 users) — 以目標為優先，提升 Harness 設計與變更彈性</li>
+<li><a href="https://qiita.com/kamome_susume/items/3b9b18e7e54f15721837" rel="noopener noreferrer">使用 Claude Code 自動化開發的 5 個 Skills</a> (189 users) — 5 個實戰 Skills 讓 Claude Code 自動化你的開發工作</li>
+<li><a href="https://zenn.dev/pepabo/articles/claude-code-rules-skills-split" rel="noopener noreferrer">透過三層結構將 CLAUDE.md 體積縮小 83% — 實測與試錯記錄</a> (245 users) — 三層結構優化法，將 CLAUDE.md 體積縮減 83%</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47862497" rel="noopener noreferrer">我們的第八代 TPU：為代理時代打造的兩顆晶片</a></td>
+<td>3421pt</td>
+<td>***</td>
+<td>AI 硬體</td>
+<td>Google 專為 Agent 設計雙晶片架構</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47832720" rel="noopener noreferrer">所有你的代理都將成為非同步</a></td>
+<td>2856pt</td>
+<td>***</td>
+<td>AI 架構</td>
+<td>Agent 設計範式轉移分析</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47863217" rel="noopener noreferrer">Qwen3.6-27B：在 270 億參數稠密模型中實現旗艦級程式碼能力</a></td>
+<td>2734pt</td>
+<td>***</td>
+<td>LLM/開放原始碼</td>
+<td>小巧模型的程式碼突破</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47851634" rel="noopener noreferrer">Vercel 資安事件：OAuth 攻擊揭露平台環境變數風險</a></td>
+<td>2145pt</td>
+<td>***</td>
+<td>資安</td>
+<td>環境變數管理教訓</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47822117" rel="noopener noreferrer">Prefill 即服務：新一代模型的 KV Cache 可跨資料中心</a></td>
+<td>1923pt</td>
+<td>***</td>
+<td>LLM 基礎設施</td>
+<td>長上下文成本解決方案</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47852835" rel="noopener noreferrer">ChatGPT Images 2.0</a> (1678pt) — OpenAI 新一代 AI 繪圖功能升級</li>
+<li><a href="https://news.ycombinator.com/item?id=47851634" rel="noopener noreferrer">Vercel 資安事件：OAuth 攻擊揭露平台環境變數風險</a> (2145pt) — OAuth 攻擊暴露環境變數洩漏漏洞</li>
+<li><a href="https://news.ycombinator.com/item?id=47862497" rel="noopener noreferrer">我們的第八代 TPU：為代理時代打造的兩顆晶片</a> (3421pt) — Google 推出專為 AI 代理設計的 TPU</li>
+<li><a href="https://news.ycombinator.com/item?id=47863217" rel="noopener noreferrer">Qwen3.6-27B：在 270 億參數稠密模型中實現旗艦級程式碼能力</a> (2734pt) — 小巧模型實現旗艦級程式碼生成能力</li>
+<li><a href="https://news.ycombinator.com/item?id=47832720" rel="noopener noreferrer">所有你的代理都將成為非同步</a> (2856pt) — AI 代理架構將全面轉向非同步設計</li>
+<li><a href="https://news.ycombinator.com/item?id=47820791" rel="noopener noreferrer">MuJoCo – 進階物理模擬</a> (1534pt) — 用於機器人學習的物體物理模擬引擎</li>
+<li><a href="https://news.ycombinator.com/item?id=47822117" rel="noopener noreferrer">Prefill 即服務：新一代模型的 KV Cache 可跨資料中心</a> (1923pt) — KV Cache 服務實現跨資料中心共享</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1ss3y67/anthropics_mythos_model_accessed_by_unauthorized/" rel="noopener noreferrer">安瑟普 Mythos AI 遭未授權存取</a></td>
+<td>8234</td>
+<td>567</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>Bloomberg 獨家報導模型洩漏</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1ssl1xh/qwen_36_27b_is_out/" rel="noopener noreferrer">Qwen 3.6 27B 模型正式發布</a></td>
+<td>4521</td>
+<td>389</td>
+<td>***</td>
+<td>LLM</td>
+<td>r/LocalLLaMA</td>
+<td>本地部署熱門選擇</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1ssfu fa/over_1300_microsoft_sharepoint_servers_vulnerable/" rel="noopener noreferrer">逾千 SharePoint 伺服器易受偽裝攻擊</a></td>
+<td>3456</td>
+<td>234</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>HTTP spoofing 漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ssmyig/reverseengineering_a_targeted_npm_supply_chain/" rel="noopener noreferrer">npm 供應鏈攻擊逆工程分析</a></td>
+<td>2789</td>
+<td>178</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>兩階段 C2 分析</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1ss5bop/head_of_growth_at_anthropic_regarding_claude_code/" rel="noopener noreferrer">安瑟普說明移除 Claude Code 原因</a></td>
+<td>1876</td>
+<td>312</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>Token 成本壓力解析</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1ss3y67/anthropics_mythos_model_accessed_by_unauthorized/" rel="noopener noreferrer">安瑟普 Mythos AI 遭未授權存取</a> (8234 ups) — r/cybersecurity — Bloomberg 報導 Mythos 遭入侵
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1ssfp3h/microsoft_releases_emergency_patches_for_critical/" rel="noopener noreferrer">Microsoft 發布 ASP.NET 緊急修復</a> (4567 ups) — r/cybersecurity — 修復關鍵 ASP.NET 安全漏洞
+3. <a href="https://www.reddit.com/r/cybersecurity/comments/1ssfu fa/over_1300_microsoft_sharepoint_servers_vulnerable/" rel="noopener noreferrer">逾千 SharePoint 伺服器易受偽裝攻擊</a> (3456 ups) — r/cybersecurity — 1300 台伺服器遭偽裝攻擊
+4. <a href="https://www.reddit.com/r/netsec/comments/1srpyuj/p4wned_how_insecure_defaults_in_perforce_expose/" rel="noopener noreferrer">Perforce 預設設定洩漏原始碼</a> (2345 ups) — r/netsec — P4WNED 漏洞洩露來源碼
+5. <a href="https://www.reddit.com/r/netsec/comments/1ssmyig/reverseengineering_a_targeted_npm_supply_chain/" rel="noopener noreferrer">npm 供應鏈攻擊逆工程分析</a> (2789 ups) — r/netsec — 兩階段 C2 攻擊法醫分析
+6. <a href="https://www.reddit.com/r/technology/comments/1ssguib/unauthorized_group_has_gained_access_to/" rel="noopener noreferrer">未授權群組取得 Mythos 存取權</a> (3123 ups) — r/technology — 黑客取得 Mythos 存取權
+7. <a href="https://www.reddit.com/r/webdev/comments/1ssbkri/anthropics_mythos_ai_model_got_accessed_by/" rel="noopener noreferrer">Mythos AI 模型遭未授權存取</a> (2567 ups) — r/webdev — Mythos 遭未授權入侵</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1ssl1xh/qwen_36_27b_is_out/" rel="noopener noreferrer">Qwen 3.6 27B 模型正式發布</a> (4521 ups) — r/LocalLLaMA — Qwen 3.6 27B 新模型上市
+2. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1ssl6ki/qwen3627b_released/" rel="noopener noreferrer">Qwen 3.6-27B 版本發布公告</a> (3890 ups) — r/LocalLLaMA — Qwen 3.6-27B 新品發布
+3. <a href="https://www.reddit.com/r/ClaudeCode/comments/1ss5bop/head_of_growth_at_anthropic_regarding_claude_code/" rel="noopener noreferrer">安瑟普說明移除 Claude Code 原因</a> (1876 ups) — r/ClaudeCode — Growth 長說明移除原因</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine" rel="noopener noreferrer">GlassWorm 原生 Zig 下載器感染所有 IDE</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>新型 Zig 惡意程式感染機器上所有 IDE</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities" rel="noopener noreferrer">Aikido 發現 Hoppscotch 多個零日漏洞</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI 滲透測試發現 Hoppscotch 多處 0-day</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/gpt-proxy-backdoor-npm-pypi-chinese-llm-relay" rel="noopener noreferrer">npm 與 PyPI 中 GPT-Proxy 後門轉伺服器為中國 LLM 中繼站</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm/PyPI 後門將伺服器變中國 LLM 中繼</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI Agent 基礎設施化】</strong> — Harness Engineering 與 TAKT 框架成為日本開發者熱議話題，顯示 AI Agent 從「實驗性工具」轉向「可控制企業級基礎設施」。Google TPU v8 專為 Agent 設計的雙晶片架構，標誌硬體層面正式擁抱代理時代。</p>
+</li>
+<li>
+<p><strong>【AI 模型資安風暴】</strong> — Anthropic Mythos 模型洩漏事件橫跨 Reddit、HN 與 Hatena，凸顯企業級 AI 模型的分發安全成為新戰場。同時 Vercel OAuth 攻擊與多款供應鏈惡意程式（GlassWorm、GPT-Proxy）警示開發者生態系安全。</p>
+</li>
+<li>
+<p><strong>【高效能模型本地化】</strong> — Qwen 3.6-27B 以小巧體積實現旗艦級程式碼能力，結合 Firefox 150 整合 AI、Go 1.24 導入抗量子密碼，顯示「高效能 + 低資源消耗」成為跨領域技術趨勢。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Mythos 洩漏事件</strong>：Hatena + HN + Reddit 同步出現 — Anthropic 頂尖模型遭未授權存取引發跨平台討論</li>
+<li><strong>Harness Engineering</strong>：Hatena 集中討論 — AI Agent 流程控制的工程實踐方法</li>
+<li><strong>Qwen 3.6-27B</strong>：HN + Reddit（r/LocalLLaMA）熱議 — 本地部署的高性價比程式碼模型</li>
+<li><strong>供應鏈安全</strong>：Reddit + 資安部落格 — npm/PyPI 後門攻擊法醫分析</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

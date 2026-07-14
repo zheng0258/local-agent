@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-02</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-02</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-02</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://toranoana-lab.hatenablog.com/entry/2026/06/30/130000" rel="noopener noreferrer">使用 Claude Code 與 Obsidian 記錄設計與作業筆記</a></td>
+<td>174</td>
+<td>***</td>
+<td>AI 開發工具與生態演進</td>
+<td>結合 AI 與筆記軟體提升開發紀錄效率</td>
+</tr>
+<tr>
+<td><a href="https://blog.nyaa.ws/2026/07/felica-%E3%81%AE%E8%84%86%E5%BC%B1%E6%80%A7%E5%85%AC%E8%A1%A8%E3%81%B7%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/" rel="noopener noreferrer">FeliCa 非接觸晶片卡安全弱點公開</a></td>
+<td>164</td>
+<td>***</td>
+<td>系統資安漏洞與 AI 防護規範</td>
+<td>非接觸式 IC 卡 FeliCa 揭露安全弱點</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/dragon1208/articles/45708cc45a7a7c" rel="noopener noreferrer">「Herdr」開始使用後，再也回不去其他終端機了</a></td>
+<td>60</td>
+<td>***</td>
+<td>AI 開發工具與生態演進</td>
+<td>AI 終端機 Herdr 徹底改變開發體驗</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://toranoana-lab.hatenablog.com/entry/2026/06/30/130000" rel="noopener noreferrer">使用 Claude Code 與 Obsidian 記錄設計與作業筆記</a> (174 users) — 結合 AI 與筆記軟體提升開發紀錄效率</li>
+<li><a href="https://blog.nyaa.ws/2026/07/felica-%E3%81%AE%E8%84%86%E5%BC%B1%E6%80%A7%E5%85%AC%E8%A1%A8%E3%81%B7%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/" rel="noopener noreferrer">FeliCa 非接觸晶片卡安全弱點公開</a> (164 users) — 非接觸式 IC 卡 FeliCa 揭露安全弱點</li>
+<li><a href="https://zenn.dev/dragon1208/articles/45708cc45a7a7c" rel="noopener noreferrer">「Herdr」開始使用後，再也回不去其他終端機了</a> (60 users) — AI 終端機 Herdr 徹底改變開發體驗</li>
+<li><a href="https://zenn.dev/canly/articles/428767121d7dc2" rel="noopener noreferrer">將使用 10 個月的 CLI 版 Claude Code 轉移至桌面版為主的 12 個理由</a> (28 users) — 轉用 Claude 桌面版的十二項核心優勢</li>
+<li><a href="https://automaton-media.com/articles/newsjp/20260701-452738/" rel="noopener noreferrer">「RPG Maker MV/MZ」曝出任意指令執行漏洞，官方呼籲勿用不明素材</a> (21 users) — 遊戲引擎曝出指令執行漏洞需防範</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2606/30/news074.html" rel="noopener noreferrer">「絕對不可將認證資訊交給 AI 代理」1Password 與 OpenAI 合作</a> (13 users) — 密碼管理商警告勿將憑證交予 AI</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2607/01/news041.html" rel="noopener noreferrer">Linux 核心 2.6～7.1 系列重大漏洞 PoC 公開，root 提權風險升高</a> (12 users) — Linux 核心重大漏洞公開恐遭提權</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2121482.html" rel="noopener noreferrer">Google 推出四秒生圖模型「Nano Banana 2 Lite」，主打最速與低成本</a> (8 users) — 谷歌推出四秒低成本高速生圖模型</li>
+<li><a href="https://code.claude.com/docs/en/desktop-linux" rel="noopener noreferrer">Claude Desktop Linux 版（測試版）- Claude Code 文件</a> (4 users) — Claude 桌面版 Linux 測試版正式上線</li>
+<li><a href="https://automaton-media.com/articles/newsjp/20260701-452836/" rel="noopener noreferrer">Unity 突然修訂條款限制第三方 AI 工具，官方稱係防範資料收集</a> (4 users) — Unity 修約限制第三方 AI 工具引爭議</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48744606" rel="noopener noreferrer">Apple 隱藏我的電子郵件功能曝露漏洞，洩露使用者真實信箱</a></td>
+<td>108pt</td>
+<td>***</td>
+<td>資安與隱私</td>
+<td>社群失望於蘋果拖延逾年未修補且缺乏透明度</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48746752" rel="noopener noreferrer">產品上線：Parsewise 透過 API 跨文件進行推理</a></td>
+<td>32pt</td>
+<td>***</td>
+<td>AI 工具與應用</td>
+<td>社群肯定跨文件推理潛力，盼明確差異化</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48744606" rel="noopener noreferrer">Apple 隱藏我的電子郵件功能曝露漏洞，洩露使用者真實信箱</a> (108pt) — Apple 隱藏郵件功能曝露隱私漏洞
+   💬 社群觀點：社群失望於蘋果拖延逾年未修補且缺乏透明度，質疑其安全承諾。建議正式通報監管單位、提起集體訴訟或改用替代工具。</li>
+<li><a href="https://news.ycombinator.com/item?id=48746752" rel="noopener noreferrer">產品上線：Parsewise 透過 API 跨文件進行推理</a> (32pt) — Parsewise 推出跨文件推理 API
+   💬 社群觀點：社群肯定跨文件推理潛力，但批評UI設計俗套。技術面關注領域移植彈性與結構化輸出，指市場競爭激烈，盼明確差異化。</li>
+<li><a href="https://news.ycombinator.com/item?id=48739038" rel="noopener noreferrer">產品展示：Morph Reflexes 用於 Agent 軌跡的多頭分類器</a> (10pt) — Morph Reflexes 提供 Agent 軌跡分類
+   💬 社群觀點：使用者高度讚賞產品與團隊，表達強烈支持並祝願專案大幅成長。整體迴響極度正面，目前無技術爭議或改進建議。</li>
+<li><a href="https://news.ycombinator.com/item?id=48750336" rel="noopener noreferrer">美國商務部解除對 Claude Fable 5 與 Mythos 5 的出口管制</a> (3pt) — 美國解除特定 AI 模型出口管制
+   💬 社群觀點：僅單則留言，感嘆原PO貼文遭封鎖，並讚賞其技能庫。整體缺乏對解除出口管制的實質討論。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ukqaam/zeroclick_prompt_injection_to_rce_in_cursor_ide/" rel="noopener noreferrer">Cursor IDE 的零點擊提示詞注入至遠端程式碼執行漏洞：DuneSlide</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI工具與Agent安全威脅</td>
+<td>r/netsec</td>
+<td>Cursor IDE遭零點擊提示詞注入觸發RCE</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1uknvr4/privilege_escalation_to_root_in_lima_qemu_guests/" rel="noopener noreferrer">透過全域可寫 agent socket 在 Lima QEMU 虛擬機器中提升權限至 root（CVE-2026-53657）</a> (- ups) — r/netsec — QEMU虛擬機遭全域Socket漏洞提權至root</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1ukqaam/zeroclick_prompt_injection_to_rce_in_cursor_ide/" rel="noopener noreferrer">Cursor IDE 的零點擊提示詞注入至遠端程式碼執行漏洞：DuneSlide</a> (- ups) — r/netsec — Cursor IDE遭零點擊提示詞注入觸發RCE
+2. <a href="https://www.reddit.com/r/netsec/comments/1uks9il/detecting_agentic_ai_threats_in_claude_sigma/" rel="noopener noreferrer">偵測 Claude 中的 AI Agent 威脅：執行層的 Sigma 規則與關聯檢測</a> (- ups) — r/netsec — 以Sigma規則偵測Claude的Agent威脅</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/aikido-acquires-root" rel="noopener noreferrer">Aikido 收購 Root 以強化軟體供應鏈安全</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Aikido收購Root強化供應鏈安全</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/github-break-glass-credential-revocation" rel="noopener noreferrer">又一例：GitHub 實作緊急憑證撤銷機制</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>GitHub導入緊急憑證撤銷機制</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/ousaban-banking-trojan-targets-iberian.html" rel="noopener noreferrer">Ousaban 銀行特洛伊木馬針對伊比利半島銀行用戶</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>伊比利半島銀行遭特洛伊木馬攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/adobe-patches-7-cvss-100-flaws-in.html" rel="noopener noreferrer">Adobe 修復 ColdFusion 與 Campaign Classic 中 7 項 CVSS 10.0 漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Adobe 修補兩產品七項極危漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/critical-cursor-flaws-could-let-prompt.html" rel="noopener noreferrer">Cursor 關鍵漏洞可能允許提示詞注入逃離沙箱並執行指令</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Cursor 漏洞恐致提示詞注入逃逸沙箱</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/ai-generated-browser-ransomware-abuses.html" rel="noopener noreferrer">AI 生成的瀏覽器勒索軟體濫用 Chromium API</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI 生成勒索軟體濫用瀏覽器 API</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/phantom-squatting-uses-ai-hallucinated.html" rel="noopener noreferrer">「幻象搶注」利用 AI 幻覺網域進行釣魚與惡意軟體攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>攻擊者利用 AI 幻覺網域進行釣魚</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/anthropic-restores-claude-fable-5-after.html" rel="noopener noreferrer">美國解除越獄相關出口管制後，Anthropic 恢復 Claude Fable 5 服務</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>美解禁越獄管制後 Anthropic 恢復服務</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/azure-cli-password-spray-hits-at-least.html" rel="noopener noreferrer">Azure CLI 密碼噴濺攻擊至少滲透 78 個微軟帳號</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Azure CLI 遭密碼噴濺滲透多帳號</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/researcher-analyzes-3000-live-clickfix.html" rel="noopener noreferrer">研究員分析 3,000 個 ClickFix 攻擊載荷，揭露 API 驅動的惡意軟體分發機制</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>分析三千載荷揭露 API 驅動惡意分發</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/citrix-patches-six-netscaler-flaws.html" rel="noopener noreferrer">Citrix 修復六項 NetScaler 漏洞，可導致檔案讀取與拒絕服務</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Citrix 修補 NetScaler 六大資安漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/06/microsoft-warns-poisoned-mcp-tool.html" rel="noopener noreferrer">微軟警告中毒的 MCP 工具描述可能導致 AI 代理洩漏資料</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>微軟警告中毒 MCP 描述恐洩漏資料</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/breachprotocol/a-security-writeup-catalogs-how-ai-agents-get-attacked-and-one-claim-raised-eyebrows-59dl" rel="noopener noreferrer">一份資安報告彙整 AI 代理遭攻擊的方式，其中一項聲明引發關注</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>報告彙整 AI 代理受攻方式引發關注</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/nikhil_ramank_152ca48266/-mcp-and-a2a-in-agentic-bfsi-systems-the-complete-implementation-guide-1egp" rel="noopener noreferrer">MCP 與 A2A 在金融 AI 代理系統中的完整實作指南</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>金融 AI 代理系統 MCP 與 A2A 實作指南</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/breachprotocol/an-ai-agent-design-that-refuses-to-act-on-what-it-merely-assumes-haa" rel="noopener noreferrer">一種拒絕僅憑假設行動的 AI 代理設計</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>設計拒絕僅憑假設行動的 AI 代理</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/graph-rag-llm/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：圖 RAG：利用知識圖譜建構更聰明的檢索工作流</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>圖 RAG 利用知識圖譜優化檢索流程</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 工具鏈與 Agent 安全治理】</strong> — 跨平台高度關注 AI 編程工具（如 Cursor、Claude）的沙箱逃逸與提示詞注入風險，同時企業級密碼管理、MCP 工具描述中毒與權限隔離問題，正推動 AI 代理部署朝向最小權限與可審計架構演進。</li>
+<li><strong>【系統底層與憑證存取控制】</strong> — 從 Linux 核心歷史提權漏洞、FeliCa 晶片通訊弱點到 QEMU 虛擬機 Socket 配置失誤，基礎設施與硬體層級的權限管理成為資安防禦重中之重，緊急憑證撤銷機制成為平台級標準。</li>
+<li><strong>【AI 政策監管與生態合規】</strong> — 美國解除特定模型出口管制與 Unity 限制第三方 AI 工具條款，顯示監管鬆綁與平台資料主權拉鋸並行，促使開發者重新評估工具鏈合規性與供應鏈安全審查流程。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理與開發工具安全</strong>：Hatena + HN + Reddit 同步出現 — 從 1Password 警告勿交憑證、Unity 限制第三方 AI，到 Cursor 零點擊 RCE 與 Claude Agent 威脅偵測，全面聚焦 AI 工具權限管控與供應鏈防禦。</li>
+<li><strong>底層漏洞與憑證應變機制</strong>：Hatena + Reddit + 資安部落格 — Linux 核心提權、QEMU Socket 漏洞與 GitHub 緊急憑證撤銷機制，凸顯基礎設施韌性與即時斷網回收能力已成現代資安基礎建設。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-29</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-29</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-29</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/sonicgarden/articles/ef6268318d256f" rel="noopener noreferrer">基礎設施工程師如何使用 Claude Code - AWS 多帳戶管理</a></td>
+<td>N/A</td>
+<td>***</td>
+<td>AI 開發工具應用實戰</td>
+<td>透過 AI 輔助 CLI 高效管理跨帳戶政策與資源配置</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260528-agingbench-ai-agents-age-too/" rel="noopener noreferrer">「即使持續使用 AI 也會像人類一樣老化」的指摘，隨著會話累積記憶導致性能惡化</a></td>
+<td>N/A</td>
+<td>***</td>
+<td>AI 技術限制與挑戰</td>
+<td>AgingBench 研究揭示長期運行 AI 的認知衰退現象</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li>
+<p><a href="https://zenn.dev/sonicgarden/articles/ef6268318d256f" rel="noopener noreferrer">基礎設施工程師如何使用 Claude Code - AWS 多帳戶管理</a> (N/A users) — 基礎設施工程師用 Claude Code 管理 AWS 多帳戶架構</p>
+</li>
+<li>
+<p><a href="https://gigazine.net/news/20260528-agingbench-ai-agents-age-too/" rel="noopener noreferrer">「即使持續使用 AI 也會像人類一樣老化」的指摘，隨著會話累積記憶導致性能惡化</a> (N/A users) — AI 隨對話記憶累積而老化，性能逐漸惡化</p>
+</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<p><em>本日無符合篩選條件的文章</em></p>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><em>本日無符合篩選條件的文章</em></p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/vs-code-extension-github-breach" rel="noopener noreferrer">VS Code 擴充套件的狂野西部：中毒套件入侵 GitHub</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>惡意擴充套件透過供應鏈攻擊成功滲透開發環境</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/critical-gogs-rce-vulnerability-lets.html" rel="noopener noreferrer">Gogs 嚴重 RCE 漏洞讓已認證用戶執行任意代碼</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>自託管 Git 服務存在允許任意代碼執行的致命漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/threat-actors-exploit-critical.html" rel="noopener noreferrer">威脅行為者利用 FortiClient EMS 嚴重漏洞部署憑證竊取器</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>企業端點管理系統漏洞被用於橫向移動攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/05/jinx-0164-targets-cryptocurrency-firms.html" rel="noopener noreferrer">JINX-0164 以假招募者誘餌和 macOS 惡意軟體針對加密貨幣公司</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>社交工程攻擊結合產業針對性招募釣魚手法</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 開發工具實戰應用】</strong> — Claude Code 被基礎設施工程師用於 AWS 多帳戶自動化管理，同時 Anthropic 發布新旗艦模型 Opus 4.8，顯示 AI 工具正快速融入 DevOps 工作流。</p>
+</li>
+<li>
+<p><strong>【AI 技術限制與老化風險】</strong> — AgingBench 研究揭示 AI agent 隨著對話記憶累積會出現性能衰退，類似人類認知老化現象，為長期運行 AI 系統帶來新的設計挑戰。</p>
+</li>
+<li>
+<p><strong>【軟體供應鏈安全威脅】</strong> — VS Code 擴充套件中毒事件突顯開發者工具生態的供應鏈攻擊風險，加上多個嚴重 RCE 漏洞被主動exploit，顯示資安維護壓力持續高漲。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI Agent 發展</strong>：Hatena + RSS 同步關注 — Claude Code 實戰應用與 Cloudflare 邊緣 Agent 支援服務相繼推出</li>
+<li><strong>資安漏洞威脅</strong>：RSS + Security Blog — Gogs、FortiClient 多款企業軟體出現高嚴重度漏洞</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

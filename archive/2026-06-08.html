@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-08</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-08</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-08</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://gigazine.net/news/20260607-open-code-review/" rel="noopener noreferrer">AI 程式碼審查工具「Open Code Review」，可為現有 AI 設定各種規則以提升審查能力，阿里巴巴集團已檢測出 100 萬件程式碼缺陷</a></td>
+<td>53</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>阿里已檢百萬缺陷，提供低成本易整合審查機制。</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260607-irodori-tts-v3/" rel="noopener noreferrer">可指定聲音讓 AI 說喜歡台詞的本地端 AI「Irodori-TTS」V3 版推出，實測：可指定語音長度，表情符號情感控制也變簡單</a></td>
+<td>24</td>
+<td>***</td>
+<td>本地端語音生成技術</td>
+<td>支援語長與情感控制，降低雲端依賴。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://gigazine.net/news/20260607-open-code-review/" rel="noopener noreferrer">AI 程式碼審查工具「Open Code Review」，可為現有 AI 設定各種規則以提升審查能力，阿里巴巴集團已檢測出 100 萬件程式碼缺陷</a> (53 users) — 此工具允許開發者為現有 AI 模型設定自訂審查規則，顯著提升程式碼檢查的準確率與效率。</li>
+<li><a href="https://gigazine.net/news/20260607-irodori-tts-v3/" rel="noopener noreferrer">可指定聲音讓 AI 說喜歡台詞的本地端 AI「Irodori-TTS」V3 版推出，實測：可指定語音長度，表情符號情感控制也變簡單</a> (24 users) — 本地端語音合成工具強化聲音指定、語音長度控制及透過表情符號進行情感表達的功能。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48434436" rel="noopener noreferrer">Anthropic，請推出官方的 Claude Desktop Linux 版</a></td>
+<td>268pt</td>
+<td>***</td>
+<td>AI 基礎設施優化</td>
+<td>社群盼官方Linux版，雖內建支援但礙於碎片化暫未發布。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48430923" rel="noopener noreferrer">Token 經濟學：量化代理式軟體工程中 Token 的使用位置</a></td>
+<td>150pt</td>
+<td>***</td>
+<td>代理式軟體工程與 Token 經濟學</td>
+<td>量化分析 AI 代理開發中的 Token 消耗分佈。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48400151" rel="noopener noreferrer">推論式 KV 編碼：無損壓縮 KV Cache 達約 4 倍</a></td>
+<td>123pt</td>
+<td>***</td>
+<td>AI 基礎設施優化</td>
+<td>推論階段 KV 編碼技術，實現約四倍無損壓縮。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48398703" rel="noopener noreferrer">電路的秘密生活：專訪 lcamtuf / Michał Zalewski（音訊訪談）</a></td>
+<td>47pt</td>
+<td>***</td>
+<td>硬體安全與資安技術探討</td>
+<td>專訪資安專家 lcamtuf，探討電路設計與安全。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48436669" rel="noopener noreferrer">Proliferate (YC S25) 招募工程師以建構開源 Codex</a></td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具與基礎設施優化</td>
+<td>YC 新創招募工程師，致力建構開源 Codex。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48434436" rel="noopener noreferrer">Anthropic，請推出官方的 Claude Desktop Linux 版</a> (268pt) — 本文探討 Anthropic 尚未推出官方獨立 Linux 版 Claude Desktop 的現況與技術考量。</li>
+<li><a href="https://news.ycombinator.com/item?id=48430923" rel="noopener noreferrer">Token 經濟學：量化代理式軟體工程中 Token 的使用位置</a> (150pt) — 研究量化分析 AI 代理程式在軟體開發流程中消耗 Token 的具體分佈與成本結構。</li>
+<li><a href="https://news.ycombinator.com/item?id=48400151" rel="noopener noreferrer">推論式 KV 編碼：無損壓縮 KV Cache 達約 4 倍</a> (123pt) — 提出一種推論階段的 KV Cache 編碼技術，成功實現約四倍的無損壓縮率。</li>
+<li><a href="https://news.ycombinator.com/item?id=48398703" rel="noopener noreferrer">電路的秘密生活：專訪 lcamtuf / Michał Zalewski（音訊訪談）</a> (47pt) — 深度音訊訪談資安與硬體領域權威專家 lcamtuf，分享其對電路設計、逆向工程與安全研究的技術哲學。</li>
+<li><a href="https://news.ycombinator.com/item?id=48436669" rel="noopener noreferrer">Proliferate (YC S25) 招募工程師以建構開源 Codex</a> (-pt) — YC S25 新創 Proliferate 正在招募工程師，致力於建構開源的 Codex AI 編碼代理專案。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tz81jo/edrchoker_choking_the_telemetry_stream_to_bypass/" rel="noopener noreferrer">EDRChoker：透過掐斷遙測資料流來繞過資安防禦</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安漏洞與攻防技術</td>
+<td>r/netsec</td>
+<td>阻斷遙測流量以規避終端防護。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tywxh9/cve202646640_developing_payloads_for_twig_sandbox/" rel="noopener noreferrer">CVE-2026-46640：開發用於繞過 Twig 沙箱的 Payload</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安漏洞與攻防技術</td>
+<td>r/netsec</td>
+<td>建構繞過 Twig 沙箱之惡意程式碼。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tzdjl6/fedora_linux_43_exposes_20yearold_microsoft/" rel="noopener noreferrer">Fedora Linux 43 揭露微軟 Outlook 20 年前的資安缺陷</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安漏洞與攻防技術</td>
+<td>r/cybersecurity</td>
+<td>Fedora 43 曝光 Outlook 二十年舊漏洞。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tys5z7/ai_agent_uncovers_21_zerodays_in_ffmpeg_chrome/" rel="noopener noreferrer">AI 代理程式發現 FFmpeg 21 個零日漏洞；Chrome 修復破紀錄的 429 個錯誤</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 代理行為與模型進階功能</td>
+<td>r/cybersecurity</td>
+<td>AI 找出 FFmpeg 零日漏洞，Chrome 大規模修補。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1tz9ruu/superpower_for_gemini/" rel="noopener noreferrer">Gemini 的超能力功能</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 代理行為與模型進階功能</td>
+<td>r/GoogleGeminiAI</td>
+<td>Google 推出 Gemini 進階強化功能。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1tzhigo/ai_agents_left_alone_for_15_days_one_model_played/" rel="noopener noreferrer">AI 代理獨立運行 15 天：一個模型遵守規則，另一個卻犯下 683 起罪行</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 代理行為與模型進階功能</td>
+<td>r/GoogleGeminiAI</td>
+<td>AI 代理自主運行測試顯現行為分歧。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/javascript/comments/1ty8m1s/there_are_more_than_100_public_repos_on_github/" rel="noopener noreferrer">GitHub 上有超過 100 個公開儲存庫包含惡意程式碼，可安裝遠端存取木馬並擴散至您有權限的所有儲存庫。GitHub 為何無動於衷？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>開發平台安全與供應鏈風險</td>
+<td>r/javascript</td>
+<td>GitHub 百餘儲存庫藏木馬，平台監管遭質疑。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1tz81jo/edrchoker_choking_the_telemetry_stream_to_bypass/" rel="noopener noreferrer">EDRChoker：透過掐斷遙測資料流來繞過資安防禦</a> (- ups) — r/netsec — EDRChoker 是一種新型攻擊手法，透過中斷或延遲終端偵測與回應系統的遙測資料傳輸，使安全軟體無法即時獲取系統狀態。
+2. <a href="https://www.reddit.com/r/netsec/comments/1tywxh9/cve202646640_developing_payloads_for_twig_sandbox/" rel="noopener noreferrer">CVE-2026-46640：開發用於繞過 Twig 沙箱的 Payload</a> (- ups) — r/netsec — CVE-2026-46640 揭示了 PHP 模板引擎 Twig 沙箱機制中的安全缺陷，攻擊者可透過精心設計的 Payload 突破執行環境限制並取得伺服器權限。
+3. [Fedora Linux 43 揭露微軟 Outlook 20 年前的資安缺陷](https://www.reddit</p>
+</article>
+</main>
+</body>
+</html>

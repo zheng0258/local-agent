@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-05-16</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-05-16</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-05-16</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.nikkei.com/article/DGXZQOSG132XK0T10C26A5000000/" rel="noopener noreferrer">電腦處理速度提升1000倍，東大開發新素子 無發熱運作</a></td>
+<td>847</td>
+<td>***</td>
+<td>硬體突破</td>
+<td>革命性散熱解決方案</td>
+</tr>
+<tr>
+<td><a href="https://smhn.info/202605-anthropic-ai-breaks-apple-mac-memory-protection-5-days" rel="noopener noreferrer">【驚奇】Claude Mythos 5天突破Apple耗費5年構築的Mac記憶體保護</a></td>
+<td>623</td>
+<td>***</td>
+<td>AI/資安</td>
+<td>AI自動化漏洞挖掘能力驚現</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/globis/articles/94762dc8ec7914" rel="noopener noreferrer">分析Claude Code 1000次會話，一週內縮短10%Lead Time</a></td>
+<td>512</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>量化ROI數據實證</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/05/nginx-rift-vulnerability" rel="noopener noreferrer">nginx發現存在18年的重大安全漏洞</a></td>
+<td>489</td>
+<td>***</td>
+<td>資安</td>
+<td>長期潛藏的重大風險</td>
+</tr>
+<tr>
+<td><a href="https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start" rel="noopener noreferrer">Claude Code在大型程式碼庫的運作方式：最佳實踐與入門指南</a></td>
+<td>356</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>企業導入實用手冊</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.nikkei.com/article/DGXZQOSG132XK0T10C26A5000000/" rel="noopener noreferrer">電腦處理速度提升1000倍，東大開發新素子 無發熱運作</a> (847 users) — 東大開發新元件，運算快1000倍且無發熱</li>
+<li><a href="https://smhn.info/202605-anthropic-ai-breaks-apple-mac-memory-protection-5-days" rel="noopener noreferrer">【驚奇】Claude Mythos 5天突破Apple耗費5年構築的Mac記憶體保護</a> (623 users) — Claude 5天突破Apple五年記憶體防護機制</li>
+<li><a href="https://zenn.dev/globis/articles/94762dc8ec7914" rel="noopener noreferrer">分析Claude Code 1000次會話，一週內縮短10%Lead Time</a> (512 users) — 分析千次會話，一週縮短10%開發時間</li>
+<li><a href="https://gihyo.jp/article/2026/05/nginx-rift-vulnerability" rel="noopener noreferrer">nginx發現存在18年的重大安全漏洞</a> (489 users) — nginx發現潛藏18年的重大安全漏洞</li>
+<li><a href="https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start" rel="noopener noreferrer">Claude Code在大型程式碼庫的運作方式：最佳實踐與入門指南</a> (356 users) — 大型程式庫使用Claude Code最佳實踐指南</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48148460" rel="noopener noreferrer">Pixel 10 零點擊攻擊鏈</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>資安</td>
+<td>國家級威脅攻擊手法</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48148391" rel="noopener noreferrer">我們正在終止漏洞賞金計畫</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>資安</td>
+<td>AI時代下的策略重估</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48148460" rel="noopener noreferrer">Pixel 10 零點擊攻擊鏈</a> (342pt) — Pixel 10 發現零點擊攻擊鏈</li>
+<li><a href="https://news.ycombinator.com/item?id=48148391" rel="noopener noreferrer">我們正在終止漏洞賞金計畫</a> (287pt) — 公司宣布終止漏洞賞金計畫</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1tdvn3p/microsoft_warns_of_exchange_zeroday_flaw/" rel="noopener noreferrer">Microsoft警告Exchange零時差漏洞遭攻擊</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>企業郵件系統緊急威脅</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1te2jko/i_built_a_selfhosted_opensource_mcp_server_that/" rel="noopener noreferrer">自建開源MCP伺服器連接本地LLM與金融數據</a></td>
+<td>1923</td>
+<td>87</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/LocalLLaMA</td>
+<td>隱私優先的本地AI架構</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1tdoxu0/biggest_ai_fumble_in_tech/" rel="noopener noreferrer">科技界最大的AI失誤</a></td>
+<td>1654</td>
+<td>234</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>過度信任AI的代價</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/" rel="noopener noreferrer">開發保持cursor規則同步的開源工具，3週获250星</a></td>
+<td>1456</td>
+<td>92</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/Cursor_AI</td>
+<td>解決配置管理痛點</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/" rel="noopener noreferrer">Cursor產生忽略程式碼庫的泛化技能？我們提供了解決方案</a></td>
+<td>987</td>
+<td>143</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/Cursor_AI</td>
+<td>專案知識整合挑戰</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1tdvn3p/microsoft_warns_of_exchange_zeroday_flaw/" rel="noopener noreferrer">Microsoft警告Exchange零時差漏洞遭攻擊</a> (2847 ups) — r/cybersecurity — 微軟Exchange零時差漏洞遭實際攻擊</p>
+<p><strong>AI 開發工具類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1tdoxu0/biggest_ai_fumble_in_tech/" rel="noopener noreferrer">科技界最大的AI失誤</a> (1654 ups) — r/ClaudeCode — 科技界最嚴重的AI事故分析
+2. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1te2jko/i_built_a_selfhosted_opensource_mcp_server_that/" rel="noopener noreferrer">自建開源MCP伺服器連接本地LLM與金融數據</a> (1923 ups) — r/LocalLLaMA — 自架MCP伺服器為本地LLM提供金融數據
+3. <a href="https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/" rel="noopener noreferrer">開發保持cursor規則同步的開源工具，3週获250星</a> (1456 ups) — r/Cursor_AI — 自動同步cursor規則的開源工具
+4. <a href="https://www.reddit.com/r/Cursor_AI/comments/1rkyb5y/anyone_else_maintaining_cursorrules_and_claudemd/" rel="noopener noreferrer">維護.cursorrules和CLAUDE.md成為惡夢？</a> (876 ups) — r/Cursor_AI — 維護多重AI上下文檔案的困境
+5. <a href="https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/" rel="noopener noreferrer">Cursor產生忽略程式碼庫的泛化技能？我們提供了解決方案</a> (987 ups) — r/Cursor_AI — 解決Cursor忽略程式碼庫的問題</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/top-owasp-scanners-in-2026-for-web-application-security" rel="noopener noreferrer">2026 年 Top OWASP Web 應用程式安全掃描器評比</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>企業採購決策參考</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI驅動的資安攻防革命】</strong> — Claude AI僅用5天就突破Apple耗時五年開發的記憶體保護機制，顯示生成式AI在自動化漏洞挖掘上的驚人能力；同時科技界討論嚴重的AI輔助開發事故，凸顯攻防兩極化的新現實。</li>
+<li><strong>【企業郵件系統持續受威脅】</strong> — Microsoft Exchange在野遭攻擊的零時差漏洞與新發現的CVE-2026-42897惡意郵件利用，顯示企業郵件系統仍是APT攻擊的主要入口點，供應鏈攻擊更延伸至OpenAI員工設備。</li>
+<li><strong>【AI開發工具爆發與痛點浮現】</strong> — Claude Code實證一週縮短10%開發Lead Time的同時，社群熱烈討論Cursor等工具的上下文管理困境、規則同步需求與程式碼庫理解不足等實務挑戰。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Exchange安全威脅</strong>：Reddit + RSS同步出現 — 零時差漏洞與CVE-2026-42897顯示企業郵件系統遭多重攻擊</li>
+<li><strong>AI漏洞挖掘能力</strong>：Hatena + HN — Claude突破Mac防護與零點擊攻擊鏈凸顯AI自動化攻防的新時代</li>
+<li><strong>AI開發工具生態系</strong>：Hatena + Reddit — Claude Code最佳實踐與Cursor配置管理痛點同步受關注</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

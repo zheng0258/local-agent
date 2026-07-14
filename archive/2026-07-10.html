@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-10</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-10</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-10</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/07/coding-agent-loop-design-with-claude-code" rel="noopener noreferrer">Anthropic 介紹使用 Claude Code 的 AI 代理循環設計</a></td>
+<td>289</td>
+<td>***</td>
+<td>AI 程式代理架構優化</td>
+<td>解析Claude Code代理循環架構</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/aiplus/article/2607/09/2000000173/" rel="noopener noreferrer">Anthropic 將 Claude Code 系統提示詞削減 80％ 旨在釋放模型創造力</a></td>
+<td>30</td>
+<td>***</td>
+<td>AI 程式代理架構優化</td>
+<td>精簡提示詞解放AI創造力</td>
+</tr>
+<tr>
+<td><a href="https://creators.bengo4.com/entry/2026/07/09/084206" rel="noopener noreferrer">使用 Apple Container 將 Claude Code 沙盒化之路</a></td>
+<td>17</td>
+<td>***</td>
+<td>AI 輔助開發新工具</td>
+<td>Apple容器隔離Claude Code</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/07/flint" rel="noopener noreferrer">微軟研究團隊發布支援 AI 圖表製作的中間語言「Flint」</a></td>
+<td>13</td>
+<td>***</td>
+<td>AI 輔助開發新工具</td>
+<td>微軟Flint語言輔助AI繪圖</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://gihyo.jp/article/2026/07/coding-agent-loop-design-with-claude-code" rel="noopener noreferrer">Anthropic 介紹使用 Claude Code 的 AI 代理循環設計</a> (289 users) — 解析Claude Code代理循環架構</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2607/09/2000000173/" rel="noopener noreferrer">Anthropic 將 Claude Code 系統提示詞削減 80％ 旨在釋放模型創造力</a> (30 users) — 精簡提示詞解放AI創造力</li>
+<li><a href="https://creators.bengo4.com/entry/2026/07/09/084206" rel="noopener noreferrer">使用 Apple Container 將 Claude Code 沙盒化之路</a> (17 users) — Apple容器隔離Claude Code</li>
+<li><a href="https://gihyo.jp/article/2026/07/flint" rel="noopener noreferrer">微軟研究團隊發布支援 AI 圖表製作的中間語言「Flint」</a> (13 users) — 微軟Flint語言輔助AI繪圖</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48846995" rel="noopener noreferrer">如何正確為內部服務部署 TLS 憑證</a></td>
+<td>68pt</td>
+<td>***</td>
+<td>內部網路安全</td>
+<td>內部服務部署TLS憑證的正確做法</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48846995" rel="noopener noreferrer">如何正確為內部服務部署 TLS 憑證</a> (68pt) — 內部服務部署TLS憑證的正確做法
+   💬 社群觀點：社群推崇ACME DNS-01驗證，反感分裂視界DNS與外部代理。建議採內部解析、mTLS或等新標準。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.nowsecure.com/blog/2026/07/08/what-the-transsion-telemetry-research-means-for-mobile-security/" rel="noopener noreferrer">非洲每兩台售出的設備中就有一台將資料外洩至中國</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>設備資料外洩風險</td>
+<td>r/privacy</td>
+<td>非洲設備頻傳資料外洩中國</td>
+</tr>
+<tr>
+<td><a href="https://hybrid-analysis.blogspot.com/2026/07/suspected-russian-threat-actor.html" rel="noopener noreferrer">疑似俄羅斯威脅行為者假冒合法加密錢包以部署遠端工具</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>加密錢包釣魚攻擊</td>
+<td>r/crypto</td>
+<td>俄駭客偽裝錢包部署遠端工具</td>
+</tr>
+<tr>
+<td><a href="https://byteray-ai.github.io/drift-corpus" rel="noopener noreferrer">Drift 語料庫：240 多個 2026 年 Windows 核心修補程式的二進制差異</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>系統修補程式分析</td>
+<td>r/sysadmin</td>
+<td>語料庫彙整系統修補二進制差異</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>設備資料外洩風險</strong>
+1. <a href="https://www.nowsecure.com/blog/2026/07/08/what-the-transsion-telemetry-research-means-for-mobile-security/" rel="noopener noreferrer">非洲每兩台售出的設備中就有一台將資料外洩至中國</a> (- ups) — r/privacy — 非洲設備頻傳資料外洩中國</p>
+<p><strong>加密錢包釣魚攻擊</strong>
+1. <a href="https://hybrid-analysis.blogspot.com/2026/07/suspected-russian-threat-actor.html" rel="noopener noreferrer">疑似俄羅斯威脅行為者假冒合法加密錢包以部署遠端工具</a> (- ups) — r/crypto — 俄駭客偽裝錢包部署遠端工具</p>
+<p><strong>系統修補程式分析</strong>
+1. <a href="https://byteray-ai.github.io/drift-corpus" rel="noopener noreferrer">Drift 語料庫：240 多個 2026 年 Windows 核心修補程式的二進制差異</a> (- ups) — r/sysadmin — 語料庫彙整系統修補二進制差異</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/compromised-injectivelabs-exfiltrates-keys" rel="noopener noreferrer">遭入侵的 @injectivelabs/sdk-ts 透過偽造遙測資料竊取錢包金鑰</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>惡意套件偽造遙測資料竊取金鑰</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/ai-pentesting-buyers-guide" rel="noopener noreferrer">AI 滲透測試採購指南：如何評估 AI 滲透測試供應商</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>掌握AI滲透測試供應商評估指南</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/07/felons-fraudsters-flog-offensive-cybersecurity-startup/" rel="noopener noreferrer">罪犯與詐欺者經營具攻擊性資安新創公司</a></td>
+<td>KrebsonSecurity</td>
+<td>***</td>
+<td>罪犯經營資安新創，高價收購零日漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/npm-12-disables-install-scripts-by.html" rel="noopener noreferrer">npm 12 預設停用安裝腳本以降低供應鏈風險</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>npm 12預設停用安裝腳本，防範供應鏈攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/goddamn-ransomware-uses-poisonx-driver.html" rel="noopener noreferrer">GodDamn 勒索軟體使用 PoisonX 驅動程式停用終端機防禦</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>勒索軟體藉驅動程式繞過終端機防禦機制</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/microsoft-patches-rogueplanet-defender.html" rel="noopener noreferrer">Microsoft 修復可獲取 SYSTEM 權限的 RoguePlanet Defender 漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>微軟修補Defender漏洞，防SYSTEM權限濫用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/friendly-fire-ai-agents-built-to-catch.html" rel="noopener noreferrer">頂尖 AI 程式碼偵測代理可被欺騙執行惡意程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI程式碼偵測代理易被誘騙執行惡意程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/ghostapproval-symlink-flaws-could-let.html" rel="noopener noreferrer">GhostApproval 符號連結漏洞可能讓惡意存放庫在 AI 程式碼代理中執行程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI程式助手符號連結漏洞，恐遭惡意程式控制</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/06/factoring-rsa-keys-with-many-zeros.html" rel="noopener noreferrer">分解含有大量零的 RSA 金鑰</a></td>
+<td>Schneier Blog</td>
+<td>***</td>
+<td>研究發現大量含零的RSA金鑰易被分解破解</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/marcgil_dev/why-most-ai-prompts-for-developers-dont-work-and-how-to-fix-them-5a9" rel="noopener noreferrer">為什麼大多數開發者用的 AI 提示詞無效（以及如何修正）</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>開發者AI提示詞常因缺乏情境失效，附修正法</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/tmfrisinger/world-building-is-the-test-discipline-agents-need-50mm" rel="noopener noreferrer">世界建構是 AI 代理所需的測試紀律</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>AI代理需引入世界建構概念作為測試紀律</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/printo_tom/supercharging-net-development-with-github-copilot-and-testcontainers-4ml6" rel="noopener noreferrer">⚡ 使用 GitHub Copilot 與 Testcontainers 加速 .NET 開發</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>藉Copilot與容器工具加速.NET開發流程</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理架構與安全防護】</strong> — 跨平台高度關注 AI 程式代理（如 Claude Code）的循環設計、提示詞優化與沙盒隔離，同時警示代理易受提示詞注入與符號連結漏洞攻擊，顯示 AI 輔助開發正從效能優化邁向安全加固階段。</li>
+<li><strong>【軟體供應鏈與基礎設施防禦】</strong> — npm 預設停用安裝腳本、內部 TLS 憑證部署規範強化，以及針對 Injective SDK 與惡意資安新創的供應鏈攻擊，凸顯企業需全面升級依賴項驗證與憑證管理機制。</li>
+<li><strong>【底層系統漏洞與隱私合規挑戰】</strong> — 微軟 Defender 系統權限漏洞、勒索軟體繞過 EDR 驅動程式，以及非洲設備資料外洩事件，反映作業系統底層防禦與新興市場資料治理成為當前資安與監管焦點。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助開發工具與代理安全</strong>：Hatena + HN + Reddit 同步出現 — 日本市場聚焦代理架構與提示詞精簡，全球社群則同步討論 AI 代理在 CI/CD 中的誘騙風險與沙盒隔離實務。</li>
+<li><strong>供應鏈攻擊與憑證管理</strong>：HN + 資安部落格 — HN 深入探討內部服務 TLS 憑證部署最佳實踐，資安部落格則密集揭露 npm 腳本風險與惡意 SDK 竊取事件，共同指向基礎設施防禦升級。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

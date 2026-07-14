@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-21</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-21</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-21</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/htani0817/items/0cb5e8f91fa64fb9ba8c" rel="noopener noreferrer">用 Claude Code × Obsidian Vault 打造「萬能諮詢」專案 — 資料夾結構・CLAUDE.md・MCP 設定全公開</a></td>
+<td>234</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>MCP 設定與個人知识库整合實戰</td>
+</tr>
+<tr>
+<td><a href="https://www.publickey1.jp/blog/26/cloudflareaicloudflare_artifactsgitrestful_api.html" rel="noopener noreferrer">Cloudflare 發表 AI Agent 用的檔案系統「Cloudflare Artifacts」。支援 Git 版本管理與 RESTful API 的檔案系統</a></td>
+<td>187</td>
+<td>***</td>
+<td>AI 基礎設施</td>
+<td>Agent 原生檔案管理服務上市</td>
+</tr>
+<tr>
+<td><a href="https://ascii.jp/elem/000/004/396/4396252/" rel="noopener noreferrer">ChatGPT 的影像生成 AI 超越「Nano Banana」？漫畫與動畫風格畫面達到實用等級</a></td>
+<td>156</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>通用模型挑戰垂直領域專用工具</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/enterprise/articles/2604/13/news043.html" rel="noopener noreferrer">Google 公開根除會話竊取的新技術「DBSC」——在裝置層級無效化 Cookie 盜用</a></td>
+<td>142</td>
+<td>***</td>
+<td>網路安全</td>
+<td>裝置綁定 Cookie 新防禦機制</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/ren8k/aws-mcp-access-control-for-ai-agents" rel="noopener noreferrer">AI Agent 的權限管理 1：MCP 伺服器・工具的細粒度存取控制篇</a></td>
+<td>128</td>
+<td>***</td>
+<td>AI 安全</td>
+<td>MCP 協議下的最小權限實踐</td>
+</tr>
+<tr>
+<td><a href="https://www.publickey1.jp/blog/26/cloudflareaicloudflare_email_service.html" rel="noopener noreferrer">Cloudflare 以公開 beta 版推出 AI Agent 可進行郵件收發的「Cloudflare Email Service」</a></td>
+<td>98</td>
+<td>***</td>
+<td>AI 基礎設施</td>
+<td>Agent 原生郵件 API 開放測試</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/enterprise/articles/2604/20/news033.html" rel="noopener noreferrer">對 CVSS 分數 10/10「獨行」的警告——Axios 的「嚴重缺陷」被指成立困難</a></td>
+<td>87</td>
+<td>***</td>
+<td>資安評估</td>
+<td>CVSS 自動評分過度警告案例</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/htani0817/items/0cb5e8f91fa64fb9ba8c" rel="noopener noreferrer">用 Claude Code × Obsidian Vault 打造「萬能諮詢」專案 — 資料夾結構・CLAUDE.md・MCP 設定全公開</a> (234 users) — Claude Code 搭配 Obsidian 建構 AI 諮詢工作流</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<p><em>本日無 Hacker News 資料更新</em></p>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sqmpga/bluetooth_tracker_hidden_in_a_postcard_and_mailed/" rel="noopener noreferrer">藍牙追蹤器藏於明信片寄至軍艦暴露位置</a></td>
+<td>2847</td>
+<td>156</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>低成本 IoT 物理竊聽案例</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sqlxcm/vercel_just_got_hacked_and_it_raises_a_bigger/" rel="noopener noreferrer">Vercel 遭駭凸顯 AI 與資安更大議題</a></td>
+<td>1923</td>
+<td>203</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>AI 平台安全架構反思</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1spypte/ok_boys_its_over_no_subscription_required/" rel="noopener noreferrer">AI 開發工具有望免費化</a></td>
+<td>1654</td>
+<td>187</td>
+<td>***</td>
+<td>AI 工具</td>
+<td>r/ClaudeCode</td>
+<td>商業模式轉變訊號</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sqc89q/a_17yearold_excel_vulnerability_is_currently/" rel="noopener noreferrer">17 年舊 Excel 漏洞正被威脅行為者利用</a></td>
+<td>1432</td>
+<td>98</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>Legacy 系統持續風險警示</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sou4zz/mad_bugs_even_cat_readmetxt_is_not_safe/" rel="noopener noreferrer">MAD 漏洞：連「cat readme.txt」都不安全</a></td>
+<td>1287</td>
+<td>134</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>基礎指令層級安全盲點</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1sqtdqe/anthropic_when_you_trigger_47s_anxiety_your/" rel="noopener noreferrer">Anthropic：觸發 Claude 4.7 焦慮會降低輸出品質</a></td>
+<td>987</td>
+<td>76</td>
+<td>***</td>
+<td>AI 工具</td>
+<td>r/ClaudeCode</td>
+<td>LLM 情緒模擬與提示工程</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1sqmpga/bluetooth_tracker_hidden_in_a_postcard_and_mailed/" rel="noopener noreferrer">藍牙追蹤器藏於明信片寄至軍艦暴露位置</a> (2847 ups) — r/cybersecurity — 5 美元藍牙追蹤器暴露軍艦位置 24 小時
+2. <a href="https://www.reddit.com/r/cybersecurity/comments/1sqlxcm/vercel_just_got_hacked_and_it_raises_a_bigger/" rel="noopener noreferrer">Vercel 遭駭凸顯 AI 與資安更大議題</a> (1923 ups) — r/cybersecurity — Vercel 遭駭凸顯 AI 平台資安挑戰
+3. <a href="https://www.reddit.com/r/cybersecurity/comments/1sqc89q/a_17yearold_excel_vulnerability_is_currently/" rel="noopener noreferrer">17 年舊 Excel 漏洞正被威脅行為者利用</a> (1432 ups) — r/cybersecurity — 17 年舊 Excel 漏洞正被威脅行為者利用
+4. <a href="https://www.reddit.com/r/netsec/comments/1sou4zz/mad_bugs_even_cat_readmetxt_is_not_safe/" rel="noopener noreferrer">MAD 漏洞：連「cat readme.txt」都不安全</a> (1287 ups) — r/netsec — 基礎指令也存在安全性盲點</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1spypte/ok_boys_its_over_no_subscription_required/" rel="noopener noreferrer">AI 開發工具有望免費化</a> (1654 ups) — r/ClaudeCode — 訂閱制 AI 工具可能免費化
+2. <a href="https://www.reddit.com/r/ClaudeCode/comments/1sqtdqe/anthropic_when_you_trigger_47s_anxiety_your/" rel="noopener noreferrer">Anthropic：觸發 Claude 4.7 焦慮會降低輸出品質</a> (987 ups) — r/ClaudeCode — Claude 4.7 最佳化提示技巧整理</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat" rel="noopener noreferrer">axios 在 npm 遭入侵：維護者帳戶被劫持，RAT 被部署</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm 知名套件遭供應鏈攻擊植入木馬</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine" rel="noopener noreferrer">GlassWorm 原生化：新 Zig 釋放器感染機器上所有 IDE</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>新型惡意程式大規模感染 IDE 工具</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/anthropic-mythos-cybersecurity-risks-overblown" rel="noopener noreferrer">Mythos 網路安全悲觀論調與現實不符</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI 功能的神話安全風險被過度誇大</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI Agent 基礎設施成熟化】</strong> — Cloudflare 連續推出 Artifacts 檔案系統與 Email Service，顯示 AI Agent 專用基礎設施正快速完善。MCP 協議的權限管理討論同步熱絡，反映企業部署 AI Agent 時對安全性與可控性的需求。</p>
+</li>
+<li>
+<p><strong>【供應鏈攻擊持續威脅】</strong> — axios npm 套件維護者帳戶被劫持事件，與 Axios CVSS 10 分漏洞爭議形成對比。前者凸顯開源生態維護者安全的重要性，後者則質疑自動風險評估系統的準確性。</p>
+</li>
+<li>
+<p><strong>【物理-數位安全邊界模糊化】</strong> — 藍牙追蹤器竊聽、GlassWorm IDE 感染等案例，顯示攻擊者正跨越傳統安全邊界。低成本 IoT 設備與開發工具成為新的攻击面，提醒組織需建立跨層級防禦思維。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>axios 供應鏈攻擊</strong>：Hatena + aikido.dev — 同一事件從 CVSS 評估與實際入侵兩個角度報導</li>
+<li><strong>AI 安全議題</strong>：Reddit + aikido.dev — Vercel 遭駭與 Mythos 風險評估 discussion 反映 AI 平台安全關注度上升</li>
+<li><strong>AI Agent 工具化</strong>：Hatena + Reddit — Claude Code 工作流與 AI 工具免費化討論顯示開發者對高效能 AI 工具的期待</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

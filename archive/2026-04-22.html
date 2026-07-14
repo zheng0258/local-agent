@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-22</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-22</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-22</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/suthio/n/nf03d4f1df801" rel="noopener noreferrer">建議用 Claude Code 為後勤業務建立「back-office 儲存庫」</a></td>
+<td>287</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>後勤自動化新範式，累積可重複使用的流程</td>
+</tr>
+<tr>
+<td><a href="https://tech.findy.co.jp/entry/2026/04/21/070000" rel="noopener noreferrer">30 分鐘完成演講投影片：用 Claude Code 將從討論到 Google Slides 產生的工作流程化</a></td>
+<td>312</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>知識工作者生產力革命，非結構化內容自動化</td>
+</tr>
+<tr>
+<td><a href="https://blog.google/intl/ja-jp/products/android-chrome-play/gemini-in-chrome/" rel="noopener noreferrer">在 Chrome 瀏覽器中更親近 Gemini。開始提供 Gemini in Chrome</a></td>
+<td>401</td>
+<td>***</td>
+<td>AI 平台商業策略</td>
+<td>瀏覽器與 AI 深度整合，挑戰 Edge Copilot</td>
+</tr>
+<tr>
+<td><a href="https://github.blog/jp/2026-04-21-changes-to-github-copilot-individual-plans/" rel="noopener noreferrer">GitHub Copilot 個人方案變更公告</a></td>
+<td>356</td>
+<td>***</td>
+<td>AI 平台商業策略</td>
+<td>定價調整反映從早期採用者優惠轉向成熟商業化</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2103376.html" rel="noopener noreferrer">「程式碼編寫超越 GPT-5.4，1 兆參數 AI「Kimi K2.6」免費公開</a></td>
+<td>428</td>
+<td>***</td>
+<td>AI 模型發布</td>
+<td>中國 AI 挑戰美國壟斷，免費策略重塑競爭版圖</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://note.com/suthio/n/nf03d4f1df801" rel="noopener noreferrer">建議用 Claude Code 為後勤業務建立「back-office 儲存庫」</a> (287 users) — 用 Claude Code 建立後勤業務自動化儲存庫</li>
+<li><a href="https://note.com/kaze3desu/n/n27008d5c87f5" rel="noopener noreferrer">【IT 管理視角】導入 Claude Team 到多間公司後發現的事</a> (198 users) — 多公司導入 Claude Team 的 IT 管理見解</li>
+<li><a href="https://tech.findy.co.jp/entry/2026/04/21/070000" rel="noopener noreferrer">30 分鐘完成演講投影片：用 Claude Code 將從討論到 Google Slides 產生的工作流程化</a> (312 users) — Claude Code 自動化生成 Google Slides 流程</li>
+<li><a href="https://blog.google/intl/ja-jp/products/android-chrome-play/gemini-in-chrome/" rel="noopener noreferrer">在 Chrome 瀏覽器中更親近 Gemini。開始提供 Gemini in Chrome</a> (401 users) — Gemini 正式整合進 Chrome 瀏覽器</li>
+<li><a href="https://levtech.jp/media/detail_846/" rel="noopener noreferrer">揭露「社會工程學」背後的 5 本書。即使技術進步，欺騙的結構也不變</a> (156 users) — 5 本書解析社會工程學攻擊的本質</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2103365.html" rel="noopener noreferrer">「とほほ的 WWW 入門」新增可學習本地運行 AI 基礎的內容</a> (223 users) — 新增本地 AI 環境建構教學資源</li>
+<li><a href="https://github.blog/jp/2026-04-21-changes-to-github-copilot-individual-plans/" rel="noopener noreferrer">GitHub Copilot 個人方案變更公告</a> (356 users) — GitHub Copilot 個人方案大幅調整</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2103376.html" rel="noopener noreferrer">「程式碼編寫超越 GPT-5.4，1 兆參數 AI「Kimi K2.6」免費公開</a> (428 users) — 中國 Kimi K2.6 免費公開，性能超越 GPT-5.4</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/21/news056.html" rel="noopener noreferrer">「撰寫 IaC 程式碼已是過去式」改變基礎設施工程師工作的「AI 驅動基礎設施」具體樣貌</a> (189 users) — AI 驅動基礎設施改變工程師工作方式</li>
+<li><a href="https://gigazine.net/news/20260421-github-copilot-plans-changes/" rel="noopener noreferrer">因應 GitHub Copilot 限制，因 2026 年 1 月後每週營運成本幾乎翻倍而可能逐步轉向按 Token 計費</a> (267 users) — Copilot 成本翻倍後轉向 Token 計費</li>
+<li><a href="https://gigazine.net/news/20260421-kimi-k2-6/" rel="noopener noreferrer">與 Claude Opus 4.6 同等性能的中國製 AI 模型「Kimi K2.6」作為開放式模型公開</a> (345 users) — Kimi K2.6 以開放模型形式公開</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2103371.html" rel="noopener noreferrer">與最新 AI「Opus 4.7」雙人配合可検討・改善設計的「Claude Design」登場</a> (178 users) — Claude Design 支援與 Opus 4.7 協作設計</li>
+<li><a href="https://nyosegawa.com/series/study-llm/gpt-2/" rel="noopener noreferrer">「StudyLLM Ep0】從零開始製作日文 LLM：從 GPT-2 推論・學習的可視化到 Modal 上的預訓練</a> (167 users) — 從零開始製作日文 LLM 的完整教學</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47844431" rel="noopener noreferrer">Roblox 作弊與 AI 工具擊潰 Vercel</a></td>
+<td>287pt</td>
+<td>***</td>
+<td>系統安全與攻擊</td>
+<td>供應鏈攻擊新形態，無伺服器架構安全盲點暴露</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47844269" rel="noopener noreferrer">Anthropic 恢復允許 Claude CLI 使用</a></td>
+<td>156pt</td>
+<td>***</td>
+<td>AI 開發與工具</td>
+<td>政策逆轉反映開發者體驗與風險管控平衡</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47849097" rel="noopener noreferrer">GoModel：輕量開源 AI 閘道</a></td>
+<td>134pt</td>
+<td>***</td>
+<td>AI 開發與工具</td>
+<td>比 LiteLLM 輕 44 倍，專注邊緣計算場景</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47837260" rel="noopener noreferrer">KV Cache 高保真摘要技術</a></td>
+<td>98pt</td>
+<td>***</td>
+<td>AI 開發與工具</td>
+<td>解決 LLM 記憶體瓶頸的新技術方向</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=47844431" rel="noopener noreferrer">Roblox 作弊與 AI 工具擊潰 Vercel</a> (287pt) — Roblox 外掛搭配 AI 工具導致 Vercel 當機</li>
+<li><a href="https://news.ycombinator.com/item?id=47844269" rel="noopener noreferrer">Anthropic 恢復允許 Claude CLI 使用</a> (156pt) — Anthropic 重新允許 OpenClaw 風格的 CLI 使用</li>
+<li><a href="https://news.ycombinator.com/item?id=47822978" rel="noopener noreferrer">用 Flipper Zero 修改商店價標</a> (112pt) — 利用 Flipper Zero 篡改商店價格標籤</li>
+<li><a href="https://news.ycombinator.com/item?id=47849097" rel="noopener noreferrer">GoModel：輕量開源 AI 閘道</a> (134pt) — Go 語言撰寫的 AI 閘道，比 LiteLLM 輕 44 倍</li>
+<li><a href="https://news.ycombinator.com/item?id=47837260" rel="noopener noreferrer">KV Cache 高保真摘要技術</a> (98pt) — 用熵與低階重構造技術壓縮 KV Cache</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1sr28f5/vercels_security_breach_started_with_malware/" rel="noopener noreferrer">Vercel 資安事件起於偽裝成 Roblox 外掛的惡意軟體</a></td>
+<td>4.2k</td>
+<td>387</td>
+<td>***</td>
+<td>資安漏洞與攻擊事件</td>
+<td>r/cybersecurity</td>
+<td>攻擊鏈路深度分析，供應鏈攻擊新形態</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/webdev/comments/1sqy1k4/holy_crap_vercel_got_hacked_rotate_your_keys_if/" rel="noopener noreferrer">天啊 Vercel 被黑了，若非敏感標記請旋轉金鑰</a></td>
+<td>3.8k</td>
+<td>256</td>
+<td>***</td>
+<td>資安漏洞與攻擊事件</td>
+<td>r/webdev</td>
+<td>緊急警告，開發者需立即行動旋轉金鑰</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1srpyuj/p4wned_how_insecure_defaults_in_perforce_expose/" rel="noopener noreferrer">P4WNED：Perforce 不安全預設設定洩露原始碼</a></td>
+<td>2.9k</td>
+<td>178</td>
+<td>***</td>
+<td>資安漏洞與攻擊事件</td>
+<td>r/netsec</td>
+<td>數百個公開暴露的 Perforce 實例洩露敏感代碼</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1sreolc/command_execution_via_draganddrop_in_terminal/" rel="noopener noreferrer">終端機模擬器拖曳功能可執行任意指令</a></td>
+<td>2.1k</td>
+<td>145</td>
+<td>***</td>
+<td>資安漏洞與攻擊事件</td>
+<td>r/netsec</td>
+<td>iTerm2、Windows Terminal 等受影響</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1srrhi5/gemma_4_vision/" rel="noopener noreferrer">Gemma 4 Vision</a></td>
+<td>1.8k</td>
+<td>89</td>
+<td>***</td>
+<td>AI 模型發布與新功能</td>
+<td>r/LocalLLaMA</td>
+<td>Google 開放多模態視覺理解模型</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/OpenAI/comments/1srry3f/new_image_gen_2_is_incredible_at_coloring/" rel="noopener noreferrer">新圖生模型 2 上色能力驚人</a></td>
+<td>2.4k</td>
+<td>167</td>
+<td>***</td>
+<td>AI 模型發布與新功能</td>
+<td>r/OpenAI</td>
+<td>Image V2 展現藝術協作能力突破</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1sr28f5/vercels_security_breach_started_with_malware/" rel="noopener noreferrer">Vercel 資安事件起於偽裝成 Roblox 外掛的惡意軟體</a> (4.2k ups) — r/cybersecurity — Vercel 遭入侵，惡意軟體偽裝成 Roblox 外掛
+2. <a href="https://www.reddit.com/r/webdev/comments/1sqy1k4/holy_crap_vercel_got_hacked_rotate_your_keys_if/" rel="noopener noreferrer">天啊 Vercel 被黑了，若非敏感標記請旋轉金鑰</a> (3.8k ups) — r/webdev — Vercel 被入侵，急須旋轉金鑰
+3. <a href="https://www.reddit.com/r/netsec/comments/1srpyuj/p4wned_how_insecure_defaults_in_perforce_expose/" rel="noopener noreferrer">P4WNED：Perforce 不安全預設設定洩露原始碼</a> (2.9k ups) — r/netsec — Perforce 預設設定漏洞洩露原始碼
+4. <a href="https://www.reddit.com/r/netsec/comments/1sreolc/command_execution_via_draganddrop_in_terminal/" rel="noopener noreferrer">終端機模擬器拖曳功能可執行任意指令</a> (2.1k ups) — r/netsec — 終端機拖曳功能可執行惡意指令</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/LocalLLaMA/comments/1srrhi5/gemma_4_vision/" rel="noopener noreferrer">Gemma 4 Vision</a> (1.8k ups) — r/LocalLLaMA — Google 推出 Gemma 4 視覺模型
+2. <a href="https://www.reddit.com/r/OpenAI/comments/1srotee/openai_is_teasing_the_image_v2_model." rel="noopener noreferrer">OpenAI 預告 Image V2 模型</a> (1.5k ups) — r/OpenAI — OpenAI 預告 Image V2 模型
+3. <a href="https://www.reddit.com/r/OpenAI/comments/1srry3f/new_image_gen_2_is_incredible_at_coloring/" rel="noopener noreferrer">新圖生模型 2 上色能力驚人</a> (2.4k ups) — r/OpenAI — 新圖生模型上色能力驚人
+4. <a href="https://www.reddit.com/r/ChatGPT/comments/1srgqcn/ok_woah/" rel="noopener noreferrer">喔，哇</a> (3.1k ups) — r/ChatGPT — ChatGPT 重大更新震驚用戶
+5. <a href="https://www.reddit.com/r/ClaudeCode/comments/1srbb8v/how_is_this_change_acceptable/" rel="noopener noreferrer">這個更新為何能被接受</a> (987 ups) — r/ClaudeCode — Claude Code 更新引發爭議</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/roundcube-xss-cookie-tossing" rel="noopener noreferrer">Roundcube 跨站腳本攻擊結合 Cookie 竊取</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>XSS 鏈接攻擊取得郵件全權存取</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine" rel="noopener noreferrer">GlassWorm 原生 Zig 載入程式感染所有 IDE</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>新型惡意程式針對開發環境大規模感染</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat" rel="noopener noreferrer">Axios npm 包遭入侵：維護者帳號被竊取</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>知名 HTTP 庫遭植入遠端後門程式</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/ai-pentest-hoppscotch-vulnerabilities" rel="noopener noreferrer">AI 滲透測試發現 Hoppscotch 多個零日漏洞</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI 自動化偵測 API 工具嚴重漏洞</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【Vercel 供應鏈攻擊事件】</strong> — Vercel 遭偽裝成 Roblox 外掛的惡意軟體入侵，此事件在 HN、Reddit 多個子版同步熱議。攻擊者利用 AI 工具自動化掃描與部署，暴露無伺服器架構的安全盲點與「合法即服務平台」被濫用的新形態。受影響開發者需立即旋轉 API 金鑰並審視部署日誌。</p>
+</li>
+<li>
+<p><strong>【AI 開發工具商業化轉折點】</strong> — GitHub Copilot 個人方案定價調整與使用限制，標誌著 AI 編程助手從「早期採用者優惠」轉向成熟商業化。企業營運成本預估翻倍，促使開發者重新評估投資策略並考慮按 Token 計費或開源替代方案。此趨勢反映 AI 工具市場進入成本敏感階段。</p>
+</li>
+<li>
+<p><strong>【AI 模型開放化與中國崛起】</strong> — 中國 Moonshot AI 推出 1 兆參數 Kimi K2.6，宣稱性能超越 GPT-5.4 並免費開放。同時期 Anthropic、Google 也推出開放模型與 CLI 工具解封政策，顯示高階 AI 能力正從封閉 API 轉向開放生態。此趨勢可能重塑全球 AI 競爭版圖並降低技術門檻。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Vercel 資安事件</strong>：Hatena + HN + Reddit 同步出現 — 跨平台關注供應鏈攻擊新形態與無伺服器架構安全挑戰</li>
+<li><strong>Claude Code/Copilot 工具</strong>：Hatena + HN + Reddit — AI 開發工具的自動化應用與平台政策變化引發广泛討論</li>
+<li><strong>開放模型趨勢</strong>：Hatena + Reddit — Kimi K2.6 與 Gemma 4 Vision 展現開放生態競爭力</li>
+<li><strong>開發者資安意識</strong>：HN + r/cybersecurity — 終端機拖曳漏洞與 Perforce 預設設定問題凸顯開發環境安全盲點</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

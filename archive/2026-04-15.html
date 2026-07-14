@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-04-15</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-04-15</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-04-15</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/knowledgesense/articles/5a50d06fce072d" rel="noopener noreferrer">【RAG】用 AI 改寫企業知識</a></td>
+<td>342</td>
+<td>***</td>
+<td>AI 企業應用</td>
+<td>RAG 技術解決 LLM 幻覺與知識即時性問題</td>
+</tr>
+<tr>
+<td><a href="https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake" rel="noopener noreferrer">將人工研究整合到數據管線中。dbt Python model × LLM Web Search 將公開資訊載入 Snowflake</a></td>
+<td>287</td>
+<td>***</td>
+<td>資料工程</td>
+<td>自動化整合非結構化公開數據的新架構</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260414-wordpress-plugin-backdoor/" rel="noopener noreferrer">WordPress 的31個外掛包發現後門，在所有權轉移後的更新中被加入</a></td>
+<td>456</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>供應鏈攻擊再次警示開源維護風險</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2604/15/news029.html" rel="noopener noreferrer">將光纖「麥克風化」的竊聽攻擊 惡用為震動感應器竊取對話</a></td>
+<td>398</td>
+<td>***</td>
+<td>實體資安</td>
+<td>光纖轉化為被動式震動竊聽工具</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2101375.html" rel="noopener noreferrer">Meta 發表新 AI 模型「Muse Spark」～戰略轉向的「小而快卻又相當聰明的封閉模型」</a></td>
+<td>521</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>Meta 轉向垂直場景優化的小模型策略</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li>
+<p><a href="https://zenn.dev/knowledgesense/articles/5a50d06fce072d" rel="noopener noreferrer">【RAG】用 AI 改寫企業知識</a> (342 users) — RAG 改寫企業知識，提升 AI 問答準確度</p>
+</li>
+<li>
+<p><a href="https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake" rel="noopener noreferrer">將人工研究整合到數據管線中。dbt Python model × LLM Web Search 將公開資訊載入 Snowflake</a> (287 users) — dbt 整合 LLM 搜尋，將公開資料載入 Snowflake</p>
+</li>
+<li>
+<p><a href="https://gigazine.net/news/20260414-wordpress-plugin-backdoor/" rel="noopener noreferrer">WordPress 的31個外掛包發現後門，在所有權轉移後的更新中被加入</a> (456 users) — WordPress 外掛遭植入後門，權限轉移時被動手腳</p>
+</li>
+<li>
+<p><a href="https://www.itmedia.co.jp/news/articles/2604/15/news029.html" rel="noopener noreferrer">將光纖「麥克風化」的竊聽攻擊 惡用為震動感應器竊取對話</a> (398 users) — 光纖成竊聽工具，震動感應洩密對話內容</p>
+</li>
+<li>
+<p><a href="https://forest.watch.impress.co.jp/docs/news/2101375.html" rel="noopener noreferrer">Meta 發表新 AI 模型「Muse Spark」～戰略轉向的「小而快卻又相當聰明的封閉模型」</a> (521 users) — Meta 推出 Muse Spark，以小模型策略對抗競爭對手</p>
+</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47768133" rel="noopener noreferrer">Claude Code Routines</a></td>
+<td>2847pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Anthropic 推出自動化工作流管理功能</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47762641" rel="noopener noreferrer">Introspective Diffusion Language Models</a></td>
+<td>1923pt</td>
+<td>***</td>
+<td>AI 研究</td>
+<td>結合擴散模型的內省式語言模型架構</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47704729" rel="noopener noreferrer">The M×N problem of tool calling and open-source models</a></td>
+<td>1654pt</td>
+<td>***</td>
+<td>AI 架構</td>
+<td>開源模型工具調用的擴展性分析</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47766370" rel="noopener noreferrer">Show HN: LangAlpha – what if Claude Code was built for Wall Street?</a></td>
+<td>1432pt</td>
+<td>***</td>
+<td>AI 垂直應用</td>
+<td>金融領域專用的 AI 程式碼助理</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=47768339" rel="noopener noreferrer">Turn your best AI prompts into one-click tools in Chrome</a></td>
+<td>1289pt</td>
+<td>***</td>
+<td>AI 生產力</td>
+<td>Prompt 轉化為瀏覽器一鍵工具</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=47768133" rel="noopener noreferrer">Claude Code Routines</a> (2847pt) — Claude 程式碼自動化的常駐工作流程功能</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=47762641" rel="noopener noreferrer">Introspective Diffusion Language Models</a> (1923pt) — 結合擴散模型的內省式語言模型架構研究</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=47704729" rel="noopener noreferrer">The M×N problem of tool calling and open-source models</a> (1654pt) — 開源模型與工具調用的擴展性問題分析</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=47766370" rel="noopener noreferrer">Show HN: LangAlpha – what if Claude Code was built for Wall Street?</a> (1432pt) — 專為金融領域打造的 AI 程式碼助理</p>
+</li>
+<li>
+<p><a href="https://news.ycombinator.com/item?id=47768339" rel="noopener noreferrer">Turn your best AI prompts into one-click tools in Chrome</a> (1289pt) — 將 AI 提示詞轉為 Chrome 一鍵工具</p>
+</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1slaaih/axios_10_10_cve_is_not_realistically_exploitable/" rel="noopener noreferrer">Axios 嚴重漏洞被指實際難以利用</a></td>
+<td>2341</td>
+<td>187</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>CVE 評分與實際風險的落差討論</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1sljk0t/claude_code_just_got_a_full_desktop_redesign/" rel="noopener noreferrer">Claude Code 桌面版全面重新設計</a></td>
+<td>1876</td>
+<td>234</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>UI/UX 全面優化與終端整合</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1slfnoq/dont_use_claude_codes_default_system_prompt/" rel="noopener noreferrer">不建議使用 Claude Code 預設系統提示詞</a></td>
+<td>1543</td>
+<td>156</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>自定義提示詞的重要性討論</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1sle842/now_in_research_preview_routines_in_claude_code/" rel="noopener noreferrer">Claude Code 新增常規工作自動化預覽</a></td>
+<td>1698</td>
+<td>203</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>r/ClaudeCode</td>
+<td>Routines 功能研究預覽發布</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/cybersecurity/comments/1slaaih/axios_10_10_cve_is_not_realistically_exploitable/" rel="noopener noreferrer">Axios 嚴重漏洞被指實際難以利用</a> (2341 ups) — r/cybersecurity — 社群分析 Axios CVE-2026-xxxx 嚴重漏洞的實際可利用性，認為在大多數配置下攻擊難度極高</p>
+<p><strong>AI 開發工具類</strong>
+1. <a href="https://www.reddit.com/r/ClaudeCode/comments/1sljk0t/claude_code_just_got_a_full_desktop_redesign/" rel="noopener noreferrer">Claude Code 桌面版全面重新設計</a> (1876 ups) — r/ClaudeCode — Claude Code 桌面應用進行全面 UI/UX 重新設計，優化專案導航、對話歷史與代碼預覽體驗</p>
+<ol>
+<li>
+<p><a href="https://www.reddit.com/r/ClaudeCode/comments/1slfnoq/dont_use_claude_codes_default_system_prompt/" rel="noopener noreferrer">不建議使用 Claude Code 預設系統提示詞</a> (1543 ups) — r/ClaudeCode — 資深使用者分享預設系統提示詞的潛在問題，建議根據專案特性自定義提示詞</p>
+</li>
+<li>
+<p><a href="https://www.reddit.com/r/ClaudeCode/comments/1sle842/now_in_research_preview_routines_in_claude_code/" rel="noopener noreferrer">Claude Code 新增常規工作自動化預覽</a> (1698 ups) — r/ClaudeCode — Claude Code 推出 Routines 功能研究預覽，允許定義與儲存重複性工作流供后续自動執行</p>
+</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/axios-npm-compromised-maintainer-hijacked-rat" rel="noopener noreferrer">Axios npm 包被駭：維護者帳號遭劫持並植入 RAT</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>知名 Axios 庫遭供應鏈攻擊，維護者帳號被劫持</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/glassworm-zig-dropper-infects-every-ide-on-your-machine" rel="noopener noreferrer">GlassWorm 原生版：Zig 寫成的 dropper 感染所有 IDE</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>新型 Zig 惡意程式專門感染各路 IDE 開發環境</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/anthropic-mythos-cybersecurity-risks-overblown" rel="noopener noreferrer">Mythos 的資安末日論調與實際風險不符</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI 資安風險被過度渲染，實際威脅沒那麼大</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li>
+<p><strong>【AI 開發工具進化】</strong> — Claude Code 的 Routines 功能在 HN 與 Reddit 同步獲關注，顯示 AI 編程工具正從單次對話向持續性工作流管理進化。Meta Muse Spark 的「小而精」策略則反映企業端對可部署性與 ROI 的重視。</p>
+</li>
+<li>
+<p><strong>【供應鏈資安威脅】</strong> — Axios npm 包維護者帳號遭劫持事件在 Reddit 與資安部落格同步討論，凸顯開源生態的維護者帳號安全弱點。WordPress 外掛後門事件則再次警示所有權轉移風險。</p>
+</li>
+<li>
+<p><strong>【實體與邊界資安防護】</strong> — 光纖麥克風化竊聽攻擊的研究發現，代表傳統認為安全的實體基礎設施也可能成為洩密通道。GlassWorm 針對開發環境的攻擊則顯示惡意程式正轉向精準打擊高價值目標。</p>
+</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Claude Code Routines</strong>：Hatena + HN + Reddit 同步出現 — AI 編程工具的自動化工作流功能成為跨平台熱門話題</li>
+<li><strong>Axios 供應鏈攻擊</strong>：HN + r/cybersecurity + 資安部落格 — 開源包維護者帳號安全議題引發多層次討論</li>
+<li><strong>AI 模型架構創新</strong>：Hatena + HN — Meta 小模型策略與內省式擴散模型研究反映架構多元化趨勢</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

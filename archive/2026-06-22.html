@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-06-22</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-06-22</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-06-22</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/Syoitu/items/97ed37e7ba9c38dc75d8" rel="noopener noreferrer">從入門到實踐：「🔁 循環工程（Loop Engineering）」</a></td>
+<td>72</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>解析循環工程概念與實作應用</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/catatsuy/articles/566f5e37076e53" rel="noopener noreferrer">在 DNS 與 SNI 難以辨識的時代，該如何檢視外部通訊</a></td>
+<td>53</td>
+<td>***</td>
+<td>網路資安</td>
+<td>探討現代網路環境下的通訊監控技術</td>
+</tr>
+<tr>
+<td><a href="https://azukiazusa.dev/blog/workflow-to-reusable-skill/" rel="noopener noreferrer">實測將工作流程轉為可重用技能的「Record &amp; Replay」功能</a></td>
+<td>49</td>
+<td>***</td>
+<td>自動化工作流</td>
+<td>記錄與重現功能實現流程自動化</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/alpha_omega/articles/56ca3136bc5cd8" rel="noopener noreferrer">指揮 AI 代理人的開源工具「TAKT」簡介——機制與使用方式</a></td>
+<td>14</td>
+<td>***</td>
+<td>AI 代理人</td>
+<td>TAKT工具機制與操控AI代理人方法</td>
+</tr>
+<tr>
+<td><a href="https://www.shoeisha.co.jp/book/detail/9784798194318" rel="noopener noreferrer">LLM 與 AI 代理人系統最佳實踐｜翔泳社</a></td>
+<td>6</td>
+<td>***</td>
+<td>AI 架構</td>
+<td>LLM與AI代理人系統開發最佳實踐</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/finatext/articles/7180db2c0fce5b" rel="noopener noreferrer">用本地 LLM 每月處理 100 萬筆・50 億 token——明細名稱與店鋪資訊映射</a></td>
+<td>6</td>
+<td>***</td>
+<td>大模型應用</td>
+<td>本地LLM高效處理海量資料映射任務</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/06/gemini-in-sheets-japanese-support" rel="noopener noreferrer">Google 試算表的 Gemini 功能：正式支援日文建立與編輯整份試算表</a></td>
+<td>6</td>
+<td>***</td>
+<td>生產力工具</td>
+<td>Gemini支援日文全表建立與編輯功能</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/Syoitu/items/97ed37e7ba9c38dc75d8" rel="noopener noreferrer">從入門到實踐：「🔁 循環工程（Loop Engineering）」</a> (72 users) — 解析循環工程概念與實作應用</li>
+<li><a href="https://zenn.dev/catatsuy/articles/566f5e37076e53" rel="noopener noreferrer">在 DNS 與 SNI 難以辨識的時代，該如何檢視外部通訊</a> (53 users) — 探討現代網路環境下的通訊監控技術</li>
+<li><a href="https://azukiazusa.dev/blog/workflow-to-reusable-skill/" rel="noopener noreferrer">實測將工作流程轉為可重用技能的「Record &amp; Replay」功能</a> (49 users) — 記錄與重現功能實現流程自動化</li>
+<li><a href="https://zenn.dev/alpha_omega/articles/56ca3136bc5cd8" rel="noopener noreferrer">指揮 AI 代理人的開源工具「TAKT」簡介——機制與使用方式</a> (14 users) — TAKT工具機制與操控AI代理人方法</li>
+<li><a href="https://www.shoeisha.co.jp/book/detail/9784798194318" rel="noopener noreferrer">LLM 與 AI 代理人系統最佳實踐｜翔泳社</a> (6 users) — LLM與AI代理人系統開發最佳實踐</li>
+<li><a href="https://zenn.dev/finatext/articles/7180db2c0fce5b" rel="noopener noreferrer">用本地 LLM 每月處理 100 萬筆・50 億 token——明細名稱與店鋪資訊映射</a> (6 users) — 本地LLM高效處理海量資料映射任務</li>
+<li><a href="https://gihyo.jp/article/2026/06/gemini-in-sheets-japanese-support" rel="noopener noreferrer">Google 試算表的 Gemini 功能：正式支援日文建立與編輯整份試算表</a> (6 users) — Gemini支援日文全表建立與編輯功能</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48608645" rel="noopener noreferrer">Loupe：一款提升 iOS 原生應用權限透明度的 App</a></td>
+<td>452pt</td>
+<td>***</td>
+<td>行動隱私</td>
+<td>即時監控應用權限強化隱私保護</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48612502" rel="noopener noreferrer">巴西全境手機遭未經授權的警報入侵</a></td>
+<td>185pt</td>
+<td>***</td>
+<td>基礎設施資安</td>
+<td>駭客滲透警報系統引發全境手機響鈴</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48619140" rel="noopener noreferrer">誰擁有你的 ATProto 身份？</a></td>
+<td>115pt</td>
+<td>***</td>
+<td>去中心化身份</td>
+<td>剖析去中心化社交協議的身份主權歸屬</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48608645" rel="noopener noreferrer">Loupe：一款提升 iOS 原生應用權限透明度的 App</a> (452pt) — 即時監控應用權限強化隱私保護
+   💬 社群觀點：主流讚賞工具揭露隱私現狀，爭議聚焦系統資料外洩與跨程式追蹤。建議減少安裝應用，並呼籲蘋果改善底層機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=48612502" rel="noopener noreferrer">巴西全境手機遭未經授權的警報入侵</a> (185pt) — 駭客滲透警報系統引發全境手機響鈴
+   💬 社群觀點：社群質疑官方駭客說辭，多視為系統漏洞掩飾；批評巨頭將全國警示權交政府極度危險。建議新機到手即關閉警報。</li>
+<li><a href="https://news.ycombinator.com/item?id=48619140" rel="noopener noreferrer">誰擁有你的 ATProto 身份？</a> (115pt) — 剖析去中心化社交協議的身份主權歸屬
+   💬 社群觀點：多數人慣於信任第三方，重視帳號安全與資料可攜。部分人質疑成長與論據，建議採區塊鏈身份或遷移主機保自主。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ubr38d/defending_botdetection_code_that_runs_on_the/" rel="noopener noreferrer">防禦在攻擊者機器上執行的機器人偵測程式碼</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安防禦</td>
+<td>r/netsec</td>
+<td>防堵攻擊者端的機器人偵測腳本。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1ubvd13/scanning_malicious_websites_with_infinite_number/" rel="noopener noreferrer">使用無限數量的 VPN 隧道掃描惡意網站（第一部分）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>威脅偵測</td>
+<td>r/netsec</td>
+<td>藉無窮VPN隧道匿名掃描惡意站。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1ubr38d/defending_botdetection_code_that_runs_on_the/" rel="noopener noreferrer">防禦在攻擊者機器上執行的機器人偵測程式碼</a> (- ups) — r/netsec — 防堵攻擊者端的機器人偵測腳本。
+2. <a href="https://www.reddit.com/r/netsec/comments/1ubvd13/scanning_malicious_websites_with_infinite_number/" rel="noopener noreferrer">使用無限數量的 VPN 隧道掃描惡意網站（第一部分）</a> (- ups) — r/netsec — 藉無窮VPN隧道匿名掃描惡意站。</p>
+<p><strong>AI 類</strong>
+（本期無相關文章）</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/aikido-x-owasp-200-free-credits-for-individual-members" rel="noopener noreferrer">Aikido x OWASP：個人會員獲贈 200 個免費額度</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Aikido與OWASP合作，個人享二百額度</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 自動化與代理架構】</strong> — 企業與開發者正加速導入 LLM 與 AI Agent 處理內部分析與複雜工作流，循環工程與 Record &amp; Replay 技術成為降低訓練門檻、提升流程穩定性的關鍵基礎設施。</li>
+<li><strong>【現代資安監控與隱私防護】</strong> — 隨著加密流量普及與底層權限透明化需求上升，業界正積極採用非侵入式流量分析、自動化漏洞掃描與匿名偵測技術，以應對日益隱蔽的網路威脅與資料外洩風險。</li>
+<li><strong>【基礎設施韌性與身份主權】</strong> — 國家級警報系統漏洞與去中心化身份爭議凸顯關鍵基礎設施的脆弱性，推動產業正視資料自主權、系統韌性設計與跨平台驗證標準的建立，避免過度依賴集中式控制。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>加密流量與隱私監控</strong>：Hatena + HN + Reddit 同步出現 — 現代資安正從傳統 DNS 分析轉向底層特徵偵測、權限透明化與匿名掃描技術，攻防雙方持續演進。</li>
+<li><strong>AI 自動化與評估標準</strong>：Hatena + RSS 同步出現 — 企業加速導入 AI 代理人的同時，產業界正積極建立統一評分機制與架構規範，以解決多層 Agent 整合碎片化問題。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
