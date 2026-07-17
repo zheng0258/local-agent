@@ -43,7 +43,7 @@ class SourceStep(Step):
     def _score(self, ctx, name: str, raw: list) -> dict:
         from tools.fetchers.schema import clean_articles
 
-        from ..agent import _attach_original_fields
+        from ..reconcile import attach_original_fields
 
         if name == "reddit" and len(raw) > _REDDIT_BATCH_SIZE:
             return self._score_reddit_batched(ctx, raw)
@@ -65,7 +65,7 @@ class SourceStep(Step):
             if min_interest
             else clean_articles(result.get("articles", []))
         )
-        result["articles"] = _attach_original_fields(
+        result["articles"] = attach_original_fields(
             [article.to_dict() for article in cleaned], raw
         )
         logger.info("%s LLM + 清洗完成：%d 篇", name, len(result["articles"]))
@@ -75,7 +75,7 @@ class SourceStep(Step):
         """Reddit 文章數量過多時分批評分，每批 _REDDIT_BATCH_SIZE 篇。"""
         from tools.fetchers.schema import clean_articles
 
-        from ..agent import _attach_original_fields
+        from ..reconcile import attach_original_fields
 
         batch_size = _REDDIT_BATCH_SIZE
         all_cleaned = []
@@ -98,7 +98,7 @@ class SourceStep(Step):
             )
         logger.info("reddit LLM + 清洗完成（分批）：%d 篇", len(all_cleaned))
         return {
-            "articles": _attach_original_fields(
+            "articles": attach_original_fields(
                 [a.to_dict() for a in all_cleaned], raw
             )
         }

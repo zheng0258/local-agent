@@ -31,7 +31,8 @@ from config.settings import (
 
 from . import prompts
 from .config import FETCH_STEPS, OUTPUT_DIR
-from .schemas import Digest, QualityScore, SourceCompress
+from .reconcile import filter_top_articles
+from .schemas import QualityScore
 from .step import StepStatus, Supervisor
 from .step_cache import Verdict, decide
 
@@ -148,7 +149,7 @@ class DailyBriefAgent:
         source_data = self._fetch_sources(ctx)
         if source_data is None:
             return "Pipeline 中止：fetch 成功不足（需 ≥ 2）"
-        source_data = _filter_top_articles(source_data)
+        source_data = filter_top_articles(source_data)
         from .steps.dedup import DedupStep
 
         source_data = DedupStep().run(ctx, source_data).value
@@ -342,94 +343,6 @@ def _parse_args(args: str) -> tuple[set[str], set[str]]:
     return force, only
 
 
-def _filter_top_articles(source_data: dict) -> dict:
-    """只保留 *** 文章傳入分析管線；** 文章已存於 artifact，不影響記錄。"""
-    result: dict = {}
-    for src, data in source_data.items():
-        articles = data.get("articles", [])
-        top = [
-            a for a in articles if isinstance(a, dict) and a.get("interest") == "***"
-        ]
-        if top:
-            result[src] = {**data, "articles": top}
-    return result
-
-
-def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
-    filtered: dict = {}
-    for source_name, content in source_data.items():
-        articles = content.get("articles", [])
-        filtered[source_name] = {
-            **content,
-            "articles": [
-                a for a in articles if isinstance(a, dict) and a.get("url") in kept_urls
-            ],
-        }
-    return filtered
-
-
-_ORIGINAL_DESC_MAX_CHARS = 200
-
-
-def _attach_original_fields(articles: list[dict], raw: list) -> list[dict]:
-    """以 URL 對齊，把 fetch 階段未經 LLM 改寫的原始 title/描述附回評分後條目。
-
-    LLM 評分會把 title 翻成繁中；faithfulness 去循環化需要原始素材落盤。
-    回傳新 list（不 mutate 輸入）；既有欄位不動（on-disk schema 只加不改）。
-    HN raw 的 `url` 是原文連結、`hn_url` 才是 scored artifact 用的討論串 URL，兩者皆入索引。
-    """
-    originals: dict[str, dict] = {}
-    for item in raw or []:
-        if not isinstance(item, dict):
-            continue
-        description = str(
-            item.get("description") or item.get("summary") or ""
-        ).strip()
-        fields = {"original_title": str(item.get("title", ""))}
-        if description:
-            fields["original_description"] = description[:_ORIGINAL_DESC_MAX_CHARS]
-        for url_key in ("url", "hn_url"):
-            url = item.get(url_key)
-            if url:
-                originals[url] = fields
-    return [
-        {**article, **originals[article.get("url", "")]}
-        if article.get("url", "") in originals
-        else dict(article)
-        for article in articles
-    ]
-
-
-def _original_pairs_for_digests(
-    digests: list[dict], source_data: dict
-) -> list[dict]:
-    """faithfulness 去循環化：以 URL 對齊，為每條 digest 配上 fetch 階段原始素材。
-
-    對照基準是 source artifact 的 original_title（未經 LLM 改寫）；
-    舊 artifact 無此欄位時退回 artifact 的 title（graceful degradation）。
-    維持 slim context：只帶 title/描述，不帶全文。
-    """
-    articles_by_url = {
-        article.url: article
-        for src in FETCH_STEPS
-        for article in SourceCompress.from_dict(source_data.get(src, {})).articles
-        if article.url
-    }
-    pairs: list[dict] = []
-    for digest in (Digest.from_dict(d) for d in digests):
-        article = articles_by_url.get(digest.url)
-        pair = {
-            "url": digest.url,
-            "original_title": (
-                (article.original_title or article.title) if article else ""
-            ),
-        }
-        if article and article.original_description:
-            pair["original_description"] = article.original_description
-        pairs.append(pair)
-    return pairs
-
-
 def _compute_force_steps(
     only_steps: set[str], force_steps: set[str], steps_dir: Path, day_dir: Path
 ) -> set[str]:
@@ -443,14 +356,45 @@ def _compute_force_steps(
     return force_steps | newly_forced
 
 
+def _downstream_steps() -> list:
+    """過期偵測涵蓋的下游 step（依 pipeline 順序）。
+
+    路徑取自各 Step.artifact_path（單一 DAG 來源）；新增 step 只需在此加一個類別，
+    不再各自重抄 `("name", steps_dir/"name.json")` 路徑字串。save / notify 由使用者決定，
+    不列入自動過期重跑；deploy 另以 report.md 上游單獨判定。
+    """
+    from .steps.compose_tg import ComposeTgStep
+    from .steps.compress import CompressStep
+    from .steps.dedup import DedupStep
+    from .steps.digest import DigestStep
+    from .steps.enrich import EnrichStep
+    from .steps.judge import JudgeStep
+    from .steps.report import ReportStep
+    from .steps.tldr import TldrStep
+
+    return [
+        DedupStep(),
+        CompressStep(),
+        EnrichStep(),
+        DigestStep(),
+        TldrStep(),
+        JudgeStep(),
+        ReportStep(),
+        ComposeTgStep(),
+    ]
+
+
 def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
     """Fix C: 比較 source artifact mtime 與下游 artifact mtime。
 
     若任一 source artifact 比下游 artifact 新，回傳需強制重跑的下游 step 名稱集合。
-    只比較 dedup / compress / digest / judge / report，save / notify 由使用者決定。
+    下游 artifact 路徑取自各 Step.artifact_path（見 _downstream_steps）。
     deploy 的上游是 report.md（非 source）：report.md 比 deploy.done 新 → deploy 過期。
     """
+    from types import SimpleNamespace
+
     stale: set[str] = set()
+    pctx = SimpleNamespace(steps_dir=steps_dir, day_dir=day_dir)
 
     # deploy 上游是 report.md：report 重生後須重新發佈站台。
     report_md = day_dir / "report.md"
@@ -472,21 +416,10 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
 
     latest_source_mtime = max(a.stat().st_mtime for a in source_artifacts)
 
-    downstream_check: list[tuple[str, Path]] = [
-        ("dedup", steps_dir / "dedup.json"),
-        ("compress", steps_dir / "compress.json"),
-        ("enrich", steps_dir / "enrich.json"),
-        ("digest", steps_dir / "digest.json"),
-        ("tldr", steps_dir / "tldr.json"),
-        ("judge", steps_dir / "judge.json"),
-        ("report", day_dir / "report.md"),
-        ("compose_tg", steps_dir / "compose_tg.json"),
-    ]
-    stale |= {
-        name
-        for name, artifact in downstream_check
-        if artifact.exists() and artifact.stat().st_mtime < latest_source_mtime
-    }
+    for step in _downstream_steps():
+        artifact = step.artifact_path(pctx)
+        if artifact.exists() and artifact.stat().st_mtime < latest_source_mtime:
+            stale.add(step.name)
     return stale
 
 

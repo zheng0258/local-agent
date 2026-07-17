@@ -59,7 +59,7 @@ class JudgeStep(Step):
         source_data: dict | None = None,
         date: str | None = None,
     ) -> dict:
-        from ..agent import _original_pairs_for_digests
+        from ..reconcile import original_pairs_for_digests
 
         # 只傳 url + one_liner 給 judge LLM，省 60-70% token
         slim_compress = {
@@ -78,7 +78,7 @@ class JudgeStep(Step):
             logger.warning("Step judge     : slim_compress 為空，judge 結果可能不可靠")
         compress_json = json.dumps(slim_compress, ensure_ascii=False)
         digest_json = json.dumps({"digests": digests}, ensure_ascii=False)
-        original_pairs = _original_pairs_for_digests(digests, source_data or {})
+        original_pairs = original_pairs_for_digests(digests, source_data or {})
         raw = ctx.judge_llm.complete(
             prompts.build_judge_prompt(
                 compress_json,
