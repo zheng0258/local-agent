@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-15</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-15</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-15</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2607/14/news113.html" rel="noopener noreferrer">KFC全店面臨缺貨或臨時休業風險 網路點餐亦暫停 原因為日清食品遭非法存取</a></td>
+<td>111</td>
+<td>***</td>
+<td>供應鏈資安</td>
+<td>日清遭駭致KFC全店缺貨停網購</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/knowledgesense/articles/67c61463d9c664" rel="noopener noreferrer">使用 Claude Code 推進舊系統重構的方法</a></td>
+<td>22</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>用Claude Code重構舊系統實戰</td>
+</tr>
+<tr>
+<td><a href="https://blog.flatt.tech/entry/asyncapi_compromise" rel="noopener noreferrer">AsyncAPI 軟體供應鏈攻擊概述與應對指南 - GMO Flatt Security Blog</a></td>
+<td>17</td>
+<td>***</td>
+<td>供應鏈資安</td>
+<td>AsyncAPI套件遭注入蠕蟲惡代碼</td>
+</tr>
+<tr>
+<td><a href="https://www.nichirei.co.jp/news/2026/512.html" rel="noopener noreferrer">關於本集團系統異常發生之公告 | 日清食品</a></td>
+<td>8</td>
+<td>***</td>
+<td>供應鏈資安</td>
+<td>日清公告系統遭非法存取異常</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260714-cloudflare-precursor/" rel="noopener noreferrer">Cloudflare 推出區分 AI 代理與人類的新技術「Precursor」 透過網站內行為識破擬人化 AI</a></td>
+<td>6</td>
+<td>***</td>
+<td>行為鑑別技術</td>
+<td>Cloudflare推新技術鑑別人類與AI</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.itmedia.co.jp/news/articles/2607/14/news113.html" rel="noopener noreferrer">KFC全店面臨缺貨或臨時休業風險 網路點餐亦暫停 原因為日清食品遭非法存取</a> (111 users) — 日清遭駭致KFC全店缺貨停網購</li>
+<li><a href="https://zenn.dev/knowledgesense/articles/67c61463d9c664" rel="noopener noreferrer">使用 Claude Code 推進舊系統重構的方法</a> (22 users) — 用Claude Code重構舊系統實戰</li>
+<li><a href="https://blog.flatt.tech/entry/asyncapi_compromise" rel="noopener noreferrer">AsyncAPI 軟體供應鏈攻擊概述與應對指南 - GMO Flatt Security Blog</a> (17 users) — AsyncAPI套件遭注入蠕蟲惡代碼</li>
+<li><a href="https://www.nichirei.co.jp/news/2026/512.html" rel="noopener noreferrer">關於本集團系統異常發生之公告 | 日清食品</a> (8 users) — 日清公告系統遭非法存取異常</li>
+<li><a href="https://gigazine.net/news/20260714-cloudflare-precursor/" rel="noopener noreferrer">Cloudflare 推出區分 AI 代理與人類的新技術「Precursor」 透過網站內行為識破擬人化 AI</a> (6 users) — Cloudflare推新技術鑑別人類與AI</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48903777" rel="noopener noreferrer">歐洲「年齡驗證」App 強迫使用 Android 或 iOS</a></td>
+<td>298</td>
+<td>***</td>
+<td>數位隱私</td>
+<td>歐盟App綁定雙系統引發隱私爭議</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48905248" rel="noopener noreferrer">如何讓 Claude 停止使用「承重結構」一詞</a></td>
+<td>196</td>
+<td>***</td>
+<td>AI 開發</td>
+<td>調整提示詞抑制大模型口頭禪</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48876809" rel="noopener noreferrer">FSF 系統管理員如何透過 Reaction 工具阻擋機器人網路</a></td>
+<td>121</td>
+<td>***</td>
+<td>網路資安</td>
+<td>開源專案自動反制阻擋惡意流量</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48883305" rel="noopener noreferrer">展示 HN：Juggler – JUCE 創作者開發的開源 GUI 編碼智能體</a></td>
+<td>101</td>
+<td>***</td>
+<td>AI 智能體</td>
+<td>知名作者推出開源GUI編碼智能體</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48905919" rel="noopener noreferrer">展示 HN：我以強化學習訓練出能訓練模型的智能體（虧損一千三百美元）</a></td>
+<td>74</td>
+<td>***</td>
+<td>AI 智能體</td>
+<td>耗資訓練RL智能體自動優化模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48907672" rel="noopener noreferrer">智能體循環：穿著西裝的三個迴圈</a></td>
+<td>20</td>
+<td>***</td>
+<td>AI 智能體</td>
+<td>剖析智能體底層三重迴圈架構</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48908950" rel="noopener noreferrer">發布 HN：Agnost AI（YC S26）– 從智能體對話中提取使用者回饋</a></td>
+<td>18</td>
+<td>***</td>
+<td>AI 智能體</td>
+<td>YC新創自動萃取對話用戶反饋</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48903777" rel="noopener noreferrer">歐洲「年齡驗證」App 強迫使用 Android 或 iOS</a> (298pt) — 歐盟App綁定雙系統引發隱私爭議
+   💬 社群觀點：社群強烈反對強制驗證，擔憂身分資料受美系雙壟斷控制，質疑隱私風險與無替代系統，建議拒絕未經同意的數位監管。</li>
+<li><a href="https://news.ycombinator.com/item?id=48905248" rel="noopener noreferrer">如何讓 Claude 停止使用「承重結構」一詞</a> (196pt) — 調整提示詞抑制大模型口頭禪
+   💬 社群觀點：社群指AI語氣因過度訓練趨於公式化。建議以正則過濾、設定閱讀難度、改用ELI5風格或導入除冗工具，還原自然語感。</li>
+<li><a href="https://news.ycombinator.com/item?id=48876809" rel="noopener noreferrer">FSF 系統管理員如何透過 Reaction 工具阻擋機器人網路</a> (121pt) — 開源專案自動反制阻擋惡意流量
+   💬 社群觀點：社群認為Reaction與fail2ban差異有限，建議改用路由黑洞優化效能；FSF反JS驗證與意識形態聲明引爭議。</li>
+<li><a href="https://news.ycombinator.com/item?id=48883305" rel="noopener noreferrer">展示 HN：Juggler – JUCE 創作者開發的開源 GUI 編碼智能體</a> (101pt) — 知名作者推出開源GUI編碼智能體
+   💬 社群觀點：社群讚賞介面簡潔與架構創新，但部分人偏好終端機。建議支援ACP、優化依賴並補截圖，降低遷移門檻。</li>
+<li><a href="https://news.ycombinator.com/item?id=48905919" rel="noopener noreferrer">展示 HN：我以強化學習訓練出能訓練模型的智能體（虧損一千三百美元）</a> (74pt) — 耗資訓練RL智能體自動優化模型
+   💬 社群觀點：社群反應兩極，讚賞框架創新但質疑實用價值。多數警告氛圍編程RL易成黑箱，並擔憂遞迴訓練導致模型退化。</li>
+<li><a href="https://news.ycombinator.com/item?id=48907672" rel="noopener noreferrer">智能體循環：穿著西裝的三個迴圈</a> (20pt) — 剖析智能體底層三重迴圈架構
+   💬 社群觀點：社群質疑圖示迴圈順序，認為推論應為最內層；並指出三迴圈模型過於簡化，建議參考更完整的多迴圈架構。</li>
+<li><a href="https://news.ycombinator.com/item?id=48908950" rel="noopener noreferrer">發布 HN：Agnost AI（YC S26）– 從智能體對話中提取使用者回饋</a> (18pt) — YC新創自動萃取對話用戶反饋
+   💬 社群觀點：社群質疑定價過高，認為Codex更划算；開發者則分享以髒話監測反饋，並建議精簡對話輪次以控成本。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uw5msa/smashing_the_servicenow_sandbox_pre/" rel="noopener noreferrer">擊破 ServiceNow 沙盒：登入前遠端程式碼執行漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>企業級軟體漏洞</td>
+<td>r/netsec</td>
+<td>該平台沙盒曝未驗證代碼漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uvqpri/context_bombs_using_ai_guardrails_as_a_defensive/" rel="noopener noreferrer">情境炸彈：將 AI 防護欄杆作為防禦機制</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 安全防禦</td>
+<td>r/netsec</td>
+<td>AI防護機制可抵禦情境炸彈</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1uw5msa/smashing_the_servicenow_sandbox_pre/" rel="noopener noreferrer">擊破 ServiceNow 沙盒：登入前遠端程式碼執行漏洞</a> (- ups) — r/netsec — 該平台沙盒曝未驗證代碼漏洞</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1uvqpri/context_bombs_using_ai_guardrails_as_a_defensive/" rel="noopener noreferrer">情境炸彈：將 AI 防護欄杆作為防禦機制</a> (- ups) — r/netsec — AI防護機制可抵禦情境炸彈</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/asyncapi-npm-packages-backdoored-via-github-actions" rel="noopener noreferrer">透過 GitHub Actions 植入後門的 AsyncAPI npm 套件</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>npm套件遭CI流程植入後門</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/labubarat-masquerades-as-nvidia.html" rel="noopener noreferrer">LabubaRAT 偽裝成 NVIDIA 軟體以控制 Windows 主機</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>新型RAT偽裝顯卡驅動控管主機</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/rabbitmq-flaws-could-leak-oauth-secrets.html" rel="noopener noreferrer">RabbitMQ 漏洞恐洩露 OAuth 金鑰並暴露跨租戶佇列中繼資料</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>漏洞恐洩OAuth金鑰與佇列資訊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/11-old-microsoft-signed-linux-uefi.html" rel="noopener noreferrer">11 個舊版 Microsoft 簽署的 Linux UEFI 過渡程式可能讓攻擊者繞過安全啟動</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>舊版UEFI程式可繞過安全啟動</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/study-of-85-crypto-wallet-extensions.html" rel="noopener noreferrer">85 個加密貨幣錢包擴充功能研究發現地址洩漏與跨站追蹤風險</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>錢包擴充功能洩露地址遭追蹤</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/how-pentera-turns-ai-security-workflows.html" rel="noopener noreferrer">Pentera 如何將 AI 安全工作流程轉化為驗證引擎</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>AI安全流程轉為自動化驗證引擎</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/oauth-client-id-spoofing-lets-attackers.html" rel="noopener noreferrer">OAuth 用戶端 ID 偽裝技術讓攻擊者得以驗證竊取的 Microsoft Entra 憑證</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>偽裝客戶端ID驗證竊取之憑證</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/grok-build-uploads-entire-git.html" rel="noopener noreferrer">Grok Build 上傳整個 Git 倉庫至 xAI 儲存空間，而非僅限讀取檔案</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>程式助手誤傳完整倉庫含歷史紀錄</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/148-npm-packages-disguised-as-student.html" rel="noopener noreferrer">148 個偽裝成學生代理的 npm 套件將瀏覽器轉為 DDoS 殭屍網路</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>偽裝套件將瀏覽器轉為殭屍網路</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/microsoft-maps-year-long-shinyhunters.html" rel="noopener noreferrer">Microsoft 繪製 ShinyHunters 一年活動關聯的三條 Salesforce 攻擊路徑</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>駭客群一年間無漏洞攻入Salesforce</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/forg365-phaas-targets-microsoft-365.html" rel="noopener noreferrer">Forg365 PhaaS 針對 Microsoft 365，利用裝置程式碼與 AitM 會話竊取</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>釣魚服務結合AitM竊取M365會話</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/developerzai/we-stopped-giving-ai-agents-database-passwords-5eof" rel="noopener noreferrer">我們停止向 AI 代理提供資料庫密碼</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>停止授與AI代理資料庫連線密碼</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/alejandxr/turla-upgrades-kazuar-backdoor-into-modular-p2p-botnet-flk" rel="noopener noreferrer">Turla 將 Kazuar 後門升級為模組化 P2P 殭屍網路</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>國家駭客後門升級為P2P殭屍網路</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/agentic-resource-discovery-spec/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">谷歌與業界夥伴宣布 AI 代理的代理資源發現規範</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>公布AI代理資源發現與驗證標準</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/genkit-agents-api-preview/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">谷歌 Genkit 發布具備分離回合與人機協同功能的 TypeScript 與 Go 代理 API</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>發布支援人機協同的代理開發API</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/ai-speed-context-store-architecture/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：以 AI 速度理解：為進化式架構建構情境儲存庫</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>建構情境儲存庫以應付AI開發速度</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【供應鏈資安與系統韌性】</strong> — 日清食品遭非法存取引發 KFC 連鎖缺貨，加上 AsyncAPI 與 npm 套件遭 CI/CD 管道植入後門，顯示企業高度依賴的外部供應鏈與開源生態已成為駭客首要攻擊面，跨企業業務連續性計畫與依賴掃描機制亟待強化。</li>
+<li><strong>【AI 代理開發與權限治理】</strong> — 從 Claude Code 重構舊系統、Juggler GUI 智能體，到 Google 發布 Agentic Spec 與 Genkit API，AI 代理正快速標準化；同時開發者開始收回資料庫密碼權限，反映產業正從「盲目賦權」轉向「最小權限與動態驗證」的零信任架構。</li>
+<li><strong>【雲端基礎設施與身份驗證防禦】</strong> — ServiceNow 沙盒 RCE、RabbitMQ OAuth 洩漏、UEFI Secure Boot 繞過，以及 OAuth 客戶端 ID 偽裝攻擊，顯示傳統憑證驗證機制已全面失效；Cloudflare Precursor 行為鑑別與 FIDO2 抗釣魚認證成為阻斷自動化與中間人攻擊的新防線。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>軟體供應鏈攻擊</strong>：Hatena + HN + Reddit + 資安部落格 同步聚焦 — 駭客已從終點端轉向 CI/CD 自動化管道與開源依賴項，推動構建簽章與環境隔離成為跨平台共識。</li>
+<li><strong>AI 代理與開發工具演進</strong>：Hatena + HN + 資安部落格 同步出現 — 從行為鑑別防禦到代理資源發現規範，顯示 AI 智能體正從實驗階段邁向企業級生產環境，標準化與安全邊界劃定為當前核心課題。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

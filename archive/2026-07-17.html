@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Brief — 2026-07-17</title>
+<title>Daily Brief 存檔 — 2026-07-17</title>
 <style>
   :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
   * { box-sizing: border-box; }
@@ -56,63 +56,9 @@
 <main>
 <header>
   <p class="tagline">本地 LLM 多代理自主系統</p>
-  <p class="meta">2026-07-17</p>
+  <p class="meta">存檔日期：2026-07-17</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
 </header>
-<section class="status"><h2>系統狀態</h2><div class="status-grid"><div class="status-streak"><span class="status-num">21</span><span class="status-label">連續運作天數</span></div><div class="status-trend"><span class="status-label">judge 品質分趨勢（最新 5.0/5）</span><svg class="spark" viewBox="0 0 240 40" role="img" aria-label="judge quality trend" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" points="4.0,10.4 6.5,4.0 8.9,4.0 11.4,4.0 13.9,4.0 16.3,4.0 18.8,10.4 21.3,10.4 23.7,10.4 26.2,10.4 28.7,4.0 31.1,4.0 33.6,4.0 36.1,4.0 38.6,10.4 41.0,8.5 43.5,4.0 46.0,4.0 48.4,10.4 50.9,4.0 53.4,5.9 55.8,4.0 58.3,10.4 60.8,4.0 63.2,4.0 65.7,10.4 68.2,4.0 70.6,8.5 73.1,10.4 75.6,4.0 78.0,10.4 80.5,8.5 83.0,4.0 85.4,4.0 87.9,8.5 90.4,10.4 92.9,4.0 95.3,8.5 97.8,4.0 100.3,4.0 102.7,8.5 105.2,4.0 107.7,5.9 110.1,4.0 112.6,4.0 115.1,10.4 117.5,10.4 120.0,4.0 122.5,4.0 124.9,4.0 127.4,4.0 129.9,10.4 132.3,4.0 134.8,4.0 137.3,4.0 139.7,4.0 142.2,4.0 144.7,4.0 147.1,4.0 149.6,8.5 152.1,4.0 154.6,10.4 157.0,4.0 159.5,4.0 162.0,8.5 164.4,8.5 166.9,5.9 169.4,4.0 171.8,10.4 174.3,10.4 176.8,4.0 179.2,8.5 181.7,4.0 184.2,8.5 186.6,8.5 189.1,10.4 191.6,4.0 194.0,4.0 196.5,4.0 199.0,10.4 201.4,8.5 203.9,4.0 206.4,4.0 208.9,4.0 211.3,10.4 213.8,10.4 216.3,4.0 218.7,10.4 221.2,4.0 223.7,10.4 226.1,4.0 228.6,4.0 231.1,4.0 233.5,4.0 236.0,4.0"/><circle cx="236.0" cy="4.0" r="2.5" fill="currentColor"/></svg></div></div><ul class="status-rates"><li><span class="status-src">hatena</span><span class="status-pct">91%</span><span class="status-frac">84/92</span></li><li><span class="status-src">hn</span><span class="status-pct">96%</span><span class="status-frac">88/92</span></li><li><span class="status-src">reddit</span><span class="status-pct">93%</span><span class="status-frac">86/92</span></li><li><span class="status-src">rss</span><span class="status-pct">94%</span><span class="status-frac">61/65</span></li><li><span class="status-src">security</span><span class="status-pct">99%</span><span class="status-frac">91/92</span></li><li><span class="status-src">telegram</span><span class="status-pct">93%</span><span class="status-frac">85/91</span></li><li><span class="status-src">vault</span><span class="status-pct">100%</span><span class="status-frac">90/90</span></li></ul></section>
-<section class="tldr">
-<p>The AI landscape is rapidly evolving from passive coding assistants to autonomous agents integrated into production workflows, driving a surge in multi-agent collaboration frameworks, hybrid RAG architectures, and centralized LLM gateways to manage cloud permissions and billing risks. Major model releases like Gemma 4, Inkling, and Kimi K3 continue to lower hardware barriers and expand multimodal capabilities, while developers increasingly treat AI-generated code as technical debt that requires rigorous testing and fallback mechanisms. Simultaneously, cybersecurity remains a critical priority, with urgent patches needed for widespread infrastructure vulnerabilities and a growing recognition that AI agents introduce novel attack vectors like prompt injection and data manipulation, necessitating real-time monitoring, sandboxing, and human oversight to ensure system resilience.</p>
-</section>
-<section class="narrative lang-toggle">
-  <input type="radio" name="lang" id="lang-zh" checked>
-  <input type="radio" name="lang" id="lang-en">
-  <div class="lang-tabs">
-    <label for="lang-zh">中</label><label for="lang-en">EN</label>
-  </div>
-  <div class="narrative-zh">
-<h2>這是什麼</h2>
-<p>一套<strong>本地 LLM 多代理自主系統</strong>。每天清晨，它在我自己的機器上自主醒來，
-從 Hatena、Hacker News、Reddit、資安部落格與 RSS 五個來源策展出「當日值得關注的技術趨勢」，
-寫成一份完整報告、同步進筆記庫，並把精華推播到 Telegram。整條流程不依賴任何雲端推理服務。</p>
-<h2>架構亮點</h2>
-<ul>
-<li><strong>多代理 pipeline</strong>：抓取、語義去重、跨來源壓縮、留言增強、深度摘要、品質評審到發佈，
-  各階段職責單一、可獨立執行與測試。</li>
-<li><strong>冪等步驟</strong>：每一步把結果存成當日 artifact，重跑時自動略過已完成步驟；
-  單一步驟可用 <code>--force</code> 強制重算、用 <code>--only</code> 單獨執行。補跑安全、不重抓資料。</li>
-<li><strong>韌性而非脆弱</strong>：任一來源失敗不會中斷整條流程；只要 ≥2 個來源成功就照常產出報告，
-  系統優雅降級而非全盤崩潰。</li>
-<li><strong>可觀測性</strong>：每次執行留下健康記錄，跨天偵測慢性故障才主動告警，偶發抖動靜默吞下，
-  不製造告警疲勞。</li>
-<li><strong>LLM-as-Judge 自評</strong>：產物以 relevance／completeness／faithfulness 三軸自我評分並逐日記錄，
-  讓品質可被追蹤而非憑感覺。</li>
-</ul>
-<p>設計理念：倉庫即記錄系統、地圖而非手冊、選無聊技術、單一失敗不阻塞全局。</p>
-  </div>
-  <div class="narrative-en">
-<h2>What this is</h2>
-<p>A <strong>local-LLM multi-agent autonomous system</strong>. Every morning it wakes up on my own machine and
-curates the day's notable technical trends from five sources — Hatena, Hacker News, Reddit,
-security blogs and RSS — into a full report, syncs it into my notes, and pushes the highlights
-to Telegram. The whole pipeline runs without any cloud inference service.</p>
-<h2>Architecture highlights</h2>
-<ul>
-<li><strong>Multi-agent pipeline</strong>: fetch, semantic dedup, cross-source compression, comment enrichment,
-  deep digest, quality judging and deploy — each stage has a single responsibility and can be
-  run and tested in isolation.</li>
-<li><strong>Idempotent steps</strong>: every step persists its result as a per-day artifact and is skipped on
-  re-run once complete; any step can be re-computed with <code>--force</code> or run alone with <code>--only</code>.
-  Re-runs are safe and never re-fetch data needlessly.</li>
-<li><strong>Resilient, not brittle</strong>: a single failing source never halts the pipeline; as long as ≥2
-  sources succeed the report still ships. The system degrades gracefully instead of collapsing.</li>
-<li><strong>Observability</strong>: each run leaves a health record; chronic failures are detected across days
-  before escalating, while transient flakes are silently absorbed — no alert fatigue.</li>
-<li><strong>LLM-as-Judge self-scoring</strong>: outputs are self-rated on relevance, completeness and
-  faithfulness and logged daily, so quality is tracked rather than guessed.</li>
-</ul>
-<p>Design ethos: the repo is the system of record, a map not a manual, boring technology, and no
-single failure blocks the whole.</p>
-  </div>
-</section>
 <article>
 <h1>趨勢話題：2026-07-17</h1>
 <hr>
@@ -429,108 +375,6 @@ single failure blocks the whole.</p>
 <li><strong>基礎設施與供應鏈資安風險</strong>：HN + Reddit + 資安部落格 — 無論是政府網站遭劫持、自架平台 BOLA 漏洞或 nginx 弱點，跨平台討論均指向第三方依賴與邊緣設備的防禦缺口，強調自動化掃描與人工驗證並行的必要性。</li>
 </ul>
 </article>
-<nav class="archive">
-<p class="meta">存檔（連續 97 天）</p>
-<ul>
-  <li><a href="archive/2026-07-17.html">2026-07-17</a></li>
-  <li><a href="archive/2026-07-16.html">2026-07-16</a></li>
-  <li><a href="archive/2026-07-15.html">2026-07-15</a></li>
-  <li><a href="archive/2026-07-14.html">2026-07-14</a></li>
-  <li><a href="archive/2026-07-13.html">2026-07-13</a></li>
-  <li><a href="archive/2026-07-12.html">2026-07-12</a></li>
-  <li><a href="archive/2026-07-11.html">2026-07-11</a></li>
-  <li><a href="archive/2026-07-10.html">2026-07-10</a></li>
-  <li><a href="archive/2026-07-09.html">2026-07-09</a></li>
-  <li><a href="archive/2026-07-08.html">2026-07-08</a></li>
-  <li><a href="archive/2026-07-07.html">2026-07-07</a></li>
-  <li><a href="archive/2026-07-06.html">2026-07-06</a></li>
-  <li><a href="archive/2026-07-05.html">2026-07-05</a></li>
-  <li><a href="archive/2026-07-04.html">2026-07-04</a></li>
-  <li><a href="archive/2026-07-03.html">2026-07-03</a></li>
-  <li><a href="archive/2026-07-02.html">2026-07-02</a></li>
-  <li><a href="archive/2026-07-01.html">2026-07-01</a></li>
-  <li><a href="archive/2026-06-30.html">2026-06-30</a></li>
-  <li><a href="archive/2026-06-29.html">2026-06-29</a></li>
-  <li><a href="archive/2026-06-28.html">2026-06-28</a></li>
-  <li><a href="archive/2026-06-27.html">2026-06-27</a></li>
-  <li><a href="archive/2026-06-26.html">2026-06-26</a></li>
-  <li><a href="archive/2026-06-25.html">2026-06-25</a></li>
-  <li><a href="archive/2026-06-24.html">2026-06-24</a></li>
-  <li><a href="archive/2026-06-23.html">2026-06-23</a></li>
-  <li><a href="archive/2026-06-22.html">2026-06-22</a></li>
-  <li><a href="archive/2026-06-21.html">2026-06-21</a></li>
-  <li><a href="archive/2026-06-20.html">2026-06-20</a></li>
-  <li><a href="archive/2026-06-19.html">2026-06-19</a></li>
-  <li><a href="archive/2026-06-18.html">2026-06-18</a></li>
-  <li><a href="archive/2026-06-17.html">2026-06-17</a></li>
-  <li><a href="archive/2026-06-16.html">2026-06-16</a></li>
-  <li><a href="archive/2026-06-15.html">2026-06-15</a></li>
-  <li><a href="archive/2026-06-14.html">2026-06-14</a></li>
-  <li><a href="archive/2026-06-13.html">2026-06-13</a></li>
-  <li><a href="archive/2026-06-12.html">2026-06-12</a></li>
-  <li><a href="archive/2026-06-11.html">2026-06-11</a></li>
-  <li><a href="archive/2026-06-10.html">2026-06-10</a></li>
-  <li><a href="archive/2026-06-09.html">2026-06-09</a></li>
-  <li><a href="archive/2026-06-08.html">2026-06-08</a></li>
-  <li><a href="archive/2026-06-07.html">2026-06-07</a></li>
-  <li><a href="archive/2026-06-06.html">2026-06-06</a></li>
-  <li><a href="archive/2026-06-05.html">2026-06-05</a></li>
-  <li><a href="archive/2026-06-04.html">2026-06-04</a></li>
-  <li><a href="archive/2026-06-03.html">2026-06-03</a></li>
-  <li><a href="archive/2026-06-02.html">2026-06-02</a></li>
-  <li><a href="archive/2026-06-01.html">2026-06-01</a></li>
-  <li><a href="archive/2026-05-31.html">2026-05-31</a></li>
-  <li><a href="archive/2026-05-30.html">2026-05-30</a></li>
-  <li><a href="archive/2026-05-29.html">2026-05-29</a></li>
-  <li><a href="archive/2026-05-28.html">2026-05-28</a></li>
-  <li><a href="archive/2026-05-27.html">2026-05-27</a></li>
-  <li><a href="archive/2026-05-26.html">2026-05-26</a></li>
-  <li><a href="archive/2026-05-25.html">2026-05-25</a></li>
-  <li><a href="archive/2026-05-24.html">2026-05-24</a></li>
-  <li><a href="archive/2026-05-23.html">2026-05-23</a></li>
-  <li><a href="archive/2026-05-22.html">2026-05-22</a></li>
-  <li><a href="archive/2026-05-21.html">2026-05-21</a></li>
-  <li><a href="archive/2026-05-20.html">2026-05-20</a></li>
-  <li><a href="archive/2026-05-19.html">2026-05-19</a></li>
-  <li><a href="archive/2026-05-18.html">2026-05-18</a></li>
-  <li><a href="archive/2026-05-17.html">2026-05-17</a></li>
-  <li><a href="archive/2026-05-16.html">2026-05-16</a></li>
-  <li><a href="archive/2026-05-15.html">2026-05-15</a></li>
-  <li><a href="archive/2026-05-14.html">2026-05-14</a></li>
-  <li><a href="archive/2026-05-13.html">2026-05-13</a></li>
-  <li><a href="archive/2026-05-12.html">2026-05-12</a></li>
-  <li><a href="archive/2026-05-11.html">2026-05-11</a></li>
-  <li><a href="archive/2026-05-10.html">2026-05-10</a></li>
-  <li><a href="archive/2026-05-09.html">2026-05-09</a></li>
-  <li><a href="archive/2026-05-08.html">2026-05-08</a></li>
-  <li><a href="archive/2026-05-07.html">2026-05-07</a></li>
-  <li><a href="archive/2026-05-06.html">2026-05-06</a></li>
-  <li><a href="archive/2026-05-05.html">2026-05-05</a></li>
-  <li><a href="archive/2026-05-04.html">2026-05-04</a></li>
-  <li><a href="archive/2026-05-03.html">2026-05-03</a></li>
-  <li><a href="archive/2026-05-02.html">2026-05-02</a></li>
-  <li><a href="archive/2026-05-01.html">2026-05-01</a></li>
-  <li><a href="archive/2026-04-30.html">2026-04-30</a></li>
-  <li><a href="archive/2026-04-29.html">2026-04-29</a></li>
-  <li><a href="archive/2026-04-28.html">2026-04-28</a></li>
-  <li><a href="archive/2026-04-27.html">2026-04-27</a></li>
-  <li><a href="archive/2026-04-26.html">2026-04-26</a></li>
-  <li><a href="archive/2026-04-25.html">2026-04-25</a></li>
-  <li><a href="archive/2026-04-24.html">2026-04-24</a></li>
-  <li><a href="archive/2026-04-23.html">2026-04-23</a></li>
-  <li><a href="archive/2026-04-22.html">2026-04-22</a></li>
-  <li><a href="archive/2026-04-21.html">2026-04-21</a></li>
-  <li><a href="archive/2026-04-20.html">2026-04-20</a></li>
-  <li><a href="archive/2026-04-19.html">2026-04-19</a></li>
-  <li><a href="archive/2026-04-18.html">2026-04-18</a></li>
-  <li><a href="archive/2026-04-17.html">2026-04-17</a></li>
-  <li><a href="archive/2026-04-16.html">2026-04-16</a></li>
-  <li><a href="archive/2026-04-15.html">2026-04-15</a></li>
-  <li><a href="archive/2026-04-14.html">2026-04-14</a></li>
-  <li><a href="archive/2026-04-13.html">2026-04-13</a></li>
-  <li><a href="archive/2026-04-12.html">2026-04-12</a></li>
-</ul>
-</nav>
 </main>
 </body>
 </html>
