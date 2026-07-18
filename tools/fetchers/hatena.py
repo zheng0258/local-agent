@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import ssl
-import urllib.request
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET
+
+from . import rss_common
 
 # RSS 端點（AI 子類別無獨立 RSS，ai.rss 為 404，統一用 IT 類別）
 _RSS_URLS = [
@@ -16,25 +16,17 @@ _NS = {
     "hatena": "http://www.hatena.ne.jp/info/xmlns#",
 }
 
-_SSL_CTX = ssl.create_default_context()
-_SSL_CTX.check_hostname = False
-_SSL_CTX.verify_mode = ssl.CERT_NONE
-
 
 def fetch() -> list[dict]:
     """
     抓取 Hatena Bookmark IT 熱門文章（RSS）。
     回傳格式：[{"title", "url", "bookmarks", "description"}, ...]
+    共用 rss_common（certifi SSL + defusedxml），不再用 CERT_NONE / xml.etree。
     """
     articles: list[dict] = []
     for url in _RSS_URLS:
-        req = urllib.request.Request(
-            url, headers={"User-Agent": "daily-brief/1.0"}
-        )
         try:
-            with urllib.request.urlopen(req, timeout=30, context=_SSL_CTX) as resp:
-                xml_bytes = resp.read()
-            articles.extend(_parse_rss(xml_bytes))
+            articles.extend(_parse_rss(rss_common.fetch_feed(url)))
         except Exception as e:
             articles.append({"error": str(e), "source": url})
     return articles
@@ -88,6 +80,6 @@ def _parse_rss(xml_bytes: bytes) -> list[dict]:
             "title": title,
             "url": link,
             "bookmarks": bookmarks,
-            "description": desc[:200],
+            "description": desc[:rss_common.DESCRIPTION_MAX_CHARS],
         })
     return articles

@@ -84,7 +84,7 @@ lint/
 archive/                         # 原始 Claude Code SKILL.md 保存
 ```
 
-**Fetcher 共用工具**：playwright-cli 的 `_cli_bin`、`_run`、`_wait_for_session` 定義在 `tools/fetchers/browser.py`，新增 fetcher 直接 import，禁止複製。
+**Fetcher 共用工具**：playwright-cli 的 `_cli_bin`、`_run`、`_wait_for_session` 定義在 `tools/fetchers/browser.py`，新增 fetcher 直接 import，禁止複製。RSS 來源（hatena / security_blogs / rss）的 SSL context + feed 抓取共用 `tools/fetchers/rss_common.py`（`ssl_context()` 走 certifi、`fetch_feed(url)`），安全 XML 用 `defusedxml`；hatena 已退場舊的 `CERT_NONE` + `xml.etree`。parse 邏輯仍住各 fetcher（各家 feed 格式不同）。
 
 ## Daily Brief 故障排查
 
