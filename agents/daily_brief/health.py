@@ -131,14 +131,10 @@ def observe_run(today: str, day_dir: Path, steps_dir: Path) -> HealthRecord:
 
 
 def _load_alerts(steps_dir: Path) -> dict:
-    alerts_file = steps_dir / "alerts.json"
-    if not alerts_file.exists():
-        return {}
-    try:
-        data = json.loads(alerts_file.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return {}
-    return data if isinstance(data, dict) else {}
+    # alerts.json 的唯一讀取點在 alerts 模組（Alert 單一 owner）
+    from .alerts import load_alerts
+
+    return load_alerts(steps_dir)
 
 
 # ── 歷史記錄持久化 ────────────────────────────────────────────────

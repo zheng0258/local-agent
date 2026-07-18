@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import json
 import os
 import time
-from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
@@ -154,17 +152,15 @@ class SupervisorAgent:
         diagnosis: str,
         force: bool = False,
     ) -> None:
-        """發 Telegram 告警，同一步驟同一天只發一次（force 重跑時重置）。"""
-        alerts_file = self._steps_dir / "alerts.json"
-        alerts: dict[str, str] = {}
-        if alerts_file.exists():
-            try:
-                alerts = json.loads(alerts_file.read_text(encoding="utf-8"))
-            except (json.JSONDecodeError, OSError):
-                alerts = {}
+        """發 Telegram 告警，同一步驟同一天只發一次（force 重跑時重置）。
 
-        if name in alerts and not force:
-            logger.info("Step %s: 告警已發送過（%s），略過重複告警", name, alerts[name])
+        alerts.json 的讀取 / 去重判定 / 記錄委派給 alerts 模組（Alert 單一 owner）；
+        本處只負責逐步失敗的訊息文字（與收尾彙總是不同的 Alert）。
+        """
+        from . import alerts as alert_store
+
+        if not force and alert_store.already_recorded(self._steps_dir, name):
+            logger.info("Step %s: 告警已發送過，略過重複告警", name)
             return
 
         msg = (
@@ -176,9 +172,5 @@ class SupervisorAgent:
         )
         if self._notify_fn:
             self._notify_fn(msg)
-        alerts[name] = {
-            "failed_at": datetime.now().isoformat(timespec="seconds"),
-            "error": error[:300],
-        }
-        alerts_file.write_text(json.dumps(alerts, ensure_ascii=False, indent=2), encoding="utf-8")
+        alert_store.record_failure(self._steps_dir, name, error)
 

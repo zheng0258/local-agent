@@ -234,7 +234,9 @@ class DailyBriefAgent:
         ).run(ctx, None)
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
-        _send_alerts_summary(steps_dir, today, tg_send)
+        from . import alerts as alert_store
+
+        alert_store.send_summary(steps_dir, today, tg_send)
 
         # 可觀測性：記錄今日健康狀態 + 慢性故障跨天偵測（只在 chronic 時打擾）
         _observe_and_escalate(today, day_dir, steps_dir, tg_send)
@@ -421,52 +423,6 @@ def _detect_stale_downstream(steps_dir: Path, day_dir: Path) -> set[str]:
         if artifact.exists() and artifact.stat().st_mtime < latest_source_mtime:
             stale.add(step.name)
     return stale
-
-
-def _send_alerts_summary(
-    steps_dir: Path,
-    today: str,
-    notify_fn: Callable[[str], bool],
-) -> None:
-    """Fix B: pipeline 結束後發一則彙總告警（每天只發一次）。
-
-    個別步驟失敗時 supervisor._notify_failure 已即時發送；
-    此函式在 pipeline 最後補發「今日整體失敗摘要」，方便使用者一眼看清楚哪些來源缺失。
-    """
-    alerts_file = steps_dir / "alerts.json"
-    summary_done = steps_dir / "alerts_summary.done"
-
-    if not alerts_file.exists() or summary_done.exists():
-        return
-
-    try:
-        alerts: dict = json.loads(alerts_file.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return
-
-    if not alerts:
-        return
-
-    lines = [
-        f"📋 Daily Brief 失敗摘要（{today}）",
-        "",
-        "以下步驟全部重試後仍失敗，今日 brief 可能不完整：",
-    ]
-    for step, info in alerts.items():
-        if isinstance(info, dict):
-            err = info.get("error", "")[:120]
-            lines.append(f"• <b>{step}</b>：{err}")
-        else:
-            lines.append(f"• <b>{step}</b>")
-
-    lines += [
-        "",
-        "補跑指令：",
-        f"  python3 main.py \"/daily-brief --force {' '.join(alerts.keys())}\"",
-    ]
-    notify_fn("\n".join(lines))
-    summary_done.touch()
-    logger.info("alerts_summary 已發送（%d 個失敗步驟）", len(alerts))
 
 
 def _observe_and_escalate(
