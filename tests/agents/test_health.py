@@ -213,6 +213,60 @@ def test_filter_new_escalations_first_time_passes(tmp_path):
     assert filter_new_escalations([finding], state, "2026-06-21") == [finding]
 
 
+# ── observe_and_escalate workflow（封裝的完整序列）─────────────────
+
+
+def test_observe_and_escalate_fires_and_dedups_on_chronic(tmp_path):
+    from agents.daily_brief.health import observe_and_escalate
+
+    history_file = tmp_path / "_health-history.json"
+    state_file = tmp_path / "_health-escalated.json"
+    # 前兩日 hatena 已失敗；今日 run 再失敗一次 → 視窗內 3 次 → chronic
+    append_record(HealthRecord("2026-06-19", {"hatena": "network"}), history_file)
+    append_record(HealthRecord("2026-06-20", {"hatena": "network"}), history_file)
+    day_dir, steps_dir = _seed_run(
+        tmp_path,
+        ok_sources=["hn", "reddit", "security", "rss"],
+        alerts={"hatena": {"error": "<urlopen error [Errno 61] Connection refused>"}},
+    )
+    sent: list[str] = []
+
+    fresh = observe_and_escalate(
+        "2026-06-21", day_dir, steps_dir, lambda m: sent.append(m) or True,
+        history_file=history_file, state_file=state_file,
+    )
+    assert [f.subject for f in fresh] == ["hatena"]
+    assert sent and "hatena" in sent[0]
+
+    # 同一 episode 再跑一次 → escalation state 去重 → 不重複打擾
+    fresh2 = observe_and_escalate(
+        "2026-06-21", day_dir, steps_dir, lambda m: sent.append(m) or True,
+        history_file=history_file, state_file=state_file,
+    )
+    assert fresh2 == []
+    assert len(sent) == 1
+
+
+def test_observe_and_escalate_silent_when_not_chronic(tmp_path):
+    from agents.daily_brief.health import observe_and_escalate
+
+    history_file = tmp_path / "_health-history.json"
+    state_file = tmp_path / "_health-escalated.json"
+    day_dir, steps_dir = _seed_run(
+        tmp_path,
+        ok_sources=["hatena", "hn", "reddit", "security", "rss"],
+        telegram=True,
+        vault=True,
+    )
+    sent: list[str] = []
+    fresh = observe_and_escalate(
+        "2026-06-21", day_dir, steps_dir, lambda m: sent.append(m) or True,
+        history_file=history_file, state_file=state_file,
+    )
+    assert fresh == []
+    assert sent == []
+
+
 # ── digest 貢獻度 ─────────────────────────────────────────────────
 
 

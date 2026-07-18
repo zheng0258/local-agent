@@ -484,15 +484,8 @@ def _observe_and_escalate(
     from . import health
 
     try:
-        record = health.observe_run(today, day_dir, steps_dir)
-        history = health.append_record(record, health.HEALTH_HISTORY_FILE)
-        findings = health.detect_chronic(history)
-        fresh = health.filter_new_escalations(
-            findings, health.ESCALATION_STATE_FILE, today
-        )
+        fresh = health.observe_and_escalate(today, day_dir, steps_dir, notify_fn)
         if fresh:
-            notify_fn(health.format_escalation(fresh, today))
-            health.record_escalations(fresh, health.ESCALATION_STATE_FILE, today)
             logger.warning("慢性故障 escalation：%s", [f.subject for f in fresh])
     except Exception as exc:  # 可觀測性不得反過來弄垮 pipeline
         logger.warning("健康記錄失敗（不影響 pipeline）：%s", exc)

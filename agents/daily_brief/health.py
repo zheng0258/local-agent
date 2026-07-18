@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Mapping, Sequence
+from typing import Callable, Mapping, Sequence
 
 from .config import OUTPUT_DIR
 
@@ -261,6 +261,32 @@ def record_escalations(
         state[finding.subject] = today
     state_file.parent.mkdir(parents=True, exist_ok=True)
     state_file.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def observe_and_escalate(
+    today: str,
+    day_dir: Path,
+    steps_dir: Path,
+    notify_fn: Callable[[str], bool],
+    history_file: Path = HEALTH_HISTORY_FILE,
+    state_file: Path = ESCALATION_STATE_FILE,
+) -> list[ChronicFinding]:
+    """慢性故障 escalation 的完整 workflow —— 單一介面，順序不變式住模組內。
+
+    不變式：observe → append（記錄先落盤）→ detect_chronic → 依 window 去重 →
+    對 fresh 者 notify + record（escalate 後才記 escalation state）。single transient
+    flake 靜默；同一 chronic episode 經 state_file 去重只打擾一次。回傳實際 escalate 的
+    findings（供呼叫端 logging / 測試斷言）。純副作用集中於此，不自行吞例外——呼叫端
+    以 try/except 保護 pipeline（可觀測性不得反過來弄垮 pipeline）。
+    """
+    record = observe_run(today, day_dir, steps_dir)
+    history = append_record(record, history_file)
+    findings = detect_chronic(history)
+    fresh = filter_new_escalations(findings, state_file, today)
+    if fresh:
+        notify_fn(format_escalation(fresh, today))
+        record_escalations(fresh, state_file, today)
+    return fresh
 
 
 # ── Digest 貢獻度 ─────────────────────────────────────────────────
