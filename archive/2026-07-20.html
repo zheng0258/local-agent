@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-20</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-20</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-20</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://qiita.com/Nakanishi_RareTECH/items/16fd0b847aa68c152e00" rel="noopener noreferrer">138個有助於學習資安的網站精選（2026年版）- Qiita</a></td>
+<td>278</td>
+<td>***</td>
+<td>資安學習資源</td>
+<td>精選百個免費資安網站，隨時可上手。</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/seekseep/articles/git-with-coding-agents-patterns" rel="noopener noreferrer">將程式碼 AI 助手與 Git 結合：解讀 Simon Willison 的模式指南</a></td>
+<td>79</td>
+<td>***</td>
+<td>AI 開發工具與工作流</td>
+<td>解析 AI 助手與 Git 結合指南。</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ayghri/i-have-adhd" rel="noopener noreferrer">GitHub - ayghri/i-have-adhd：專為 ADHD 友善輸出設計的 Claude Code 技能，防止答案被掩蓋</a></td>
+<td>10</td>
+<td>***</td>
+<td>AI 開發工具與工作流</td>
+<td>提供編碼 AI 技能，優化閱讀輸出。</td>
+</tr>
+<tr>
+<td><a href="https://www.zaikei.co.jp/article/20260717/861772.html" rel="noopener noreferrer">Google「Gemini 3.5 Pro」或將第三次延期，或因幻覺問題觀測將推出暫定版｜財經新聞</a></td>
+<td>5</td>
+<td>***</td>
+<td>生成式 AI 模型動態</td>
+<td>谷歌新模型延期，疑因幻覺推暫定版。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://qiita.com/Nakanishi_RareTECH/items/16fd0b847aa68c152e00" rel="noopener noreferrer">138個有助於學習資安的網站精選（2026年版）- Qiita</a> (278 users) — 系統性彙整免費資安學習網站，涵蓋滲透測試到進階路徑，降低權威文獻獲取門檻。</li>
+<li><a href="https://zenn.dev/seekseep/articles/git-with-coding-agents-patterns" rel="noopener noreferrer">將程式碼 AI 助手與 Git 結合：解讀 Simon Willison 的模式指南</a> (79 users) — 深入解析 AI 編碼助手與 Git 版本控制的協作模式，規範化介入節點以提升團隊一致性。</li>
+<li><a href="https://github.com/ayghri/i-have-adhd" rel="noopener noreferrer">GitHub - ayghri/i-have-adhd：專為 ADHD 友善輸出設計的 Claude Code 技能，防止答案被掩蓋</a> (10 users) — 透過結構化排版與分段摘要優化 AI 輸出可讀性，反映工具正向無障礙與神經多樣性友善演進。</li>
+<li><a href="https://www.zaikei.co.jp/article/20260717/861772.html" rel="noopener noreferrer">Google「Gemini 3.5 Pro」或將第三次延期，或因幻覺問題觀測將推出暫定版｜財經新聞</a> (5 users) — 旗艦模型可能改採暫定版策略應對幻覺問題，凸顯生成式 AI 在推理能力與準確性間的技術瓶頸。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48963465" rel="noopener noreferrer">Codex Resets：OpenAI Codex 的重置工具</a></td>
+<td>255pt</td>
+<td>***</td>
+<td>AI 編碼工具迭代</td>
+<td>OpenAI推出Codex環境重置工具</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48966569" rel="noopener noreferrer">Claude Code 現已採用 Rust 編寫的 Bun 運行時</a></td>
+<td>253pt</td>
+<td>***</td>
+<td>AI 編碼工具迭代</td>
+<td>ClaudeCode換用Rust版Bun運行</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48965850" rel="noopener noreferrer">OpenAI 將 Codex 模型上下文窗口從 372k 縮減至 272k</a></td>
+<td>209pt</td>
+<td>***</td>
+<td>大模型上下文與運行環境調整</td>
+<td>OpenAI縮減Codex上下文窗口</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48963465" rel="noopener noreferrer">Codex Resets：OpenAI Codex 的重置工具</a> (255pt) — 正式推出環境重置工具允許快速清除歷史上下文，顯著降低上下文污染導致的邏輯錯誤並提升編碼流暢度。
+   💬 社群觀點：用戶歡迎重置紅利與雙廠競爭體驗，但質疑 OpenAI 燒錢搶市策略難以長久，擔憂其財務與營運可持續性。</li>
+<li><a href="https://news.ycombinator.com/item?id=48966569" rel="noopener noreferrer">Claude Code 現已採用 Rust 編寫的 Bun 運行時</a> (253pt) — 切換至 Rust 重寫的 Bun 運行時以提升執行效率與記憶體安全性，標誌 AI 輔助開發邁向執行環境優化階段。
+   💬 社群觀點：社群看好AI重構開啟新階段，但憂企業掌控影響開源前景，且疑Rust重寫效能提升有限。技術屬構建調整，建議靜待正式版。</li>
+<li><a href="https://news.ycombinator.com/item?id=48965850" rel="noopener noreferrer">OpenAI 將 Codex 模型上下文窗口從 372k 縮減至 272k</a> (209pt) — 縮減上下文窗口並優化壓縮演算法以大幅降低推理成本與延遲，反映供應商在效能與商業化間的務實取捨。
+   💬 社群觀點：多數視為成本與延遲取捨，壓縮機制已勝任日常；重度使用者擔憂272k不足，並建議公開規格與導入高效快取技術。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v09pze/multiple_chinese_civic_apps_share_one/" rel="noopener noreferrer">多款中國市政應用程式共用同一獎勵與彩券後端，且簽署金鑰可被還原</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>中國市政App共用後端，金鑰可還原</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1v09pze/multiple_chinese_civic_apps_share_one/" rel="noopener noreferrer">多款中國市政應用程式共用同一獎勵與彩券後端，且簽署金鑰可被還原</a> (- ups) — r/netsec — 揭露多款市政 App 共用後端且簽署金鑰可被還原，凸顯數位政府整合過程中後端共用與憑證管控不當的系統性風險。</p>
+<p><strong>AI 類</strong>
+1. （本期無相關熱門文章）</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/sleepergem-rubygems-supply-chain-attack" rel="noopener noreferrer">SleeperGem：RubyGems 供應鏈攻擊鎖定休眠維護者帳號</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>休眠帳號遭劫持，套件遭注入惡意程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/uac-0145-uses-clickfix-captchas-to.html" rel="noopener noreferrer">UAC-0145 利用 ClickFix CAPTCHA 感染烏克蘭裝置惡意軟體</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>俄駭客用假驗證碼誘騙烏裝置中惡意軟體</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/07/friday-squid-blogging-squidbleed-vulnerability.html" rel="noopener noreferrer">週五烏賊隨筆：「Squidbleed」漏洞</a></td>
+<td>schneier.com</td>
+<td>***</td>
+<td>廿九年Squid代理漏洞恐洩漏HTTP請求</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 輔助開發工具迭代與工程化】</strong> — 從 OpenAI Codex 環境重置、Claude Code 切換 Rust 運行時，到 Vibe Coding 成為預設實踐，顯示 AI 編碼工具正從語法生成全面深入到底層執行環境與日常工作流。</li>
+<li><strong>【大模型商用落地與效能優化】</strong> — Google Gemini 延期與 OpenAI 縮減上下文窗口反映產業務實面對成本與穩定性挑戰；同時 RAG 貝氏搜尋優化與自動化 LLM 評估管線成熟，為高頻商用場景鋪路。</li>
+<li><strong>【軟體供應鏈與基礎架構資安威脅】</strong> — SleeperGem 劫持休眠維護者、Squidbleed 歷史代理漏洞爆發，以及市政 App 共用後端金鑰洩漏，凸顯開源生態與政府數位化專案在權限管理與架構隔離上的致命弱點。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 編碼工具底層重構與工作流整合</strong>：Hatena + HN + RSS 同步出現 — 從 Git 協作模式、Rust 運行時替換到自然語言編程，顯示 AI 開發工具正全面深入程式生命週期。</li>
+<li><strong>大模型商用落地與效能瓶頸</strong>：HN + RSS 同步出現 — 上下文窗口縮減、RAG 延遲優化與自動化評估管線，反映產業務實追求成本與穩定性。</li>
+<li><strong>開源與政府資安漏洞警示</strong>：Reddit + 資安部落格 — 休眠帳號劫持、代理伺服器歷史漏洞與市政 App 共用後端，凸顯供應鏈與基礎設施維護的系統性風險。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

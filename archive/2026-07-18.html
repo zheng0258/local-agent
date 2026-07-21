@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-18</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-18</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-18</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/loglass/articles/6aa18c80496ec6" rel="noopener noreferrer">用AI「複查」已經過時？推薦「對抗性驗證」</a></td>
+<td>173</td>
+<td>***</td>
+<td>AI 輔助開發與品質保證</td>
+<td>傳統AI複查過時，改採對抗驗證揪出漏洞</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260717-decoy-font/" rel="noopener noreferrer">人類讀得懂但 AI 會看成其他文字的「Decoy Font」登場</a></td>
+<td>28</td>
+<td>***</td>
+<td>AI 視覺識別與防偽</td>
+<td>新型字型人類可讀，卻能欺騙AI視覺識別</td>
+</tr>
+<tr>
+<td><a href="https://togetter.com/li/2721550" rel="noopener noreferrer">窓の杜舉辦盛夏「漏洞祭」，雖然名字好笑但AI發展可能讓漏洞攻擊變得更簡單，或許是無法一笑置之的嚴峻現狀</a></td>
+<td>23</td>
+<td>***</td>
+<td>AI 時代的資安防禦</td>
+<td>AI降低攻擊門檻，漏洞利用恐成常態危機</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/naonana777/aiqu-dong-kai-fa-shi-dai-pin-zhi-bao-zheng" rel="noopener noreferrer">AI 驅動開發時代的品質保證</a></td>
+<td>15</td>
+<td>***</td>
+<td>AI 輔助開發與品質保證</td>
+<td>AI驅動開發下，品質保證策略須全面升級</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/loglass/articles/6aa18c80496ec6" rel="noopener noreferrer">用AI「複查」已經過時？推薦「對抗性驗證」</a> (173 users) — 傳統AI複查過時，改採對抗驗證揪出漏洞</li>
+<li><a href="https://gigazine.net/news/20260717-decoy-font/" rel="noopener noreferrer">人類讀得懂但 AI 會看成其他文字的「Decoy Font」登場</a> (28 users) — 新型字型人類可讀，卻能欺騙AI視覺識別</li>
+<li><a href="https://togetter.com/li/2721550" rel="noopener noreferrer">窓の杜舉辦盛夏「漏洞祭」，雖然名字好笑但AI發展可能讓漏洞攻擊變得更簡單，或許是無法一笑置之的嚴峻現狀</a> (23 users) — AI降低攻擊門檻，漏洞利用恐成常態危機</li>
+<li><a href="https://speakerdeck.com/naonana777/aiqu-dong-kai-fa-shi-dai-pin-zhi-bao-zheng" rel="noopener noreferrer">AI 驅動開發時代的品質保證</a> (15 users) — AI驅動開發下，品質保證策略須全面升級</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48947776" rel="noopener noreferrer">Claude Code：一個「反功能」的設計解剖</a></td>
+<td>112pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>剖析 AI 編碼工具過度自動化之設計缺陷</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48947548" rel="noopener noreferrer">Show HN：即時觀看機器人與 SSH 蜜罐互動</a></td>
+<td>82pt</td>
+<td>***</td>
+<td>AI 驅動資安防禦</td>
+<td>即時視覺化惡意機器人攻擊 SSH 蜜罐過程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48947714" rel="noopener noreferrer">人工智慧與密碼學第二彈：AI 在 OpenVM 的 ZkVM 中發現了什麼</a></td>
+<td>53pt</td>
+<td>***</td>
+<td>AI 與密碼學驗證</td>
+<td>AI 挖掘零知識證明底層的密碼學潛在漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48946692" rel="noopener noreferrer">VulnHunter：Capital One 的 AI 代理程式碼安全工具</a></td>
+<td>34pt</td>
+<td>***</td>
+<td>AI 資安工具</td>
+<td>銀行級 AI 智能體自動偵測程式碼安全漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48947776" rel="noopener noreferrer">Claude Code：一個「反功能」的設計解剖</a> (112pt) — 剖析 AI 編碼工具過度自動化之設計缺陷
+   💬 社群觀點：評價兩極：肯定離線便利，但憂慮資料遺失、Token浪費與隱蔽更新。呼籲預設關閉並提供開關，警惕商業誘因。</li>
+<li><a href="https://news.ycombinator.com/item?id=48947548" rel="noopener noreferrer">Show HN：即時觀看機器人與 SSH 蜜罐互動</a> (82pt) — 即時視覺化惡意機器人攻擊 SSH 蜜罐過程
+   💬 社群觀點：社群讚賞專案兼具教育與娛樂性。建議加入 IP 來源排行，並強調應將敏感資訊雜湊處理以兼顧隱私與分析需求。</li>
+<li><a href="https://news.ycombinator.com/item?id=48947714" rel="noopener noreferrer">人工智慧與密碼學第二彈：AI 在 OpenVM 的 ZkVM 中發現了什麼</a> (53pt) — AI 挖掘零知識證明底層的密碼學潛在漏洞</li>
+<li><a href="https://news.ycombinator.com/item?id=48946692" rel="noopener noreferrer">VulnHunter：Capital One 的 AI 代理程式碼安全工具</a> (34pt) — 銀行級 AI 智能體自動偵測程式碼安全漏洞
+   💬 社群觀點：社群質疑技術壁壘，疑為既有工具包裝或PR手段，引發銀行資安信任危機。多數視其為方法論，要求公開內部成效以證成價值。</li>
+<li><a href="https://dev.to/moaz06/a-200-is-not-a-read-2on" rel="noopener noreferrer">HTTP 200 不等於實際讀取內容</a> (-) — HTTP 200僅表連線成功非AI已讀取</li>
+<li><a href="https://dev.to/nomadop/when-should-you-clear-a-1913-inventory-formula-has-the-answer-4o20" rel="noopener noreferrer">何時該執行 /clear？1913 年庫存公式給出答案</a> (-) — 借庫存公式優化AI對話上下文清除時機</li>
+<li><a href="https://dev.to/omkarpalika/i-sent-an-ai-agent-to-buy-from-real-stores-heres-what-actually-breaks-4g92" rel="noopener noreferrer">我派 AI 代理去實體商店購物，這是實際會出錯的地方</a> (-) — AI代理真實購物實測揭露系統斷點限制</li>
+<li><a href="https://www.infoq.com/presentations/otel-slm-ai/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：從 OTEL 到 SLM：從生產環境遙測資料中提煉前沿模型行為</a> (-) — 以OTEL遙測資料提煉模型行為優化代理</li>
+<li><a href="https://www.infoq.com/news/2026/07/production-ai-platforms-evals/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">QCon AI Boston：生產環境 AI 超越提示詞，邁向平台、控制架與評估</a> (-) — 生產AI邁向平台化、控制架與評估機制</li>
+<li><a href="https://www.infoq.com/news/2026/07/aws-continuum-code-security/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">AWS Continuum 為企業啟用代理式程式碼安全</a> (-) — AWS新平台以AI代理自動化程式碼安全</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uyzhy8/windows_appresolver_lpe_from_appcontainer_to/" rel="noopener noreferrer">Windows AppResolver 本地權限提升漏洞：從 AppContainer 到 SYSTEM，附 CVE-2026-50454 PoC</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>權限提升漏洞分析</td>
+<td>r/netsec</td>
+<td>微軟容器漏洞可提權至系統最高權限</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://thehackernews.com/2026/07/new-nadmesh-botnet-hunts-exposed-ai.html" rel="noopener noreferrer">新型 NadMesh 機器人網路搜尋暴露的 AI 服務以竊取雲端金鑰與 Kubernetes Token</a> (-) — r/hackernews — NadMesh掃瞄暴露AI服務竊取雲端金鑰
+2. <a href="https://thehackernews.com/2026/07/goldeneyedog-subgroup-linked-to.html" rel="noopener noreferrer">GoldenEyeDog 子群體牽連 DigiCert 資安事件與程式碼簽署憑證竊取案</a> (-) — r/hackernews — GoldenEyeDog牽連DigiCert憑證遭竊
+3. <a href="https://thehackernews.com/2026/07/north-korea-linked-hackers-hide.html" rel="noopener noreferrer">假程式測驗傳遞隱藏於 SVG 圖片中的 OtterCookie 關聯惡意軟體</a> (-) — r/hackernews — 北韓駭客以假測驗與SVG隱寫散播惡意軟體
+4. <a href="https://thehackernews.com/2026/07/acr-stealer-uses-clickfix-lures-to.html" rel="noopener noreferrer">ACR Stealer 利用 ClickFix 誘餌竊取瀏覽器 Token 與 Microsoft 365 檔案</a> (-) — r/hackernews — ACR Stealer以誘餌竊取瀏覽器Token
+5. <a href="https://thehackernews.com/2026/07/cisa-adds-exploited-sharepoint-rce-zero.html" rel="noopener noreferrer">CISA 將遭利用的 SharePoint RCE 零日漏洞 CVE-2026-58644 列入 KEV 清單</a> (-) — r/hackernews — CISA將SharePoint零日漏洞列入KEV</p>
+<p><strong>AI 類</strong>
+1. <a href="https://dev.to/moaz06/a-200-is-not-a-read-2on" rel="noopener noreferrer">HTTP 200 不等於實際讀取內容</a> (-) — r/dev — HTTP 200僅表連線成功非AI已讀取
+2. <a href="https://dev.to/nomadop/when-should-you-clear-a-1913-inventory-formula-has-the-answer-4o20" rel="noopener noreferrer">何時該執行 /clear？1913 年庫存公式給出答案</a> (-) — r/dev — 借庫存公式優化AI對話上下文清除時機
+3. <a href="https://dev.to/omkarpalika/i-sent-an-ai-agent-to-buy-from-real-stores-heres-what-actually-breaks-4g92" rel="noopener noreferrer">我派 AI 代理去實體商店購物，這是實際會出錯的地方</a> (-) — r/dev — AI代理真實購物實測揭露系統斷點限制
+4. <a href="https://www.infoq.com/presentations/otel-slm-ai/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：從 OTEL 到 SLM：從生產環境遙測資料中提煉前沿模型行為</a> (-) — r/infoq — 以OTEL遙測資料提煉模型行為優化代理
+5. <a href="https://www.infoq.com/news/2026/07/production-ai-platforms-evals/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">QCon AI Boston：生產環境 AI 超越提示詞，邁向平台、控制架與評估</a> (-) — r/infoq — 生產AI邁向平台化、控制架與評估機制
+6. <a href="https://www.infoq.com/news/2026/07/aws-continuum-code-security/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">AWS Continuum 為企業啟用代理式程式碼安全</a> (-) — r/infoq — AWS新平台以AI代理自動化程式碼安全</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/pentera-alternatives" rel="noopener noreferrer">2026 年自動滲透測試首選：Pentera 最佳替代方案比較</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>2026自動滲透測試工具評比與替代方案</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/new-nadmesh-botnet-hunts-exposed-ai.html" rel="noopener noreferrer">新型 NadMesh 機器人網路搜尋暴露的 AI 服務以竊取雲端金鑰與 Kubernetes Token</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>NadMesh掃瞄暴露AI服務竊取雲端金鑰</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/cisa-adds-exploited-sharepoint-rce-zero.html" rel="noopener noreferrer">CISA 將遭利用的 SharePoint RCE 零日漏洞 CVE-2026-58644 列入 KEV 清單</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>CISA將SharePoint零日漏洞列入KEV</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 驅動開發與品質保證轉型】</strong> — 從傳統 AI 複查轉向對抗性驗證與混合測試策略，企業正全面升級 QA 流程以應對 AI 生成程式碼帶來的技術債與邏輯缺陷風險。</li>
+<li><strong>【AI 輔助資安防禦與漏洞挖掘】</strong> — AI 技術正雙向影響資安領域：攻擊方藉助 AI 降低滲透門檻與自動化漏洞利用，防禦方則導入 AI 代理進行即時蜜罐監控、密碼學驗證與自動滲透測試。</li>
+<li><strong>【AI 代理工程化與生產環境監控】</strong> — 企業 AI 部署已跨越提示詞工程，邁向平台化控制架、OTEL 遙測整合與自動化評估機制，同時揭露實體場景與上下文管理的工程瓶頸。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 資安工具與漏洞利用</strong>：Hatena + HN + Reddit 同步出現 — 社群與業界高度關注 AI 如何降低攻擊門檻，並推動自動化工具（如 VulnHunter、Pentera 替代方案）與對抗性驗證的落地。</li>
+<li><strong>AI 開發工具設計反思與上下文管理</strong>：HN + Reddit 同步出現 — 開發者擔憂過度自動化削弱核心能力，同時積極探索 HTTP 狀態碼驗證、動態上下文清除與 OTEL 遙測等工程最佳實踐。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

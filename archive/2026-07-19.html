@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-19</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-19</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-19</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://azukiazusa.dev/blog/recent-ai-coding-development-process-centered-on-design/" rel="noopener noreferrer">近期在 AI 編程中實踐的、以設計為中心的開發流程</a></td>
+<td>480</td>
+<td>***</td>
+<td>AI 開發流程</td>
+<td>AI編程重心轉向設計，導入並行與自動驗證</td>
+</tr>
+<tr>
+<td><a href="https://gazlog.jp/entry/lg-gaming-ads-install/" rel="noopener noreferrer">LG 電競螢幕濫用 Windows Update 擅自安裝廣告軟體，並顯示 McAfee 廣告</a></td>
+<td>221</td>
+<td>***</td>
+<td>硬體資安</td>
+<td>LG螢幕濫用系統更新暗中安裝廣告軟體</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/minamijoyo/items/854ce04da1490b43a848" rel="noopener noreferrer">給 AI Agent 的 Docker Sandboxes 實戰入門</a></td>
+<td>121</td>
+<td>***</td>
+<td>AI 工具實踐</td>
+<td>以Docker沙盒建構AI Agent安全編程環境</td>
+</tr>
+<tr>
+<td><a href="https://www.nikkei.com/article/DGXZQOGN17CN50X10C26A7000000/" rel="noopener noreferrer">中國 AI「Kimi」引發震撼，美專家：「與 Anthropic 最新型僅差毫厘」</a></td>
+<td>90</td>
+<td>***</td>
+<td>大模型競爭</td>
+<td>中國Kimi模型性能逼近國際頂尖引矽谷關注</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2607/18/news019.html" rel="noopener noreferrer">「Claude Fable 5」整合至訂閱方案，適用 Max 與 Team Premium 計畫</a></td>
+<td>80</td>
+<td>***</td>
+<td>訂閱佈局</td>
+<td>Claude頂尖模型納入付費訂閱按比例免費用</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://azukiazusa.dev/blog/recent-ai-coding-development-process-centered-on-design/" rel="noopener noreferrer">近期在 AI 編程中實踐的、以設計為中心的開發流程</a> (480 users) — AI編程重心轉向設計，導入並行與自動驗證</li>
+<li><a href="https://gazlog.jp/entry/lg-gaming-ads-install/" rel="noopener noreferrer">LG 電競螢幕濫用 Windows Update 擅自安裝廣告軟體，並顯示 McAfee 廣告</a> (221 users) — LG螢幕濫用系統更新暗中安裝廣告軟體</li>
+<li><a href="https://qiita.com/minamijoyo/items/854ce04da1490b43a848" rel="noopener noreferrer">給 AI Agent 的 Docker Sandboxes 實戰入門</a> (121 users) — 以Docker沙盒建構AI Agent安全編程環境</li>
+<li><a href="https://www.nikkei.com/article/DGXZQOGN17CN50X10C26A7000000/" rel="noopener noreferrer">中國 AI「Kimi」引發震撼，美專家：「與 Anthropic 最新型僅差毫厘」</a> (90 users) — 中國Kimi模型性能逼近國際頂尖引矽谷關注</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2607/18/news019.html" rel="noopener noreferrer">「Claude Fable 5」整合至訂閱方案，適用 Max 與 Team Premium 計畫</a> (80 users) — Claude頂尖模型納入付費訂閱按比例免費用</li>
+<li><a href="https://blog.flatt.tech/entry/wp2shell_wordpress" rel="noopener noreferrer">WordPress 嚴重度「緊急」漏洞 wp2shell 概述與應對指南</a> (68 users) — WordPress曝出遠端代碼執行漏洞緊急修復</li>
+<li><a href="https://www.techno-edge.net/article/2026/07/18/5311.html" rel="noopener noreferrer">因為彈不出 Keith Emerson 的風格，所以請 Claude Fable 5 幫我寫了一個無限演奏合成器獨奏的 App（CloseBox）</a> (68 users) — 用AI生成無限合成器獨奏App補足演奏技巧</li>
+<li><a href="https://qiita.com/archeleeds/items/2efad73069b54288deb4" rel="noopener noreferrer">使用 ComfyUI × 影片生成 AI × Codex 打造遊戲精靈動畫量產流程的實戰分享</a> (64 users) — 整合多項AI工具打造遊戲動畫量產流程</li>
+<li><a href="https://zenn.dev/discus0434/articles/customizable-agent-teams" rel="noopener noreferrer">依角色區分使用 Fable 與 GPT-5.6 的 Agent 團隊設計</a> (11 users) — 依任務角色分配不同AI模型優化團隊協作</li>
+<li><a href="https://gigazine.net/news/20260717-suno-scraping-from-youtube-deezer/" rel="noopener noreferrer">從外洩原始碼發現 AI 音樂生成服務「Suno」曾從 YouTube 與 Deezer 爬取數百萬首歌曲</a> (5 users) — AI音樂平台遭爆爬取百萬歌曲訓練模型</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48956688" rel="noopener noreferrer">LG 顯示器未經同意透過 Windows Update 靜默安裝軟體</a></td>
+<td>737pt</td>
+<td>***</td>
+<td>硬體資安</td>
+<td>LG顯示器靜默安裝軟體引發資安疑慮</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48947717" rel="noopener noreferrer">Kimi K3 模型與我們從 Pelican 基準測試中仍能學到的教訓</a></td>
+<td>387pt</td>
+<td>***</td>
+<td>AI 模型評測</td>
+<td>Pelican測試揭示KimiK3模型能力邊界</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48957779" rel="noopener noreferrer">GPT-5.6 使用提示詞閉合凸優化領域 30 年的差距</a></td>
+<td>327pt</td>
+<td>***</td>
+<td>AI 科研應用</td>
+<td>GPT-5.6以提示詞突破凸優化三十年難題</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=48952565" rel="noopener noreferrer">TP-Link Kasa 攝影機因未驗證 UDP 漏洞洩露家庭 GPS 達 6 年</a></td>
+<td>194pt</td>
+<td>***</td>
+<td>IoT 資安風險</td>
+<td>TP-Link攝影機漏洞洩露家庭定位</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=48956688" rel="noopener noreferrer">LG 顯示器未經同意透過 Windows Update 靜默安裝軟體</a> (737pt) — LG顯示器靜默安裝軟體引發資安疑慮
+   💬 社群觀點：社群視之如惡意軟體，指為硬體廠慣例。建議透過系統設定停用自動下載，或轉向 Linux 與其他品牌。</li>
+<li><a href="https://news.ycombinator.com/item?id=48947717" rel="noopener noreferrer">Kimi K3 模型與我們從 Pelican 基準測試中仍能學到的教訓</a> (387pt) — Pelican測試揭示KimiK3模型能力邊界
+   💬 社群觀點：社群質疑鵜鶘標測恐受訓練資料污染，對基準有效性與計費存疑。建議改用隨機目標、視覺自檢與實務應用取代僵化指標。</li>
+<li><a href="https://news.ycombinator.com/item?id=48957779" rel="noopener noreferrer">GPT-5.6 使用提示詞閉合凸優化領域 30 年的差距</a> (327pt) — GPT-5.6以提示詞突破凸優化三十年難題
+   💬 社群觀點：社群質疑缺乏審查與形式驗證，認為僅屬既有突破；但看好AI重塑分工，學者應聚焦發掘新命題，並強化提示詞與概念思維。</li>
+<li><a href="https://news.ycombinator.com/item?id=48952565" rel="noopener noreferrer">TP-Link Kasa 攝影機因未驗證 UDP 漏洞洩露家庭 GPS 達 6 年</a> (194pt) — TP-Link攝影機漏洞洩露家庭定位
+   💬 社群觀點：社群批評原廠修補致設備變磚，並質疑漏洞嚴重性。主流認為廉價 IoT 不應直連外網，建議改用開源韌體或僅限區域網路。</li>
+<li><a href="https://news.ycombinator.com/item?id=48956879" rel="noopener noreferrer">Fable 5 對決 GPT-5.6 Sol 解 NP-困難問題：/goal 指令是否有效？</a> (153pt) — GPT-5.6解NP難題驗證_goal指令效用
+   💬 社群觀點：社群普遍肯定 /goal 提升長程任務效率，但質疑單次評估結果可信度；建議複雜問題改用傳統求解器，並提醒圖表標示易生誤解</li>
+<li><a href="https://news.ycombinator.com/item?id=48959392" rel="noopener noreferrer">逐步指南：設定閒置 Mac 供 Claude Code 控制</a> (69pt) — 閒置Mac改造為AI自動編程終端
+   💬 社群觀點：社群多採SSH或Dispatch搭配平價Mac，認為設定簡便；對全天候運行AI缺乏明確應用存疑，並擔憂費用與帳戶隔離。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v01uhq/pixels_to_payload_dissecting_a_fourstage/" rel="noopener noreferrer">從像素到載荷: 剖析四階段位圖隱寫載體投放 AsyncRAT :: Rhys Downing</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>惡意程式隱寫</td>
+<td>r/netsec</td>
+<td>解密圖片隱寫技術投放後門程式</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uzhzbu/wp2shell_pre_authentication_rce_in_wordpress_core/" rel="noopener noreferrer">wp2shell: WordPress 核心未認證遠端程式碼執行漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>核心系統漏洞</td>
+<td>r/netsec</td>
+<td>WordPress核心曝未認證漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1uzhprd/keeping_private_namespaces_private_quad9_blog/" rel="noopener noreferrer">保持私有網域查詢的私密性 - Quad9 部落格</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>網路隱私防護</td>
+<td>r/netsec</td>
+<td>Quad9解析私有網域隱私保護機制</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1v01uhq/pixels_to_payload_dissecting_a_fourstage/" rel="noopener noreferrer">從像素到載荷: 剖析四階段位圖隱寫載體投放 AsyncRAT :: Rhys Downing</a> (- ups) — r/netsec — 解密圖片隱寫技術投放後門程式
+2. <a href="https://www.reddit.com/r/netsec/comments/1uzhzbu/wp2shell_pre_authentication_rce_in_wordpress_core/" rel="noopener noreferrer">wp2shell: WordPress 核心未認證遠端程式碼執行漏洞</a> (- ups) — r/netsec — WordPress核心曝未認證漏洞
+3. <a href="https://www.reddit.com/r/netsec/comments/1uzhprd/keeping_private_namespaces_private_quad9_blog/" rel="noopener noreferrer">保持私有網域查詢的私密性 - Quad9 部落格</a> (- ups) — r/netsec — Quad9解析私有網域隱私保護機制</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/unauthenticated-rce-in-wordpress-wp2shell" rel="noopener noreferrer">WordPress 核心未授權遠端程式碼執行漏洞（wp2shell），透過 SQL 注入攻擊</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>立即升級WordPress修復SQL注入漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/new-wp2shell-wordpress-core-flaw-lets.html" rel="noopener noreferrer">新型 wp2shell WordPress 核心漏洞允許未授權攻擊者執行程式碼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>WP核心曝漏洞，未授權者可執行程式碼。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/openssl-hollowbyte-flaw-could-freeze.html" rel="noopener noreferrer">OpenSSL HollowByte 漏洞可能因 11 位元組 TLS 請求凍結伺服器記憶體</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>OpenSSL漏洞致短請求凍結伺服器記憶體。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/seven-malicious-vite-npm-packages-use.html" rel="noopener noreferrer">七個惡意 Vite npm 套件利用區塊鏈 C2 傳遞 RAT</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>惡意npm套件藉區塊鏈C2傳遞RAT。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發流程與 Agent 實踐】</strong> — AI 編程重心正從單純代碼生成轉向設計驗證與沙盒隔離，Docker 容器化與 Repo Contracts 成為提升自動化品質的關鍵。企業開始採用異質模型分工與雲端原生基礎設施，以確保 AI Agent 在生產環境中的穩定與可信。</li>
+<li><strong>【大模型競爭與基準評測反思】</strong> — 中國 Kimi 模型性能逼近國際頂尖，引發全球矽谷對技術護城河的警覺。同時社群對 Pelican 等基準測試的資料污染與僵化指標提出質疑，推動業界轉向隨機目標驗證與實務應用效能評估。</li>
+<li><strong>【資安漏洞與供應鏈威脅】</strong> — WordPress wp2shell 緊急 RCE 漏洞與 OpenSSL HollowByte 記憶體凍結漏洞同步爆發，凸顯開源核心與加密協議的防護缺口。硬體廠商靜默安裝軟體與 IoT 設備未經驗證漏洞，迫使企業重新審視驅動程式合規與零信任架構。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>LG 顯示器靜默安裝軟體</strong>：Hatena + HN 同步出現 — 硬體廠商濫用系統更新機制暗中投放廣告軟體，引發全球用戶對隱私權與驅動程式透明度的強烈反彈。</li>
+<li><strong>WordPress wp2shell 漏洞</strong>：Hatena + HN + Reddit + 資安部落格 同步出現 — 核心未認證 RCE 漏洞引爆跨平台緊急修復討論，凸顯開源 CMS 供應鏈風險與即時防護的迫切性。</li>
+<li><strong>AI Agent 安全與合規</strong>：Hatena + HN + RSS 同步出現 — 從 Docker 沙盒隔離、硬編碼機密稽核到雲端原生基礎設施標準，全面強化 AI 自動化部署的信任基石與 SOC 2 合規要求。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
