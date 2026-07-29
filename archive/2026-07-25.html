@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-25</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-25</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-25</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://speakerdeck.com/twada/agentic-software-engineering-2026-07-findy-edition" rel="noopener noreferrer">思考 2026 年的軟體開發（2026/07 版）／代理式軟體工程 2026-07 Findy 特輯</a></td>
+<td>259</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>代理式工程重塑2026開發流程</td>
+</tr>
+<tr>
+<td><a href="https://lp.ai-plus.findy.io/articles/claude-code-skills-top5/" rel="noopener noreferrer">【Claude Code 應用特輯】那家公司最常使用的 Skills 是什麼？公開 Claude Code 熱門 Skills Top 5！</a></td>
+<td>120</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>公開企業最愛Claude Code五大技能</td>
+</tr>
+<tr>
+<td><a href="https://ai.watch.impress.co.jp/docs/news/2127562.html" rel="noopener noreferrer">大家都在用「ChatGPT Work」但還不太了解的人必看：活躍用戶突破千萬的 ChatGPT Work 是什麼？</a></td>
+<td>76</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>解析ChatGPT Work核心功能與應用</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://speakerdeck.com/twada/agentic-software-engineering-2026-07-findy-edition" rel="noopener noreferrer">思考 2026 年的軟體開發（2026/07 版）／代理式軟體工程 2026-07 Findy 特輯</a> (259 users) — 代理式工程重塑2026開發流程</li>
+<li><a href="https://lp.ai-plus.findy.io/articles/claude-code-skills-top5/" rel="noopener noreferrer">【Claude Code 應用特輯】那家公司最常使用的 Skills 是什麼？公開 Claude Code 熱門 Skills Top 5！</a> (120 users) — 公開企業最愛Claude Code五大技能</li>
+<li><a href="https://ai.watch.impress.co.jp/docs/news/2127562.html" rel="noopener noreferrer">大家都在用「ChatGPT Work」但還不太了解的人必看：活躍用戶突破千萬的 ChatGPT Work 是什麼？</a> (76 users) — 解析ChatGPT Work核心功能與應用</li>
+<li><a href="https://japan.zdnet.com/article/35250936/" rel="noopener noreferrer">功能全面的 Linux 免費安全套件「BastionGuard」</a> (34 users) — 推薦全功能免費Linux資安套件</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2127652.html" rel="noopener noreferrer">Mac 檔案完全曝光？！Claude Cowork 出現沙盒逃逸漏洞</a> (23 users) — Claude Cowork曝沙盒逃逸嚴重漏洞</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2127493.html" rel="noopener noreferrer">ChatGPT 新增對話同時操控 PC 及指揮多個 AI 代理功能</a> (21 users) — ChatGPT升級多代理與PC操控功能</li>
+<li><a href="https://zenn.dev/beeeegle/articles/81372cf577d805" rel="noopener noreferrer">【Playwright】嘗試使用 Claude Code × Playwright MCP 自動生成 PageObject</a> (14 users) — 結合MCP以AI自動生成測試物件</li>
+<li><a href="https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/wsff.md" rel="noopener noreferrer">進階上下文工程：專為編碼代理設計</a> (14 users) — 優化AI編碼代理的進階上下文技巧</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2127553.html" rel="noopener noreferrer">Chromium 圖片解碼改用 Rust 實作～降低漏洞風險，處理時間最多縮短 50%／Microsoft 等團隊推進中</a> (13 users) — Chromium改用Rust解碼強化資安效能</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49031796" rel="noopener noreferrer">Flux 3 影像生成模型</a></td>
+<td>511pt</td>
+<td>***</td>
+<td>生成式 AI</td>
+<td>高效能影像生成模型問世。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49038433" rel="noopener noreferrer">Claude Opus 5</a></td>
+<td>430pt</td>
+<td>***</td>
+<td>大語言模型</td>
+<td>頂尖大模型升級，推理力躍進。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49034292" rel="noopener noreferrer">我的安防攝影機在登入頁面內嵌了 GitHub 管理員權杖</a></td>
+<td>359pt</td>
+<td>***</td>
+<td>資安漏洞</td>
+<td>設備預留權杖，暴露資安缺陷。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49031796" rel="noopener noreferrer">Flux 3 影像生成模型</a> (511pt) — 高效能影像生成模型問世。
+   💬 社群觀點：社群質疑行銷浮誇與多模態矛盾，批評影片跳剪、開源不透明；但部分人期待開權重版本達標，對技術潛力持保留樂觀。</li>
+<li><a href="https://news.ycombinator.com/item?id=49038433" rel="noopener noreferrer">Claude Opus 5</a> (430pt) — 頂尖大模型升級，推理力躍進。
+   💬 社群觀點：社群讚賞高性價比與安全對齊，但質疑能力未超越Fable 5，且擔憂過濾機制影響實用性。發布時機被指具戰略意涵。</li>
+<li><a href="https://news.ycombinator.com/item?id=49034292" rel="noopener noreferrer">我的安防攝影機在登入頁面內嵌了 GitHub 管理員權杖</a> (359pt) — 設備預留權杖，暴露資安缺陷。
+   💬 社群觀點：社群認為IoT安全堪憂，硬編碼憑證常見。AI使混淆失效，建議攝影機隔離至獨立VLAN斷網，並呼籲廠商落實基礎安全。</li>
+<li><a href="https://news.ycombinator.com/item?id=49033127" rel="noopener noreferrer">Flux 3 X Mimic：新一代影片動作模型</a> (280pt) — 影片動作模型升級，擬真度突破。
+   💬 社群觀點：社群盛讚影片模型內建世界觀並成功應用於機器人，視為AI現況與未來。惟擔憂人類價值遭取代，並關注技術普及與商業化。</li>
+<li><a href="https://news.ycombinator.com/item?id=49031409" rel="noopener noreferrer">Claude 開發食譜（Cookbook）</a> (268pt) — 官方實戰指南上線，加速應用。
+   💬 社群觀點：觀點兩極：部分肯定實用性，但多批UI單調、排版差，並疑前端產碼品質。另有用戶反感封閉政策，建議直接問AI或等官方工具。</li>
+<li><a href="https://news.ycombinator.com/item?id=49036433" rel="noopener noreferrer">政府下令 GitHub 移除藍牙聊天應用程式 Bitchat：Jack Dorsey 指出</a> (229pt) — 政府強令下架通訊軟體，引爭議。
+   💬 社群觀點：社群質疑印度禁令成效，認為反引發史翠珊效應。網友指出藍牙可繞過網管，並批評科技巨頭順從審查，擔憂數位自由受侵蝕。</li>
+<li><a href="https://news.ycombinator.com/item?id=49038060" rel="noopener noreferrer">對 OpenAI 的「叛逃駭客 AI 代理」故事保持懷疑</a> (111pt) — 專家質疑 AI 駭客敘事，籲理性。
+   💬 社群觀點：網民質疑故事屬行銷炒作，指沙盒與平台安全漏洞明顯。部分嫌報導空泛，亦有觀點強調應追究責任，並理性看待AI能力。</li>
+<li><a href="https://news.ycombinator.com/item?id=49038393" rel="noopener noreferrer">Claude Opus 5 發布新聞</a> (66pt) — 旗艦模型發表，聚焦企業應用。
+   💬 社群觀點：留言僅附官方系統規格連結與討論串，尚無具體評價或爭議，社群傾向循連結進一步研究技術細節。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v52lix/escaping_claude_coworks_local_vm_sandbox_via/" rel="noopener noreferrer">透過 CVE-2026-46331 逃逸出 Claude Cowork 的本地 VM 沙箱</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>AI協作工具本地沙箱遭漏洞突破</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v4sh8t/xbow_agents_found_three_rces_as_system_and_root/" rel="noopener noreferrer">XBOW Agents 在 Bing 圖片搜尋中發現三個 SYSTEM（及 root）權限的遠端程式碼執行漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI</td>
+<td>r/netsec</td>
+<td>AI代理自動挖出Bing高權限漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1v52lix/escaping_claude_coworks_local_vm_sandbox_via/" rel="noopener noreferrer">透過 CVE-2026-46331 逃逸出 Claude Cowork 的本地 VM 沙箱</a> (- ups) — r/netsec — AI協作工具本地沙箱遭漏洞突破</p>
+<p><strong>AI 類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1v4sh8t/xbow_agents_found_three_rces_as_system_and_root/" rel="noopener noreferrer">XBOW Agents 在 Bing 圖片搜尋中發現三個 SYSTEM（及 root）權限的遠端程式碼執行漏洞</a> (- ups) — r/netsec — AI代理自動挖出Bing高權限漏洞</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/certighost-exploit-lets-low-privileged.html" rel="noopener noreferrer">Certighost 漏洞讓低權限 Active Directory 使用者可偽裝成網域控制站</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>AD低權限憑證偽造網域控管站</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/chatgpt-agentforger-flaw-could-deploy.html" rel="noopener noreferrer">ChatGPT AgentForger 漏洞可能透過釣魚連結部署惡意工作區 AI 代理</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>釣魚連結部署惡意AI工作區代理</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/bing-images-flaws-let-crafted-svgs-run.html" rel="noopener noreferrer">Bing 圖片漏洞讓特製 SVG 可在 Microsoft 伺服器上以 SYSTEM 權限執行指令</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>特製SVG觸發微軟伺服器SYSTEM代碼執行</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/hacker-runs-hermes-ai-agent-unattended.html" rel="noopener noreferrer">駭客在泰國財政部無人工運行 Hermes AI 代理進行後滲透攻擊</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>AI代理無人工執行致財政部遭滲透</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/nodebb-patches-eight-ai-found-flaws.html" rel="noopener noreferrer">NodeBB 修復八項由 AI 發現的漏洞，曾暴露管理員權限與私人聊天室</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>AI自動測試修復NodeBB八項高權限漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/kimi-k3-agents-found-redis-zero-days.html" rel="noopener noreferrer">研究人員稱 Kimi K3 代理發現 Redis 零日漏洞並建立 RCE 利用程式</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>AI代理挖掘Redis零日漏洞並生成利用程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/russian-espionage-group-exploited.html" rel="noopener noreferrer">俄羅斯間諜組織利用 Zimbra 零日漏洞竊取郵件與雙重驗證碼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>俄間諜利用Zimbra零日漏洞竊取郵件與驗證碼</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/googleai/claude-opus-5-is-live-on-agent-platform-3f52" rel="noopener noreferrer">Claude Opus 5 已於 Agent 平台正式上線 🚀</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>Claude Opus 5上線Agent平台支援複雜任務</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/arshtechpro/unlimited-ocr-parsing-a-40-page-pdf-in-one-pass-without-your-gpu-melting-4mc4" rel="noopener noreferrer">Unlimited-OCR：一次性解析 40 頁 PDF 而不讓 GPU 過熱</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>新OCR工具單次解析四十頁PDF免GPU過熱</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/self-building-agent-langchain4j/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：自我建構的代理：LangChain4j 實驗</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>LangChain4j實現AI代理自我建構與測試</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/gitlost-github-prompt-injection/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">間接提示注入漏洞利用 GitHub AI 代理洩漏私有儲存庫資料</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>提示注入漏洞致GitHub AI代理洩漏私有資料</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/meta-react-compiler-rust/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Meta 將 React 編譯器移植至 Rust 以加速建置並緊密整合工具鏈</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>React編譯器移植Rust加速建置與整合工具鏈</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理重塑開發流程】</strong> — 從代理式軟體工程、Claude Code 熱門 Skills 到自我建構代理實驗，AI 正從輔助編碼轉向自主規劃與測試，徹底改變企業 SDLC 與自動化工作流。</li>
+<li><strong>【AI 工具資安風險與沙盒逃逸】</strong> — Claude Cowork 本地 VM 沙盒漏洞、AgentForger 釣魚部署及提示注入洩密事件頻傳，凸顯 AI 協作工具在權限隔離與輸入驗證上的盲區，企業亟需強化防禦。</li>
+<li><strong>【自動化攻防與基礎架構升級】</strong> — AI 代理已能自動挖掘 Bing、Redis 等雲端服務的高權限漏洞，同時 Chromium 與 Meta React 編譯器全面遷移 Rust，顯示業界正以記憶體安全語言與 AI 驅動測試應對新型威脅。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Claude Cowork 沙盒逃逸漏洞</strong>：Hatena + Reddit 同步出現 — 開發者社群高度關注 AI 桌面工具的本地隔離缺陷，呼籲嚴格審查權限控管。</li>
+<li><strong>AI 代理自動漏洞挖掘</strong>：HN + Reddit + RSS 交叉關注 — 自動化 AI 測試工具已能高效發現雲端服務與開源專案的高權限漏洞，攻防戰正式進入 AI 驅動階段。</li>
+<li><strong>大模型推理與企業落地</strong>：Hatena + HN + RSS 共同聚焦 — Claude Opus 5 與 ChatGPT Work 的企業級功能升級，標誌著 AI 助手正式進駐核心業務與內部工作流。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

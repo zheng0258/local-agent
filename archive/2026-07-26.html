@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-26</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-26</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-26</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/chan_san_jp/n/n137415f2ef48" rel="noopener noreferrer">讓 AI 毫不猶豫推進工作的「模板」打造法 ～10 項巧思與 638 次會話實測～</a></td>
+<td>177</td>
+<td>***</td>
+<td>AI 輔助編程</td>
+<td>實測千次對話，打造AI不迷航標準模板</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2127832.html" rel="noopener noreferrer">「Fable 5 級半價」Claude Opus 5 登場 Pro 版亦成最強模型</a></td>
+<td>161</td>
+<td>***</td>
+<td>大模型技術</td>
+<td>Opus 5 降價登場，Pro 版性能躍居頂尖</td>
+</tr>
+<tr>
+<td><a href="https://claude.com/blog/building-verification-loops-in-claude-code-with-skills" rel="noopener noreferrer">在 Claude Code 中利用 Skills 建構驗證循環 (Building verification loops in Claude Code with skills)</a></td>
+<td>90</td>
+<td>***</td>
+<td>開發工具</td>
+<td>運用 Skills 建構驗證循環提升代碼品質</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://note.com/chan_san_jp/n/n137415f2ef48" rel="noopener noreferrer">讓 AI 毫不猶豫推進工作的「模板」打造法 ～10 項巧思與 638 次會話實測～</a> (177) — 實測千次對話，打造AI不迷航標準模板</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2127832.html" rel="noopener noreferrer">「Fable 5 級半價」Claude Opus 5 登場 Pro 版亦成最強模型</a> (161) — Opus 5 降價登場，Pro 版性能躍居頂尖</li>
+<li><a href="https://claude.com/blog/building-verification-loops-in-claude-code-with-skills" rel="noopener noreferrer">在 Claude Code 中利用 Skills 建構驗證循環 (Building verification loops in Claude Code with skills)</a> (90) — 運用 Skills 建構驗證循環提升代碼品質</li>
+<li><a href="https://zenn.dev/torukona/articles/4b6f0bfe083d2b" rel="noopener noreferrer">以結構化循環工程打造 AI 輔助旅遊 App「Taberie」的實戰紀錄</a> (83) — 純 AI 編程與循環工程，獨立開發旅遊 App</li>
+<li><a href="https://speakerdeck.com/asei/aigong-xue-te-lun-mlopsji-sok-de-ping-jia-b257eb10-fb3e-4159-828b-8445b7ff2f37" rel="noopener noreferrer">AI 工程特論: MLOps 與持續評估</a> (41) — 深入 MLOps 架構與生成式 AI 持續評估</li>
+<li><a href="https://azukiazusa.dev/blog/hermes-agent-slack-workflow/" rel="noopener noreferrer">使用 Hermes Agent 與 Slack 設計，並從 Linear 工單自動生成 Draft PR 的工作流實戰</a> (29) — 整合 Agent 與 Slack，自動將工單轉為 PR</li>
+<li><a href="https://zenn.dev/flinters_blog/articles/c1f6e286dc3a40" rel="noopener noreferrer">從使用日誌追查 Claude Code 輸入 Token 暴增的原因</a> (22) — 解析日誌追查 Token 暴增，優化使用成本</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2607/24/news078.html" rel="noopener noreferrer">ChatGPT 與 Claude 同步強化語音功能 Codex 實現「純語音指揮 Agent」</a> (7) — 雙平台強化語音，實現純語音指揮 Agent</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49045159" rel="noopener noreferrer">Android 可能即將限制裝置端 ADB</a></td>
+<td>707pt</td>
+<td>***</td>
+<td>系統安全</td>
+<td>限制ADB提升系統安全性</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49045040" rel="noopener noreferrer">ARC-AGI 排行榜</a></td>
+<td>161pt</td>
+<td>***</td>
+<td>AI 基礎設施</td>
+<td>評測AI抽象推理能力</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49044492" rel="noopener noreferrer">英國 AISI / Caisi 對 Kimi K3 網路能力的初步評估</a></td>
+<td>114pt</td>
+<td>***</td>
+<td>AI 監管</td>
+<td>評估KimiK3網路風險</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49045159" rel="noopener noreferrer">Android 可能即將限制裝置端 ADB</a> (707pt) — 限制ADB提升系統安全性
+   💬 社群觀點：社群反對限制ADB，擔憂喪失開放性，質疑物理攻擊風險，不滿Google單方面更動；僅少數認合理或指設計應修正。</li>
+<li><a href="https://news.ycombinator.com/item?id=49045040" rel="noopener noreferrer">ARC-AGI 排行榜</a> (161pt) — 評測AI抽象推理能力
+   💬 社群觀點：社群驚嘆榜首大幅領先，但質疑高分不等於實用。擔憂模型靠資料灌輸或提示詞作弊刷榜，推測美監管已設上限，實戰恐停滯。</li>
+<li><a href="https://news.ycombinator.com/item?id=49044492" rel="noopener noreferrer">英國 AISI / Caisi 對 Kimi K3 網路能力的初步評估</a> (114pt) — 評估KimiK3網路風險
+   💬 社群觀點：社群認為K3雖落後美國前沿模型，但僅差半年且無安全限制。多質疑評估方法有誤，指微調即可追平，公開使用恐增風險。</li>
+<li><a href="https://news.ycombinator.com/item?id=49048034" rel="noopener noreferrer">開權重 AI 正迎來它的 Kubernetes 時刻，別搞砸了</a> (93pt) — 開放模型基建崛起需規範
+   💬 社群觀點：社群質疑架構複雜且定價不透明，擔憂開放權重影響商業回報。呼籲政府採購與資助，打破綁定並確保互操作性與國安自主。</li>
+<li><a href="https://news.ycombinator.com/item?id=49007291" rel="noopener noreferrer">PyPI 部落格：發布版本現於 14 天後拒絕新增檔案</a> (72pt) — 封版拒收檔案防供應鏈攻擊
+   💬 社群觀點：社群主張發布應立即不可變，認爲14天窗口過長恐遭惡意利用。建議導入凍結機制與雜湊固定，回歸版本不可變原則。</li>
+<li><a href="https://news.ycombinator.com/item?id=48991984" rel="noopener noreferrer">GDID Windows：切斷連 VPN 都追不掉的追蹤器</a> (17pt) — 終止隱藏跟蹤器強化隱私
+   💬 社群觀點：社群痛批微軟侵權，建議改用Linux或LTSC。然疑Linux亦追蹤，且微軟或憑硬體跨系統關聯，防堵極難。</li>
+<li><a href="https://news.ycombinator.com/item?id=49048689" rel="noopener noreferrer">將 PyTorch Monarch 引入 AMD GPU</a> (17pt) — 優化運算加速AMD晶片
+   💬 社群觀點：社群讚賞Monarch輕量架構，但擔憂平價AMD顯卡居家訓練大模型受影響，並呼籲提供效能基準測試。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v69i3h/pentesting_vibecoded_applications_jwt_flaws/" rel="noopener noreferrer">滲透測試「AI 氛圍程式碼」應用程式：JWT 缺陷、機密外洩與授權機制破損</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/netsec</td>
+<td>AI生成程式藏漏洞，JWT與授權機制易破</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1v69i3h/pentesting_vibecoded_applications_jwt_flaws/" rel="noopener noreferrer">滲透測試「AI 氛圍程式碼」應用程式：JWT 缺陷、機密外洩與授權機制破損</a> (- ups) — r/netsec — AI生成程式藏漏洞，JWT與授權機制易破</p>
+<p><strong>AI 類</strong>
+（本日無符合項目）</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/m-red-team-asyncapi-supply-chain-compromise-via-github-actions" rel="noopener noreferrer">M-Red-Team: 透過 GitHub Actions 入侵 AsyncAPI 的供應鏈攻擊事件</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>駭客利用CI/CD植入惡意套件</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/fastjson-1x-rce-vulnerability-targeted.html" rel="noopener noreferrer">Fastjson 1.x 遠端程式碼執行漏洞遭攻擊且無補丁可用</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>無補丁的 Fastjson 漏洞正遭大規模攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/researcher-publishes-gitlab-rce-poc.html" rel="noopener noreferrer">研究人員發布 GitLab RCE 概念驗證程式，允許已驗證使用者以 Git 身份執行命令</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>GitLab 驗證使用者 RCE 漏洞現可執行命令</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/ctm360-research-reveals-how-insurance.html" rel="noopener noreferrer">CTM360 研究揭露保險業釣魚攻擊已演變為即時帳號劫持</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>保險業釣魚攻擊演變為即時劫持帳號</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/cl0p-affiliates-target-internet-exposed.html" rel="noopener noreferrer">Cl0p 合作夥伴針對具備網際網路暴露的 PTC Windchill 與 FlexPLM 發起未經驗證的 RCE 攻擊</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Cl0p 勒索軟體正攻擊未修補的 PTC 系統</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/bluenoroff-zoom-phishing-kit-profiles.html" rel="noopener noreferrer">BlueNoroff Zoom 釣魚套件於投放惡意軟體前先行分析加密貨幣錢包</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>北韓駭客借 Zoom 釣魚先掃描加密貨幣錢包</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/seeing-ai-agents-is-not-enough-security.html" rel="noopener noreferrer">僅能監控 AI 代理已不足夠，資安團隊必須強制規範其行為範圍</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>資安團隊須強制限制 AI 代理的權限範圍</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/fake-notepad-plugin-delivers.html" rel="noopener noreferrer">偽冒 Notepad++ 外掛於 UAC-0099 攻擊中投放 MATCHBOIL.V2</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>偽冒 Notepad++ 外掛正投放新型惡意軟體</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/samm_nofilterreview/i-vibe-coded-an-lm-arena-for-ai-companion-apps-with-claude-code-fbo" rel="noopener noreferrer">我用 Claude Code 憑感覺寫了一個 AI 伴侶應用程式的 LM Arena 排行榜</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>零程式基礎者用 AI 快速開發伴侶應用排行榜</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/m_v2n2x/how-we-solved-agent-auth-without-a-single-pat-1fnd" rel="noopener noreferrer">我們如何在無需任何個人存取權杖的情況下解決 AI 代理驗證問題</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>創新 TOFU 模型實現 AI 代理免權杖驗證</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/izawa/an-agent-skill-that-changes-your-question-instead-of-answering-it-4gp6" rel="noopener noreferrer">一種不直接回答問題，而是改變你提問方式的代理技能</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>AI 代理新技能：優化提問而非直接給答案</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/otaready/ai-agent-contracts-cannot-define-repository-acceptance-19fk" rel="noopener noreferrer">AI 代理合約無法定義儲存庫的接受標準</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>現有代理合約難以規範程式碼倉庫的驗收標準</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/_94be737e156beb4d74df2/from-one-shot-llm-to-multi-turn-agent-how-i-rebuilt-my-text-to-diagram-tool-204l" rel="noopener noreferrer">從單次 LLM 呼叫到多輪對話代理：我如何重構文字轉圖表工具</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>重構文字轉圖表工具：引入多輪對話代理架構</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/07/ai-rca-context-engineering/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">AI 根本原因分析從模型推理轉向情境工程</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AI 故障排查重心從推理轉向情境資料工程</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理開發與驗證循環】</strong> — 跨平台高度關注 AI 輔助編程的品質管控，從模板設計、Skills 驗證循環到多輪對話架構，顯示業界正從「Prompt 工程」轉向「系統化驗證與情境工程」，以解決模型幻覺與代碼穩定性問題。</li>
+<li><strong>【模型成本優化與基礎設施標準化】</strong> — 大模型價格戰與性能內捲促使企業重視 TCO 管控，Token 成本優化、開源權重模型基建規範（類 Kubernetes 時刻）以及非 NVIDIA 晶片（如 AMD）的框架支援，成為降低部署門檻與打破壟斷的關鍵。</li>
+<li><strong>【供應鏈安全與代理權限管控】</strong> — 自動化流程（CI/CD、PyPI 發布、GitLab）成為駭客攻擊新靶心，同時 AI 代理的自主性帶來越權風險。產業共識正從被動監控轉向強制規範行為範圍、導入不可變發布機制與最小權限原則。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助開發的品質與安全</strong>：Hatena（驗證循環、Token優化）+ HN（開權重基建、PyPI封版）+ Reddit（Vibe-coding滲透測試）同步聚焦 AI 編程工具的落地風險與工程規範。</li>
+<li><strong>系統安全與隱私防護</strong>：HN（ADB限制、GDID追蹤）+ RSS/資安（CI/CD供應鏈攻擊、AI代理權限規範）共同反映底層架構與自動化代理的權限收斂趨勢。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

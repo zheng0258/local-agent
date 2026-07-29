@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-28</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-28</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-28</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.zaikei.co.jp/article/20260726/862851.html" rel="noopener noreferrer">以出差者為標的：透過飯店 Wi-Fi 竊取 Microsoft 365 認證資訊，甚至繞過 MFA 多重要素驗證</a></td>
+<td>210</td>
+<td>***</td>
+<td>網路資安威脅</td>
+<td>飯店網路遭竊取帳密並繞過驗證</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/articles/2607/27/news076.html" rel="noopener noreferrer">警視廳發出警訊：詐騙集團操弄搜尋結果顯示「非詐騙」手法，AI摘要功能亦成受害者</a></td>
+<td>45</td>
+<td>***</td>
+<td>網路資安威脅</td>
+<td>詐騙操控搜尋結果致AI摘要受害</td>
+</tr>
+<tr>
+<td><a href="https://aws.amazon.com/jp/blogs/news/bengo4com-devops-agent-case-study/" rel="noopener noreferrer">投稿：律師網（Bengo4.com）活用 AWS DevOps Agent 實例——自動化事故應變與消除技術依賴</a></td>
+<td>6</td>
+<td>***</td>
+<td>AI 與開發自動化</td>
+<td>律師網導入AI自動化事故應變</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.zaikei.co.jp/article/20260726/862851.html" rel="noopener noreferrer">以出差者為標的：透過飯店 Wi-Fi 竊取 Microsoft 365 認證資訊，甚至繞過 MFA 多重要素驗證</a> (210 users) — 駭客轉向商務差旅人員，藉飯店公共網路竊取帳密並繞過 MFA，企業亟需導入零信任與專用安全通道。</li>
+<li><a href="https://www.itmedia.co.jp/news/articles/2607/27/news076.html" rel="noopener noreferrer">警視廳發出警訊：詐騙集團操弄搜尋結果顯示「非詐騙」手法，AI摘要功能亦成受害者</a> (45 users) — 詐騙集團操弄 SEO 與 AI 摘要生成誤導說明，平台與用戶需重建人工交叉比對與來源溯源機制。</li>
+<li><a href="https://aws.amazon.com/jp/blogs/news/bengo4com-devops-agent-case-study/" rel="noopener noreferrer">投稿：律師網（Bengo4.com）活用 AWS DevOps Agent 實例——自動化事故應變與消除技術依賴</a> (6 users) — 律師平台導入 AI DevOps 代理自動修復系統異常，降低技術依賴並提升服務可用性與業務連續性。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49063022" rel="noopener noreferrer">美國公民因 GrapheneOS 手機在機場檢查時被清除資料遭起訴</a></td>
+<td>1200</td>
+<td>***</td>
+<td>隱私與系統資安</td>
+<td>機場查扣加密手機致資料清除，機主遭起訴</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49072361" rel="noopener noreferrer">微軟推出 MAI-Cyber 1 Flash 模型</a></td>
+<td>51</td>
+<td>***</td>
+<td>AI 模型與應用工具</td>
+<td>微軟推出網路安全專用AI模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49070756" rel="noopener noreferrer">利用 Volvo/Eicher 車隊平台漏洞取得所有用戶與車輛控制權</a></td>
+<td>23</td>
+<td>***</td>
+<td>隱私與系統資安</td>
+<td>車隊平台遭駭，駭客可遙控全車隊</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49072462" rel="noopener noreferrer">展示 HN：FeyNoBg 自動背景移除模型與訓練函式庫</a></td>
+<td>19</td>
+<td>***</td>
+<td>AI 模型與應用工具</td>
+<td>開源自動背景移除AI模型與訓練套件</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49063022" rel="noopener noreferrer">美國公民因 GrapheneOS 手機在機場檢查時被清除資料遭起訴</a> (1200pt) — 邊境執法查扣高隱私手機並強制清除資料，引發數位管轄權與搜查合憲性爭議。
+   💬 社群觀點：社群建議使用旅行機或隱藏緊急密碼觸發自毀，質疑邊境搜查權與證據效力，認為拒解鎖遭扣押後仍可取回。</li>
+<li><a href="https://news.ycombinator.com/item?id=49072361" rel="noopener noreferrer">微軟推出 MAI-Cyber 1 Flash 模型</a> (51pt) — 微軟發布資安專用 LLM 模型旨在自動化威脅分析，但引發閉源透明度與實用性爭議。
+   💬 社群觀點：社群質疑模型實用性與閉源限制，強烈要求開放權重；並批評官網設計浮誇、申請流程繁瑣，疑為AI代筆，整體評價偏負面。</li>
+<li><a href="https://news.ycombinator.com/item?id=49070756" rel="noopener noreferrer">利用 Volvo/Eicher 車隊平台漏洞取得所有用戶與車輛控制權</a> (23pt) — 車隊管理平台曝出嚴重漏洞，駭客可遠端接管所有註冊車輛，凸顯雲端集中架構風險。
+   💬 社群觀點：社群擔憂車輛過度依賴雲端，呼籲設備直連配對強化自主安全。批評企業偏重訴訟防禦而非實質防護，並關注AI對車資安影響。</li>
+<li><a href="https://news.ycombinator.com/item?id=49072462" rel="noopener noreferrer">展示 HN：FeyNoBg 自動背景移除模型與訓練函式庫</a> (19pt) — 開源背景移除 AI 模型與訓練套件，以極簡架構提供高成熟度影像分割能力。
+   💬 社群觀點：社群高度讚賞其易用性與成熟度，視同語音轉文字般核心實用。使用者好奇高解析度處理機制，並期待移植至行動裝置。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v832a6/exploiting_volvoeichers_fleet_management_platform/" rel="noopener noreferrer">利用 Volvo/Eicher 車隊管理平台漏洞，取得所有使用者與車輛的控制權</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>企業與社群平台資安漏洞</td>
+<td>r/netsec</td>
+<td>車隊平台漏洞恐遭全面控管</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v8192k/new_vbulletin_vulnerability/" rel="noopener noreferrer">vBulletin 新型漏洞！</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>企業與社群平台資安漏洞</td>
+<td>r/netsec</td>
+<td>熱門論壇系統曝出新型資安漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1v7s9hw/from_google_ads_to_terminal_dissecting_an_apple/" rel="noopener noreferrer">從 Google 廣告到終端機：剖析濫用 Claude Share 的假 Apple 客服欺騙活動</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 濫用與網路詐騙</td>
+<td>r/netsec</td>
+<td>駭客借 AI 工具假冒客服精準詐騙</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>企業與社群平台資安漏洞</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1v832a6/exploiting_volvoeichers_fleet_management_platform/" rel="noopener noreferrer">利用 Volvo/Eicher 車隊管理平台漏洞，取得所有使用者與車輛的控制權</a> (- ups) — r/netsec — 車隊管理系統權限提升漏洞恐遭利用，導致實體車輛遭遠端操控或營運中斷。
+2. <a href="https://www.reddit.com/r/netsec/comments/1v8192k/new_vbulletin_vulnerability/" rel="noopener noreferrer">vBulletin 新型漏洞！</a> (- ups) — r/netsec — 開源論壇軟體曝出遠端程式碼執行漏洞，未更新舊版伺服器面臨直接威脅。</p>
+<p><strong>AI 濫用與網路詐騙</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1v7s9hw/from_google_ads_to_terminal_dissecting_an_apple/" rel="noopener noreferrer">從 Google 廣告到終端機：剖析濫用 Claude Share 的假 Apple 客服欺騙活動</a> (- ups) — r/netsec — 駭客結合 AI 生成工具偽造客服介面引導執行惡意指令，傳統防護機制難以招架。</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/llm-security-tools" rel="noopener noreferrer">保護 AI 應用程式的頂級 LLM 資安工具比較</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>橫評頂尖LLM資安工具，強化AI應用防護</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/dysphoria-iot-botnet-adds-blockchain-c2.html" rel="noopener noreferrer">Dysphoria IoT 機器人網路在 JackSkid 遭破壞後新增區塊鏈 C2 與受害者中繼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>物聯網殭屍網遭破後轉用區塊鏈中繼</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 資安防禦與自動化】</strong> — 微軟推出專用於威脅分析的 MAI-Cyber 模型，搭配頂尖 LLM 資安工具橫評，顯示企業正加速將 AI 導入維運與防禦管線。然而閉源限制與實戰效能仍引發開發者爭議，透明化與可驗證性成為落地關鍵。</li>
+<li><strong>【雲端車隊與物聯網架構風險】</strong> — Volvo/Eicher 車隊平台漏洞暴露集中式雲端控制的系統性弱點，駭客可遠端接管車輛；同時 Dysphoria IoT 殭屍網轉向區塊鏈 C2 架構，顯示實體設備與邊緣網路正面臨去中心化攻擊威脅，迫使產業重新評估本地化安全與鏈上監控。</li>
+<li><strong>【端點隱私邊界與 AI 詐騙進化】</strong> — 從美國邊境查扣 GrapheneOS 手機引發的數位搜查爭議，到飯店 Wi-Fi 繞過 MFA 的差旅攻擊，端點隱私與驗證機制正遭全面測試。同時詐騙集團操弄搜尋結果與 AI 摘要、偽造客服終端指令，顯示 AI 已深度融入詐騙供應鏈。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Volvo/Eicher 車隊平台漏洞</strong>：HN + Reddit 同步熱議 — 駭客取得車隊最高控制權，引發對雲端集中架構與實體車輛安全的跨平台擔憂。</li>
+<li><strong>AI 工具應用與詐騙防禦</strong>：Hatena + HN + Reddit 同步出現 — 從 AI 自動化 DevOps、資安模型發布，到 AI 摘要被詐騙操弄與假冒客服釣魚，顯示 AI 雙面刃效應成為各平台共同焦點。</li>
+<li><strong>傳統驗證與隱私機制失效</strong>：Hatena + HN 同步出現 — 飯店 Wi-Fi 繞過 MFA 與機場查扣加密手機事件，共同指向傳統邊界防護與端點隱私在新型態攻擊下面臨重構壓力。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
