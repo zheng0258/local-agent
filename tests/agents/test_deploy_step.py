@@ -4,6 +4,8 @@
 fake pusher，斷言 gating 與 sentinel，不碰真 git。
 """
 
+import subprocess
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -134,6 +136,92 @@ def test_push_site_resolves_repo_root_without_nameerror(tmp_path, monkeypatch):
 
     assert any("worktree" in c and "add" in c for c in calls)
     assert any("push" in c for c in calls)
+
+
+@pytest.mark.unit
+def test_push_remote_url_falls_back_to_origin_without_token(tmp_path, monkeypatch):
+    """cron 沒 keychain 時的正常互動式路徑：未設 DEPLOY_GITHUB_TOKEN → 用 origin，
+    不額外呼叫 git remote get-url（省一次子程序、也不會意外要求認證）。"""
+    from agents.daily_brief.steps.deploy import _push_remote_url
+
+    monkeypatch.delenv("DEPLOY_GITHUB_TOKEN", raising=False)
+    calls = []
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *a, **k: calls.append(a) or SimpleNamespace(stdout="", returncode=0),
+    )
+
+    assert _push_remote_url(tmp_path) == "origin"
+    assert calls == []
+
+
+@pytest.mark.unit
+def test_push_remote_url_embeds_token_when_set(tmp_path, monkeypatch):
+    """設定 DEPLOY_GITHUB_TOKEN 後（cron 場景）：組出 x-access-token 認證 URL，
+    不依賴 git credential helper／osxkeychain。"""
+    from agents.daily_brief.steps.deploy import _push_remote_url
+
+    monkeypatch.setenv("DEPLOY_GITHUB_TOKEN", "test-token-123")
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *a, **k: SimpleNamespace(
+            stdout="https://github.com/zheng0258/local-agent.git\n", returncode=0
+        ),
+    )
+
+    url = _push_remote_url(tmp_path)
+
+    assert url == "https://x-access-token:test-token-123@github.com/zheng0258/local-agent.git"
+
+
+@pytest.mark.unit
+def test_push_remote_url_ignores_non_https_origin(tmp_path, monkeypatch):
+    """origin 若非 https://github.com/...（如 SSH remote），token 拼不上去 → 回退 origin，
+    避免把 token 塞進不相干的 URL 格式。"""
+    from agents.daily_brief.steps.deploy import _push_remote_url
+
+    monkeypatch.setenv("DEPLOY_GITHUB_TOKEN", "test-token-123")
+    monkeypatch.setattr(
+        "subprocess.run",
+        lambda *a, **k: SimpleNamespace(
+            stdout="git@github.com:zheng0258/local-agent.git\n", returncode=0
+        ),
+    )
+
+    assert _push_remote_url(tmp_path) == "origin"
+
+
+@pytest.mark.unit
+def test_push_site_redacts_token_from_failed_push_error(tmp_path, monkeypatch):
+    """push 失敗時 CalledProcessError 可能流進 alerts.json；DEPLOY_GITHUB_TOKEN
+    絕不可原文出現在例外訊息或 cmd 裡（曾經在手動驗證時意外印到 traceback）。"""
+    from agents.daily_brief.steps.deploy import push_site
+
+    monkeypatch.setenv("DEPLOY_GITHUB_TOKEN", "super-secret-token")
+
+    def fake_run(cmd, *args, **kwargs):
+        if "worktree" in cmd and "add" in cmd:
+            for tok in cmd:
+                if "gh-pages-wt-" in str(tok) and str(tok).endswith("wt"):
+                    Path(tok).mkdir(parents=True, exist_ok=True)
+            return SimpleNamespace(returncode=0, stdout="", stderr="")
+        if "push" in cmd:
+            raise subprocess.CalledProcessError(
+                128, cmd, output="", stderr="fatal: could not push"
+            )
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr("subprocess.run", fake_run)
+
+    build_dir = tmp_path / "build"
+    build_dir.mkdir()
+    (build_dir / "index.html").write_text("<html></html>", encoding="utf-8")
+
+    with pytest.raises(subprocess.CalledProcessError) as exc_info:
+        push_site(build_dir)
+
+    assert "super-secret-token" not in str(exc_info.value)
+    assert "super-secret-token" not in " ".join(str(a) for a in exc_info.value.cmd)
 
 
 @pytest.mark.unit

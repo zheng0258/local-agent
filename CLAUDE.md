@@ -242,6 +242,7 @@ python lint/check_fetcher_interface.py
 | Telegram 推播 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | **選填** | 靜默略過推播與告警 |
 | Obsidian 存檔 | `VAULT_ROOT` | **選填** | SaveStep 略過（不 touch vault.done、不入 health 記錄） |
 | Judge 模型 | `JUDGE_LLM_MODEL` / `JUDGE_LLM_URL` | 否 | 與主 LLM 相同 |
+| Deploy（gh-pages）| `DEPLOY_GITHUB_TOKEN` | **選填** | push 走 `origin`（互動式 session 靠既有 credential helper；cron 拿不到 osxkeychain 會失敗） |
 
 - **telegram.py 自包**：直接打 Telegram Bot API，憑證讀專案 `.env`，**不再依賴 vault 的 `Scripts/`**。
 - **save 直接寫檔**：`_run_save` 以 Python `open()` 寫入 `VAULT_ROOT/01 Projects/daily-brief/`；
