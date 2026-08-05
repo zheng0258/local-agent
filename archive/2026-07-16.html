@@ -15,12 +15,23 @@
     font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
     line-height: 1.6;
   }
-  main { max-width: 880px; margin: 0 auto; }
+  main { max-width: 1100px; margin: 0 auto; }
   header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
   .tagline { color: var(--accent); }
   a { color: var(--accent); }
   h1, h2, h3 { color: var(--fg); }
   code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：滿寬 + 儲存格自動換行（長標題/URL 不撐爆版面）；
+     仍放不下時 article 橫向捲動而非破版。 */
+  article { overflow-x: auto; }
+  article table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+    overflow-wrap: anywhere; word-break: break-word;
+  }
+  article th { color: var(--accent); }
+  article td a { overflow-wrap: anywhere; }
   .meta { color: var(--dim); }
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }

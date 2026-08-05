@@ -15,12 +15,23 @@
     font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
     line-height: 1.6;
   }
-  main { max-width: 880px; margin: 0 auto; }
+  main { max-width: 1100px; margin: 0 auto; }
   header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
   .tagline { color: var(--accent); }
   a { color: var(--accent); }
   h1, h2, h3 { color: var(--fg); }
   code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：滿寬 + 儲存格自動換行（長標題/URL 不撐爆版面）；
+     仍放不下時 article 橫向捲動而非破版。 */
+  article { overflow-x: auto; }
+  article table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+    overflow-wrap: anywhere; word-break: break-word;
+  }
+  article th { color: var(--accent); }
+  article td a { overflow-wrap: anywhere; }
   .meta { color: var(--dim); }
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
@@ -58,10 +69,7 @@
   <p class="tagline">本地 LLM 多代理自主系統</p>
   <p class="meta">2026-08-05</p>
 </header>
-<section class="status"><h2>系統狀態</h2><div class="status-grid"><div class="status-streak"><span class="status-num">40</span><span class="status-label">連續運作天數</span></div><div class="status-trend"><span class="status-label">judge 品質分趨勢（最新 5.0/5）</span><svg class="spark" viewBox="0 0 240 40" role="img" aria-label="judge quality trend" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" points="4.0,10.4 6.1,4.0 8.1,4.0 10.2,4.0 12.2,4.0 14.3,4.0 16.3,10.4 18.4,10.4 20.4,10.4 22.5,10.4 24.5,4.0 26.6,4.0 28.6,4.0 30.7,4.0 32.7,10.4 34.8,8.5 36.8,4.0 38.9,4.0 41.0,10.4 43.0,4.0 45.1,5.9 47.1,4.0 49.2,10.4 51.2,4.0 53.3,4.0 55.3,10.4 57.4,4.0 59.4,8.5 61.5,10.4 63.5,4.0 65.6,10.4 67.6,8.5 69.7,4.0 71.8,4.0 73.8,8.5 75.9,10.4 77.9,4.0 80.0,8.5 82.0,4.0 84.1,4.0 86.1,8.5 88.2,4.0 90.2,5.9 92.3,4.0 94.3,4.0 96.4,10.4 98.4,10.4 100.5,4.0 102.5,4.0 104.6,4.0 106.7,4.0 108.7,10.4 110.8,4.0 112.8,4.0 114.9,4.0 116.9,4.0 119.0,4.0 121.0,4.0 123.1,4.0 125.1,8.5 127.2,4.0 129.2,10.4 131.3,4.0 133.3,4.0 135.4,8.5 137.5,8.5 139.5,5.9 141.6,4.0 143.6,10.4 145.7,10.4 147.7,4.0 149.8,8.5 151.8,4.0 153.9,8.5 155.9,8.5 158.0,10.4 160.0,4.0 162.1,4.0 164.1,4.0 166.2,10.4 168.2,8.5 170.3,4.0 172.4,4.0 174.4,4.0 176.5,10.4 178.5,10.4 180.6,4.0 182.6,10.4 184.7,4.0 186.7,10.4 188.8,4.0 190.8,4.0 192.9,4.0 194.9,4.0 197.0,4.0 199.0,4.0 201.1,4.0 203.2,4.0 205.2,8.5 207.3,8.5 209.3,4.0 211.4,8.5 213.4,4.0 215.5,4.0 217.5,4.0 219.6,5.9 221.6,4.0 223.7,4.0 225.7,8.5 227.8,5.9 229.8,4.0 231.9,4.0 233.9,4.0 236.0,4.0"/><circle cx="236.0" cy="4.0" r="2.5" fill="currentColor"/></svg></div></div><ul class="status-rates"><li><span class="status-src">hatena</span><span class="status-pct">93%</span><span class="status-frac">101/109</span></li><li><span class="status-src">hn</span><span class="status-pct">96%</span><span class="status-frac">105/109</span></li><li><span class="status-src">reddit</span><span class="status-pct">94%</span><span class="status-frac">103/109</span></li><li><span class="status-src">rss</span><span class="status-pct">95%</span><span class="status-frac">78/82</span></li><li><span class="status-src">security</span><span class="status-pct">99%</span><span class="status-frac">108/109</span></li><li><span class="status-src">telegram</span><span class="status-pct">94%</span><span class="status-frac">103/109</span></li><li><span class="status-src">vault</span><span class="status-pct">100%</span><span class="status-frac">108/108</span></li></ul></section>
-<section class="tldr">
-<p>Today's tech landscape is defined by the rapid maturation of AI agents, with developers prioritizing local model optimization for consumer hardware and building standardized infrastructure for agent communication, long-term memory, and autonomous transactions. Simultaneously, the industry is grappling with sophisticated security threats, particularly widespread software supply chain compromises targeting popular development packages and AI coding tools, alongside emerging techniques to bypass multi-factor authentication and exploit privileged AI workflows. In response, enterprises are accelerating the adoption of zero-trust architectures, automated dependency scanning, and AI-ready data governance frameworks to secure both their internal operations and external applications against next-generation cyber risks.</p>
-</section>
+<section class="status"><h2>系統狀態</h2><div class="status-grid"><div class="status-streak"><span class="status-num">41</span><span class="status-label">連續運作天數</span></div><div class="status-trend"><span class="status-label">judge 品質分趨勢（最新 5.0/5）</span><svg class="spark" viewBox="0 0 240 40" role="img" aria-label="judge quality trend" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" points="4.0,10.4 6.1,4.0 8.1,4.0 10.2,4.0 12.2,4.0 14.3,4.0 16.3,10.4 18.4,10.4 20.4,10.4 22.5,10.4 24.5,4.0 26.6,4.0 28.6,4.0 30.7,4.0 32.7,10.4 34.8,8.5 36.8,4.0 38.9,4.0 41.0,10.4 43.0,4.0 45.1,5.9 47.1,4.0 49.2,10.4 51.2,4.0 53.3,4.0 55.3,10.4 57.4,4.0 59.4,8.5 61.5,10.4 63.5,4.0 65.6,10.4 67.6,8.5 69.7,4.0 71.8,4.0 73.8,8.5 75.9,10.4 77.9,4.0 80.0,8.5 82.0,4.0 84.1,4.0 86.1,8.5 88.2,4.0 90.2,5.9 92.3,4.0 94.3,4.0 96.4,10.4 98.4,10.4 100.5,4.0 102.5,4.0 104.6,4.0 106.7,4.0 108.7,10.4 110.8,4.0 112.8,4.0 114.9,4.0 116.9,4.0 119.0,4.0 121.0,4.0 123.1,4.0 125.1,8.5 127.2,4.0 129.2,10.4 131.3,4.0 133.3,4.0 135.4,8.5 137.5,8.5 139.5,5.9 141.6,4.0 143.6,10.4 145.7,10.4 147.7,4.0 149.8,8.5 151.8,4.0 153.9,8.5 155.9,8.5 158.0,10.4 160.0,4.0 162.1,4.0 164.1,4.0 166.2,10.4 168.2,8.5 170.3,4.0 172.4,4.0 174.4,4.0 176.5,10.4 178.5,10.4 180.6,4.0 182.6,10.4 184.7,4.0 186.7,10.4 188.8,4.0 190.8,4.0 192.9,4.0 194.9,4.0 197.0,4.0 199.0,4.0 201.1,4.0 203.2,4.0 205.2,8.5 207.3,8.5 209.3,4.0 211.4,8.5 213.4,4.0 215.5,4.0 217.5,4.0 219.6,5.9 221.6,4.0 223.7,4.0 225.7,8.5 227.8,5.9 229.8,4.0 231.9,4.0 233.9,4.0 236.0,4.0"/><circle cx="236.0" cy="4.0" r="2.5" fill="currentColor"/></svg></div></div><ul class="status-rates"><li><span class="status-src">hatena</span><span class="status-pct">93%</span><span class="status-frac">101/109</span></li><li><span class="status-src">hn</span><span class="status-pct">96%</span><span class="status-frac">105/109</span></li><li><span class="status-src">reddit</span><span class="status-pct">94%</span><span class="status-frac">103/109</span></li><li><span class="status-src">rss</span><span class="status-pct">95%</span><span class="status-frac">78/82</span></li><li><span class="status-src">security</span><span class="status-pct">99%</span><span class="status-frac">108/109</span></li><li><span class="status-src">telegram</span><span class="status-pct">94%</span><span class="status-frac">103/109</span></li><li><span class="status-src">vault</span><span class="status-pct">100%</span><span class="status-frac">108/108</span></li></ul></section>
 <section class="narrative lang-toggle">
   <input type="radio" name="lang" id="lang-zh" checked>
   <input type="radio" name="lang" id="lang-en">
