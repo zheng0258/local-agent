@@ -6,10 +6,9 @@
 
 from __future__ import annotations
 
-import ssl
-import urllib.request
-
 import defusedxml.ElementTree as ET
+
+from . import rss_common
 
 _SOURCES: list[dict] = [
     {"feed_url": "https://www.aikido.dev/blog/rss.xml", "source": "aikido.dev"},
@@ -17,26 +16,12 @@ _SOURCES: list[dict] = [
 ]
 
 _MAX_ARTICLES_PER_SOURCE = 10
-_DESCRIPTION_MAX_CHARS = 200
-
-
-def _ssl_context() -> ssl.SSLContext:
-    """優先用 certifi 憑證（繞過 macOS python.org 安裝的 SSL 問題）。"""
-    try:
-        import certifi
-
-        return ssl.create_default_context(cafile=certifi.where())
-    except ImportError:
-        return ssl.create_default_context()
+_DESCRIPTION_MAX_CHARS = rss_common.DESCRIPTION_MAX_CHARS
 
 
 def _fetch_articles(source: dict) -> list[dict]:
-    req = urllib.request.Request(
-        source["feed_url"], headers={"User-Agent": "daily-brief/1.0"}
-    )
     try:
-        with urllib.request.urlopen(req, timeout=30, context=_ssl_context()) as resp:
-            xml_bytes = resp.read()
+        xml_bytes = rss_common.fetch_feed(source["feed_url"])
         articles = _parse_rss(xml_bytes)[:_MAX_ARTICLES_PER_SOURCE]
         return [{**a, "source": source["source"]} for a in articles]
     except Exception as e:

@@ -84,7 +84,7 @@ lint/
 archive/                         # 原始 Claude Code SKILL.md 保存
 ```
 
-**Fetcher 共用工具**：playwright-cli 的 `_cli_bin`、`_run`、`_wait_for_session` 定義在 `tools/fetchers/browser.py`，新增 fetcher 直接 import，禁止複製。
+**Fetcher 共用工具**：playwright-cli 的 `_cli_bin`、`_run`、`_wait_for_session` 定義在 `tools/fetchers/browser.py`，新增 fetcher 直接 import，禁止複製。RSS 來源（hatena / security_blogs / rss）的 SSL context + feed 抓取共用 `tools/fetchers/rss_common.py`（`ssl_context()` 走 certifi、`fetch_feed(url)`），安全 XML 用 `defusedxml`；hatena 已退場舊的 `CERT_NONE` + `xml.etree`。parse 邏輯仍住各 fetcher（各家 feed 格式不同）。
 
 ## Daily Brief 故障排查
 
@@ -124,7 +124,7 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **Prompts 集中管理**：所有 LLM prompt 定義在 `agents/<name>/prompts.py`，`agent.py` 禁止直接寫 prompt 字串。
 
-**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。「該跑/該載入/該略過」的門檻判定集中於 `step_cache.decide(in_steps, exists, forced)` 純函數（回傳 RUN/LOAD/SKIP），各 `_phase_*` 只定義三種結果各自的動作，不再各自重抄 gating 串接。判定（`step_cache.decide`）與其後的動作（artifact I/O、委派 supervisor、default）正逐步收進 `step.py` 的 `Step` 基底模板：公開介面只有 `run(ctx, input) -> StepOutcome`，每步差異住內部 seam（`_produce`/`_load`/`_guard`/`_default`）與注入的 `codecs.py` `ArtifactCodec`（Json/Text/Sentinel）。新增 step：在 `agents/daily_brief/steps/` 加一檔、繼承 `Step`、在 `run()` 顯式接線（不造依賴圖）。全部步驟已遷移為深 `Step`：5 個 Source（hatena/hn/reddit/security/rss，`steps/source.py` 的 `SourceStep`）+ dedup / compress / enrich / digest / judge / report / save / notify（`steps/*.py`）。`_fetch_sources` 維持 orchestrator（並行預抓 raw → 序列 `SourceStep.run` 評分 → ≥2 門檻）；judge 的 completeness 回饋已在 `run()` 顯式編排（`Step.run(force=True)` + `supervisor.reflect_for_completeness`）；Fix C 收進 `_compute_force_steps`。`run()` 是純地圖，無 `_phase_*`。
+**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。「該跑/該載入/該略過」的門檻判定集中於 `step_cache.decide(in_steps, exists, forced)` 純函數（回傳 RUN/LOAD/SKIP），各 `_phase_*` 只定義三種結果各自的動作，不再各自重抄 gating 串接。判定（`step_cache.decide`）與其後的動作（artifact I/O、委派 supervisor、default）收進 `step.py` 的 `Step` 基底模板：公開介面只有 `run(ctx, input) -> StepOutcome`，每步差異住內部 seam（`_produce`/`_load`/`_guard`/`_default`）與注入的 `codecs.py` `ArtifactCodec`（Json/Text/Sentinel）。**producer 邏輯住各 step 檔內的 `_produce`（非 God object 注入）**：LLM producer 透過 `ctx.llm` / `ctx.judge_llm`（`_RunContext` 上的 LLM seam）呼叫，共用 `Step._complete(ctx, prompt)` 與 `Step._with_reflect(prompt, ctx_hint)`；`agent.py` 不再持有 `_run_*` producer。測試對 step 注入 `tests/fakes.py` 的 `FakeLLM`（走真 `_produce`），不再注入 fake producer callback。副作用 step（save/deploy）的實作（`run_save` / `push_site`）住各自 step 檔並以建構子預設值注入，測試可覆寫成 fake（合法 side-effect seam，避免碰真 vault/git）。新增 step：在 `agents/daily_brief/steps/` 加一檔、繼承 `Step`、`_produce` 內寫 producer 邏輯（讀 `ctx.llm`）、在 `run()` 顯式接線（不造依賴圖）。全部步驟為深 `Step`：5 個 Source（hatena/hn/reddit/security/rss，`steps/source.py` 的 `SourceStep`）+ dedup / compress / enrich / digest / judge / report / save / notify（`steps/*.py`）。`_fetch_sources` 維持 orchestrator（並行預抓 raw → 序列 `SourceStep.run` 評分 → ≥2 門檻）；judge 的 completeness 回饋已在 `run()` 顯式編排（`Step.run(force=True)` + `supervisor.reflect_for_completeness`）；Fix C 收進 `_compute_force_steps`。`run()` 是純地圖，無 `_phase_*`。`agent.py` 從 1145 行降至約 570 行。
 
 **Typed 唯讀 view（schemas.py）**：step artifact 仍以原 JSON dict 穿流與序列化（on-disk schema 不變、下游消費者不受影響）；`schemas.py` 的 frozen dataclass（`QualityScore`/`Digest`/`Article`/`SourceCompress`）只罩在**記憶體讀取點**上，用 `from_dict` 把巢狀防呆與欄位對帳（如 judge 雙 `missed_urls`、digest 的 `_source` 內部鍵 vs `source` 顯示名）集中一處。新增讀取點優先用 view，不要散寫 `.get().get()`。
 
@@ -242,6 +242,7 @@ python lint/check_fetcher_interface.py
 | Telegram 推播 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | **選填** | 靜默略過推播與告警 |
 | Obsidian 存檔 | `VAULT_ROOT` | **選填** | SaveStep 略過（不 touch vault.done、不入 health 記錄） |
 | Judge 模型 | `JUDGE_LLM_MODEL` / `JUDGE_LLM_URL` | 否 | 與主 LLM 相同 |
+| Deploy（gh-pages）| `DEPLOY_GITHUB_TOKEN` | **選填** | push 走 `origin`（互動式 session 靠既有 credential helper；cron 拿不到 osxkeychain 會失敗） |
 
 - **telegram.py 自包**：直接打 Telegram Bot API，憑證讀專案 `.env`，**不再依賴 vault 的 `Scripts/`**。
 - **save 直接寫檔**：`_run_save` 以 Python `open()` 寫入 `VAULT_ROOT/01 Projects/daily-brief/`；

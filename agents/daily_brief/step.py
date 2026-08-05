@@ -92,6 +92,19 @@ class Step:
         """SKIP 與 FAILED 共用的回傳值。預設 None；pass-through 步回 input，producer 回 {}/[]"""
         return None
 
+    def _complete(self, ctx, prompt: str) -> str:
+        """LLM producer 的共用捷徑：走 ctx 上的 llm seam（正式環境真 LLM、測試注入 fake）。"""
+        from . import prompts
+
+        return ctx.llm.complete(prompt, system=prompts.SYSTEM)
+
+    @staticmethod
+    def _with_reflect(prompt: str, reflect_context: str) -> str:
+        """error_aware / completeness 回饋時，把修正指示附在 prompt 尾端（多 producer 共用）。"""
+        if reflect_context:
+            return f"{prompt}\n\n## 修正指示\n{reflect_context}"
+        return prompt
+
     # ── 公開介面 ─────────────────────────────────────────────────
     def run(self, ctx, input, reflect: str = "", force: bool = False) -> StepOutcome:
         path = self.artifact_path(ctx)

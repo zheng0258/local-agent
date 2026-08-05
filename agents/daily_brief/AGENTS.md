@@ -46,5 +46,5 @@ security.fetch()→ LLM 興趣評分 ─┘
 - **compress**：只傳 `***` 文章（Python 預篩選），prompt 明確禁止丟棄任何一篇
 - **digest**：明確要求對每一篇文章生成摘要，禁止跳過
 - **judge**：只傳 `url + one_liner`（slim context），省 ~60% token
-- **report**：直接輸出純 markdown，不包成 JSON；`_run_report()` 自動剝除 fence
+- **report**：直接輸出純 markdown，不包成 JSON；`ReportStep._produce()` 自動剝除 fence
 - **notify msg2**：只傳前 8 篇 digests（`digests[:8]`）

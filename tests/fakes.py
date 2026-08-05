@@ -16,6 +16,25 @@ from agents.daily_brief.agent import ALL_STEPS, _RunContext
 from agents.daily_brief.step import StepResult
 
 
+class FakeLLM:
+    """canonical LLM test double：回傳排隊/預設 completion，並記錄收到的 prompts。
+
+    responses 用盡後回 default。step 層測試若不跑 producer（LOAD/SKIP）可用預設空回應；
+    要測 RAN 的 producer 邏輯時，傳入對應的 canned JSON responses。
+    """
+
+    def __init__(self, responses: Any = None, default: str = "") -> None:
+        self._responses = list(responses or [])
+        self._default = default
+        self.prompts: list[str] = []
+
+    def complete(self, prompt: str, system: str | None = None) -> str:
+        self.prompts.append(prompt)
+        if self._responses:
+            return self._responses.pop(0)
+        return self._default
+
+
 class FakeSupervisor:
     """canonical supervisor test double。
 
@@ -73,11 +92,14 @@ def make_step_ctx(
     force_steps: frozenset[str] | set[str] = frozenset(),
     notify_fn: Callable[[str], bool] = lambda _msg: True,
     today: str = "2026-06-21",
+    llm: Any = None,
+    judge_llm: Any = None,
 ) -> _RunContext:
     """建真 _RunContext；steps_dir/day_dir 皆指向 tmp_path。
 
     steps_to_run 預設 = 全部 step（被測 step 落在 RUN）；要測 SKIP 傳 set()。
-    supervisor 預設 = FakeSupervisor()。
+    supervisor 預設 = FakeSupervisor()。llm/judge_llm 預設 = FakeLLM()（不跑 producer 的
+    測試用得到空回應；要測 producer 邏輯時傳入 canned responses）。
     """
     return _RunContext(
         today=today,
@@ -87,4 +109,6 @@ def make_step_ctx(
         steps_to_run=set(ALL_STEPS) if steps_to_run is None else set(steps_to_run),
         supervisor=supervisor if supervisor is not None else FakeSupervisor(),
         notify_fn=notify_fn,
+        llm=llm if llm is not None else FakeLLM(),
+        judge_llm=judge_llm if judge_llm is not None else FakeLLM(),
     )

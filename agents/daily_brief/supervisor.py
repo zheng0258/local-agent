@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import json
 import os
 import time
-from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
@@ -144,26 +142,16 @@ class SupervisorAgent:
             return ""
 
     def _record_failure(self, name: str, error: str, force: bool = False) -> None:
-        """把失敗記入 alerts.json，同一步驟同一天只記一次（force 重跑時重置）。
+        """把失敗記入 alerts.json（委派 alerts 模組 — Alert 單一 owner），
+        同一步驟同一天只記一次（force 重跑時重置）。
 
-        不即時推播：pipeline 結尾的 _send_alerts_summary 讀 alerts.json
+        不即時推播：pipeline 收尾的 alert_store.send_summary 讀 alerts.json
         彙總成單封 Telegram，避免 N 個步驟失敗收 N+1 封。
         """
-        alerts_file = self._steps_dir / "alerts.json"
-        alerts: dict[str, Any] = {}
-        if alerts_file.exists():
-            try:
-                alerts = json.loads(alerts_file.read_text(encoding="utf-8"))
-            except (json.JSONDecodeError, OSError):
-                alerts = {}
+        from . import alerts as alert_store
 
-        if name in alerts and not force:
-            logger.info("Step %s: 失敗已記錄過（%s），略過重複記錄", name, alerts[name])
+        if not force and alert_store.already_recorded(self._steps_dir, name):
+            logger.info("Step %s: 失敗已記錄過，略過重複記錄", name)
             return
-
-        alerts[name] = {
-            "failed_at": datetime.now().isoformat(timespec="seconds"),
-            "error": error[:300],
-        }
-        alerts_file.write_text(json.dumps(alerts, ensure_ascii=False, indent=2), encoding="utf-8")
+        alert_store.record_failure(self._steps_dir, name, error)
 

@@ -46,8 +46,8 @@ class DedupStep(Step):
         return StepOutput(persist=artifact_data, value=filtered_data)
 
     def _load(self, decoded, input):
-        from ..agent import _filter_source_data_by_urls
-        return _filter_source_data_by_urls(input, set(decoded.get("kept_urls", [])))
+        from ..reconcile import filter_source_data_by_urls
+        return filter_source_data_by_urls(input, set(decoded.get("kept_urls", [])))
 
     def _default(self, input):
         return input

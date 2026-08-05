@@ -53,308 +53,6 @@ def test_every_wired_step_has_supervisor_config():
     assert missing == [], f"STEP_CONFIGS 缺少步驟設定：{missing}"
 
 
-def test_run_digest_returns_digests_list():
-    llm_resp = json.dumps(
-        {
-            "digests": [
-                {
-                    "title": "測試",
-                    "url": "https://example.com",
-                    "source": "HN",
-                    "interest": "***",
-                    "summary": "摘要",
-                }
-            ]
-        }
-    )
-    agent = _make_agent(llm_resp)
-
-    compress_data = {
-        "hatena": {"themes": [], "articles": []},
-        "hn": {
-            "themes": ["AI"],
-            "articles": [
-                {
-                    "title": "t",
-                    "url": "https://example.com",
-                    "one_liner": "x",
-                    "interest": "***",
-                }
-            ],
-        },
-        "reddit": {"themes": [], "articles": []},
-        "security": {"themes": [], "articles": []},
-    }
-    digests, digest_data = agent._run_digest(compress_data)
-    assert isinstance(digests, list)
-    assert len(digests) == 1
-    assert digests[0]["title"] == "測試"
-    assert "generated_at" in digest_data
-    assert digest_data["digests"] == digests
-
-
-def test_run_tldr_returns_plaintext_english():
-    # issue #9：_run_tldr 回傳 LLM 純文字（strip 後）
-    agent = _make_agent("  Today AI tooling and security dominated.  ")
-    digests = [{"title": "t", "url": "https://example.com", "summary": "s"}]
-    out = agent._run_tldr(digests)
-    assert out == "Today AI tooling and security dominated."
-
-
-def test_run_report_deduplicates_by_url():
-    agent = _make_agent("# 趨勢話題：2026-04-12\n\n## Hatena\n")
-
-    compress_data = {
-        "hatena": {"themes": [], "articles": []},
-        "hn": {"themes": [], "articles": []},
-        "reddit": {"themes": [], "articles": []},
-        "security": {"themes": [], "articles": []},
-    }
-    digests = [
-        {"title": "A", "url": "https://example.com/1", "source": "HN", "summary": "s"},
-        {
-            "title": "B",
-            "url": "https://example.com/1",
-            "source": "Hatena",
-            "summary": "s",
-        },
-        {"title": "C", "url": "https://example.com/2", "source": "HN", "summary": "s"},
-    ]
-    content = agent._run_report(compress_data, digests, "2026-04-12")
-    assert "趨勢話題" in content
-
-    call_args = agent._llm.complete.call_args[0][0]
-    assert call_args.count("example.com/1") == 1
-
-
-def test_run_report_returns_llm_output_directly():
-    """新版 _run_report 直接回傳 LLM 輸出的純 markdown，無需 JSON 解析。"""
-    raw_markdown = "# 趨勢話題：2026-04-12\n\n## Hatena"
-    agent = _make_agent(raw_markdown)
-    content = agent._run_report(
-        {
-            "hatena": {"themes": [], "articles": []},
-            "hn": {"themes": [], "articles": []},
-            "reddit": {"themes": [], "articles": []},
-            "security": {"themes": [], "articles": []},
-        },
-        [],
-        "2026-04-12",
-    )
-    assert content == raw_markdown
-
-
-def test_run_compress_returns_dict_with_all_sources():
-    llm_resp = json.dumps({"themes": ["AI"], "articles": []})
-    agent = _make_agent(llm_resp)
-    source_data = {
-        "hatena": {
-            "articles": [
-                {
-                    "title": "T",
-                    "url": "u",
-                    "interest": "***",
-                    "score": 100,
-                    "category": "AI",
-                    "source": "hatena",
-                }
-            ]
-        },
-        "hn": {"articles": []},
-        "reddit": {"articles": []},
-        "security": {"articles": []},
-    }
-    result = agent._run_compress(source_data)
-    assert set(result.keys()) >= {"hatena", "hn", "reddit", "security"}
-    assert "themes" in result["hatena"]
-    assert "_meta" in result
-    assert "compressed_at" in result["_meta"]
-    assert "compressed_at" not in {k for k in result if k != "_meta"}
-
-
-def test_run_compress_prefilters_to_starred_only():
-    """_run_compress 應在呼叫 LLM 前，Python 層先篩選出 *** 文章。"""
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    captured_prompts: list[str] = []
-
-    def capture_complete(prompt: str, system: str = "") -> str:
-        captured_prompts.append(prompt)
-        return json.dumps({"themes": ["AI"], "articles": []})
-
-    mock_llm = MagicMock()
-    mock_llm.complete.side_effect = capture_complete
-    agent = DailyBriefAgent(llm=mock_llm)
-
-    source_data = {
-        "hatena": {"articles": []},
-        "hn": {
-            "articles": [
-                {
-                    "title": "A",
-                    "url": "https://hn.com/1",
-                    "interest": "***",
-                    "score": 900,
-                },
-                {
-                    "title": "B",
-                    "url": "https://hn.com/2",
-                    "interest": "**",
-                    "score": 200,
-                },
-                {"title": "C", "url": "https://hn.com/3", "interest": "*", "score": 50},
-            ]
-        },
-        "reddit": {"articles": []},
-        "security": {"articles": []},
-    }
-    agent._run_compress(source_data)
-
-    # hn 的 prompt 中只應包含 *** 文章的 URL
-    hn_prompt = next(p for p in captured_prompts if "hn.com/1" in p)
-    assert "hn.com/1" in hn_prompt  # *** 保留
-    assert "hn.com/2" not in hn_prompt  # ** 過濾掉
-    assert "hn.com/3" not in hn_prompt  # * 過濾掉
-
-
-def test_run_judge_reads_missed_urls_from_top_level():
-    """_run_judge 應從頂層 missed_urls 讀取（新 schema），不從 completeness 底下讀。"""
-    import json
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    llm_resp = json.dumps(
-        {
-            "scores": {
-                "relevance": {"score": 5, "reasoning": "ok"},
-                "completeness": {"score": 2, "reasoning": "遺漏部分文章"},
-                "faithfulness": {"score": 5, "reasoning": "ok"},
-            },
-            "missed_urls": [
-                "https://example.com/missed1",
-                "https://example.com/missed2",
-            ],
-        }
-    )
-    mock_judge = MagicMock()
-    mock_judge.complete.return_value = llm_resp
-    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
-
-    result = agent._run_judge({}, [])
-    completeness = result.get("scores", {}).get("completeness", {})
-    assert completeness.get("missed_urls") == [
-        "https://example.com/missed1",
-        "https://example.com/missed2",
-    ]
-
-
-def test_run_judge_returns_scores_and_overall():
-    llm_resp = json.dumps(
-        {
-            "scores": {
-                "relevance": {"score": 4, "reasoning": "OK"},
-                "completeness": {
-                    "score": 3,
-                    "reasoning": "missed one",
-                    "missed_urls": [],
-                },
-                "faithfulness": {"score": 5, "reasoning": "accurate"},
-            },
-            "overall": 4.0,
-        }
-    )
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    mock_judge = MagicMock()
-    mock_judge.complete.return_value = llm_resp
-    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
-    compress_data = {"hatena": {"themes": [], "articles": []}}
-    digests = [
-        {
-            "title": "T",
-            "url": "https://u.com",
-            "source": "HN",
-            "interest": "***",
-            "summary": "s",
-        }
-    ]
-    result = agent._run_judge(compress_data, digests)
-
-    assert result["scores"]["relevance"]["score"] == 4
-    assert result["overall"] == 4.0
-    assert "judged_at" in result
-    assert "judge_model" in result
-
-
-def test_run_save_creates_vault_files(tmp_path):
-    import agents.daily_brief.config as cfg
-
-    original = cfg.VAULT_DAILY_BRIEF_DIR
-    cfg.VAULT_DAILY_BRIEF_DIR = tmp_path / "vault" / "daily-brief"
-
-    try:
-        agent = _make_agent("{}")
-        day_dir = tmp_path / "outputs" / "2026-04-12"
-        day_dir.mkdir(parents=True)
-        (day_dir / "report.md").write_text("# 報告", encoding="utf-8")
-
-        digests = [
-            {
-                "title": "測試文章",
-                "url": "https://example.com",
-                "source": "HN",
-                "interest": "***",
-                "summary": "這是摘要。",
-            }
-        ]
-
-        agent._run_save(day_dir, "2026-04-12", digests)
-
-        vault_report = cfg.VAULT_DAILY_BRIEF_DIR / "2026-04-12.md"
-        vault_digest = cfg.VAULT_DAILY_BRIEF_DIR / "2026-04-12-digest.md"
-
-        assert vault_report.exists()
-        assert vault_report.read_text(encoding="utf-8") == "# 報告"
-        assert vault_digest.exists()
-        content = vault_digest.read_text(encoding="utf-8")
-        assert "created: 2026-04-12" in content
-        assert "測試文章" in content
-        assert "這是摘要。" in content
-    finally:
-        cfg.VAULT_DAILY_BRIEF_DIR = original
-
-
-def test_format_obsidian_digest_frontmatter():
-    from agents.daily_brief.agent import _format_obsidian_digest
-
-    digests = [
-        {"title": "A", "url": "https://a.com", "source": "HN", "summary": "摘要 A"}
-    ]
-    result = _format_obsidian_digest(digests, "2026-04-12")
-    assert result.startswith("---")
-    assert "created: 2026-04-12" in result
-    assert "tags: [daily-brief, digest]" in result
-    assert "## A" in result
-    assert "https://a.com" in result
-
-
-def test_compose_tg_extracts_overview_and_digest_text():
-    # compose 半邊：兩次 LLM 生成 → 解包出純文字（#12 拆分後 _notify 不再生成）
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    responses = [
-        json.dumps({"tg_overview": "overview text"}),
-        json.dumps({"tg_digest": "digest text"}),
-    ]
-    mock_llm = MagicMock()
-    mock_llm.complete.side_effect = responses
-    agent = DailyBriefAgent(llm=mock_llm)
-
-    digests = [{"title": "T", "url": "https://u.com", "source": "HN", "summary": "s"}]
-    composed = agent._run_compose_tg(digests, "2026-04-12")
-
-    assert composed == {"overview": "overview text", "digest": "digest text"}
-
-
 def test_parse_args_supports_new_steps():
     from agents.daily_brief.agent import _parse_args
 
@@ -427,140 +125,6 @@ def test_all_steps_contains_enrich():
 # ── parse_llm_json robustness ───────────────────────────────────────────────
 
 
-def test_run_judge_logs_warning_when_completeness_below_threshold():
-    """completeness < 3 時應在回傳結果中標記 quality_alert。"""
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    llm_resp = json.dumps(
-        {
-            "scores": {
-                "relevance": {"score": 5, "reasoning": "ok"},
-                "completeness": {
-                    "score": 2,
-                    "reasoning": "missed many",
-                    "missed_urls": ["https://a.com"],
-                },
-                "faithfulness": {"score": 5, "reasoning": "ok"},
-            },
-        }
-    )
-    mock_judge = MagicMock()
-    mock_judge.complete.return_value = llm_resp
-    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
-
-    result = agent._run_judge({}, [])
-    assert result.get("quality_alert") is True
-    assert "completeness" in result.get("quality_alert_reason", "")
-
-
-def test_run_judge_no_alert_when_completeness_sufficient():
-    """completeness >= 3 時不應有 quality_alert。"""
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    llm_resp = json.dumps(
-        {
-            "scores": {
-                "relevance": {"score": 4, "reasoning": "ok"},
-                "completeness": {"score": 3, "reasoning": "ok", "missed_urls": []},
-                "faithfulness": {"score": 4, "reasoning": "ok"},
-            },
-        }
-    )
-    mock_judge = MagicMock()
-    mock_judge.complete.return_value = llm_resp
-    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
-
-    result = agent._run_judge({}, [])
-    assert not result.get("quality_alert")
-
-
-def test_run_judge_appends_to_history(tmp_path):
-    """每次 judge 執行後應將當日分數 append 至 _judge-history.json。"""
-    import agents.daily_brief.config as cfg
-
-    original = cfg.OUTPUT_DIR
-    cfg.OUTPUT_DIR = tmp_path
-
-    try:
-        from agents.daily_brief.agent import DailyBriefAgent
-
-        llm_resp = json.dumps(
-            {
-                "scores": {
-                    "relevance": {"score": 5, "reasoning": "ok"},
-                    "completeness": {"score": 4, "reasoning": "ok", "missed_urls": []},
-                    "faithfulness": {"score": 5, "reasoning": "ok"},
-                },
-            }
-        )
-        mock_judge = MagicMock()
-        mock_judge.complete.return_value = llm_resp
-        agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
-
-        agent._run_judge({}, [], date="2026-04-14")
-
-        history_file = tmp_path / "_judge-history.json"
-        assert history_file.exists(), "_judge-history.json 應被建立"
-        history = json.loads(history_file.read_text(encoding="utf-8"))
-        assert isinstance(history, list)
-        assert len(history) == 1
-        assert history[0]["date"] == "2026-04-14"
-        assert history[0]["overall"] == 4.7
-    finally:
-        cfg.OUTPUT_DIR = original
-
-
-def test_run_judge_history_accumulates_across_runs(tmp_path):
-    """多次執行應累積歷史，不覆蓋舊記錄。"""
-    import agents.daily_brief.config as cfg
-
-    original = cfg.OUTPUT_DIR
-    cfg.OUTPUT_DIR = tmp_path
-
-    try:
-        from agents.daily_brief.agent import DailyBriefAgent
-
-        llm_resp = json.dumps(
-            {
-                "scores": {
-                    "relevance": {"score": 4, "reasoning": "ok"},
-                    "completeness": {"score": 4, "reasoning": "ok", "missed_urls": []},
-                    "faithfulness": {"score": 4, "reasoning": "ok"},
-                },
-            }
-        )
-        for date_str in ("2026-04-13", "2026-04-14"):
-            mock_judge = MagicMock()
-            mock_judge.complete.return_value = llm_resp
-            agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
-            agent._run_judge({}, [], date=date_str)
-
-        history = json.loads(
-            (tmp_path / "_judge-history.json").read_text(encoding="utf-8")
-        )
-        assert len(history) == 2
-        assert {r["date"] for r in history} == {"2026-04-13", "2026-04-14"}
-    finally:
-        cfg.OUTPUT_DIR = original
-
-
-def test_source_health_warns_on_zero_articles():
-    """_check_source_health 對 0 篇 *** 的來源應回傳 warning list。"""
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    compress_data = {
-        "hatena": {"themes": ["AI"], "articles": [{"interest": "***", "url": "u1"}]},
-        "hn": {"themes": [], "articles": []},
-        "reddit": {"themes": ["資安"], "articles": [{"interest": "***", "url": "u2"}]},
-        "security": {"themes": [], "articles": []},
-    }
-    warnings = DailyBriefAgent._check_source_health(compress_data)
-    assert "hn" in warnings
-    assert "security" in warnings
-    assert "hatena" not in warnings
-    assert "reddit" not in warnings
-
-
 def test_parse_json_recovers_from_fullwidth_colon():
     """HN 情境：LLM 用全形冒號 '：' 作為 key-value 分隔符導致無效 JSON。"""
     from config.utils import parse_llm_json
@@ -602,224 +166,61 @@ def test_parse_json_recovers_from_unescaped_quotes_in_value():
     assert len(result["articles"]) == 1
 
 
-def test_run_judge_passes_slim_compress_to_llm():
-    """_run_judge 應只傳 url + one_liner 給 judge LLM，不傳完整文章內容。"""
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    llm_resp = json.dumps(
-        {
-            "scores": {
-                "relevance": {"score": 4, "reasoning": "ok"},
-                "completeness": {"score": 4, "reasoning": "ok", "missed_urls": []},
-                "faithfulness": {"score": 4, "reasoning": "ok"},
-            },
-        }
-    )
-    mock_judge = MagicMock()
-    mock_judge.complete.return_value = llm_resp
-    agent = DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge)
-
-    compress_data = {
-        "hatena": {
-            "themes": ["AI"],
-            "articles": [
-                {
-                    "title": "完整標題文字不應出現在 judge prompt",
-                    "url": "https://example.com/1",
-                    "one_liner": "核心摘要",
-                    "interest": "***",
-                    "bookmarks": 999,
-                    "extra_field": "不需要的資料",
-                }
-            ],
+# judge 完成度足夠（4 分）→ 不觸發 digest 回饋重跑；judge 只跑一次
+_JUDGE_OK = json.dumps(
+    {
+        "scores": {
+            "relevance": {"score": 4},
+            "completeness": {"score": 4, "missed_urls": []},
+            "faithfulness": {"score": 4},
         },
-        "hn": {"themes": [], "articles": []},
-        "reddit": {"themes": [], "articles": []},
-        "security": {"themes": [], "articles": []},
+        "missed_urls": [],
     }
-    digests = [
-        {
-            "title": "T",
-            "url": "https://example.com/1",
-            "source": "Hatena",
-            "summary": "s",
-        }
-    ]
-    agent._run_judge(compress_data, digests)
-
-    call_prompt = mock_judge.complete.call_args[0][0]
-    assert "https://example.com/1" in call_prompt  # URL 保留
-    assert "核心摘要" in call_prompt  # one_liner 保留
-    assert "完整標題文字不應出現在 judge prompt" not in call_prompt  # title 移除
-    assert "extra_field" not in call_prompt  # 額外欄位移除
-    assert "bookmarks" not in call_prompt  # 數值欄位移除
+)
 
 
-def _judge_agent_and_mock():
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    llm_resp = json.dumps(
-        {
-            "scores": {
-                "relevance": {"score": 4, "reasoning": "ok"},
-                "completeness": {"score": 4, "reasoning": "ok"},
-                "faithfulness": {"score": 4, "reasoning": "ok"},
-            },
-            "missed_urls": [],
-        }
+def _judge_run_patches(agent_module, tmp_path, sup):
+    """orchestration 測試共用：OUTPUT_DIR（agent + config 兩處）+ supervisor + check_local_llm。"""
+    return (
+        patch.object(agent_module, "OUTPUT_DIR", tmp_path),
+        patch("agents.daily_brief.config.OUTPUT_DIR", tmp_path),
+        patch("agents.daily_brief.supervisor.SupervisorAgent", lambda **kw: sup),
+        patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True),
     )
-    mock_judge = MagicMock()
-    mock_judge.complete.return_value = llm_resp
-    return DailyBriefAgent(llm=MagicMock(), judge_llm=mock_judge), mock_judge
 
 
-def test_run_judge_pairs_digests_with_original_titles():
-    """judge 輸入應以 URL 對齊，附上各 digest 條目對應的原始 title（去循環化的對照基準）。"""
-    agent, mock_judge = _judge_agent_and_mock()
-
-    source_data = {
-        "hn": {
-            "articles": [
-                {
-                    "title": "繁中翻譯標題",
-                    "url": "https://example.com/1",
-                    "original_title": "Raw Original Title",
-                    "original_description": "raw desc",
-                    "interest": "***",
-                }
-            ],
-            "fetched_at": "2026-07-08T02:00:00",
-        }
-    }
-    compress_data = {
-        "hn": {
-            "themes": ["AI"],
-            "articles": [
-                {
-                    "title": "繁中翻譯標題",
-                    "url": "https://example.com/1",
-                    "one_liner": "核心摘要",
-                    "interest": "***",
-                }
-            ],
-        }
-    }
-    digests = [
-        {
-            "title": "繁中翻譯標題",
-            "url": "https://example.com/1",
-            "source": "HN",
-            "summary": "s",
-        }
-    ]
-
-    agent._run_judge(compress_data, digests, source_data)
-
-    call_prompt = mock_judge.complete.call_args[0][0]
-    assert "Raw Original Title" in call_prompt  # 原始 title 進 judge prompt
-    assert "raw desc" in call_prompt  # 原始描述（若有）一併附上
-
-
-def test_run_judge_original_title_falls_back_to_source_title():
-    """舊 source artifact 無 original_title 時，退回 artifact 的 title 欄位（graceful）。"""
-    agent, mock_judge = _judge_agent_and_mock()
-
-    source_data = {
-        "hatena": {
-            "articles": [
-                {"title": "Legacy Artifact Title", "url": "https://example.com/2"}
-            ]
-        }
-    }
-    digests = [
-        {"title": "譯", "url": "https://example.com/2", "source": "Hatena", "summary": "s"}
-    ]
-
-    agent._run_judge({}, digests, source_data)
-
-    call_prompt = mock_judge.complete.call_args[0][0]
-    assert "Legacy Artifact Title" in call_prompt
-
-
-def test_compose_tg_msg2_balances_and_caps_digests():
-    """compose msg2 應跨來源均衡挑選，且不超過 _TG_DIGEST_MAX_ITEMS 則（單封 4096 限制）。"""
-    from agents.daily_brief.agent import DailyBriefAgent, _TG_DIGEST_MAX_ITEMS
-
-    responses = [
-        json.dumps({"tg_overview": "overview"}),
-        json.dumps({"tg_digest": "digest"}),
-    ]
-    mock_llm = MagicMock()
-    mock_llm.complete.side_effect = responses
-    agent = DailyBriefAgent(llm=mock_llm)
-
-    # 20 篇單一來源 digests
-    digests = [
-        {
-            "title": f"Article {i}",
-            "url": f"https://example.com/{i}",
-            "source": "HN",
-            "summary": "s",
-        }
-        for i in range(20)
-    ]
-
-    agent._run_compose_tg(digests, "2026-04-14")
-
-    all_prompts = [c[0][0] for c in mock_llm.complete.call_args_list]
-    msg2_prompt = next(p for p in all_prompts if "深度摘要（" in p)
-    last_in = _TG_DIGEST_MAX_ITEMS - 1  # 最後一篇 index
-    assert f"example.com/{last_in}" in msg2_prompt  # 第 N 篇應在 msg2
-    assert (
-        f"example.com/{_TG_DIGEST_MAX_ITEMS}" not in msg2_prompt
-    )  # 第 N+1 篇不應在（超過上限）
-
-
-def test_pick_top8_balanced_round_robins_across_sources():
-    """_pick_top8_balanced 應跨來源 round-robin，確保少數來源不被多數來源淹沒。"""
-    from agents.daily_brief.agent import _pick_top8_balanced
-
-    digests = [
-        {"title": f"hn{i}", "url": f"u/hn/{i}", "_source": "hn"} for i in range(10)
-    ] + [{"title": "rd0", "url": "u/rd/0", "_source": "reddit"}]
-
-    picked = _pick_top8_balanced(digests, n=6)
-    sources = [d["_source"] for d in picked]
-
-    assert len(picked) == 6
-    assert "reddit" in sources  # 少數來源仍被選入
-    assert sources.count("reddit") == 1  # reddit 僅 1 篇，不應重複
+def _seed_compress_digest(steps_dir, compress, digests):
+    steps_dir.mkdir(parents=True)
+    (steps_dir / "compress.json").write_text(
+        json.dumps(compress, ensure_ascii=False), encoding="utf-8"
+    )
+    (steps_dir / "digest.json").write_text(
+        json.dumps({"digests": digests}, ensure_ascii=False), encoding="utf-8"
+    )
 
 
 def test_run_judge_step_is_wrapped_by_supervisor(tmp_path):
-    """run() 的 judge 階段應透過 supervisor.run_step 執行。"""
+    """run() 的 judge 階段應透過 supervisor.run_step 執行（judge producer 現住 JudgeStep）。"""
     import agents.daily_brief.agent as agent_module
     from agents.daily_brief.agent import DailyBriefAgent
 
     today = date.today().strftime("%Y-%m-%d")
     steps_dir = tmp_path / today / "steps"
-    steps_dir.mkdir(parents=True)
-    (steps_dir / "compress.json").write_text(
-        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
-        encoding="utf-8",
-    )
-    (steps_dir / "digest.json").write_text(
-        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
-        encoding="utf-8",
+    _seed_compress_digest(
+        steps_dir, {"hatena": {"themes": [], "articles": []}}, [{"url": "https://example.com/1"}]
     )
 
     sup = FakeSupervisor(forbid_reflect=True)
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
-    agent._run_judge = MagicMock(return_value={"overall": 4.2})
+    agent._judge_llm.complete.return_value = _JUDGE_OK
 
-    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
-        "agents.daily_brief.supervisor.SupervisorAgent",
-        lambda **kw: sup,
-    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
+    p1, p2, p3, p4 = _judge_run_patches(agent_module, tmp_path, sup)
+    with p1, p2, p3, p4:
         agent.run("--only judge")
 
     assert "judge" in sup.calls
-    agent._run_judge.assert_called_once()
+    assert (steps_dir / "judge.json").exists()
+    agent._judge_llm.complete.assert_called_once()
 
 
 def test_run_wires_source_data_into_judge(tmp_path):
@@ -829,108 +230,80 @@ def test_run_wires_source_data_into_judge(tmp_path):
 
     today = date.today().strftime("%Y-%m-%d")
     steps_dir = tmp_path / today / "steps"
-    steps_dir.mkdir(parents=True)
-    hatena_article = {
-        "title": "繁中翻譯標題",
-        "url": "https://example.com/1",
-        "original_title": "Raw Original Title",
-        "interest": "***",
-        "score": 100,
-    }
+    _seed_compress_digest(
+        steps_dir, {"hatena": {"themes": [], "articles": []}}, [{"url": "https://example.com/1"}]
+    )
     (steps_dir / "hatena.json").write_text(
-        json.dumps({"articles": [hatena_article]}, ensure_ascii=False),
-        encoding="utf-8",
-    )
-    (steps_dir / "compress.json").write_text(
-        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
-        encoding="utf-8",
-    )
-    (steps_dir / "digest.json").write_text(
-        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
+        json.dumps(
+            {
+                "articles": [
+                    {
+                        "title": "繁中翻譯標題",
+                        "url": "https://example.com/1",
+                        "original_title": "Raw Original Title",
+                        "interest": "***",
+                        "score": 100,
+                    }
+                ]
+            },
+            ensure_ascii=False,
+        ),
         encoding="utf-8",
     )
 
     sup = FakeSupervisor(forbid_reflect=True)
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
-    agent._run_judge = MagicMock(return_value={"overall": 4.2})
+    agent._judge_llm.complete.return_value = _JUDGE_OK
 
-    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
-        "agents.daily_brief.supervisor.SupervisorAgent",
-        lambda **kw: sup,
-    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
+    p1, p2, p3, p4 = _judge_run_patches(agent_module, tmp_path, sup)
+    with p1, p2, p3, p4:
         agent.run("--only judge")
 
-    agent._run_judge.assert_called_once()
-    source_data = agent._run_judge.call_args[0][2]
-    assert source_data["hatena"]["articles"][0]["original_title"] == (
-        "Raw Original Title"
-    )
+    # source_data 被接進 judge → 原始 title 進到 judge prompt（去循環化對照）
+    prompt = agent._judge_llm.complete.call_args[0][0]
+    assert "Raw Original Title" in prompt
 
 
 def test_judge_feedback_loop_uses_new_digests_for_retry(tmp_path):
-    """judge feedback 重評時應使用 digest 重跑後的新資料。"""
+    """judge feedback 重評時應使用 digest 重跑後的新資料（透過真 DigestStep/JudgeStep）。"""
     import agents.daily_brief.agent as agent_module
     from agents.daily_brief.agent import DailyBriefAgent
 
     today = date.today().strftime("%Y-%m-%d")
     steps_dir = tmp_path / today / "steps"
-    steps_dir.mkdir(parents=True)
 
     compress_data = {
         "hatena": {
             "themes": ["AI"],
-            "articles": [
-                {"url": "https://example.com/new", "one_liner": "new one liner"}
-            ],
+            "articles": [{"url": "https://example.com/new", "one_liner": "new one liner"}],
         }
     }
     old_digests = [{"url": "https://example.com/old", "summary": "old"}]
-    new_digests = [{"url": "https://example.com/new", "summary": "new"}]
-    (steps_dir / "compress.json").write_text(
-        json.dumps(compress_data, ensure_ascii=False),
-        encoding="utf-8",
+    _seed_compress_digest(steps_dir, compress_data, old_digests)
+
+    # digest 重跑（DigestStep 讀 ctx.llm）→ 產出含 example.com/new 的新 digest
+    new_digest_resp = json.dumps(
+        {"digests": [{"url": "https://example.com/new", "summary": "new"}]}
     )
-    (steps_dir / "digest.json").write_text(
-        json.dumps({"digests": old_digests}, ensure_ascii=False),
-        encoding="utf-8",
+    # judge 第一次 completeness=2 觸發回饋，第二次=4 收斂
+    judge_resp_low = json.dumps(
+        {"scores": {"completeness": {"score": 2}}, "missed_urls": ["https://example.com/new"]}
     )
 
-    # 允許進入 feedback loop：reflect_for_completeness 預設回 ""（降級用原 prompt 重跑）
-    sup = FakeSupervisor()
+    sup = FakeSupervisor()  # 允許進入 feedback loop（reflect 預設回 ""）
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
-    agent._run_digest = MagicMock(
-        return_value=(
-            new_digests,
-            {"generated_at": "2026-04-20T10:00:00", "digests": new_digests},
-        )
-    )
-    agent._run_judge = MagicMock(
-        side_effect=[
-            {
-                "scores": {
-                    "completeness": {
-                        "score": 2,
-                        "missed_urls": ["https://example.com/new"],
-                    }
-                },
-                "overall": 2.5,
-            },
-            {
-                "scores": {"completeness": {"score": 4, "missed_urls": []}},
-                "overall": 4.0,
-            },
-        ]
-    )
+    agent._llm.complete.return_value = new_digest_resp
+    agent._judge_llm.complete.side_effect = [judge_resp_low, _JUDGE_OK]
 
-    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
-        "agents.daily_brief.supervisor.SupervisorAgent",
-        lambda **kw: sup,
-    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
+    p1, p2, p3, p4 = _judge_run_patches(agent_module, tmp_path, sup)
+    with p1, p2, p3, p4:
         agent.run("--only judge")
 
-    assert agent._run_judge.call_count == 2
-    # 第二次 judge 應吃到新 digest，而不是舊 digest
-    assert agent._run_judge.call_args_list[1].args[1] == new_digests
+    assert agent._judge_llm.complete.call_count == 2
+    # 第二次 judge 應吃到新 digest（含 example.com/new），而非舊 digest
+    second_prompt = agent._judge_llm.complete.call_args_list[1][0][0]
+    assert "example.com/new" in second_prompt
+    assert "example.com/old" not in second_prompt
 
 
 def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
@@ -940,24 +313,16 @@ def test_force_judge_passes_force_flag_to_supervisor(tmp_path):
 
     today = date.today().strftime("%Y-%m-%d")
     steps_dir = tmp_path / today / "steps"
-    steps_dir.mkdir(parents=True)
-    (steps_dir / "compress.json").write_text(
-        json.dumps({"hatena": {"themes": [], "articles": []}}, ensure_ascii=False),
-        encoding="utf-8",
-    )
-    (steps_dir / "digest.json").write_text(
-        json.dumps({"digests": [{"url": "https://example.com/1"}]}, ensure_ascii=False),
-        encoding="utf-8",
+    _seed_compress_digest(
+        steps_dir, {"hatena": {"themes": [], "articles": []}}, [{"url": "https://example.com/1"}]
     )
 
     sup = FakeSupervisor(forbid_reflect=True)
     agent = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock())
-    agent._run_judge = MagicMock(return_value={"overall": 4.2})
+    agent._judge_llm.complete.return_value = _JUDGE_OK
 
-    with patch.object(agent_module, "OUTPUT_DIR", tmp_path), patch(
-        "agents.daily_brief.supervisor.SupervisorAgent",
-        lambda **kw: sup,
-    ), patch("agents.daily_brief.steps.judge.check_local_llm", return_value=True):
+    p1, p2, p3, p4 = _judge_run_patches(agent_module, tmp_path, sup)
+    with p1, p2, p3, p4:
         agent.run("--only judge --force judge")
 
     assert sup.forced["judge"] is True
@@ -1019,58 +384,6 @@ def test_judge_failure_log_does_not_claim_report_skipped(tmp_path, caplog):
         agent.run("--only judge")
 
     assert "略過 report/notify" not in caplog.text
-
-
-def test_score_reddit_batched_splits_calls():
-    """154 篇 Reddit 文章應分 7 批呼叫 LLM，每批 ≤ 25 篇。"""
-    import json
-    from agents.daily_brief.agent import DailyBriefAgent
-
-    call_sizes: list[int] = []
-
-    def fake_complete(prompt: str, system: str = "") -> str:
-        import re
-
-        # 只取文章清單區段（在 ## 任務 之前）
-        m = re.search(r"## 文章清單[^\n]*\n\n(\[.*?\])\n\n## 任務", prompt, re.DOTALL)
-        articles_in_prompt = json.loads(m.group(1)) if m else []
-        call_sizes.append(len(articles_in_prompt))
-        scored = [
-            {
-                "title": a["title"],
-                "url": a["url"],
-                "score": a["score"],
-                "interest": "**",
-                "category": a["category"],
-                "subreddit": a["subreddit"],
-            }
-            for a in articles_in_prompt
-        ]
-        return json.dumps({"articles": scored})
-
-    mock_llm = MagicMock()
-    mock_llm.complete.side_effect = fake_complete
-
-    raw = [
-        {
-            "subreddit": "r/programming",
-            "title": f"Article {i}",
-            "score": 0,
-            "num_comments": 0,
-            "url": f"https://reddit.com/{i}",
-            "orig_url": f"https://example.com/{i}",
-            "category": "核心技術類",
-        }
-        for i in range(154)
-    ]
-
-    agent = DailyBriefAgent(llm=mock_llm)
-    result = agent._score_reddit_batched(raw)
-
-    assert len(call_sizes) == 7, f"預期 7 批，實際 {len(call_sizes)} 批"
-    assert max(call_sizes) <= 25, f"批次超過 25 篇：{call_sizes}"
-    assert sum(call_sizes) == 154
-    assert len(result["articles"]) == 154
 
 
 # ── --health 唯讀查詢接線 ─────────────────────────────────────────

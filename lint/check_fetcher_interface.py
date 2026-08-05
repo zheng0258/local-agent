@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 FETCHERS_DIR = Path(__file__).parent.parent / "tools" / "fetchers"
-SKIP = {"_template", "__init__", "browser", "schema", "hn_comments", "reddit_comments"}
+SKIP = {"_template", "__init__", "browser", "rss_common", "schema", "hn_comments", "reddit_comments"}
 
 
 def check() -> list[str]:

@@ -70,26 +70,14 @@ def fetch(max_items: int = _DEFAULT_MAX_ITEMS) -> list[dict[str, Any]]:
 
 
 def _fetch_url(url: str) -> bytes | None:
-    """手動 fetch URL 內容，使用 certifi 憑證繞過 macOS SSL 問題。
+    """手動 fetch URL 內容（共用 rss_common：certifi SSL + UA），再交 feedparser 解析。
 
     feedparser 有自己的 HTTPS handler，不吃全域 opener，需先 fetch 再 parse。
     """
-    import ssl
-    import urllib.request
+    from tools.fetchers import rss_common
 
     try:
-        import certifi
-        ctx = ssl.create_default_context(cafile=certifi.where())
-    except ImportError:
-        ctx = ssl.create_default_context()
-
-    try:
-        req = urllib.request.Request(
-            url,
-            headers={"User-Agent": "Mozilla/5.0 feedparser/6.0"},
-        )
-        with urllib.request.urlopen(req, context=ctx, timeout=15) as resp:
-            return resp.read()
+        return rss_common.fetch_feed(url, timeout=15)
     except Exception as exc:
         logger.warning("RSS fetch URL failed '%s': %s", url, exc)
         return None

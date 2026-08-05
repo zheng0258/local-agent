@@ -20,6 +20,10 @@ VECTOR_DB_PATH = OUTPUT_DIR / ".vectordb"
 
 # ── 抓取來源 ─────────────────────────────────────────────────────
 
+# Source（來源）名稱清單：五個上游平台，各對應一個 SourceStep + fetcher。
+# 住 config（leaf 模組）供 step / agent 共用，避免以 agent.py 當單一 DAG 來源。
+FETCH_STEPS = ["hatena", "hn", "reddit", "security", "rss"]
+
 HATENA_URLS = [
     "https://b.hatena.ne.jp/hotentry/it",
     "https://b.hatena.ne.jp/hotentry/it/AI%E3%83%BB%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92",
