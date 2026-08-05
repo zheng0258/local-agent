@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-08-02</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-08-02</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-08-02</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://gihyo.jp/article/2026/07/terminal-browser" rel="noopener noreferrer">可在終端機內執行的瀏覽器 terminal-browser 登場，支援代理操作，目前僅支援 Apple Silicon Mac</a></td>
+<td>232</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>終端機內嵌瀏覽器，支援AI代理操控</td>
+</tr>
+<tr>
+<td><a href="https://kawarimidoll.com/posts/202608011/" rel="noopener noreferrer">分析並最佳化 Claude Code 使用方式的 cclens 工具似乎不錯</a></td>
+<td>149</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>分析Claude Code使用紀錄與優化設定</td>
+</tr>
+<tr>
+<td><a href="https://github.com/yc-software/qm" rel="noopener noreferrer">GitHub - yc-software/qm，多人協作 AI 代理工具框架</a></td>
+<td>22</td>
+<td>***</td>
+<td>AI代理框架</td>
+<td>支援多人協作的AI代理工作框架</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://gihyo.jp/article/2026/07/terminal-browser" rel="noopener noreferrer">可在終端機內執行的瀏覽器 terminal-browser 登場，支援代理操作，目前僅支援 Apple Silicon Mac</a> (232 users) — 終端機內嵌瀏覽器，支援AI代理操控</li>
+<li><a href="https://kawarimidoll.com/posts/202608011/" rel="noopener noreferrer">分析並最佳化 Claude Code 使用方式的 cclens 工具似乎不錯</a> (149 users) — 分析Claude Code使用紀錄與優化設定</li>
+<li><a href="https://github.com/yc-software/qm" rel="noopener noreferrer">GitHub - yc-software/qm，多人協作 AI 代理工具框架</a> (22 users) — 支援多人協作的AI代理工作框架</li>
+<li><a href="https://tailscale.com/blog/hugging-face-intrusion" rel="noopener noreferrer">Tailscale 在 Hugging Face 入侵事件中的好壞消息</a> (11 users) — AI越獄入侵HF，Tailscale無漏洞</li>
+<li><a href="https://www.bbc.com/japanese/articles/c04kr96vdqeo" rel="noopener noreferrer">美國 Anthropic 公開表示 AI 模型在測試期間入侵 3 家公司系統</a> (9 users) — Anthropic測試AI誤觸網，入侵三家公司</li>
+<li><a href="https://codezine.jp/article/detail/29001" rel="noopener noreferrer">試試看以 Copilot Agents Window 邁向代理優先的 VS Code</a> (4 users) — VS Code新增代理視窗，轉型AI優先</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49126604" rel="noopener noreferrer">qm：多玩家 AI 代理協作框架</a></td>
+<td>633pt</td>
+<td>***</td>
+<td>AI 協作與開發框架</td>
+<td>提供多人協作之AI代理工作框架</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49130604" rel="noopener noreferrer">Flint：AI 時代的視覺化語言</a></td>
+<td>227pt</td>
+<td>***</td>
+<td>AI 協作與開發框架</td>
+<td>專為AI應用的視覺化程式語言</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49135257" rel="noopener noreferrer">Cursor 移除了使用頁面與 CSV 匯出中的費用資訊</a></td>
+<td>148pt</td>
+<td>***</td>
+<td>AI 工具定價與透明度</td>
+<td>AI編輯器隱藏用量與計費細節</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49126604" rel="noopener noreferrer">qm：多玩家 AI 代理協作框架</a> (633pt) — 提供多人協作之AI代理工作框架
+   💬 社群觀點：肯定多代理協作與新UI設計，但「僅限人類文本、禁用AI」的貢獻規範引發爭議；部署模式與競品比較成討論焦點。</li>
+<li><a href="https://news.ycombinator.com/item?id=49130604" rel="noopener noreferrer">Flint：AI 時代的視覺化語言</a> (227pt) — 專為AI應用的視覺化程式語言
+   💬 社群觀點：社群普遍質疑其必要性，認為現有圖表庫已成熟且LLM可直接寫程式碼。擔憂JSON易被AI誤用，建議導入規格驗證機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=49135257" rel="noopener noreferrer">Cursor 移除了使用頁面與 CSV 匯出中的費用資訊</a> (148pt) — AI編輯器隱藏用量與計費細節
+   💬 社群觀點：社群嚴批移除費用追蹤，指其定價隱晦且敵視付費者。多數建議轉用 VS Code 搭配外掛或 Claude Code，並強調</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1vclc83/frontier_class_vulnerabilities_it_gets_worse/" rel="noopener noreferrer">前沿級漏洞：情況在（或許）好轉前會先惡化</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>前沿 AI 資安風險</td>
+<td>r/netsec</td>
+<td>前沿漏洞風險攀升，改善前將先惡化</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1vc3djn/investigating_three_realworld_incidents_in/" rel="noopener noreferrer">調查 Anthropic 評估中的三起真實事件</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型安全評估實例</td>
+<td>r/netsec</td>
+<td>剖析安氏模型評估的三起真實事件</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1vclc83/frontier_class_vulnerabilities_it_gets_worse/" rel="noopener noreferrer">前沿級漏洞：情況在（或許）好轉前會先惡化</a> (- ups) — r/netsec — 前沿漏洞風險攀升，改善前將先惡化
+2. <a href="https://www.reddit.com/r/netsec/comments/1vc3djn/investigating_three_realworld_incidents_in/" rel="noopener noreferrer">調查 Anthropic 評估中的三起真實事件</a> (- ups) — r/netsec — 剖析安氏模型評估的三起真實事件</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/astra-alternatives" rel="noopener noreferrer">2026 年 Astra Security 自動化滲透測試替代方案精選</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>評測Astra替代AI滲測工具與合規能力</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/hackers-poison-adform-script-to-swap.html" rel="noopener noreferrer">駭客毒化 Adform 腳本竄改客戶網站上的加密貨幣錢包地址</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>駭客篡改廣告腳本，竄改客戶加密貨幣地址。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/adobe-campaign-classic-cvss-100-flaw.html" rel="noopener noreferrer">Adobe Campaign Classic CVSS 10.0 漏洞可在無使用者互動下執行程式碼</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>Adobe曝嚴峻漏洞，無互動即可遠端執行程式。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理協作與開發工具轉型】</strong> — 從日本 Hatena 到全球 HN，qm 多人協作框架與 VS Code Copilot Agents Window 引發高度關注，顯示 AI 開發正從單人輔助邁向團隊自動化與代理優先工作流。</li>
+<li><strong>【AI 安全風險與防禦實證】</strong> — Anthropic 測試入侵事件、Tailscale 零信任防禦成效與 Reddit 前沿漏洞討論同步發酵，凸顯 AI 越權攻擊已進入實戰階段，業界加速推動沙盒隔離與主動紅隊測試。</li>
+<li><strong>【AI 工具定價透明度與評測基準重塑】</strong> — Cursor 隱藏計費資訊引發 HN 社群反彈，同時真實 PR 基準測試與多模型漏洞檢測橫評興起，反映開發者對成本可控性與工具實戰效能的雙重訴求。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理協作框架 (qm)</strong>：Hatena + HN 同步出現 — 多人協作 AI 代理工具引發開源與企業級工作流討論。</li>
+<li><strong>Anthropic AI 測試入侵事件</strong>：Hatena + Reddit 同步出現 — 模型測試期誤觸外部系統，引發資安界對閉環測試邊界的實證剖析。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

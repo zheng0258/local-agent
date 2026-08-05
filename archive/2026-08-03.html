@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-08-03</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-08-03</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-08-03</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/o_ob/n/nd19cba8e11d7" rel="noopener noreferrer">精簡 CLAUDE.md 與 AGENTS.md 後，AI 程式編寫能力大幅提升</a></td>
+<td>329</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>精簡提示文件可提升AI編碼效能。</td>
+</tr>
+<tr>
+<td><a href="https://github.com/microsoft/skill-recorder" rel="noopener noreferrer">GitHub - microsoft/skill-recorder（微軟技能錄製工具）</a></td>
+<td>191</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>微軟推出工具錄製操作轉為AI技能。</td>
+</tr>
+<tr>
+<td><a href="https://piyolog.hatenadiary.jp/entry/2026/08/02/165033" rel="noopener noreferrer">整理大阪・關西萬博相關網域中發生的 Drop Catch 現象</a></td>
+<td>95</td>
+<td>***</td>
+<td>網路安全與防護</td>
+<td>萬博廢棄網域遭搶注警惕釣魚風險。</td>
+</tr>
+<tr>
+<td><a href="https://gihyo.jp/book/2026/978-4-297-15788-3" rel="noopener noreferrer">專業 AI 驅動開發｜技術評論社</a></td>
+<td>95</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>新書探討AI驅動開發的穩定性與實務。</td>
+</tr>
+<tr>
+<td><a href="https://forbesjapan.com/articles/detail/102130" rel="noopener noreferrer">Microsoft 緊急警告：Windows 用戶切勿使用「飯店 Wi-Fi」</a></td>
+<td>77</td>
+<td>***</td>
+<td>網路安全與防護</td>
+<td>微軟警告避用飯店Wi-Fi防駭客攻擊。</td>
+</tr>
+<tr>
+<td><a href="https://www.security-next.com/188153" rel="noopener noreferrer">【資安新聞】「PHP」曝多項弱點——發布安全更新公告</a></td>
+<td>11</td>
+<td>***</td>
+<td>網路安全與防護</td>
+<td>PHP曝多項弱點官方緊急推出更新。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://note.com/o_ob/n/nd19cba8e11d7" rel="noopener noreferrer">精簡 CLAUDE.md 與 AGENTS.md 後，AI 程式編寫能力大幅提升</a> (329 users) — 精簡提示文件可提升AI編碼效能。</li>
+<li><a href="https://github.com/microsoft/skill-recorder" rel="noopener noreferrer">GitHub - microsoft/skill-recorder（微軟技能錄製工具）</a> (191 users) — 微軟推出工具錄製操作轉為AI技能。</li>
+<li><a href="https://piyolog.hatenadiary.jp/entry/2026/08/02/165033" rel="noopener noreferrer">整理大阪・關西萬博相關網域中發生的 Drop Catch 現象</a> (95 users) — 萬博廢棄網域遭搶注警惕釣魚風險。</li>
+<li><a href="https://gihyo.jp/book/2026/978-4-297-15788-3" rel="noopener noreferrer">專業 AI 驅動開發｜技術評論社</a> (95 users) — 新書探討AI驅動開發的穩定性與實務。</li>
+<li><a href="https://forbesjapan.com/articles/detail/102130" rel="noopener noreferrer">Microsoft 緊急警告：Windows 用戶切勿使用「飯店 Wi-Fi」</a> (77 users) — 微軟警告避用飯店Wi-Fi防駭客攻擊。</li>
+<li><a href="https://www.security-next.com/188153" rel="noopener noreferrer">【資安新聞】「PHP」曝多項弱點——發布安全更新公告</a> (11 users) — PHP曝多項弱點官方緊急推出更新。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49138302" rel="noopener noreferrer">Seedance 2.5 影片生成模型</a></td>
+<td>415pt</td>
+<td>***</td>
+<td>生成式 AI</td>
+<td>影片生成模型升級，強化動態畫面表現</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49140998" rel="noopener noreferrer">Karpathy 的 Pelican 專案</a></td>
+<td>115pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>開源 AI 開發工具，簡化模型訓練流程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49145883" rel="noopener noreferrer">TP-Link TL-841N 的 Root、韌體分析與持久化憑證</a></td>
+<td>19pt</td>
+<td>***</td>
+<td>資安研究</td>
+<td>路由器韌體剖析，揭露持久化憑證風險</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49138302" rel="noopener noreferrer">Seedance 2.5 影片生成模型</a> (415pt) — 影片生成模型升級，強化動態畫面表現
+   💬 社群觀點：社群驚嘆生成品質與連貫性已達實用門檻，大幅降低影視製作成本；惟擔憂未開源及被濫用於詐騙，並期待後續剪輯優化功能。</li>
+<li><a href="https://news.ycombinator.com/item?id=49140998" rel="noopener noreferrer">Karpathy 的 Pelican 專案</a> (115pt) — 開源 AI 開發工具，簡化模型訓練流程
+   💬 社群觀點：社群觀感兩極：部分嫌燒權重、批評作者行銷化；多數認為距超個人化有距，但看好AI於製造、程式化3D與快速迭代軟體潛力。</li>
+<li><a href="https://news.ycombinator.com/item?id=49145883" rel="noopener noreferrer">TP-Link TL-841N 的 Root、韌體分析與持久化憑證</a> (19pt) — 路由器韌體剖析，揭露持久化憑證風險
+   💬 社群觀點：該機型雖可刷入OpenWRT，但已屬淘汰設備且記憶體與閃存極小，實用性有限。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本日無熱門文章</td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>-</td>
+<td>-</td>
+<td>資料來源未提供Reddit文章</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+本日無相關文章</p>
+<p><strong>AI 類</strong>
+本日無相關文章</p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/the-risk-hiding-behind-exposed-mcp-servers" rel="noopener noreferrer">曝露的 MCP 伺服器後隱藏的風險</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>未驗證MCP伺服器恐洩露雲端資料與權限</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/07/microsoft-patches-a-record-570-security-flaws/" rel="noopener noreferrer">微軟修復創紀錄的 570 個安全漏洞</a></td>
+<td>KrebsOnSecurity</td>
+<td>***</td>
+<td>微軟一次性修復五百七十項系統漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/coldcard-hardware-wallet-flaw-linked-to.html" rel="noopener noreferrer">Coldcard 硬體錢包漏洞導致 41 分鐘內遭竊 7000 萬美元比特幣</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>冷錢包漏洞致七千萬美元比特幣遭竊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/hijacked-hotel-wi-fi-pushes-fake.html" rel="noopener noreferrer">遭劫持的飯店 Wi-Fi 推送假更新以投放監視惡意軟體</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>飯店網路遭劫持推送假更新投放間諜軟體</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/cheap-android-tv-boxes-pose-as-phones.html" rel="noopener noreferrer">廉價 Android 電視盒偽裝成手機並將用戶寬頻轉為代理伺服器</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>廉價電視盒偽裝手機盜用用戶寬頻當代理</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/dprk-linked-macos-malvertising-uses.html" rel="noopener noreferrer">疑北韓駭客於 macOS 投放惡意廣告，利用假更新派送竊取加密貨幣惡意軟體</a></td>
+<td>TheHackerNews</td>
+<td>***</td>
+<td>北韓駭客以假更新廣告竊取麥金塔加密貨幣</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/agentkitstudio/a-5-minute-preflight-before-giving-an-ai-coding-agent-write-access-18kb" rel="noopener noreferrer">授予 AI 程式碼編輯權限前的 5 分鐘預檢程序</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>開放AI寫入權限前必做的五分鐘安全預檢</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/jamesanderson121/picking-a-single-chat-completions-api-for-openai-claude-and-gemini-2i7" rel="noopener noreferrer">為 OpenAI、Claude 與 Gemini 挑選單一聊天完成 API</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>統一三大生成式AI模型聊天API的開發建議</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與提示工程優化】</strong> — 從精簡 CLAUDE.md/AGENTS.md 提升編碼效能，到微軟 skill-recorder 將日常操作轉為 AI 技能，社群正積極探索如何降低 AI 輔助開發的門檻。新書與多模型 API 統一架構的出現，顯示企業正尋求穩定、可維運的 AI 編程落地路徑。</li>
+<li><strong>【公共網路與物聯網資安威脅】</strong> — 飯店 Wi-Fi 遭劫持推送假更新、廉價電視盒暗藏代理後門，以及 Coldcard 冷錢包漏洞，凸顯消費級硬體與公共網路環境的脆弱性。微軟緊急警告與 PHP 漏洞修補，反映基礎設施攻擊面持續擴大。</li>
+<li><strong>【AI 基礎設施與權限控管風險】</strong> — 隨 AI Agent 普及，未經驗證的 MCP 伺服器暴露於公開網路恐洩露雲端權限。開發者開始重視授予 AI 寫入權限前的預檢程序，顯示「信任但驗證」正成為 AI 基礎設施安全的核心原則。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>飯店 Wi-Fi 資安警訊</strong>：Hatena + RSS 同步出現 — 微軟警告用戶避用公共Wi-Fi，同時資安社群揭露駭客已實際劫持飯店網路推送間諜軟體，顯示理論警告已轉為現實攻擊。</li>
+<li><strong>AI 開發工具與權限控管</strong>：Hatena + HN + RSS 共同關注 — 從提示文件精簡、開源訓練工具鏈，到 AI Agent 寫入預檢與多模型 API 抽象層，跨平台一致指向「降低使用門檻」與「強化安全邊界」並行的開發趨勢。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

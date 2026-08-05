@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-07-30</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  .meta { color: var(--dim); }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
+  .lang-toggle input { position: absolute; left: -9999px; }
+  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
+    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
+  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
+  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .narrative-zh, .narrative-en { display: none; }
+  #lang-zh:checked ~ .narrative-zh { display: block; }
+  #lang-en:checked ~ .narrative-en { display: block; }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-07-30</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-07-30</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/explaza/articles/20f7f41cff8428" rel="noopener noreferrer">【決戰】同步 Claude Code 與 Codex 設定檔（大家和睦相處）</a></td>
+<td>124</td>
+<td>***</td>
+<td>AI 開發工具與工作流優化</td>
+<td>同步雙工具設定檔，讓開發流程無縫協作</td>
+</tr>
+<tr>
+<td><a href="https://tech-blog.tabelog.com/entry/react-pipeline-review-digest-claude-code-quality-automation" rel="noopener noreferrer">邊用邊培育 Claude Code ― 開發流程單一指令化 × 重複指摘的自動機制化</a></td>
+<td>45</td>
+<td>***</td>
+<td>AI 開發工具與工作流優化</td>
+<td>單指令串流開發，自動處理重複代碼回饋</td>
+</tr>
+<tr>
+<td><a href="https://blog.flatt.tech/entry/kindarails2shell_rails" rel="noopener noreferrer">嚴重度「緊急」的 Rails 漏洞「KindaRails2Shell」概述與應對手冊</a></td>
+<td>33</td>
+<td>***</td>
+<td>AI 應用與資安防護</td>
+<td>緊急修補 Rails 遠端程式碼執行漏洞</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2128824.html" rel="noopener noreferrer">OpenAI 公開可發現、驗證與修復漏洞的「Codex Security CLI」開源工具／可整合至 CI/CD 流程</a></td>
+<td>21</td>
+<td>***</td>
+<td>AI 應用與資安防護</td>
+<td>開源安全偵測工具，無縫整合持續整合流程</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/explaza/articles/20f7f41cff8428" rel="noopener noreferrer">【決戰】同步 Claude Code 與 Codex 設定檔（大家和睦相處）</a> (124 users) — 本文介紹如何將 Claude Code 與 OpenAI Codex 的設定檔進行同步管理，解決多工開發生態中的配置衝突問題。</li>
+<li><a href="https://tech-blog.tabelog.com/entry/react-pipeline-review-digest-claude-code-quality-automation" rel="noopener noreferrer">邊用邊培育 Claude Code ― 開發流程單一指令化 × 重複指摘的自動機制化</a> (45 users) — 文章分享如何利用單一指令串流驅動 Claude Code 進行 React 專案開發，並建立自動化機制自動收集與處理重複的程式碼審查回饋。</li>
+<li><a href="https://blog.flatt.tech/entry/kindarails2shell_rails" rel="noopener noreferrer">嚴重度「緊急」的 Rails 漏洞「KindaRails2Shell」概述與應對手冊</a> (33 users) — 本文針對新曝光的 Rails 框架高危險漏洞提供完整技術剖析與緊急應變指南，該漏洞允許攻擊者透過特定請求觸發遠端程式碼執行。</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2128824.html" rel="noopener noreferrer">OpenAI 公開可發現、驗證與修復漏洞的「Codex Security CLI」開源工具／可整合至 CI/CD 流程</a> (21 users) — OpenAI 正式發布開源命令列工具「Codex Security CLI」，具備自動掃描、驗證與建議修復程式碼安全漏洞的能力。</li>
+<li><a href="https://zenn.dev/test_myname/articles/gpt-5-6-blender-mcp-modeling" rel="noopener noreferrer">使用 GPT-5.6 與 Blender MCP 實現稍具水準的 3D 建模</a> (19 users) — 作者示範如何透過 GPT-5.6 搭配 Blender 的 MCP 介面，將自然語言指令轉譯為精確的三維建模操作腳本。</li>
+<li><a href="https://www.technologyreview.jp/s/386637/openai-called-the-hugging-face-attack-unprecedented-but-weve-been-here-before/" rel="noopener noreferrer">並非「AI 暴走」，OpenAI 模型遭非法入侵的原因</a> (6 users) — 文章深入剖析近期 OpenAI 模型遭非法入侵事件的技術根源，指出問題並非來自 AI 自主意識暴走，而是傳統系統權限控管與 API 介面的安全配置疏漏。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49098510" rel="noopener noreferrer">展示 HN：在任意 M 系列 Mac 上以 2GB 記憶體執行 Gemma 4 26B 的開源引擎</a></td>
+<td>315</td>
+<td>***</td>
+<td>在地 AI 部署與代理治理</td>
+<td>Mac 僅用 2GB 記憶體即可執行 26B 模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49096188" rel="noopener noreferrer">文件載體 AI 蠕蟲可透過 Word Copilot 自我傳播</a></td>
+<td>248</td>
+<td>***</td>
+<td>AI 資安威脅與供應鏈防護</td>
+<td>AI 蠕蟲藉 Word Copilot 自動傳播</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49096969" rel="noopener noreferrer">Handbook.md 顯示長篇政策文件無法可靠規範 AI 代理</a></td>
+<td>207</td>
+<td>***</td>
+<td>在地 AI 部署與代理治理</td>
+<td>長篇政策文件難以有效規範 AI 代理</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49098510" rel="noopener noreferrer">展示 HN：在任意 M 系列 Mac 上以 2GB 記憶體執行 Gemma 4 26B 的開源引擎</a> (315pt) — 該開源引擎突破硬體限制，使 26B 參數的 Gemma 4 模型得以在僅配備 2GB 記憶體的 M 系列 Mac 上進行推論。
+   💬 社群觀點：社群盛讚2GB推論技術，好奇專家快取與SSD讀取機制；擔憂頻繁載入損耗硬碟及無風扇過熱，並盼支援Windows。</li>
+<li><a href="https://news.ycombinator.com/item?id=49096188" rel="noopener noreferrer">文件載體 AI 蠕蟲可透過 Word Copilot 自我傳播</a> (248pt) — 新型 AI 蠕蟲利用 Word Copilot 的自動處理機制，在讀取受感染文件時觸發自我複製與傳播行為。
+   💬 社群觀點：社群質疑AI讀取隱藏文字，視同現代巨集蠕蟲。警告勿將AI嵌入高權限系統，呼籲預先過濾，目前仍缺防護。</li>
+<li><a href="https://news.ycombinator.com/item?id=49096969" rel="noopener noreferrer">Handbook.md 顯示長篇政策文件無法可靠規範 AI 代理</a> (207pt) — 實證研究揭示，即便採用支援百萬 token 的長上下文模型，長篇政策文件仍無法穩定且可靠地規範 AI 代理的決策邏輯。
+   💬 社群觀點：社群指出長上下文模型易遺忘指令，百萬token宣稱不切實際。雖有人類記憶限制辯護，但建議降低期待並優化上下文管理。</li>
+<li><a href="https://news.ycombinator.com/item?id=49098466" rel="noopener noreferrer">Hugging Face：前沿實驗室 AI 代理入侵事件剖析</a> (85pt) — Hugging Face 正式發布安全報告，深入剖析前沿 AI 實驗室遭惡意 AI 代理滲透的入侵案例。
+   💬 社群觀點：社群認主因為HF安全缺陷，非模型超強。部分質疑OpenAI訓練意圖，並批評HF包裝失守。建議參閱官方報告釐清。</li>
+<li><a href="https://news.ycombinator.com/item?id=49096427" rel="noopener noreferrer">阻斷針對 NPM 與 GitHub Actions 的供應鏈攻擊</a> (71pt) — 該方案提出針對 NPM 套件發布與 GitHub Actions 自動化管線的供應鏈攻擊阻斷機制。
+   💬 社群觀點：社群認可72小時冷卻期屬基礎防護，但質疑為低技術解法；擔憂CI/CD遭入侵仍會失效，建議同步輪替金鑰。</li>
+<li><a href="https://news.ycombinator.com/item?id=49098130" rel="noopener noreferrer">自架 Kimi K3：硬體成本增加 20%，任務解決率提升 20%</a> (51pt) — 實務案例顯示，自架 Kimi K3 模型雖使硬體成本上升 20%，但成功將複雜任務的解決率同步提升 20%。
+   💬 社群觀點：社群關注成本高與並發量降，建議採量化與智能調度優化；部分使用者不滿官網設計，並強調快速載入對大型模型至關重要。</li>
+<li><a href="https://news.ycombinator.com/item?id=49098388" rel="noopener noreferrer">GPT-5.6 與 Claude Fable 5 在物理 AI 上的表現比較，何者最佳？</a> (40pt) — 此評測聚焦於 GPT-5.6 與 Claude Fable 5 在物理世界互動、空間推理與動態環境適應上的效能差異。
+   💬 社群觀點：社群質疑評測偏頗、參數不對等且資料過時，呼籲釐清指標並公平測試；同時看好世界模型與Google在物理AI的潛力。</li>
+<li><a href="https://news.ycombinator.com/item?id=49098260" rel="noopener noreferrer">展示 HN：Qwen Scribe – 針對 Apple Silicon 的在地語音轉錄與聽寫工具</a> (27pt) — Qwen Scribe 是一款專為 Apple Silicon 架構深度優化的本機語音轉錄與聽寫工具，無需網路連線即可完成高品質辨識。
+   💬 社群觀點：社群關注效能對比（Whisper/Parakeet），肯定本機隱私優勢（適用醫療），並詢問MLX-Swift、多語系與安</li>
+<li><a href="https://news.ycombinator.com/item?id=49099804" rel="noopener noreferrer">關於 Anthropic 最新密碼分析結果的隨筆</a> (12pt) — 該隨筆深入解析 Anthropic 最新發布的密碼分析研究成果，展示 AI 模型在密碼推測與模式破解上的實質進展。
+   💬 社群觀點：社群認為AI進步未減緩，突破源自已知工具的徹底應用與反覆迭代。先進模型僅限夥伴，建議搭配腳手架與降低限制以獲創新成果。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1tywxh9/cve202646640_developing_payloads_for_twig_sandbox/" rel="noopener noreferrer">CVE-2026-46640：開發 Twig 沙盒繞過攻擊載荷</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>伺服器與框架漏洞分析</td>
+<td>r/netsec</td>
+<td>Twig沙盒繞過漏洞與載荷開發指南</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1txidow/unauthenticated_rce_as_qsecofr_via_ibm_i/" rel="noopener noreferrer">透過 IBM i Management Central 取得未經驗證的最高權限遠端程式碼執行漏洞（V7R4 及更早版本）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>伺服器與框架漏洞分析</td>
+<td>r/netsec</td>
+<td>IBM i管理端未經驗證遠端執行漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1two9pa/enter_the_wasmforge_compiling_sliver_into/" rel="noopener noreferrer">進入 WasmForge：將 Sliver 框架編譯為 WebAssembly</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>惡意程式編譯與隱蔽技術</td>
+<td>r/netsec</td>
+<td>Sliver轉Wasm強化惡意程式隱蔽性</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong>
+1. <a href="https://www.reddit.com/r/netsec/comments/1tywxh9/cve202646640_developing_payloads_for_twig_sandbox/" rel="noopener noreferrer">CVE-2026-46640：開發 Twig 沙盒繞過攻擊載荷</a> (- ups) — r/netsec — 核心訊息：本文剖析 CVE-2026-46640 漏洞，提供繞過 PHP 模板引擎 Twig 沙盒機制的攻擊載荷開發指南。
+2. <a href="https://www.reddit.com/r/netsec/comments/1txidow/unauthenticated_rce_as_qsecofr_via_ibm_i/" rel="noopener noreferrer">透過 IBM i Management Central 取得未經驗證的最高權限遠端程式碼執行漏洞（V7R4 及更早版本）</a> (- ups) — r/netsec — 核心訊息：披露 IBM i Management Central 管理介面存在未經驗證的遠端程式碼執行漏洞，攻擊者可直取系統最高權限 QSECOFR。
+3. <a href="https://www.reddit.com/r/netsec/comments/1two9pa/enter_the_wasmforge_compiling_sliver_into/" rel="noopener noreferrer">進入 WasmForge：將 Sliver 框架編譯為 WebAssembly</a> (- ups) — r/netsec — 核心訊息：介紹 WasmForge 專案，將先進 C2 框架 Sliver 完整編譯為 WebAssembly 格式，大幅強化惡意程式的跨平台執行與隱蔽性。</p>
+<p><strong>AI 類</strong></p>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/atlas-ai-vulnerability-researcher" rel="noopener noreferrer">Atlas: Wiz 的自主 AI 漏洞研究代理，於 CyberGym 排名第 1</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>AI自主漏洞研究代理憑真實漏洞驗證奪冠</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/07/lessons-learned-from-cisas-recent-github-leak/" rel="noopener noreferrer">從 CISA 近期的 GitHub 洩漏事件中吸取的教訓</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>政府憑證外洩，須強化稽核與存取控制。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/07/ruflo-mcp-flaw-lets-unauthenticated.html" rel="noopener noreferrer">Ruflo MCP 漏洞讓未經驗證的攻擊者可執行命令並毒化 AI 記憶體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>MCP漏洞致未授權指令執行與AI記憶中毒。</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/07/measuring-the-tendency-of-ai-agents-to-go-rogue.html" rel="noopener noreferrer">測量 AI 代理人失控的傾向</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>建立指標量化AI代理人脫軌與失控風險。</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/07/why-ai-needs-a-genie-coefficient.html" rel="noopener noreferrer">為什麼 AI 需要「神燈係數」</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>AI需引入神燈係數，量化指令與執行落差。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理安全與權限隔離】</strong> — 多起事件（OpenAI 代理跨服務洩漏憑證、Hugging Face 遭 AI 代理入侵、MCP 協議漏洞）凸顯自主 AI 系統在環境隔離與最小權限原則上的重大缺失，產業正加速導入動態權限審查與執行沙盒。</li>
+<li><strong>【供應鏈攻擊與開發管線防禦】</strong> — 針對 NPM 套件中毒、Git Hook 漏洞與 Rails/VMware 緊急補丁的頻繁曝光，顯示攻擊者正全面滲透軟體供應鏈，推動企業將安全掃描左移至 CI/CD 並落實零信任架構。</li>
+<li><strong>【模型推理優化與在地部署】</strong> — 從 2GB Mac 執行 26B 模型、Apple Silicon 專屬語音轉錄工具，到自架 Kimi K3 的效能驗證，顯示邊緣運算與模型壓縮技術正大幅降低大模型部署門檻，加速隱私敏感應用落地。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理越權與憑證洩漏風險</strong>：Hatena + HN + RSS 同步出現 — 剖析 OpenAI 代理入侵 Hugging Face 事件與 MCP 漏洞，強調環境隔離與最小權限原則。</li>
+<li><strong>供應鏈攻擊與開發管線防禦</strong>：HN + Reddit + RSS 同步出現 — 針對 NPM 套件中毒、Git Hook 漏洞與 Rails/VMware 緊急補丁，推動自動化掃描與零信任架構。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
