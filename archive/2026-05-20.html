@@ -41,8 +41,16 @@
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
-  /* Hero 排：左側「關於本專案」按鈕 + 定位句。專案描述不直接顯示，收進 overlay。 */
-  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
   .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
     padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
   .about-btn:hover { border-color: var(--accent); }
@@ -79,7 +87,7 @@
 <header>
   <p class="tagline">本地 LLM 多代理自主系統</p>
   <p class="meta">存檔日期：2026-05-20</p>
-  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
 </header>
 <article>
 <h1>趨勢話題：2026-05-20</h1>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 全部存檔</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">全部存檔</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+<section class="month-group">
+<h2>2026-08</h2>
+<ul>
+  <li><a href="2026-08-06.html">2026-08-06</a></li>
+  <li><a href="2026-08-05.html">2026-08-05</a></li>
+  <li><a href="2026-08-04.html">2026-08-04</a></li>
+  <li><a href="2026-08-03.html">2026-08-03</a></li>
+  <li><a href="2026-08-02.html">2026-08-02</a></li>
+  <li><a href="2026-08-01.html">2026-08-01</a></li>
+</ul>
+</section>
+<section class="month-group">
+<h2>2026-07</h2>
+<ul>
+  <li><a href="2026-07-31.html">2026-07-31</a></li>
+  <li><a href="2026-07-30.html">2026-07-30</a></li>
+  <li><a href="2026-07-29.html">2026-07-29</a></li>
+  <li><a href="2026-07-28.html">2026-07-28</a></li>
+  <li><a href="2026-07-27.html">2026-07-27</a></li>
+  <li><a href="2026-07-26.html">2026-07-26</a></li>
+  <li><a href="2026-07-25.html">2026-07-25</a></li>
+  <li><a href="2026-07-24.html">2026-07-24</a></li>
+  <li><a href="2026-07-23.html">2026-07-23</a></li>
+  <li><a href="2026-07-22.html">2026-07-22</a></li>
+  <li><a href="2026-07-21.html">2026-07-21</a></li>
+  <li><a href="2026-07-20.html">2026-07-20</a></li>
+  <li><a href="2026-07-19.html">2026-07-19</a></li>
+  <li><a href="2026-07-18.html">2026-07-18</a></li>
+  <li><a href="2026-07-17.html">2026-07-17</a></li>
+  <li><a href="2026-07-16.html">2026-07-16</a></li>
+  <li><a href="2026-07-15.html">2026-07-15</a></li>
+  <li><a href="2026-07-14.html">2026-07-14</a></li>
+  <li><a href="2026-07-13.html">2026-07-13</a></li>
+  <li><a href="2026-07-12.html">2026-07-12</a></li>
+  <li><a href="2026-07-11.html">2026-07-11</a></li>
+  <li><a href="2026-07-10.html">2026-07-10</a></li>
+  <li><a href="2026-07-09.html">2026-07-09</a></li>
+  <li><a href="2026-07-08.html">2026-07-08</a></li>
+  <li><a href="2026-07-07.html">2026-07-07</a></li>
+  <li><a href="2026-07-06.html">2026-07-06</a></li>
+  <li><a href="2026-07-05.html">2026-07-05</a></li>
+  <li><a href="2026-07-04.html">2026-07-04</a></li>
+  <li><a href="2026-07-03.html">2026-07-03</a></li>
+  <li><a href="2026-07-02.html">2026-07-02</a></li>
+  <li><a href="2026-07-01.html">2026-07-01</a></li>
+</ul>
+</section>
+<section class="month-group">
+<h2>2026-06</h2>
+<ul>
+  <li><a href="2026-06-30.html">2026-06-30</a></li>
+  <li><a href="2026-06-29.html">2026-06-29</a></li>
+  <li><a href="2026-06-28.html">2026-06-28</a></li>
+  <li><a href="2026-06-27.html">2026-06-27</a></li>
+  <li><a href="2026-06-26.html">2026-06-26</a></li>
+  <li><a href="2026-06-25.html">2026-06-25</a></li>
+  <li><a href="2026-06-24.html">2026-06-24</a></li>
+  <li><a href="2026-06-23.html">2026-06-23</a></li>
+  <li><a href="2026-06-22.html">2026-06-22</a></li>
+  <li><a href="2026-06-21.html">2026-06-21</a></li>
+  <li><a href="2026-06-20.html">2026-06-20</a></li>
+  <li><a href="2026-06-19.html">2026-06-19</a></li>
+  <li><a href="2026-06-18.html">2026-06-18</a></li>
+  <li><a href="2026-06-17.html">2026-06-17</a></li>
+  <li><a href="2026-06-16.html">2026-06-16</a></li>
+  <li><a href="2026-06-15.html">2026-06-15</a></li>
+  <li><a href="2026-06-14.html">2026-06-14</a></li>
+  <li><a href="2026-06-13.html">2026-06-13</a></li>
+  <li><a href="2026-06-12.html">2026-06-12</a></li>
+  <li><a href="2026-06-11.html">2026-06-11</a></li>
+  <li><a href="2026-06-10.html">2026-06-10</a></li>
+  <li><a href="2026-06-09.html">2026-06-09</a></li>
+  <li><a href="2026-06-08.html">2026-06-08</a></li>
+  <li><a href="2026-06-07.html">2026-06-07</a></li>
+  <li><a href="2026-06-06.html">2026-06-06</a></li>
+  <li><a href="2026-06-05.html">2026-06-05</a></li>
+  <li><a href="2026-06-04.html">2026-06-04</a></li>
+  <li><a href="2026-06-03.html">2026-06-03</a></li>
+  <li><a href="2026-06-02.html">2026-06-02</a></li>
+  <li><a href="2026-06-01.html">2026-06-01</a></li>
+</ul>
+</section>
+<section class="month-group">
+<h2>2026-05</h2>
+<ul>
+  <li><a href="2026-05-31.html">2026-05-31</a></li>
+  <li><a href="2026-05-30.html">2026-05-30</a></li>
+  <li><a href="2026-05-29.html">2026-05-29</a></li>
+  <li><a href="2026-05-28.html">2026-05-28</a></li>
+  <li><a href="2026-05-27.html">2026-05-27</a></li>
+  <li><a href="2026-05-26.html">2026-05-26</a></li>
+  <li><a href="2026-05-25.html">2026-05-25</a></li>
+  <li><a href="2026-05-24.html">2026-05-24</a></li>
+  <li><a href="2026-05-23.html">2026-05-23</a></li>
+  <li><a href="2026-05-22.html">2026-05-22</a></li>
+  <li><a href="2026-05-21.html">2026-05-21</a></li>
+  <li><a href="2026-05-20.html">2026-05-20</a></li>
+  <li><a href="2026-05-19.html">2026-05-19</a></li>
+  <li><a href="2026-05-18.html">2026-05-18</a></li>
+  <li><a href="2026-05-17.html">2026-05-17</a></li>
+  <li><a href="2026-05-16.html">2026-05-16</a></li>
+  <li><a href="2026-05-15.html">2026-05-15</a></li>
+  <li><a href="2026-05-14.html">2026-05-14</a></li>
+  <li><a href="2026-05-13.html">2026-05-13</a></li>
+  <li><a href="2026-05-12.html">2026-05-12</a></li>
+  <li><a href="2026-05-11.html">2026-05-11</a></li>
+  <li><a href="2026-05-10.html">2026-05-10</a></li>
+  <li><a href="2026-05-09.html">2026-05-09</a></li>
+  <li><a href="2026-05-08.html">2026-05-08</a></li>
+  <li><a href="2026-05-07.html">2026-05-07</a></li>
+  <li><a href="2026-05-06.html">2026-05-06</a></li>
+  <li><a href="2026-05-05.html">2026-05-05</a></li>
+  <li><a href="2026-05-04.html">2026-05-04</a></li>
+  <li><a href="2026-05-03.html">2026-05-03</a></li>
+  <li><a href="2026-05-02.html">2026-05-02</a></li>
+  <li><a href="2026-05-01.html">2026-05-01</a></li>
+</ul>
+</section>
+<section class="month-group">
+<h2>2026-04</h2>
+<ul>
+  <li><a href="2026-04-30.html">2026-04-30</a></li>
+  <li><a href="2026-04-29.html">2026-04-29</a></li>
+  <li><a href="2026-04-28.html">2026-04-28</a></li>
+  <li><a href="2026-04-27.html">2026-04-27</a></li>
+  <li><a href="2026-04-26.html">2026-04-26</a></li>
+  <li><a href="2026-04-25.html">2026-04-25</a></li>
+  <li><a href="2026-04-24.html">2026-04-24</a></li>
+  <li><a href="2026-04-23.html">2026-04-23</a></li>
+  <li><a href="2026-04-22.html">2026-04-22</a></li>
+  <li><a href="2026-04-21.html">2026-04-21</a></li>
+  <li><a href="2026-04-20.html">2026-04-20</a></li>
+  <li><a href="2026-04-19.html">2026-04-19</a></li>
+  <li><a href="2026-04-18.html">2026-04-18</a></li>
+  <li><a href="2026-04-17.html">2026-04-17</a></li>
+  <li><a href="2026-04-16.html">2026-04-16</a></li>
+  <li><a href="2026-04-15.html">2026-04-15</a></li>
+  <li><a href="2026-04-14.html">2026-04-14</a></li>
+  <li><a href="2026-04-13.html">2026-04-13</a></li>
+  <li><a href="2026-04-12.html">2026-04-12</a></li>
+</ul>
+</section>
+</main>
+</body>
+</html>
