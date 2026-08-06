@@ -51,6 +51,13 @@ _SHELL_STYLE = """
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
   /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
   .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
     justify-content: space-between; }
@@ -121,10 +128,11 @@ _INDEX_TEMPLATE = Template(
 {{ body_html }}
 </article>
 {% if archive_links %}<nav class="archive">
-<p class="meta">存檔（連續 {{ archive_links|length }} 天）</p>
+<p class="meta">最近存檔（近 {{ archive_links|length }} 天）</p>
 <ul>
 {% for link in archive_links %}  <li><a href="{{ link.href }}">{{ link.date }}</a></li>
 {% endfor %}</ul>
+{% if full_archive_href %}<p class="meta"><a href="{{ full_archive_href }}">查看全部存檔 →</a></p>{% endif %}
 </nav>{% endif %}
 {% if narrative_html %}<div class="about-overlay">
   <label for="about-toggle" class="about-backdrop"></label>
@@ -153,7 +161,7 @@ _ARCHIVE_TEMPLATE = Template(
 <header>
   <p class="tagline">{{ positioning_line }}</p>
   <p class="meta">存檔日期：{{ date }}</p>
-  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
 </header>
 <article>
 {{ body_html }}
@@ -169,12 +177,15 @@ def render_index(
     body_html: str,
     date: str,
     archive_links: Sequence[ArchiveLink] = (),
+    full_archive_href: str = "",
     narrative_html: str = "",
     tldr_html: str = "",
     status_html: str = "",
 ) -> str:
     """渲染首頁 HTML：技術終端 shell 包住系統狀態區 + 今日重點 + 最新天內文 + 存檔導覽列。
 
+    `archive_links` 為首頁存檔清單（已於 builder 截到近 30 筆）。`full_archive_href` 非空時
+    於清單底部渲染「查看全部存檔 →」入口（導向按月分組的 archive/index.html）。
     `status_html` 為已渲染的系統狀態區 HTML（連續天數 + judge sparkline + 來源成功率；
     空字串時不渲染該區段，向後相容 #6/#7/#8/#9）。
     `narrative_html` 為已渲染消毒的專案描述 HTML（繁中）；非空時 hero 排顯示「關於本專案」
@@ -187,6 +198,7 @@ def render_index(
         positioning_line=POSITIONING_LINE,
         shell_style=_SHELL_STYLE,
         archive_links=list(archive_links),
+        full_archive_href=full_archive_href,
         narrative_html=narrative_html,
         tldr_html=tldr_html,
         status_html=status_html,
@@ -198,6 +210,50 @@ def render_archive(body_html: str, date: str) -> str:
     return _ARCHIVE_TEMPLATE.render(
         body_html=body_html,
         date=date,
+        positioning_line=POSITIONING_LINE,
+        shell_style=_SHELL_STYLE,
+    )
+
+
+_ARCHIVE_INDEX_TEMPLATE = Template(
+    """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 全部存檔</title>
+<style>{{ shell_style }}</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">{{ positioning_line }}</p>
+  <p class="meta">全部存檔</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a></p>
+</header>
+{% for month, links in month_groups %}<section class="month-group">
+<h2>{{ month }}</h2>
+<ul>
+{% for link in links %}  <li><a href="{{ link.href }}">{{ link.date }}</a></li>
+{% endfor %}</ul>
+</section>
+{% endfor %}</main>
+</body>
+</html>
+"""
+)
+
+
+def render_archive_index(
+    month_groups: Sequence[tuple[str, Sequence[ArchiveLink]]],
+) -> str:
+    """渲染全部存檔頁（archive/index.html）：按月分組列出每一天。
+
+    `month_groups` 為 [(月份 'YYYY-MM', [ArchiveLink])]（newest first）；連結為 archive/
+    目錄內相對路徑（`<date>.html`）。此頁位於 archive/，回首頁走 `../index.html`。
+    """
+    return _ARCHIVE_INDEX_TEMPLATE.render(
+        month_groups=[(m, list(links)) for m, links in month_groups],
         positioning_line=POSITIONING_LINE,
         shell_style=_SHELL_STYLE,
     )

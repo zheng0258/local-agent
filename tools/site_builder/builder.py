@@ -19,7 +19,7 @@ import markdown as _markdown
 import nh3
 
 from .status import SystemStatus, render_status_section
-from .template import ArchiveLink, render_archive, render_index
+from .template import ArchiveLink, render_archive, render_archive_index, render_index
 
 # (date, report_md) 對；newest first。純記憶體語料，不碰檔案。
 DayBrief = Tuple[str, str]
@@ -88,6 +88,27 @@ def _archive_href(date: str) -> str:
     return f"archive/{date}.html"
 
 
+# 首頁存檔清單只列近 N 筆（最新），其餘移到「全部存檔」頁（archive/index.html）。
+_HOME_ARCHIVE_LIMIT = 30
+
+
+def _group_by_month(dates: list[str]) -> list[tuple[str, list[ArchiveLink]]]:
+    """日期串（newest first）按 YYYY-MM 分組 → [(月份, [ArchiveLink])]（newest first）。
+
+    「全部存檔」頁位於 archive/ 目錄內，故每日連結為同目錄相對路徑 `<date>.html`
+    （非首頁用的 `archive/<date>.html`）。
+    """
+    groups: list[tuple[str, list[ArchiveLink]]] = []
+    index: dict[str, list[ArchiveLink]] = {}
+    for d in dates:
+        month = d[:7]
+        if month not in index:
+            index[month] = []
+            groups.append((month, index[month]))
+        index[month].append(ArchiveLink(date=d, href=f"{d}.html"))
+    return groups
+
+
 def build_site(report_md: str, date: str) -> dict[str, str]:
     """給定最新一天的 Brief report markdown 與日期，回傳含首頁的站台 map。
 
@@ -110,9 +131,11 @@ def build_site_archive(
     （in-memory；None 時首頁不含敘事區，向後相容 #6/#7）。
     `status` 為已計算的系統狀態 DTO（in-memory；None 時首頁不含系統狀態區，歷史缺失時
     優雅降級，向後相容）。回傳：
-      - index.html：定位句 hero（含「關於本專案」按鈕 → overlay 專案描述）+ 今日重點 + 最新天內文 + 存檔導覽列
+      - index.html：定位句 hero（含「關於本專案」按鈕 → overlay 專案描述）+ 今日重點 +
+        最新天內文 + 存檔導覽列（只列近 30 筆 + 「查看全部存檔」入口）
+      - archive/index.html：全部存檔頁，按月分組列出每一天
       - archive/<date>.html：每天一頁，標示日期、渲染該天 report.md（維持繁中）
-    存檔頁數 == 輸入天數。空語料則只回首頁。無 git / LLM / 網路 / 檔案副作用。
+    單天存檔頁數 == 輸入天數。空語料則只回首頁。無 git / LLM / 網路 / 檔案副作用。
     """
     day_list = list(days)
     site: dict[str, str] = {}
@@ -123,9 +146,14 @@ def build_site_archive(
         )
 
     links = [ArchiveLink(date=d, href=_archive_href(d)) for d, _ in day_list]
+    home_links = links[:_HOME_ARCHIVE_LIMIT]  # 首頁只列近 30 筆
     if day_list:
         latest_date, latest_md = day_list[0]
         latest_body = _render_body(latest_md)
+        # 全部存檔頁（按月分組）；首頁「查看全部存檔」導向它
+        site["archive/index.html"] = render_archive_index(
+            _group_by_month([d for d, _ in day_list])
+        )
     else:
         latest_date, latest_body = "", ""
 
@@ -143,7 +171,8 @@ def build_site_archive(
     site["index.html"] = render_index(
         body_html=latest_body,
         date=latest_date,
-        archive_links=links,
+        archive_links=home_links,
+        full_archive_href="archive/index.html" if day_list else "",
         narrative_html=narrative_html,
         tldr_html=tldr_html,
         status_html=status_html,

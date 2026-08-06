@@ -96,9 +96,12 @@ def test_archive_has_one_page_per_day_count_equals_input():
         ("2026-06-23", "# Day 23"),
     )
     site = build_site_archive(days)
-    archive_pages = [p for p in site if p.startswith("archive/")]
-    assert len(archive_pages) == 3
-    assert set(archive_pages) == {
+    # 排除全部存檔頁 archive/index.html，只數單天頁
+    day_pages = [
+        p for p in site if p.startswith("archive/") and p != "archive/index.html"
+    ]
+    assert len(day_pages) == 3
+    assert set(day_pages) == {
         "archive/2026-06-25.html",
         "archive/2026-06-24.html",
         "archive/2026-06-23.html",
@@ -169,6 +172,67 @@ def test_archive_empty_corpus_returns_index_only():
     site = build_site_archive(_days())
     assert "index.html" in site
     assert not any(p.startswith("archive/") for p in site)
+
+
+# --- 首頁存檔清單 30 筆上限 + 全部存檔頁（按月分組）---
+
+
+def _many_days(n):
+    # 產 n 天（newest first），日期跨月：2026-08-.. 往前
+    import datetime
+
+    base = datetime.date(2026, 8, 31)
+    return [
+        ((base - datetime.timedelta(days=i)).isoformat(), f"# Day {i}")
+        for i in range(n)
+    ]
+
+
+@pytest.mark.unit
+def test_home_archive_list_capped_at_30():
+    site = build_site_archive(_many_days(45))
+    index = site["index.html"]
+    # 首頁最近存檔清單只列 30 筆（最新的 30 天）；排除「查看全部存檔」的 archive/index.html
+    dated = [
+        line
+        for line in index.splitlines()
+        if 'href="archive/2026-' in line
+    ]
+    assert len(dated) == 30
+    # 最新天在、第 31 天起不在首頁清單
+    newest = _many_days(45)[0][0]
+    day31 = _many_days(45)[30][0]
+    assert f'href="archive/{newest}.html"' in index
+    assert f'href="archive/{day31}.html"' not in index
+
+
+@pytest.mark.unit
+def test_home_shows_full_archive_link_when_days_present():
+    index = build_site_archive(_many_days(3))["index.html"]
+    assert 'href="archive/index.html"' in index
+    assert "查看全部存檔" in index
+
+
+@pytest.mark.unit
+def test_full_archive_page_groups_by_month():
+    site = build_site_archive(_many_days(45))  # 橫跨 2026-08 與 2026-07
+    assert "archive/index.html" in site
+    page = site["archive/index.html"]
+    # 月份標題
+    assert "<h2>2026-08</h2>" in page
+    assert "<h2>2026-07</h2>" in page
+    # 頁內每日連結為 archive/ 目錄相對路徑（<date>.html，非 archive/<date>.html）
+    assert 'href="2026-08-31.html"' in page
+    assert 'href="archive/2026-08-31.html"' not in page
+    # 回首頁連結
+    assert 'href="../index.html"' in page
+
+
+@pytest.mark.unit
+def test_day_page_links_to_full_archive():
+    page = build_site_archive(_days(("2026-06-25", "# r")))["archive/2026-06-25.html"]
+    assert 'href="index.html"' in page  # 同目錄的全部存檔頁
+    assert "全部存檔" in page
 
 
 # --- Latest-day 今日重點 TL;DR: build_site_archive(latest_tldr=...) ---
