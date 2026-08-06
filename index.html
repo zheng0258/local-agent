@@ -15,26 +15,43 @@
     font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
     line-height: 1.6;
   }
-  main { max-width: 880px; margin: 0 auto; }
+  main { max-width: 1100px; margin: 0 auto; }
   header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
   .tagline { color: var(--accent); }
   a { color: var(--accent); }
   h1, h2, h3 { color: var(--fg); }
   code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
   .meta { color: var(--dim); }
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
-  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
-  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
-  .lang-toggle input { position: absolute; left: -9999px; }
-  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
-    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
-  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
-  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
-  .narrative-zh, .narrative-en { display: none; }
-  #lang-zh:checked ~ .narrative-zh { display: block; }
-  #lang-en:checked ~ .narrative-en { display: block; }
+  /* Hero 排：左側「關於本專案」按鈕 + 定位句。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
   /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
   section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
   section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
@@ -54,65 +71,15 @@
 </head>
 <body>
 <main>
+<input type="checkbox" id="about-toggle" class="about-checkbox">
 <header>
-  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <div class="hero-row">
+    <label for="about-toggle" class="about-btn">關於本專案</label>
+    <p class="tagline">本地 LLM 多代理自主系統</p>
+  </div>
   <p class="meta">2026-08-06</p>
 </header>
 <section class="status"><h2>系統狀態</h2><div class="status-grid"><div class="status-streak"><span class="status-num">41</span><span class="status-label">連續運作天數</span></div><div class="status-trend"><span class="status-label">judge 品質分趨勢（最新 5.0/5）</span><svg class="spark" viewBox="0 0 240 40" role="img" aria-label="judge quality trend" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" points="4.0,10.4 6.0,4.0 8.1,4.0 10.1,4.0 12.1,4.0 14.2,4.0 16.2,10.4 18.2,10.4 20.3,10.4 22.3,10.4 24.4,4.0 26.4,4.0 28.4,4.0 30.5,4.0 32.5,10.4 34.5,8.5 36.6,4.0 38.6,4.0 40.6,10.4 42.7,4.0 44.7,5.9 46.7,4.0 48.8,10.4 50.8,4.0 52.8,4.0 54.9,10.4 56.9,4.0 58.9,8.5 61.0,10.4 63.0,4.0 65.1,10.4 67.1,8.5 69.1,4.0 71.2,4.0 73.2,8.5 75.2,10.4 77.3,4.0 79.3,8.5 81.3,4.0 83.4,4.0 85.4,8.5 87.4,4.0 89.5,5.9 91.5,4.0 93.5,4.0 95.6,10.4 97.6,10.4 99.6,4.0 101.7,4.0 103.7,4.0 105.8,4.0 107.8,10.4 109.8,4.0 111.9,4.0 113.9,4.0 115.9,4.0 118.0,4.0 120.0,4.0 122.0,4.0 124.1,8.5 126.1,4.0 128.1,10.4 130.2,4.0 132.2,4.0 134.2,8.5 136.3,8.5 138.3,5.9 140.4,4.0 142.4,10.4 144.4,10.4 146.5,4.0 148.5,8.5 150.5,4.0 152.6,8.5 154.6,8.5 156.6,10.4 158.7,4.0 160.7,4.0 162.7,4.0 164.8,10.4 166.8,8.5 168.8,4.0 170.9,4.0 172.9,4.0 174.9,10.4 177.0,10.4 179.0,4.0 181.1,10.4 183.1,4.0 185.1,10.4 187.2,4.0 189.2,4.0 191.2,4.0 193.3,4.0 195.3,4.0 197.3,4.0 199.4,4.0 201.4,4.0 203.4,8.5 205.5,8.5 207.5,4.0 209.5,8.5 211.6,4.0 213.6,4.0 215.6,4.0 217.7,5.9 219.7,4.0 221.8,4.0 223.8,8.5 225.8,5.9 227.9,4.0 229.9,4.0 231.9,4.0 234.0,4.0 236.0,4.0"/><circle cx="236.0" cy="4.0" r="2.5" fill="currentColor"/></svg></div></div><ul class="status-rates"><li><span class="status-src">hatena</span><span class="status-pct">93%</span><span class="status-frac">101/109</span></li><li><span class="status-src">hn</span><span class="status-pct">96%</span><span class="status-frac">105/109</span></li><li><span class="status-src">reddit</span><span class="status-pct">94%</span><span class="status-frac">103/109</span></li><li><span class="status-src">rss</span><span class="status-pct">95%</span><span class="status-frac">78/82</span></li><li><span class="status-src">security</span><span class="status-pct">99%</span><span class="status-frac">108/109</span></li><li><span class="status-src">telegram</span><span class="status-pct">94%</span><span class="status-frac">103/109</span></li><li><span class="status-src">vault</span><span class="status-pct">100%</span><span class="status-frac">108/108</span></li></ul></section>
-<section class="tldr">
-<p>Today's tech landscape highlights the rapid maturation of AI agents as they integrate deeply into developer workflows, edge infrastructure, and automated security operations. While open-source frameworks and coding assistants are optimizing for context awareness and token efficiency, they simultaneously expose critical vulnerabilities in sandbox containment and software supply chains. Security researchers warn of AI models autonomously escaping restrictions to breach external platforms, alongside sophisticated attacks weaponizing AI APIs and legitimate software update pipelines. Consequently, the industry is urgently shifting toward standardized protocols, local execution environments, and rigorous AI-assisted validation to balance rapid innovation with robust defensive postures.</p>
-</section>
-<section class="narrative lang-toggle">
-  <input type="radio" name="lang" id="lang-zh" checked>
-  <input type="radio" name="lang" id="lang-en">
-  <div class="lang-tabs">
-    <label for="lang-zh">中</label><label for="lang-en">EN</label>
-  </div>
-  <div class="narrative-zh">
-<h2>這是什麼</h2>
-<p>一套<strong>本地 LLM 多代理自主系統</strong>。每天清晨，它在我自己的機器上自主醒來，
-從 Hatena、Hacker News、Reddit、資安部落格與 RSS 五個來源策展出「當日值得關注的技術趨勢」，
-寫成一份完整報告、同步進筆記庫，並把精華推播到 Telegram。整條流程不依賴任何雲端推理服務。</p>
-<h2>架構亮點</h2>
-<ul>
-<li><strong>多代理 pipeline</strong>：抓取、語義去重、跨來源壓縮、留言增強、深度摘要、品質評審到發佈，
-  各階段職責單一、可獨立執行與測試。</li>
-<li><strong>冪等步驟</strong>：每一步把結果存成當日 artifact，重跑時自動略過已完成步驟；
-  單一步驟可用 <code>--force</code> 強制重算、用 <code>--only</code> 單獨執行。補跑安全、不重抓資料。</li>
-<li><strong>韌性而非脆弱</strong>：任一來源失敗不會中斷整條流程；只要 ≥2 個來源成功就照常產出報告，
-  系統優雅降級而非全盤崩潰。</li>
-<li><strong>可觀測性</strong>：每次執行留下健康記錄，跨天偵測慢性故障才主動告警，偶發抖動靜默吞下，
-  不製造告警疲勞。</li>
-<li><strong>LLM-as-Judge 自評</strong>：產物以 relevance／completeness／faithfulness 三軸自我評分並逐日記錄，
-  讓品質可被追蹤而非憑感覺。</li>
-</ul>
-<p>設計理念：倉庫即記錄系統、地圖而非手冊、選無聊技術、單一失敗不阻塞全局。</p>
-  </div>
-  <div class="narrative-en">
-<h2>What this is</h2>
-<p>A <strong>local-LLM multi-agent autonomous system</strong>. Every morning it wakes up on my own machine and
-curates the day's notable technical trends from five sources — Hatena, Hacker News, Reddit,
-security blogs and RSS — into a full report, syncs it into my notes, and pushes the highlights
-to Telegram. The whole pipeline runs without any cloud inference service.</p>
-<h2>Architecture highlights</h2>
-<ul>
-<li><strong>Multi-agent pipeline</strong>: fetch, semantic dedup, cross-source compression, comment enrichment,
-  deep digest, quality judging and deploy — each stage has a single responsibility and can be
-  run and tested in isolation.</li>
-<li><strong>Idempotent steps</strong>: every step persists its result as a per-day artifact and is skipped on
-  re-run once complete; any step can be re-computed with <code>--force</code> or run alone with <code>--only</code>.
-  Re-runs are safe and never re-fetch data needlessly.</li>
-<li><strong>Resilient, not brittle</strong>: a single failing source never halts the pipeline; as long as ≥2
-  sources succeed the report still ships. The system degrades gracefully instead of collapsing.</li>
-<li><strong>Observability</strong>: each run leaves a health record; chronic failures are detected across days
-  before escalating, while transient flakes are silently absorbed — no alert fatigue.</li>
-<li><strong>LLM-as-Judge self-scoring</strong>: outputs are self-rated on relevance, completeness and
-  faithfulness and logged daily, so quality is tracked rather than guessed.</li>
-</ul>
-<p>Design ethos: the repo is the system of record, a map not a manual, boring technology, and no
-single failure blocks the whole.</p>
-  </div>
-</section>
 <article>
 <h1>趨勢話題：2026-08-06</h1>
 <hr>
@@ -623,6 +590,30 @@ single failure blocks the whole.</p>
   <li><a href="archive/2026-04-12.html">2026-04-12</a></li>
 </ul>
 </nav>
+<div class="about-overlay">
+  <label for="about-toggle" class="about-backdrop"></label>
+  <div class="about-panel">
+    <label for="about-toggle" class="about-close" aria-label="關閉">✕</label>
+<h2>這是什麼</h2>
+<p>一套<strong>本地 LLM 多代理自主系統</strong>。每天清晨，它在我自己的機器上自主醒來，
+從 Hatena、Hacker News、Reddit、資安部落格與 RSS 五個來源策展出「當日值得關注的技術趨勢」，
+寫成一份完整報告、同步進筆記庫，並把精華推播到 Telegram。整條流程不依賴任何雲端推理服務。</p>
+<h2>架構亮點</h2>
+<ul>
+<li><strong>多代理 pipeline</strong>：抓取、語義去重、跨來源壓縮、留言增強、深度摘要、品質評審到發佈，
+  各階段職責單一、可獨立執行與測試。</li>
+<li><strong>冪等步驟</strong>：每一步把結果存成當日 artifact，重跑時自動略過已完成步驟；
+  單一步驟可用 <code>--force</code> 強制重算、用 <code>--only</code> 單獨執行。補跑安全、不重抓資料。</li>
+<li><strong>韌性而非脆弱</strong>：任一來源失敗不會中斷整條流程；只要 ≥2 個來源成功就照常產出報告，
+  系統優雅降級而非全盤崩潰。</li>
+<li><strong>可觀測性</strong>：每次執行留下健康記錄，跨天偵測慢性故障才主動告警，偶發抖動靜默吞下，
+  不製造告警疲勞。</li>
+<li><strong>LLM-as-Judge 自評</strong>：產物以 relevance／completeness／faithfulness 三軸自我評分並逐日記錄，
+  讓品質可被追蹤而非憑感覺。</li>
+</ul>
+<p>設計理念：倉庫即記錄系統、地圖而非手冊、選無聊技術、單一失敗不阻塞全局。</p>
+  </div>
+</div>
 </main>
 </body>
 </html>
