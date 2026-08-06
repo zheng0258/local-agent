@@ -33,6 +33,11 @@
   article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
   article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
   .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
