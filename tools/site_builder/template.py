@@ -25,26 +25,43 @@ _SHELL_STYLE = """
     font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
     line-height: 1.6;
   }
-  main { max-width: 880px; margin: 0 auto; }
+  main { max-width: 1100px; margin: 0 auto; }
   header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
   .tagline { color: var(--accent); }
   a { color: var(--accent); }
   h1, h2, h3 { color: var(--fg); }
   code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
   .meta { color: var(--dim); }
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
-  section.narrative { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
-  /* EN／中 切換：純 CSS，無 JS 框架。隱藏 radio，label 當分頁鈕，:checked 決定顯示哪版。 */
-  .lang-toggle input { position: absolute; left: -9999px; }
-  .lang-toggle label { cursor: pointer; color: var(--dim); border: 1px solid var(--dim);
-    padding: 0.15rem 0.6rem; margin-right: 0.4rem; border-radius: 3px; user-select: none; }
-  #lang-zh:checked ~ .lang-tabs label[for="lang-zh"],
-  #lang-en:checked ~ .lang-tabs label[for="lang-en"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
-  .narrative-zh, .narrative-en { display: none; }
-  #lang-zh:checked ~ .narrative-zh { display: block; }
-  #lang-en:checked ~ .narrative-en { display: block; }
+  /* Hero 排：左側「關於本專案」按鈕 + 定位句。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
   /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
   section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
   section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
@@ -81,27 +98,15 @@ _INDEX_TEMPLATE = Template(
 </head>
 <body>
 <main>
+{% if narrative_html %}<input type="checkbox" id="about-toggle" class="about-checkbox">{% endif %}
 <header>
-  <p class="tagline">{{ positioning_line }}</p>
+  <div class="hero-row">
+{% if narrative_html %}    <label for="about-toggle" class="about-btn">關於本專案</label>{% endif %}
+    <p class="tagline">{{ positioning_line }}</p>
+  </div>
   <p class="meta">{{ date }}</p>
 </header>
 {% if status_html %}{{ status_html }}{% endif %}
-{% if tldr_html %}<section class="tldr">
-{{ tldr_html }}
-</section>{% endif %}
-{% if narrative_zh_html or narrative_en_html %}<section class="narrative lang-toggle">
-  <input type="radio" name="lang" id="lang-zh" checked>
-  <input type="radio" name="lang" id="lang-en">
-  <div class="lang-tabs">
-    <label for="lang-zh">中</label><label for="lang-en">EN</label>
-  </div>
-  <div class="narrative-zh">
-{{ narrative_zh_html }}
-  </div>
-  <div class="narrative-en">
-{{ narrative_en_html }}
-  </div>
-</section>{% endif %}
 <article>
 {{ body_html }}
 </article>
@@ -111,6 +116,13 @@ _INDEX_TEMPLATE = Template(
 {% for link in archive_links %}  <li><a href="{{ link.href }}">{{ link.date }}</a></li>
 {% endfor %}</ul>
 </nav>{% endif %}
+{% if narrative_html %}<div class="about-overlay">
+  <label for="about-toggle" class="about-backdrop"></label>
+  <div class="about-panel">
+    <label for="about-toggle" class="about-close" aria-label="關閉">✕</label>
+{{ narrative_html }}
+  </div>
+</div>{% endif %}
 </main>
 </body>
 </html>
@@ -147,17 +159,15 @@ def render_index(
     body_html: str,
     date: str,
     archive_links: Sequence[ArchiveLink] = (),
-    narrative_zh_html: str = "",
-    narrative_en_html: str = "",
-    tldr_html: str = "",
+    narrative_html: str = "",
     status_html: str = "",
 ) -> str:
-    """渲染首頁 HTML：技術終端 shell 包住系統狀態區 + 英文 TL;DR + 雙語敘事（EN／中 切換）+ 最新天內文 + 存檔導覽列。
+    """渲染首頁 HTML：技術終端 shell 包住系統狀態區 + 最新天內文 + 存檔導覽列。
 
     `status_html` 為已渲染的系統狀態區 HTML（連續天數 + judge sparkline + 來源成功率；
     空字串時不渲染該區段，向後相容 #6/#7/#8/#9）。
-    `tldr_html` 為已渲染消毒的當日英文 TL;DR HTML（空字串時不渲染該區段，向後相容）。
-    `narrative_*_html` 為已渲染消毒的中英敘事 HTML（皆空時不渲染敘事區，向後相容）。
+    `narrative_html` 為已渲染消毒的專案描述 HTML（繁中）；非空時 hero 排顯示「關於本專案」
+    按鈕，點擊彈出 overlay 呈現，不直接顯示在頁面主流程（空字串時不渲染按鈕與 overlay）。
     """
     return _INDEX_TEMPLATE.render(
         body_html=body_html,
@@ -165,9 +175,7 @@ def render_index(
         positioning_line=POSITIONING_LINE,
         shell_style=_SHELL_STYLE,
         archive_links=list(archive_links),
-        narrative_zh_html=narrative_zh_html,
-        narrative_en_html=narrative_en_html,
-        tldr_html=tldr_html,
+        narrative_html=narrative_html,
         status_html=status_html,
     )
 
