@@ -10,7 +10,7 @@
 from __future__ import annotations
 
 from .builder import Narrative, build_site, build_site_archive
-from .loader import load_days, load_narrative, load_status
+from .loader import load_days, load_latest_tldr, load_narrative, load_status
 from .status import SystemStatus
 from .writer import write_site
 
@@ -20,6 +20,7 @@ __all__ = [
     "build_site",
     "build_site_archive",
     "load_days",
+    "load_latest_tldr",
     "load_narrative",
     "load_status",
     "write_site",

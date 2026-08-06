@@ -149,7 +149,7 @@ STEP_CONFIGS: dict[str, StepConfig] = {
     "tldr": StepConfig(
         max_retries=2,
         strategy="plain",
-        task_description="將當日 digests 摘要成一段精簡英文 TL;DR（純文字），供 Showcase Site 首頁最新天呈現",
+        task_description="將當日 digests 摘要成一段精簡繁中今日重點（純文字），供 Showcase Site 首頁最新天呈現",
     ),
     "deploy": StepConfig(
         max_retries=1,

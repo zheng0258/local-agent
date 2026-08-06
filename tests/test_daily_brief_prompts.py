@@ -243,9 +243,10 @@ def test_build_tldr_prompt_includes_digests_input():
     assert digests_json in p
 
 
-def test_build_tldr_prompt_instructs_english_plaintext():
-    """TL;DR 必須是英文純文字，prompt 應明確要求英文且不包成 JSON。"""
+def test_build_tldr_prompt_instructs_chinese_plaintext():
+    """今日重點為繁體中文純文字（全站語言一致），prompt 應明確要求繁中且不包成 JSON。"""
     p = prompts.build_tldr_prompt("{}")
-    assert "English" in p
+    assert "繁體中文" in p
+    assert "English" not in p
     # 純文字輸出，不包成 JSON
     assert "不要包裝成 JSON" in p

@@ -1,4 +1,4 @@
-"""TldrStep — 當日英文 TL;DR（吃 digests，產 tldr.json）。
+"""TldrStep — 當日今日重點（繁體中文，吃 digests，產 tldr.json）。
 
 producer 邏輯住 _produce（讀 ctx.llm）；gating + artifact I/O 由 Step 基底處理。
 persist 為 {"tldr": <text>}，下游（builder）只拿純文字。

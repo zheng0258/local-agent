@@ -43,6 +43,11 @@ _SHELL_STYLE = """
   article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
   article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
   .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
@@ -107,6 +112,10 @@ _INDEX_TEMPLATE = Template(
   <p class="meta">{{ date }}</p>
 </header>
 {% if status_html %}{{ status_html }}{% endif %}
+{% if tldr_html %}<section class="tldr">
+<p class="meta">今日重點</p>
+{{ tldr_html }}
+</section>{% endif %}
 <article>
 {{ body_html }}
 </article>
@@ -160,14 +169,16 @@ def render_index(
     date: str,
     archive_links: Sequence[ArchiveLink] = (),
     narrative_html: str = "",
+    tldr_html: str = "",
     status_html: str = "",
 ) -> str:
-    """渲染首頁 HTML：技術終端 shell 包住系統狀態區 + 最新天內文 + 存檔導覽列。
+    """渲染首頁 HTML：技術終端 shell 包住系統狀態區 + 今日重點 + 最新天內文 + 存檔導覽列。
 
     `status_html` 為已渲染的系統狀態區 HTML（連續天數 + judge sparkline + 來源成功率；
     空字串時不渲染該區段，向後相容 #6/#7/#8/#9）。
     `narrative_html` 為已渲染消毒的專案描述 HTML（繁中）；非空時 hero 排顯示「關於本專案」
     按鈕，點擊彈出 overlay 呈現，不直接顯示在頁面主流程（空字串時不渲染按鈕與 overlay）。
+    `tldr_html` 為已渲染消毒的當日今日重點 HTML（繁中；空字串時不渲染該區段，向後相容）。
     """
     return _INDEX_TEMPLATE.render(
         body_html=body_html,
@@ -176,6 +187,7 @@ def render_index(
         shell_style=_SHELL_STYLE,
         archive_links=list(archive_links),
         narrative_html=narrative_html,
+        tldr_html=tldr_html,
         status_html=status_html,
     )
 
