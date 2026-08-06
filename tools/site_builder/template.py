@@ -51,8 +51,9 @@ _SHELL_STYLE = """
   nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
   nav.archive ul { list-style: none; padding: 0; }
   nav.archive li { margin: 0.25rem 0; }
-  /* Hero 排：左側「關於本專案」按鈕 + 定位句。專案描述不直接顯示，收進 overlay。 */
-  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
   .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
     padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
   .about-btn:hover { border-color: var(--accent); }
@@ -106,8 +107,8 @@ _INDEX_TEMPLATE = Template(
 {% if narrative_html %}<input type="checkbox" id="about-toggle" class="about-checkbox">{% endif %}
 <header>
   <div class="hero-row">
-{% if narrative_html %}    <label for="about-toggle" class="about-btn">關於本專案</label>{% endif %}
     <p class="tagline">{{ positioning_line }}</p>
+{% if narrative_html %}    <label for="about-toggle" class="about-btn">關於本專案</label>{% endif %}
   </div>
   <p class="meta">{{ date }}</p>
 </header>
