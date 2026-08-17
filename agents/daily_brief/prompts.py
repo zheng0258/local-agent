@@ -462,10 +462,12 @@ def build_report_prompt_from_compress(
 ### 依類別列表
 
 **資安類**
+
 1. [標題](URL) (1234 ups) — r/xxx — 一行摘要
    💬 社群觀點：社群的主流看法（僅 digest 有 comment_summary 欄位時才顯示此行）
 
 **AI 類**
+
 1. [標題](URL) (1234 ups) — r/xxx — 一行摘要
 
 ---

@@ -79,6 +79,33 @@ def test_index_preserves_safe_links_and_tables():
     assert "https://ok.example/a" in html
 
 
+@pytest.mark.unit
+def test_index_breaks_list_after_bold_header_into_ol():
+    # Reddit「依類別列表」：`**資安類**` 緊接 `1. …`（無空行）。python-markdown 預設
+    # 不讓清單中斷段落，會塌成單一 <p>、編號不換行。builder 需正規化補空行 → <p> + <ol>。
+    md = (
+        "**資安類**\n"
+        "1. [CVE](https://sec.example/a) (- ups) — r/x — 漏洞一\n"
+        "2. [Mac](https://sec.example/b) (- ups) — r/y — 漏洞二\n"
+        "\n"
+        "**AI 類**\n"
+        "1. [Claude](https://ai.example/c) (- ups) — 摘要\n"
+    )
+    html = build_site(report_md=md, date="2026-06-25")["index.html"]
+    assert "<p><strong>資安類</strong></p>" in html
+    assert "<p><strong>AI 類</strong></p>" in html
+    assert html.count("<ol>") == 2  # 兩個獨立有序清單，而非塌進段落
+    assert "<li>" in html
+
+
+@pytest.mark.unit
+def test_index_keeps_consecutive_list_items_in_one_ol():
+    # 正規化只在段落→清單交界補空行，不得在連續清單項間插空行拆成多個 <ol>。
+    md = "1. 甲\n2. 乙\n3. 丙\n"
+    html = build_site(report_md=md, date="2026-06-25")["index.html"]
+    assert html.count("<ol>") == 1
+
+
 # --- Archive corpus (issue #7): build_site_archive(days) ---
 
 

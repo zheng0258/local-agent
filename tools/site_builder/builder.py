@@ -12,6 +12,7 @@ python-markdown 官方明言它不是 sanitizer，消毒責任在此。
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Iterable, Optional, Tuple
 
@@ -78,9 +79,34 @@ def _sanitize(body_html: str) -> str:
     )
 
 
+# 無縮排的清單起始行（有序 `1. ` 或無序 `- `/`* `/`+ `）。`**粗體**` 因 `*` 後無空白不匹配。
+_LIST_START = re.compile(r"^(\d+\.|[-*+])\s")
+
+
+def _normalize_list_breaks(report_md: str) -> str:
+    """在緊接段落的清單首項前補一空行，讓 python-markdown 正確斷成 <p> + <ol>/<ul>。
+
+    LLM 常照 prompt 範例把 `**資安類**` 與其後 `1. …` 寫成相鄰兩行（無空行）。
+    python-markdown 預設不允許清單中斷段落，會把整段塌成單一 <p>、編號變純文字流而不換行
+    （Reddit「依類別列表」的資安類/AI 類即此症）。這裡對「無縮排清單首項、且前一行為非空、
+    非清單、非縮排續行」的情形補一空行——精準命中該症，不動連續清單項與縮排的 💬 續行。
+    純字串轉換，不 mutate 輸入。
+    """
+    lines = report_md.split("\n")
+    out: list[str] = []
+    for i, line in enumerate(lines):
+        if i > 0 and _LIST_START.match(line):
+            prev = lines[i - 1]
+            if prev.strip() and not _LIST_START.match(prev) and not prev[:1].isspace():
+                out.append("")
+        out.append(line)
+    return "\n".join(out)
+
+
 def _render_body(report_md: str) -> str:
     """markdown → sanitized HTML（所有 report 內文唯一渲染路徑）。"""
-    return _sanitize(_markdown.markdown(report_md or "", extensions=["extra"]))
+    normalized = _normalize_list_breaks(report_md or "")
+    return _sanitize(_markdown.markdown(normalized, extensions=["extra"]))
 
 
 def _archive_href(date: str) -> str:
