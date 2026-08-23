@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-08-18</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-08-18</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-08-18</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://piyolog.hatenadiary.jp/entry/2026/08/17/053005" rel="noopener noreferrer">明知疑似北韓 IT 勞務人員仍進行錄用之調查報告整理</a></td>
+<td>312</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>調查揭露北韓IT勞工滲透企業手法</td>
+</tr>
+<tr>
+<td><a href="https://www.sakura.ad.jp/corporate/information/newsreleases/2026/08/17/1968225614/" rel="noopener noreferrer">關於本司租賃伺服器服務部分環境遭非法存取之公告</a></td>
+<td>146</td>
+<td>***</td>
+<td>雲端資安</td>
+<td>櫻花租服遭入侵疑個資外洩</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/hidebike712/books/oauth-attacks-and-bcp" rel="noopener noreferrer">從攻擊手法學習 OAuth 安全性最佳實踐</a></td>
+<td>127</td>
+<td>***</td>
+<td>開發防護</td>
+<td>剖析OAuth攻擊手法與防護實務</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://piyolog.hatenadiary.jp/entry/2026/08/17/053005" rel="noopener noreferrer">明知疑似北韓 IT 勞務人員仍進行錄用之調查報告整理</a> (312 users) — 調查揭露北韓IT勞工滲透企業手法</li>
+<li><a href="https://www.sakura.ad.jp/corporate/information/newsreleases/2026/08/17/1968225614/" rel="noopener noreferrer">關於本司租賃伺服器服務部分環境遭非法存取之公告</a> (146 users) — 櫻花租服遭入侵疑個資外洩</li>
+<li><a href="https://zenn.dev/hidebike712/books/oauth-attacks-and-bcp" rel="noopener noreferrer">從攻擊手法學習 OAuth 安全性最佳實踐</a> (127 users) — 剖析OAuth攻擊手法與防護實務</li>
+<li><a href="https://ascii.jp/elem/000/004/427/4427059/" rel="noopener noreferrer">糞便博物館疑遭非法存取，個資恐遭外洩</a> (76 users) — 糞便博物館問卷遭竊疑個資外洩</li>
+<li><a href="https://zenn.dev/aun_phonogram/articles/3f8c1a7b5d902e" rel="noopener noreferrer">高效使用 Codex 的方法（ChatGPT + GitHub）</a> (38 users) — 掌握Codex串接GitHub開發流程</li>
+<li><a href="https://thinktwice.tech/posts/662369a094f89445d573c995c4f094fd/" rel="noopener noreferrer">何謂 AI 驅動開發中的「循環工程學」</a> (37 users) — 設計AI反饋循環提升開發效率</li>
+<li><a href="https://gigazine.net/news/20260817-qwen3-8-27b/" rel="noopener noreferrer">可於本地執行的「Qwen3.8-27B」免費公開</a> (20 users) — 本地Qwen27B開源性能挑戰Claude</li>
+<li><a href="https://gigazine.net/news/20260817-z-ai-glm-5-3/" rel="noopener noreferrer">Z.ai 發布具優異程式碼能力的開權重 AI 模型「GLM-5.3」</a> (4 users) — GLM-5.3開源模型編碼能力躍升</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49329575" rel="noopener noreferrer">GPT 5.6 Sol 是 OpenAI 歷史上最強的「視覺」模型</a></td>
+<td>216pt</td>
+<td>***</td>
+<td>AI視覺</td>
+<td>OpenAI發布最強視覺模型GPT 5.6 Sol</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49331423" rel="noopener noreferrer">AI 生成的 GitHub Copilot「自動修復」功能導致 Snowflake 的 Jira 遭入侵</a></td>
+<td>168pt</td>
+<td>***</td>
+<td>AI開發資安</td>
+<td>Copilot自動修復功能引發資安漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49332564" rel="noopener noreferrer">Anthropic 對抗開源 AI 的戰爭</a></td>
+<td>63pt</td>
+<td>***</td>
+<td>AI戰略</td>
+<td>Anthropic打壓開源AI引發產業對立</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49329575" rel="noopener noreferrer">GPT 5.6 Sol 是 OpenAI 歷史上最強的「視覺」模型</a> (216pt) — OpenAI發布最強視覺模型GPT 5.6 Sol
+   💬 社群觀點：主流肯定其實戰視覺分析能力，但爭議基準測試標註錯誤與缺乏細節審美；建議部分任務仍搭配傳統工具。</li>
+<li><a href="https://news.ycombinator.com/item?id=49331423" rel="noopener noreferrer">AI 生成的 GitHub Copilot「自動修復」功能導致 Snowflake 的 Jira 遭入侵</a> (168pt) — Copilot自動修復功能引發資安漏洞
+   💬 社群觀點：社群指出AI修復仍需同行審查與靜態分析。漏洞源於YAML缺陷與盲目信任AI，企業應嚴控自動化流程，強化CI檢查。</li>
+<li><a href="https://news.ycombinator.com/item?id=49332564" rel="noopener noreferrer">Anthropic 對抗開源 AI 的戰爭</a> (63pt) — Anthropic打壓開源AI引發產業對立
+   💬 社群觀點：社群指Anthropic受IPO驅動、限制開源且危險。主流力挺開源AI，呼籲政府監管其財務與宣稱，並抱怨X體驗。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1vqojw3/they_patched_their_saas_and_left_the_selfhosted/" rel="noopener noreferrer">他們修補了 SaaS 版本，卻讓自架開源版留有漏洞：AppFlowy 驗證式 SQL 注入漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>開源資安</td>
+<td>r/netsec</td>
+<td>自架開源版未同步修補SaaS漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vqrt86/after_pushing_1m_tokens_through_qwen_38_27b_here/" rel="noopener noreferrer">透過 Qwen 3.8 27B 推送超過 100 萬 tokens 後，這是我的 16GB VRAM 最佳 llama.cpp 配置（73k 上下文，代理程式碼生成）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>邊緣AI</td>
+<td>r/LocalLLaMA</td>
+<td>16GB顯卡最佳化部署Qwen 27B模型</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1vqojw3/they_patched_their_saas_and_left_the_selfhosted/" rel="noopener noreferrer">他們修補了 SaaS 版本，卻讓自架開源版留有漏洞：AppFlowy 驗證式 SQL 注入漏洞</a> (- ups) — r/netsec — 自架開源版未同步修補SaaS漏洞</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vqrt86/after_pushing_1m_tokens_through_qwen_38_27b_here/" rel="noopener noreferrer">透過 Qwen 3.8 27B 推送超過 100 萬 tokens 後，這是我的 16GB VRAM 最佳 llama.cpp 配置（73k 上下文，代理程式碼生成）</a> (- ups) — r/LocalLLaMA — 16GB顯卡最佳化部署Qwen 27B模型</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/weekly-recap-vmware-exploits-windows-0.html" rel="noopener noreferrer">⚡ 每週回顧：VMware 漏洞利用、Windows 0-Day、MCP 攻擊、瀏覽器劫持等</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>週報匯整虛擬化與瀏覽器最新資安漏洞。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/how-mcp-servers-can-expose-enterprise.html" rel="noopener noreferrer">MCP 伺服器如何洩漏企業機密</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>MCP伺服器設定疏漏易致企業機密外洩。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/unisoc-volte-video-call-exploit-chain.html" rel="noopener noreferrer">Unisoc VoLTE 視訊通話漏洞利用鏈可讓攻擊者取得完整 Android 核心存取權</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>視訊通話漏洞可奪取手機核心權限。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/evooo1bot-linux-botnet-exploits-known.html" rel="noopener noreferrer">Evooo1Bot Linux 殭屍網路利用已知漏洞將邊緣裝置轉為 SOCKS5 代理</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Linux殭屍網路操控邊緣裝置成代理。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/apple-macos-screen-sharing-flaw.html" rel="noopener noreferrer">Apple macOS 螢幕共用漏洞遭利用於暴露於網際網路的 Mac 安裝 Monero 挖礦程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>macOS螢幕漏洞遭利用植入挖礦程式。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/mustang-panda-adds-signed-windows.html" rel="noopener noreferrer">Mustang Panda 為 CoolClient 後門加入已簽名 Windows Rootkit 以增強隱蔽性</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客為後門加簽名Rootkit提升隱蔽。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/chrome-devtools-technique-enables.html" rel="noopener noreferrer">Chrome DevTools 技術可劫持 Windows 瀏覽器中的已驗證工作階段</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>DevTools技術可劫持瀏覽器工作階段。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/ctm360-uncovers-over-3000-recruitment.html" rel="noopener noreferrer">CTM360 揭露逾 3000 個使用瀏覽器內嵌瀏覽器 (BitB) 憑證釣魚陷阱的招聘詐騙網址</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>揭露大量利用BitB的招聘釣魚詐騙。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/china-linked-jewelbug-uses-xg-web-for.html" rel="noopener noreferrer">中國關聯組織 Jewelbug 使用 XG-Web 進行政府間諜活動與加密貨幣詐騙</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>中國駭客組織藉工具從事間諜詐騙。</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/08/hacking-public-wi-fi-dns-to-steal-credentials.html" rel="noopener noreferrer">駭入公共 Wi-Fi DNS 以竊取憑證</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>篡改公共網路DNS以導流竊取憑證。</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/minia2a/circle-ships-an-app-store-for-ai-agents-and-discovery-becomes-the-moat-2j99" rel="noopener noreferrer">Circle 推出 AI 代理程式應用程式商店——發現機制成為護城河</a></td>
+<td>Dev.to</td>
+<td>***</td>
+<td>Circle上線AI代理商店發現成關鍵。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/08/grab-ai-analytics-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Grab 使用 AI 代理程式將機械性分析工作從 44% 降至 30%</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Grab導入AI代理顯著降低分析工作量。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/08/cloudflare-ci-code-workflows/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cloudflare 將 CI 管線轉為 TypeScript 工作流程</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>雲端CI管線全面改寫為工作流模式。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/agentic-fitness-functions-evolutionary-architecture/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：代理程式適應度函式：將演化式架構延伸至確定性規則之外</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>代理適應度函式輔助架構超越確定規則。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/08/grafana-mcp-server-telemetry/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Grafana 的 gcx 與 MCP 伺服器正式發布，支援以遙測資料驅動的代理程式開發</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Grafana推MCP伺服器支援代理開發。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與資安風險並存】</strong> — 從 GitHub Copilot 自動修復引發的 Snowflake Jira 入侵事件，到 MCP 伺服器設定疏漏與 OAuth 攻擊手法，顯示 AI 輔助編程與代理程式在提升效率的同時，也大幅擴展了攻擊面，企業亟需強化 CI 檢查與零信任架構。</li>
+<li><strong>【開源大模型本地化與邊緣運算優化】</strong> — Qwen 3.8 27B 與 GLM-5.3 等開源模型持續突破效能壁壘，開發者社群積極分享在 16GB VRAM 消費級顯卡上的最佳化部署經驗，推動 AI 基礎設施向低成本、高隱私的邊緣端轉移。</li>
+<li><strong>【供應鏈與基礎設施攻擊升級】</strong> — 櫻花租服遭非法存取、VMware 與 Windows 零日漏洞頻傳，加上殭屍網路操控邊緣裝置與招聘釣魚詐騙手法翻新，顯示攻擊者正從應用層轉向底層虛擬化、通訊協定與公共網路基礎設施。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 開發與自動化資安風險</strong>：Hatena + HN + Reddit 同步出現 — 社群廣泛關注 AI 輔助編碼（Copilot、Codex）與自動化流程（CI/CD、MCP）帶來的潛在漏洞，強調同行審查與權限控管的必要性。</li>
+<li><strong>開源模型本地部署與最佳化</strong>：Hatena + Reddit 同步出現 — 開發者熱烈討論 Qwen 27B 在消費級硬體上的量化與上下文最佳化配置，反映離線運算與隱私保護需求激增。</li>
+<li><strong>基礎設施與雲端服務漏洞</strong>：HN + RSS + Hatena 同步出現 — 櫻花租服入侵、VMware/Windows 0day 與 MCP 洩密事件跨平台引發警覺，凸顯傳統邊界防禦已無法應對現代混合雲環境的威脅。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
