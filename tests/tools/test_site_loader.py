@@ -12,6 +12,7 @@ from tools.site_builder import Narrative, load_days, load_narrative
 from tools.site_builder.loader import (
     DEFAULT_NARRATIVE_PATH,
     load_latest_tldr,
+    load_raw_histories,
     load_status,
 )
 from tools.site_builder.status import SystemStatus
@@ -193,6 +194,40 @@ def test_load_status_tolerates_corrupt_json(tmp_path):
     (tmp_path / "_judge-history.json").write_text("{not json", encoding="utf-8")
     (tmp_path / "_health-history.json").write_text("also broken", encoding="utf-8")
     assert load_status(tmp_path) is None
+
+
+# --- load_raw_histories: 把 judge/health 歷史原文發佈成站上機器可讀端點 ---
+
+
+@pytest.mark.unit
+def test_load_raw_histories_exposes_both_with_clean_names(tmp_path):
+    judge = [{"date": "2026-06-25", "overall": 5.0}]
+    health = [{"date": "2026-06-25", "results": {"hn": "ok"}}]
+    _write_history(tmp_path, judge=judge, health=health)
+    site = load_raw_histories(tmp_path)
+    assert set(site) == {"judge-history.json", "health-history.json"}
+    # 站上端點是合法 JSON，內容與來源一致（去前導底線的乾淨檔名）
+    assert json.loads(site["judge-history.json"]) == judge
+    assert json.loads(site["health-history.json"]) == health
+
+
+@pytest.mark.unit
+def test_load_raw_histories_skips_missing_file(tmp_path):
+    _write_history(tmp_path, health=[{"date": "2026-06-25", "results": {}}])
+    site = load_raw_histories(tmp_path)
+    assert set(site) == {"health-history.json"}  # judge 缺 → 不發該端點
+
+
+@pytest.mark.unit
+def test_load_raw_histories_skips_corrupt_or_non_list(tmp_path):
+    (tmp_path / "_judge-history.json").write_text("{not json", encoding="utf-8")
+    (tmp_path / "_health-history.json").write_text('{"a": 1}', encoding="utf-8")  # dict 非 list
+    assert load_raw_histories(tmp_path) == {}
+
+
+@pytest.mark.unit
+def test_load_raw_histories_empty_when_none(tmp_path):
+    assert load_raw_histories(tmp_path) == {}
 
 
 @pytest.mark.unit

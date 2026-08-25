@@ -216,19 +216,25 @@ class DailyBriefAgent:
             load_days,
             load_latest_tldr,
             load_narrative,
+            load_raw_histories,
             load_status,
         )
 
         # 全量重建 thunk：讀全部歷史天 + 手寫專案描述 config + 當日今日重點 +
         # judge/health 歷史推導的系統狀態 → 整站 map（公開站 ⇔ 本機真實狀態一致；
         # 描述收 overlay，報告/存檔維持繁中；今日重點只在最新天；系統狀態展現 instrumentation）。
+        # 另把 judge/health 歷史原文以乾淨檔名發佈成機器可讀端點（外部 PM 審查 routine
+        # 從 URL 讀長期趨勢）；immutable 合併，站頁 map 覆寫不到這兩個 key。
         DeployStep(
-            lambda: build_site_archive(
-                load_days(OUTPUT_DIR),
-                narrative=load_narrative(),
-                latest_tldr=load_latest_tldr(OUTPUT_DIR),
-                status=load_status(OUTPUT_DIR),
-            ),
+            lambda: {
+                **build_site_archive(
+                    load_days(OUTPUT_DIR),
+                    narrative=load_narrative(),
+                    latest_tldr=load_latest_tldr(OUTPUT_DIR),
+                    status=load_status(OUTPUT_DIR),
+                ),
+                **load_raw_histories(OUTPUT_DIR),
+            },
             ctx.today,
         ).run(ctx, None)
 

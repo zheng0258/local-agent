@@ -100,6 +100,38 @@ def load_status(output_dir: Path | str) -> Optional[SystemStatus]:
     return compute_status(judge_history=judge, health_history=health)
 
 
+# 站上機器可讀端點檔名（去掉本機檔的前導底線；供外部 PM 審查 routine 讀取趨勢）。
+_RAW_HISTORY_SITE_FILES: dict[str, str] = {
+    JUDGE_HISTORY_FILE: "judge-history.json",
+    HEALTH_HISTORY_FILE: "health-history.json",
+}
+
+
+def load_raw_histories(output_dir: Path | str) -> dict[str, str]:
+    """讀 judge/health 歷史檔原文，回傳 {站上相對路徑: JSON 文字} map。
+
+    把本機 gitignore 的 `_judge-history.json` / `_health-history.json` 以乾淨檔名
+    （`judge-history.json` / `health-history.json`）發佈到公開站，讓外部 PM 審查
+    routine 能從 URL 讀到品質與健康的長期趨勢。只收**存在且為合法 JSON list** 的檔，
+    缺檔 / 損毀者靜默略過（絕不寫壞端點）。唯一碰檔案的原文讀取點（impure），
+    回傳純記憶體 map 供 build thunk 合併。注入式 output_dir。
+    """
+    base = Path(output_dir)
+    site: dict[str, str] = {}
+    for src_name, site_name in _RAW_HISTORY_SITE_FILES.items():
+        path = base / src_name
+        if not path.is_file():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if not isinstance(data, list):
+            continue
+        site[site_name] = json.dumps(data, ensure_ascii=False, indent=2)
+    return site
+
+
 def load_narrative(path: Path | str = DEFAULT_NARRATIVE_PATH) -> Narrative:
     """讀雙語敘事 config 檔，切出 zh／en 兩版 markdown，回傳 Narrative。
 
