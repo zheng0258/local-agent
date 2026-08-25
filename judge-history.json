@@ -1,0 +1,1352 @@
+[
+  {
+    "date": "2026-04-14",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-15",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-16",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-17",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-18",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-19",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-20",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-21",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-22",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-23",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-24",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-25",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-26",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-27",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-28",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-29",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-04-30",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-01",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-02",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-03",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-04",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-05",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-06",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-07",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-08",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-09",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-10",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-11",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-12",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-13",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-14",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-15",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-16",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-17",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-18",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-19",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-20",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-21",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-22",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-23",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-24",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-25",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-26",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-27",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-28",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-29",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-30",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-05-31",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-01",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-02",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-03",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-04",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-05",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-06",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-07",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-08",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-09",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-10",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-11",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-12",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-13",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-14",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-15",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-16",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-17",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-18",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-19",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-20",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-21",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-22",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-23",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-24",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-25",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-26",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-27",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-28",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-29",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-06-30",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-01",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-02",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-03",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-04",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-05",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-06",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-07",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-08",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-09",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-10",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-11",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-12",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-13",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-14",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-15",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-16",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-17",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-18",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-19",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-20",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-21",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-22",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-23",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-24",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-25",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-26",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-27",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-28",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-29",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-30",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-07-31",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-01",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-02",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-03",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-04",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-05",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-06",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-07",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-08",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-09",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-10",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-11",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-12",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-13",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-14",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-15",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-16",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-17",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-18",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-19",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-20",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-21",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-22",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-23",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-24",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 3,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-25",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-08-26",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 3
+    },
+    "quality_alert": false
+  }
+]
