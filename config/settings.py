@@ -27,7 +27,9 @@ VAULT_ROOT: Path | None = Path(_VAULT_ROOT_RAW) if _VAULT_ROOT_RAW else None
 
 DEFAULT_LOCAL_LLM_URL = "http://localhost:1234"
 DEFAULT_LOCAL_LLM_MODEL = "qwen/qwen3.6-27b"
-DEFAULT_JUDGE_LLM_MODEL = "google/gemma-4-e4b"
+# qwen3.6-35b-a3b：a3b 稀疏 MoE（active ~3b、開銷低），實測比 gemma-4-e4b
+# 有鑑別力（會針對具體缺陷扣分而非一律給 5）；解 judge 飽和（見 issue #24）。
+DEFAULT_JUDGE_LLM_MODEL = "qwen3.6-35b-a3b"
 
 
 class LLMBackend(Protocol):

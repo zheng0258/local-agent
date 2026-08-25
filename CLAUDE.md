@@ -171,7 +171,7 @@ python lint/check_fetcher_interface.py
 
 ## Judge 模型配置
 
-- `config/settings.py` 的 `DEFAULT_JUDGE_LLM_MODEL` 控制預設 judge 模型（目前 `google/gemma-4-e4b`）
+- `config/settings.py` 的 `DEFAULT_JUDGE_LLM_MODEL` 控制預設 judge 模型（目前 `qwen3.6-35b-a3b`；原 `google/gemma-4-e4b` 因分數飽和失去鑑別力已汰換，見 issue #24）
 - 可透過環境變數 `JUDGE_LLM_MODEL=<model>` 覆蓋
 - 測試新 judge 模型：備份 judge.json → `python3 main.py "/daily-brief --force judge --only judge"` → 比較 → 還原
 
