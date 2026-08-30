@@ -1388,5 +1388,15 @@
       "faithfulness": 4
     },
     "quality_alert": false
+  },
+  {
+    "date": "2026-08-31",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 2
+    },
+    "quality_alert": false
   }
 ]
