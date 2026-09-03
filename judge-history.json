@@ -1418,5 +1418,25 @@
       "faithfulness": 4
     },
     "quality_alert": false
+  },
+  {
+    "date": "2026-09-03",
+    "overall": 3.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 1
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-09-04",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 4
+    },
+    "quality_alert": false
   }
 ]
