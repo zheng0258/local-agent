@@ -13,11 +13,17 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from .. import prompts
+from config import get_logger
+
+from .. import alerts, links, prompts
 from ..schemas import Digest
 from ..step import Step, StepOutput
 
-# Telegram 單封 4096 字元上限下的條目數（依實測 overview ~155、digest ~540 字元/則估算）
+logger = get_logger(__name__)
+
+# Telegram 單封 4096 字元上限下的條目數。
+# overview 為純連結列表（標題連結，無說明），實測 ~120 字元/則；24 則約 2880 字，
+# 安全落在 4096 內。digest 帶 2–3 句說明 ~540 字元/則。
 TG_OVERVIEW_MAX_ITEMS = 24
 TG_DIGEST_MAX_ITEMS = 7
 
@@ -62,24 +68,44 @@ class ComposeTgStep(Step):
 
     def _produce(self, ctx, input, reflect_context: str = "") -> StepOutput:
         digests = input
-        overview_json = json.dumps(
-            pick_top_balanced(digests, TG_OVERVIEW_MAX_ITEMS), ensure_ascii=False
-        )
-        digest_json = json.dumps(
-            pick_top_balanced(digests, TG_DIGEST_MAX_ITEMS), ensure_ascii=False
-        )
-        overview_prompt = self._with_reflect(
-            prompts.build_telegram_overview_prompt(overview_json, ctx.today),
+        overview = self._compose(
+            ctx,
+            pick_top_balanced(digests, TG_OVERVIEW_MAX_ITEMS),
+            prompts.build_telegram_overview_prompt,
             reflect_context,
         )
-        digest_prompt = self._with_reflect(
-            prompts.build_telegram_digest_prompt(digest_json, ctx.today),
+        tg_digest = self._compose(
+            ctx,
+            pick_top_balanced(digests, TG_DIGEST_MAX_ITEMS),
+            prompts.build_telegram_digest_prompt,
             reflect_context,
         )
-        overview = extract_tg_text(self._complete(ctx, overview_prompt).strip())
-        tg_digest = extract_tg_text(self._complete(ctx, digest_prompt).strip())
         composed = {"overview": overview, "digest": tg_digest}
         return StepOutput(persist=composed, value=composed)
+
+    def _compose(self, ctx, picked: list[dict], build_prompt, reflect_context: str) -> str:
+        """單封訊息：LLM 只寫 href="@@id@@" token，程式依 id 替換真實 URL。
+
+        LLM 永不經手網址；替換後仍殘留的非 http(s) href（未知 id / LLM 亂填）由
+        strip_invalid_anchors 拆掉外殼，確保送達訊息絕無死連結，並記 alert 供觀測。
+        """
+        url_by_id = {i: d.get("url", "") for i, d in enumerate(picked)}
+        payload = [{"id": i, **d} for i, d in enumerate(picked)]
+        prompt = self._with_reflect(
+            build_prompt(json.dumps(payload, ensure_ascii=False), ctx.today),
+            reflect_context,
+        )
+        raw = extract_tg_text(self._complete(ctx, prompt).strip())
+        substituted = links.substitute_href_tokens(raw, url_by_id)
+        cleaned, removed = links.strip_invalid_anchors(substituted)
+        if removed:
+            logger.warning("compose_tg：%d 個連結無法解析，已移除外殼", removed)
+            alerts.record_failure(
+                ctx.steps_dir,
+                "compose_tg",
+                f"{removed} 個 href token 未能替換為有效 URL，已降級為純標題",
+            )
+        return cleaned
 
     def _default(self, input):
         return {}

@@ -51,6 +51,32 @@ def test_report_step_deduplicates_digests_by_url(tmp_path):
 
 
 @pytest.mark.unit
+def test_report_substitutes_md_link_token_with_real_url(tmp_path):
+    # LLM 寫 [標題](@@id@@) token；程式依全域 id 替換成真實 URL
+    llm = FakeLLM(default="# 趨勢話題\n\n1. [標題](@@0@@) — x")
+    ReportStep().run(
+        _ctx(tmp_path, llm=llm), ({"hn": {}}, [{"title": "標題", "url": "https://real/x"}])
+    )
+    content = TextCodec().read(tmp_path / "report.md")
+    assert "[標題](https://real/x)" in content
+    assert "@@0@@" not in content
+
+
+@pytest.mark.unit
+def test_report_strips_invalid_md_link_and_records_alert(tmp_path):
+    # 回歸（09-05 report (#) 死連結）：非 http 連結拆成純文字 + 記 alert
+    from agents.daily_brief.alerts import load_alerts
+
+    llm = FakeLLM(default="# 趨勢話題\n\n1. [標題](#) — x")
+    ctx = _ctx(tmp_path, llm=llm)
+    ReportStep().run(ctx, ({"hn": {}}, [{"title": "標題", "url": "https://real/x"}]))
+    content = TextCodec().read(tmp_path / "report.md")
+    assert "[標題](#)" not in content
+    assert "標題 — x" in content  # 死連結拆成純文字
+    assert "report" in load_alerts(ctx.steps_dir)
+
+
+@pytest.mark.unit
 def test_report_step_guard_blocks_when_no_digests(tmp_path):
     outcome = ReportStep().run(_ctx(tmp_path), ({"hn": {}}, []))
     assert outcome.status is StepStatus.SKIPPED

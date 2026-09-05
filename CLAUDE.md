@@ -177,6 +177,7 @@ python lint/check_fetcher_interface.py
 
 ## 約束邊界
 
+- **URL 是資料，不是 LLM 輸出**（縱深防禦，見 `agents/daily_brief/links.py`）：凡 URL 要進 LLM 輸出的步驟，一律給每篇文章唯一 `id`、LLM 只回 `id`（+ 摘要/one_liner），`title`/`url` 由 Python 依 id 從可信輸入重建，**絕不信任 LLM 回吐/複製網址**。已套用：compress（`_rebuild_articles`）、digest（`_summaries_by_id` + 依 id 重建）、compose_tg（LLM 寫 `href="@@id@@"` token → `links.substitute_href_tokens` 替換）。最後防線 `links.strip_invalid_anchors`：送 Telegram 前拆掉任何非 http(s) 的 `<a>` 外殼（保留錨文字、優雅降級），並記 `compose_tg` alert 供 health 跨天偵測。此設計源於 09-05 TG 無連結事件（compress LLM 對 HN 丟 title/url 又漏整篇 → digest 捏造「（原始 URL 未提供）」佔位字 → TG 死連結）。
 - Reddit 禁用 WebFetch，必須 Bash curl 一次查詢後用 Python 解析（禁止兩次重複請求同一 URL）
 - Reddit `stickied` 貼文必須過濾：`if p.get("stickied"): continue`
 - X/Twitter 必須用 chrome-devtools-mcp

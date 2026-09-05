@@ -123,7 +123,8 @@ def test_build_digest_prompt_from_compress_output_schema():
     prompt = prompts.build_digest_prompt_from_compress("{}")
     assert '"digests"' in prompt
     assert '"summary"' in prompt
-    assert '"source"' in prompt
+    # LLM 只回 id + summary；url/title/source 由程式依 id 補齊，不再由 LLM 輸出
+    assert '"id"' in prompt
 
 
 def test_build_report_prompt_from_compress_exists():

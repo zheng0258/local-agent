@@ -20,6 +20,26 @@ from ..step import Step, StepOutput
 logger = get_logger(__name__)
 
 
+def _rebuild_articles(starred: list[dict], llm_articles: list[dict]) -> list[dict]:
+    """依 id 用可信的 starred 輸入重建每篇文章，只採納 LLM 的 one_liner。
+
+    title/url/score 等結構欄位一律來自 starred（絕不採信 LLM 回吐），確保 URL
+    永不遺失、任何一篇都不被丟棄（保序）；LLM 漏掉的 id 以標題退回為 one_liner。
+    純函數、不變性：回傳全新 dict，不 mutate 輸入。
+    """
+    one_liner_by_id: dict[int, str] = {}
+    for art in llm_articles:
+        idx = art.get("id") if isinstance(art, dict) else None
+        if isinstance(idx, int) and 0 <= idx < len(starred) and idx not in one_liner_by_id:
+            one_liner = (art.get("one_liner") or "").strip()
+            if one_liner:
+                one_liner_by_id[idx] = one_liner
+    return [
+        {**base, "one_liner": one_liner_by_id.get(idx) or base.get("title", "")}
+        for idx, base in enumerate(starred)
+    ]
+
+
 def check_source_health(compress_data: dict) -> list[str]:
     """回傳 compress 後 articles 為空的來源名稱列表（純函數，供觀測/告警參考）。"""
     empty_sources: list[str] = []
@@ -52,20 +72,20 @@ class CompressStep(Step):
                 result[name] = {"themes": [], "articles": []}
                 logger.info("Step compress  : %s 無 *** 文章，略過 LLM", name)
                 continue
-            articles_json = json.dumps(starred, ensure_ascii=False)
+            # 每篇帶唯一 id 送 LLM；LLM 只回 {id, one_liner}，title/url/score
+            # 一律由程式依 id 從 starred（可信輸入）重建，杜絕 LLM 丟欄位/丟整篇
+            # 導致下游連結遺失（見 issue：09-05 TG HN 條目無連結）。
+            payload = [{"id": i, **a} for i, a in enumerate(starred)]
+            articles_json = json.dumps(payload, ensure_ascii=False)
             prompt = self._with_reflect(
                 prompts.build_compress_prompt(name, articles_json), reflect_context
             )
             parsed = parse_llm_json(self._complete(ctx, prompt))
             if isinstance(parsed, dict) and "themes" in parsed:
-                # LLM 有時不複製 URL；用原始 starred 的 title→url 補回
-                url_by_title = {a.get("title", ""): a.get("url", "") for a in starred}
-                for art in parsed.get("articles", []):
-                    if not art.get("url"):
-                        restored = url_by_title.get(art.get("title", ""), "")
-                        if restored:
-                            art["url"] = restored
-                result[name] = parsed
+                result[name] = {
+                    "themes": parsed.get("themes", []),
+                    "articles": _rebuild_articles(starred, parsed.get("articles", [])),
+                }
             else:
                 logger.warning(
                     "Step compress  : %s LLM 回傳無效（缺 themes），使用原始 starred 資料",

@@ -201,13 +201,15 @@ def build_compress_prompt(source_name: str, articles_json: str) -> str:
     return f"""\
 {_NO_THINK}## {source_name} *** 文章（已由程式預先篩選，全部為最高興趣度）
 
+每篇文章帶有唯一 `id`：
+
 {articles_json}
 
 ## 任務
 
 1. 識別 2–3 個主題群（themes）
-2. 為**每一篇**文章產生 ≤20 字繁體中文 one-liner（核心訊息，不加書籤數/票數）
-3. 保留全部文章，**禁止丟棄任何一篇**
+2. 為**每一篇**文章（依 `id`）產生 ≤20 字繁體中文 one-liner（核心訊息，不加書籤數/票數）
+3. 保留全部文章，**禁止丟棄任何一個 id**
 
 ## 輸出格式
 
@@ -215,12 +217,12 @@ def build_compress_prompt(source_name: str, articles_json: str) -> str:
 {{
   "themes": ["主題一", "主題二"],
   "articles": [
-    {{"title": "繁體中文標題", "url": "原始URL", "one_liner": "20字內核心摘要", "interest": "***", "score": 123}}
+    {{"id": 0, "one_liner": "20字內核心摘要"}}
   ]
 }}
 ```
 
-注意：`score` 欄位直接複製輸入資料的原始數值，禁止修改或發明新數字。\
+注意：**只需回傳 `id` 與 `one_liner`**。`title` / `url` / `score` 等欄位由程式依 `id` 自動補齊，禁止自行輸出或編造。\
 """
 
 
@@ -318,10 +320,10 @@ def build_report_prompt(
 ### 注目話題
 | 標題 | 書籤數 | 興趣度 | 類別 | 備註 |
 |------|--------|--------|------|------|
-| [標題](URL) | XXX | *** | AI | 切入點 |
+| [標題](@@id@@) | XXX | *** | AI | 切入點 |
 
 ### 全部文章
-1. [標題](URL) (XXX users) — 一行摘要
+1. [標題](@@id@@) (XXX users) — 一行摘要
 
 ## Hacker News（全球）
 ...（同上格式）
@@ -346,20 +348,20 @@ def build_report_prompt(
 
 def build_digest_prompt_from_compress(compress_json: str) -> str:
     return f"""\
-## 壓縮後文章（compress.json，每篇均已是 ***，含 one_liner）
+## 壓縮後文章（compress.json，每篇均已是 ***，含 one_liner，帶唯一 id）
 
 {compress_json}
 
 ## 任務
 
-對**每一篇**文章生成 3–5 行繁體中文深度摘要：
+對**每一篇**文章（依 `id`）生成 3–5 行繁體中文深度摘要：
 - 核心訊息（這項技術/事件是什麼）
 - 影響範圍（誰受影響、規模）
 - 值得關注的原因（為何現在重要）
 - 若文章有 comment_summary 欄位，在 summary 尾段另起一行追加：
   💬 社群觀點：[comment_summary 的內容]
 
-禁止：跳過任何一篇、自行編造 URL、修改 URL
+禁止：跳過任何一個 id。
 
 ## 輸出格式
 
@@ -367,15 +369,15 @@ def build_digest_prompt_from_compress(compress_json: str) -> str:
 {{
   "digests": [
     {{
-      "title": "繁體中文標題",
-      "url": "原始 URL（完整複製，禁止修改）",
-      "source": "Hatena / HN / r/子版名稱 / aikido.dev / wiz.io",
-      "interest": "***",
+      "id": 0,
       "summary": "3–5 行摘要（若有 comment_summary，尾段追加 💬 社群觀點：...）"
     }}
   ]
 }}
-```"""
+```
+
+注意：**只需回傳 `id` 與 `summary`**。`title` / `url` / `source` 等欄位由程式依
+`id` 自動補齊，禁止自行輸出或編造 URL。"""
 
 
 # ── Step tldr：當日 TL;DR（繁體中文，吃 digests）─────────────────────
@@ -428,11 +430,11 @@ def build_report_prompt_from_compress(
 
 | 標題 | 書籤數 | 興趣度 | 類別 | 備註 |
 |------|--------|--------|------|------|
-| [標題](URL) | 123 | *** | AI 開發工具 | 一句切入點 |
+| [標題](@@id@@) | 123 | *** | AI 開發工具 | 一句切入點 |
 
 ### 全部文章（略）
 
-1. [標題](URL) (123 users) — 一行摘要
+1. [標題](@@id@@) (123 users) — 一行摘要
 
 ---
 
@@ -442,11 +444,11 @@ def build_report_prompt_from_compress(
 
 | 標題 | 分數 | 興趣度 | 類別 | 備註 |
 |------|------|--------|------|------|
-| [標題](URL) | 1234pt | *** | AI | 一句切入點 |
+| [標題](@@id@@) | 1234pt | *** | AI | 一句切入點 |
 
 ### 全部文章（部分）
 
-1. [標題](URL) (1234pt) — 一行摘要
+1. [標題](@@id@@) (1234pt) — 一行摘要
    💬 社群觀點：社群的主流看法或爭議點（僅 digest 有 comment_summary 欄位時才顯示此行）
 
 ---
@@ -457,18 +459,18 @@ def build_report_prompt_from_compress(
 
 | 標題 | 票數 | 留言數 | 興趣度 | 類別 | 子版 | 備註 |
 |------|------|--------|--------|------|------|------|
-| [標題](URL) | 1234 | 56 | *** | 資安 | r/cybersecurity | 一句切入點 |
+| [標題](@@id@@) | 1234 | 56 | *** | 資安 | r/cybersecurity | 一句切入點 |
 
 ### 依類別列表
 
 **資安類**
 
-1. [標題](URL) (1234 ups) — r/xxx — 一行摘要
+1. [標題](@@id@@) (1234 ups) — r/xxx — 一行摘要
    💬 社群觀點：社群的主流看法（僅 digest 有 comment_summary 欄位時才顯示此行）
 
 **AI 類**
 
-1. [標題](URL) (1234 ups) — r/xxx — 一行摘要
+1. [標題](@@id@@) (1234 ups) — r/xxx — 一行摘要
 
 ---
 
@@ -476,7 +478,7 @@ def build_report_prompt_from_compress(
 
 | 標題 | 來源 | 興趣度 | 備註 |
 |------|------|--------|------|
-| [標題](URL) | aikido.dev | *** | 一句切入點 |
+| [標題](@@id@@) | aikido.dev | *** | 一句切入點 |
 
 ---
 
@@ -495,6 +497,7 @@ def build_report_prompt_from_compress(
 **輸出要求**：
 - 直接輸出完整 markdown，不要包成 JSON
 - 第一行必須是 `# 趨勢話題：{today}`
+- **所有連結一律寫成 `[標題](@@id@@)`**：括號內填該文章的 `id` token（id 為資料各項的 `id` 欄位，例：id=7 → `[標題](@@7@@)`）；真實網址由程式依 id 自動替換，禁止自行填寫、猜測或編造 URL
 - 數字欄位（書籤數、分數、票數）必須使用資料中的 `score` 值；若 score 為 0 或不存在則填 `-`；禁止發明或猜測任何數字
 - `興趣度` 欄位固定填 `***`（所有傳入文章均已是 ***），不可用 *** 填其他欄位
 - 章節順序與名稱必須與上方完全一致，不得增減
@@ -597,24 +600,23 @@ def build_telegram_overview_prompt(all_digests_json: str, today: str) -> str:
 
 ## 任務
 
-依主題分群，每群 3–5 個重點，生成 Telegram HTML 格式訊息。
+依主題分群，每群 3–5 個重點，生成 Telegram HTML 格式的**純連結列表**訊息（可快速掃讀，說明留給第二封深度摘要）。
 
 規則：
 - 只能使用 Telegram 支援的 HTML tag：<b>、<i>、<u>、<s>、<a href="...">，嚴禁 <br>、<p>、<div>、<span> 等其他 HTML tag
 - 嚴格禁用 **、_、`[text](url)`、`[text][ref]` 等任何 Markdown 語法
-- 每個 bullet 固定格式：• <b><a href="完整URL">繁體中文標題</a></b> — 2–3 句說明（核心內容與重要性，不加書籤數/票數等數字）
-- 重要：<a href="URL"> 和 </a> 之間必須有標題文字，絕對不能寫成 <a href="URL"></b>（缺少 </a> 和標題）
-- href 屬性值必須完整複製 all_digests 的 url 欄位，禁止截斷、修改、URL encode 或自行編造
-- href 屬性值只能是 http/https 開頭的完整網址，不得放檔名、路徑或其他非 URL 內容
+- 每個 bullet 固定格式：• <b><a href="@@id@@">繁體中文標題</a></b>（只放標題連結，不加說明文字、不加書籤數/票數等數字）
+- 重要：<a href="@@id@@"> 和 </a> 之間必須有標題文字，絕對不能寫成 <a href="@@id@@"></b>（缺少 </a> 和標題）
+- **href 屬性值一律填該文章的 id token `@@id@@`**（id 為 all_digests 各項的 id 欄位，例：id=3 → href="@@3@@"）；真實網址由程式依 id 自動替換，禁止自行填寫或編造 URL
 - 標題群組加 emoji：🤖 Claude Code / 🔐 資安 / 🛠️ AI 開發工具 / 💼 職涯 / 📰 其他（依當日實際內容選用）
 - 總長度 ≤ 4096 字元
 - 第一行：今日重點（{today}）：
 
-輸出範例（嚴格照此格式）：
+輸出範例（嚴格照此格式，假設該文章 id=2）：
 今日重點（{today}）：
 
 🔐 資安
-• <b><a href="https://www.aikido.dev/blog/axios-npm-compromised">axios npm 套件遭入侵：維護者帳號被劫持部署 RAT</a></b> — 說明文字在此
+• <b><a href="@@2@@">axios npm 套件遭入侵：維護者帳號被劫持部署 RAT</a></b>
 
 ## 輸出格式
 
@@ -637,18 +639,18 @@ def build_telegram_digest_prompt(all_digests_json: str, today: str) -> str:
 - 嚴格禁用 **、_、`[text](url)` 等任何 Markdown 語法
 - 第一行：深度摘要（{today}）：
 - 每則格式：
-  {{n}}. <b><a href="完整URL">繁體中文標題</a></b>
+  {{n}}. <b><a href="@@id@@">繁體中文標題</a></b>
   2–3 句說明（核心內容、影響範圍、值得關注的原因）
-- href 屬性值必須完整複製 all_digests 的 url 欄位，禁止截斷或自行編造
+- **href 屬性值一律填該文章的 id token `@@id@@`**（id 為 all_digests 各項的 id 欄位，例：id=5 → href="@@5@@"）；真實網址由程式依 id 自動替換，禁止自行填寫或編造 URL
 - 總長度 ≤ 4096 字元；寧可精簡也不可超出，避免訊息被截斷
 
-輸出範例：
+輸出範例（假設兩篇 id 分別為 0 與 1）：
 深度摘要（{today}）：
 
-1. <b><a href="https://www.aikido.dev/blog/glassworm">GlassWorm IDE 惡意軟體</a></b>
+1. <b><a href="@@0@@">GlassWorm IDE 惡意軟體</a></b>
 偽裝成 VS Code 擴充套件，內含 dropper，感染多款 IDE，植入後門竊取憑證。立即移除並輪換 secrets。
 
-2. <b><a href="https://news.ycombinator.com/item?id=12345">GitHub CI/CD 供應鏈攻擊</a></b>
+2. <b><a href="@@1@@">GitHub CI/CD 供應鏈攻擊</a></b>
 利用 pull_request_target 觸發器，三週 500+ 惡意 PR，已入侵 2 個 npm 套件。AI 自動化讓規模化攻擊成本驟降。
 
 ## 輸出格式

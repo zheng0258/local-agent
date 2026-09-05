@@ -21,11 +21,8 @@ def _ctx(tmp_path, steps_to_run={"digest"}, force=set(), llm=None):
 
 @pytest.mark.unit
 def test_digest_step_produces_list_and_persists_digest_data(tmp_path):
-    llm = FakeLLM(
-        default=json.dumps(
-            {"digests": [{"title": "測試", "url": "https://example.com", "summary": "摘要"}]}
-        )
-    )
+    # LLM 只回 {id, summary}；title/url 依 id 從 compress 重建
+    llm = FakeLLM(default=json.dumps({"digests": [{"id": 0, "summary": "摘要"}]}))
     compress_data = {
         "hn": {
             "themes": ["AI"],
@@ -39,7 +36,9 @@ def test_digest_step_produces_list_and_persists_digest_data(tmp_path):
 
     assert outcome.status is StepStatus.RAN
     assert isinstance(outcome.value, list) and len(outcome.value) == 1
-    assert outcome.value[0]["title"] == "測試"
+    assert outcome.value[0]["title"] == "t"  # 來自 compress，非 LLM
+    assert outcome.value[0]["url"] == "https://example.com"
+    assert outcome.value[0]["summary"] == "摘要"  # summary 才採信 LLM
     assert outcome.value[0]["_source"] == "hn"  # 逐來源標記
     persisted = JsonCodec().read(tmp_path / "digest.json")
     assert "generated_at" in persisted
@@ -47,12 +46,20 @@ def test_digest_step_produces_list_and_persists_digest_data(tmp_path):
 
 
 @pytest.mark.unit
-def test_digest_step_restores_missing_url_from_title(tmp_path):
-    # LLM 未複製 URL 時，用 compress 的 title→url 補回
-    llm = FakeLLM(default=json.dumps({"digests": [{"title": "t"}]}))
-    compress_data = {"hn": {"articles": [{"title": "t", "url": "https://restored"}]}}
+def test_digest_step_url_always_from_compress_even_when_llm_omits(tmp_path):
+    # 回歸：LLM 完全不回 id / 空 digests 時，url/title 仍依 compress 重建、禁止丟棄
+    llm = FakeLLM(default=json.dumps({"digests": []}))
+    compress_data = {
+        "hn": {
+            "articles": [
+                {"title": "t", "url": "https://restored", "one_liner": "ol", "interest": "***"}
+            ]
+        }
+    }
     outcome = DigestStep().run(_ctx(tmp_path, llm=llm), compress_data)
+    assert len(outcome.value) == 1
     assert outcome.value[0]["url"] == "https://restored"
+    assert outcome.value[0]["summary"] == "ol"  # LLM 漏 id → one_liner 退回
 
 
 @pytest.mark.unit

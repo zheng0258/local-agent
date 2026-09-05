@@ -42,6 +42,34 @@ def test_compose_persists_two_messages(tmp_path):
 
 
 @pytest.mark.unit
+def test_compose_substitutes_href_token_with_real_url(tmp_path):
+    # LLM 只寫 @@id@@ token；程式依 id 替換成 compress/digest 的真實 URL
+    llm = FakeLLM(default='• <b><a href="@@0@@">標題</a></b>')
+    outcome = ComposeTgStep().run(
+        _ctx(tmp_path, llm=llm),
+        [{"title": "標題", "url": "https://real.example/x", "_source": "hn"}],
+    )
+    assert 'href="https://real.example/x"' in outcome.value["overview"]
+    assert "@@0@@" not in outcome.value["overview"]
+
+
+@pytest.mark.unit
+def test_compose_strips_unresolved_link_and_records_alert(tmp_path):
+    # 回歸（09-05 TG 無連結）：LLM 亂填非 http href → 拆殼保留標題 + 記 alert
+    from agents.daily_brief.alerts import load_alerts
+
+    llm = FakeLLM(default='• <b><a href="（原始 URL 未提供）">標題</a></b>')
+    ctx = _ctx(tmp_path, llm=llm)
+    outcome = ComposeTgStep().run(
+        ctx, [{"title": "標題", "url": "https://u/x", "_source": "hn"}]
+    )
+    assert "（原始 URL 未提供）" not in outcome.value["overview"]
+    assert "<a" not in outcome.value["overview"]  # 死連結錨被拆
+    assert "標題" in outcome.value["overview"]  # 錨文字保留（優雅降級）
+    assert "compose_tg" in load_alerts(ctx.steps_dir)  # 觀測：記入 alerts
+
+
+@pytest.mark.unit
 def test_compose_load_does_not_call_producer(tmp_path):
     JsonCodec().write(tmp_path / "compose_tg.json", {"overview": "X", "digest": "Y"})
     llm = FakeLLM(default="SHOULD NOT BE CALLED")
