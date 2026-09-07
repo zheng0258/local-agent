@@ -49,7 +49,9 @@ agents/
 │   ├── supervisor.py            # LLM 監督器（fetch 品質控管）
 │   ├── step_cache.py            # cache-or-force 門檻判定（decide → RUN/LOAD/SKIP）
 │   ├── schemas.py               # step artifact 的 typed 唯讀 view（from_dict）
+│   ├── completeness.py          # 完整性校正 seam：judge→不足則重生 digest→重評
 │   ├── health.py                # 可觀測性：Health Record + 慢性故障跨天偵測（純函數）
+│   ├── quality_signals.py       # 品質訊號：digest 來源占比 + judge 分數飽和（純函數）
 │   └── fetchers/                # 各來源 fetcher（agent 層）
 └── url_digest/                  # URL 摘要
     ├── agent.py
@@ -68,6 +70,8 @@ tools/
 │   ├── dedup.py
 │   └── embedder.py
 ├── lms_lifecycle.py             # lms CLI 模型載入/卸載
+├── history_schema.py            # judge/health 歷史檔的共享 typed view（agents ⇄ tools 共用）
+├── site_builder/                # showcase 站建造器（build_full_site 為整站組裝入口）
 └── notifiers/
     └── telegram.py              # Telegram 發送（HTML parse_mode）
 
@@ -124,11 +128,11 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **Prompts 集中管理**：所有 LLM prompt 定義在 `agents/<name>/prompts.py`，`agent.py` 禁止直接寫 prompt 字串。
 
-**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。「該跑/該載入/該略過」的門檻判定集中於 `step_cache.decide(in_steps, exists, forced)` 純函數（回傳 RUN/LOAD/SKIP），各 `_phase_*` 只定義三種結果各自的動作，不再各自重抄 gating 串接。判定（`step_cache.decide`）與其後的動作（artifact I/O、委派 supervisor、default）收進 `step.py` 的 `Step` 基底模板：公開介面只有 `run(ctx, input) -> StepOutcome`，每步差異住內部 seam（`_produce`/`_load`/`_guard`/`_default`）與注入的 `codecs.py` `ArtifactCodec`（Json/Text/Sentinel）。**producer 邏輯住各 step 檔內的 `_produce`（非 God object 注入）**：LLM producer 透過 `ctx.llm` / `ctx.judge_llm`（`_RunContext` 上的 LLM seam）呼叫，共用 `Step._complete(ctx, prompt)` 與 `Step._with_reflect(prompt, ctx_hint)`；`agent.py` 不再持有 `_run_*` producer。測試對 step 注入 `tests/fakes.py` 的 `FakeLLM`（走真 `_produce`），不再注入 fake producer callback。副作用 step（save/deploy）的實作（`run_save` / `push_site`）住各自 step 檔並以建構子預設值注入，測試可覆寫成 fake（合法 side-effect seam，避免碰真 vault/git）。新增 step：在 `agents/daily_brief/steps/` 加一檔、繼承 `Step`、`_produce` 內寫 producer 邏輯（讀 `ctx.llm`）、在 `run()` 顯式接線（不造依賴圖）。全部步驟為深 `Step`：5 個 Source（hatena/hn/reddit/security/rss，`steps/source.py` 的 `SourceStep`）+ dedup / compress / enrich / digest / judge / report / save / notify（`steps/*.py`）。`_fetch_sources` 維持 orchestrator（並行預抓 raw → 序列 `SourceStep.run` 評分 → ≥2 門檻）；judge 的 completeness 回饋已在 `run()` 顯式編排（`Step.run(force=True)` + `supervisor.reflect_for_completeness`）；Fix C 收進 `_compute_force_steps`。`run()` 是純地圖，無 `_phase_*`。`agent.py` 從 1145 行降至約 570 行。
+**步驟化執行（Idempotent Steps）**：每個步驟把結果存為 artifact（`outputs/daily-brief/{today}/steps/{name}.json`）。重複執行時自動略過已完成步驟；用 `--force` 強制重跑，用 `--only` 指定單步執行。「該跑/該載入/該略過」的門檻判定集中於 `step_cache.decide(in_steps, exists, forced)` 純函數（回傳 RUN/LOAD/SKIP），各 `_phase_*` 只定義三種結果各自的動作，不再各自重抄 gating 串接。判定（`step_cache.decide`）與其後的動作（artifact I/O、委派 supervisor、default）收進 `step.py` 的 `Step` 基底模板：公開介面只有 `run(ctx, input) -> StepOutcome`，每步差異住內部 seam（`_produce`/`_load`/`_guard`/`_default`）與注入的 `codecs.py` `ArtifactCodec`（Json/Text/Sentinel）。**producer 邏輯住各 step 檔內的 `_produce`（非 God object 注入）**：LLM producer 透過 `ctx.llm` / `ctx.judge_llm`（`_RunContext` 上的 LLM seam）呼叫，共用 `Step._complete(ctx, prompt)` 與 `Step._with_reflect(prompt, ctx_hint)`；`agent.py` 不再持有 `_run_*` producer。測試對 step 注入 `tests/fakes.py` 的 `FakeLLM`（走真 `_produce`），不再注入 fake producer callback。副作用 step（save/deploy）的實作（`run_save` / `push_site`）住各自 step 檔並以建構子預設值注入，測試可覆寫成 fake（合法 side-effect seam，避免碰真 vault/git）。新增 step：在 `agents/daily_brief/steps/` 加一檔、繼承 `Step`、`_produce` 內寫 producer 邏輯（讀 `ctx.llm`）、在 `run()` 顯式接線（不造依賴圖）。全部步驟為深 `Step`：5 個 Source（hatena/hn/reddit/security/rss，`steps/source.py` 的 `SourceStep`）+ dedup / compress / enrich / digest / judge / report / save / notify（`steps/*.py`）。`_fetch_sources` 維持 orchestrator（並行預抓 raw → 序列 `SourceStep.run` 評分 → ≥2 門檻）；judge 的 completeness 回饋（**完整性校正**，見 CONTEXT.md）收進 `completeness.reconcile_completeness(ctx, ...)` 單一 seam（judge→不足則 reflect 重生 digest→重評），`run()` 只單行呼叫、不再持有迴圈與門檻常數；Fix C 收進 `_compute_force_steps`。`run()` 是純地圖，無 `_phase_*`。`agent.py` 約 400 行。
 
 **Typed 唯讀 view（schemas.py）**：step artifact 仍以原 JSON dict 穿流與序列化（on-disk schema 不變、下游消費者不受影響）；`schemas.py` 的 frozen dataclass（`QualityScore`/`Digest`/`Article`/`SourceCompress`）只罩在**記憶體讀取點**上，用 `from_dict` 把巢狀防呆與欄位對帳（如 judge 雙 `missed_urls`、digest 的 `_source` 內部鍵 vs `source` 顯示名）集中一處。新增讀取點優先用 view，不要散寫 `.get().get()`。
 
-**可觀測性（health.py）**：pipeline 有韌性（≥2 來源門檻）但會默默降級。`health.py` 在每次執行末由 `_observe_and_escalate` 呼叫：檢視 artifact / sentinel / `alerts.json` 推導出一筆 **Health Record**（5 來源 + telegram/vault 遞送的 ok/失敗，失敗分類為 `ErrorClass` enum），append 到 `_health-history.json`（形狀鏡像 `_judge-history.json`）。再跨天 roll-up 偵測**慢性故障**（同 subject 7 天內失敗 ≥3 次）才主動 Telegram escalate，single transient flake 靜默；同一 episode 經 `_health-escalated.json` 去重只打擾一次。詞彙見 CONTEXT.md「系統訊號」、決策見 `docs/adr/0001`。可觀測性層與 Step 解耦（事後檢視痕跡，不汙染 step），且包在 try/except 內絕不反過來弄垮 pipeline。`--health` 是同一份歷史的唯讀 render（`render_health_table`），在 `main.py` 短路、不載入模型。錯誤分類來自對 alert 自由文字的字串比對（脆弱，僅驅動建議文字，不影響 chronic 判定）。
+**可觀測性（health.py）**：pipeline 有韌性（≥2 來源門檻）但會默默降級。`health.py` 在每次執行末由 `_observe_and_escalate` 呼叫：檢視 artifact / sentinel / `alerts.json` 推導出一筆 **Health Record**（5 來源 + telegram/vault 遞送的 ok/失敗，失敗分類為 `ErrorClass` enum），append 到 `_health-history.json`（形狀鏡像 `_judge-history.json`）。再跨天 roll-up 偵測**慢性故障**（同 subject 7 天內失敗 ≥3 次）才主動 Telegram escalate，single transient flake 靜默；同一 episode 經 `_health-escalated.json` 去重只打擾一次。詞彙見 CONTEXT.md「系統訊號」、決策見 `docs/adr/0001`。可觀測性層與 Step 解耦（事後檢視痕跡，不汙染 step），且包在 try/except 內絕不反過來弄垮 pipeline。`--health` 是同一份歷史的唯讀 render（`render_health_table`），在 `main.py` 短路、不載入模型。錯誤分類來自對 alert 自由文字的字串比對（脆弱，僅驅動建議文字，不影響 chronic 判定）。**digest 來源占比 + judge 分數飽和**這兩個「品質面」觀測概念住 `quality_signals.py`（與健康記錄拆開，各自 cohesion 清楚；`health.py` re-export 供 `--health` 公開表面不變）。judge/health 兩份歷史檔的 on-disk 形狀由 `tools/history_schema.py` 的共享 typed view（`JudgeHistoryRecord` / `HealthHistoryRecord`）單一定義，寫入端（judge/health）與消費端（`site_builder.status`）共用，杜絕欄位名手抄漂移。
 
 **輸出目錄結構**：
 ```
