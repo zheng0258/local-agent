@@ -20,6 +20,8 @@ from config.settings import (
     check_local_llm,
 )
 
+from tools.history_schema import JudgeHistoryRecord
+
 from .. import prompts
 from ..config import FETCH_STEPS
 from ..schemas import QualityScore
@@ -136,16 +138,14 @@ def _append_judge_history(judge_result: dict, date: str) -> None:
     history = [r for r in history if r.get("date") != date]
     quality = QualityScore.from_dict(judge_result)
     history.append(
-        {
-            "date": date,
-            "overall": quality.overall,
-            "scores": {
-                "relevance": quality.relevance,
-                "completeness": quality.completeness,
-                "faithfulness": quality.faithfulness,
-            },
-            "quality_alert": quality.quality_alert,
-        }
+        JudgeHistoryRecord(
+            date=date,
+            overall=quality.overall,
+            relevance=quality.relevance,
+            completeness=quality.completeness,
+            faithfulness=quality.faithfulness,
+            quality_alert=quality.quality_alert,
+        ).to_dict()
     )
     history.sort(key=lambda r: r["date"])
     history_file.write_text(
