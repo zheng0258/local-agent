@@ -14,7 +14,6 @@ DailyBriefAgent — 每日科技趨勢收集。
 
 from __future__ import annotations
 
-import json
 import os
 import shlex
 from dataclasses import dataclass
@@ -32,8 +31,7 @@ from config.settings import (
 from . import prompts
 from .config import FETCH_STEPS, OUTPUT_DIR
 from .reconcile import filter_top_articles
-from .schemas import QualityScore
-from .step import StepStatus, Supervisor
+from .step import Supervisor
 from .step_cache import Verdict, decide
 
 logger = get_logger(__name__)
@@ -165,39 +163,10 @@ class DailyBriefAgent:
 
         # 當日英文 TL;DR（additive；失敗回 default 不 block 後續步驟）
         TldrStep().run(ctx, digests)
-        from .steps.judge import JudgeStep
+        from .completeness import reconcile_completeness
 
-        judge_outcome = JudgeStep().run(
-            ctx, (enrich_data, digests, source_data)
-        )
-        if judge_outcome.status is StepStatus.RAN:
-            quality = QualityScore.from_dict(judge_outcome.value)
-            if (
-                quality.completeness is not None
-                and quality.completeness < 3
-                and "digest" not in ctx.force_steps
-                and digests
-            ):
-                logger.warning(
-                    "Judge completeness=%.1f，觸發 digest 重跑（missed: %s）",
-                    quality.completeness,
-                    list(quality.missed_urls),
-                )
-                hint = ctx.supervisor.reflect_for_completeness(
-                    list(quality.missed_urls),
-                    prompts.build_digest_prompt_from_compress(
-                        json.dumps(enrich_data, ensure_ascii=False)
-                    ),
-                )
-                digests = (
-                    DigestStep()
-                    .run(ctx, enrich_data, reflect=hint, force=True)
-                    .value
-                )
-                JudgeStep().run(
-                    ctx, (enrich_data, digests, source_data), force=True
-                )
-                logger.info("Judge 回饋 digest 重跑完成")
+        # 完整性校正：judge → 不足則 reflect 重生 digest → 重評（迴圈住 completeness 模組）
+        digests = reconcile_completeness(ctx, enrich_data, digests, source_data)
         from .steps.report import ReportStep
 
         ReportStep().run(ctx, (enrich_data, digests))
