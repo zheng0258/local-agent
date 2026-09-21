@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-09-12</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-09-12</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-09-12</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://internet.watch.impress.co.jp/docs/column/netliteracy/2139916.html" rel="noopener noreferrer">從財務部長因一通自稱警察的電話匯出11億日圓的案例，學習防範詐騙手法【讀後即可掌握的網路素養】</a></td>
+<td>272</td>
+<td>***</td>
+<td>Web資安</td>
+<td>警方詐騙案教訓，強化防騙網路素養</td>
+</tr>
+<tr>
+<td><a href="https://ascii.jp/elem/000/004/434/4434123/" rel="noopener noreferrer">日本二手交易平台 Mercari 開始試辦「僅限知道 URL 者購買」的限定公開功能，引發濫用疑慮</a></td>
+<td>179</td>
+<td>***</td>
+<td>Web資安</td>
+<td>二手平台推URL限定購買，引發濫用疑慮</td>
+</tr>
+<tr>
+<td><a href="https://japan.cnet.com/article/35252543/" rel="noopener noreferrer">中國 AI「Kimi」疑將用戶輸入轉傳至 Claude，並將 Claude 回覆顯示給用戶──Anthropic 發布報告</a></td>
+<td>106</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>中國AI疑轉傳輸入至Claude，遭官方點名</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/topic/feature/2140075.html" rel="noopener noreferrer">【特輯】全權交給 AI 一天就搞定。使用迷你 PC 打造「無需訂閱」的 AI 監視攝影機</a></td>
+<td>62</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>迷你PC打造免訂閱AI監視器，一日完工</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2609/11/2000001409/" rel="noopener noreferrer">酷似真品的「AI 生成收據」成為報銷威脅，Manefo 表示「靠肉眼極難辨別」，企業該如何防範？</a></td>
+<td>56</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>AI偽造收據威脅報銷，肉眼難辨企業需防</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/socialplus/articles/f5d9e28470eb99" rel="noopener noreferrer">Agent 技能應將行為與知識分開設計</a></td>
+<td>32</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>Agent設計應將行為與知識分離，優化開發</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2609/11/2000001419/" rel="noopener noreferrer">數位相松本尚說明 24.6 萬筆資料外洩疑慮：「已知漏洞在修復前遭惡意利用」</a></td>
+<td>25</td>
+<td>***</td>
+<td>Web資安</td>
+<td>數位相說明資料外洩，已知漏洞遭惡意利用</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2140240.html" rel="noopener noreferrer">「Unity」官方推出「Claude Code」外掛～以 29 項技能輔助遊戲開發／灌入最佳實踐以減少錯誤與 Token 消耗</a></td>
+<td>24</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>Unity推Claude Code外掛，輔助遊戲開發</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/serial/usecopilotpc/2140265.html" rel="noopener noreferrer">實測「Microsoft PowerToys」新增的本地 AI 功能</a></td>
+<td>21</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>實測PowerToys新增本地AI功能，強化體驗</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260911-openai-agents-api/" rel="noopener noreferrer">可與 Codex 使用相同框架建構 AI 代理的「Agents API」正式登場</a></td>
+<td>20</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>OpenAI推Agents API，開放建構AI代理</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2140081.html" rel="noopener noreferrer">「GitLab」發布緊急補丁，修復 CVSS 滿分「10.0」漏洞～未經認證即可讀取伺服器檔案／自管環境請立即更新</a></td>
+<td>15</td>
+<td>***</td>
+<td>Web資安</td>
+<td>GitLab修滿分漏洞，自管環境請立即更新</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260911-gemini-desktop-app/" rel="noopener noreferrer">Gemini Windows 桌面應用程式登場，支援快捷鍵喚醒</a></td>
+<td>5</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>Gemini推Windows桌面版，支援快捷鍵喚醒</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2136472.html" rel="noopener noreferrer">透過聊天室分析內部數據，ChatGPT Work 新增「Data agent」</a></td>
+<td>4</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>ChatGPT Work新增Data agent，聊天分析數據</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://internet.watch.impress.co.jp/docs/column/netliteracy/2139916.html" rel="noopener noreferrer">從財務部長因一通自稱警察的電話匯出11億日圓的案例，學習防範詐騙手法【讀後即可掌握的網路素養】</a> (272 users) — 警方詐騙案教訓，強化防騙網路素養</li>
+<li><a href="https://ascii.jp/elem/000/004/434/4434123/" rel="noopener noreferrer">日本二手交易平台 Mercari 開始試辦「僅限知道 URL 者購買」的限定公開功能，引發濫用疑慮</a> (179 users) — 二手平台推URL限定購買，引發濫用疑慮</li>
+<li><a href="https://japan.cnet.com/article/35252543/" rel="noopener noreferrer">中國 AI「Kimi」疑將用戶輸入轉傳至 Claude，並將 Claude 回覆顯示給用戶──Anthropic 發布報告</a> (106 users) — 中國AI疑轉傳輸入至Claude，遭官方點名</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/topic/feature/2140075.html" rel="noopener noreferrer">【特輯】全權交給 AI 一天就搞定。使用迷你 PC 打造「無需訂閱」的 AI 監視攝影機</a> (62 users) — 迷你PC打造免訂閱AI監視器，一日完工</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2609/11/2000001409/" rel="noopener noreferrer">酷似真品的「AI 生成收據」成為報銷威脅，Manefo 表示「靠肉眼極難辨別」，企業該如何防範？</a> (56 users) — AI偽造收據威脅報銷，肉眼難辨企業需防</li>
+<li><a href="https://zenn.dev/socialplus/articles/f5d9e28470eb99" rel="noopener noreferrer">Agent 技能應將行為與知識分開設計</a> (32 users) — Agent設計應將行為與知識分離，優化開發</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2609/11/2000001419/" rel="noopener noreferrer">數位相松本尚說明 24.6 萬筆資料外洩疑慮：「已知漏洞在修復前遭惡意利用」</a> (25 users) — 數位相說明資料外洩，已知漏洞遭惡意利用</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2140240.html" rel="noopener noreferrer">「Unity」官方推出「Claude Code」外掛～以 29 項技能輔助遊戲開發／灌入最佳實踐以減少錯誤與 Token 消耗</a> (24 users) — Unity推Claude Code外掛，輔助遊戲開發</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/serial/usecopilotpc/2140265.html" rel="noopener noreferrer">實測「Microsoft PowerToys」新增的本地 AI 功能</a> (21 users) — 實測PowerToys新增本地AI功能，強化體驗</li>
+<li><a href="https://gigazine.net/news/20260911-openai-agents-api/" rel="noopener noreferrer">可與 Codex 使用相同框架建構 AI 代理的「Agents API」正式登場</a> (20 users) — OpenAI推Agents API，開放建構AI代理</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2140081.html" rel="noopener noreferrer">「GitLab」發布緊急補丁，修復 CVSS 滿分「10.0」漏洞～未經認證即可讀取伺服器檔案／自管環境請立即更新</a> (15 users) — GitLab修滿分漏洞，自管環境請立即更新</li>
+<li><a href="https://gigazine.net/news/20260911-gemini-desktop-app/" rel="noopener noreferrer">Gemini Windows 桌面應用程式登場，支援快捷鍵喚醒</a> (5 users) — Gemini推Windows桌面版，支援快捷鍵喚醒</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2136472.html" rel="noopener noreferrer">透過聊天室分析內部數據，ChatGPT Work 新增「Data agent」</a> (4 users) — ChatGPT Work新增Data agent，聊天分析數據</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49621546" rel="noopener noreferrer">你想使用 OpenRouter？</a></td>
+<td>549pt</td>
+<td>***</td>
+<td>AI Tools</td>
+<td>OpenRouter 接入指南與注意事項</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49649213" rel="noopener noreferrer">OpenAI 代理（Agents）API</a></td>
+<td>333pt</td>
+<td>***</td>
+<td>AI Tools</td>
+<td>OpenAI 代理 API 核心功能解析</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49659245" rel="noopener noreferrer">HuggingFace 的 Security.txt 文件</a></td>
+<td>160pt</td>
+<td>***</td>
+<td>Security</td>
+<td>HuggingFace 安全漏洞回報機制</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49656471" rel="noopener noreferrer">RTK 宣稱節省 token，但我們的成本基準測試結果不同</a></td>
+<td>112pt</td>
+<td>***</td>
+<td>AI Tools</td>
+<td>實測 RTK 省 Token 宣稱不符</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49621546" rel="noopener noreferrer">你想使用 OpenRouter？</a> (549pt) — OpenRouter 接入指南與注意事項
+   💬 社群觀點：社群肯定文章價值，但擔憂費用高、計費失效與資安風險。因供應商表現差異大，建議篩選或直連原廠，對平台信任度待提升。</li>
+<li><a href="https://news.ycombinator.com/item?id=49649213" rel="noopener noreferrer">OpenAI 代理（Agents）API</a> (333pt) — OpenAI 代理 API 核心功能解析
+   💬 社群觀點：評價兩極，肯定取代CLI與企業潛力，但擔憂額度消耗過快、廠商綁定與資安風險，建議優先採用沙箱SDK。</li>
+<li><a href="https://news.ycombinator.com/item?id=49659245" rel="noopener noreferrer">HuggingFace 的 Security.txt 文件</a> (160pt) — HuggingFace 安全漏洞回報機制
+   💬 社群觀點：社群質疑AI代理難以讀取或遵守，成效恐如robots.txt；實務僅能過濾閒雜郵件，建議加註失效日期防忽略。</li>
+<li><a href="https://news.ycombinator.com/item?id=49656471" rel="noopener noreferrer">RTK 宣稱節省 token，但我們的成本基準測試結果不同</a> (112pt) — 實測 RTK 省 Token 宣稱不符
+   💬 社群觀點：社群普遍質疑RTK等節流技巧，實測省幅極微且恐降低準確度。建議改用語言專用工具，認為模型自會優化，無需額外介入。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.securityweek.com/mitre-releases-2025-list-of-top-25-most-dangerous-software-vulnerabilities/" rel="noopener noreferrer">MITRE 發布 25 大最危險軟體漏洞清單</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/securityweek</td>
+<td>MITRE 公布年度最危險漏洞清單</td>
+</tr>
+<tr>
+<td><a href="https://v.redd.it/5m5zpbqp2woh1" rel="noopener noreferrer">現實檢驗：Claude Code 使用反思</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/programming</td>
+<td>開發者實測 Claude Code 反饋</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1vz3e36/did_anyone_else_have_ondemand_usage_unexpectedly/" rel="noopener noreferrer">Cursor 更新後，有人遇到按需使用突然變成無限的狀況嗎？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/Cursor_AI</td>
+<td>Cursor 更新後用量異常無限</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.securityweek.com/mitre-releases-2025-list-of-top-25-most-dangerous-software-vulnerabilities/" rel="noopener noreferrer">MITRE 發布 25 大最危險軟體漏洞清單</a> (- ups) — r/securityweek — MITRE 公布年度最危險漏洞清單</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://v.redd.it/5m5zpbqp2woh1" rel="noopener noreferrer">現實檢驗：Claude Code 使用反思</a> (- ups) — r/programming — 開發者實測 Claude Code 反饋</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1vz3e36/did_anyone_else_have_ondemand_usage_unexpectedly/" rel="noopener noreferrer">Cursor 更新後，有人遇到按需使用突然變成無限的狀況嗎？</a> (- ups) — r/Cursor_AI — Cursor 更新後用量異常無限</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/gitlab-cvss-10-file-read-flaw-draws-in.html" rel="noopener noreferrer">GitLab CVSS 10 分檔案讀取漏洞公開後遭野外攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>GitLab 高危漏洞公開後遭實戰攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/anthropic-says-seven-china-based-ai.html" rel="noopener noreferrer">Anthropic 指出七家中國 AI 實驗室進行大規模 Claude 蒸餾攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>中國七家 AI 實驗室遭指大規模蒸餾 Claude</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/claude-used-to-automate-exploitation.html" rel="noopener noreferrer">駭客利用 Claude 自動化攻擊與竊取多起受害者資料</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客利用 Claude 自動化攻擊與竊取資料</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/russian-state-sponsored-hackers-use.html" rel="noopener noreferrer">俄羅斯國家背景駭客利用 Claude 重組惡意程式以規避偵測</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>俄國駭客用 Claude 重組惡意程式規避偵測</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/attackers-chain-jfrog-artifactory-flaws.html" rel="noopener noreferrer">攻擊者串聯 JFrog Artifactory 漏洞取得管理員權限並植入後門</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>攻擊者串聯 JFrog 漏洞植入後門奪權</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/china-linked-unc3569-exploited-sogou.html" rel="noopener noreferrer">中國背景 UNC3569 利用搜狗輸入法漏洞部署 GRAYRABBIT 後門</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>中國駭客利用搜狗輸入法漏洞佈署後門</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/papercut-replaces-emergency-patches.html" rel="noopener noreferrer">PaperCut 以正式修復版取代緊急補丁，解決兩個遭活躍利用的漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>PaperCut 發布正式版修復兩項活躍漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/cisco-fmc-flaws-exploited-to-steal.html" rel="noopener noreferrer">Cisco FMC 漏洞遭利用以竊取憑證並部署 Qilin 勒索軟體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Cisco FMC 漏洞遭利用竊取憑證並勒索</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/roberts_jakuko_fbc04cb38/top-4-local-llm-inference-engines-for-developer-workstations-in-2026-30dn" rel="noopener noreferrer">2026 年開發者工作站首選 4 大本地 LLM 推理引擎</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>2026 開發者工作站首選四大本地推理引擎</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/florin7/i-let-an-ai-agent-write-a-readme-for-a-real-repo-heres-what-it-produced-4oe2" rel="noopener noreferrer">我讓 AI 代理為真實倉庫撰寫 README——成果如下</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>AI 代理為真實專案撰寫 README 實測成果</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/nvidia-pair-ai-task-router/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">NVIDIA 個人 AI 路由器於本地運算環境分配 AI 任務</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>NVIDIA 路由器串聯本地設備分配 AI 任務</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/linkedin-ai-multi-teacher/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">LinkedIn 如何透過多教師蒸餾技術將 AI 求職搜尋訓練速度提升 8 倍</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>LinkedIn 以多教師蒸餾技術加速 AI 訓練</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/observability-ai-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">工作階段追蹤與成本控管協助診斷 AI 代理失敗</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>工作階段追蹤與成本控管診斷 AI 代理失敗</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/when-spec-driven-development-pays-off/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：規格驅動開發何時見效</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>規格驅動開發搭配 AI 輔助編程成效顯著</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理開發與標準化】</strong> — OpenAI 正式推出 Agents API 並與 Codex 共用架構，搭配 Unity 官方 Claude Code 外掛與 ChatGPT Work 的 Data agent，顯示企業級 AI 應用正從單點輔助轉向標準化、可觀察的自主代理系統，開發門檻大幅降低。</li>
+<li><strong>【AI 安全威脅與模型攻防】</strong> — Anthropic 揭露中國實驗室大規模蒸餾 Claude 模型，且駭客已利用 Claude 自動化攻擊、重組惡意程式與竊取資料；同時 AI 生成收據與政府/DevOps 基礎設施（GitLab、JFrog）漏洞遭實戰利用，凸顯 AI 雙刃劍效應與供應鏈資安危機。</li>
+<li><strong>【本地化與邊緣 AI 部署趨勢】</strong> — 從迷你 PC 打造免訂閱 AI 監視器、PowerToys 內建本地 AI，到 NVIDIA PAIR 路由器串聯區域網路設備與多教師蒸餾技術落地，顯示開發者與企業正積極尋求離線、低延遲、高隱私的本地推理與分散式運算方案。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理架構與開發工具</strong>：Hatena + HN + RSS 同步出現 — OpenAI Agents API、Unity/Claude 整合與代理可觀察性技術成為跨平台討論核心，反映產業正加速建立 Agent 開發標準。</li>
+<li><strong>基礎設施漏洞與即時應變</strong>：Hatena + RSS 同步出現 — GitLab CVSS 10.0 漏洞、JFrog 與 Cisco FMC 遭實戰攻擊，顯示自管型 DevOps 與網路設備的資安弱點正被自動化腳本快速利用，緊急修補與零信任架構成為共識。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
