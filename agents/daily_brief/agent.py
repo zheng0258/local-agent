@@ -67,6 +67,7 @@ class _RunContext:
     llm: LLMBackend
     judge_llm: LLMBackend
     meter: UsageMeter | None = None
+    run_manifest: "RunManifest | None" = None
 
 
 class DailyBriefAgent:
@@ -151,6 +152,13 @@ class DailyBriefAgent:
             if hasattr(backend, "meter"):
                 backend.meter = meter
 
+        # 執行帳本：記本次 run 的耗時 / 各步結果 / 觸發源 / git 版本（Step.run 逐步 record）。
+        from .run_manifest import RunManifest, detect_trigger, git_sha
+
+        manifest = RunManifest(
+            trigger=detect_trigger(args), sha=git_sha(OUTPUT_DIR.parent.parent)
+        )
+
         supervisor = SupervisorAgent(
             llm=self._llm,
             judge_llm=self._judge_llm,
@@ -168,6 +176,7 @@ class DailyBriefAgent:
             llm=self._llm,
             judge_llm=self._judge_llm,
             meter=meter,
+            run_manifest=manifest,
         )
 
         source_data = self._fetch_sources(ctx)
@@ -223,6 +232,9 @@ class DailyBriefAgent:
 
         # Token 用量：當日明細落盤 + 跨天歷史（包 try/except，絕不反噬 pipeline）
         _persist_usage(today, steps_dir, meter)
+
+        # 執行紀錄：本次 run 的耗時/步驟/觸發/版本落盤 + 跨天歷史（同紀律，不反噬）
+        _persist_run(today, steps_dir, manifest)
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -447,3 +459,26 @@ def _persist_usage(today: str, steps_dir: Path, meter: UsageMeter) -> None:
         logger.info("Token 用量：%s tokens", summary["totals"]["total_tokens"])
     except Exception as exc:  # 用量追蹤不得反過來弄垮 pipeline
         logger.warning("用量記錄失敗（不影響 pipeline）：%s", exc)
+
+
+def _persist_run(today: str, steps_dir: Path, manifest: "RunManifest") -> None:
+    """當日執行紀錄落盤（steps/_run.json）+ 追加跨天歷史（_run-history.json）。
+
+    含每步耗時/結果、總耗時、觸發源、git SHA。與 _persist_usage 同紀律：事後檢視、
+    包 try/except，絕不反噬 pipeline（供站台「運行紀錄」頁與 --? 唯讀查詢消費）。
+    """
+    from . import run_manifest as run_store
+
+    try:
+        summary = manifest.summarize(today)
+        (steps_dir / "_run.json").write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        run_store.append_history(OUTPUT_DIR / "_run-history.json", summary)
+        logger.info(
+            "執行紀錄：%.0fs / %d 步",
+            summary["duration_seconds"],
+            len(summary["steps"]),
+        )
+    except Exception as exc:  # 執行紀錄不得反過來弄垮 pipeline
+        logger.warning("執行紀錄失敗（不影響 pipeline）：%s", exc)

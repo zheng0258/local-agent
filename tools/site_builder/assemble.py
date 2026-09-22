@@ -19,6 +19,7 @@ from .loader import (
     load_latest_tldr,
     load_narrative,
     load_raw_histories,
+    load_runs,
     load_status,
 )
 
@@ -30,5 +31,6 @@ def build_full_site(output_dir: Path | str) -> dict[str, str]:
         narrative=load_narrative(),
         latest_tldr=load_latest_tldr(output_dir),
         status=load_status(output_dir),
+        runs=load_runs(output_dir),
     )
     return {**site, **load_raw_histories(output_dir)}

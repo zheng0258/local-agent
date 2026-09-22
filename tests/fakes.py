@@ -94,6 +94,8 @@ def make_step_ctx(
     today: str = "2026-06-21",
     llm: Any = None,
     judge_llm: Any = None,
+    meter: Any = None,
+    run_manifest: Any = None,
 ) -> _RunContext:
     """建真 _RunContext；steps_dir/day_dir 皆指向 tmp_path。
 
@@ -111,4 +113,6 @@ def make_step_ctx(
         notify_fn=notify_fn,
         llm=llm if llm is not None else FakeLLM(),
         judge_llm=judge_llm if judge_llm is not None else FakeLLM(),
+        meter=meter,
+        run_manifest=run_manifest,
     )

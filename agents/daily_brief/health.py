@@ -53,7 +53,7 @@ __all__ = [
 # ── 常數 ─────────────────────────────────────────────────────────
 
 SOURCES: tuple[str, ...] = ("hatena", "hn", "reddit", "security", "rss")
-DELIVERIES: tuple[str, ...] = ("telegram", "vault")
+DELIVERIES: tuple[str, ...] = ("telegram", "vault", "deploy")
 SUBJECTS: tuple[str, ...] = (*SOURCES, *DELIVERIES)
 
 # 慢性故障判定：滑動視窗 N 天內，同一 subject 失敗 ≥ M 次即視為 chronic
@@ -67,11 +67,11 @@ ESCALATION_STATE_FILE = OUTPUT_DIR / "_health-escalated.json"
 class ErrorClass(str, Enum):
     """失敗的錯誤型別。chronic escalation 據此給出針對性的修復建議。"""
 
-    NETWORK = "network"            # connection refused：多為模型/服務啟動時序
+    NETWORK = "network"  # connection refused：多為模型/服務啟動時序
     UPSTREAM_HTTP = "upstream_http"  # HTTP 4xx/5xx：上游端點問題
-    EMPTY_LLM = "empty_llm"        # 本地模型吐空字串
-    PARSE = "parse"               # LLM 輸出無法解析為合法 JSON
-    OTHER = "other"               # 環境 / 程式 / 遞送等其他
+    EMPTY_LLM = "empty_llm"  # 本地模型吐空字串
+    PARSE = "parse"  # LLM 輸出無法解析為合法 JSON
+    OTHER = "other"  # 環境 / 程式 / 遞送等其他
 
 
 _SUGGESTIONS: Mapping[str, str] = {
@@ -128,7 +128,11 @@ class HealthRecord:
         results = data.get("results", {})
         return cls(
             date=str(data.get("date", "")),
-            results={str(k): str(v) for k, v in results.items()} if isinstance(results, dict) else {},
+            results=(
+                {str(k): str(v) for k, v in results.items()}
+                if isinstance(results, dict)
+                else {}
+            ),
         )
 
 
@@ -149,8 +153,13 @@ def observe_run(today: str, day_dir: Path, steps_dir: Path) -> HealthRecord:
     candidates: dict[str, str | None] = {}
     for src in SOURCES:
         candidates[src] = _subject_outcome(steps_dir / f"{src}.json", alerts.get(src))
-    candidates["telegram"] = _subject_outcome(day_dir / "telegram.done", alerts.get("notify"))
+    candidates["telegram"] = _subject_outcome(
+        day_dir / "telegram.done", alerts.get("notify")
+    )
     candidates["vault"] = _subject_outcome(day_dir / "vault.done", alerts.get("save"))
+    candidates["deploy"] = _subject_outcome(
+        day_dir / "deploy.done", alerts.get("deploy")
+    )
     results = {s: r for s, r in candidates.items() if r is not None}
     return HealthRecord(date=today, results=results)
 
@@ -225,7 +234,9 @@ def detect_chronic(
                     fail_count=len(classes),
                     window_days=len(recent),
                     dominant_class=dominant,
-                    suggestion=_SUGGESTIONS.get(dominant, _SUGGESTIONS[ErrorClass.OTHER.value]),
+                    suggestion=_SUGGESTIONS.get(
+                        dominant, _SUGGESTIONS[ErrorClass.OTHER.value]
+                    ),
                 )
             )
     return findings
@@ -276,7 +287,9 @@ def record_escalations(
     for finding in findings:
         state[finding.subject] = today
     state_file.parent.mkdir(parents=True, exist_ok=True)
-    state_file.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+    state_file.write_text(
+        json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
 
 def observe_and_escalate(

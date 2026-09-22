@@ -107,6 +107,22 @@ class Step:
 
     # ── 公開介面 ─────────────────────────────────────────────────
     def run(self, ctx, input, reflect: str = "", force: bool = False) -> StepOutcome:
+        """計時外殼：委派 _run_inner 跑真正的 gating/IO，再把耗時+狀態記進 run manifest。
+
+        manifest 為選填觀測 seam（getattr 取；None 則純計時外殼無副作用），與 meter
+        同紀律不反噬 pipeline。"""
+        import time
+
+        manifest = getattr(ctx, "run_manifest", None)
+        t0 = time.monotonic()
+        outcome = self._run_inner(ctx, input, reflect, force)
+        if manifest is not None:
+            manifest.record_step(self.name, outcome.status.value, time.monotonic() - t0)
+        return outcome
+
+    def _run_inner(
+        self, ctx, input, reflect: str = "", force: bool = False
+    ) -> StepOutcome:
         path = self.artifact_path(ctx)
         if force:
             verdict = Verdict.RUN

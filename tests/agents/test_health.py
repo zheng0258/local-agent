@@ -53,7 +53,9 @@ def test_classify_error(error, expected):
 # ── observe_run ──────────────────────────────────────────────────
 
 
-def _seed_run(tmp_path, *, ok_sources, alerts=None, telegram=False, vault=False):
+def _seed_run(
+    tmp_path, *, ok_sources, alerts=None, telegram=False, vault=False, deploy=False
+):
     day_dir = tmp_path / "2026-06-21"
     steps_dir = day_dir / "steps"
     steps_dir.mkdir(parents=True)
@@ -65,7 +67,31 @@ def _seed_run(tmp_path, *, ok_sources, alerts=None, telegram=False, vault=False)
         (day_dir / "telegram.done").touch()
     if vault:
         (day_dir / "vault.done").touch()
+    if deploy:
+        (day_dir / "deploy.done").touch()
     return day_dir, steps_dir
+
+
+def test_observe_run_deploy_ok_from_sentinel(tmp_path):
+    day_dir, steps_dir = _seed_run(
+        tmp_path,
+        ok_sources=["hatena", "hn", "reddit", "security", "rss"],
+        deploy=True,
+    )
+    record = observe_run("2026-06-21", day_dir, steps_dir)
+    assert record.results["deploy"] == OK
+
+
+def test_observe_run_deploy_failure_from_alert(tmp_path):
+    # deploy push 失敗（如 token 過期）→ alerts 有 deploy → 記為失敗（供跨天慢性偵測）
+    day_dir, steps_dir = _seed_run(
+        tmp_path,
+        ok_sources=["hatena", "hn", "reddit", "security", "rss"],
+        alerts={"deploy": {"error": "git push returned non-zero exit status 128"}},
+    )
+    record = observe_run("2026-06-21", day_dir, steps_dir)
+    assert record.results["deploy"] != OK
+    assert "deploy" in record.failures()
 
 
 def test_observe_run_all_ok(tmp_path):

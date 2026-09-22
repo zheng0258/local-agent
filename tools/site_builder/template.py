@@ -7,6 +7,7 @@ inline CSS，不引入 Node toolchain / SSG 框架 / 圖表庫。
 
 from __future__ import annotations
 
+from html import escape
 from typing import NamedTuple, Sequence
 
 from jinja2 import Template
@@ -90,6 +91,42 @@ _SHELL_STYLE = """
   .status-src { color: var(--fg); }
   .status-pct { color: var(--accent); }
   .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
 """
 
 
@@ -118,6 +155,11 @@ _INDEX_TEMPLATE = Template(
 {% if narrative_html %}    <label for="about-toggle" class="about-btn">關於本專案</label>{% endif %}
   </div>
   <p class="meta">{{ date }}</p>
+  <nav class="top">
+    <a href="index.html" class="on">首頁</a>
+    <a href="run-history.html">運行紀錄</a>
+    <a href="archive/index.html">全部存檔</a>
+  </nav>
 </header>
 {% if status_html %}{{ status_html }}{% endif %}
 {% if tldr_html %}<section class="tldr">
@@ -254,6 +296,132 @@ def render_archive_index(
     """
     return _ARCHIVE_INDEX_TEMPLATE.render(
         month_groups=[(m, list(links)) for m, links in month_groups],
+        positioning_line=POSITIONING_LINE,
+        shell_style=_SHELL_STYLE,
+    )
+
+
+# ── 運行紀錄頁（run-history.html）─────────────────────────────────
+
+_RUN_HISTORY_TEMPLATE = Template(
+    """<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief — 運行紀錄</title>
+<style>{{ shell_style }}</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">{{ positioning_line }}</p>
+  <p class="meta">運行紀錄 · 每次執行的狀態、品質、用量與遞送</p>
+  <nav class="top">
+    <a href="index.html">首頁</a>
+    <a href="run-history.html" class="on">運行紀錄</a>
+    <a href="archive/index.html">全部存檔</a>
+  </nav>
+</header>
+{{ table_html }}
+</main>
+</body>
+</html>
+"""
+)
+
+
+def _fmt_duration(seconds: object) -> str:
+    if not isinstance(seconds, (int, float)) or seconds <= 0:
+        return "—"
+    minutes = int(seconds // 60)
+    if minutes >= 60:
+        return f"{minutes // 60}:{minutes % 60:02d}"
+    return f"{minutes}m"
+
+
+def _fmt_tokens(n: object) -> str:
+    if not isinstance(n, (int, float)):
+        return "—"
+    if n >= 1_000_000:
+        return f"{n / 1_000_000:.2f}M"
+    if n >= 1000:
+        return f"{n / 1000:.0f}K"
+    return str(int(n))
+
+
+def _fmt_score(overall: object) -> str:
+    return f"{overall:.1f}" if isinstance(overall, (int, float)) else "—"
+
+
+def _status_matrix(results) -> str:
+    """subject 結果 → 狀態小格 HTML（ok / fail / na，逐格 title 標示）。"""
+    from .runs import OK, SUBJECT_LABELS, SUBJECTS
+
+    cells = []
+    for subject in SUBJECTS:
+        label = SUBJECT_LABELS.get(subject, "?")
+        outcome = results.get(subject) if hasattr(results, "get") else None
+        if outcome is None:
+            cls, title = "na", f"{subject}: 未執行"
+        elif outcome == OK:
+            cls, title = "ok", f"{subject}: ok"
+        else:
+            cls, title = "fail", f"{subject}: {outcome}"
+        cells.append(
+            f'<span class="rcell {cls}" title="{escape(title)}">{label}</span>'
+        )
+    return f'<span class="rcells">{"".join(cells)}</span>'
+
+
+def _run_row(run) -> str:
+    date = escape(run.date)
+    status = escape(run.status)
+    trigger = escape(run.trigger) if run.trigger else "—"
+    href = f"archive/{date}.html"
+    return (
+        "<tr>"
+        f'<td><a class="day" href="{href}">{date}</a></td>'
+        f'<td><span class="rpill {status}">{status}</span></td>'
+        f'<td class="n">{_fmt_duration(run.duration_seconds)}</td>'
+        f'<td class="n">{_fmt_tokens(run.tokens_total)}</td>'
+        f'<td class="n">{_fmt_score(run.overall)}</td>'
+        f"<td>{_status_matrix(run.results)}</td>"
+        f'<td class="meta">{trigger}</td>'
+        "</tr>"
+    )
+
+
+def render_run_history(runs: Sequence[object]) -> str:
+    """渲染運行紀錄頁：一列一次 run，狀態矩陣 + judge 分 + tokens + 耗時 + 觸發源。
+
+    `runs` 為 RunRecord 串（newest first；空串時渲染友善空狀態）。純字串組裝，
+    資料皆內部可信（日期/subject/數字/sha），trigger/title 仍過 html.escape 保險。
+    """
+    if not runs:
+        table_html = (
+            '<p class="runs-empty">尚無運行紀錄（跑一次 daily-brief 後生成）。</p>'
+        )
+    else:
+        rows = "\n".join(_run_row(r) for r in runs)
+        table_html = (
+            '<div class="runs-wrap"><table class="runs">'
+            "<thead><tr>"
+            '<th>日期</th><th>狀態</th><th class="n">耗時</th>'
+            '<th class="n">Tokens</th><th class="n">Judge</th>'
+            "<th>來源 · 遞送</th><th>觸發</th>"
+            "</tr></thead>"
+            f"<tbody>{rows}</tbody></table></div>"
+            '<div class="runs-legend">'
+            '<span><span class="sw" style="background:#56c271"></span>ok</span>'
+            '<span><span class="sw" style="background:#e0603a"></span>失敗</span>'
+            '<span><span class="sw" style="background:#1b232d"></span>未執行</span>'
+            "<span>H·N·R·S·F = hatena / hn / reddit / security / rss</span>"
+            "<span>T·V·D = telegram / vault / deploy</span>"
+            "</div>"
+        )
+    return _RUN_HISTORY_TEMPLATE.render(
+        table_html=table_html,
         positioning_line=POSITIONING_LINE,
         shell_style=_SHELL_STYLE,
     )
