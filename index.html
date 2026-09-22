@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Brief — 2026-09-22</title>
+<title>Daily Brief — </title>
 <style>
   :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
   * { box-sizing: border-box; }
@@ -80,6 +80,42 @@
   .status-src { color: var(--fg); }
   .status-pct { color: var(--accent); }
   .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
 </style>
 </head>
 <body>
@@ -90,418 +126,19 @@
     <p class="tagline">本地 LLM 多代理自主系統</p>
     <label for="about-toggle" class="about-btn">關於本專案</label>
   </div>
-  <p class="meta">2026-09-22</p>
+  <p class="meta"></p>
+  <nav class="top">
+    <a href="index.html" class="on">首頁</a>
+    <a href="run-history.html">運行紀錄</a>
+    <a href="archive/index.html">全部存檔</a>
+  </nav>
 </header>
-<section class="status"><h2>系統狀態</h2><div class="status-grid"><div class="status-streak"><span class="status-num">87</span><span class="status-label">連續運作天數</span></div><div class="status-trend"><span class="status-label">judge 品質分趨勢（最新 3.7/5）</span><svg class="spark" viewBox="0 0 240 40" role="img" aria-label="judge quality trend" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" points="4.0,10.4 5.4,4.0 6.9,4.0 8.3,4.0 9.8,4.0 11.2,4.0 12.6,10.4 14.1,10.4 15.5,10.4 17.0,10.4 18.4,4.0 19.9,4.0 21.3,4.0 22.7,4.0 24.2,10.4 25.6,8.5 27.1,4.0 28.5,4.0 29.9,10.4 31.4,4.0 32.8,5.9 34.3,4.0 35.7,10.4 37.1,4.0 38.6,4.0 40.0,10.4 41.5,4.0 42.9,8.5 44.3,10.4 45.8,4.0 47.2,10.4 48.7,8.5 50.1,4.0 51.6,4.0 53.0,8.5 54.4,10.4 55.9,4.0 57.3,8.5 58.8,4.0 60.2,4.0 61.6,8.5 63.1,4.0 64.5,5.9 66.0,4.0 67.4,4.0 68.8,10.4 70.3,10.4 71.7,4.0 73.2,4.0 74.6,4.0 76.0,4.0 77.5,10.4 78.9,4.0 80.4,4.0 81.8,4.0 83.3,4.0 84.7,4.0 86.1,4.0 87.6,4.0 89.0,8.5 90.5,4.0 91.9,10.4 93.3,4.0 94.8,4.0 96.2,8.5 97.7,8.5 99.1,5.9 100.5,4.0 102.0,29.6 103.4,10.4 104.9,4.0 106.3,8.5 107.8,4.0 109.2,8.5 110.6,8.5 112.1,10.4 113.5,4.0 115.0,4.0 116.4,4.0 117.8,10.4 119.3,8.5 120.7,4.0 122.2,4.0 123.6,4.0 125.0,10.4 126.5,10.4 127.9,4.0 129.4,10.4 130.8,4.0 132.2,10.4 133.7,4.0 135.1,4.0 136.6,4.0 138.0,4.0 139.5,4.0 140.9,4.0 142.3,4.0 143.8,4.0 145.2,8.5 146.7,8.5 148.1,4.0 149.5,8.5 151.0,4.0 152.4,4.0 153.9,4.0 155.3,5.9 156.7,4.0 158.2,4.0 159.6,8.5 161.1,5.9 162.5,4.0 164.0,4.0 165.4,4.0 166.8,4.0 168.3,4.0 169.7,4.0 171.2,8.5 172.6,4.0 174.0,4.0 175.5,4.0 176.9,8.5 178.4,4.0 179.8,4.0 181.2,4.0 182.7,4.0 184.1,4.0 185.6,4.0 187.0,5.9 188.4,4.0 189.9,4.0 191.3,4.0 192.8,4.0 194.2,8.5 195.7,8.5 197.1,10.4 198.5,5.9 200.0,8.5 201.4,8.5 202.9,5.9 204.3,10.4 205.7,10.4 207.2,8.5 208.6,14.9 210.1,5.9 211.5,8.5 212.9,5.9 214.4,8.5 215.8,5.9 217.3,5.9 218.7,4.0 220.1,5.9 221.6,8.5 223.0,10.4 224.5,5.9 225.9,4.0 227.4,5.9 228.8,5.9 230.2,4.0 231.7,4.0 233.1,5.9 234.6,8.5 236.0,12.3"/><circle cx="236.0" cy="12.3" r="2.5" fill="currentColor"/></svg></div></div><ul class="status-rates"><li><span class="status-src">hatena</span><span class="status-pct">95%</span><span class="status-frac">145/153</span></li><li><span class="status-src">hn</span><span class="status-pct">97%</span><span class="status-frac">149/153</span></li><li><span class="status-src">reddit</span><span class="status-pct">96%</span><span class="status-frac">147/153</span></li><li><span class="status-src">rss</span><span class="status-pct">97%</span><span class="status-frac">122/126</span></li><li><span class="status-src">security</span><span class="status-pct">99%</span><span class="status-frac">152/153</span></li><li><span class="status-src">telegram</span><span class="status-pct">95%</span><span class="status-frac">145/153</span></li><li><span class="status-src">vault</span><span class="status-pct">100%</span><span class="status-frac">152/152</span></li></ul></section>
-<section class="tldr">
-<p class="meta">今日重點</p>
-<p>科技產業正加速邁向生產環境級的 AI 代理生態系，Google 與 Cloudflare 等巨頭積極開源編排框架並提出新型開發週期，以解決多代理協作的架構與擴充挑戰。與此同時，業界高度聚焦於自主 AI 的資安治理與風險控管，強調必須透過圖模式去中心化架構、硬性支出上限與嚴謹的權限邊界，來避免代理失控與供應鏈攻擊。在模型部署趨勢上，市場正從依賴重型雲端大模型轉向輕量級邊緣運算與離線端側 AI，並重視機率模型元件與標準化測試框架以提升效能與隱私。儘管 AI 技術快速落地，基礎資安盲點與國家級網路攻防威脅依然嚴峻，顯示企業必須在推動自動化創新的同時，堅守零信任架構與核心防禦底線。</p>
-</section>
+<section class="status"><h2>系統狀態</h2><div class="status-grid"><div class="status-streak"><span class="status-num">1</span><span class="status-label">連續運作天數</span></div><div class="status-trend"><span class="status-label">judge 品質分趨勢（最新 1.0/5）</span><svg class="spark" viewBox="0 0 240 40" role="img" aria-label="judge quality trend" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" points="120.0,29.6"/><circle cx="120.0" cy="29.6" r="2.5" fill="currentColor"/></svg></div></div><ul class="status-rates"></ul></section>
+
 <article>
-<h1>趨勢話題：2026-09-22</h1>
-<hr>
-<h2>Hatena Bookmark IT（日本市場）</h2>
-<h3>注目話題</h3>
-<table>
-<thead>
-<tr>
-<th>標題</th>
-<th>書籤數</th>
-<th>興趣度</th>
-<th>類別</th>
-<th>備註</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://www.du-soleil.com/entry/unify-into-google-ai-pro" rel="noopener noreferrer">Google AI Pro 訂閱統一讓 YouTube Premium Lite 與 Google Cloud 費用等實質免費</a></td>
-<td>392</td>
-<td>***</td>
-<td>AI 服務/趨勢</td>
-<td>AI Pro訂閱整合，YouTube與雲端免費</td>
-</tr>
-<tr>
-<td><a href="https://qiita.com/ktdatascience/items/666a82fcdf3dc4af00d7" rel="noopener noreferrer">為什麼 SMS 認證被認為不安全？</a></td>
-<td>198</td>
-<td>***</td>
-<td>Web 資安</td>
-<td>SMS認證易受SIM劫持，資安風險高</td>
-</tr>
-<tr>
-<td><a href="https://zenn.dev/cybernetics/articles/71ea975d935414" rel="noopener noreferrer">不將 Jev 視為「分類器」，而是機率模型的元件</a></td>
-<td>104</td>
-<td>***</td>
-<td>AI 模型/研究</td>
-<td>Jev非傳統分類器，屬機率模型元件</td>
-</tr>
-<tr>
-<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2609/21/news014.html" rel="noopener noreferrer">數位省、Sakura Internet、三重縣 3 起事件的共通「盲點」</a></td>
-<td>38</td>
-<td>***</td>
-<td>Web 資安</td>
-<td>資安事件共通盲點：重工具輕基礎管理</td>
-</tr>
-<tr>
-<td><a href="https://harnesstax.github.io/" rel="noopener noreferrer">HarnessTax：Coding Agent 的測試框架影響有多大？</a></td>
-<td>34</td>
-<td>***</td>
-<td>AI 開發工具/研究</td>
-<td>程式碼Agent效能，取決於測試框架</td>
-</tr>
-<tr>
-<td><a href="https://github.com/google/ax" rel="noopener noreferrer">GitHub - google/ax：開源分散式 Agent 執行環境</a></td>
-<td>24</td>
-<td>***</td>
-<td>AI 開發工具/OSS</td>
-<td>Google開源AX框架，建構分散式Agent</td>
-</tr>
-<tr>
-<td><a href="https://syu-m-5151.hatenablog.com/entry/2026/09/21/104258" rel="noopener noreferrer">建議使用 Claude Code 的 Agent 視圖與會話間通訊</a></td>
-<td>22</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>善用Claude Code Agent視圖與通訊提效</td>
-</tr>
-<tr>
-<td><a href="https://gigazine.net/news/20260921-locally-ai-apple-foundation-models/" rel="noopener noreferrer">與 iPhone 搭載的 Apple 自研 AI 對話方法，免費應用程式可測試「Apple Foundation Models」的本地處理能力</a></td>
-<td>18</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>免費App可測iPhone內建AI本地運算</td>
-</tr>
-<tr>
-<td><a href="https://syu-m-5151.hatenablog.com/entry/2026/09/20/120746" rel="noopener noreferrer">使用 Codex 時，務必掌握權限設定檔與規則</a></td>
-<td>9</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>使用Codex必學權限設定與規則控風險</td>
-</tr>
-<tr>
-<td><a href="https://zenn.dev/xxkuboxx/articles/e232d267a76f43" rel="noopener noreferrer">比較 Jev、Gemini、DistilBERT、LightGBM 的分類效能</a></td>
-<td>8</td>
-<td>***</td>
-<td>AI 開發工具/模型比較</td>
-<td>實測Jev、Gemini等模型分類效能</td>
-</tr>
-</tbody>
-</table>
-<h3>全部文章（略）</h3>
-<ol>
-<li><a href="https://www.du-soleil.com/entry/unify-into-google-ai-pro" rel="noopener noreferrer">Google AI Pro 訂閱統一讓 YouTube Premium Lite 與 Google Cloud 費用等實質免費</a> (392 users) — AI Pro訂閱整合，YouTube與雲端免費</li>
-<li><a href="https://qiita.com/ktdatascience/items/666a82fcdf3dc4af00d7" rel="noopener noreferrer">為什麼 SMS 認證被認為不安全？</a> (198 users) — SMS認證易受SIM劫持，資安風險高</li>
-<li><a href="https://zenn.dev/cybernetics/articles/71ea975d935414" rel="noopener noreferrer">不將 Jev 視為「分類器」，而是機率模型的元件</a> (104 users) — Jev非傳統分類器，屬機率模型元件</li>
-<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2609/21/news014.html" rel="noopener noreferrer">數位省、Sakura Internet、三重縣 3 起事件的共通「盲點」</a> (38 users) — 資安事件共通盲點：重工具輕基礎管理</li>
-<li><a href="https://harnesstax.github.io/" rel="noopener noreferrer">HarnessTax：Coding Agent 的測試框架影響有多大？</a> (34 users) — 程式碼Agent效能，取決於測試框架</li>
-<li><a href="https://github.com/google/ax" rel="noopener noreferrer">GitHub - google/ax：開源分散式 Agent 執行環境</a> (24 users) — Google開源AX框架，建構分散式Agent</li>
-<li><a href="https://syu-m-5151.hatenablog.com/entry/2026/09/21/104258" rel="noopener noreferrer">建議使用 Claude Code 的 Agent 視圖與會話間通訊</a> (22 users) — 善用Claude Code Agent視圖與通訊提效</li>
-<li><a href="https://gigazine.net/news/20260921-locally-ai-apple-foundation-models/" rel="noopener noreferrer">與 iPhone 搭載的 Apple 自研 AI 對話方法，免費應用程式可測試「Apple Foundation Models」的本地處理能力</a> (18 users) — 免費App可測iPhone內建AI本地運算</li>
-<li><a href="https://syu-m-5151.hatenablog.com/entry/2026/09/20/120746" rel="noopener noreferrer">使用 Codex 時，務必掌握權限設定檔與規則</a> (9 users) — 使用Codex必學權限設定與規則控風險</li>
-<li><a href="https://zenn.dev/xxkuboxx/articles/e232d267a76f43" rel="noopener noreferrer">比較 Jev、Gemini、DistilBERT、LightGBM 的分類效能</a> (8 users) — 實測Jev、Gemini等模型分類效能</li>
-</ol>
-<hr>
-<h2>Hacker News（全球）</h2>
-<h3>注目話題</h3>
-<table>
-<thead>
-<tr>
-<th>標題</th>
-<th>分數</th>
-<th>興趣度</th>
-<th>類別</th>
-<th>備註</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49780820" rel="noopener noreferrer">史諾登檔案庫的後續發展與現狀</a></td>
-<td>612</td>
-<td>***</td>
-<td>網路資安</td>
-<td>史諾登檔案庫現況與後續</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49780797" rel="noopener noreferrer">AX – Google 的開放式代理協調器</a></td>
-<td>606</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>谷歌開放式AI代理協調器</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49783999" rel="noopener noreferrer">Kev：基於 Qwen3.5 建構的微型決策模型家族</a></td>
-<td>317</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>基於Qwen的微型決策模型</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49785397" rel="noopener noreferrer">ZuckOff：搶先偵測 Meta 智慧眼鏡的隱私防護 App</a></td>
-<td>306</td>
-<td>***</td>
-<td>網路資安</td>
-<td>免費App反偵測Meta眼鏡</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49779329" rel="noopener noreferrer">MCP 協議從一開始就是個壞主意？</a></td>
-<td>296</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>探討MCP協議先天缺陷</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49788838" rel="noopener noreferrer">Grok 4.7 模型發布</a></td>
-<td>235</td>
-<td>***</td>
-<td>AI 模型</td>
-<td>Grok最新模型正式發布</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49783133" rel="noopener noreferrer">Show HN: Mini-AGI – 於 8GB VRAM 上訓練的動態持續學習模型</a></td>
-<td>227</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>低顯存訓練持續學習AI</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49783101" rel="noopener noreferrer">Heretic：解除大型語言模型限制的開源專案</a></td>
-<td>177</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>開源解除大模型安全限制</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49786419" rel="noopener noreferrer">Show HN: Lossless-memory – 永不摘要的個人 AI 記憶系統</a></td>
-<td>43</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>個人AI記憶系統不摘要</td>
-</tr>
-<tr>
-<td><a href="https://news.ycombinator.com/item?id=49790501" rel="noopener noreferrer">Show HN: Foremerge – 偵測平行程式碼代理的意圖衝突</a></td>
-<td>5</td>
-<td>***</td>
-<td>AI 開發工具</td>
-<td>偵測平行編碼代理衝突</td>
-</tr>
-</tbody>
-</table>
-<h3>全部文章（部分）</h3>
-<ol>
-<li><a href="https://news.ycombinator.com/item?id=49780820" rel="noopener noreferrer">史諾登檔案庫的後續發展與現狀</a> (612pt) — 史諾登檔案庫現況與後續
-   💬 社群觀點：大眾對監聽已麻木，史諾登流亡後形象轉為間諜，剩餘檔案衝擊有限。社群質疑負責任揭露意義，並警示文章恐為駭客誘餌。</li>
-<li><a href="https://news.ycombinator.com/item?id=49780797" rel="noopener noreferrer">AX – Google 的開放式代理協調器</a> (606pt) — 谷歌開放式AI代理協調器
-   💬 社群觀點：社群普遍持疑，質疑官方支持與開源永續性；嫌YAML繁瑣、與現有框架差異小且易混淆；呼籲提供基準測試驗證實用價值。</li>
-<li><a href="https://news.ycombinator.com/item?id=49783999" rel="noopener noreferrer">Kev：基於 Qwen3.5 建構的微型決策模型家族</a> (317pt) — 基於Qwen的微型決策模型
-   💬 社群觀點：肯定本地低延遲與簡化路由，適用前端規範與垃圾郵件過濾。惟憂知識過時需頻繁更新，並引發與傳統分類模型差異。</li>
-<li><a href="https://news.ycombinator.com/item?id=49785397" rel="noopener noreferrer">ZuckOff：搶先偵測 Meta 智慧眼鏡的隱私防護 App</a> (306pt) — 免費App反偵測Meta眼鏡
-   💬 社群觀點：社群讚賞偵測功能，但擔憂藍牙特徵易被偽造或官方封鎖。網友建議制定拒拍協議自動打碼，並批判無同意錄像常態化。</li>
-<li><a href="https://news.ycombinator.com/item?id=49779329" rel="noopener noreferrer">MCP 協議從一開始就是個壞主意？</a> (296pt) — 探討MCP協議先天缺陷
-   💬 社群觀點：社群認為MCP雖有CLI權限疑慮，但無狀態改良後價值提升。作代理可解憑證隱藏、限速與細粒度管控，實務仍具潛力。</li>
-<li><a href="https://news.ycombinator.com/item?id=49788838" rel="noopener noreferrer">Grok 4.7 模型發布</a> (235pt) — Grok最新模型正式發布
-   💬 社群觀點：評價兩極：開發者讚賞編程穩定，但對話被批乏味易卡死；部分質疑官方圖表與對比具誤導性，建議謹慎使用。</li>
-<li><a href="https://news.ycombinator.com/item?id=49783133" rel="noopener noreferrer">Show HN: Mini-AGI – 於 8GB VRAM 上訓練的動態持續學習模型</a> (227pt) — 低顯存訓練持續學習AI
-   💬 社群觀點：社群讚賞低顯存與持續學習架構，視為本地AGI曙光；但質疑泛化與災難性遺忘，並比較RAG優勢，鼓勵實測。</li>
-<li><a href="https://news.ycombinator.com/item?id=49783101" rel="noopener noreferrer">Heretic：解除大型語言模型限制的開源專案</a> (177pt) — 開源解除大模型安全限制
-   💬 社群觀點：社群肯定技術流程，但質疑成效誇大。多數認為解除限制雖減少拒絕，卻恐導致能力退化，並警示此類模型未來或遭禁令。</li>
-<li><a href="https://news.ycombinator.com/item?id=49786419" rel="noopener noreferrer">Show HN: Lossless-memory – 永不摘要的個人 AI 記憶系統</a> (43pt) — 個人AI記憶系統不摘要
-   💬 社群觀點：肯定時間軸檢索，但質疑時間戳效用，擔憂破緩存致成本高與延遲。指單層記憶終遇瓶頸，建議採多層架構或替代方案。</li>
-<li><a href="https://news.ycombinator.com/item?id=49790501" rel="noopener noreferrer">Show HN: Foremerge – 偵測平行程式碼代理的意圖衝突</a> (5pt) — 偵測平行編碼代理衝突
-    💬 社群觀點：大眾力挺價格透明與廢除雜費，但質疑「禁寵物租金」將由無寵物者分攤損耗；另擔憂嚴規逼退小型房東，反助長大型機構壟斷。</li>
-</ol>
-<hr>
-<h2>Reddit（16 個子版）</h2>
-<h3>注目話題</h3>
-<table>
-<thead>
-<tr>
-<th>標題</th>
-<th>票數</th>
-<th>留言數</th>
-<th>興趣度</th>
-<th>類別</th>
-<th>子版</th>
-<th>備註</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://www.reddit.com/r/netsec/comments/1wm7krn/three_memorysafety_bugs_in_godots_untrustedfile/" rel="noopener noreferrer">Godot 不受信任檔案解析器中的三個記憶體安全漏洞</a></td>
-<td>-</td>
-<td>-</td>
-<td>***</td>
-<td>資安類</td>
-<td>r/netsec</td>
-<td>Godot 曝三項記憶體安全漏洞</td>
-</tr>
-<tr>
-<td><a href="https://www.reddit.com/r/cybersecurity/comments/1wmcw1j/ukrainian_hackers_raid_russias_naval_files_walk/" rel="noopener noreferrer">烏克蘭駭客突襲俄羅斯海軍檔案庫，竊取 70 個專案機密</a></td>
-<td>-</td>
-<td>-</td>
-<td>***</td>
-<td>資安類</td>
-<td>r/cybersecurity</td>
-<td>烏駭客竊取俄海軍七十大專案機密</td>
-</tr>
-<tr>
-<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1wmeayt/anthropic_is_currently_stealth_testing_opus_55/" rel="noopener noreferrer">Anthropic 正以代號 claude-wafer-eap 秘密測試 Opus 5.5 模型，預計於週二發布。</a></td>
-<td>-</td>
-<td>-</td>
-<td>***</td>
-<td>AI 類</td>
-<td>r/ClaudeCode</td>
-<td>Anthropic 週二發布 Opus 5.5</td>
-</tr>
-<tr>
-<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wm6j4i/gemini_is_now_14_in_artificial_analysis/" rel="noopener noreferrer">Gemini 在人工分析智能基準測試中現排名 #14</a></td>
-<td>-</td>
-<td>-</td>
-<td>***</td>
-<td>AI 開發工具類</td>
-<td>r/GoogleGeminiAI</td>
-<td>Gemini 智能基準測試排名第十四</td>
-</tr>
-<tr>
-<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wmhlpx/google_opensourced_ax_their_agentic_orchestrator/" rel="noopener noreferrer">Google 開源了 AX，他們的 AI 智能體編排器。</a></td>
-<td>-</td>
-<td>-</td>
-<td>***</td>
-<td>AI 開發工具類</td>
-<td>r/GoogleGeminiAI</td>
-<td>Google 開源 AI 編排器 AX</td>
-</tr>
-<tr>
-<td><a href="https://www.reddit.com/r/webdev/comments/1wm7k1e/this_is_madness_how_do_sites_that_dont_rely_on/" rel="noopener noreferrer">這太荒謬了。不依賴 Cloudflare 的網站該如何應對來自無限 IP 的分散式爬蟲？</a></td>
-<td>-</td>
-<td>-</td>
-<td>***</td>
-<td>OSS・獨立開發類</td>
-<td>r/webdev</td>
-<td>無 Cloudflare 如何防 IP 爬蟲</td>
-</tr>
-</tbody>
-</table>
-<h3>依類別列表</h3>
-<p><strong>資安類</strong></p>
-<ol>
-<li><a href="https://www.reddit.com/r/netsec/comments/1wm7krn/three_memorysafety_bugs_in_godots_untrustedfile/" rel="noopener noreferrer">Godot 不受信任檔案解析器中的三個記憶體安全漏洞</a> (- ups) — r/netsec — Godot 曝三項記憶體安全漏洞</li>
-<li><a href="https://www.reddit.com/r/cybersecurity/comments/1wmcw1j/ukrainian_hackers_raid_russias_naval_files_walk/" rel="noopener noreferrer">烏克蘭駭客突襲俄羅斯海軍檔案庫，竊取 70 個專案機密</a> (- ups) — r/cybersecurity — 烏駭客竊取俄海軍七十大專案機密</li>
-</ol>
-<p><strong>AI 類</strong></p>
-<ol>
-<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1wmeayt/anthropic_is_currently_stealth_testing_opus_55/" rel="noopener noreferrer">Anthropic 正以代號 claude-wafer-eap 秘密測試 Opus 5.5 模型，預計於週二發布。</a> (- ups) — r/ClaudeCode — Anthropic 週二發布 Opus 5.5</li>
-<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wm6j4i/gemini_is_now_14_in_artificial_analysis/" rel="noopener noreferrer">Gemini 在人工分析智能基準測試中現排名 #14</a> (- ups) — r/GoogleGeminiAI — Gemini 智能基準測試排名第十四</li>
-<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wmhlpx/google_opensourced_ax_their_agentic_orchestrator/" rel="noopener noreferrer">Google 開源了 AX，他們的 AI 智能體編排器。</a> (- ups) — r/GoogleGeminiAI — Google 開源 AI 編排器 AX</li>
-</ol>
-<p><strong>開發工具與基礎設施類</strong></p>
-<ol>
-<li><a href="https://www.reddit.com/r/webdev/comments/1wm7k1e/this_is_madness_how_do_sites_that_dont_rely_on/" rel="noopener noreferrer">這太荒謬了。不依賴 Cloudflare 的網站該如何應對來自無限 IP 的分散式爬蟲？</a> (- ups) — r/webdev — 無 Cloudflare 如何防 IP 爬蟲</li>
-</ol>
-<hr>
-<h2>資安部落格</h2>
-<table>
-<thead>
-<tr>
-<th>標題</th>
-<th>來源</th>
-<th>興趣度</th>
-<th>備註</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://krebsonsecurity.com/2026/08/two-alleged-teampcp-hackers-arrested-in-australia/" rel="noopener noreferrer">澳洲逮捕兩名涉嫌「TeamPCP」的駭客</a></td>
-<td>Krebs on Security</td>
-<td>***</td>
-<td>澳洲逮捕TeamPCP攻擊集團成員</td>
-</tr>
-<tr>
-<td><a href="https://thehackernews.com/2026/09/weekly-recap-cisco-0-day-ai-agent-rce.html" rel="noopener noreferrer">⚡ 每週回顧：Cisco 零日漏洞、AI Agent 遠端程式碼執行、ClickFix 攻擊與瀏覽器劫持</a></td>
-<td>The Hacker News</td>
-<td>***</td>
-<td>盤點Cisco零日漏洞與信任元件攻擊</td>
-</tr>
-<tr>
-<td><a href="https://dev.to/alex_aslam/why-your-multi-agent-system-doesnt-need-a-manager-and-the-graph-pattern-that-actually-scales--2o7c" rel="noopener noreferrer">為何你的多代理系統不需要管理者（以及真正能擴展的圖模式）—— 基於圖的編排</a></td>
-<td>DEV Community</td>
-<td>***</td>
-<td>多代理系統應放棄管理者改採圖模式</td>
-</tr>
-<tr>
-<td><a href="https://dev.to/eliasfischer8351/autonomous-agents-how-to-set-3-spend-limits-they-cannot-edit-4m6o" rel="noopener noreferrer">自主代理：如何設定它們無法修改的 3 項支出上限</a></td>
-<td>DEV Community</td>
-<td>***</td>
-<td>為自主代理設定不可篡改的支出上限</td>
-</tr>
-<tr>
-<td><a href="https://www.infoq.com/news/2026/09/cloudflare-adlc-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cloudflare 推出代理開發週期（ADLC）以取代傳統 SDLC</a></td>
-<td>InfoQ</td>
-<td>***</td>
-<td>Cloudflare推ADLC取代SDLC</td>
-</tr>
-<tr>
-<td><a href="https://www.infoq.com/podcasts/securing-ai-agents-identity-authorization/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">播客：保護 AI 代理：身分、授權與 DPACT 框架</a></td>
-<td>InfoQ</td>
-<td>***</td>
-<td>探討AI代理身分授權與DPACT框架</td>
-</tr>
-<tr>
-<td><a href="https://www.infoq.com/presentations/ai-agent-harness/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：代理韁繩：生產環境 AI 代理的控制平面、不變式與核准邊界</a></td>
-<td>InfoQ</td>
-<td>***</td>
-<td>建構控制平面與核准邊界確保代理穩定</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2>今日總結</h2>
-<h3>三大焦點議題</h3>
-<ol>
-<li><strong>【AI 代理架構與治理標準化】</strong> — 跨平台熱烈討論多代理協作架構（如 Google AX、圖模式編排）與生產環境治理（ADLC、DPACT 框架、支出上限與控制平面），顯示 AI 應用正從單點實驗邁向企業級系統化部署，「控制先於能力」成為開發核心。</li>
-<li><strong>【端側運算與輕量模型崛起】</strong> — Apple 內建模型本地化測試、Kev/Jev 微型決策模型及 Mini-AGI 低顯存訓練引發關注，反映開發者與用戶在隱私、成本與延遲需求下，積極推動 AI 能力向裝置端與邊緣運算轉移。</li>
-<li><strong>【資安威脅演進與基礎防禦回歸】</strong> — 從 SMS 認證弱點、供應鏈攻擊（TeamPCP）、AI Agent RCE 到分散式爬蟲防禦，社群與專家一致指出攻擊面已滲透至信任元件與自動化工具，企業必須回歸基礎權限控管、零信任架構與持續監控。</li>
-</ol>
-<h3>跨平台熱點重疊</h3>
-<ul>
-<li><strong>Google AX 開源與代理協作</strong>：Hatena + HN + Reddit 同步出現 — 科技巨頭開源分散式 Agent 執行環境引發開發者對架構標準化與生態系永續性的廣泛討論。</li>
-<li><strong>AI 代理資安與治理</strong>：HN + RSS + Reddit 同步關注 — 社群與專家聚焦代理權限設定、財務閘道、身分授權與無狀態協議改良，強調生產環境必須建立明確的核准邊界。</li>
-<li><strong>輕量模型與端側 AI</strong>：Hatena + HN 同步出現 — Jev/Kev 微型模型與 iPhone 本地運算測試顯示，市場正尋求取代重型 LLM 的高效能、低延遲替代方案。</li>
-</ul>
+
 </article>
-<nav class="archive">
-<p class="meta">最近存檔（近 30 天）</p>
-<ul>
-  <li><a href="archive/2026-09-22.html">2026-09-22</a></li>
-  <li><a href="archive/2026-09-21.html">2026-09-21</a></li>
-  <li><a href="archive/2026-09-20.html">2026-09-20</a></li>
-  <li><a href="archive/2026-09-19.html">2026-09-19</a></li>
-  <li><a href="archive/2026-09-18.html">2026-09-18</a></li>
-  <li><a href="archive/2026-09-17.html">2026-09-17</a></li>
-  <li><a href="archive/2026-09-16.html">2026-09-16</a></li>
-  <li><a href="archive/2026-09-15.html">2026-09-15</a></li>
-  <li><a href="archive/2026-09-14.html">2026-09-14</a></li>
-  <li><a href="archive/2026-09-13.html">2026-09-13</a></li>
-  <li><a href="archive/2026-09-12.html">2026-09-12</a></li>
-  <li><a href="archive/2026-09-11.html">2026-09-11</a></li>
-  <li><a href="archive/2026-09-10.html">2026-09-10</a></li>
-  <li><a href="archive/2026-09-09.html">2026-09-09</a></li>
-  <li><a href="archive/2026-09-08.html">2026-09-08</a></li>
-  <li><a href="archive/2026-09-07.html">2026-09-07</a></li>
-  <li><a href="archive/2026-09-06.html">2026-09-06</a></li>
-  <li><a href="archive/2026-09-05.html">2026-09-05</a></li>
-  <li><a href="archive/2026-09-04.html">2026-09-04</a></li>
-  <li><a href="archive/2026-09-03.html">2026-09-03</a></li>
-  <li><a href="archive/2026-09-02.html">2026-09-02</a></li>
-  <li><a href="archive/2026-09-01.html">2026-09-01</a></li>
-  <li><a href="archive/2026-08-31.html">2026-08-31</a></li>
-  <li><a href="archive/2026-08-30.html">2026-08-30</a></li>
-  <li><a href="archive/2026-08-29.html">2026-08-29</a></li>
-  <li><a href="archive/2026-08-28.html">2026-08-28</a></li>
-  <li><a href="archive/2026-08-27.html">2026-08-27</a></li>
-  <li><a href="archive/2026-08-26.html">2026-08-26</a></li>
-  <li><a href="archive/2026-08-25.html">2026-08-25</a></li>
-  <li><a href="archive/2026-08-24.html">2026-08-24</a></li>
-</ul>
-<p class="meta"><a href="archive/index.html">查看全部存檔 →</a></p>
-</nav>
+
 <div class="about-overlay">
   <label for="about-toggle" class="about-backdrop"></label>
   <div class="about-panel">
