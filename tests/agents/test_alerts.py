@@ -59,9 +59,35 @@ def test_send_summary_silent_when_no_alerts(tmp_path):
     assert not (tmp_path / "alerts_summary.done").exists()
 
 
-def test_send_summary_excludes_quiet_steps(tmp_path):
-    # deploy 屬 _QUIET_STEPS：仍留在 alerts.json，但不進 Telegram 摘要。
-    assert "deploy" in _QUIET_STEPS
+def test_send_summary_includes_deploy_failure(tmp_path):
+    # 迴歸：deploy 曾被靜默 18 天（token 過期 push 失敗卻不推播）。
+    # deploy 已移出 _QUIET_STEPS，push 失敗必須進 Telegram 摘要。
+    assert "deploy" not in _QUIET_STEPS
+    record_failure(tmp_path, "deploy", "git push 128")
+    record_failure(tmp_path, "judge", "model not found")
+    sent = []
+
+    send_summary(tmp_path, "2026-06-21", lambda m: sent.append(m) or True)
+
+    assert len(sent) == 1
+    assert "deploy" in sent[0]
+    assert "judge" in sent[0]
+
+
+def test_send_summary_sends_when_only_deploy_fails(tmp_path):
+    # deploy 單獨失敗（如 token 過期）也要推播——這正是被靜默 18 天的情境。
+    record_failure(tmp_path, "deploy", "git push 128")
+    sent = []
+
+    send_summary(tmp_path, "2026-06-21", lambda m: sent.append(m) or True)
+
+    assert len(sent) == 1
+    assert "deploy" in sent[0]
+
+
+def test_send_summary_excludes_quiet_steps_mechanism(tmp_path, monkeypatch):
+    # _QUIET_STEPS 過濾機制仍在（集合目前為空）：若某步驟被列入 quiet，則不進摘要。
+    monkeypatch.setattr("agents.daily_brief.alerts._QUIET_STEPS", frozenset({"deploy"}))
     record_failure(tmp_path, "deploy", "git push 128")
     record_failure(tmp_path, "judge", "model not found")
     sent = []
@@ -71,13 +97,3 @@ def test_send_summary_excludes_quiet_steps(tmp_path):
     assert len(sent) == 1
     assert "deploy" not in sent[0]
     assert "judge" in sent[0]
-
-
-def test_send_summary_silent_when_only_quiet_steps_failed(tmp_path):
-    # 只有 deploy（quiet）失敗 → 過濾後無可彙總 → 不推播（沿用 no-alerts 的靜默慣例）
-    record_failure(tmp_path, "deploy", "git push 128")
-    sent = []
-
-    send_summary(tmp_path, "2026-06-21", lambda m: sent.append(m) or True)
-
-    assert sent == []
