@@ -24,8 +24,10 @@ _ERROR_MAX_CHARS = 300
 _SUMMARY_SENTINEL = "alerts_summary.done"
 
 # 失敗不進 Telegram 摘要的步驟：仍寫 alerts.json / 入 health 記錄，只是不彙總推播。
-# deploy（gh-pages push）尚未驗證穩定，transient 失敗常見；驗證穩定後移出此集合。
-_QUIET_STEPS: frozenset[str] = frozenset({"deploy"})
+# 目前為空——摘要只在「重試全部耗盡仍失敗」時才記錄，transient blip 多在 retry 恢復，
+# 故不再靜默任何步驟。deploy 曾因 DEPLOY_GITHUB_TOKEN 過期 push 失敗卻靜默 18 天
+# （gh-pages 停更），教訓：遞送失敗一律要能被看見（見 CONTEXT.md「系統訊號」）。
+_QUIET_STEPS: frozenset[str] = frozenset()
 
 
 def _alerts_path(steps_dir: Path) -> Path:
