@@ -14,6 +14,7 @@ DailyBriefAgent — 每日科技趨勢收集。
 
 from __future__ import annotations
 
+import json
 import os
 import shlex
 from dataclasses import dataclass
@@ -27,6 +28,8 @@ from config.settings import (
     LLMBackend,
     check_local_llm,
 )
+
+from tools.usage_meter import UsageMeter
 
 from . import prompts
 from .config import FETCH_STEPS, OUTPUT_DIR
@@ -63,6 +66,7 @@ class _RunContext:
     notify_fn: Callable[[str], bool]
     llm: LLMBackend
     judge_llm: LLMBackend
+    meter: UsageMeter | None = None
 
 
 class DailyBriefAgent:
@@ -98,6 +102,22 @@ class DailyBriefAgent:
                 judge_saturation=saturation,
             )
 
+        # 唯讀用量查詢（pull）：短路，不跑 pipeline、不需 LLM
+        if "--usage" in shlex.split(args):
+            from tools.usage_meter import load_history as load_usage_history
+            from tools.usage_meter import render_usage_table
+
+            today_file = OUTPUT_DIR / today / "steps" / "_usage.json"
+            today_summary = None
+            if today_file.exists():
+                try:
+                    today_summary = json.loads(today_file.read_text(encoding="utf-8"))
+                except (json.JSONDecodeError, OSError):
+                    today_summary = None
+            return render_usage_table(
+                load_usage_history(OUTPUT_DIR / "_usage-history.json"), today_summary
+            )
+
         force_steps, only_steps = _parse_args(args)
 
         prompts._load_interests.cache_clear()
@@ -125,6 +145,12 @@ class DailyBriefAgent:
         from .supervisor import SupervisorAgent
         from tools.notifiers.telegram import send as tg_send
 
+        # Token 帳本：注入兩個 backend（主 + judge），每次 complete() 後記錄 usage。
+        meter = UsageMeter()
+        for backend in (self._llm, self._judge_llm):
+            if hasattr(backend, "meter"):
+                backend.meter = meter
+
         supervisor = SupervisorAgent(
             llm=self._llm,
             judge_llm=self._judge_llm,
@@ -141,6 +167,7 @@ class DailyBriefAgent:
             notify_fn=tg_send,
             llm=self._llm,
             judge_llm=self._judge_llm,
+            meter=meter,
         )
 
         source_data = self._fetch_sources(ctx)
@@ -193,6 +220,9 @@ class DailyBriefAgent:
 
         # 可觀測性：記錄今日健康狀態 + 慢性故障跨天偵測（只在 chronic 時打擾）
         _observe_and_escalate(today, day_dir, steps_dir, tg_send)
+
+        # Token 用量：當日明細落盤 + 跨天歷史（包 try/except，絕不反噬 pipeline）
+        _persist_usage(today, steps_dir, meter)
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -265,6 +295,7 @@ class DailyBriefAgent:
             "rss": lambda: rss_fetcher.fetch(),
         }
         return dispatch[name]()
+
 
 def _parse_args(args: str) -> tuple[set[str], set[str]]:
     """
@@ -400,3 +431,19 @@ def _observe_and_escalate(
         logger.warning("健康記錄失敗（不影響 pipeline）：%s", exc)
 
 
+def _persist_usage(today: str, steps_dir: Path, meter: UsageMeter) -> None:
+    """當日 token 明細落盤（steps/_usage.json）+ 追加跨天歷史（_usage-history.json）。
+
+    與 _observe_and_escalate 同紀律：事後檢視、包 try/except，絕不反噬 pipeline。
+    """
+    from tools import usage_meter
+
+    try:
+        summary = usage_meter.summarize(meter, today)
+        (steps_dir / "_usage.json").write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        usage_meter.append_history(OUTPUT_DIR / "_usage-history.json", summary)
+        logger.info("Token 用量：%s tokens", summary["totals"]["total_tokens"])
+    except Exception as exc:  # 用量追蹤不得反過來弄垮 pipeline
+        logger.warning("用量記錄失敗（不影響 pipeline）：%s", exc)

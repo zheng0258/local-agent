@@ -12,9 +12,12 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
 from config.utils import load_project_env
+
+if TYPE_CHECKING:
+    from tools.usage_meter import UsageMeter
 
 # 啟動時即載入專案根 .env，確保下方的 env 解析（含 VAULT_ROOT）拿得到值。
 load_project_env()
@@ -42,9 +45,13 @@ class LocalLLMBackend:
     Endpoint：POST /v1/chat/completions
     """
 
-    def __init__(self, base_url: str, model: str) -> None:
+    def __init__(
+        self, base_url: str, model: str, meter: "UsageMeter | None" = None
+    ) -> None:
         self.base_url = base_url.rstrip("/")
         self.model = model
+        # 選填的 token 帳本：非 None 時每次 complete() 後記錄 usage（觀測層，預設不追蹤）。
+        self.meter = meter
 
     def complete(self, prompt: str, system: str = "") -> str:
         import json
@@ -66,6 +73,9 @@ class LocalLLMBackend:
         )
         with urllib.request.urlopen(req, timeout=1500) as resp:
             data = json.loads(resp.read().decode())
+
+        if self.meter is not None:
+            self.meter.record(self.model, data.get("usage"))
 
         return data["choices"][0]["message"]["content"]
 
@@ -129,9 +139,8 @@ def get_judge_llm() -> LLMBackend:
     Judge LLM backend（預設與主 LLM 相同）。
     可透過 JUDGE_LLM_URL / JUDGE_LLM_MODEL 指定獨立模型（如更強的評分模型）。
     """
-    judge_url = (
-        os.environ.get("JUDGE_LLM_URL")
-        or os.environ.get("LOCAL_LLM_URL", DEFAULT_LOCAL_LLM_URL)
+    judge_url = os.environ.get("JUDGE_LLM_URL") or os.environ.get(
+        "LOCAL_LLM_URL", DEFAULT_LOCAL_LLM_URL
     )
     judge_model = os.environ.get("JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL)
     return LocalLLMBackend(base_url=judge_url, model=judge_model)

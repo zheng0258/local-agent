@@ -45,7 +45,7 @@ class Supervisor(Protocol):
 
 
 class StepStatus(Enum):
-    RAN = "ran"        # 跑了 producer 並寫 artifact
+    RAN = "ran"  # 跑了 producer 並寫 artifact
     LOADED = "loaded"  # 用既有 artifact
     SKIPPED = "skipped"  # 不在 steps_to_run / guard 不過 → 回 default
     FAILED = "failed"  # producer 重試耗盡 → 回 default
@@ -120,7 +120,9 @@ class Step:
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
         if verdict is Verdict.LOAD:
             logger.info("Step %-8s: 載入既有 artifact", self.name)
-            return StepOutcome(StepStatus.LOADED, self._load(self.codec.read(path), input))
+            return StepOutcome(
+                StepStatus.LOADED, self._load(self.codec.read(path), input)
+            )
         if not self._guard(ctx, input):
             logger.warning("Step %-8s: 缺少輸入或前置條件，略過", self.name)
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
@@ -130,6 +132,11 @@ class Step:
 
         def _producer(reflect_context: str = "") -> StepOutput:
             return self._produce(ctx, input, reflect_context or reflect)
+
+        # 把後續 LLM 用量歸到本步驟（enrich 的並行 thread 於此標籤下皆記為 enrich）。
+        meter = getattr(ctx, "meter", None)
+        if meter is not None:
+            meter.current_step = self.name
 
         result = ctx.supervisor.run_step(self.name, _producer, force=forced)
         if not result.success:
