@@ -38,7 +38,10 @@ pytestmark = pytest.mark.unit
         ("<urlopen error [Errno 111] Connection refused>", ErrorClass.NETWORK),
         ("HTTP Error 400: Bad Request", ErrorClass.UPSTREAM_HTTP),
         ("HTTP Error 500: Internal Server Error", ErrorClass.UPSTREAM_HTTP),
-        ("parse_llm_json: LLM 回傳無法解析為 JSON dict（前 120 字元）: ''", ErrorClass.EMPTY_LLM),
+        (
+            "parse_llm_json: LLM 回傳無法解析為 JSON dict（前 120 字元）: ''",
+            ErrorClass.EMPTY_LLM,
+        ),
         ("parse_llm_json: 無法解析 {壞掉的 json", ErrorClass.PARSE),
         ("Telegram 訊息發送失敗", ErrorClass.OTHER),
         ("[Errno 2] No such file or directory: 'npx'", ErrorClass.OTHER),
@@ -103,8 +106,13 @@ def test_observe_run_all_ok(tmp_path):
     )
     record = observe_run("2026-06-21", day_dir, steps_dir)
     assert record.results == {
-        "hatena": OK, "hn": OK, "reddit": OK, "security": OK, "rss": OK,
-        "telegram": OK, "vault": OK,
+        "hatena": OK,
+        "hn": OK,
+        "reddit": OK,
+        "security": OK,
+        "rss": OK,
+        "telegram": OK,
+        "vault": OK,
     }
     assert record.failures() == {}
 
@@ -180,12 +188,14 @@ def _history(days):
 
 
 def test_detect_chronic_fires_at_threshold():
-    history = _history([
-        (15, {"hatena": "upstream_http"}),
-        (16, {"hatena": OK}),
-        (17, {"hatena": "upstream_http"}),
-        (18, {"hatena": "network"}),
-    ])
+    history = _history(
+        [
+            (15, {"hatena": "upstream_http"}),
+            (16, {"hatena": OK}),
+            (17, {"hatena": "upstream_http"}),
+            (18, {"hatena": "network"}),
+        ]
+    )
     findings = detect_chronic(history, window=7, threshold=3)
     assert len(findings) == 1
     f = findings[0]
@@ -196,20 +206,24 @@ def test_detect_chronic_fires_at_threshold():
 
 
 def test_detect_chronic_silent_below_threshold():
-    history = _history([
-        (17, {"hatena": "network"}),
-        (18, {"hatena": "network"}),
-    ])
+    history = _history(
+        [
+            (17, {"hatena": "network"}),
+            (18, {"hatena": "network"}),
+        ]
+    )
     assert detect_chronic(history, window=7, threshold=3) == []
 
 
 def test_detect_chronic_respects_window():
     # 3 次失敗但散落在 10 天，window=7 只看最近 7 天 → 不觸發
-    history = _history([
-        (10, {"hatena": "network"}),
-        (11, {"hatena": "network"}),
-        (20, {"hatena": "network"}),
-    ])
+    history = _history(
+        [
+            (10, {"hatena": "network"}),
+            (11, {"hatena": "network"}),
+            (20, {"hatena": "network"}),
+        ]
+    )
     assert detect_chronic(history, window=7, threshold=3) == []
 
 
@@ -258,16 +272,24 @@ def test_observe_and_escalate_fires_and_dedups_on_chronic(tmp_path):
     sent: list[str] = []
 
     fresh = observe_and_escalate(
-        "2026-06-21", day_dir, steps_dir, lambda m: sent.append(m) or True,
-        history_file=history_file, state_file=state_file,
+        "2026-06-21",
+        day_dir,
+        steps_dir,
+        lambda m: sent.append(m) or True,
+        history_file=history_file,
+        state_file=state_file,
     )
     assert [f.subject for f in fresh] == ["hatena"]
     assert sent and "hatena" in sent[0]
 
     # 同一 episode 再跑一次 → escalation state 去重 → 不重複打擾
     fresh2 = observe_and_escalate(
-        "2026-06-21", day_dir, steps_dir, lambda m: sent.append(m) or True,
-        history_file=history_file, state_file=state_file,
+        "2026-06-21",
+        day_dir,
+        steps_dir,
+        lambda m: sent.append(m) or True,
+        history_file=history_file,
+        state_file=state_file,
     )
     assert fresh2 == []
     assert len(sent) == 1
@@ -286,11 +308,46 @@ def test_observe_and_escalate_silent_when_not_chronic(tmp_path):
     )
     sent: list[str] = []
     fresh = observe_and_escalate(
-        "2026-06-21", day_dir, steps_dir, lambda m: sent.append(m) or True,
-        history_file=history_file, state_file=state_file,
+        "2026-06-21",
+        day_dir,
+        steps_dir,
+        lambda m: sent.append(m) or True,
+        history_file=history_file,
+        state_file=state_file,
     )
     assert fresh == []
     assert sent == []
+
+
+def test_observe_and_escalate_empty_does_not_clobber_existing(tmp_path):
+    # 空觀測（steps_dir 無 artifact / sentinel / alert）不得覆寫同日先前的真實記錄，
+    # 也不新增空記錄——這是歷史上數天顯示 unknown 的成因。
+    import json
+
+    from agents.daily_brief.health import observe_and_escalate
+
+    history_file = tmp_path / "_health-history.json"
+    state_file = tmp_path / "_health-escalated.json"
+    history_file.write_text(
+        json.dumps([{"date": "2026-06-21", "results": {"hatena": "ok", "hn": "ok"}}]),
+        encoding="utf-8",
+    )
+    empty_dir = tmp_path / "empty"
+    (empty_dir / "steps").mkdir(parents=True)
+
+    fresh = observe_and_escalate(
+        "2026-06-21",
+        empty_dir,
+        empty_dir / "steps",
+        lambda m: True,
+        history_file=history_file,
+        state_file=state_file,
+    )
+
+    assert fresh == []
+    kept = json.loads(history_file.read_text(encoding="utf-8"))
+    # 真實記錄仍在、未被空 results 覆寫
+    assert kept == [{"date": "2026-06-21", "results": {"hatena": "ok", "hn": "ok"}}]
 
 
 # ── digest 貢獻度 ─────────────────────────────────────────────────
@@ -300,8 +357,14 @@ def _digest_artifact(sources):
     return {
         "generated_at": "2026-07-07T02:00:00",
         "digests": [
-            {"title": f"t{i}", "url": f"https://x/{i}", "source": "顯示名",
-             "interest": "***", "summary": "s", "_source": src}
+            {
+                "title": f"t{i}",
+                "url": f"https://x/{i}",
+                "source": "顯示名",
+                "interest": "***",
+                "summary": "s",
+                "_source": src,
+            }
             for i, src in enumerate(sources)
         ],
     }
@@ -318,16 +381,27 @@ def test_digest_source_shares_counts_ratio():
 
 def test_digest_source_shares_skips_entries_without_source_field():
     # 舊 schema：digest 條目沒有 _source 欄位 → 靜默略過，不影響其他條目
-    old = {"generated_at": "x", "digests": [
-        {"title": "t", "url": "u", "source": "顯示名", "interest": "**", "summary": "s"},
-    ]}
+    old = {
+        "generated_at": "x",
+        "digests": [
+            {
+                "title": "t",
+                "url": "u",
+                "source": "顯示名",
+                "interest": "**",
+                "summary": "s",
+            },
+        ],
+    }
     shares = digest_source_shares([old, _digest_artifact(["rss"])])
     assert shares == {"rss": 1.0}
 
 
 def test_digest_source_shares_empty_or_malformed_input():
     assert digest_source_shares([]) == {}
-    assert digest_source_shares([{}, {"digests": "not-a-list"}, {"digests": [42]}]) == {}
+    assert (
+        digest_source_shares([{}, {"digests": "not-a-list"}, {"digests": [42]}]) == {}
+    )
 
 
 def _seed_digest(tmp_path, date, sources):
@@ -340,7 +414,7 @@ def _seed_digest(tmp_path, date, sources):
 
 def test_load_recent_digests_reads_window_and_skips_missing_days(tmp_path):
     _seed_digest(tmp_path, "2026-07-07", ["rss"])
-    _seed_digest(tmp_path, "2026-07-05", ["hn"])   # 07-06 缺檔 → 靜默略過
+    _seed_digest(tmp_path, "2026-07-05", ["hn"])  # 07-06 缺檔 → 靜默略過
     _seed_digest(tmp_path, "2026-06-01", ["reddit"])  # 超出 30 天視窗 → 不讀
     artifacts = load_recent_digests(tmp_path, "2026-07-07", window=30)
     assert digest_source_shares(artifacts) == {"rss": 0.5, "hn": 0.5}
@@ -434,7 +508,9 @@ def test_detect_judge_saturation_skips_malformed_records():
 
 
 def test_format_escalation_uses_allowed_html():
-    msg = format_escalation([ChronicFinding("hatena", 4, 7, "upstream_http", "確認端點")], "2026-06-21")
+    msg = format_escalation(
+        [ChronicFinding("hatena", 4, 7, "upstream_http", "確認端點")], "2026-06-21"
+    )
     assert "<b>hatena</b>" in msg
     assert "4 次" in msg
     assert "確認端點" in msg
@@ -443,14 +519,16 @@ def test_format_escalation_uses_allowed_html():
 
 
 def test_render_health_table_shows_rates():
-    history = _history([
-        (19, {"hatena": OK, "telegram": OK}),
-        (20, {"hatena": "upstream_http", "telegram": OK}),
-        (21, {"hatena": OK, "telegram": OK}),
-    ])
+    history = _history(
+        [
+            (19, {"hatena": OK, "telegram": OK}),
+            (20, {"hatena": "upstream_http", "telegram": OK}),
+            (21, {"hatena": OK, "telegram": OK}),
+        ]
+    )
     table = render_health_table(history)
     assert "hatena" in table
-    assert "2/3" in table       # hatena 2 成功 / 3 天
+    assert "2/3" in table  # hatena 2 成功 / 3 天
     assert "telegram" in table
     assert "3/3" in table
     assert "upstream_http" in table  # 失敗類別標註
@@ -461,10 +539,12 @@ def test_render_health_table_empty():
 
 
 def test_render_health_table_shows_digest_shares():
-    history = _history([
-        (20, {"hatena": OK, "rss": OK, "telegram": OK}),
-        (21, {"hatena": OK, "rss": OK, "telegram": OK}),
-    ])
+    history = _history(
+        [
+            (20, {"hatena": OK, "rss": OK, "telegram": OK}),
+            (21, {"hatena": OK, "rss": OK, "telegram": OK}),
+        ]
+    )
     table = render_health_table(history, digest_shares={"rss": 0.39, "hatena": 0.28})
     hatena_line = next(l for l in table.splitlines() if "hatena" in l)
     rss_line = next(l for l in table.splitlines() if l.strip().startswith("rss"))
@@ -493,9 +573,9 @@ def test_render_health_table_shows_judge_saturation_warning():
     )
     table = render_health_table(history, judge_saturation=finding)
     assert "judge 已失去鑑別力" in table
-    assert "30/30" in table          # 貼頂天數 / 檢視天數
-    assert "≥ 4.0" in table          # 門檻
-    assert "4.0×6" in table          # 分數分佈摘要
+    assert "30/30" in table  # 貼頂天數 / 檢視天數
+    assert "≥ 4.0" in table  # 門檻
+    assert "4.0×6" in table  # 分數分佈摘要
     assert "5.0×16" in table
 
 
