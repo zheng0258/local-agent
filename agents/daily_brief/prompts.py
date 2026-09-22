@@ -22,15 +22,16 @@ def _load_interests() -> str:
     return (
         "評分標準（*** / ** / *）：\n"
         "- *** AI 開發工具（Claude Code、Cursor、Gemini 功能公告、工具比較）\n"
+        "- *** 重要 AI 模型 / 研究發布（新基礎模型、生圖/影片/多模態模型、SOTA 跑分、重大論文；以「新發布」為準，非既有模型的第 N 篇心得）\n"
         "- *** Web 資安 / 滲透測試（OWASP、漏洞、供應鏈攻擊）\n"
         "- **  OSS 開發 / 獨立開發 / SaaS / Technical SEO\n"
         "- **  JavaScript / TypeScript 技術棧\n"
         "- *   職涯 / 財務自由 / Build in Public\n"
         "- *   其他科技話題\n\n"
         "評分範例（邊界參考）：\n"
-        "- *** ：「Claude Code 新增 MCP 整合功能」「CVE-2025-XXXX Nginx 遠端執行漏洞」「供應鏈攻擊：axios npm 套件遭入侵」\n"
+        "- *** ：「Claude Code 新增 MCP 整合功能」「Qwen-Image-2.1 圖像生成模型發布」「新開源基礎模型刷新 SOTA 跑分」「CVE-2025-XXXX Nginx 遠端執行漏洞」\n"
         "- **  ：「Next.js 15 效能優化實戰心得」「獨立開發者月收 5000 美元方法論」「TypeScript 5.5 新特性介紹」\n"
-        "- *   ：「2025 年程式設計師薪資報告」「如何提升遠端工作效率」「某技術工具發布 2.0 版」\n"
+        "- *   ：「2025 年程式設計師薪資報告」「如何提升遠端工作效率」「某技術工具發布 2.0 版（非 AI 模型）」\n"
         "- 略過：廣告、問卷調查、非科技話題、已知的老文章重新流傳"
     )
 
