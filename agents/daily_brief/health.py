@@ -309,6 +309,11 @@ def observe_and_escalate(
     以 try/except 保護 pipeline（可觀測性不得反過來弄垮 pipeline）。
     """
     record = observe_run(today, day_dir, steps_dir)
+    # 空觀測（無任何 artifact / sentinel / alert）不落盤：一次 run 若真的什麼都沒產出，
+    # 記一筆空 results 無資訊價值，且會覆寫掉同日先前的真實記錄（append 同日替換）——
+    # 這正是歷史上數天顯示 unknown 的成因（見站台運行紀錄）。空則直接跳過。
+    if not record.results:
+        return []
     history = append_record(record, history_file)
     findings = detect_chronic(history)
     fresh = filter_new_escalations(findings, state_file, today)
