@@ -297,8 +297,8 @@ def observe_and_escalate(
     day_dir: Path,
     steps_dir: Path,
     notify_fn: Callable[[str], bool],
-    history_file: Path = HEALTH_HISTORY_FILE,
-    state_file: Path = ESCALATION_STATE_FILE,
+    history_file: Path | None = None,
+    state_file: Path | None = None,
 ) -> list[ChronicFinding]:
     """慢性故障 escalation 的完整 workflow —— 單一介面，順序不變式住模組內。
 
@@ -307,7 +307,16 @@ def observe_and_escalate(
     flake 靜默；同一 chronic episode 經 state_file 去重只打擾一次。回傳實際 escalate 的
     findings（供呼叫端 logging / 測試斷言）。純副作用集中於此，不自行吞例外——呼叫端
     以 try/except 保護 pipeline（可觀測性不得反過來弄垮 pipeline）。
+
+    history_file / state_file 於 **call time** 解析（None → 取模組 HEALTH_HISTORY_FILE /
+    ESCALATION_STATE_FILE）：預設參數若直接綁模組常數，會在 import 時凍結真實路徑，
+    使 `monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", tmp)` 失效、測試誤寫真實
+    歷史檔（曾污染當日記錄）。call-time 解析讓 monkeypatch 生效。
     """
+    if history_file is None:
+        history_file = HEALTH_HISTORY_FILE
+    if state_file is None:
+        state_file = ESCALATION_STATE_FILE
     record = observe_run(today, day_dir, steps_dir)
     # 空觀測（無任何 artifact / sentinel / alert）不落盤：一次 run 若真的什麼都沒產出，
     # 記一筆空 results 無資訊價值，且會覆寫掉同日先前的真實記錄（append 同日替換）——

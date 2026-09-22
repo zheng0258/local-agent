@@ -350,6 +350,28 @@ def test_observe_and_escalate_empty_does_not_clobber_existing(tmp_path):
     assert kept == [{"date": "2026-06-21", "results": {"hatena": "ok", "hn": "ok"}}]
 
 
+def test_observe_and_escalate_resolves_history_file_at_call_time(tmp_path, monkeypatch):
+    # 迴歸：history_file/state_file 預設須於 call time 解析，不得在 import 時凍結真實路徑。
+    # 否則 monkeypatch 模組常數失效 → 測試誤寫真實 _health-history.json（曾把當日記錄
+    # 覆寫成測試 seed 值）。此測試不傳 history_file，僅 monkeypatch 模組常數。
+    import agents.daily_brief.health as health
+
+    redirected = tmp_path / "redirected-history.json"
+    monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", redirected)
+    monkeypatch.setattr(health, "ESCALATION_STATE_FILE", tmp_path / "esc.json")
+    day_dir, steps_dir = _seed_run(
+        tmp_path,
+        ok_sources=["hatena", "hn", "reddit", "security", "rss"],
+        telegram=True,
+        vault=True,
+    )
+
+    health.observe_and_escalate("2026-06-21", day_dir, steps_dir, lambda m: True)
+
+    # 寫到 monkeypatched 路徑 → 證明 call-time 解析生效（若凍結真實路徑則此檔不存在）
+    assert redirected.exists()
+
+
 # ── digest 貢獻度 ─────────────────────────────────────────────────
 
 
