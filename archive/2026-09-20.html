@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-09-20</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-09-20</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-09-20</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.jp/i/1473810070062515120" rel="noopener noreferrer">美軍因 AI 誤報擬定作戰計畫：中國船運「核部件」，最後一刻叫停</a></td>
+<td>148</td>
+<td>***</td>
+<td>AI風險與資安</td>
+<td>AI誤判險引發衝突，最後一刻叫停</td>
+</tr>
+<tr>
+<td><a href="https://syu-m-5151.hatenablog.com/entry/2026/09/19/112330" rel="noopener noreferrer">使用 Codex 時，務必掌握 config.toml 與 AGENTS.md</a></td>
+<td>144</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>掌握設定與流程檔，精準控制Codex</td>
+</tr>
+<tr>
+<td><a href="https://jev-guide.take-otani.workers.dev/" rel="noopener noreferrer">Jev 圖解指南</a></td>
+<td>82</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>Jev專司結構化判斷，直接回傳免解析</td>
+</tr>
+<tr>
+<td><a href="https://news.web.nhk/newsweb/na/nd-20260919de51229" rel="noopener noreferrer">Google 生成式 AI 在網路能力測驗期間侵入他公司系統</a></td>
+<td>71</td>
+<td>***</td>
+<td>資安</td>
+<td>Google生成AI測試中，意外侵入企業系統</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/nogu66/articles/claude-code-function-hooks-claude-mods" rel="noopener noreferrer">Claude Mods 入門 | 自由自定義 Claude Code</a> (70 users) — 以TS掛鉤機制，自由客製Claude Code</li>
+<li><a href="https://speakerdeck.com/k1nakayama/sono-lambda-8-bun-de-kanrisha-kengen-made-ubawaremasu" rel="noopener noreferrer">那個 Lambda，8分鐘內連管理員權限都會被奪取</a> (50 users) — 無伺服器疏於控權，八分鐘內恐失權限</li>
+<li><a href="https://agi-labo.com/articles/n746a127b4074" rel="noopener noreferrer">極速且極低價。判定專用 AI「JEV」徹底解說 ― 用法、費用、實例與實際打造 4 款產品的幕後</a> (22 users) — JEV極速低價專司判定，不寫文章只做判斷</li>
+<li><a href="https://vercel.com/ai-gateway/models/jev" rel="noopener noreferrer">Jev API、定價與沙盒 | Vercel AI Gateway</a> (13 users) — Vercel整合Jev API，提供決策沙盒</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>-</td>
+<td>本日無熱門文章</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li>
+<ul>
+<li>(- users) — 本日無資料</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1wkeh8n/cve202677179_dockers_hypervisor_for_mac/" rel="noopener noreferrer">CVE-2026-77179：Docker Mac 版虛擬機管理程序遭入侵</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>Docker Mac 虛擬機管理程序遭入侵</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1wknubg/google_gemini_broke_into_real_company_systems/" rel="noopener noreferrer">Google Gemini 因安全測試網域搞錯，意外入侵真實企業系統</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>Gemini 網域設定錯誤誤入企業系統</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1wkjnrz/instant_claude_code_compaction_is_my_favorite_use/" rel="noopener noreferrer">即時 Claude Code 壓縮是我目前最喜歡的 Jev 用途</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>Claude Code 即時壓縮成最佳應用</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1wkeh8n/cve202677179_dockers_hypervisor_for_mac/" rel="noopener noreferrer">CVE-2026-77179：Docker Mac 版虛擬機管理程序遭入侵</a> (- ups) — r/netsec — Docker Mac 虛擬機管理程序遭入侵</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1wknubg/google_gemini_broke_into_real_company_systems/" rel="noopener noreferrer">Google Gemini 因安全測試網域搞錯，意外入侵真實企業系統</a> (- ups) — r/cybersecurity — Gemini 網域設定錯誤誤入企業系統</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1wkjnrz/instant_claude_code_compaction_is_my_favorite_use/" rel="noopener noreferrer">即時 Claude Code 壓縮是我目前最喜歡的 Jev 用途</a> (- ups) — r/ClaudeCode — Claude Code 即時壓縮成最佳應用</li>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1vz3e36/did_anyone_else_have_ondemand_usage_unexpectedly/" rel="noopener noreferrer">有其他人更新 Cursor 後，隨選用量意外變成「無限」嗎？</a> (- ups) — r/Cursor_AI — Cursor 更新後隨選用量變無限</li>
+<li><a href="https://www.reddit.com/r/ChatGPT/comments/1srxfnl/made_with_chatgpt_images_20/" rel="noopener noreferrer">使用 ChatGPT 圖片 2.0 製作</a> (- ups) — r/ChatGPT — ChatGPT 圖片 2.0 生成作品分享</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/off-guard-breaking-litellm-from-authentication-bypass-to-cloud-compromise" rel="noopener noreferrer">防線失守：從 LiteLLM 驗證繞過到雲端遭入侵的完整剖析</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>LiteLLM驗證漏洞致雲端AI遭入侵</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/claude-opus-5-helped-researchers-take.html" rel="noopener noreferrer">Claude Opus 5 協助研究人員透過鏈式漏洞接管 OpenAI 員工帳戶</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Claude 鏈式漏洞接管 OpenAI 帳號</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/solarwinds-patches-arm-hard-coded-key.html" rel="noopener noreferrer">SolarWinds 修復 ARM 硬編碼金鑰漏洞，該漏洞可導致未經驗證的遠端程式碼執行</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>SolarWinds 修復硬編碼金鑰 RCE 漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/critical-pre-auth-rce-in-orkes.html" rel="noopener noreferrer">Orkes Conductor 工作流平台遭野外利用的嚴重未認證 RCE 漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Orkes 工作流平台 RCE 遭野外利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/google-gemini-broke-into-real-company.html" rel="noopener noreferrer">Google Gemini 因安全測試網域混淆侵入真實企業系統</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Gemini 網域混淆誤侵真實企業系統</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/crowdsec-says-tanstack-npm-attack-led.html" rel="noopener noreferrer">CrowdSec 表示 TanStack npm 攻擊導致 170 個私密 GitHub 儲存庫遭複製</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>npm 攻擊致 CrowdSec 百餘倉庫遭複製</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/cisa-flags-three-linux-kernel.html" rel="noopener noreferrer">CISA 標記三個遭野外利用的 Linux 核心漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>CISA 標記三項 Linux 核心野外漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/public-exploits-released-for-four-linux.html" rel="noopener noreferrer">四項可取得本地 Root 權限的 Linux 核心漏洞公開利用程式碼釋出</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>四項 Linux 核心本地提權漏洞公開</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/linkedin-context-engineering/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：LinkedIn 的語境工程：我們如何使用 MCP 為 AI 代理建構組織語境層</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>LinkedIn 以 MCP 構建 AI 代理語境層</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 資安風險與越權防禦】</strong> — 從 Google Gemini 測試誤侵企業系統、美軍 AI 誤判危機，到 LiteLLM 驗證繞過與 Linux 核心提權漏洞，顯示 AI 代理與雲端基礎設施的權限邊界日益脆弱，跨平台高度關注沙盒隔離與最小權限原則。</li>
+<li><strong>【AI 開發工具與語境工程】</strong> — Codex 設定檔規範、Claude Mods 客製化掛鉤，以及 Jev 專司結構化判斷的崛起，標誌 AI 輔助開發正從「被動生成」轉向「主動控管上下文與工作流」，LinkedIn 更以 MCP 協議示範企業級語境層建構。</li>
+<li><strong>【雲端架構與供應鏈威脅】</strong> — Docker Mac 虛擬機管理程序遭入侵、Serverless Lambda 八分鐘失權、npm 供應鏈攻擊複製私密倉庫，凸顯現代開發環境高度依賴託管服務與開源套件，基礎設施安全與依賴驗證已成維繫業務連續性的首要課題。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Google Gemini 測試邊界失控</strong>：Hatena + Reddit + RSS 同步出現 — AI 安全測試因網域設定錯誤意外侵入真實企業系統，凸顯測試環境隔離機制的重要性。</li>
+<li><strong>Jev 結構化判定模型應用</strong>：Hatena + Reddit 同步出現 — 開發者熱議 Jev 專司型別判斷與即時壓縮上下文，提供極速低價的 AI 決策整合新解法。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-08-06</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-08-06</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-08-06</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://speakerdeck.com/mikimhk/how-a-skill-born-from-a-chance-encounter-became-the-most-used-tool-in-the-company" rel="noopener noreferrer">一次偶然相遇誕生的 Skill，如何成為社内使用第一名</a></td>
+<td>69</td>
+<td>***</td>
+<td>AI 工具與工程應用</td>
+<td>偶發AI技能躍升社内使用率第一</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2608/05/2000000403/" rel="noopener noreferrer">「可查出 X 上封鎖你的人」網站擴散，查看原始碼發現 ID 與密碼遭外傳</a></td>
+<td>42</td>
+<td>***</td>
+<td>AI 資安與風險警示</td>
+<td>偽查封鎖網站竊取帳號，警惕釣魚風險</td>
+</tr>
+<tr>
+<td><a href="https://tech-blog.monotaro.com/entry/2026/08/05/090000" rel="noopener noreferrer">將資深工程師視角導入 AI Code Review ～ 移植判斷邏輯的內部 Agent「Makasetaro」設計</a></td>
+<td>37</td>
+<td>***</td>
+<td>AI 工具與工程應用</td>
+<td>移植資深工程師邏輯，優化AI程式審查</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/news/2130787.html" rel="noopener noreferrer">AI Agent「Hermes Agent」大型更新「The Herald Release」公開</a></td>
+<td>26</td>
+<td>***</td>
+<td>AI 平台與開放生態</td>
+<td>Hermes Agent大更新，強化桌面與CLI</td>
+</tr>
+<tr>
+<td><a href="https://os.cloudflare.app/" rel="noopener noreferrer">Cloudflare OS</a></td>
+<td>22</td>
+<td>***</td>
+<td>AI 平台與開放生態</td>
+<td>Cloudflare開源AI系統，企業可自訂規則</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/aiplus/article/2608/05/2000000397/" rel="noopener noreferrer">AI 量產「不存在的漏洞」？「SQLite」偽 CVE 經美國企業驗證屬實</a></td>
+<td>12</td>
+<td>***</td>
+<td>AI 資安與風險警示</td>
+<td>AI誤報偽漏洞，SQLite經驗證屬實</td>
+</tr>
+<tr>
+<td><a href="https://earendil.com/posts/pi-autoresearch-and-databricks/" rel="noopener noreferrer">Pi：極簡且高效能的 AI 研究工具</a></td>
+<td>9</td>
+<td>***</td>
+<td>AI 工具與工程應用</td>
+<td>Pi極簡設計，提供高效能AI研究體驗</td>
+</tr>
+<tr>
+<td><a href="https://blog.cloudflare.com/cloudflare-os/" rel="noopener noreferrer">Cloudflare OS：開放式 Agent、應用程式與工作平台</a></td>
+<td>6</td>
+<td>***</td>
+<td>AI 平台與開放生態</td>
+<td>Cloudflare OS建構開放平台，整合應用</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://speakerdeck.com/mikimhk/how-a-skill-born-from-a-chance-encounter-became-the-most-used-tool-in-the-company" rel="noopener noreferrer">一次偶然相遇誕生的 Skill，如何成為社内使用第一名</a> (69 users) — 員工偶發需求開發的 AI Skill 透過提示詞工程與內部系統整合，迅速躍升為公司內使用率最高的工具。</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2608/05/2000000403/" rel="noopener noreferrer">「可查出 X 上封鎖你的人」網站擴散，查看原始碼發現 ID 與密碼遭外傳</a> (42 users) — 宣稱能查詢 X 平台封鎖名單的第三方網站內藏釣魚程式，會將使用者輸入的帳號密碼外傳至攻擊者伺服器。</li>
+<li><a href="https://tech-blog.monotaro.com/entry/2026/08/05/090000" rel="noopener noreferrer">將資深工程師視角導入 AI Code Review ～ 移植判斷邏輯的內部 Agent「Makasetaro」設計</a> (37 users) — 團隊開發內部 AI Agent 將資深工程師的程式審查經驗結構化並注入 LLM，提升審查效率與品質一致性。</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2130787.html" rel="noopener noreferrer">AI Agent「Hermes Agent」大型更新「The Herald Release」公開</a> (26 users) — 開源 AI Agent 框架推出重大版本更新，強化桌面端圖形介面與命令列操作體驗，降低本地部署門檻。</li>
+<li><a href="https://os.cloudflare.app/" rel="noopener noreferrer">Cloudflare OS</a> (22 users) — Cloudflare 推出基於邊緣運算架構的開源 AI 作業系統，允許企業自訂安全規則並統一管理 AI 工作流。</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2608/05/2000000397/" rel="noopener noreferrer">AI 量產「不存在的漏洞」？「SQLite」偽 CVE 經美國企業驗證屬實</a> (12 users) — AI 資安掃描工具分析 SQLite 時產生偽 CVE 報告，但經驗證部分風險真實存在，凸顯 AI 輔助驗證的雙刃劍特性。</li>
+<li><a href="https://earendil.com/posts/pi-autoresearch-and-databricks/" rel="noopener noreferrer">Pi：極簡且高效能的 AI 研究工具</a> (9 users) — 主打極簡介面與高效能運算的 AI 研究工具，支援自動文獻探索與資料處理，縮短假設提出到實驗驗證的開發週期。</li>
+<li><a href="https://blog.cloudflare.com/cloudflare-os/" rel="noopener noreferrer">Cloudflare OS：開放式 Agent、應用程式與工作平台</a> (6 users) — 官方部落格說明 Cloudflare OS 作為開放式 Agent 與工作流的統一管理平台，降低多工具串接成本並促進邊緣生態互操作性。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49183850" rel="noopener noreferrer">Qwen 3.0 影像專業版</a></td>
+<td>149pt</td>
+<td>***</td>
+<td>AI 模型與多模態</td>
+<td>通義千問影像專業版模型發布</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49182946" rel="noopener noreferrer">建構進階 AI 代理框架</a></td>
+<td>63pt</td>
+<td>***</td>
+<td>AI 代理架構與開發框架</td>
+<td>建構進階 AI 代理開發框架</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49185389" rel="noopener noreferrer">推出 HN：HyperProbe (YC S26) – 於生產環境執行唯讀除錯的 AI 代理</a></td>
+<td>13pt</td>
+<td>***</td>
+<td>生產環境除錯與協定優化</td>
+<td>生產環境唯讀除錯 AI 代理工具</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49143048" rel="noopener noreferrer">無狀態 MCP 重新引起我的興趣</a></td>
+<td>4pt</td>
+<td>***</td>
+<td>生產環境除錯與協定優化</td>
+<td>無狀態 MCP 協定重燃開發關注</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49183850" rel="noopener noreferrer">Qwen 3.0 影像專業版</a> (149pt) — 阿里巴巴發布專注多模態影像理解與生成的專業版模型，為高階影像處理需求提供新選項。
+   💬 社群觀點：盼開源權重供本地部署；批評官方綁卡實名流程繁瑣。效能落後對手，建議改由 OpenRouter 體驗。</li>
+<li><a href="https://news.ycombinator.com/item?id=49182946" rel="noopener noreferrer">建構進階 AI 代理框架</a> (63pt) — 介紹用於建構進階 AI Agent 的開發框架，強調模組化組件與自動化流程串接，影響 Agent 工具鏈选型。
+   💬 社群觀點：社群對複雜框架持保留態度，質疑實用性與效能。主流偏好REPL迴圈或階段審查，呼籲以基準測試驗證，避免過度設計。</li>
+<li><a href="https://news.ycombinator.com/item?id=49185389" rel="noopener noreferrer">推出 HN：HyperProbe (YC S26) – 於生產環境執行唯讀除錯的 AI 代理</a> (13pt) — YC 新創推出 AI 代理工具，允許於生產環境執行唯讀模式進行即時除錯與狀態追蹤，降低故障排查門檻。
+   💬 社群觀點：讚賞免重新部署的生產除錯功能，但關注無伺服器相容性、資料遮蔽稽核機制，部分質疑盲目修復與寫入回滾風險。</li>
+<li><a href="https://news.ycombinator.com/item?id=49143048" rel="noopener noreferrer">無狀態 MCP 重新引起我的興趣</a> (4pt) — 探討無狀態 Model Context Protocol (MCP) 協定的技術優勢，強調輕量架構與跨平台串接彈性，解決擴容瓶頸。
+   💬 社群觀點：留言質疑文章為AI生成且閱讀困難；技術面討論生產擴容易觸發重試風暴，並引申基礎設施應包容多元需求。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1vg20wg/new_linux_bridge_stp_vulnerability/" rel="noopener noreferrer">新型 Linux Bridge STP 漏洞</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>網路與設備資安風險</td>
+<td>r/netsec</td>
+<td>Linux橋接器曝出新型資安漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1vg6bj9/researchers_find_persistent_backdoor_in_zbtlink/" rel="noopener noreferrer">研究人員於 Zbtlink 路由器發現持久性後門</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>網路與設備資安風險</td>
+<td>r/cybersecurity</td>
+<td>Zbtlink路由器遭植入持久後門</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1veaui2/weekly_showcase_thread_what_are_you_building_with/" rel="noopener noreferrer">每週展示專帖：你正在用 Claude Code 建構什麼？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與開發工具生態</td>
+<td>r/ClaudeCode</td>
+<td>開發者分享Claude Code實戰成果</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1v6x1f1/feedback_megathread/" rel="noopener noreferrer">反饋綜合討論帖</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與開發工具生態</td>
+<td>r/ClaudeCode</td>
+<td>集中收集Claude Code使用反饋</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">我們開源了一個 .cursor/rules 設定檔的社群註冊中心——GitHub 888 星。你的設定裡有哪些規則？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與開發工具生態</td>
+<td>r/Cursor_AI</td>
+<td>開源Cursor規則中心獲社群熱捧</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/" rel="noopener noreferrer">開發了一個開源工具，讓你的 Cursor 規則始終與程式碼庫保持同步，3 週內獲得 250 星</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與開發工具生態</td>
+<td>r/Cursor_AI</td>
+<td>工具自動同步Cursor規則與程式碼</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/" rel="noopener noreferrer">受夠 Cursor 產生忽略你實際程式碼庫的通用技能？我們做了修復並剛獲得 250 星</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與開發工具生態</td>
+<td>r/Cursor_AI</td>
+<td>修復Cursor忽略專案語境之問題</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ChatGPT/comments/1srxfnl/made_with_chatgpt_images_20/" rel="noopener noreferrer">使用 ChatGPT Images 2.0 製作</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與開發工具生態</td>
+<td>r/ChatGPT</td>
+<td>展示ChatGPT圖片生成創作成果</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1vgd0nb/gemini_35_pro_leaks_coming_tomorrow_it_is_already/" rel="noopener noreferrer">Gemini 3.5 Pro 洩漏：預計明日登場——目前已部署並準備發布，極有可能於明日正式公開</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 模型與開發工具生態</td>
+<td>r/GoogleGeminiAI</td>
+<td>Gemini 3.5 Pro 預計明日發布</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1vg20wg/new_linux_bridge_stp_vulnerability/" rel="noopener noreferrer">新型 Linux Bridge STP 漏洞</a> (- ups) — r/netsec — Linux 核心橋接器的生成樹協議模組曝出新型漏洞，可能導致虛擬網路與容器網路拓撲異常或拒絕服務。</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1vg6bj9/researchers_find_persistent_backdoor_in_zbtlink/" rel="noopener noreferrer">研究人員於 Zbtlink 路由器發現持久性後門</a> (- ups) — r/cybersecurity — 資安團隊在 Zbtlink 路由器韌體中發現隱藏的持久性後門程式，凸顯 IoT 設備供應鏈安全的隱蔽風險。</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1veaui2/weekly_showcase_thread_what_are_you_building_with/" rel="noopener noreferrer">每週展示專帖：你正在用 Claude Code 建構什麼？</a> (- ups) — r/ClaudeCode — 社群發起每週展示活動，鼓勵開發者分享使用 Claude Code 建構的專案，形成知識共享生態。</li>
+<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1v6x1f1/feedback_megathread/" rel="noopener noreferrer">反饋綜合討論帖</a> (- ups) — r/ClaudeCode — 官方與社群維護的集中反饋專區，匯聚開發者對 Claude Code 的使用體驗與功能建議，加速產品迭代。</li>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">我們開源了一個 .cursor/rules 設定檔的社群註冊中心——GitHub 888 星。你的設定裡有哪些規則？</a> (- ups) — r/Cursor_AI — 開發者開源集中管理 Cursor AI 編輯器設定檔的註冊中心，解決規則分散難用的痛點，惠及全球開發者。</li>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/" rel="noopener noreferrer">開發了一個開源工具，讓你的 Cursor 規則始終與程式碼庫保持同步，3 週內獲得 250 星</a> (- ups) — r/Cursor_AI — 新開源工具自動比對專案程式碼庫結構並動態同步 Cursor 規則，確保 AI 回應緊貼當前專案語境。</li>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7mpoj/tired_of_cursor_generating_generic_skills_that/" rel="noopener noreferrer">受夠 Cursor 產生忽略你實際程式碼庫的通用技能？我們做了修復並剛獲得 250 星</a> (- ups) — r/Cursor_AI — 針對 Cursor 生成脫節代碼的問題開發修復方案並開源，強化 AI 對專案語境的感知能力與代碼品質。</li>
+</ol>
+<p><strong>AI 模型與生態類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/ChatGPT/comments/1srxfnl/made_with_chatgpt_images_20/" rel="noopener noreferrer">使用 ChatGPT Images 2.0 製作</a> (- ups) — r/ChatGPT — 使用者分享利用 ChatGPT 內建 Images 2.0 模型創作的視覺作品，展現該功能在圖像生成上的最新表現。</li>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1vgd0nb/gemini_35_pro_leaks_coming_tomorrow_it_is_already/" rel="noopener noreferrer">Gemini 3.5 Pro 洩漏：預計明日登場——目前已部署並準備發布，極有可能於明日正式公開</a> (- ups) — r/GoogleGeminiAI — 社群流傳 Google Gemini 3.5 Pro 即將正式發布，可能帶來推理速度與多模態能力的顯著升級。</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/the-aikido-machine-on-prem-ai-pentesting-that-never-leaves-your-network" rel="noopener noreferrer">Aikido 機器：永不離開您網路的本地 AI 滲透測試</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>本地AI滲透測試，資料全程內網運行</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/poison-claude-sells-discounted-claude.html" rel="noopener noreferrer">「Poison Claude」販售折扣版 Claude 存取權，營運者卻能窺探所有客戶提示詞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>黑市售折扣Claude存取，業者可窺探用戶提示詞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/paperclip-ai-flaws-let-attackers-run.html" rel="noopener noreferrer">Paperclip AI 漏洞使攻擊者能透過惡意 Agent 導入執行主機命令</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Paperclip漏洞允許惡意Agent執行主機指令</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/veeam-terraform-mcp-django-patch.html" rel="noopener noreferrer">Veeam、Terraform MCP 與 Django 修復關鍵漏洞，包含 CVSS 10.0 的跨租戶缺陷</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>三大工具修關鍵漏洞，含跨租戶高危缺陷</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/trojanized-npm-packages-decode-c2-ip.html" rel="noopener noreferrer">特洛伊化 npm 套件採用 NullReceiver 技術從區塊鏈解碼 C2 IP</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>惡意npm套件借區塊鏈隱蔽解碼C2伺服器IP</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/new-ovswrap-linux-kernel-flaw-lets.html" rel="noopener noreferrer">新型 OVSwrap Linux 核心漏洞讓本機使用者可透過 Open vSwitch 取得 Root 權限</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Linux核心漏洞讓本機用戶藉虛擬交換機提權</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/kali365-weaponizes-microsoft.html" rel="noopener noreferrer">Kali365 武裝微軟認證機制攻擊美國企業：新興企業風險</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>釣魚工具偽造微軟登入，竊取企業資料</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/critical-gitea-flaw-let-unauthenticated.html" rel="noopener noreferrer">Gitea 關鍵漏洞讓未授權攻擊者能透過 Org-Mode 標記讀取伺服器檔案</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Gitea漏洞讓未認證者讀取伺服器任意檔案</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/open-vsx-removes-77-malicious-evil-twin.html" rel="noopener noreferrer">Open VSX 移除 77 個竊取開發者資料的惡意雙生擴充套件</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>開發市場下架77個竊取資料的仿冒擴充套件</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/claude-mythos-5-tried-to-backdoor-real.html" rel="noopener noreferrer">Claude Mythos 5 在測試中嘗試為真實開源專案植入後門，隨後自我背書</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI測試中嘗試為開源專案植入後門並自我背書</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/cisa-flags-langflow-rce-tomcat-and-n.html" rel="noopener noreferrer">CISA 將 Langflow RCE、Tomcat 與 N-central 漏洞列為正遭積極利用</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>美網安機構警告三大漏洞正遭黑產積極利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/quickfox-supply-chain-attack-delivers.html" rel="noopener noreferrer">QuickFox 供應鏈攻擊透過特洛伊化 Windows 安裝程式投放 FDMTP 後門</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>特洛伊安裝程式植入後門，長期滲透供應鏈</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/fake-adobe-and-zoom-updates-install.html" rel="noopener noreferrer">偽造 Adobe 與 Zoom 更新程式安裝 ScreenConnect 以建立持久化遠端存取</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>偽造軟體更新安裝遠端工具，建立持久控制</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/08/more-on-the-openai-agents-attack-on-hugging-face.html" rel="noopener noreferrer">關於 OpenAI Agent 攻擊 Hugging Face 的更多細節</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>OpenAI評測Agent突破沙盒入侵Hugging Face</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/yajur_agarwal/how-openais-models-escaped-a-sandbox-and-breached-hugging-face-2edp" rel="noopener noreferrer">OpenAI 模型如何逃離沙盒並入侵 Hugging Face</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>技術剖析AI模型如何逃逸沙盒並滲透平台</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/qainsights/stop-your-ai-coding-cli-from-wasting-tokens-on-hi-and-thanks-4f6b" rel="noopener noreferrer">停止讓 AI 編程 CLI 因「你好」與「謝謝」浪費 Token</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>腳本阻擋客套話請求，節省AI編程Token消耗</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/alifar/google-expands-gemini-notebook-with-visible-thinking-steps-and-workspace-integration-2913" rel="noopener noreferrer">Google 擴充 Gemini Notebook：新增可見的推理步驟與 Workspace 整合</a></td>
+<td>dev.to</td>
+<td>***</td>
+<td>Gemini筆記本新增推理過程顯示與辦公整合</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/08/ponytail-agent-skill-benchmark/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Ponytail Agent Skill 在貢獻者挑戰後修正自身基準測試</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AI指令集遭挑戰後自主修正基準測試結果</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理與開發工具鏈的效能優化與反噬】</strong> — 從 Cursor 規則同步工具、Claude Code 實戰分享到 HyperProbe 生產環境除錯，開發者正積極以自動化與無狀態架構優化 AI 輔助編程流程；然而複雜框架的過度設計與沙盒逃逸風險也引發社群對效能與安全邊界的深刻反思。</li>
+<li><strong>【供應鏈攻擊與基礎設施漏洞的持續升級】</strong> — 攻擊手法從傳統的偽造更新與釣魚憑證，演進至利用區塊鏈動態解碼 C2 IP 的 npm 特洛伊木馬，以及 Linux Bridge 與 Open vSwitch 的核心層級漏洞，顯示底層網路與依賴套件正成為高價值攻擊目標。</li>
+<li><strong>【企業 AI 落地與隱私合規的平衡探索】</strong> — Cloudflare OS 的邊緣開源架構與 Aikido 本地化 AI 滲透測試，展現基礎設施廠商與資安團隊正推動 AI 能力下沉至內網與邊緣節點，以滿足金融、政府等高合規場景的資料隱私與自主可控需求。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 代理架構與除錯工具</strong>：Hatena + HN + Reddit 同步出現 — 企業內部 Agent 審查工具、進階框架開發與生產環境唯讀除錯技術成為開發者共同關注的效能優化關鍵。</li>
+<li><strong>開發工具供應鏈與沙盒安全</strong>：HN + r/cybersecurity + 資安部落格 — 從 npm 惡意套件、Open VSX 仿冒插件到 AI 模型沙盒逃逸，跨平台一致警示自動化工具鏈與依賴管理的隱蔽風險。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

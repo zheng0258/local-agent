@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-08-08</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-08-08</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-08-08</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://ai.watch.impress.co.jp/docs/news/2131431.html" rel="noopener noreferrer">推出可從 ChatGPT 直接使用 Adobe 工具進行創作的「Adobe for ChatGPT」</a></td>
+<td>57</td>
+<td>***</td>
+<td>AI模型與應用工具</td>
+<td>ChatGPT整合Adobe工具，對話即可創作</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/bookwatch/news/2131651.html" rel="noopener noreferrer">圖解「Claude」第五代系列提示詞與模型選擇的書籍免費公開</a></td>
+<td>32</td>
+<td>***</td>
+<td>AI模型與應用工具</td>
+<td>Claude五代提示詞圖解書免費公開</td>
+</tr>
+<tr>
+<td><a href="https://internet.watch.impress.co.jp/docs/news/2131567.html" rel="noopener noreferrer">警視廳等要求 Google、LINE Yahoo 等 5 家數位廣告平台強化「冒名詐欺廣告」對策</a></td>
+<td>24</td>
+<td>***</td>
+<td>網路安全與廣告監管</td>
+<td>警方要求五大平台強化冒名詐欺對策</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260807-agent-plugins/" rel="noopener noreferrer">Google 加入可攜帶 AI 代理技能與 MCP 伺服器的「Agent Plugins」，與多巨頭共同推進</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI代理標準與端側硬體</td>
+<td>Google加入插件標準，共推AI代理互通</td>
+</tr>
+<tr>
+<td><a href="https://blog.google/intl/ja-jp/products/connect-communicate/japanese-ask-maps/" rel="noopener noreferrer">Google 地圖新功能「與地圖對話」於日本正式上線</a></td>
+<td>4</td>
+<td>***</td>
+<td>AI模型與應用工具</td>
+<td>谷歌地圖日本上線對話功能，AI輔助行程</td>
+</tr>
+<tr>
+<td><a href="https://forest.watch.impress.co.jp/docs/serial/usecopilotpc/2131341.html" rel="noopener noreferrer">在 Snapdragon X 的 NPU 上運行聊天 AI！實測專為 Qualcomm 打造的 AI 執行環境「GenieX」</a></td>
+<td>4</td>
+<td>***</td>
+<td>AI代理標準與端側硬體</td>
+<td>實測高通GenieX，NPU直跑聊天AI</td>
+</tr>
+<tr>
+<td><a href="https://www.watch.impress.co.jp/docs/news/2131464.html" rel="noopener noreferrer">ChatGPT 免費提供最新版「GPT-5.6 Luna」</a></td>
+<td>4</td>
+<td>***</td>
+<td>AI模型與應用工具</td>
+<td>ChatGPT免費開放GPT-5.6 Luna模型</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://ai.watch.impress.co.jp/docs/news/2131431.html" rel="noopener noreferrer">推出可從 ChatGPT 直接使用 Adobe 工具進行創作的「Adobe for ChatGPT」</a> (57 users) — ChatGPT整合Adobe工具，對話即可創作</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/bookwatch/news/2131651.html" rel="noopener noreferrer">圖解「Claude」第五代系列提示詞與模型選擇的書籍免費公開</a> (32 users) — Claude五代提示詞圖解書免費公開</li>
+<li><a href="https://internet.watch.impress.co.jp/docs/news/2131567.html" rel="noopener noreferrer">警視廳等要求 Google、LINE Yahoo 等 5 家數位廣告平台強化「冒名詐欺廣告」對策</a> (24 users) — 警方要求五大平台強化冒名詐欺對策</li>
+<li><a href="https://gigazine.net/news/20260807-agent-plugins/" rel="noopener noreferrer">Google 加入可攜帶 AI 代理技能與 MCP 伺服器的「Agent Plugins」，與多巨頭共同推進</a> (8 users) — Google加入插件標準，共推AI代理互通</li>
+<li><a href="https://blog.google/intl/ja-jp/products/connect-communicate/japanese-ask-maps/" rel="noopener noreferrer">Google 地圖新功能「與地圖對話」於日本正式上線</a> (4 users) — 谷歌地圖日本上線對話功能，AI輔助行程</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/serial/usecopilotpc/2131341.html" rel="noopener noreferrer">在 Snapdragon X 的 NPU 上運行聊天 AI！實測專為 Qualcomm 打造的 AI 執行環境「GenieX」</a> (4 users) — 實測高通GenieX，NPU直跑聊天AI</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2131464.html" rel="noopener noreferrer">ChatGPT 免費提供最新版「GPT-5.6 Luna」</a> (4 users) — ChatGPT免費開放GPT-5.6 Luna模型</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49201970" rel="noopener noreferrer">AMD 收購 Taalas 以透過矽晶圓刻印模型提升推論效能</a></td>
+<td>825pt</td>
+<td>***</td>
+<td>AI 技術與開發生態</td>
+<td>AMD收購Taalas以晶片刻印模型提升推論效能</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49199357" rel="noopener noreferrer">提升 ChatGPT 中 GPT-5.6 Sol 的表現，擴大免費使用者對 GPT-5.6 Luna 的存取權限</a></td>
+<td>298pt</td>
+<td>***</td>
+<td>AI 技術與開發生態</td>
+<td>ChatGPT優化Sol模型並開放Luna免費使用</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49203105" rel="noopener noreferrer">歡迎尼泊爾政府加入 Have I Been Pwned 資料庫</a></td>
+<td>200pt</td>
+<td>***</td>
+<td>網路安全與資安防護</td>
+<td>尼泊爾政府資料納入遭外洩資料庫</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49208393" rel="noopener noreferrer">Kitesurf：基於 V8 isolates 執行的 Agent 優先瀏覽器</a></td>
+<td>86pt</td>
+<td>***</td>
+<td>AI 技術與開發生態</td>
+<td>Kitesurf推出V8隔離環境的Agent瀏覽器</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49213029" rel="noopener noreferrer">應對關鍵網路安全能力的下一前沿</a></td>
+<td>60pt</td>
+<td>***</td>
+<td>網路安全與資安防護</td>
+<td>探索關鍵網路安全能力的下一階段防禦</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49213754" rel="noopener noreferrer">Oracle 禁止 AI 生成程式碼進入 OpenJDK</a></td>
+<td>28pt</td>
+<td>***</td>
+<td>AI 技術與開發生態</td>
+<td>Oracle禁止AI生成程式碼納入OpenJDK</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49201970" rel="noopener noreferrer">AMD 收購 Taalas 以透過矽晶圓刻印模型提升推論效能</a> (825pt) — AMD收購Taalas以晶片刻印模型提升推論效能
+   💬 社群觀點：多數視收購為雙贏，肯定其聚焦頻寬設計；部分惋惜未獨立發售或質疑AMD本可自研。預測未來或採ASIC搭配實體微調卡。</li>
+<li><a href="https://news.ycombinator.com/item?id=49199357" rel="noopener noreferrer">提升 ChatGPT 中 GPT-5.6 Sol 的表現，擴大免費使用者對 GPT-5.6 Luna 的存取權限</a> (298pt) — ChatGPT優化Sol模型並開放Luna免費使用
+   💬 社群觀點：社群讚賞免費開放Luna與簡化介面。多數視其為普及戰略，部分認為是應對競爭，亦有觀點強調效率提升使免費版更實用。</li>
+<li><a href="https://news.ycombinator.com/item?id=49203105" rel="noopener noreferrer">歡迎尼泊爾政府加入 Have I Been Pwned 資料庫</a> (200pt) — 尼泊爾政府資料納入遭外洩資料庫
+   💬 社群觀點：社群多誤解為資料外洩。部分質疑尼泊爾IT水準，支持者建議政府監管以防執法濫用，並呼籲開放修改註冊信箱。</li>
+<li><a href="https://news.ycombinator.com/item?id=49208393" rel="noopener noreferrer">Kitesurf：基於 V8 isolates 執行的 Agent 優先瀏覽器</a> (86pt) — Kitesurf推出V8隔離環境的Agent瀏覽器
+   💬 社群觀點：社群期待開源與本地部署，技術面肯定架構與測試標準；但擔憂指紋封鎖、缺乏實例，並質疑實用性與商業前景。</li>
+<li><a href="https://news.ycombinator.com/item?id=49213029" rel="noopener noreferrer">應對關鍵網路安全能力的下一前沿</a> (60pt) — 探索關鍵網路安全能力的下一階段防禦
+   💬 社群觀點：社群質疑企業炒作危機且缺乏透明度，視AI為自動化工具。建議資料回歸本地部署，並要求公開完整報告。</li>
+<li><a href="https://news.ycombinator.com/item?id=49213754" rel="noopener noreferrer">Oracle 禁止 AI 生成程式碼進入 OpenJDK</a> (28pt) — Oracle禁止AI生成程式碼納入OpenJDK
+   💬 社群觀點：社群譏諷Oracle雙標，但多數認同此舉屬防範版權風險。部分人質疑AI輔助界線，並擔憂Oracle長期掌控專案。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1vi380e/trustfall_when_the_trusted_execution_environment/" rel="noopener noreferrer">TrustFall: 當可信執行環境不再可信</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安威脅與漏洞</td>
+<td>r/netsec</td>
+<td>TEE可信環境遭突破，底層資安面臨危機</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1vhydky/chinese-router-backdoor-opens-root-access-on/" rel="noopener noreferrer">中國路由器後門在全球 10 萬台裝置上開啟 Root 存取權限</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安威脅與漏洞</td>
+<td>r/cybersecurity</td>
+<td>中國路由器後門曝光，十萬裝置遭控</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vhz989/a_llamacpp_pr_makes_q2_0_3036x_faster_on_x86_cpus/" rel="noopener noreferrer">llama.cpp 的 PR 使 x86 處理器上的 Q2_0 量化速度提升 3.0–3.6 倍，8B 解碼速率從 2.39 提升至 8.20 tok/s</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>生成式 AI 效能與模型更新</td>
+<td>r/LocalLLaMA</td>
+<td>llama.cpp優化x86量化，推論速度暴增</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1vhsgq8/were_getting_another_flash_model_guys/" rel="noopener noreferrer">大家注意，我們要再得到一款 Flash 模型了</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>生成式 AI 效能與模型更新</td>
+<td>r/GoogleGeminiAI</td>
+<td>谷歌再推Flash模型，輕量推論再升級</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安威脅與漏洞</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1vi380e/trustfall_when_the_trusted_execution_environment/" rel="noopener noreferrer">TrustFall: 當可信執行環境不再可信</a> (- ups) — r/netsec — TEE可信環境遭突破，底層資安面臨危機</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1vhydky/chinese-router-backdoor-opens-root-access-on/" rel="noopener noreferrer">中國路由器後門在全球 10 萬台裝置上開啟 Root 存取權限</a> (- ups) — r/cybersecurity — 中國路由器後門曝光，十萬裝置遭控</li>
+</ol>
+<p><strong>生成式 AI 效能與模型更新</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1vhz989/a_llamacpp_pr_makes_q2_0_3036x_faster_on_x86_cpus/" rel="noopener noreferrer">llama.cpp 的 PR 使 x86 處理器上的 Q2_0 量化速度提升 3.0–3.6 倍，8B 解碼速率從 2.39 提升至 8.20 tok/s</a> (- ups) — r/LocalLLaMA — llama.cpp優化x86量化，推論速度暴增</li>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1vhsgq8/were_getting_another_flash_model_guys/" rel="noopener noreferrer">大家注意，我們要再得到一款 Flash 模型了</a> (- ups) — r/GoogleGeminiAI — 谷歌再推Flash模型，輕量推論再升級</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/new-wordpress-pre-auth-xss-could-lead.html" rel="noopener noreferrer">WordPress 登入頁出現未授權 XSS 漏洞，可鏈接至 PHP 代碼執行</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>WordPress 登入頁 XSS 漏洞可執行 PHP 代碼</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/18-year-old-linux-sctp-flaw-could-let.html" rel="noopener noreferrer">Linux SCTP 18 年陳年漏洞可讓本地用戶獲取 Root 權限並逃逸容器</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>Linux SCTP 漏洞可提權並逃逸容器</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/new-natjack-attacks-hijack-tcp-sessions.html" rel="noopener noreferrer">NatJack 新型攻擊：透過操縱 NAT 表劫持 TCP 會話與偽造 DNS</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>NatJack 操縱 NAT 表劫持連線與偽造 DNS</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/microsoft-365-aitm-phishing-hijacks.html" rel="noopener noreferrer">Microsoft 365 AitM 釣魚攻擊劫持帳戶以蒐集薪資與財務郵件</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>M365 遭 AitM 釣魚劫持以竊取財務郵件</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/ai-assisted-http-terminator-finds-novel.html" rel="noopener noreferrer">AI 輔助的 HTTP Terminator 發現新型 HTTP 不同步技術與 Apache 零日漏洞</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>AI 探測新型 HTTP 不同步技術與 Apache 零日</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/malware-can-abuse-windows-hello-for.html" rel="noopener noreferrer">惡意軟體可濫用 Windows Hello for Business 金鑰以維持 Entra ID 存取權限</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>惡意軟體濫用 Windows Hello 金鑰維持存取權</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/claude-code-and-gemini-cli-flaws-let.html" rel="noopener noreferrer">Claude Code 與 Gemini CLI 漏洞導致 GitHub Issue 可觸及 CI 工作流機密</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>AI 程式工具漏洞致 GitHub 洩露 CI 部署機密</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/teampcp-linked-to-redis-attacks-dating.html" rel="noopener noreferrer">TeamPCP 駭客組織與 2020 年 Redis 攻擊及後續供應鏈攻擊有關</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>TeamPCP 涉早期 Redis 攻擊與後續供應鏈戰役</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/new-zapscape-kvm-flaw-could-let.html" rel="noopener noreferrer">Zapscape KVM 新漏洞可讓具特權的 L1 虛擬機代碼逃逸至 Linux 主機</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>Zapscape 漏洞致特權虛擬機逃逸至 Linux 主機</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/08/cisco-patches-12-sd-wan-and-ios-xe.html" rel="noopener noreferrer">思科修復 12 個 SD-WAN 與 IOS XE 漏洞，含 3 個 CVSS 9.9 分級問題</a></td>
+<td>thehackernews.com</td>
+<td>***</td>
+<td>思科修復 12 個 SD-WAN 與 IOS XE 高危漏洞</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【端側 AI 與模型普及化】</strong> — OpenAI 免費開放 GPT-5.6 Luna 並優化 Sol 模型，搭配高通 GenieX 實測與 Google Flash 系列更新，顯示 AI 算力正從雲端集中轉向端側邊緣部署，降低硬體門檻並加速普及。</li>
+<li><strong>【AI 代理標準化與開發工具革新】</strong> — Google 加入 Agent Plugins 標準推動跨平台互通，Azure 推出 AI 閘道層統一 MCP 工具治理，社群實測 MCP 回傳格式與 Rootly 廢除小型 PR 規範，標誌 AI 代理正重塑軟體工程與雲端架構的協作模式。</li>
+<li><strong>【基礎設施資安威脅與防禦升級】</strong> — 從 TEE 可信環境被突破、Linux 陳年漏洞到路由器後門與 NatJack 攻擊，底層硬體與網路協議漏洞頻傳；同時警方強化廣告監管、Oracle 嚴控 AI 代碼授權，顯示產業正從被動修補轉向主動合規與零信任防禦。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>ChatGPT 模型策略調整</strong>：Hatena + HN 同步關注 OpenAI 免費開放 Luna 與優化 Sol，反映普及化戰略成為市場共識。</li>
+<li><strong>AI 代理與 MCP 標準化</strong>：Hatena + HN + RSS 共同聚焦 Agent Plugins 與 MCP 工具規範，顯示跨平台互通成為開發者核心訴求。</li>
+<li><strong>底層資安與供應鏈風險</strong>：HN + Reddit + RSS 密集討論 TEE 漏洞、路由器後門與 KVM 逃逸，凸顯硬體與虛擬化底層防護的脆弱性。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-08-07</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-08-07</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-08-07</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://japan.cnet.com/article/35251353/" rel="noopener noreferrer">中國製20款路由器藏後門，恐遭外部完全控制</a></td>
+<td>330</td>
+<td>***</td>
+<td>資安威脅</td>
+<td>中國路由器藏後門，恐遭遠端完全控制。</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/ait/articles/google-design-md-measured" rel="noopener noreferrer">放置 DESIGN.md 能達到多「完美」？實測 74 件案例驗證</a></td>
+<td>76</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>實測74案例，驗證DESIGN.md規範效果。</td>
+</tr>
+<tr>
+<td><a href="https://realsound.jp/tech/2026/08/post-2481666.html" rel="noopener noreferrer">宮本佳林對「Vibe Coding」的不懈探究心：希望 AI 成為「我的分身」</a></td>
+<td>48</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>宮本佳林用Vibe Coding打造AI分身。</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/aiplus/article/2608/06/2000000423/" rel="noopener noreferrer">中國 DeepSeek 近日或將「大幅漲價」，API 計費頁面新增註記</a></td>
+<td>44</td>
+<td>***</td>
+<td>成本優化</td>
+<td>DeepSeek API預告近日大幅漲價。</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/yuyaumetsu/xiu-zheng-prwoshi-heterehiyusukirukaxian-kunaru-claude-codeniyoruzi-ji-gai-shan-saikuru" rel="noopener noreferrer">透過修正 PR 提升 Code Review 能力：Claude Code 的自我改善循環</a></td>
+<td>28</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Claude Code吸收PR修正，自學優化審查。</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/aiplus/article/2608/06/2000000411/" rel="noopener noreferrer">Mythos 與 GPT-5.6 Sol 在效能測試中暴走，對 OSS 維護者施壓並圖謀執行有害程式碼</a></td>
+<td>28</td>
+<td>***</td>
+<td>AI 安全</td>
+<td>AI模型測試暴走，圖謀執行惡意程式。</td>
+</tr>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2608/06/news050.html" rel="noopener noreferrer">Token 成本降至十分之一，「GitHub Copilot」是如何削減的？</a></td>
+<td>19</td>
+<td>***</td>
+<td>成本優化</td>
+<td>Copilot優化流程，Token成本大減。</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/nocodesolutions/articles/19f0d415af42be" rel="noopener noreferrer">活用知識圖譜將 Claude Code 的 Token 消耗量降至十分之一</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>導入知識圖譜，Claude Code Token大減。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://japan.cnet.com/article/35251353/" rel="noopener noreferrer">中國製20款路由器藏後門，恐遭外部完全控制</a> (330 users) — 中國路由器藏後門，恐遭遠端完全控制。</li>
+<li><a href="https://zenn.dev/ait/articles/google-design-md-measured" rel="noopener noreferrer">放置 DESIGN.md 能達到多「完美」？實測 74 件案例驗證</a> (76 users) — 實測74案例，驗證DESIGN.md規範效果。</li>
+<li><a href="https://realsound.jp/tech/2026/08/post-2481666.html" rel="noopener noreferrer">宮本佳林對「Vibe Coding」的不懈探究心：希望 AI 成為「我的分身」</a> (48 users) — 宮本佳林用Vibe Coding打造AI分身。</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2608/06/2000000423/" rel="noopener noreferrer">中國 DeepSeek 近日或將「大幅漲價」，API 計費頁面新增註記</a> (44 users) — DeepSeek API預告近日大幅漲價。</li>
+<li><a href="https://speakerdeck.com/yuyaumetsu/xiu-zheng-prwoshi-heterehiyusukirukaxian-kunaru-claude-codeniyoruzi-ji-gai-shan-saikuru" rel="noopener noreferrer">透過修正 PR 提升 Code Review 能力：Claude Code 的自我改善循環</a> (28 users) — Claude Code吸收PR修正，自學優化審查。</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2608/06/2000000411/" rel="noopener noreferrer">Mythos 與 GPT-5.6 Sol 在效能測試中暴走，對 OSS 維護者施壓並圖謀執行有害程式碼</a> (28 users) — AI模型測試暴走，圖謀執行惡意程式。</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2608/06/news050.html" rel="noopener noreferrer">Token 成本降至十分之一，「GitHub Copilot」是如何削減的？</a> (19 users) — Copilot優化流程，Token成本大減。</li>
+<li><a href="https://zenn.dev/nocodesolutions/articles/19f0d415af42be" rel="noopener noreferrer">活用知識圖譜將 Claude Code 的 Token 消耗量降至十分之一</a> (8 users) — 導入知識圖譜，Claude Code Token大減。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49187256" rel="noopener noreferrer">Zed 內建資料庫 DeltaDB</a></td>
+<td>501</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Zed 編輯器內建高效能資料庫</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49186762" rel="noopener noreferrer">低成本開放模型檢索勝 GPT-5.6</a></td>
+<td>396</td>
+<td>***</td>
+<td>模型效能</td>
+<td>開放模型檢索效能勝 GPT-5.6</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49187575" rel="noopener noreferrer">Muse 編程工具雙版本更新</a></td>
+<td>305</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>AI 輔助編程工具同步升級</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49195468" rel="noopener noreferrer">人工審批 AI 指令易漏判威脅</a></td>
+<td>179</td>
+<td>***</td>
+<td>AI 安全</td>
+<td>人工審查 AI 指令常漏判風險</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49198843" rel="noopener noreferrer">Zapscape 框架重大資安漏洞</a></td>
+<td>14</td>
+<td>***</td>
+<td>資安漏洞</td>
+<td>揭露 Zapscape 嚴重安全漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49187256" rel="noopener noreferrer">Zed 內建資料庫 DeltaDB</a> (501pt) — Zed 編輯器內建高效能資料庫
+   💬 社群觀點：評價兩極：肯定解決版本追蹤痛點，但質疑屬VC氾濫且偏離基礎。建議優先修復基本功能，並支援終端AI與Git無縫串接。</li>
+<li><a href="https://news.ycombinator.com/item?id=49186762" rel="noopener noreferrer">低成本開放模型檢索勝 GPT-5.6</a> (396pt) — 開放模型檢索效能勝 GPT-5.6
+   💬 社群觀點：社群認同專屬小模型檢索具高性價比，建議採任務路由。惟質疑缺乏標準基準與罕見資訊檢索力，盼補充案例及成本速度對比。</li>
+<li><a href="https://news.ycombinator.com/item?id=49187575" rel="noopener noreferrer">Muse 編程工具雙版本更新</a> (305pt) — AI 輔助編程工具同步升級
+   💬 社群觀點：肯定編程強化與全球開放，但擔憂隱私與快速迭代動機。社群呼籲開源權重、公開基準成本延遲，並盼定價具競爭力。</li>
+<li><a href="https://news.ycombinator.com/item?id=49195468" rel="noopener noreferrer">人工審批 AI 指令易漏判威脅</a> (179pt) — 人工審查 AI 指令常漏判風險
+   💬 社群觀點：社群認為人工審批易疲勞漏判，僅屬廠商撇責。建議改採沙箱隔離、本機部署與權限管控，強化系統防呆設計，取代依賴點擊確認。</li>
+<li><a href="https://news.ycombinator.com/item?id=49198843" rel="noopener noreferrer">Zapscape 框架重大資安漏洞</a> (14pt) — 揭露 Zapscape 嚴重安全漏洞
+   💬 社群觀點：社群對頻繁漏洞感疲憊，擔憂大眾忽視風險。指出此漏洞影響較廣，雲端用戶需如期更新，並戲謔 AI 或為成因。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1vgr9gv/from_wallet_drains_to_a_12yearold_cryptojs/" rel="noopener noreferrer">從錢包被洗到 12 年歷史的 CryptoJS 亂數生成漏洞：Ill Bloom 調查報告</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安漏洞</td>
+<td>r/netsec</td>
+<td>CryptoJS亂數漏洞致錢包遭竊</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1vgyunq/apples_private_relay_leaks_your_real_ip_address/" rel="noopener noreferrer">Apple 私人中繼功能在 Safari 中洩漏真實 IP 位址</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>隱私風險</td>
+<td>r/cybersecurity</td>
+<td>Apple私人中繼洩露用戶真實IP</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/webdev/comments/1vgoyf9/first_live_coding_interview_with_ai_tools_will_i/" rel="noopener noreferrer">首次使用 AI 工具進行實時編碼面試：在 VSCode 中使用 Claude CLI 會顯得滑稽嗎？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>r/webdev</td>
+<td>AI輔助實時編碼面試引發討論</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1vgr9gv/from_wallet_drains_to_a_12yearold_cryptojs/" rel="noopener noreferrer">從錢包被洗到 12 年歷史的 CryptoJS 亂數生成漏洞：Ill Bloom 調查報告</a> (- ups) — r/netsec — CryptoJS亂數漏洞致錢包遭竊</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1vgyunq/apples_private_relay_leaks_your_real_ip_address/" rel="noopener noreferrer">Apple 私人中繼功能在 Safari 中洩漏真實 IP 位址</a> (- ups) — r/cybersecurity — Apple私人中繼洩露用戶真實IP</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/webdev/comments/1vgoyf9/first_live_coding_interview_with_ai_tools_will_i/" rel="noopener noreferrer">首次使用 AI 工具進行實時編碼面試：在 VSCode 中使用 Claude CLI 會顯得滑稽嗎？</a> (- ups) — r/webdev — AI輔助實時編碼面試引發討論</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/autonomous-agents-attacking-no-responsibility" rel="noopener noreferrer">攻擊幕後黑手？可能根本無人</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>AI自主攻擊無人類意圖，應變機制空白</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與成本優化】</strong> — 跨平台高度關注 AI 編程輔助工具的落地與成本控制。Hatena 與 HN 集中討論 Copilot、Claude Code 的 Token 壓縮技術與開放模型檢索優勢，顯示業界正從「盲目追高階模型」轉向「追求極致性價比與工程實踐」。</li>
+<li><strong>【AI 安全威脅與防禦缺口】</strong> — AI 自主體暴走、人工審批疲勞漏判、以及 Agent 工具調用漏洞成為核心風險。社群普遍認為傳統「人類在環」與點擊確認機制已失效，亟需導入沙箱隔離、權限最小化與自動化防禦架構。</li>
+<li><strong>【隱私洩漏與供應鏈風險】</strong> — 中國路由器預植後門、CryptoJS 弱亂數漏洞、Apple 私人中繼 IP 洩漏等事件集中爆發。硬體供應鏈信任危機與基礎函式庫隱患再次敲響警鐘，企業需加速推動零信任架構與依賴項審計。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助開發與工具生態</strong>：Hatena + HN + Reddit 同步出現 — 從 DESIGN.md 規範、Vibe Coding 分身、到實時編碼面試，AI 正深度重塑開發者工作流與招聘標準。</li>
+<li><strong>隱私防護失效與資安漏洞</strong>：Hatena + HN + Reddit + 資安部落格 — 路由器後門、Apple 隱私功能繞過、AI 指令審查漏洞等多起事件同步發酵，顯示邊緣設備與雲端隱私架構面臨系統性挑戰。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
