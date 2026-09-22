@@ -436,7 +436,16 @@ def _observe_and_escalate(
     from . import health
 
     try:
-        fresh = health.observe_and_escalate(today, day_dir, steps_dir, notify_fn)
+        # 顯式從 agent 的 OUTPUT_DIR 衍生歷史路徑（測試 monkeypatch agent.OUTPUT_DIR 即
+        # 自動改寫到 tmp，杜絕測試誤寫真實 _health-history.json）。
+        fresh = health.observe_and_escalate(
+            today,
+            day_dir,
+            steps_dir,
+            notify_fn,
+            history_file=OUTPUT_DIR / "_health-history.json",
+            state_file=OUTPUT_DIR / "_health-escalated.json",
+        )
         if fresh:
             logger.warning("慢性故障 escalation：%s", [f.subject for f in fresh])
     except Exception as exc:  # 可觀測性不得反過來弄垮 pipeline

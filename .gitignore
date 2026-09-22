@@ -12,3 +12,4 @@ outputs/daily-brief/.vectordb/
 *.log
 .claude/worktrees/
 weekly-report-*.md
+graphify-out/
