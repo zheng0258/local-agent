@@ -20,7 +20,13 @@ import markdown as _markdown
 import nh3
 
 from .status import SystemStatus, render_status_section
-from .template import ArchiveLink, render_archive, render_archive_index, render_index
+from .template import (
+    ArchiveLink,
+    render_archive,
+    render_archive_index,
+    render_index,
+    render_run_history,
+)
 
 # (date, report_md) 對；newest first。純記憶體語料，不碰檔案。
 DayBrief = Tuple[str, str]
@@ -150,6 +156,7 @@ def build_site_archive(
     narrative: Optional[Narrative] = None,
     latest_tldr: Optional[str] = None,
     status: Optional[SystemStatus] = None,
+    runs: Optional[Iterable] = None,
 ) -> dict[str, str]:
     """純函數：完整歷史語料 → in-memory 站台 map（首頁 + 每天一頁存檔頁）。
 
@@ -184,9 +191,7 @@ def build_site_archive(
         latest_date, latest_body = "", ""
 
     # 專案描述以繁中為主（不再中英切換）；收進 overlay，不直接顯示於頁面主流程。
-    narrative_html = (
-        _render_body(narrative.zh_md) if narrative is not None else ""
-    )
+    narrative_html = _render_body(narrative.zh_md) if narrative is not None else ""
 
     # 今日重點（繁中）：走與 report 一致的消毒路徑（源自 LLM 對不可信內容的摘要）。
     tldr_html = _render_body(latest_tldr) if latest_tldr else ""
@@ -203,4 +208,9 @@ def build_site_archive(
         tldr_html=tldr_html,
         status_html=status_html,
     )
+
+    # 運行紀錄頁（首頁 top nav 導向）：runs 非 None 時發佈，空串亦渲染友善空狀態。
+    if runs is not None:
+        site["run-history.html"] = render_run_history(list(runs))
+
     return site

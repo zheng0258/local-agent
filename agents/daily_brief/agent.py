@@ -29,11 +29,12 @@ from config.settings import (
     check_local_llm,
 )
 
+from tools.usage_meter import UsageMeter
+
 from . import prompts
 from .config import FETCH_STEPS, OUTPUT_DIR
 from .reconcile import filter_top_articles
-from .schemas import QualityScore
-from .step import StepStatus, Supervisor
+from .step import Supervisor
 from .step_cache import Verdict, decide
 
 logger = get_logger(__name__)
@@ -65,6 +66,8 @@ class _RunContext:
     notify_fn: Callable[[str], bool]
     llm: LLMBackend
     judge_llm: LLMBackend
+    meter: UsageMeter | None = None
+    run_manifest: "RunManifest | None" = None
 
 
 class DailyBriefAgent:
@@ -100,6 +103,22 @@ class DailyBriefAgent:
                 judge_saturation=saturation,
             )
 
+        # 唯讀用量查詢（pull）：短路，不跑 pipeline、不需 LLM
+        if "--usage" in shlex.split(args):
+            from tools.usage_meter import load_history as load_usage_history
+            from tools.usage_meter import render_usage_table
+
+            today_file = OUTPUT_DIR / today / "steps" / "_usage.json"
+            today_summary = None
+            if today_file.exists():
+                try:
+                    today_summary = json.loads(today_file.read_text(encoding="utf-8"))
+                except (json.JSONDecodeError, OSError):
+                    today_summary = None
+            return render_usage_table(
+                load_usage_history(OUTPUT_DIR / "_usage-history.json"), today_summary
+            )
+
         force_steps, only_steps = _parse_args(args)
 
         prompts._load_interests.cache_clear()
@@ -127,6 +146,19 @@ class DailyBriefAgent:
         from .supervisor import SupervisorAgent
         from tools.notifiers.telegram import send as tg_send
 
+        # Token 帳本：注入兩個 backend（主 + judge），每次 complete() 後記錄 usage。
+        meter = UsageMeter()
+        for backend in (self._llm, self._judge_llm):
+            if hasattr(backend, "meter"):
+                backend.meter = meter
+
+        # 執行帳本：記本次 run 的耗時 / 各步結果 / 觸發源 / git 版本（Step.run 逐步 record）。
+        from .run_manifest import RunManifest, detect_trigger, git_sha
+
+        manifest = RunManifest(
+            trigger=detect_trigger(args), sha=git_sha(OUTPUT_DIR.parent.parent)
+        )
+
         supervisor = SupervisorAgent(
             llm=self._llm,
             judge_llm=self._judge_llm,
@@ -143,6 +175,8 @@ class DailyBriefAgent:
             notify_fn=tg_send,
             llm=self._llm,
             judge_llm=self._judge_llm,
+            meter=meter,
+            run_manifest=manifest,
         )
 
         source_data = self._fetch_sources(ctx)
@@ -165,39 +199,10 @@ class DailyBriefAgent:
 
         # 當日英文 TL;DR（additive；失敗回 default 不 block 後續步驟）
         TldrStep().run(ctx, digests)
-        from .steps.judge import JudgeStep
+        from .completeness import reconcile_completeness
 
-        judge_outcome = JudgeStep().run(
-            ctx, (enrich_data, digests, source_data)
-        )
-        if judge_outcome.status is StepStatus.RAN:
-            quality = QualityScore.from_dict(judge_outcome.value)
-            if (
-                quality.completeness is not None
-                and quality.completeness < 3
-                and "digest" not in ctx.force_steps
-                and digests
-            ):
-                logger.warning(
-                    "Judge completeness=%.1f，觸發 digest 重跑（missed: %s）",
-                    quality.completeness,
-                    list(quality.missed_urls),
-                )
-                hint = ctx.supervisor.reflect_for_completeness(
-                    list(quality.missed_urls),
-                    prompts.build_digest_prompt_from_compress(
-                        json.dumps(enrich_data, ensure_ascii=False)
-                    ),
-                )
-                digests = (
-                    DigestStep()
-                    .run(ctx, enrich_data, reflect=hint, force=True)
-                    .value
-                )
-                JudgeStep().run(
-                    ctx, (enrich_data, digests, source_data), force=True
-                )
-                logger.info("Judge 回饋 digest 重跑完成")
+        # 完整性校正：judge → 不足則 reflect 重生 digest → 重評（迴圈住 completeness 模組）
+        digests = reconcile_completeness(ctx, enrich_data, digests, source_data)
         from .steps.report import ReportStep
 
         ReportStep().run(ctx, (enrich_data, digests))
@@ -211,32 +216,11 @@ class DailyBriefAgent:
         composed = ComposeTgStep().run(ctx, digests).value
         NotifyStep(tg_send, ctx.today).run(ctx, composed)
         from .steps.deploy import DeployStep
-        from tools.site_builder import (
-            build_site_archive,
-            load_days,
-            load_latest_tldr,
-            load_narrative,
-            load_raw_histories,
-            load_status,
-        )
+        from tools.site_builder import build_full_site
 
-        # 全量重建 thunk：讀全部歷史天 + 手寫專案描述 config + 當日今日重點 +
-        # judge/health 歷史推導的系統狀態 → 整站 map（公開站 ⇔ 本機真實狀態一致；
-        # 描述收 overlay，報告/存檔維持繁中；今日重點只在最新天；系統狀態展現 instrumentation）。
-        # 另把 judge/health 歷史原文以乾淨檔名發佈成機器可讀端點（外部 PM 審查 routine
-        # 從 URL 讀長期趨勢）；immutable 合併，站頁 map 覆寫不到這兩個 key。
-        DeployStep(
-            lambda: {
-                **build_site_archive(
-                    load_days(OUTPUT_DIR),
-                    narrative=load_narrative(),
-                    latest_tldr=load_latest_tldr(OUTPUT_DIR),
-                    status=load_status(OUTPUT_DIR),
-                ),
-                **load_raw_histories(OUTPUT_DIR),
-            },
-            ctx.today,
-        ).run(ctx, None)
+        # 全量重建：build_full_site 內部讀全部歷史天 + 敘事 config + 今日重點 + 系統狀態，
+        # 並合併 judge/health 歷史原文端點（組裝順序與合併不變式住 site_builder，見 assemble.py）。
+        DeployStep(lambda: build_full_site(OUTPUT_DIR), ctx.today).run(ctx, None)
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
         from . import alerts as alert_store
@@ -245,6 +229,12 @@ class DailyBriefAgent:
 
         # 可觀測性：記錄今日健康狀態 + 慢性故障跨天偵測（只在 chronic 時打擾）
         _observe_and_escalate(today, day_dir, steps_dir, tg_send)
+
+        # Token 用量：當日明細落盤 + 跨天歷史（包 try/except，絕不反噬 pipeline）
+        _persist_usage(today, steps_dir, meter)
+
+        # 執行紀錄：本次 run 的耗時/步驟/觸發/版本落盤 + 跨天歷史（同紀律，不反噬）
+        _persist_run(today, steps_dir, manifest)
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -317,6 +307,7 @@ class DailyBriefAgent:
             "rss": lambda: rss_fetcher.fetch(),
         }
         return dispatch[name]()
+
 
 def _parse_args(args: str) -> tuple[set[str], set[str]]:
     """
@@ -452,3 +443,42 @@ def _observe_and_escalate(
         logger.warning("健康記錄失敗（不影響 pipeline）：%s", exc)
 
 
+def _persist_usage(today: str, steps_dir: Path, meter: UsageMeter) -> None:
+    """當日 token 明細落盤（steps/_usage.json）+ 追加跨天歷史（_usage-history.json）。
+
+    與 _observe_and_escalate 同紀律：事後檢視、包 try/except，絕不反噬 pipeline。
+    """
+    from tools import usage_meter
+
+    try:
+        summary = usage_meter.summarize(meter, today)
+        (steps_dir / "_usage.json").write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        usage_meter.append_history(OUTPUT_DIR / "_usage-history.json", summary)
+        logger.info("Token 用量：%s tokens", summary["totals"]["total_tokens"])
+    except Exception as exc:  # 用量追蹤不得反過來弄垮 pipeline
+        logger.warning("用量記錄失敗（不影響 pipeline）：%s", exc)
+
+
+def _persist_run(today: str, steps_dir: Path, manifest: "RunManifest") -> None:
+    """當日執行紀錄落盤（steps/_run.json）+ 追加跨天歷史（_run-history.json）。
+
+    含每步耗時/結果、總耗時、觸發源、git SHA。與 _persist_usage 同紀律：事後檢視、
+    包 try/except，絕不反噬 pipeline（供站台「運行紀錄」頁與 --? 唯讀查詢消費）。
+    """
+    from . import run_manifest as run_store
+
+    try:
+        summary = manifest.summarize(today)
+        (steps_dir / "_run.json").write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        run_store.append_history(OUTPUT_DIR / "_run-history.json", summary)
+        logger.info(
+            "執行紀錄：%.0fs / %d 步",
+            summary["duration_seconds"],
+            len(summary["steps"]),
+        )
+    except Exception as exc:  # 執行紀錄不得反過來弄垮 pipeline
+        logger.warning("執行紀錄失敗（不影響 pipeline）：%s", exc)

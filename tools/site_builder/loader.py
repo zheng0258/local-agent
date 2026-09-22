@@ -15,11 +15,14 @@ from pathlib import Path
 from typing import List, Optional
 
 from .builder import DayBrief, Narrative
+from .runs import RunRecord, compute_runs
 from .status import SystemStatus, compute_status
 
 # 可觀測性歷史檔（in-repo outputs/ 下，扁平每日記錄 list）。
 JUDGE_HISTORY_FILE = "_judge-history.json"
 HEALTH_HISTORY_FILE = "_health-history.json"
+USAGE_HISTORY_FILE = "_usage-history.json"
+RUN_HISTORY_FILE = "_run-history.json"
 
 # 日期目錄名格式：YYYY-MM-DD（其餘如 .vectordb / _judge-history.json 忽略）。
 _DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -100,10 +103,27 @@ def load_status(output_dir: Path | str) -> Optional[SystemStatus]:
     return compute_status(judge_history=judge, health_history=health)
 
 
+def load_runs(output_dir: Path | str) -> tuple[RunRecord, ...]:
+    """讀 judge/health/usage/run 四份歷史 → RunRecord 串（newest first）。
+
+    唯一碰檔案的運行紀錄讀取點（impure），委派純核心 compute_runs。任一歷史檔缺失
+    /損毀 → 以空 list 代入，compute_runs 對缺欄位優雅降級，絕不報錯。注入式 output_dir。
+    """
+    base = Path(output_dir)
+    return compute_runs(
+        judge_history=_load_history_list(base / JUDGE_HISTORY_FILE),
+        health_history=_load_history_list(base / HEALTH_HISTORY_FILE),
+        usage_history=_load_history_list(base / USAGE_HISTORY_FILE),
+        run_manifests=_load_history_list(base / RUN_HISTORY_FILE),
+    )
+
+
 # 站上機器可讀端點檔名（去掉本機檔的前導底線；供外部 PM 審查 routine 讀取趨勢）。
 _RAW_HISTORY_SITE_FILES: dict[str, str] = {
     JUDGE_HISTORY_FILE: "judge-history.json",
     HEALTH_HISTORY_FILE: "health-history.json",
+    USAGE_HISTORY_FILE: "usage-history.json",
+    RUN_HISTORY_FILE: "run-history.json",
 }
 
 

@@ -22,13 +22,28 @@ import os
 
 from config import get_llm, setup_logging
 from tools.lms_lifecycle import ensure_models_loaded, unload_all
-from config.settings import DEFAULT_LOCAL_LLM_MODEL, DEFAULT_JUDGE_LLM_MODEL, ensure_llm_ready
+from config.settings import (
+    DEFAULT_LOCAL_LLM_MODEL,
+    DEFAULT_JUDGE_LLM_MODEL,
+    ensure_llm_ready,
+)
 from agents.daily_brief import DailyBriefAgent
 from agents.url_digest import UrlDigestAgent
 
 SKILL_MAP = [
-    (["/daily-brief", "收集今日趨勢", "跑趨勢收集", "run daily-brief"], DailyBriefAgent),
-    (["/url-digest", "幫我摘要這些連結", "digest these urls", "summarize this article"], UrlDigestAgent),
+    (
+        ["/daily-brief", "收集今日趨勢", "跑趨勢收集", "run daily-brief"],
+        DailyBriefAgent,
+    ),
+    (
+        [
+            "/url-digest",
+            "幫我摘要這些連結",
+            "digest these urls",
+            "summarize this article",
+        ],
+        UrlDigestAgent,
+    ),
 ]
 
 
@@ -38,7 +53,11 @@ def route(user_input: str):
         for trigger in triggers:
             if re.search(re.escape(trigger.lower()), lower):
                 # 保留原始大小寫（URL 對大小寫敏感）
-                original_args = user_input[len(trigger):].strip() if lower.startswith(trigger.lower()) else user_input
+                original_args = (
+                    user_input[len(trigger) :].strip()
+                    if lower.startswith(trigger.lower())
+                    else user_input
+                )
                 return agent_cls, original_args
     return None, user_input
 
@@ -47,7 +66,7 @@ def main() -> None:
     setup_logging()
     user_input = " ".join(sys.argv[1:]).strip()
     if not user_input:
-        print("使用方式：python main.py \"<指令>\"")
+        print('使用方式：python main.py "<指令>"')
         print("可用 skill：/daily-brief、/url-digest <URL>")
         sys.exit(1)
 
@@ -62,8 +81,9 @@ def main() -> None:
     agent = agent_cls(llm=llm)
     print(f"[router] skill={agent.AGENT_NAME}, args={args!r}")
 
-    # 唯讀健康查詢（pull）：短路，不喚醒/載入任何模型
-    if agent.AGENT_NAME == "daily-brief" and "--health" in args.split():
+    # 唯讀查詢（pull）：短路，不喚醒/載入任何模型（--health 健康、--usage 用量）
+    _readonly = {"--health", "--usage"}
+    if agent.AGENT_NAME == "daily-brief" and _readonly.intersection(args.split()):
         print(agent.run(args))
         return
 
@@ -75,6 +95,7 @@ def main() -> None:
         logger.error(msg)
         try:
             from tools.notifiers.telegram import send as tg_send
+
             tg_send(f"✗ {msg}")
         except Exception:
             pass

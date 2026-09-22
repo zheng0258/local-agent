@@ -42,6 +42,10 @@ _Avoid_: 規則、prompt、設定
 LLM-as-Judge 對最終 Brief 產物「做得好不好」的自評，分 relevance / completeness / faithfulness 三軸。評的是系統自己的輸出，與文章本身無關。
 _Avoid_: score、judge 分數、評價
 
+**完整性校正（Completeness Reconciliation）**:
+一段自我修正迴圈：judge 評出 completeness 不足（低於門檻）時，系統帶著遺漏的 URL 反思、重生 Digest 再重評，讓最終 Brief 不漏掉該收的項目。關注的是「產物是否完整」的閉環修正，而非單次評分。住 `completeness.py`，由 `run()` 單行呼叫。
+_Avoid_: retry（那是 step 層的失敗重試）、feedback loop（太籠統）、reflect（那只是其中一步）
+
 ## 摘要層級
 
 兩種粒度不同的摘要，不可混用。

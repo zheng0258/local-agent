@@ -16,24 +16,49 @@ from __future__ import annotations
 import json
 from collections import Counter
 from dataclasses import dataclass
-from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
+from tools.history_schema import OK, days_between
+
 from .config import OUTPUT_DIR
+from .quality_signals import (  # re-export：--health 的公開表面仍在 health.py
+    DIGEST_SHARE_WINDOW_DAYS,
+    JUDGE_HISTORY_FILE,
+    JudgeSaturationFinding,
+    detect_judge_saturation,
+    digest_source_shares,
+    format_judge_saturation,
+    load_judge_history,
+    load_recent_digests,
+)
+
+# quality_signals 的公開符號在此 re-export，讓 --health（agent.py）與既有測試維持
+# `from .health import ...` 不變；health 專注健康記錄 + 慢性故障。
+__all__ = [
+    "DIGEST_SHARE_WINDOW_DAYS",
+    "JUDGE_HISTORY_FILE",
+    "JudgeSaturationFinding",
+    "detect_judge_saturation",
+    "digest_source_shares",
+    "load_judge_history",
+    "load_recent_digests",
+    "render_health_table",
+    "observe_and_escalate",
+    "load_history",
+    "HEALTH_HISTORY_FILE",
+]
 
 # ── 常數 ─────────────────────────────────────────────────────────
 
 SOURCES: tuple[str, ...] = ("hatena", "hn", "reddit", "security", "rss")
-DELIVERIES: tuple[str, ...] = ("telegram", "vault")
+DELIVERIES: tuple[str, ...] = ("telegram", "vault", "deploy")
 SUBJECTS: tuple[str, ...] = (*SOURCES, *DELIVERIES)
 
 # 慢性故障判定：滑動視窗 N 天內，同一 subject 失敗 ≥ M 次即視為 chronic
 CHRONIC_WINDOW_DAYS = 7
 CHRONIC_FAIL_THRESHOLD = 3
-
-OK = "ok"
 
 HEALTH_HISTORY_FILE = OUTPUT_DIR / "_health-history.json"
 ESCALATION_STATE_FILE = OUTPUT_DIR / "_health-escalated.json"
@@ -42,11 +67,11 @@ ESCALATION_STATE_FILE = OUTPUT_DIR / "_health-escalated.json"
 class ErrorClass(str, Enum):
     """失敗的錯誤型別。chronic escalation 據此給出針對性的修復建議。"""
 
-    NETWORK = "network"            # connection refused：多為模型/服務啟動時序
+    NETWORK = "network"  # connection refused：多為模型/服務啟動時序
     UPSTREAM_HTTP = "upstream_http"  # HTTP 4xx/5xx：上游端點問題
-    EMPTY_LLM = "empty_llm"        # 本地模型吐空字串
-    PARSE = "parse"               # LLM 輸出無法解析為合法 JSON
-    OTHER = "other"               # 環境 / 程式 / 遞送等其他
+    EMPTY_LLM = "empty_llm"  # 本地模型吐空字串
+    PARSE = "parse"  # LLM 輸出無法解析為合法 JSON
+    OTHER = "other"  # 環境 / 程式 / 遞送等其他
 
 
 _SUGGESTIONS: Mapping[str, str] = {
@@ -103,7 +128,11 @@ class HealthRecord:
         results = data.get("results", {})
         return cls(
             date=str(data.get("date", "")),
-            results={str(k): str(v) for k, v in results.items()} if isinstance(results, dict) else {},
+            results=(
+                {str(k): str(v) for k, v in results.items()}
+                if isinstance(results, dict)
+                else {}
+            ),
         )
 
 
@@ -124,8 +153,13 @@ def observe_run(today: str, day_dir: Path, steps_dir: Path) -> HealthRecord:
     candidates: dict[str, str | None] = {}
     for src in SOURCES:
         candidates[src] = _subject_outcome(steps_dir / f"{src}.json", alerts.get(src))
-    candidates["telegram"] = _subject_outcome(day_dir / "telegram.done", alerts.get("notify"))
+    candidates["telegram"] = _subject_outcome(
+        day_dir / "telegram.done", alerts.get("notify")
+    )
     candidates["vault"] = _subject_outcome(day_dir / "vault.done", alerts.get("save"))
+    candidates["deploy"] = _subject_outcome(
+        day_dir / "deploy.done", alerts.get("deploy")
+    )
     results = {s: r for s, r in candidates.items() if r is not None}
     return HealthRecord(date=today, results=results)
 
@@ -200,7 +234,9 @@ def detect_chronic(
                     fail_count=len(classes),
                     window_days=len(recent),
                     dominant_class=dominant,
-                    suggestion=_SUGGESTIONS.get(dominant, _SUGGESTIONS[ErrorClass.OTHER.value]),
+                    suggestion=_SUGGESTIONS.get(
+                        dominant, _SUGGESTIONS[ErrorClass.OTHER.value]
+                    ),
                 )
             )
     return findings
@@ -219,18 +255,13 @@ def _load_escalation_state(state_file: Path) -> dict[str, str]:
     return {str(k): str(v) for k, v in data.items()} if isinstance(data, dict) else {}
 
 
-def _days_between(earlier: str, later: str) -> int:
-    fmt = "%Y-%m-%d"
-    return (datetime.strptime(later, fmt) - datetime.strptime(earlier, fmt)).days
-
-
 def _recent_by_days(history: Sequence[HealthRecord], window: int) -> list[HealthRecord]:
     """回傳最新記錄日往前 window-1 天（含當天，共 window 天）內的記錄。"""
     ordered = sorted(history, key=lambda r: r.date)
     if not ordered:
         return []
     latest = ordered[-1].date
-    return [r for r in ordered if 0 <= _days_between(r.date, latest) < window]
+    return [r for r in ordered if 0 <= days_between(r.date, latest) < window]
 
 
 def filter_new_escalations(
@@ -244,7 +275,7 @@ def filter_new_escalations(
     fresh: list[ChronicFinding] = []
     for finding in findings:
         last = state.get(finding.subject)
-        if last is None or _days_between(last, today) >= window:
+        if last is None or days_between(last, today) >= window:
             fresh.append(finding)
     return fresh
 
@@ -256,7 +287,9 @@ def record_escalations(
     for finding in findings:
         state[finding.subject] = today
     state_file.parent.mkdir(parents=True, exist_ok=True)
-    state_file.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+    state_file.write_text(
+        json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
 
 def observe_and_escalate(
@@ -283,143 +316,6 @@ def observe_and_escalate(
         notify_fn(format_escalation(fresh, today))
         record_escalations(fresh, state_file, today)
     return fresh
-
-
-# ── Digest 貢獻度 ─────────────────────────────────────────────────
-
-# digest 貢獻度統計的滑動視窗（日曆天）
-DIGEST_SHARE_WINDOW_DAYS = 30
-
-
-def digest_source_shares(artifacts: Sequence[Mapping]) -> dict[str, float]:
-    """統計各來源在最終 digest 條目中的占比（0.0–1.0）。純函數。
-
-    輸入為多日 digest artifact（`{"digests": [{..., "_source": key}, ...]}`）；
-    缺 `_source` 的條目（舊 schema）與形狀異常的 artifact 靜默略過。
-    """
-    counts: Counter[str] = Counter()
-    for artifact in artifacts:
-        digests = artifact.get("digests") if isinstance(artifact, Mapping) else None
-        if not isinstance(digests, list):
-            continue
-        for entry in digests:
-            if not isinstance(entry, Mapping):
-                continue
-            source = entry.get("_source")
-            if isinstance(source, str) and source:
-                counts[source] += 1
-    total = sum(counts.values())
-    if total == 0:
-        return {}
-    return {source: count / total for source, count in counts.items()}
-
-
-def load_recent_digests(
-    output_dir: Path, end_date: str, window: int = DIGEST_SHARE_WINDOW_DAYS
-) -> list[dict]:
-    """讀取近 window 個日曆天（含 end_date）的 digest artifact。純讀檔，不寫。
-
-    缺檔或壞檔的日子靜默略過。
-    """
-    end = datetime.strptime(end_date, "%Y-%m-%d")
-    artifacts: list[dict] = []
-    for offset in range(window):
-        day = (end - timedelta(days=offset)).strftime("%Y-%m-%d")
-        digest_file = output_dir / day / "steps" / "digest.json"
-        if not digest_file.exists():
-            continue
-        try:
-            data = json.loads(digest_file.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            continue
-        if isinstance(data, dict):
-            artifacts.append(data)
-    return artifacts
-
-
-# ── Judge 飽和偵測 ────────────────────────────────────────────────
-#
-# LLM-as-Judge 的分數若長期貼頂（quality_alert 只在 completeness < 3 觸發，
-# 而歷史 overall 從未低於 4.0），儀表就失去鑑別力卻沒人知道。
-# 比照慢性故障：純函數跨天 roll-up，只在 --health 加註警示，不動 judge step。
-
-JUDGE_SATURATION_WINDOW_DAYS = 30
-# 資料不足門檻：視窗內記錄少於此數即不判定（避免小樣本誤報）
-JUDGE_SATURATION_MIN_RECORDS = 30
-# 「貼頂」的 overall 下限：1–5 分制的次高分
-JUDGE_SATURATION_SCORE_FLOOR = 4.0
-# 貼頂天數占比 ≥ 此值即視為飽和
-JUDGE_SATURATION_RATIO = 0.9
-
-JUDGE_HISTORY_FILE = OUTPUT_DIR / "_judge-history.json"
-
-
-@dataclass(frozen=True)
-class JudgeSaturationFinding:
-    """judge 分數飽和的判定結果（含近 N 天分數分佈摘要）。"""
-
-    window_days: int                    # 實際檢視的記錄數
-    saturated_days: int                 # overall ≥ score_floor 的天數
-    score_floor: float
-    min_overall: float
-    max_overall: float
-    distribution: Mapping[float, int]   # overall 分數 → 天數
-
-
-def detect_judge_saturation(
-    history: Sequence[Mapping],
-    window: int = JUDGE_SATURATION_WINDOW_DAYS,
-    min_records: int = JUDGE_SATURATION_MIN_RECORDS,
-    score_floor: float = JUDGE_SATURATION_SCORE_FLOOR,
-    ratio: float = JUDGE_SATURATION_RATIO,
-) -> JudgeSaturationFinding | None:
-    """近 window 個日曆天內，overall ≥ score_floor 的天數占比 ≥ ratio 即飽和。
-
-    輸入形狀鏡像 `_judge-history.json`（每筆含 "date" 與 "overall"）。
-    視窗內記錄不足 min_records 筆視為資料不足，回傳 None 不誤報；
-    未飽和亦回傳 None。純函數，不讀檔。
-    """
-    overalls = _recent_judge_overalls(history, window)
-    if len(overalls) < min_records:
-        return None
-    saturated = [o for o in overalls if o >= score_floor]
-    if len(saturated) / len(overalls) < ratio:
-        return None
-    return JudgeSaturationFinding(
-        window_days=len(overalls),
-        saturated_days=len(saturated),
-        score_floor=score_floor,
-        min_overall=min(overalls),
-        max_overall=max(overalls),
-        distribution=dict(sorted(Counter(overalls).items())),
-    )
-
-
-def load_judge_history(history_file: Path) -> list[dict]:
-    """讀 judge 歷史檔（形狀同 `_judge-history.json`）。缺檔或壞檔回傳空 list。"""
-    if not history_file.exists():
-        return []
-    try:
-        raw = json.loads(history_file.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
-        return []
-    return [r for r in raw if isinstance(r, dict)] if isinstance(raw, list) else []
-
-
-def _recent_judge_overalls(history: Sequence[Mapping], window: int) -> list[float]:
-    """取最新記錄日往前 window 個日曆天內的 overall 值（形狀異常的記錄略過）。"""
-    dated: list[tuple[str, float]] = []
-    for record in history:
-        if not isinstance(record, Mapping):
-            continue
-        date, overall = record.get("date"), record.get("overall")
-        if isinstance(date, str) and isinstance(overall, (int, float)):
-            dated.append((date, float(overall)))
-    if not dated:
-        return []
-    dated.sort(key=lambda pair: pair[0])
-    latest = dated[-1][0]
-    return [o for d, o in dated if 0 <= _days_between(d, latest) < window]
 
 
 # ── Render ───────────────────────────────────────────────────────
@@ -475,18 +371,5 @@ def render_health_table(
             f"  {subject:9} {ok:>2}/{total:<2}  {ok / total * 100:5.1f}%{share}{suffix}"
         )
     if judge_saturation is not None:
-        lines.extend(("", _format_judge_saturation(judge_saturation)))
+        lines.extend(("", format_judge_saturation(judge_saturation)))
     return "\n".join(lines)
-
-
-def _format_judge_saturation(finding: JudgeSaturationFinding) -> str:
-    """judge 飽和警示行：貼頂占比 + 分數分佈摘要 + 建議。"""
-    dist = " / ".join(
-        f"{score:.1f}×{count}" for score, count in finding.distribution.items()
-    )
-    return (
-        f"  ⚠️ judge 已失去鑑別力：近 {finding.window_days} 天有 "
-        f"{finding.saturated_days}/{finding.window_days} 天 overall ≥ "
-        f"{finding.score_floor:.1f}（分佈 {dist}）\n"
-        f"     ↳ 建議：更換 judge 模型（JUDGE_LLM_MODEL）或收緊評分 rubric"
-    )

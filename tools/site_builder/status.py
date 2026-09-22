@@ -13,12 +13,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Mapping, Optional, Sequence, Tuple
+from typing import Optional, Sequence, Tuple
 
-# judge/health 歷史每列共用的日期格式（與 health.py 一致）。
-_DATE_FMT = "%Y-%m-%d"
-
-OK = "ok"
+from tools.history_schema import (
+    OK,
+    HealthHistoryRecord,
+    JudgeHistoryRecord,
+    parse_date,
+)
 
 # sparkline SVG 尺寸（viewBox 座標；CSS 控實際顯示寬高）。
 _SPARK_W = 240
@@ -53,26 +55,15 @@ class SystemStatus:
     source_rates: Tuple[SourceRate, ...]
 
 
-def _parse_date(value: object) -> Optional[datetime]:
-    if not isinstance(value, str):
-        return None
-    try:
-        return datetime.strptime(value, _DATE_FMT)
-    except ValueError:
-        return None
-
-
 def _judge_series(judge_history: Sequence[object]) -> Tuple[float, ...]:
     """judge overall 分數，依日期由舊到新。缺 overall／非 dict 列跳過。"""
     rows: list[tuple[datetime, float]] = []
     for item in judge_history:
-        if not isinstance(item, Mapping):
+        rec = JudgeHistoryRecord.from_dict(item) if isinstance(item, dict) else None
+        when = parse_date(rec.date) if rec else None
+        if rec is None or when is None or rec.overall is None:
             continue
-        when = _parse_date(item.get("date"))
-        overall = item.get("overall")
-        if when is None or not isinstance(overall, (int, float)):
-            continue
-        rows.append((when, float(overall)))
+        rows.append((when, float(rec.overall)))
     rows.sort(key=lambda pair: pair[0])
     return tuple(score for _, score in rows)
 
@@ -81,9 +72,9 @@ def _run_dates(health_history: Sequence[object]) -> list[datetime]:
     """health 歷史中所有可解析的運作日（去重、升冪）。"""
     seen: set[datetime] = set()
     for item in health_history:
-        if not isinstance(item, Mapping):
+        if not isinstance(item, dict):
             continue
-        when = _parse_date(item.get("date"))
+        when = parse_date(HealthHistoryRecord.from_dict(item).date)
         if when is not None:
             seen.add(when)
     return sorted(seen)
@@ -107,16 +98,12 @@ def _source_rates(health_history: Sequence[object]) -> Tuple[SourceRate, ...]:
     ok_counts: dict[str, int] = {}
     totals: dict[str, int] = {}
     for item in health_history:
-        if not isinstance(item, Mapping):
+        if not isinstance(item, dict):
             continue
-        results = item.get("results")
-        if not isinstance(results, Mapping):
-            continue
-        for source, outcome in results.items():
-            key = str(source)
-            totals[key] = totals.get(key, 0) + 1
+        for source, outcome in HealthHistoryRecord.from_dict(item).results.items():
+            totals[source] = totals.get(source, 0) + 1
             if outcome == OK:
-                ok_counts[key] = ok_counts.get(key, 0) + 1
+                ok_counts[source] = ok_counts.get(source, 0) + 1
     rates = [
         SourceRate(
             source=src,

@@ -45,7 +45,7 @@ class Supervisor(Protocol):
 
 
 class StepStatus(Enum):
-    RAN = "ran"        # 跑了 producer 並寫 artifact
+    RAN = "ran"  # 跑了 producer 並寫 artifact
     LOADED = "loaded"  # 用既有 artifact
     SKIPPED = "skipped"  # 不在 steps_to_run / guard 不過 → 回 default
     FAILED = "failed"  # producer 重試耗盡 → 回 default
@@ -107,6 +107,22 @@ class Step:
 
     # ── 公開介面 ─────────────────────────────────────────────────
     def run(self, ctx, input, reflect: str = "", force: bool = False) -> StepOutcome:
+        """計時外殼：委派 _run_inner 跑真正的 gating/IO，再把耗時+狀態記進 run manifest。
+
+        manifest 為選填觀測 seam（getattr 取；None 則純計時外殼無副作用），與 meter
+        同紀律不反噬 pipeline。"""
+        import time
+
+        manifest = getattr(ctx, "run_manifest", None)
+        t0 = time.monotonic()
+        outcome = self._run_inner(ctx, input, reflect, force)
+        if manifest is not None:
+            manifest.record_step(self.name, outcome.status.value, time.monotonic() - t0)
+        return outcome
+
+    def _run_inner(
+        self, ctx, input, reflect: str = "", force: bool = False
+    ) -> StepOutcome:
         path = self.artifact_path(ctx)
         if force:
             verdict = Verdict.RUN
@@ -120,7 +136,9 @@ class Step:
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
         if verdict is Verdict.LOAD:
             logger.info("Step %-8s: 載入既有 artifact", self.name)
-            return StepOutcome(StepStatus.LOADED, self._load(self.codec.read(path), input))
+            return StepOutcome(
+                StepStatus.LOADED, self._load(self.codec.read(path), input)
+            )
         if not self._guard(ctx, input):
             logger.warning("Step %-8s: 缺少輸入或前置條件，略過", self.name)
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
@@ -130,6 +148,11 @@ class Step:
 
         def _producer(reflect_context: str = "") -> StepOutput:
             return self._produce(ctx, input, reflect_context or reflect)
+
+        # 把後續 LLM 用量歸到本步驟（enrich 的並行 thread 於此標籤下皆記為 enrich）。
+        meter = getattr(ctx, "meter", None)
+        if meter is not None:
+            meter.current_step = self.name
 
         result = ctx.supervisor.run_step(self.name, _producer, force=forced)
         if not result.success:
