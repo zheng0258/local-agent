@@ -826,7 +826,15 @@
   },
   {
     "date": "2026-06-22",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok"
+    }
   },
   {
     "date": "2026-06-23",
@@ -854,6 +862,18 @@
   },
   {
     "date": "2026-06-25",
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok"
+    }
+  },
+  {
+    "date": "2026-06-26",
     "results": {
       "hatena": "ok",
       "hn": "ok",
@@ -925,7 +945,16 @@
   },
   {
     "date": "2026-07-02",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "other"
+    }
   },
   {
     "date": "2026-07-03",
@@ -977,11 +1006,29 @@
   },
   {
     "date": "2026-07-07",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "other"
+    }
   },
   {
     "date": "2026-07-08",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "other"
+    }
   },
   {
     "date": "2026-07-09",
@@ -1093,7 +1140,16 @@
   },
   {
     "date": "2026-07-18",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "other"
+    }
   },
   {
     "date": "2026-07-19",
@@ -1301,11 +1357,29 @@
   },
   {
     "date": "2026-08-05",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "other"
+    }
   },
   {
     "date": "2026-08-06",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "ok"
+    }
   },
   {
     "date": "2026-08-07",
@@ -1681,7 +1755,16 @@
   },
   {
     "date": "2026-09-07",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "other"
+    }
   },
   {
     "date": "2026-09-08",
@@ -1805,7 +1888,16 @@
   },
   {
     "date": "2026-09-18",
-    "results": {}
+    "results": {
+      "hatena": "ok",
+      "hn": "ok",
+      "reddit": "ok",
+      "security": "ok",
+      "rss": "ok",
+      "telegram": "ok",
+      "vault": "ok",
+      "deploy": "other"
+    }
   },
   {
     "date": "2026-09-19",
@@ -1845,6 +1937,8 @@
   },
   {
     "date": "2026-09-22",
-    "results": {}
+    "results": {
+      "hatena": "ok"
+    }
   }
 ]
