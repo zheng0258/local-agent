@@ -1,0 +1,44 @@
+[
+  {
+    "date": "2026-09-23",
+    "calls": 26,
+    "prompt_tokens": 92276,
+    "completion_tokens": 144138,
+    "total_tokens": 236414,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 25,
+        "prompt_tokens": 78665,
+        "completion_tokens": 139260,
+        "total_tokens": 217925
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 13611,
+        "completion_tokens": 4878,
+        "total_tokens": 18489
+      }
+    }
+  },
+  {
+    "date": "2026-09-24",
+    "calls": 35,
+    "prompt_tokens": 96410,
+    "completion_tokens": 180898,
+    "total_tokens": 277308,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 34,
+        "prompt_tokens": 84540,
+        "completion_tokens": 177757,
+        "total_tokens": 262297
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 11870,
+        "completion_tokens": 3141,
+        "total_tokens": 15011
+      }
+    }
+  }
+]
