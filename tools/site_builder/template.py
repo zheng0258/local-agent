@@ -11,6 +11,7 @@ from html import escape
 from typing import NamedTuple, Sequence
 
 from jinja2 import Template
+from markupsafe import Markup
 
 POSITIONING_LINE = "本地 LLM 多代理自主系統"
 
@@ -138,7 +139,8 @@ class ArchiveLink(NamedTuple):
 
 
 _INDEX_TEMPLATE = Template(
-    """<!DOCTYPE html>
+    autoescape=True,
+    source="""<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
@@ -190,7 +192,8 @@ _INDEX_TEMPLATE = Template(
 )
 
 _ARCHIVE_TEMPLATE = Template(
-    """<!DOCTYPE html>
+    autoescape=True,
+    source="""<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
@@ -234,31 +237,34 @@ def render_index(
     按鈕，點擊彈出 overlay 呈現，不直接顯示在頁面主流程（空字串時不渲染按鈕與 overlay）。
     `tldr_html` 為已渲染消毒的當日今日重點 HTML（繁中；空字串時不渲染該區段，向後相容）。
     """
+    # Markup(...) = 「這段已消毒/內部產生，別再跳脫」。其餘變數走 autoescape 預設，
+    # 新增模板變數時**預設安全**，不必記得手動 escape。
     return _INDEX_TEMPLATE.render(
-        body_html=body_html,
+        body_html=Markup(body_html),
         date=date,
         positioning_line=POSITIONING_LINE,
-        shell_style=_SHELL_STYLE,
+        shell_style=Markup(_SHELL_STYLE),
         archive_links=list(archive_links),
         full_archive_href=full_archive_href,
-        narrative_html=narrative_html,
-        tldr_html=tldr_html,
-        status_html=status_html,
+        narrative_html=Markup(narrative_html),
+        tldr_html=Markup(tldr_html),
+        status_html=Markup(status_html),
     )
 
 
 def render_archive(body_html: str, date: str) -> str:
     """渲染單天存檔頁：標示日期 + 回首頁連結，繁中內文。"""
     return _ARCHIVE_TEMPLATE.render(
-        body_html=body_html,
+        body_html=Markup(body_html),
         date=date,
         positioning_line=POSITIONING_LINE,
-        shell_style=_SHELL_STYLE,
+        shell_style=Markup(_SHELL_STYLE),
     )
 
 
 _ARCHIVE_INDEX_TEMPLATE = Template(
-    """<!DOCTYPE html>
+    autoescape=True,
+    source="""<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
@@ -297,14 +303,15 @@ def render_archive_index(
     return _ARCHIVE_INDEX_TEMPLATE.render(
         month_groups=[(m, list(links)) for m, links in month_groups],
         positioning_line=POSITIONING_LINE,
-        shell_style=_SHELL_STYLE,
+        shell_style=Markup(_SHELL_STYLE),
     )
 
 
 # ── 運行紀錄頁（run-history.html）─────────────────────────────────
 
 _RUN_HISTORY_TEMPLATE = Template(
-    """<!DOCTYPE html>
+    autoescape=True,
+    source="""<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
@@ -421,7 +428,7 @@ def render_run_history(runs: Sequence[object]) -> str:
             "</div>"
         )
     return _RUN_HISTORY_TEMPLATE.render(
-        table_html=table_html,
+        table_html=Markup(table_html),
         positioning_line=POSITIONING_LINE,
-        shell_style=_SHELL_STYLE,
+        shell_style=Markup(_SHELL_STYLE),
     )

@@ -380,3 +380,54 @@ def test_write_site_dumps_map_to_directory(tmp_path):
 def test_write_site_creates_nested_subdirs(tmp_path):
     write_site({"assets/style.css": "body{}"}, tmp_path)
     assert (tmp_path / "assets" / "style.css").read_text(encoding="utf-8") == "body{}"
+
+
+@pytest.mark.unit
+def test_write_site_rejects_parent_traversal(tmp_path):
+    """站台 key 不得以 `..` 逃出 out_dir——writer 是唯一碰檔案的地方，邊界守在這裡。"""
+    from tools.site_builder.writer import write_site
+
+    with pytest.raises(ValueError, match="逃逸"):
+        write_site({"../escaped.html": "<html>x</html>"}, tmp_path / "site")
+
+    assert not (tmp_path / "escaped.html").exists()
+
+
+@pytest.mark.unit
+def test_write_site_rejects_absolute_path(tmp_path):
+    """絕對路徑 key 會讓 `out_dir / key` 直接變成該絕對路徑，同樣必須拒收。"""
+    from tools.site_builder.writer import write_site
+
+    outside = tmp_path / "outside.html"
+    with pytest.raises(ValueError, match="逃逸"):
+        write_site({str(outside): "<html>x</html>"}, tmp_path / "site")
+
+    assert not outside.exists()
+
+
+@pytest.mark.unit
+def test_write_site_writes_nested_relative_paths(tmp_path):
+    """正常的巢狀相對路徑不受影響（archive/<date>.html）。"""
+    from tools.site_builder.writer import write_site
+
+    out = tmp_path / "site"
+    write_site({"index.html": "<html>i</html>", "archive/2026-09-23.html": "<html>a</html>"}, out)
+
+    assert (out / "index.html").read_text(encoding="utf-8") == "<html>i</html>"
+    assert (out / "archive" / "2026-09-23.html").read_text(encoding="utf-8") == "<html>a</html>"
+
+
+@pytest.mark.unit
+def test_templates_autoescape_scalar_variables():
+    """模板開 autoescape：純量變數（日期等）內的 HTML 一律跳脫。
+
+    釘住「預設安全」這條不變式——未來新增模板變數時忘了手動 escape 也不會開洞。
+    """
+    from tools.site_builder.template import render_archive
+
+    html = render_archive(body_html="<p>ok</p>", date='<script>alert(1)</script>')
+
+    assert "<script>alert(1)</script>" not in html
+    assert "&lt;script&gt;" in html
+    # 已消毒的內文仍以原樣輸出（Markup 標記），不被雙重跳脫
+    assert "<p>ok</p>" in html

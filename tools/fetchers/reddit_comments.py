@@ -53,15 +53,33 @@ def fetch_comments(post_url: str, top_n: int = _DEFAULT_TOP_N) -> list[str]:
     return result
 
 
+def _curl_quote(value: str) -> str:
+    """轉義 curl config 檔的雙引號字串（curl 只認 \\ 與 \"）。"""
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def _curl_secret_config(*lines: str) -> str:
+    """組 curl config 內容；憑證經此走 stdin，不進 argv。
+
+    argv 對本機所有使用者可讀（`ps -ww`），client secret 與 bearer token 一旦放在
+    `--user` / `-H` 就等於對同機公開。`--config -` 讓 curl 從 stdin 讀同樣的選項。
+    """
+    return "".join(f"{line}\n" for line in lines)
+
+
 def _get_token(client_id: str, client_secret: str) -> str:
+    config = _curl_secret_config(
+        f'user = "{_curl_quote(client_id)}:{_curl_quote(client_secret)}"'
+    )
     proc = subprocess.run(
         [
             "curl", "-s", "-X", "POST",
             "-H", f"User-Agent: {_USER_AGENT}",
-            "--user", f"{client_id}:{client_secret}",
             "--data", "grant_type=client_credentials",
+            "--config", "-",
             _TOKEN_URL,
         ],
+        input=config,
         capture_output=True, text=True, timeout=15,
     )
     token = json.loads(proc.stdout).get("access_token", "")
@@ -71,13 +89,17 @@ def _get_token(client_id: str, client_secret: str) -> str:
 
 
 def _curl_get(url: str, token: str, timeout: int = 15) -> str:
+    config = _curl_secret_config(
+        f'header = "Authorization: bearer {_curl_quote(token)}"'
+    )
     proc = subprocess.run(
         [
             "curl", "-s", "--max-time", str(timeout),
-            "-H", f"Authorization: bearer {token}",
             "-H", f"User-Agent: {_USER_AGENT}",
+            "--config", "-",
             url,
         ],
+        input=config,
         capture_output=True, text=True, timeout=timeout + 5,
     )
     if proc.returncode != 0:

@@ -220,6 +220,9 @@ class DailyBriefAgent:
 
         # 全量重建：build_full_site 內部讀全部歷史天 + 敘事 config + 今日重點 + 系統狀態，
         # 並合併 judge/health 歷史原文端點（組裝順序與合併不變式住 site_builder，見 assemble.py）。
+        # 建站前快照：deploy 讀這三份歷史檔組站，故必須先落盤（見 _persist_observations）
+        _persist_observations(today, day_dir, steps_dir, meter, manifest, tg_send)
+
         DeployStep(lambda: build_full_site(OUTPUT_DIR), ctx.today).run(ctx, None)
 
         # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
@@ -227,14 +230,8 @@ class DailyBriefAgent:
 
         alert_store.send_summary(steps_dir, today, tg_send)
 
-        # 可觀測性：記錄今日健康狀態 + 慢性故障跨天偵測（只在 chronic 時打擾）
-        _observe_and_escalate(today, day_dir, steps_dir, tg_send)
-
-        # Token 用量：當日明細落盤 + 跨天歷史（包 try/except，絕不反噬 pipeline）
-        _persist_usage(today, steps_dir, meter)
-
-        # 執行紀錄：本次 run 的耗時/步驟/觸發/版本落盤 + 跨天歷史（同紀律，不反噬）
-        _persist_run(today, steps_dir, manifest)
+        # 補記：把 deploy 自身的結果與耗時寫進同日記錄（同日冪等覆寫）
+        _persist_observations(today, day_dir, steps_dir, meter, manifest, tg_send)
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -491,3 +488,28 @@ def _persist_run(today: str, steps_dir: Path, manifest: "RunManifest") -> None:
         )
     except Exception as exc:  # 執行紀錄不得反過來弄垮 pipeline
         logger.warning("執行紀錄失敗（不影響 pipeline）：%s", exc)
+
+
+def _persist_observations(
+    today: str,
+    day_dir: Path,
+    steps_dir: Path,
+    meter: UsageMeter,
+    manifest: "RunManifest",
+    tg_send,
+) -> None:
+    """把本次 run 的觀測（健康 / token 用量 / 執行紀錄）落盤。
+
+    **run() 中刻意呼叫兩次**：deploy 會讀這三份歷史檔全量建站，若只在 pipeline 最末
+    落盤，站台讀到的永遠是「昨天為止」的資料——運行紀錄頁最新一列恆為 unknown、耗時
+    與 tokens 恆為「—」，且這是結構性的每日落後，不是首次執行的一次性現象。
+    故 deploy 前先落一次快照（站台當天即有資料），deploy 後再落一次把 deploy 自身的
+    結果與耗時補進同日記錄。三者皆同日冪等覆寫（append_record / append_history 均以
+    date 去重），escalation 另有 _health-escalated.json 去重，故重複呼叫不會重複打擾。
+
+    站台上「deploy 這一格」仍必然落後一天——站台是被該次 deploy 推上去的，無法包含
+    自身發佈結果。這是本質循環，不是缺陷。
+    """
+    _observe_and_escalate(today, day_dir, steps_dir, tg_send)
+    _persist_usage(today, steps_dir, meter)
+    _persist_run(today, steps_dir, manifest)
