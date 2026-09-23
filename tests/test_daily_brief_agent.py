@@ -474,3 +474,70 @@ def test_health_flag_flags_judge_saturation(tmp_path, monkeypatch):
     out = DailyBriefAgent(llm=MagicMock(), judge_llm=MagicMock()).run("--health")
     assert "judge 已失去鑑別力" in out
     assert "30/30" in out
+
+
+@pytest.mark.unit
+def test_persist_observations_writes_all_three_and_is_idempotent(tmp_path, monkeypatch):
+    """_persist_observations 一次落齊 健康/用量/執行紀錄，且同日重複呼叫為覆寫非重複列。
+
+    run() 刻意呼叫兩次（deploy 前快照 + deploy 後補記），冪等性是該設計的前提。
+    """
+    import json
+
+    from agents.daily_brief import agent as agent_mod
+    from agents.daily_brief import health
+    from agents.daily_brief.run_manifest import RunManifest
+    from tools.usage_meter import UsageMeter
+
+    day_dir = tmp_path / "2026-09-23"
+    steps_dir = day_dir / "steps"
+    steps_dir.mkdir(parents=True)
+    (day_dir / "telegram.done").touch()
+
+    monkeypatch.setattr(agent_mod, "OUTPUT_DIR", tmp_path)
+    monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", tmp_path / "_health-history.json")
+    monkeypatch.setattr(health, "ESCALATION_STATE_FILE", tmp_path / "_health-escalated.json")
+
+    meter = UsageMeter()
+    manifest = RunManifest(trigger="scheduled")
+    manifest.record_step("notify", "ran", 1.5)
+
+    for _ in range(2):
+        agent_mod._persist_observations(
+            "2026-09-23", day_dir, steps_dir, meter, manifest, lambda _msg: True
+        )
+
+    assert (steps_dir / "_run.json").exists()
+    assert (steps_dir / "_usage.json").exists()
+
+    run_hist = json.loads((tmp_path / "_run-history.json").read_text(encoding="utf-8"))
+    usage_hist = json.loads((tmp_path / "_usage-history.json").read_text(encoding="utf-8"))
+    health_hist = json.loads((tmp_path / "_health-history.json").read_text(encoding="utf-8"))
+
+    # 同日只有一列——兩次呼叫是覆寫，不是 append 兩筆
+    assert [r["date"] for r in run_hist] == ["2026-09-23"]
+    assert [r["date"] for r in usage_hist] == ["2026-09-23"]
+    assert [r["date"] for r in health_hist] == ["2026-09-23"]
+
+
+@pytest.mark.unit
+def test_observations_persist_before_deploy():
+    """釘住順序：觀測落盤必須先於 DeployStep。
+
+    deploy 會讀 _run-history / _usage-history / _health-history 全量建站。若落盤排在
+    deploy 之後，站台讀到的永遠是「昨天為止」的資料，運行紀錄頁最新一列恆為
+    unknown、耗時與 tokens 恆為「—」，且是每天都會發生的結構性落後。
+    """
+    import inspect
+
+    from agents.daily_brief import agent as agent_mod
+
+    src = inspect.getsource(agent_mod.DailyBriefAgent.run)
+    first_persist = src.index("_persist_observations(")
+    deploy_call = src.index("DeployStep(")
+
+    assert first_persist < deploy_call, (
+        "DeployStep 必須在 _persist_observations 之後，否則站台資料永遠落後一天"
+    )
+    # deploy 後仍需補記一次，把 deploy 自身結果寫進同日記錄
+    assert src.count("_persist_observations(") == 2
