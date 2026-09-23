@@ -3,6 +3,7 @@
 import json
 import os
 import pytest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 
@@ -118,3 +119,51 @@ def test_fetch_comments_url_uses_oauth_api():
     assert "oauth.reddit.com" in called_urls[0]
     assert "limit=" in called_urls[0]
     assert "sort=best" in called_urls[0]
+
+
+@pytest.mark.unit
+def test_get_token_keeps_client_secret_off_argv():
+    """client secret 絕不進 argv（`ps -ww` 全機可讀）；改由 stdin 的 curl config 供給。"""
+    from tools.fetchers import reddit_comments
+
+    seen = {}
+
+    def fake_run(args, **kwargs):
+        seen["argv"] = args
+        seen["input"] = kwargs.get("input", "")
+        return SimpleNamespace(stdout='{"access_token": "tok"}', stderr="", returncode=0)
+
+    with patch("subprocess.run", side_effect=fake_run):
+        assert reddit_comments._get_token("my-id", "my-secret") == "tok"
+
+    assert "my-secret" not in " ".join(seen["argv"])
+    assert "--user" not in seen["argv"]
+    assert "--config" in seen["argv"]
+    assert 'user = "my-id:my-secret"' in seen["input"]
+
+
+@pytest.mark.unit
+def test_curl_get_keeps_bearer_token_off_argv():
+    """bearer token 同理：不進 argv，走 stdin config 的 header 選項。"""
+    from tools.fetchers import reddit_comments
+
+    seen = {}
+
+    def fake_run(args, **kwargs):
+        seen["argv"] = args
+        seen["input"] = kwargs.get("input", "")
+        return SimpleNamespace(stdout="body", stderr="", returncode=0)
+
+    with patch("subprocess.run", side_effect=fake_run):
+        assert reddit_comments._curl_get("https://oauth.reddit.com/x", "secret-tok") == "body"
+
+    assert "secret-tok" not in " ".join(seen["argv"])
+    assert 'header = "Authorization: bearer secret-tok"' in seen["input"]
+
+
+@pytest.mark.unit
+def test_curl_quote_escapes_config_metacharacters():
+    """curl config 為雙引號字串：secret 內的 \\ 與 " 必須轉義，否則選項被截斷。"""
+    from tools.fetchers.reddit_comments import _curl_quote
+
+    assert _curl_quote(r'a"b\c') == r'a\"b\\c'

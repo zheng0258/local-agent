@@ -156,9 +156,12 @@ def test_push_remote_url_falls_back_to_origin_without_token(tmp_path, monkeypatc
 
 
 @pytest.mark.unit
-def test_push_remote_url_embeds_token_when_set(tmp_path, monkeypatch):
-    """設定 DEPLOY_GITHUB_TOKEN 後（cron 場景）：組出 x-access-token 認證 URL，
-    不依賴 git credential helper／osxkeychain。"""
+def test_push_remote_url_never_embeds_token(tmp_path, monkeypatch):
+    """設定 DEPLOY_GITHUB_TOKEN 後（cron 場景）：push 目標維持乾淨的 https URL。
+
+    argv 對本機所有使用者可讀（`ps -ww`），token 一旦拼進 push URL 就等於對同機
+    公開；認證改走 GIT_ASKPASS。此測試釘住「token 絕不進 URL」這條不變式。
+    """
     from agents.daily_brief.steps.deploy import _push_remote_url
 
     monkeypatch.setenv("DEPLOY_GITHUB_TOKEN", "test-token-123")
@@ -171,7 +174,43 @@ def test_push_remote_url_embeds_token_when_set(tmp_path, monkeypatch):
 
     url = _push_remote_url(tmp_path)
 
-    assert url == "https://x-access-token:test-token-123@github.com/zheng0258/local-agent.git"
+    assert url == "https://github.com/zheng0258/local-agent.git"
+    assert "test-token-123" not in url
+
+
+@pytest.mark.unit
+def test_askpass_env_supplies_credentials_off_argv(monkeypatch):
+    """_askpass_env 把憑證放進環境變數 + 一次性 0700 helper 腳本，不碰 argv。"""
+    import os
+    import stat as _stat
+
+    from agents.daily_brief.steps.deploy import _askpass_env
+
+    with _askpass_env("super-secret-token") as env:
+        assert env is not None
+        assert env["GIT_DEPLOY_USERNAME"] == "x-access-token"
+        assert env["GIT_DEPLOY_PASSWORD"] == "super-secret-token"
+        # cron 無 tty，認證失敗須直接報錯而非卡在互動提示
+        assert env["GIT_TERMINAL_PROMPT"] == "0"
+        script = Path(env["GIT_ASKPASS"])
+        assert script.exists()
+        # 0700：helper 內容雖不含 token，仍不對同機其他使用者開放
+        assert _stat.S_IMODE(script.stat().st_mode) == 0o700
+        # token 本身絕不落在腳本內容裡（只從環境變數讀）
+        assert "super-secret-token" not in script.read_text(encoding="utf-8")
+
+    # 離開 context 後一次性 helper 必須消失
+    assert not script.exists()
+    assert "GIT_DEPLOY_PASSWORD" not in os.environ
+
+
+@pytest.mark.unit
+def test_askpass_env_yields_none_without_token(monkeypatch):
+    """未設 token → yield None，沿用既有 credential helper（互動式 session 行為不變）。"""
+    from agents.daily_brief.steps.deploy import _askpass_env
+
+    with _askpass_env("") as env:
+        assert env is None
 
 
 @pytest.mark.unit

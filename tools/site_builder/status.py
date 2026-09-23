@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
+from html import escape
 from typing import Optional, Sequence, Tuple
 
 from tools.history_schema import (
@@ -181,7 +182,7 @@ def render_status_section(status: SystemStatus) -> str:
     spark = render_sparkline_svg(status.judge_series)
     latest = f"{status.judge_series[-1]:.1f}" if status.judge_series else "—"
     rate_lines = "".join(
-        f'<li><span class="status-src">{r.source}</span>'
+        f'<li><span class="status-src">{escape(r.source)}</span>'
         f'<span class="status-pct">{r.rate * 100:.0f}%</span>'
         f'<span class="status-frac">{r.ok}/{r.total}</span></li>'
         for r in status.source_rates
