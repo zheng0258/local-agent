@@ -15,12 +15,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from typing import Mapping, Optional, Sequence, Tuple
 
 from tools.history_schema import (
+    DATE_FMT,
     OK,
     HealthHistoryRecord,
     JudgeHistoryRecord,
+    days_between,
 )
 
 # 顯示順序：5 來源 + 3 遞送。單字母標籤供狀態矩陣的小格顯示。
@@ -68,10 +71,11 @@ class RunRecord:
     trigger: Optional[str]
     git_sha: Optional[str]
     steps: Tuple[StepTiming, ...] = field(default_factory=tuple)
+    absent: bool = False  # 該日四份歷史皆無記錄 = pipeline 整天沒跑
 
     @property
     def status(self) -> str:
-        return run_status(self.results)
+        return "absent" if self.absent else run_status(self.results)
 
 
 def run_status(results: Mapping[str, str]) -> str:
@@ -128,6 +132,31 @@ def _steps_from_manifest(manifest: dict) -> Tuple[StepTiming, ...]:
     return tuple(timings)
 
 
+def _gap_dates(recorded: set[str]) -> list[str]:
+    """已知範圍（最早 ~ 最新記錄日）內完全沒有記錄的日期。
+
+    與 health.detect_absent_days 是同一個概念的兩個邊界：那邊以「今天」收尾（偵測
+    進行中的停擺並 escalate），這邊以「最新記錄日」收尾（站台只渲染已知範圍）。
+    站台由某次 run 建造，該 run 當天必有記錄，故最新記錄日即今天，兩者實際等價。
+    """
+    dates = sorted(d for d in recorded if d)
+    if len(dates) < 2:
+        return []
+    try:
+        span = days_between(dates[0], dates[-1])
+    except ValueError:
+        return []
+    start = datetime.strptime(dates[0], DATE_FMT)
+    return [
+        d
+        for d in (
+            (start + timedelta(days=offset)).strftime(DATE_FMT)
+            for offset in range(1, span)
+        )
+        if d not in recorded
+    ]
+
+
 def compute_runs(
     judge_history: Sequence[object],
     health_history: Sequence[object],
@@ -143,10 +172,29 @@ def compute_runs(
     usage_idx = _index_by_date(usage_history)
     manifest_idx = _index_by_date(run_manifests)
 
-    all_dates = set(judge_idx) | set(health_idx) | set(usage_idx) | set(manifest_idx)
+    recorded = set(judge_idx) | set(health_idx) | set(usage_idx) | set(manifest_idx)
+    # 缺席日補列：整天沒跑就四份歷史皆無記錄，日期會整個從表上消失（09-04~09-22
+    # 停更 18 天當時即如此）。補成 absent 列，讓停擺區間在運行紀錄頁看得見。
+    # 只補在已知範圍內（最早 ~ 最新記錄日）——範圍外不是停擺，是系統還沒開始/尚未跑完。
+    all_dates = recorded | set(_gap_dates(recorded))
 
     runs: list[RunRecord] = []
     for date in sorted(all_dates, reverse=True):
+        if date not in recorded:
+            runs.append(
+                RunRecord(
+                    date=date,
+                    results={},
+                    overall=None,
+                    tokens_total=None,
+                    calls=None,
+                    duration_seconds=None,
+                    trigger=None,
+                    git_sha=None,
+                    absent=True,
+                )
+            )
+            continue
         health = HealthHistoryRecord.from_dict(health_idx.get(date, {}))
         judge = JudgeHistoryRecord.from_dict(judge_idx.get(date, {}))
         usage = usage_idx.get(date, {})

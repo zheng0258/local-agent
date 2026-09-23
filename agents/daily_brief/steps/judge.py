@@ -111,17 +111,43 @@ class JudgeStep(Step):
             "JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL
         )
 
-        completeness_score = scores.get("completeness", {}).get("score")
-        if isinstance(completeness_score, (int, float)) and completeness_score < 3:
+        reasons = _quality_alert_reasons(scores, result["overall"])
+        if reasons:
             result["quality_alert"] = True
-            result["quality_alert_reason"] = (
-                f"completeness={completeness_score}，"
-                f"遺漏：{scores['completeness'].get('missed_urls', [])}"
-            )
+            result["quality_alert_reason"] = "；".join(reasons)
             logger.warning("Judge quality_alert: %s", result["quality_alert_reason"])
 
         _append_judge_history(result, date or datetime.now().strftime("%Y-%m-%d"))
         return result
+
+
+# 品質門檻（1–5 分制）。三軸任一低於 _DIMENSION_FLOOR、或整體低於 _OVERALL_FLOOR
+# 即示警。原本只看 completeness，使 09-22／09-23 連兩天 faithfulness=2（摘要編造原文
+# 沒有的內容）無聲通過——faithfulness 低對公開展示站的可信度傷害最大，不能漏。
+_DIMENSION_FLOOR: float = 3.0
+_OVERALL_FLOOR: float = 3.5
+_ALERT_DIMENSIONS: tuple[str, ...] = ("relevance", "completeness", "faithfulness")
+
+
+def _quality_alert_reasons(scores: dict, overall: float) -> list[str]:
+    """列出所有觸發示警的維度（純函數）；空 list = 品質合格。
+
+    分數非數值（judge 未給有效分）的維度直接略過——無分數不等於不合格。
+    """
+    reasons: list[str] = []
+    for dim in _ALERT_DIMENSIONS:
+        raw = scores.get(dim)
+        value = raw.get("score") if isinstance(raw, dict) else None
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
+            continue
+        if value < _DIMENSION_FLOOR:
+            detail = f"{dim}={value}"
+            if dim == "completeness":
+                detail += f"，遺漏：{raw.get('missed_urls', [])}"
+            reasons.append(detail)
+    if isinstance(overall, (int, float)) and 0 < overall < _OVERALL_FLOOR:
+        reasons.append(f"overall={overall}")
+    return reasons
 
 
 def _append_judge_history(judge_result: dict, date: str) -> None:

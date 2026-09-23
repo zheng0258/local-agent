@@ -101,6 +101,7 @@ class DailyBriefAgent:
                 load_history(HEALTH_HISTORY_FILE),
                 digest_shares=shares,
                 judge_saturation=saturation,
+                today=today,
             )
 
         # 唯讀用量查詢（pull）：短路，不跑 pipeline、不需 LLM
@@ -151,6 +152,10 @@ class DailyBriefAgent:
         for backend in (self._llm, self._judge_llm):
             if hasattr(backend, "meter"):
                 backend.meter = meter
+
+        # 部分重跑（`--only`）：本次 run 只涵蓋部分步驟，落盤時只 patch 跑到的步，
+        # 不得覆寫當日完整 run 的帳本（見 _persist_observations）。
+        partial_run = bool(only_steps)
 
         # 執行帳本：記本次 run 的耗時 / 各步結果 / 觸發源 / git 版本（Step.run 逐步 record）。
         from .run_manifest import RunManifest, detect_trigger, git_sha
@@ -221,17 +226,23 @@ class DailyBriefAgent:
         # 全量重建：build_full_site 內部讀全部歷史天 + 敘事 config + 今日重點 + 系統狀態，
         # 並合併 judge/health 歷史原文端點（組裝順序與合併不變式住 site_builder，見 assemble.py）。
         # 建站前快照：deploy 讀這三份歷史檔組站，故必須先落盤（見 _persist_observations）
-        _persist_observations(today, day_dir, steps_dir, meter, manifest, tg_send)
+        _persist_observations(
+            today, day_dir, steps_dir, meter, manifest, tg_send, partial_run
+        )
 
         DeployStep(lambda: build_full_site(OUTPUT_DIR), ctx.today).run(ctx, None)
 
-        # Fix B: pipeline 結束後，若有步驟失敗記錄，發一則彙總告警（每天只發一次）
+        # Fix B: pipeline 結束後，把當日的步驟失敗與品質告警彙總成單封（每天只發一次）
         from . import alerts as alert_store
 
-        alert_store.send_summary(steps_dir, today, tg_send)
+        alert_store.send_summary(
+            steps_dir, today, tg_send, _quality_reason(steps_dir)
+        )
 
         # 補記：把 deploy 自身的結果與耗時寫進同日記錄（同日冪等覆寫）
-        _persist_observations(today, day_dir, steps_dir, meter, manifest, tg_send)
+        _persist_observations(
+            today, day_dir, steps_dir, meter, manifest, tg_send, partial_run
+        )
 
         return f"完成。輸出目錄：outputs/daily-brief/{today}/"
 
@@ -449,16 +460,34 @@ def _observe_and_escalate(
         logger.warning("健康記錄失敗（不影響 pipeline）：%s", exc)
 
 
-def _persist_usage(today: str, steps_dir: Path, meter: UsageMeter) -> None:
+def _read_json(path: Path) -> dict | None:
+    """讀既有當日紀錄（缺檔 / 壞檔 → None）；供部分重跑的合併使用。"""
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _persist_usage(
+    today: str, steps_dir: Path, meter: UsageMeter, partial: bool = False
+) -> None:
     """當日 token 明細落盤（steps/_usage.json）+ 追加跨天歷史（_usage-history.json）。
 
-    與 _observe_and_escalate 同紀律：事後檢視、包 try/except，絕不反噬 pipeline。
+    partial（`--only` 重跑）時與既有當日紀錄合併而非覆寫，否則完整 run 的帳本會被
+    殘缺的重跑蓋掉。與 _observe_and_escalate 同紀律：事後檢視、包 try/except，
+    絕不反噬 pipeline。
     """
     from tools import usage_meter
 
     try:
-        summary = usage_meter.summarize(meter, today)
-        (steps_dir / "_usage.json").write_text(
+        path = steps_dir / "_usage.json"
+        summary = usage_meter.merge_summary(
+            _read_json(path), usage_meter.summarize(meter, today), partial
+        )
+        path.write_text(
             json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
         )
         usage_meter.append_history(OUTPUT_DIR / "_usage-history.json", summary)
@@ -467,17 +496,23 @@ def _persist_usage(today: str, steps_dir: Path, meter: UsageMeter) -> None:
         logger.warning("用量記錄失敗（不影響 pipeline）：%s", exc)
 
 
-def _persist_run(today: str, steps_dir: Path, manifest: "RunManifest") -> None:
+def _persist_run(
+    today: str, steps_dir: Path, manifest: "RunManifest", partial: bool = False
+) -> None:
     """當日執行紀錄落盤（steps/_run.json）+ 追加跨天歷史（_run-history.json）。
 
-    含每步耗時/結果、總耗時、觸發源、git SHA。與 _persist_usage 同紀律：事後檢視、
+    含每步耗時/結果、總耗時、觸發源、git SHA。partial（`--only` 重跑）時只 patch
+    實際跑過的步驟、頂層數字沿用既有。與 _persist_usage 同紀律：事後檢視、
     包 try/except，絕不反噬 pipeline（供站台「運行紀錄」頁與 --? 唯讀查詢消費）。
     """
     from . import run_manifest as run_store
 
     try:
-        summary = manifest.summarize(today)
-        (steps_dir / "_run.json").write_text(
+        path = steps_dir / "_run.json"
+        summary = run_store.merge_summary(
+            _read_json(path), manifest.summarize(today), partial
+        )
+        path.write_text(
             json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
         )
         run_store.append_history(OUTPUT_DIR / "_run-history.json", summary)
@@ -490,6 +525,18 @@ def _persist_run(today: str, steps_dir: Path, manifest: "RunManifest") -> None:
         logger.warning("執行紀錄失敗（不影響 pipeline）：%s", exc)
 
 
+def _quality_reason(steps_dir: Path) -> str:
+    """讀回今日 judge 的品質告警理由（無 judge.json / 未告警 → 空字串）。
+
+    judge 早於彙總步驟完成並已落盤，故此處從 artifact 讀回而非在記憶體中穿線——
+    與 health 同樣是「事後檢視痕跡」，也讓 --only notify 這類部分重跑仍拿得到。
+    """
+    doc = _read_json(steps_dir / "judge.json")
+    if not doc or not doc.get("quality_alert"):
+        return ""
+    return str(doc.get("quality_alert_reason", ""))
+
+
 def _persist_observations(
     today: str,
     day_dir: Path,
@@ -497,6 +544,7 @@ def _persist_observations(
     meter: UsageMeter,
     manifest: "RunManifest",
     tg_send,
+    partial: bool = False,
 ) -> None:
     """把本次 run 的觀測（健康 / token 用量 / 執行紀錄）落盤。
 
@@ -511,5 +559,5 @@ def _persist_observations(
     自身發佈結果。這是本質循環，不是缺陷。
     """
     _observe_and_escalate(today, day_dir, steps_dir, tg_send)
-    _persist_usage(today, steps_dir, meter)
-    _persist_run(today, steps_dir, manifest)
+    _persist_usage(today, steps_dir, meter, partial)
+    _persist_run(today, steps_dir, manifest, partial)

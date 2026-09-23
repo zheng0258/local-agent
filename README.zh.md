@@ -44,7 +44,7 @@ export LOCAL_LLM_MODEL=qwen/qwen3.6-27b
 | 設定 | env var | 必填？ | 未設定時 |
 |---|---|---|---|
 | 本地 LLM | `LOCAL_LLM_URL` / `LOCAL_LLM_MODEL` | 否（有預設） | 用 `localhost:1234` / `qwen/qwen3.6-27b` |
-| Judge 模型 | `JUDGE_LLM_URL` / `JUDGE_LLM_MODEL` | 否 | 與主 LLM 同 URL / `gemma-4-e4b` |
+| Judge 模型 | `JUDGE_LLM_URL` / `JUDGE_LLM_MODEL` | 否 | 與主 LLM 同 URL / `qwen3.6-35b-a3b` |
 | Telegram 推播 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | 選填 | 靜默略過推播與告警 |
 | Obsidian 存檔 | `VAULT_ROOT` | 選填 | `save` 步驟略過 |
 | Deploy（gh-pages）| `DEPLOY_GITHUB_TOKEN` | 選填 | 走 `origin` credential helper |
@@ -189,7 +189,7 @@ outputs/daily-brief/
 | 用途 | 預設模型 | 覆蓋方式 |
 |------|----------|----------|
 | 主 LLM | `qwen/qwen3.6-27b` | `LOCAL_LLM_MODEL` |
-| Judge | `google/gemma-4-e4b` | `JUDGE_LLM_MODEL` / `JUDGE_LLM_URL` |
+| Judge | `qwen3.6-35b-a3b` | `JUDGE_LLM_MODEL` / `JUDGE_LLM_URL` |
 
 Judge 步驟可獨立使用不同（更強）的評分模型；設定位置：`config/settings.py` → `DEFAULT_JUDGE_LLM_MODEL`。
 

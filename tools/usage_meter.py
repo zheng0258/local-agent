@@ -125,6 +125,54 @@ def summarize(meter: UsageMeter, today: str) -> dict:
     }
 
 
+# ── 部分重跑的合併（純函數）──────────────────────────────────────
+
+
+def _sum_buckets(buckets) -> dict[str, int]:
+    acc = _blank()
+    for bucket in buckets:
+        if not isinstance(bucket, dict):
+            continue
+        for key in acc:
+            acc[key] += int(bucket.get(key, 0) or 0)
+    return acc
+
+
+def merge_summary(existing: dict | None, fresh: dict, partial: bool) -> dict:
+    """把本次 run 的用量併進當日既有帳本。
+
+    partial（`--only` 重跑）且已有當日紀錄時：`by_step` 逐步合併（重跑的步驟**取代**
+    而非累加——同一步重跑一次就只該算一次），`totals` 由合併後的 by_step 重算，
+    `by_model` 沿用既有再疊上 fresh 中「既有 by_step 沒有的新步驟」帶來的量。
+    否則 fresh 全勝（完整 run 本就該覆寫）。
+
+    by_model 無法由 by_step 反推（沒有逐步的模型歸屬），故重跑既有步驟時 by_model
+    會偏高；此為刻意取捨——by_step／totals 是主要消費面（`--usage` 與站台），
+    by_model 僅供粗略分佈參考。
+    """
+    if not partial or not existing:
+        return fresh
+
+    merged_by_step = dict(existing.get("by_step") or {})
+    fresh_by_step = fresh.get("by_step") or {}
+    new_steps = [n for n in fresh_by_step if n not in merged_by_step]
+    merged_by_step.update(fresh_by_step)
+
+    merged_by_model = dict(existing.get("by_model") or {})
+    if new_steps:
+        for model, bucket in (fresh.get("by_model") or {}).items():
+            merged_by_model[model] = _sum_buckets(
+                [merged_by_model.get(model, _blank()), bucket]
+            )
+
+    return {
+        **existing,
+        "totals": _sum_buckets(merged_by_step.values()),
+        "by_step": merged_by_step,
+        "by_model": merged_by_model,
+    }
+
+
 # ── 跨天歷史（形狀鏡射 _judge-history.json）────────────────────
 
 

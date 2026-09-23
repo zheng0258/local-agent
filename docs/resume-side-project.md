@@ -18,9 +18,9 @@
 - **Prompt Engineering**：Interest scoring（*** / ** / *）含 few-shot 邊界範例穩定評分、Python 預篩選後語義壓縮（compress）、跨來源去重 digest、report 直接輸出純 markdown（避免 JSON 包裝引起的解析失敗）、Telegram HTML 格式雙訊息，prompt 集中管理於 `prompts.py`
 - **Fetcher Output 標準化**：`tools/fetchers/schema.py` 定義 `@dataclass(frozen=True) Article` + `clean_articles()`，作為 hierarchical summarization 第一層（純函數、無 LLM），統一各 fetcher 輸出格式後再進 LLM 流程
 - **LLM Output 防禦**：正則提取 ` ```json ` 區塊 → `json.loads` → `json-repair` 三層 fallback，處理本地模型輸出不穩定問題（全形冒號、未逸脫引號等）；Telegram HTML sanitizer 自動過濾不支援 tag，避免 Telegram API 400 錯誤；report 輸出自動剝除 markdown fence
-- **LLM-as-Judge 品質評估**：獨立 judge LLM（`google/gemma-4-e4b`，可透過 env var 熱換）每日對摘要進行 relevance / completeness / faithfulness 三維評分；completeness < 3 自動觸發 `quality_alert`；歷史分數累積至 `_judge-history.json` 供趨勢追蹤
+- **LLM-as-Judge 品質評估**：獨立 judge LLM（`qwen3.6-35b-a3b`，可透過 env var 熱換）每日對摘要進行 relevance / completeness / faithfulness 三維評分；任一維度低於門檻即觸發 `quality_alert` 並進當日 Telegram 摘要；歷史分數累積至 `_judge-history.json` 供趨勢追蹤
 - **Interface Lint 自動化**：`lint/check_agent_interface.py` / `check_fetcher_interface.py` 驗證所有 agent/fetcher 符合介面規範，可整合 CI
-- **Model Lifecycle 自動化**：`tools/lms_lifecycle.py` 在 `main.py` 執行前以阻塞式 `lms load -y` 確保主模型（qwen3.5-27b）與 judge 模型（gemma-4-e4b）已載入，完成後 `lms unload --all` 釋放記憶體；load 後再次 `lms ps` 做雙重驗證；所有 subprocess 呼叫設 timeout（ps: 10s / load: 300s / unload: 30s）防 daemon hang 卡死 pipeline；`try/finally` 保證 unload 必然執行，無論 pipeline 成功或失敗
+- **Model Lifecycle 自動化**：`tools/lms_lifecycle.py` 在 `main.py` 執行前以阻塞式 `lms load -y` 確保主模型（qwen3.6-27b）與 judge 模型（qwen3.6-35b-a3b）已載入，完成後 `lms unload --all` 釋放記憶體；load 後再次 `lms ps` 做雙重驗證；所有 subprocess 呼叫設 timeout（ps: 10s / load: 300s / unload: 30s）防 daemon hang 卡死 pipeline；`try/finally` 保證 unload 必然執行，無論 pipeline 成功或失敗
 - **Vector DB 語意去重**：fetch 完成後插入 `dedup` 步驟，以 ChromaDB（persistent）+ `Qwen3-Embedding-0.6B`（MLX，351MB）對文章標題做語意向量化；7 天滑動視窗內 URL 精確比對與 cosine similarity > 0.80 的語意近似文章均被過濾，避免重複文章消耗 compress / digest 的 LLM token；`dedup.json` artifact 保存 `kept_urls` 供後續步驟重跑時重現相同過濾結果
 - **n8n 排程**：本機 n8n workflow 每日凌晨 02:00 觸發，免伺服器、免 Docker
 
@@ -32,7 +32,7 @@
 |------|------|
 | **Language** | Python 3.12（型別標注、Protocol、dataclass） |
 | **LLM Backend** | LM Studio（本地）/ Anthropic Claude API（備援） |
-| **Main / Judge Model** | Main：Qwen 3.5 27B（Claude 4.6 Opus distilled, MLX）；Judge：`google/gemma-4-e4b`（MLX）；兩者均由 LM Studio server（port 1234）提供；`tools/lms_lifecycle.py` 在 pipeline 啟動前自動 load、結束後 unload |
+| **Main / Judge Model** | Main：`qwen/qwen3.6-27b`（MLX）；Judge：`qwen3.6-35b-a3b`（MLX）；兩者均由 LM Studio server（port 1234）提供；`tools/lms_lifecycle.py` 在 pipeline 啟動前自動 load、結束後 unload |
 | **Web Scraping** | playwright-cli（JS 渲染）、curl / urllib（RSS/JSON API） |
 | **Data Sources** | Hatena RSS、HN 首頁（playwright-cli + HTML 解析）、Reddit JSON API、aikido.dev / wiz.io |
 | **Notification** | Telegram Bot API（HTML parse_mode） |

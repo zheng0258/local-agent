@@ -54,7 +54,7 @@ Each step writes a JSON artifact. Re-runs skip completed steps unless `--force` 
 | Single `Step` base + `step_cache.decide` | The RUN/LOAD/SKIP decision lives in one pure function; per-step logic lives behind fixed seams (`_produce`/`_load`/`_guard`), not scattered gating |
 | `prompts.py` as single source of truth | Agent code never contains raw prompt strings — all prompts versioned in one place |
 | `json-repair` as third-layer fallback | Local models emit malformed JSON that prompting alone can't reliably fix |
-| LLM-as-Judge with independent model | Quality gate runs on a separate model (`gemma-4-e4b`); low `completeness` triggers a reflect-and-regenerate loop; scores accumulate in `_judge-history.json` |
+| LLM-as-Judge with independent model | Quality gate runs on a separate model (`qwen3.6-35b-a3b`); any dimension below its floor raises a quality alert, and low `completeness` also triggers a reflect-and-regenerate loop; scores accumulate in `_judge-history.json` |
 | Semantic dedup before compress | URL exact-match (7-day window) + embedding cosine ≥ 0.80 filters near-duplicates so downstream LLM tokens aren't wasted on repeats |
 | Observability decoupled from steps (`health.py`) | Post-hoc trace derives a per-run Health Record; chronic failures (same subject ≥3× in 7 days) escalate to Telegram, single flakes stay silent |
 | Lint scripts over documentation | Interface contracts are machine-enforced; agents self-correct from error messages |
@@ -88,7 +88,7 @@ except json.JSONDecodeError:
 | Language | Python 3.11+ (type annotations, Protocol, frozen dataclass) |
 | LLM Backend | LM Studio (local, OpenAI-compatible `/v1/chat/completions`) |
 | Primary Model | Qwen3.6 27B (MLX) — `qwen/qwen3.6-27b` |
-| Judge Model | Gemma 4 E4B — `google/gemma-4-e4b` (independent, swappable) |
+| Judge Model | Qwen 3.6 35B A3B — `qwen3.6-35b-a3b` (independent, swappable) |
 | Embeddings / Dedup | `Qwen3-Embedding-0.6B-4bit-DWQ` (MLX) + ChromaDB PersistentClient |
 | Web Scraping | playwright-cli (JS rendering), curl / urllib + feedparser (RSS / JSON API) |
 | Data Sources | Hatena Bookmark RSS, Hacker News, Reddit (16 subreddits), security blogs, RSS feeds |
@@ -141,7 +141,7 @@ All machine-specific values live in a project-root `.env` (template: `.env.examp
 | Setting | Env var | Required? | If unset |
 |---------|---------|-----------|----------|
 | Local LLM | `LOCAL_LLM_URL` / `LOCAL_LLM_MODEL` | No (has default) | `localhost:1234` / `qwen/qwen3.6-27b` |
-| Judge model | `JUDGE_LLM_URL` / `JUDGE_LLM_MODEL` | No | Same URL as main LLM / `gemma-4-e4b` |
+| Judge model | `JUDGE_LLM_URL` / `JUDGE_LLM_MODEL` | No | Same URL as main LLM / `qwen3.6-35b-a3b` |
 | Telegram | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | Optional | Silently skips push & alerts |
 | Obsidian vault | `VAULT_ROOT` | Optional | `save` step skipped |
 | Showcase deploy | `DEPLOY_GITHUB_TOKEN` | Optional | Pushes via `origin` credential helper |
