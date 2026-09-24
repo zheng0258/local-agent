@@ -97,3 +97,77 @@ def test_send_summary_excludes_quiet_steps_mechanism(tmp_path, monkeypatch):
     assert len(sent) == 1
     assert "deploy" not in sent[0]
     assert "judge" in sent[0]
+
+
+@pytest.mark.unit
+def test_send_summary_includes_quality_block(tmp_path):
+    """品質不合格要進當日摘要 TG——quality_alert 過去寫完就沒人看。"""
+    from agents.daily_brief import alerts
+
+    sent = []
+    alerts.send_summary(
+        tmp_path,
+        "2026-09-23",
+        sent.append,
+        quality_reason="faithfulness=2；overall=3.3",
+    )
+
+    assert len(sent) == 1
+    assert "faithfulness=2" in sent[0]
+    # 品質問題不是步驟失敗，不該套用補跑指令
+    assert "--force" not in sent[0]
+
+
+@pytest.mark.unit
+def test_send_summary_sends_when_only_quality_fails(tmp_path):
+    """零步驟失敗但品質不合格時仍須發訊息（原本 alerts 為空就早退）。"""
+    from agents.daily_brief import alerts
+
+    sent = []
+    alerts.send_summary(tmp_path, "2026-09-23", sent.append, quality_reason="faithfulness=2")
+    assert len(sent) == 1
+
+
+@pytest.mark.unit
+def test_send_summary_silent_when_nothing_wrong(tmp_path):
+    from agents.daily_brief import alerts
+
+    sent = []
+    alerts.send_summary(tmp_path, "2026-09-23", sent.append, quality_reason="")
+    assert sent == []
+
+
+@pytest.mark.unit
+def test_send_summary_combines_step_failures_and_quality(tmp_path):
+    from agents.daily_brief import alerts
+
+    alerts.record_failure(tmp_path, "hatena", "HTTP 500")
+    sent = []
+    alerts.send_summary(tmp_path, "2026-09-23", sent.append, quality_reason="faithfulness=2")
+
+    assert len(sent) == 1
+    assert "hatena" in sent[0]
+    assert "faithfulness=2" in sent[0]
+    # 有步驟失敗時補跑指令仍在
+    assert "--force hatena" in sent[0]
+
+
+@pytest.mark.unit
+def test_quality_reason_read_back_from_judge_artifact(tmp_path):
+    """_quality_reason 從 judge.json 讀回告警理由，未告警時為空。"""
+    import json
+
+    from agents.daily_brief.agent import _quality_reason
+
+    assert _quality_reason(tmp_path) == ""
+
+    (tmp_path / "judge.json").write_text(
+        json.dumps({"quality_alert": True, "quality_alert_reason": "faithfulness=2"}),
+        encoding="utf-8",
+    )
+    assert _quality_reason(tmp_path) == "faithfulness=2"
+
+    (tmp_path / "judge.json").write_text(
+        json.dumps({"overall": 4.5}), encoding="utf-8"
+    )
+    assert _quality_reason(tmp_path) == ""

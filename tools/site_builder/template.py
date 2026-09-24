@@ -114,6 +114,9 @@ _SHELL_STYLE = """
   .rpill.partial { color: #e0a52e; border-color: #6b551f; }
   .rpill.failed { color: #e0603a; border-color: #6b3524; }
   .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
   .rcells { display: inline-flex; gap: 3px; }
   .rcell {
     width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
@@ -423,6 +426,7 @@ def render_run_history(runs: Sequence[object]) -> str:
             '<span><span class="sw" style="background:#56c271"></span>ok</span>'
             '<span><span class="sw" style="background:#e0603a"></span>失敗</span>'
             '<span><span class="sw" style="background:#1b232d"></span>未執行</span>'
+            '<span><span class="sw" style="background:#453c78"></span>absent = 整天沒跑</span>'
             "<span>H·N·R·S·F = hatena / hn / reddit / security / rss</span>"
             "<span>T·V·D = telegram / vault / deploy</span>"
             "</div>"

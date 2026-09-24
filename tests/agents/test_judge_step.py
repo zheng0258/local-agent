@@ -273,3 +273,90 @@ def test_judge_original_title_falls_back_to_source_title(tmp_path, monkeypatch):
     digests = [{"title": "譯", "url": "https://example.com/2"}]
     JudgeStep()._judge(ctx, {}, digests, source_data)
     assert "Legacy Artifact Title" in llm.prompts[0]
+
+
+@pytest.mark.unit
+def test_judge_quality_alert_on_low_faithfulness(tmp_path, monkeypatch):
+    """faithfulness 低 = 摘要在編造原文沒有的內容，對公開展示站傷害最大。
+
+    09-22 與 09-23 連兩天 faithfulness=2（digest 自行編撰社群觀點與技術細節）
+    因判準只看 completeness 而完全無聲通過。
+    """
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 5, "reasoning": "ok"},
+                "completeness": {"score": 5, "reasoning": "ok", "missed_urls": []},
+                "faithfulness": {"score": 2, "reasoning": "自行編撰社群觀點"},
+            }
+        }
+    )
+    result = _judge(tmp_path, monkeypatch, resp, [])
+    assert result.get("quality_alert") is True
+    assert "faithfulness" in result.get("quality_alert_reason", "")
+
+
+@pytest.mark.unit
+def test_judge_quality_alert_on_low_relevance(tmp_path, monkeypatch):
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 2, "reasoning": "離題"},
+                "completeness": {"score": 5, "reasoning": "ok", "missed_urls": []},
+                "faithfulness": {"score": 5, "reasoning": "ok"},
+            }
+        }
+    )
+    result = _judge(tmp_path, monkeypatch, resp, [])
+    assert result.get("quality_alert") is True
+    assert "relevance" in result.get("quality_alert_reason", "")
+
+
+@pytest.mark.unit
+def test_judge_quality_alert_on_low_overall(tmp_path, monkeypatch):
+    """三軸都沒低到各自門檻，但整體偏低仍應示警（3+3+4 → overall 3.3）。"""
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 3, "reasoning": "ok"},
+                "completeness": {"score": 3, "reasoning": "ok", "missed_urls": []},
+                "faithfulness": {"score": 4, "reasoning": "ok"},
+            }
+        }
+    )
+    result = _judge(tmp_path, monkeypatch, resp, [])
+    assert result.get("quality_alert") is True
+    assert "overall" in result.get("quality_alert_reason", "")
+
+
+@pytest.mark.unit
+def test_judge_quality_alert_lists_every_tripped_dimension(tmp_path, monkeypatch):
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 2, "reasoning": "離題"},
+                "completeness": {"score": 2, "reasoning": "漏", "missed_urls": ["https://a.com"]},
+                "faithfulness": {"score": 2, "reasoning": "編造"},
+            }
+        }
+    )
+    result = _judge(tmp_path, monkeypatch, resp, [])
+    reason = result.get("quality_alert_reason", "")
+    for dim in ("relevance", "completeness", "faithfulness"):
+        assert dim in reason
+
+
+@pytest.mark.unit
+def test_judge_no_alert_when_all_dimensions_pass(tmp_path, monkeypatch):
+    """三軸皆 ≥3 且 overall ≥3.5（4+4+4 → 4.0）不得示警。"""
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 4, "reasoning": "ok"},
+                "completeness": {"score": 4, "reasoning": "ok", "missed_urls": []},
+                "faithfulness": {"score": 4, "reasoning": "ok"},
+            }
+        }
+    )
+    result = _judge(tmp_path, monkeypatch, resp, [])
+    assert not result.get("quality_alert")

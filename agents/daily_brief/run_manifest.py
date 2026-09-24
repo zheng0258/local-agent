@@ -80,6 +80,35 @@ class RunManifest:
         }
 
 
+# ── 部分重跑的合併（純函數）──────────────────────────────────────
+
+# `--only` 重跑時未涵蓋的步驟會記成 skipped，不帶任何資訊；若整份覆寫當日紀錄，
+# 完整 run 的 16 步／總耗時／觸發源就被抹成殘缺版。故部分重跑只 patch 實際跑過的步。
+_EMPTY_STATUS: frozenset[str] = frozenset({"skipped"})
+
+
+def merge_summary(
+    existing: dict | None, fresh: dict, partial: bool
+) -> dict:
+    """把本次 run 的 manifest 併進當日既有紀錄。
+
+    partial（`--only` 重跑）且已有當日紀錄時：`steps` 逐名合併，fresh 中 status 為
+    skipped 的項不覆蓋既有項；頂層時間／觸發／版本沿用既有（那是首次完整 run 的事實，
+    部分重跑無權重新定義當日這次 run）。否則 fresh 全勝（完整 run 本就該覆寫）。
+    """
+    if not partial or not existing:
+        return fresh
+
+    merged_steps = dict(existing.get("steps") or {})
+    for name, info in (fresh.get("steps") or {}).items():
+        status = str((info or {}).get("status", ""))
+        if status in _EMPTY_STATUS and name in merged_steps:
+            continue
+        merged_steps[name] = info
+
+    return {**existing, "steps": merged_steps}
+
+
 # ── 跨天歷史（形狀鏡射 _usage-history.json）────────────────────────
 
 

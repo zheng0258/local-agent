@@ -16,11 +16,12 @@ from __future__ import annotations
 import json
 from collections import Counter
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
-from tools.history_schema import OK, days_between
+from tools.history_schema import DATE_FMT, OK, days_between
 
 from .config import OUTPUT_DIR
 from .quality_signals import (  # re-export：--health 的公開表面仍在 health.py
@@ -197,6 +198,49 @@ def append_record(record: HealthRecord, history_file: Path) -> list[HealthRecord
     return history
 
 
+# ── 缺席日偵測 ────────────────────────────────────────────────────
+
+# ADR 0001 的 Consequences 已承認：Health Record 由「執行後檢視 artifact / sentinel」
+# 推導，故**只能觀察到留下檔案痕跡的結果**——整天沒跑就完全沒有記錄，健康表看起來
+# 依然 100%。2026-09-04 ~ 09-22 展示站停更 18 天正是這個盲區。
+#
+# 缺席**不落盤**（commit 001dd0f 才剛修掉「空觀測落盤造成 unknown 記錄」），改為由
+# 歷史推導的純函數，escalation 與站台兩個消費端共用同一定義。
+
+
+# escalation state 內的缺席日 key 前綴（與 subject key 區隔，避免撞名）
+_ABSENT_STATE_PREFIX = "absent:"
+
+
+def detect_absent_days(history: Sequence[HealthRecord], today: str) -> list[str]:
+    """回傳歷史涵蓋範圍內完全沒有記錄的日期（由舊到新）。
+
+    範圍為「最早記錄日 ~ 今天的前一天」：
+    - 第一筆記錄之前不算缺席（系統當時還不存在）。
+    - **今天不算缺席**——今天可能還在跑，否則每天早上都會誤報。
+    - 空歷史回空（還沒開始跑 ≠ 停擺）。
+    """
+    dates = sorted({r.date for r in history if r.date})
+    if not dates:
+        return []
+    try:
+        span = days_between(dates[0], today)
+    except ValueError:
+        return []
+    if span <= 0:
+        return []
+    start = datetime.strptime(dates[0], DATE_FMT)
+    recorded = set(dates)
+    return [
+        d
+        for d in (
+            (start + timedelta(days=offset)).strftime(DATE_FMT)
+            for offset in range(span)  # range(span) 天然排除今天
+        )
+        if d not in recorded
+    ]
+
+
 # ── 慢性故障偵測 ──────────────────────────────────────────────────
 
 
@@ -329,6 +373,19 @@ def observe_and_escalate(
     if fresh:
         notify_fn(format_escalation(fresh, today))
         record_escalations(fresh, state_file, today)
+    # 缺席日：pipeline 回來跑時才看得到先前的空窗（回補偵測）。沿用同一份 state
+    # 去重，key 為區間末日，故同一段停擺只打擾一次。
+    absent = detect_absent_days(history, today)
+    if absent:
+        state = _load_escalation_state(state_file)
+        key = f"{_ABSENT_STATE_PREFIX}{absent[-1]}"
+        if key not in state:
+            notify_fn(format_absence(absent, today))
+            state[key] = today
+            state_file.parent.mkdir(parents=True, exist_ok=True)
+            state_file.write_text(
+                json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
     return fresh
 
 
@@ -347,11 +404,27 @@ def format_escalation(findings: Sequence[ChronicFinding], today: str) -> str:
     return "\n".join(lines)
 
 
+def format_absence(absent_days: Sequence[str], today: str) -> str:
+    """缺席日的 Telegram 推播文字（HTML parse_mode，只用允許的 tag）。"""
+    lines = [
+        f"🕳️ Daily Brief 缺席日偵測（{today}）",
+        "",
+        f"共 <b>{len(absent_days)}</b> 天完全沒有產出，健康表不會顯示這些日子：",
+        f"• {absent_days[0]} ~ {absent_days[-1]}"
+        if len(absent_days) > 1
+        else f"• {absent_days[0]}",
+        "",
+        "可能原因：機器離線 / LM Studio 未啟動 / cron 未觸發。",
+    ]
+    return "\n".join(lines)
+
+
 def render_health_table(
     history: Sequence[HealthRecord],
     window: int = CHRONIC_WINDOW_DAYS,
     digest_shares: Mapping[str, float] | None = None,
     judge_saturation: JudgeSaturationFinding | None = None,
+    today: str = "",
 ) -> str:
     """pull 查詢用：印出近 window 天各 subject 的成功率表（純文字）。
 
@@ -384,6 +457,17 @@ def render_health_table(
         lines.append(
             f"  {subject:9} {ok:>2}/{total:<2}  {ok / total * 100:5.1f}%{share}{suffix}"
         )
+    # 缺席日：健康表只統計「有記錄的日子」，整天沒跑的日子會完全消失、讓成功率
+    # 看起來仍是 100%。在表尾點出空窗，避免讀表的人被倖存者偏差誤導。
+    absent = [
+        d for d in detect_absent_days(history, today) if days_between(d, today) < window
+    ] if today else []
+    if absent:
+        lines.extend((
+            "",
+            f"  🕳️ 近 {window} 天有 {len(absent)} 天完全沒有產出："
+            f"{absent[0]}{' ~ ' + absent[-1] if len(absent) > 1 else ''}",
+        ))
     if judge_saturation is not None:
         lines.extend(("", format_judge_saturation(judge_saturation)))
     return "\n".join(lines)

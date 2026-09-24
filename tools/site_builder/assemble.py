@@ -12,6 +12,7 @@ orchestrator 得知道要 load 哪幾種輸入、餵參順序、以及合併不�
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Optional
 
 from .builder import build_site_archive
 from .loader import (
@@ -24,13 +25,19 @@ from .loader import (
 )
 
 
-def build_full_site(output_dir: Path | str) -> dict[str, str]:
-    """讀 output_dir 下全部歷史 → 完整站台 `{相對路徑: 內容}` map（含機器可讀端點）。"""
+def build_full_site(
+    output_dir: Path | str, publishing_date: Optional[str] = None
+) -> dict[str, str]:
+    """讀 output_dir 下全部歷史 → 完整站台 `{相對路徑: 內容}` map（含機器可讀端點）。
+
+    publishing_date：這份產物將被 push 的日期（DeployStep 傳今天）。站上該日 deploy
+    一律呈現 ok——發佈自證，見 loader.mark_self_published。None → 歷史原樣呈現。
+    """
     site = build_site_archive(
         load_days(output_dir),
         narrative=load_narrative(),
         latest_tldr=load_latest_tldr(output_dir),
-        status=load_status(output_dir),
-        runs=load_runs(output_dir),
+        status=load_status(output_dir, publishing_date),
+        runs=load_runs(output_dir, publishing_date),
     )
-    return {**site, **load_raw_histories(output_dir)}
+    return {**site, **load_raw_histories(output_dir, publishing_date)}

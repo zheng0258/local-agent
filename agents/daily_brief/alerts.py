@@ -22,6 +22,7 @@ logger = get_logger(__name__)
 
 _ERROR_MAX_CHARS = 300
 _SUMMARY_SENTINEL = "alerts_summary.done"
+_QUALITY_MAX_CHARS = 400
 
 # 失敗不進 Telegram 摘要的步驟：仍寫 alerts.json / 入 health 記錄，只是不彙總推播。
 # 目前為空——摘要只在「重試全部耗盡仍失敗」時才記錄，transient blip 多在 retry 恢復，
@@ -63,11 +64,22 @@ def record_failure(steps_dir: Path, name: str, error: str) -> None:
     )
 
 
-def send_summary(steps_dir: Path, today: str, notify_fn: Callable[[str], bool]) -> None:
+def send_summary(
+    steps_dir: Path,
+    today: str,
+    notify_fn: Callable[[str], bool],
+    quality_reason: str = "",
+) -> None:
     """pipeline 收尾彙總（每天一次，summary sentinel 去重）。
 
-    逐步失敗時 supervisor 只記 alerts.json 不即時推播；此處把當日失敗彙總成
-    單封 Telegram（_QUIET_STEPS 除外），一眼看清哪些步驟缺失。
+    兩種當日訊號合成單封 Telegram：
+    1. **步驟失敗** —— supervisor 逐步只記 alerts.json 不即時推播，此處彙總
+       （_QUIET_STEPS 除外），並附補跑指令。
+    2. **品質不合格** —— judge 的 quality_alert_reason。品質不合格不是步驟失敗、
+       也無從「補跑」，故獨立成一段、不套用補跑指令。此前 quality_alert 寫完就
+       沒有任何消費者，連兩天 faithfulness=2 無聲通過（見 judge.py 門檻註解）。
+
+    兩者皆無才靜默。
     """
     summary_done = steps_dir / _SUMMARY_SENTINEL
     if summary_done.exists():
@@ -75,24 +87,35 @@ def send_summary(steps_dir: Path, today: str, notify_fn: Callable[[str], bool]) 
     alerts = {
         k: v for k, v in load_alerts(steps_dir).items() if k not in _QUIET_STEPS
     }
-    if not alerts:
+    if not alerts and not quality_reason:
         return
 
-    lines = [
-        f"📋 Daily Brief 失敗摘要（{today}）",
-        "",
-        "以下步驟全部重試後仍失敗，今日 brief 可能不完整：",
-    ]
-    for step, info in alerts.items():
-        if isinstance(info, dict):
-            lines.append(f"• <b>{step}</b>：{info.get('error', '')[:120]}")
-        else:
-            lines.append(f"• <b>{step}</b>")
-    lines += [
-        "",
-        "補跑指令：",
-        f"  python3 main.py \"/daily-brief --force {' '.join(alerts.keys())}\"",
-    ]
+    lines = [f"📋 Daily Brief 當日摘要（{today}）"]
+    if alerts:
+        lines += [
+            "",
+            "以下步驟全部重試後仍失敗，今日 brief 可能不完整：",
+        ]
+        for step, info in alerts.items():
+            if isinstance(info, dict):
+                lines.append(f"• <b>{step}</b>：{info.get('error', '')[:120]}")
+            else:
+                lines.append(f"• <b>{step}</b>")
+        lines += [
+            "",
+            "補跑指令：",
+            f"  python3 main.py \"/daily-brief --force {' '.join(alerts.keys())}\"",
+        ]
+    if quality_reason:
+        lines += [
+            "",
+            "⚠️ 品質評分未達門檻：",
+            f"• {quality_reason[:_QUALITY_MAX_CHARS]}",
+        ]
     notify_fn("\n".join(lines))
     summary_done.touch()
-    logger.info("alerts_summary 已發送（%d 個失敗步驟）", len(alerts))
+    logger.info(
+        "alerts_summary 已發送（%d 個失敗步驟%s）",
+        len(alerts),
+        "，含品質告警" if quality_reason else "",
+    )
