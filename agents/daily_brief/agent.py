@@ -230,7 +230,9 @@ class DailyBriefAgent:
             today, day_dir, steps_dir, meter, manifest, tg_send, partial_run
         )
 
-        DeployStep(lambda: build_full_site(OUTPUT_DIR), ctx.today).run(ctx, None)
+        DeployStep(
+            lambda: build_full_site(OUTPUT_DIR, publishing_date=ctx.today), ctx.today
+        ).run(ctx, None)
 
         # Fix B: pipeline 結束後，把當日的步驟失敗與品質告警彙總成單封（每天只發一次）
         from . import alerts as alert_store

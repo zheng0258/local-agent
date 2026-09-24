@@ -89,30 +89,61 @@ def _load_history_list(path: Path) -> list:
     return data if isinstance(data, list) else []
 
 
-def load_status(output_dir: Path | str) -> Optional[SystemStatus]:
+def mark_self_published(health_history: list, publishing_date: str) -> list:
+    """純函數：回傳新 list，把 publishing_date 那筆 health 記錄的 deploy 標為 ok。
+
+    發佈自證：站台在 push「之前」建置，讀到的 health 快照還沒有當天 deploy 結果
+    （缺 → 站上恆顯示「未執行」；同日稍早失敗 → 顯示失敗）。但這份產物只有 push
+    成功才會出現在 gh-pages——讀者看得到這頁，本身就證明當天 deploy 成功。
+    push 若失敗，這份產物根本不會上線，故不會誤報。只改記憶體，本機歷史檔仍由
+    deploy 後的 observe 如實補記。無當日記錄 → 不捏造，原樣回傳。
+    """
+    return [
+        {**item, "results": {**item["results"], "deploy": "ok"}}
+        if isinstance(item, dict)
+        and item.get("date") == publishing_date
+        and isinstance(item.get("results"), dict)
+        else item
+        for item in health_history
+    ]
+
+
+def _load_health(base: Path, publishing_date: Optional[str]) -> list:
+    health = _load_history_list(base / HEALTH_HISTORY_FILE)
+    if publishing_date is None:
+        return health
+    return mark_self_published(health, publishing_date)
+
+
+def load_status(
+    output_dir: Path | str, publishing_date: Optional[str] = None
+) -> Optional[SystemStatus]:
     """讀 `_judge-history.json` + `_health-history.json` → SystemStatus（或 None）。
 
     唯一碰檔案的系統狀態讀取點（impure），與純核心 (compute_status) 解耦：把兩份歷史
     讀進記憶體後委派純函數計算衍生指標。歷史檔缺失 / 為空 / 損毀 → compute_status 回
     None，呼叫端（DeployStep 注入）略過狀態區，絕不報錯。注入式 output_dir（測試餵
-    tmp_path，正式注入 OUTPUT_DIR）。
+    tmp_path，正式注入 OUTPUT_DIR）。publishing_date 見 mark_self_published。
     """
     base = Path(output_dir)
     judge = _load_history_list(base / JUDGE_HISTORY_FILE)
-    health = _load_history_list(base / HEALTH_HISTORY_FILE)
+    health = _load_health(base, publishing_date)
     return compute_status(judge_history=judge, health_history=health)
 
 
-def load_runs(output_dir: Path | str) -> tuple[RunRecord, ...]:
+def load_runs(
+    output_dir: Path | str, publishing_date: Optional[str] = None
+) -> tuple[RunRecord, ...]:
     """讀 judge/health/usage/run 四份歷史 → RunRecord 串（newest first）。
 
     唯一碰檔案的運行紀錄讀取點（impure），委派純核心 compute_runs。任一歷史檔缺失
     /損毀 → 以空 list 代入，compute_runs 對缺欄位優雅降級，絕不報錯。注入式 output_dir。
+    publishing_date 見 mark_self_published。
     """
     base = Path(output_dir)
     return compute_runs(
         judge_history=_load_history_list(base / JUDGE_HISTORY_FILE),
-        health_history=_load_history_list(base / HEALTH_HISTORY_FILE),
+        health_history=_load_health(base, publishing_date),
         usage_history=_load_history_list(base / USAGE_HISTORY_FILE),
         run_manifests=_load_history_list(base / RUN_HISTORY_FILE),
     )
@@ -127,14 +158,17 @@ _RAW_HISTORY_SITE_FILES: dict[str, str] = {
 }
 
 
-def load_raw_histories(output_dir: Path | str) -> dict[str, str]:
+def load_raw_histories(
+    output_dir: Path | str, publishing_date: Optional[str] = None
+) -> dict[str, str]:
     """讀 judge/health 歷史檔原文，回傳 {站上相對路徑: JSON 文字} map。
 
     把本機 gitignore 的 `_judge-history.json` / `_health-history.json` 以乾淨檔名
     （`judge-history.json` / `health-history.json`）發佈到公開站，讓外部 PM 審查
     routine 能從 URL 讀到品質與健康的長期趨勢。只收**存在且為合法 JSON list** 的檔，
     缺檔 / 損毀者靜默略過（絕不寫壞端點）。唯一碰檔案的原文讀取點（impure），
-    回傳純記憶體 map 供 build thunk 合併。注入式 output_dir。
+    回傳純記憶體 map 供 build thunk 合併。注入式 output_dir。health 端點同樣套用
+    publishing_date 的發佈自證（見 mark_self_published），與站頁呈現一致。
     """
     base = Path(output_dir)
     site: dict[str, str] = {}
@@ -148,6 +182,8 @@ def load_raw_histories(output_dir: Path | str) -> dict[str, str]:
             continue
         if not isinstance(data, list):
             continue
+        if src_name == HEALTH_HISTORY_FILE and publishing_date is not None:
+            data = mark_self_published(data, publishing_date)
         site[site_name] = json.dumps(data, ensure_ascii=False, indent=2)
     return site
 
