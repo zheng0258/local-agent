@@ -78,8 +78,8 @@
     "trigger": "scheduled",
     "git_sha": "58b5914",
     "started_at": "2026-09-24T02:00:01",
-    "ended_at": "2026-09-24T05:51:13",
-    "duration_seconds": 13869.923,
+    "ended_at": "2026-09-24T05:51:19",
+    "duration_seconds": 13876.659,
     "steps": {
       "hatena": {
         "status": "ran",
@@ -140,6 +140,10 @@
       "notify": {
         "status": "ran",
         "duration_seconds": 2.123
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.727
       }
     }
   }

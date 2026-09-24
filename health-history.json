@@ -1970,7 +1970,8 @@
       "security": "ok",
       "rss": "ok",
       "telegram": "ok",
-      "vault": "ok"
+      "vault": "ok",
+      "deploy": "ok"
     }
   }
 ]
