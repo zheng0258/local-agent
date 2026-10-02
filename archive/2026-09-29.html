@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-09-29</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-09-29</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-09-29</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.park24.co.jp/news/2026/09/20260928-1.html" rel="noopener noreferrer">關於Times Car Web系統遭非法存取之調查結果及後續應對措施（第二報）｜Park24株式會社</a></td>
+<td>266</td>
+<td>***</td>
+<td>資安</td>
+<td>Times Car非法存取調查與後續措施</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2609/28/2000001808/" rel="noopener noreferrer">「Times Car」約660萬筆會員資訊洩漏，含駕照影像等，遭非法存取</a></td>
+<td>138</td>
+<td>***</td>
+<td>資安</td>
+<td>Times Car約660萬筆個資遭非法存取</td>
+</tr>
+<tr>
+<td><a href="https://share.timescar.jp/news/2026/0928/1815.html" rel="noopener noreferrer">關於「Times Car網站」遭非法存取之調查結果及後續應對措施（第二報）｜共享汽車Times Car</a></td>
+<td>133</td>
+<td>***</td>
+<td>資安</td>
+<td>Times Car網站非法存取調查與後續措施</td>
+</tr>
+<tr>
+<td><a href="https://japan.cnet.com/article/35253028/" rel="noopener noreferrer">「AI導致人類滅亡」論調蔓延，Sam Altman所述內容——兩日後亦公佈暫停尖端模型訓練</a></td>
+<td>87</td>
+<td>***</td>
+<td>AI</td>
+<td>Altman警告AI風險，OpenAI暫停訓練</td>
+</tr>
+<tr>
+<td><a href="https://ascii.jp/elem/000/004/437/4437496/" rel="noopener noreferrer">AI如人類般遊玩遊戲，實測熱門「Jev」後發現的事實 (1/6)</a></td>
+<td>75</td>
+<td>***</td>
+<td>AI</td>
+<td>實測AI遊戲代理Jev展現如人操作優勢</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260928-jev-pokemon-red/" rel="noopener noreferrer">AI「Jev」於37小時40分鐘內達成「寶可夢 紅」殿堂入，費用僅約260日圓，但需輔助系統，完全自律狀態下無法離開真新鎮</a></td>
+<td>50</td>
+<td>***</td>
+<td>AI</td>
+<td>AI「Jev」低耗費通關寶可夢，自律仍受限</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260928-ai-do-not-guess/" rel="noopener noreferrer">僅需指示AI「不要猜測」，虛構數據比例即從70％降至20％的實驗結果</a></td>
+<td>23</td>
+<td>***</td>
+<td>AI研究</td>
+<td>指令AI「勿推測」可大幅降低虛構數據</td>
+</tr>
+<tr>
+<td><a href="https://news.yahoo.co.jp/pickup/6596854" rel="noopener noreferrer">Times Car約660萬筆資訊洩漏 - Yahoo!新聞</a></td>
+<td>14</td>
+<td>***</td>
+<td>資安</td>
+<td>Times Car約660萬筆個資遭非法存取</td>
+</tr>
+<tr>
+<td><a href="https://github.com/akkie76/code-review-skills" rel="noopener noreferrer">GitHub - akkie76/code-review-skills：基於實證的程式碼審查技巧，適用於Codex與Claude Code</a></td>
+<td>12</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>實證導向AI程式碼審查技巧適用主流工具</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.park24.co.jp/news/2026/09/20260928-1.html" rel="noopener noreferrer">關於Times Car Web系統遭非法存取之調查結果及後續應對措施（第二報）｜Park24株式會社</a> (266 users) — Times Car非法存取調查與後續措施</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2609/28/2000001808/" rel="noopener noreferrer">「Times Car」約660萬筆會員資訊洩漏，含駕照影像等，遭非法存取</a> (138 users) — Times Car約660萬筆個資遭非法存取</li>
+<li><a href="https://share.timescar.jp/news/2026/0928/1815.html" rel="noopener noreferrer">關於「Times Car網站」遭非法存取之調查結果及後續應對措施（第二報）｜共享汽車Times Car</a> (133 users) — Times Car網站非法存取調查與後續措施</li>
+<li><a href="https://japan.cnet.com/article/35253028/" rel="noopener noreferrer">「AI導致人類滅亡」論調蔓延，Sam Altman所述內容——兩日後亦公佈暫停尖端模型訓練</a> (87 users) — Altman警告AI風險，OpenAI暫停訓練</li>
+<li><a href="https://ascii.jp/elem/000/004/437/4437496/" rel="noopener noreferrer">AI如人類般遊玩遊戲，實測熱門「Jev」後發現的事實 (1/6)</a> (75 users) — 實測AI遊戲代理Jev展現如人操作優勢</li>
+<li><a href="https://gigazine.net/news/20260928-jev-pokemon-red/" rel="noopener noreferrer">AI「Jev」於37小時40分鐘內達成「寶可夢 紅」殿堂入，費用僅約260日圓，但需輔助系統，完全自律狀態下無法離開真新鎮</a> (50 users) — AI「Jev」低耗費通關寶可夢，自律仍受限</li>
+<li><a href="https://gigazine.net/news/20260928-ai-do-not-guess/" rel="noopener noreferrer">僅需指示AI「不要猜測」，虛構數據比例即從70％降至20％的實驗結果</a> (23 users) — 指令AI「勿推測」可大幅降低虛構數據</li>
+<li><a href="https://news.yahoo.co.jp/pickup/6596854" rel="noopener noreferrer">Times Car約660萬筆資訊洩漏 - Yahoo!新聞</a> (14 users) — Times Car約660萬筆個資遭非法存取</li>
+<li><a href="https://github.com/akkie76/code-review-skills" rel="noopener noreferrer">GitHub - akkie76/code-review-skills：基於實證的程式碼審查技巧，適用於Codex與Claude Code</a> (12 users) — 實證導向AI程式碼審查技巧適用主流工具</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49868830" rel="noopener noreferrer">Ember-1 模型發布</a></td>
+<td>561pt</td>
+<td>***</td>
+<td>AI 模型發布</td>
+<td>新一代基礎模型正式公開預覽</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49877988" rel="noopener noreferrer">程式開發尚未被徹底解決</a></td>
+<td>308pt</td>
+<td>***</td>
+<td>AI 開發工具與趨勢</td>
+<td>AI 輔助編程仍無法完全取代人類</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49880312" rel="noopener noreferrer">問題不在 AI 產出的程式碼，而是缺乏系統架構與設計意圖的認知</a></td>
+<td>255pt</td>
+<td>***</td>
+<td>AI 開發工具與趨勢</td>
+<td>AI 寫程式的瓶頸在於缺乏架構思維</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49879702" rel="noopener noreferrer">劫持 PS5 的 RTMP 串流</a></td>
+<td>63pt</td>
+<td>***</td>
+<td>資安與滲透測試</td>
+<td>揭露主機串流協議的資安漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49876148" rel="noopener noreferrer">嚴肅的 AI 產品該長什麼樣子？</a></td>
+<td>58pt</td>
+<td>***</td>
+<td>AI 產品與趨勢</td>
+<td>探討專業級 AI 產品的核心設計原則</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49879577" rel="noopener noreferrer">Cf：Cloudflare API 的 AI 代理型 CLI 工具</a></td>
+<td>25pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>整合 AI 代理的雲端管理終端機</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49881505" rel="noopener noreferrer">Launch HN: Vespper (YC F24) – 文檔處理狀態最前的 MCP 服務</a></td>
+<td>6pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>領先文檔處理的 AI 上下文協議服務</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49868830" rel="noopener noreferrer">Ember-1 模型發布</a> (561pt) — 新一代基礎模型正式公開預覽</li>
+<li><a href="https://news.ycombinator.com/item?id=49877988" rel="noopener noreferrer">程式開發尚未被徹底解決</a> (308pt) — AI 輔助編程仍無法完全取代人類</li>
+<li><a href="https://news.ycombinator.com/item?id=49880312" rel="noopener noreferrer">問題不在 AI 產出的程式碼，而是缺乏系統架構與設計意圖的認知</a> (255pt) — AI 寫程式的瓶頸在於缺乏架構思維</li>
+<li><a href="https://news.ycombinator.com/item?id=49879702" rel="noopener noreferrer">劫持 PS5 的 RTMP 串流</a> (63pt) — 揭露主機串流協議的資安漏洞</li>
+<li><a href="https://news.ycombinator.com/item?id=49876148" rel="noopener noreferrer">嚴肅的 AI 產品該長什麼樣子？</a> (58pt) — 探討專業級 AI 產品的核心設計原則</li>
+<li><a href="https://news.ycombinator.com/item?id=49879577" rel="noopener noreferrer">Cf：Cloudflare API 的 AI 代理型 CLI 工具</a> (25pt) — 整合 AI 代理的雲端管理終端機</li>
+<li><a href="https://news.ycombinator.com/item?id=49881505" rel="noopener noreferrer">Launch HN: Vespper (YC F24) – 文檔處理狀態最前的 MCP 服務</a> (6pt) — 領先文檔處理的 AI 上下文協議服務</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1wsbh8j/oh_look_the_foot_gun_went_off_again_citrix/" rel="noopener noreferrer">看吧，腳槍又走火了（Citrix NetScaler 未授權命令注入漏洞 CVE-2026-88771）- watchTowr Labs</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>Citrix曝未授權指令注入漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1wsbhxv/oh_look_the_foot_gun_went_off_again_citrix/" rel="noopener noreferrer">看吧，腳槍又走火了（Citrix NetScaler 未授權命令注入漏洞 CVE-2026-88771）- watchTowr Labs</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>Citrix曝未授權指令注入漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1ws9ydg/nvidia_shipped_openshell_an_open_source_sandbox/" rel="noopener noreferrer">NVIDIA 發布 OpenShell：一款開源沙箱，為本地與開放 Agent 提供真實的運行時限制而非提示詞規則。超過 100 家企業加入安全堆疊，OpenAI 缺席。</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>輝達推沙箱限制Agent運行</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1wsc45t/weekly_showcase_thread_what_are_you_building_with/" rel="noopener noreferrer">每週展示專帖：你正在用 Claude Code 開發什麼？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>分享Claude Code實戰專案</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1wma6ma/weekly_showcase_thread_what_are_you_building_with/" rel="noopener noreferrer">每週展示專帖：你正在用 Claude Code 開發什麼？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>分享Claude Code實戰專案</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1wsdwf7/recent_rampant_classification_failiures/" rel="noopener noreferrer">近期頻發的分類失敗問題</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>Claude Code分類機制頻失效</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1vz3e36/did_anyone_else_have_ondemand_usage_unexpectedly/" rel="noopener noreferrer">有人更新 Cursor 後，按需使用量意外變成「無限」嗎？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/Cursor_AI</td>
+<td>Cursor更新觸發無限用量漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ChatGPT/comments/1srxfnl/made_with_chatgpt_images_20/" rel="noopener noreferrer">使用 ChatGPT Images 2.0 創作</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/ChatGPT</td>
+<td>展示ChatGPT繪圖2.0作品</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1ws0gka/3_excellent_flash_38_use_cases/" rel="noopener noreferrer">Flash 3.8 的 3 個絕佳應用案例</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>精選Gemini Flash 3.8應用</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1wsbh8j/oh_look_the_foot_gun_went_off_again_citrix/" rel="noopener noreferrer">看吧，腳槍又走火了（Citrix NetScaler 未授權命令注入漏洞 CVE-2026-88771）- watchTowr Labs</a> (- ups) — r/netsec — Citrix曝未授權指令注入漏洞</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1wsbhxv/oh_look_the_foot_gun_went_off_again_citrix/" rel="noopener noreferrer">看吧，腳槍又走火了（Citrix NetScaler 未授權命令注入漏洞 CVE-2026-88771）- watchTowr Labs</a> (- ups) — r/cybersecurity — Citrix曝未授權指令注入漏洞</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1ws9ydg/nvidia_shipped_openshell_an_open_source_sandbox/" rel="noopener noreferrer">NVIDIA 發布 OpenShell：一款開源沙箱，為本地與開放 Agent 提供真實的運行時限制而非提示詞規則。超過 100 家企業加入安全堆疊，OpenAI 缺席。</a> (- ups) — r/LocalLLaMA — 輝達推沙箱限制Agent運行</li>
+<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1wsc45t/weekly_showcase_thread_what_are_you_building_with/" rel="noopener noreferrer">每週展示專帖：你正在用 Claude Code 開發什麼？</a> (- ups) — r/ClaudeCode — 分享Claude Code實戰專案</li>
+<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1wma6ma/weekly_showcase_thread_what_are_you_building_with/" rel="noopener noreferrer">每週展示專帖：你正在用 Claude Code 開發什麼？</a> (- ups) — r/ClaudeCode — 分享Claude Code實戰專案</li>
+<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1wsdwf7/recent_rampant_classification_failiures/" rel="noopener noreferrer">近期頻發的分類失敗問題</a> (- ups) — r/ClaudeCode — Claude Code分類機制頻失效</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1vz3e36/did_anyone_else_have_ondemand_usage_unexpectedly/" rel="noopener noreferrer">有人更新 Cursor 後，按需使用量意外變成「無限」嗎？</a> (- ups) — r/Cursor_AI — Cursor更新觸發無限用量漏洞</li>
+<li><a href="https://www.reddit.com/r/ChatGPT/comments/1srxfnl/made_with_chatgpt_images_20/" rel="noopener noreferrer">使用 ChatGPT Images 2.0 創作</a> (- ups) — r/ChatGPT — 展示ChatGPT繪圖2.0作品</li>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1ws0gka/3_excellent_flash_38_use_cases/" rel="noopener noreferrer">Flash 3.8 的 3 個絕佳應用案例</a> (- ups) — r/GoogleGeminiAI — 精選Gemini Flash 3.8應用</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/09/dutch-police-arrest-reformed-hacker-in-shiny-hunters-investigation/" rel="noopener noreferrer">荷蘭警方逮捕「改過自新」的黑客，涉及 ShinyHunters 調查</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>荷蘭警方逮捕 ShinyHunters 黑客</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/weekly-recap-387m-crypto-hack-citrix.html" rel="noopener noreferrer">⚡ 每週回顧：3.87 億美元加密貨幣遭竊、Citrix 漏洞利用、AI 智能體失控及其他威脅</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>週報：3.87 億加密貨幣遭竊與 AI 失控</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/carbonato-botnet-compromises-docker.html" rel="noopener noreferrer">Carbonato 機器人網路入侵 Docker 主機以部署由 Telegram 控制的 Hermes AI 智能體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>惡意程式入侵 Docker 部署 AI 智能體</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/jadepuffer-linked-attackers-used.html" rel="noopener noreferrer">與 JADEPUFFER 相關的攻擊者利用遭入侵的服務主體刪除 Azure 資源</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>攻擊者濫用服務主體刪 Azure 資源</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/cisa-says-attackers-are-exploiting-two.html" rel="noopener noreferrer">CISA 指出攻擊者正在全球利用兩項關鍵的 Citrix NetScaler 漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>CISA 警告 Citrix 關鍵漏洞遭利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/kiteworks-urges-customers-to-shut-down.html" rel="noopener noreferrer">Kiteworks 呼籲客戶為防範可能的網路攻擊關閉系統 9 小時</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Kiteworks 呼籲關機九小時防攻擊</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【個資外洩與資安危機】</strong> — Times Car 660萬筆會員資料遭非法存取，Citrix NetScaler 曝出未授權指令注入漏洞，Kiteworks 緊急呼籲斷網，顯示企業邊界防禦與資料保管仍存重大缺口。</li>
+<li><strong>【AI 開發工具與架構思維】</strong> — Ember-1 模型發布與 Claude Code/Cursor 實戰案例引發熱議，但開發者普遍反映 AI 編程瓶頸不在代碼產出，而是缺乏系統架構認知與明確設計意圖。</li>
+<li><strong>【AI 安全治理與模型訓練】</strong> — Sam Altman 警告 AI 滅世風險並暫停尖端模型訓練，NVIDIA 推出 OpenShell 沙箱強化 Agent 運行時限制，產業正式從提示詞約束轉向底層基礎設施隔離。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Citrix NetScaler 漏洞</strong>：HN + Reddit + RSS 同步出現 — 全球資安界緊急警告未經授權指令注入漏洞，企業需立即補丁與重估邊界防禦。</li>
+<li><strong>AI 輔助編程與工具實戰</strong>：Hatena + HN + Reddit 同步出現 — 開發者熱烈討論 Claude Code/Cursor 實戰應用、實證審查技巧與架構思維瓶頸。</li>
+<li><strong>AI 智能體安全與控制</strong>：HN + Reddit + RSS 同步出現 — 從 OpenAI 暫停訓練到 NVIDIA 推沙箱，產業聚焦 Agent 運行時限制與防範失控。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
