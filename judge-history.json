@@ -1638,5 +1638,165 @@
       "faithfulness": 1
     },
     "quality_alert": false
+  },
+  {
+    "date": "2026-09-25",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-09-26",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-09-27",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-09-28",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-09-29",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-09-30",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-01",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-02",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-03",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 2
+    },
+    "quality_alert": true
+  },
+  {
+    "date": "2026-10-04",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-05",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-06",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-07",
+    "overall": 3.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 2
+    },
+    "quality_alert": true
+  },
+  {
+    "date": "2026-10-08",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-09",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-10",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
   }
 ]

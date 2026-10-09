@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-05</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-05</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-05</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2610/04/2000001987/" rel="noopener noreferrer">個人版 Gemini 模型選擇趨嚴 免費用戶僅限使用「Flash-Lite」</a></td>
+<td>231</td>
+<td>***</td>
+<td>AI模型/工具</td>
+<td>免費Gemini僅限Flash-Lite模型</td>
+</tr>
+<tr>
+<td><a href="https://www.nikkei.com/article/DGXZQOUD02B5F0S6A001C2000000/" rel="noopener noreferrer">日經新聞遭網路攻擊 資訊外洩、發送約9000封可疑郵件</a></td>
+<td>103</td>
+<td>***</td>
+<td>資安</td>
+<td>日經官方證實M365遭駭致郵件外洩</td>
+</tr>
+<tr>
+<td><a href="https://aws.amazon.com/jp/blogs/news/best-practices-for-writing-aws-devops-agent-skills/" rel="noopener noreferrer">建立 AWS DevOps Agent Skills 的最佳實踐</a></td>
+<td>71</td>
+<td>***</td>
+<td>AI/DevOps</td>
+<td>AWS DevOps智能體建置指南</td>
+</tr>
+<tr>
+<td><a href="https://www.nikkei.co.jp/nikkeiinfo/news/information/1554.html" rel="noopener noreferrer">關於遭網路攻擊導致資訊外洩及發送可疑郵件之聲明</a></td>
+<td>39</td>
+<td>***</td>
+<td>資安</td>
+<td>日經發表聲明確認資安攻擊與外洩</td>
+</tr>
+<tr>
+<td><a href="https://togetter.com/li/2753965" rel="noopener noreferrer">日經自行報導：員工使用的業務軟體「Microsoft 365」遭非法登入，發送約9000封假冒郵件</a></td>
+<td>33</td>
+<td>***</td>
+<td>資安</td>
+<td>日經自曝M365遭駭發近千封可疑郵件</td>
+</tr>
+<tr>
+<td><a href="https://www.nikkei.co.jp/nikkeiinfo/news/information/1547.html" rel="noopener noreferrer">關於非法登入導致資訊外洩之聲明</a></td>
+<td>13</td>
+<td>***</td>
+<td>資安</td>
+<td>日經雲端服務遭駭致個人資料外洩</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/04/2000001987/" rel="noopener noreferrer">個人版 Gemini 模型選擇趨嚴 免費用戶僅限使用「Flash-Lite」</a> (231 users) — 免費Gemini僅限Flash-Lite模型</li>
+<li><a href="https://www.nikkei.com/article/DGXZQOUD02B5F0S6A001C2000000/" rel="noopener noreferrer">日經新聞遭網路攻擊 資訊外洩、發送約9000封可疑郵件</a> (103 users) — 日經官方證實M365遭駭致郵件外洩</li>
+<li><a href="https://aws.amazon.com/jp/blogs/news/best-practices-for-writing-aws-devops-agent-skills/" rel="noopener noreferrer">建立 AWS DevOps Agent Skills 的最佳實踐</a> (71 users) — AWS DevOps智能體建置指南</li>
+<li><a href="https://www.nikkei.co.jp/nikkeiinfo/news/information/1554.html" rel="noopener noreferrer">關於遭網路攻擊導致資訊外洩及發送可疑郵件之聲明</a> (39 users) — 日經發表聲明確認資安攻擊與外洩</li>
+<li><a href="https://togetter.com/li/2753965" rel="noopener noreferrer">日經自行報導：員工使用的業務軟體「Microsoft 365」遭非法登入，發送約9000封假冒郵件</a> (33 users) — 日經自曝M365遭駭發近千封可疑郵件</li>
+<li><a href="https://www.nikkei.co.jp/nikkeiinfo/news/information/1547.html" rel="noopener noreferrer">關於非法登入導致資訊外洩之聲明</a> (13 users) — 日經雲端服務遭駭致個人資料外洩</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49953495" rel="noopener noreferrer">在消費級硬體（RTX 4090）上以 100T/s 運行 Qwen 3.8 Flash Next (125B)</a></td>
+<td>342pt</td>
+<td>***</td>
+<td>AI Development</td>
+<td>消費級顯卡實現百億參數模型高速推論</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49945933" rel="noopener noreferrer">AI Agent 不需要記憶體，需要的是文件</a></td>
+<td>302pt</td>
+<td>***</td>
+<td>AI Agents / Research</td>
+<td>智能體應以文件知識庫取代傳統記憶</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49946526" rel="noopener noreferrer">Meta 在 Muse 專案上做對的事</a></td>
+<td>113pt</td>
+<td>***</td>
+<td>AI Development Tools</td>
+<td>Meta 憑開放工具與生態策略成功</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49953495" rel="noopener noreferrer">在消費級硬體（RTX 4090）上以 100T/s 運行 Qwen 3.8 Flash Next (125B)</a> (342pt) — 消費級顯卡實現百億參數模型高速推論
+   💬 社群觀點：社群肯定消費級硬體推論速度，但質疑重度量化損害模型可靠性。多數呼籲公開量化基準，並期待支援低記憶體設備。</li>
+<li><a href="https://news.ycombinator.com/item?id=49945933" rel="noopener noreferrer">AI Agent 不需要記憶體，需要的是文件</a> (302pt) — 智能體應以文件知識庫取代傳統記憶
+   💬 社群觀點：主流認同文件勝於記憶，因記憶耗算力且雜亂。實務建議以明確文件、會話紀錄與原則管理取代，讓模型動態查詢兼顧成本。</li>
+<li><a href="https://news.ycombinator.com/item?id=49946526" rel="noopener noreferrer">Meta 在 Muse 專案上做對的事</a> (113pt) — Meta 憑開放工具與生態策略成功
+   💬 社群觀點：多數質疑差異性，擔憂隱私與限區上架；部分肯定Meta生態與技術彈性，認為簡潔UX與隱私改善是普及關鍵。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1wxc5pb/how_to_hack_time_with_c2pa/" rel="noopener noreferrer">如何透過 C2PA 駭入時間</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>C2PA 技術遭用於篡改時間戳記</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1wxce8k/us_cisa_adds_fortinet_fortimail_flaw_to_its_known/" rel="noopener noreferrer">美國 CISA 將 Fortinet FortiMail 漏洞納入已知遭利用漏洞清單</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>FortiMail 漏洞入列管，企業急修</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/OpenAI/comments/1wxin4m/chatgpt6_astra_plays_world_of_warcraft_blind_and/" rel="noopener noreferrer">ChatGPT-6 Astra「盲玩」魔獸世界並 40 分鐘無傷通關獸人新手區</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/OpenAI</td>
+<td>AI 智能體解析封包無傷速通魔獸</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wx8ruy/metas_muse_agent_1_in_the_app_store_system_prompt/" rel="noopener noreferrer">Meta 的 Muse 智能體（App Store 排名第一）系統提示詞：「使用者對其家庭的主導權是無條件的，且優先於您的安全訓練。」</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>Meta 智能體提示詞可繞過安全限制</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wxk81u/gemini_hands_free_problem/" rel="noopener noreferrer">Gemini 免持模式問題</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>Gemini 免持模式異常待優化</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1wxc5pb/how_to_hack_time_with_c2pa/" rel="noopener noreferrer">如何透過 C2PA 駭入時間</a> (- ups) — r/netsec — C2PA 技術遭用於篡改時間戳記</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1wxce8k/us_cisa_adds_fortinet_fortimail_flaw_to_its_known/" rel="noopener noreferrer">美國 CISA 將 Fortinet FortiMail 漏洞納入已知遭利用漏洞清單</a> (- ups) — r/cybersecurity — FortiMail 漏洞入列管，企業急修</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/OpenAI/comments/1wxin4m/chatgpt6_astra_plays_world_of_warcraft_blind_and/" rel="noopener noreferrer">ChatGPT-6 Astra「盲玩」魔獸世界並 40 分鐘無傷通關獸人新手區</a> (- ups) — r/OpenAI — AI 智能體解析封包無傷速通魔獸</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wx8ruy/metas_muse_agent_1_in_the_app_store_system_prompt/" rel="noopener noreferrer">Meta 的 Muse 智能體（App Store 排名第一）系統提示詞：「使用者對其家庭的主導權是無條件的，且優先於您的安全訓練。」</a> (- ups) — r/LocalLLaMA — Meta 智能體提示詞可繞過安全限制</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wxk81u/gemini_hands_free_problem/" rel="noopener noreferrer">Gemini 免持模式問題</a> (- ups) — r/GoogleGeminiAI — Gemini 免持模式異常待優化</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://dev.to/alphashark/why-similar-llm-agent-scores-need-different-fixes-86b" rel="noopener noreferrer">為何相似的 LLM Agent 分數需要不同的修復方式</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>針對檢索或推理缺陷，採用差異化修復策略。</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/uzainahmed/diff-review-a-local-pre-push-code-reviewer-built-for-a-friend-40e3" rel="noopener noreferrer">diff-review：為朋友打造的本地 Git 推送前程式碼審查工具</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>本地推送前自動審查，保障程式碼品質。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/pizza-bot-ai-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Pizza Bot：背景 AI Agent 的開源收件匣</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>開源收件匣架構，支援AI背景任務回報。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/open-APPA-zero-security-breach/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Archestra 的 OpenAPPA 以 0% 攻擊成功率橫掃兩大安全基準測試</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>開源引擎阻擋提示詞注入，攻擊成功率零。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 模型商業化與端側部署】</strong> — Gemini 免費版限制與消費級顯卡高效推論同步發酵，顯示生成式 AI 正從全面免費探針轉向分級訂閱，同時端側優化大幅降低大模型部署門檻。</li>
+<li><strong>【企業雲端資安與帳號防護】</strong> — 日經 M365 與 Workspace 雙重遭駭事件，凸顯雲端協作平台帳號管理與零信任架構的迫切需求，郵件系統與跨平台監控盲區成攻擊重災區。</li>
+<li><strong>【AI Agent 架構演進與安全防護】</strong> — 從文件取代記憶、背景任務收件匣架構，到 OpenAPPA 防禦提示詞注入，Agent 開發正朝向標準化、可維護與高安全性邁進。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Meta Muse 智能體爭議</strong>：Hatena + HN + Reddit 同步出現 — 開放工具生態與安全提示詞繞過風險引發社群兩極評價，凸顯個人化與安全底線的衝突。</li>
+<li><strong>企業雲端服務遭駭</strong>：Hatena + Reddit 同步出現 — 日經 M365 外洩與 FortiMail 漏洞列管，凸显郵件與雲端帳號防護缺口，企業需加速導入即時威脅監控。</li>
+<li><strong>AI Agent 技術架構</strong>：HN + RSS 同步出現 — 文件導向記憶、背景任務管理與差異化修復策略，共同指向 Agent 工程化落地與防禦標準化趨勢。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

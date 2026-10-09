@@ -76,74 +76,1254 @@
   {
     "date": "2026-09-24",
     "trigger": "scheduled",
-    "git_sha": "58b5914",
-    "started_at": "2026-09-24T02:00:01",
-    "ended_at": "2026-09-24T05:51:19",
-    "duration_seconds": 13876.659,
+    "git_sha": "f4194d6",
+    "started_at": "2026-09-24T18:02:53",
+    "ended_at": "2026-09-24T18:02:53",
+    "duration_seconds": 0.117,
+    "steps": {
+      "hatena": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "hn": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "reddit": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "security": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "rss": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "dedup": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compress": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "enrich": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "digest": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "tldr": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "judge": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "report": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "save": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compose_tg": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "notify": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "deploy": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      }
+    }
+  },
+  {
+    "date": "2026-09-25",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-09-25T02:00:01",
+    "ended_at": "2026-09-25T05:48:33",
+    "duration_seconds": 13712.283,
     "steps": {
       "hatena": {
         "status": "ran",
-        "duration_seconds": 765.952
+        "duration_seconds": 804.339
       },
       "hn": {
         "status": "ran",
-        "duration_seconds": 569.364
+        "duration_seconds": 782.082
       },
       "reddit": {
         "status": "ran",
-        "duration_seconds": 1110.362
+        "duration_seconds": 3864.92
       },
       "security": {
         "status": "ran",
-        "duration_seconds": 281.428
+        "duration_seconds": 307.913
       },
       "rss": {
         "status": "ran",
-        "duration_seconds": 1069.247
+        "duration_seconds": 1079.725
       },
       "dedup": {
         "status": "ran",
-        "duration_seconds": 4.652
+        "duration_seconds": 4.9
       },
       "compress": {
         "status": "ran",
-        "duration_seconds": 3857.016
+        "duration_seconds": 1373.084
       },
       "enrich": {
         "status": "ran",
-        "duration_seconds": 1355.656
+        "duration_seconds": 594.437
       },
       "digest": {
         "status": "ran",
-        "duration_seconds": 1762.729
+        "duration_seconds": 1745.32
       },
       "tldr": {
         "status": "ran",
-        "duration_seconds": 221.163
+        "duration_seconds": 224.169
       },
       "judge": {
         "status": "ran",
-        "duration_seconds": 83.849
+        "duration_seconds": 198.795
       },
       "report": {
         "status": "ran",
-        "duration_seconds": 936.002
+        "duration_seconds": 951.242
       },
       "save": {
         "status": "ran",
-        "duration_seconds": 0.028
+        "duration_seconds": 0.01
       },
       "compose_tg": {
         "status": "ran",
-        "duration_seconds": 934.989
+        "duration_seconds": 858.252
       },
       "notify": {
         "status": "ran",
-        "duration_seconds": 2.123
+        "duration_seconds": 2.2
       },
       "deploy": {
         "status": "ran",
-        "duration_seconds": 6.727
+        "duration_seconds": 6.285
+      }
+    }
+  },
+  {
+    "date": "2026-09-26",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-09-26T02:00:01",
+    "ended_at": "2026-09-26T05:55:39",
+    "duration_seconds": 14137.834,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 762.996
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 534.871
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1330.053
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 316.227
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 2848.427
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 8.392
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 3265.617
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 699.332
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1378.7
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 203.425
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 165.961
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 867.445
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.075
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 806.816
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.113
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.282
+      }
+    }
+  },
+  {
+    "date": "2026-09-27",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-09-27T02:00:01",
+    "ended_at": "2026-09-27T05:51:50",
+    "duration_seconds": 13909.831,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 828.626
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 629.366
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1141.846
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 281.576
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 2776.169
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.417
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1391.009
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 1870.276
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1935.74
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 188.887
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 190.766
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 767.805
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.024
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 978.667
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.111
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.289
+      }
+    }
+  },
+  {
+    "date": "2026-09-28",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-09-28T05:54:30",
+    "ended_at": "2026-09-28T05:54:31",
+    "duration_seconds": 0.035,
+    "steps": {
+      "hatena": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "hn": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "reddit": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "security": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "rss": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "dedup": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compress": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "enrich": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "digest": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "tldr": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "judge": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "report": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "save": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compose_tg": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "notify": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "deploy": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      }
+    }
+  },
+  {
+    "date": "2026-09-29",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-09-29T02:00:01",
+    "ended_at": "2026-09-29T04:45:29",
+    "duration_seconds": 9928.633,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 842.019
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 664.108
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1202.431
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 344.796
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 1040.884
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 3.27
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1319.04
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 0.162
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1614.404
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 153.099
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 153.039
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 791.943
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.014
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 883.704
+      },
+      "notify": {
+        "status": "failed",
+        "duration_seconds": 0.049
+      },
+      "deploy": {
+        "status": "failed",
+        "duration_seconds": 3.426
+      }
+    }
+  },
+  {
+    "date": "2026-09-30",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-09-30T02:00:01",
+    "ended_at": "2026-09-30T05:01:06",
+    "duration_seconds": 10865.063,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 693.985
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 747.137
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1297.268
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 252.869
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 973.626
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 3.674
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1495.362
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 576.853
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1644.373
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 206.492
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 115.707
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 1154.561
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.021
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 780.066
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.048
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.64
+      }
+    }
+  },
+  {
+    "date": "2026-10-01",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-01T02:00:01",
+    "ended_at": "2026-10-01T05:06:23",
+    "duration_seconds": 11182.484,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 932.485
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 623.562
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1307.628
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 265.413
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 882.252
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.424
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1303.523
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 858.414
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1912.554
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 232.267
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 118.758
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 882.976
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.008
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 933.558
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.124
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.326
+      }
+    }
+  },
+  {
+    "date": "2026-10-02",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-02T02:00:01",
+    "ended_at": "2026-10-02T05:20:43",
+    "duration_seconds": 12042.198,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 888.167
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 529.875
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1462.035
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 328.003
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 1033.807
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.945
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1447.407
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 1562.977
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1990.311
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 227.605
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 116.587
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 719.004
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.016
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 807.112
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.353
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 7.043
+      }
+    }
+  },
+  {
+    "date": "2026-10-03",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-03T02:00:01",
+    "ended_at": "2026-10-03T05:06:42",
+    "duration_seconds": 11199.16,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 706.868
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 590.913
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1244.344
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 259.39
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 1026.9
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.55
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1290.198
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 1302.584
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1716.023
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 204.981
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 158.425
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 985.891
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.03
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 845.128
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.291
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.749
+      }
+    }
+  },
+  {
+    "date": "2026-10-04",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-04T16:17:50",
+    "ended_at": "2026-10-04T16:17:52",
+    "duration_seconds": 2.56,
+    "steps": {
+      "hatena": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "hn": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "reddit": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "security": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "rss": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 2.491
+      },
+      "compress": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "enrich": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "digest": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "tldr": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "judge": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "report": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "save": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compose_tg": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "notify": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "deploy": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      }
+    }
+  },
+  {
+    "date": "2026-10-05",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-05T06:39:19",
+    "ended_at": "2026-10-05T06:39:19",
+    "duration_seconds": 0.037,
+    "steps": {
+      "hatena": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "hn": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "reddit": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "security": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "rss": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "dedup": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compress": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "enrich": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "digest": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "tldr": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "judge": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "report": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "save": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compose_tg": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "notify": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "deploy": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      }
+    }
+  },
+  {
+    "date": "2026-10-06",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-06T02:00:01",
+    "ended_at": "2026-10-06T05:04:44",
+    "duration_seconds": 11083.08,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 1175.032
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 686.556
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1158.624
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 297.965
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 1028.857
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.83
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1560.369
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 475.522
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1683.729
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 234.995
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 102.996
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 848.528
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.006
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 902.414
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.312
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.87
+      }
+    }
+  },
+  {
+    "date": "2026-10-07",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-07T02:00:01",
+    "ended_at": "2026-10-07T04:47:09",
+    "duration_seconds": 10028.317,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 623.143
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 575.817
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1196.187
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 260.498
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 925.59
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.493
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1275.352
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 493.839
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1737.884
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 193.669
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 104.488
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 855.976
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.022
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 852.665
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 5.539
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 7.21
+      }
+    }
+  },
+  {
+    "date": "2026-10-08",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-08T22:18:02",
+    "ended_at": "2026-10-08T22:18:02",
+    "duration_seconds": 0.179,
+    "steps": {
+      "hatena": {
+        "status": "loaded",
+        "duration_seconds": 0.001
+      },
+      "hn": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "reddit": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "security": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "rss": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "dedup": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compress": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "enrich": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "digest": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "tldr": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "judge": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "report": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "save": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "compose_tg": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "notify": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      },
+      "deploy": {
+        "status": "loaded",
+        "duration_seconds": 0.0
+      }
+    }
+  },
+  {
+    "date": "2026-10-09",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-09T02:00:01",
+    "ended_at": "2026-10-09T04:36:15",
+    "duration_seconds": 9374.221,
+    "steps": {
+      "hatena": {
+        "status": "failed",
+        "duration_seconds": 488.062
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 641.999
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1223.101
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 273.651
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 876.08
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.047
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1000.582
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 570.552
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1479.727
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 143.83
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 84.004
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 854.831
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.007
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 811.531
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.076
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 6.016
+      }
+    }
+  },
+  {
+    "date": "2026-10-10",
+    "trigger": "scheduled",
+    "git_sha": "f4194d6",
+    "started_at": "2026-10-10T02:00:01",
+    "ended_at": "2026-10-10T04:45:07",
+    "duration_seconds": 9906.746,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 650.938
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 571.46
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1170.03
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 248.469
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 795.229
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.246
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 1412.33
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 493.33
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 1676.825
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 193.063
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 113.406
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 810.867
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.018
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 851.818
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.107
       }
     }
   }
