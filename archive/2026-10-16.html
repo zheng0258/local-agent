@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-16</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-16</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-16</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.sourcenext.com/support/i/2026/1015_info/" rel="noopener noreferrer">源ネクスト（Source Next）網站遭非法存取導致客戶資訊外洩的致歉與通知</a></td>
+<td>288</td>
+<td>***</td>
+<td>Web資安</td>
+<td>企業網站遭入侵，客戶個資外洩致歉</td>
+</tr>
+<tr>
+<td>[漢堡王（Burger King）App 會員資訊約 1118 萬筆遭外洩</td>
+<td>NHK 新聞](https://news.web.nhk/newsweb/na/nd-20261015de59803)</td>
+<td>269</td>
+<td>***</td>
+<td>Web資安</td>
+</tr>
+<tr>
+<td><a href="https://note.com/shiba_program/n/nd2d72747f8c5" rel="noopener noreferrer">可直接導入知名企業與頂尖開發者 Know-how 的 11 款 Claude Code 技能</a></td>
+<td>228</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>十一款AI編程技能，導入頂尖開發實務</td>
+</tr>
+<tr>
+<td><a href="https://www.watch.impress.co.jp/docs/news/2148547.html" rel="noopener noreferrer">源ネク斯特最多 2251 萬筆資訊外洩，呼籲重新設定密碼</a></td>
+<td>98</td>
+<td>***</td>
+<td>Web資安</td>
+<td>源Next資料外洩逾兩千萬筆，呼籲重設密碼</td>
+</tr>
+<tr>
+<td><a href="https://blogs.jpcert.or.jp/ja/2026/10/web_api_attacks.html" rel="noopener noreferrer">JPCERT/CC Eyes 針對連續非法存取事件的攻擊手法調查報告</a></td>
+<td>90</td>
+<td>***</td>
+<td>Web資安</td>
+<td>日本資安中心調查連續入侵案，攻擊者藉AI掃描</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.sourcenext.com/support/i/2026/1015_info/" rel="noopener noreferrer">源ネクスト（Source Next）網站遭非法存取導致客戶資訊外洩的致歉與通知</a> (288 users) — 企業網頁系統遭入侵致歉，凸顯個資防護脆弱性</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261015de59803" rel="noopener noreferrer">漢堡王（Burger King）App 會員資訊約 1118 萬筆遭外洩 | NHK 新聞</a> (269 users) — 速食連鎖App遭入侵，逾千萬會員資料外洩</li>
+<li><a href="https://note.com/shiba_program/n/nd2d72747f8c5" rel="noopener noreferrer">可直接導入知名企業與頂尖開發者 Know-how 的 11 款 Claude Code 技能</a> (228 users) — 模組化AI編程技能降低團隊導入高品質實務門檻</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2148547.html" rel="noopener noreferrer">源ネク斯特最多 2251 萬筆資訊外洩，呼籲重新設定密碼</a> (98 users) — 潛在外洩資料達兩千餘萬筆，緊急呼籲用戶重設密碼</li>
+<li><a href="https://blogs.jpcert.or.jp/ja/2026/10/web_api_attacks.html" rel="noopener noreferrer">JPCERT/CC Eyes 針對連續非法存取事件的攻擊手法調查報告</a> (90 users) — 駭客運用AI技術進行漏洞掃描，企業需強化API監控</li>
+<li><a href="https://gigazine.net/news/20261015-google-account-link-phone-number/" rel="noopener noreferrer">證實 Android 手機登入的所有 Google 帳號皆會自動綁定電話號碼</a> (55 users) — 行動裝置多帳號登入將自動串聯手機號，引發隱私追蹤疑慮</li>
+<li><a href="https://www.burgerking.co.jp/images/notice/2026/10/15/d4d114ca-ebd7-4f3d-94ef-c4ea7a84a139.pdf" rel="noopener noreferrer">針對非法存取導致官方 App 會員資訊外洩的致歉與通知（漢堡王）</a> (48 users) — 漢堡王發布致歉聲明，承諾升級後端安全架構</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2148391.html" rel="noopener noreferrer">使用 AI 開發「專屬個人 App」，並可透過 Google Play 部署執行</a> (36 users) — AI工具實現無程式基礎者直接上架行動應用</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261015de60043" rel="noopener noreferrer">源ネク斯特顧客資訊約 2251 萬筆疑似外洩 | NHK 新聞</a> (29 users) — 媒體綜合報導擴大事件能見度，呼籲企業建立透明通報流程</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/15/2000002299/" rel="noopener noreferrer">微軟（Microsoft）將瓦解 3 個國際網路犯罪服務平台，起因於針對日本的詐欺案</a> (26 users) — 科技巨頭與執法單位跨國協作，主動打擊網路犯罪基礎設施</li>
+<li>【Mac Info】用文字描述即可生成 Safari 擴充功能！macOS 27 新亮點](@@10@@) (19 users) — 作業系統深度整合生成式AI，桌面應用趨向自然語言驅動</li>
+<li><a href="https://www.lac.co.jp/lacwatch/alert/20261015_004996.html" rel="noopener noreferrer">日本國內 Web 系統資訊外洩事件頻發～從 LAC 觀測數據看見的變化與企業當前應採取的對策</a> (16 users) — 外洩案件急遽攀升，企業需導入零信任架構與持續監控</li>
+<li><a href="https://jp.ricoh.com/release/2026/1015_1" rel="noopener noreferrer">理光（Ricoh）開發 MoE 型多模態大規模語言模型「Ricoh LMM_35B-A3B」</a> (14 users) — 自研高效能日文多模態模型，加速企業本地化AI部署</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2148495.html" rel="noopener noreferrer">資料傳輸函式庫「curl」存在特定條件下可被遠端執行程式碼的漏洞／已公開修正 24 項漏洞（含 High 級別）的 v8.23.0 版本</a> (11 users) — 基礎函式庫曝嚴重漏洞，管理員需立即升級以防橫向移動</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50070625" rel="noopener noreferrer">本想下載 ISO，結果寫了一個核心漏洞利用程式</a></td>
+<td>289pt</td>
+<td>***</td>
+<td>Security</td>
+<td>下載 ISO 意外觸發核心漏洞</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50101813" rel="noopener noreferrer">透過精準廣告傳播的零點擊間諜軟體：AdFection</a></td>
+<td>191pt</td>
+<td>***</td>
+<td>Security</td>
+<td>精準廣告藏零點擊間諜軟體</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50105648" rel="noopener noreferrer">Krea 3 前沿圖像模型：速度比 Nano Banana Pro 快 4 倍</a></td>
+<td>91pt</td>
+<td>***</td>
+<td>AI Models</td>
+<td>Krea 3 圖像生成速度提升四倍</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50104310" rel="noopener noreferrer">HTTP 標頭中的提示詞注入攻擊：2.17 億網頁回應的分析結果</a></td>
+<td>55pt</td>
+<td>***</td>
+<td>Security/AI</td>
+<td>HTTP 標頭藏提示詞注入風險</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50107379" rel="noopener noreferrer">Meta Muse Spark Open 模型發布</a></td>
+<td>33pt</td>
+<td>***</td>
+<td>AI Models</td>
+<td>Meta 發布開源 Muse Spark 模型</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50070625" rel="noopener noreferrer">本想下載 ISO，結果寫了一個核心漏洞利用程式</a> (289pt) — 下載 ISO 意外觸發核心漏洞
+   💬 社群觀點：社群批評原廠韌體品質差，建議退貨並改用OpenWRT。另提醒AI寫C語言核心程式易產生未定義行為，需警惕安全風險。</li>
+<li><a href="https://news.ycombinator.com/item?id=50101813" rel="noopener noreferrer">透過精準廣告傳播的零點擊間諜軟體：AdFection</a> (191pt) — 精準廣告藏零點擊間諜軟體
+   💬 社群觀點：主流視廣告阻擋器為必備防護，呼籲規範廣告商責任。部分用戶質疑「零點擊」僅為常規追蹤，建議為長輩安裝阻擋軟體。</li>
+<li><a href="https://news.ycombinator.com/item?id=50105648" rel="noopener noreferrer">Krea 3 前沿圖像模型：速度比 Nano Banana Pro 快 4 倍</a> (91pt) — Krea 3 圖像生成速度提升四倍
+   💬 社群觀點：肯定高效低價，但質疑畫質與文字渲染；批評定價不透明、缺乏開源權重與訓練細節，盼與FLUX 3對比。</li>
+<li><a href="https://news.ycombinator.com/item?id=50104310" rel="noopener noreferrer">HTTP 標頭中的提示詞注入攻擊：2.17 億網頁回應的分析結果</a> (55pt) — HTTP 標頭藏提示詞注入風險
+   💬 社群觀點：社群多視標頭注入為惡搞，質疑威脅；但認同LLM純文本化打破信任機制。建議勿盲信標頭，伺服器應偵測並差異化回應。</li>
+<li><a href="https://news.ycombinator.com/item?id=50107379" rel="noopener noreferrer">Meta Muse Spark Open 模型發布</a> (33pt) — Meta 發布開源 Muse Spark 模型
+   💬 社群觀點：社群力挺開放權重與跨平台優化，認為能促進價格競爭。雖憂授權限制與安全疑慮，但評價佳，適合桌面部署。</li>
+<li><a href="https://news.ycombinator.com/item?id=50106054" rel="noopener noreferrer">OpenCode 2.0 發布</a> (12pt) — OpenCode 2.0 開發工具更新
+   💬 社群觀點：社群質疑預設雲端推論卻標榜本地，建議改用純離線工具；開發者關注雜亂掃描與表格轉換技術。</li>
+<li><a href="https://news.ycombinator.com/item?id=50107114" rel="noopener noreferrer">以色列公司透過線上廣告發送零點擊間諜軟體</a> (11pt) — 以色列廠商以廣告散播間諜軟體
+   💬 社群觀點：社群看法兩極：懷念實用模型，肯定官方提及舊計畫，但質疑OpenAI缺席與用語模糊，並猜測僅為新產品造勢。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1x6n1ac/trivy_and_govulncheck_found_the_same/" rel="noopener noreferrer">Trivy 與 govulncheck 偵測到相同漏洞，但程式碼並未編譯進二進位檔中</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>靜態掃描誤報未編譯代碼漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1x6nft6/is_retail_refrigeration_the_next_ot_cyber_target/" rel="noopener noreferrer">零售業冷藏設備會是下一個 OT 網路攻擊目標嗎？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>零售冷鏈設備恐成 OT 攻擊新標的</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1x6r9pz/introducing_muse_spark_open_the_most_capable_us/" rel="noopener noreferrer">推出 Muse Spark Open：迄今最強大的美國開權重模型</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>美國最強開權重 AI 模型發布</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1x6nl8m/nvidianvidianemotron35supervl120ba12b_model/" rel="noopener noreferrer">NVIDIA Nemotron-3.5-Super-VL-120B-A12B 模型家族發布（含基礎版、NVFP4、BF16 及 LiLiCorr 猜測解碼技術）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>輝達發布 VL 模型與猜測解碼技術</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1vz3e36/did_anyone_else_have_ondemand_usage_unexpectedly/" rel="noopener noreferrer">有沒有人更新 Cursor 後，發現「按需使用」意外變成「無限」？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/Cursor_AI</td>
+<td>Cursor 更新後按需模式疑變無限</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1x6n1ac/trivy_and_govulncheck_found_the_same/" rel="noopener noreferrer">Trivy 與 govulncheck 偵測到相同漏洞，但程式碼並未編譯進二進位檔中</a> (- ups) — r/netsec — 靜態掃描誤報未編譯代碼漏洞</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1x6nft6/is_retail_refrigeration_the_next_ot_cyber_target/" rel="noopener noreferrer">零售業冷藏設備會是下一個 OT 網路攻擊目標嗎？</a> (- ups) — r/cybersecurity — 零售冷鏈設備恐成 OT 攻擊新標的</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1x6r9pz/introducing_muse_spark_open_the_most_capable_us/" rel="noopener noreferrer">推出 Muse Spark Open：迄今最強大的美國開權重模型</a> (- ups) — r/LocalLLaMA — 美國最強開權重 AI 模型發布</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1x6nl8m/nvidianvidianemotron35supervl120ba12b_model/" rel="noopener noreferrer">NVIDIA Nemotron-3.5-Super-VL-120B-A12B 模型家族發布（含基礎版、NVFP4、BF16 及 LiLiCorr 猜測解碼技術）</a> (- ups) — r/LocalLLaMA — 輝達發布 VL 模型與猜測解碼技術</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1vz3e36/did_anyone_else_have_ondemand_usage_unexpectedly/" rel="noopener noreferrer">有沒有人更新 Cursor 後，發現「按需使用」意外變成「無限」？</a> (- ups) — r/Cursor_AI — Cursor 更新後按需模式疑變無限</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/wizos-helm-charts" rel="noopener noreferrer">強化 Kubernetes 供應鏈安全：推出 WizOS Helm Charts</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>推出硬化圖表，強化K8s供應鏈安全</td>
+</tr>
+<tr>
+<td><a href="https://www.wiz.io/blog/infostealer-incursion-cloud-ai-credentials" rel="noopener noreferrer">資訊竊取者入侵：遭竊憑證如何突破雲端、程式碼與 AI 環境</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>竊取憑證橫掃雲端、程式碼與AI環境</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/10/u-k-sanctions-cryptomus-for-ru-money-laundering/" rel="noopener noreferrer">英國制裁 Cryptomus 涉俄洗錢案</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>英國制裁加密平台涉俄洗錢案</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/10/fbi-arrests-founder-of-ransomware-negotiation-firm/" rel="noopener noreferrer">聯邦調查局逮捕勒索軟體談判公司高管</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>聯邦調查局逮捕勒索軟體談判高管</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/10/shinyhunters-extorted-boeing-spin-off-prior-to-arrests/" rel="noopener noreferrer">ShinyHunters 在遭逮捕前勒索波音子公司</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>勒索集團逮捕前曾勒索波音子公司</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/09/dutch-police-arrest-reformed-hacker-in-shiny-hunters-investigation/" rel="noopener noreferrer">荷蘭警方逮捕 Shiny Hunters 調查案中的「改過自新」黑客</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>荷蘭警方逮捕改過自新涉案黑客</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/09/u-s-soldier-gets-70-months-in-prison-for-att-verizon-extortions/" rel="noopener noreferrer">美軍士兵因勒索 AT&amp;T 與 Verizon 獲刑 70 個月</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>美軍士兵勒索電信商判監五年半</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/09/fbi-probes-service-selling-153m-drivers-licenses/" rel="noopener noreferrer">聯邦調查局調查出售逾 1.53 億張駕照的服務</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>聯邦調查局調查暗網販賣駕照服務</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/08/two-alleged-teampcp-hackers-arrested-in-australia/" rel="noopener noreferrer">澳洲逮捕兩名涉嫌「TeamPCP」的黑客</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>澳洲逮捕兩名涉嫌供應鏈攻擊黑客</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/citizen-lab-traces-zero-click-candiru.html" rel="noopener noreferrer">Citizen Lab 追蹤 Al Jazeera 的零點擊 Candiru 間諜軟體感染源至定向廣告</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>間諜軟體經定向廣告感染半島電視台</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/silent-lynx-exploits-winrar-flaw-to.html" rel="noopener noreferrer">Silent Lynx 利用 WinRAR 漏洞部署反向 Shell 攻擊獨聯體政府</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客藉WinRAR漏洞攻擊獨聯體政府</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/nginx-fixes-5-flaws-including-possible.html" rel="noopener noreferrer">NGINX 修復 5 項漏洞，含潛在遠端程式碼執行與可能跳過客戶端憑證檢查的 TLS 缺陷</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>NGINX修補五項漏洞含遠端程式碼執行</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/nextjs-ships-out-of-band-patch-for-two.html" rel="noopener noreferrer">Next.js 發布非排程更新，修復快取與 SVG 處理中的兩項關鍵 RCE 漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Next.js緊急更新修復快取與SVG漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/drupal-patches-critical-core-rce-flaw.html" rel="noopener noreferrer">Drupal 修復 Field UI 關鍵漏洞，透過擴充模組存在未授權 RCE 路徑</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Drupal修補Field UI未授權執行漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/fake-ai-attacks-spread-across-us.html" rel="noopener noreferrer">偽裝 AI 攻擊蔓延美國企業：MSSP 如何早期阻斷事件</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>偽裝AI攻擊蔓延美國企業MSSP可阻斷</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/palo-alto-networks-patches-pan-os.html" rel="noopener noreferrer">Palo Alto Networks 修復正遭利用的 PAN-OS 已驗證 RCE 漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Palo Alto修補正遭利用的PAN-OS漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/ghostaction-compromises-about-1900.html" rel="noopener noreferrer">GhostAction 入侵約 1,900 個 GitHub 帳戶，鎖定逾 3 萬個儲存庫</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>GhostAction入侵近兩千GitHub帳戶</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/langflows-critical-authenticated-rce.html" rel="noopener noreferrer">Langflow 關鍵已驗證 RCE 漏洞遭 1,423 次蜜罐利用嘗試針對</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Langflow關鍵漏洞遭千次蜜罐利用嘗試</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/ahsaycbs-flaws-exploited-to-deploy-web.html" rel="noopener noreferrer">AhsayCBS 漏洞遭利用部署 Web Shell，在修復不完整後發布新更新</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AhsayCBS漏洞遭利用部署後門獲更新</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/cisco-warns-of-active-attacks.html" rel="noopener noreferrer">Cisco 警告攻擊者正積極利用 Secure Email Gateway 的關鍵新漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Cisco警告郵件閘道器關鍵漏洞遭攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/hackers-backdoor-nextcloud-servers.html" rel="noopener noreferrer">黑客透過 Collabora 內建 CODE 應用程式的關鍵漏洞植入 Nextcloud 伺服器後門</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>黑客藉Collabora漏洞植入Nextcloud後門</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/cortexai/how-an-ai-agent-for-autoleap-works-127i" rel="noopener noreferrer">AutoLeap 的 AI 代理如何運作</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>解析AutoLeap AI代理運作與API限制</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/bayuh85/atmo-mem-persistent-memory-for-claude-code-cursor-and-cline-in-one-go-binary-2fn0" rel="noopener noreferrer">atmo-mem：為 Claude Code、Cursor 與 Cline 提供持久化記憶的單一 Go 執行檔</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>atmo-mem為AI編碼工具提供持久記憶</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/architap18/issuepilot-ai-your-ai-powered-guide-to-open-source-contributions-557d" rel="noopener noreferrer">IssuePilot AI：你的 AI 驅動開源貢獻指南 🤖</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>IssuePilot AI輔助新手參與開源貢獻</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/nonebut_ak/inside-bitrun-v02-how-i-engineered-a-terminal-cockpit-for-1-bit-llms-with-live-power-telemetry-p81" rel="noopener noreferrer">深入 BitRun v0.2：如何為 1-Bit 大型語言模型打造具備即時功耗遥測的終端機駕駛艙</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>BitRun打造單比特LLM終端機功耗監控</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/instagram-compose-migration/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Instagram 以 AI 原生架構現代化 UI，降低 33% Token 成本</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Instagram遷移Compose架構降低三成Token</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/agentic-ai-developer-trust-adoption/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">講座：25 兆 Token 揭示開發者如何真正採用 AI 代理</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>兩兆Token數據揭示開發者信任AI路徑</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/meta-private-process-ai-glasses/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Meta 將機密運算延伸至 AI 眼鏡，導入隱私處理技術</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Meta將機密運算技術導入AI眼鏡保護隱私</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/qcon-ai-newyork-2026-sessionsv2/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">代理、評估與 LLM 成本的上線模式：QCon AI New York 2026</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>研討會探討AI代理上線模式與成本控制</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具與模型落地】</strong> — 跨平台熱議 AI 編程代理（如 Claude Code、Cursor）的進階應用與持久化記憶機制，同時 Meta、NVIDIA 與開源社群積極推出高效能多模態與開權重模型，推動企業端本地化部署與成本優化。</li>
+<li><strong>【資安威脅升級與供應鏈防禦】</strong> — 零點擊間諜軟體滲透廣告生態、HTTP 標頭提示詞注入、以及針對 Kubernetes、Next.js、Drupal 等基礎架構的 RCE 漏洞密集爆發，顯示攻擊手法已高度自動化並轉向供應鏈與 AI 工具鏈。</li>
+<li><strong>【大規模個資外洩與執法打擊】</strong> — Source Next 與漢堡王爆發千萬級會員資料外洩，凸顯企業後端資料庫與 App 安全短板；同時 FBI 與國際執法單位連續逮捕 ShinyHunters 等勒索集團成員，顯示全球正加速清算暗網犯罪基礎設施。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助編程與工具鏈優化</strong>：Hatena + HN + Reddit 同步出現 — 開發者積極導入 AI 編程技能與持久化記憶工具，並關注本地部署與無限訂閱模式的商業化影響。</li>
+<li><strong>零點擊間諜軟體與廣告生態威脅</strong>：HN + RSS 同步出現 — 研究機構與資安社群揭露駭客與國家級組織利用精準廣告投放零點擊惡意程式，迫使產業重新審視廣告過濾與端點防禦策略。</li>
+<li><strong>憑證管理與供應鏈安全風險</strong>：HN + Reddit + RSS 同步出現 — 資訊竊取程式橫掃雲端與 GitHub 帳戶，促使企業與開發者強化憑證輪替、二進位掃描驗證與容器圖表硬化機制。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

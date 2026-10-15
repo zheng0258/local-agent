@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-06</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-06</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-06</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://ascii.jp/elem/000/004/440/4440100/" rel="noopener noreferrer">燒肉 King 遭駭客入侵，1078萬筆資訊外洩...App 註冊者幾乎全數波及</a></td>
+<td>329</td>
+<td>***</td>
+<td>資安 / 隱私外洩</td>
+<td>近千萬會員個資外洩</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/mizchi/articles/ai-coding-loop-formal" rel="noopener noreferrer">我的 AI 程式開發方法論 (2026/10/05)</a></td>
+<td>317</td>
+<td>***</td>
+<td>AI 開發工具 / 工作流</td>
+<td>建構AI程式開發的評估與自動化循環</td>
+</tr>
+<tr>
+<td><a href="https://www.47news.jp/15038299.html" rel="noopener noreferrer">【速報】大和證券遭駭客入侵，疑有 22 萬筆資料外洩</a></td>
+<td>190</td>
+<td>***</td>
+<td>資安 / 隱私外洩</td>
+<td>大和證券遭駭，疑二十二萬筆資料外洩</td>
+</tr>
+<tr>
+<td><a href="https://type.jp/et/feature/31834/" rel="noopener noreferrer">AI 程式碼生成加速，但人工審查來不及的問題。t-wada 提出的「審查解體」之解</a></td>
+<td>176</td>
+<td>***</td>
+<td>AI 開發工具 / 工作流</td>
+<td>AI寫碼加速致審查瓶頸，倡議流程解體</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://ascii.jp/elem/000/004/440/4440100/" rel="noopener noreferrer">燒肉 King 遭駭客入侵，1078萬筆資訊外洩...App 註冊者幾乎全數波及</a> (329 users) — 燒肉King遭駭，近千萬會員個資外洩</li>
+<li><a href="https://zenn.dev/mizchi/articles/ai-coding-loop-formal" rel="noopener noreferrer">我的 AI 程式開發方法論 (2026/10/05)</a> (317 users) — 建構AI程式開發的評估與自動化循環</li>
+<li><a href="https://www.47news.jp/15038299.html" rel="noopener noreferrer">【速報】大和證券遭駭客入侵，疑有 22 萬筆資料外洩</a> (190 users) — 大和證券遭駭，疑二十二萬筆資料外洩</li>
+<li><a href="https://type.jp/et/feature/31834/" rel="noopener noreferrer">AI 程式碼生成加速，但人工審查來不及的問題。t-wada 提出的「審查解體」之解</a> (176 users) — AI寫碼加速致審查瓶頸，倡議流程解體</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261005de54760" rel="noopener noreferrer">「燒肉 King」營運商 1000 萬筆以上使用者資料外洩 | NHK 新聞</a> (47 users) — 燒肉King營運商確認千萬筆資料遭竊</li>
+<li><a href="https://tech-blog.rakus.co.jp/entry/20261005/claude-code-routines" rel="noopener noreferrer">利用 Claude Code 常規功能實現開發流程自動化 - RAKUS 工程師部落格</a> (31 users) — 以Claude Code常規功能自動化開發流程</li>
+<li><a href="https://weekly.ascii.jp/elem/000/004/439/4439882/" rel="noopener noreferrer">AI 使網路攻擊成本大幅降低，僅數行指令即入侵 27 家公司，逾 60 萬筆卡資外洩</a> (24 users) — AI降低攻擊門檻，數行指令竊取海量卡資</li>
+<li><a href="https://news.yahoo.co.jp/articles/4d139d586213ccab1be8ea57e005e6689c4ab6b" rel="noopener noreferrer">【速報】「給各位造成不便與擔憂，深感抱歉」大阪公立大學道歉，疑遭勒索軟體攻擊致基盤系統故障</a> (23 users) — 大阪公立大學遭勒索軟體攻擊，系統停擺</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261005de54848" rel="noopener noreferrer">大起水產 遭駭客入侵疑有約 17.5 萬筆個人資料外洩 | NHK 新聞</a> (21 users) — 大起水產遭駭，疑十七萬五千筆個資外洩</li>
+<li><a href="https://news.yahoo.co.jp/pickup/6597639" rel="noopener noreferrer">大阪公立大學遭網路攻擊致系統故障 - Yahoo! 新聞</a> (20 users) — 大阪公立大學系統故障，確認為勒索攻擊</li>
+<li><a href="https://gigazine.net/news/20261005-debian-security-advisory/" rel="noopener noreferrer">Linux 核心一舉曝出 1313 項弱點，AI 普及下「逐一追蹤弱點的防禦策略已達極限」</a> (14 users) — Linux核心曝千項弱點，傳統修補策略觸礁</li>
+<li><a href="https://qiita.com/songchong/items/02672765fe53f911a1a0" rel="noopener noreferrer">API 金鑰究竟從何處洩漏？分析本站發現的 1,566 個 .env 檔案與 7 種公開途徑</a> (11 users) — 剖析API金鑰外洩源頭，歸納七種公開途徑</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/05/2000002003/" rel="noopener noreferrer">柏青哥店入場抽選 App「777CON-PASS」遭駭客入侵，疑有行動區域與頭像等資料外洩</a> (11 users) — 柏青哥App遭駭，行動軌跡與頭像資料外洩</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261005de54843" rel="noopener noreferrer">大阪公立大學系統故障，疑遭勒索軟體網路攻擊 | NHK 新聞</a> (5 users) — 大阪公立大學系統癱瘓，確認遭勒索攻擊</li>
+<li><a href="https://zenn.dev/aws_japan/articles/aws-login-methods" rel="noopener noreferrer">8 種 AWS 登入方法</a> (4 users) — AWS登入八法，強調廢除長期金鑰與MFA</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49962012" rel="noopener noreferrer">丹麥資料外洩事件曝光 880 萬名民眾個資</a></td>
+<td>388pt</td>
+<td>***</td>
+<td>Security</td>
+<td>丹麥個資外洩，八百八十萬民眾資料曝光</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49964303" rel="noopener noreferrer">Pixel 11 尚未符合 GrapheneOS 資安標準，可能被跳過</a></td>
+<td>309pt</td>
+<td>***</td>
+<td>Security</td>
+<td>Pixel 11 資安未達標，恐遭系統跳過</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49961057" rel="noopener noreferrer">Anthropic 將日記內容通報警方，該名女性面臨重罪起訴</a></td>
+<td>147pt</td>
+<td>***</td>
+<td>AI Ethics</td>
+<td>AI 報警用戶日記，當事人面臨重罪起訴</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49962012" rel="noopener noreferrer">丹麥資料外洩事件曝光 880 萬名民眾個資</a> (388pt) — 丹麥個資外洩，八百八十萬民眾資料曝光
+   💬 社群觀點：社群震驚全國民眾個資外洩，痛批公部門資安鬆散與企業API存取無監管。擔憂AI助長詐騙，呼籲強化防護。</li>
+<li><a href="https://news.ycombinator.com/item?id=49964303" rel="noopener noreferrer">Pixel 11 尚未符合 GrapheneOS 資安標準，可能被跳過</a> (309pt) — Pixel 11 資安未達標，恐遭系統跳過
+   💬 社群觀點：社群指Pixel 11為省成本砍MTE致GrapheneOS支援延後。多數建議暫緩升級、續用舊款，並待系統更新補回。</li>
+<li><a href="https://news.ycombinator.com/item?id=49961057" rel="noopener noreferrer">Anthropic 將日記內容通報警方，該名女性面臨重罪起訴</a> (147pt) — AI 報警用戶日記，當事人面臨重罪起訴
+   💬 社群觀點：社群擔憂AI成隱私監視器，指法律與輿論壓力迫使企業通報。提醒AI非私密工具，建議改用本地開源模型以保隱私。</li>
+<li><a href="https://news.ycombinator.com/item?id=49930872" rel="noopener noreferrer">費城詢問報打造 Scrape，一款用於挖掘在地新聞的 AI 工具</a> (71pt) — 費城媒體開發 AI 工具，自動挖掘在地新聞
+   💬 社群觀點：社群看好 AI 協助在地新聞抗衡壟斷，肯定挖掘價值；惟擔憂取代人力與搜尋成本，並不滿過往關閉舊站。</li>
+<li><a href="https://news.ycombinator.com/item?id=49966293" rel="noopener noreferrer">我們對歐盟文字溯源規則的應對策略</a> (27pt) — 企業應對歐盟文字溯源規範之策略
+   💬 社群觀點：社群質疑水印易被同義替換繞過，批評歐盟法規徒增負擔。建議改用數位簽章或降級區域模型，呼籲企業聚焦核心研發。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1wy33ar/open_build_service_one_year_later_command/" rel="noopener noreferrer">Open Build Service 一年後：透過 Mercurial 參數注入執行命令</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>建構服務參數注入漏洞，可被濫用執行命令</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1wy3ftv/hacks_of_2_federal_agencies_in_a_month_have/" rel="noopener noreferrer">一個月內兩家聯邦機構遭駭，洩露大量敏感資料</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>兩聯邦機構月內遭駭，大量敏感資料外洩</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wy4je3/the_agy_cli_said_opussonnet_55_models_are/" rel="noopener noreferrer">AGY CLI 顯示 opus/sonnet 5.5 模型已可用，但我什麼都沒看到？AI Pro 方案</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>訂閱方案未見新模型，終端機卻提示已上線</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/javascript/comments/1wyfq90/online_comparison_of_tfjs_litertjs_and_uchen_on/" rel="noopener noreferrer">tf.js、litert.js 與 Uchen 於 VS Code 語言偵測模型的線上效能比較</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>OSS・獨立開發類</td>
+<td>r/javascript</td>
+<td>三大模型於編輯器語法偵測效能實測</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1wy33ar/open_build_service_one_year_later_command/" rel="noopener noreferrer">Open Build Service 一年後：透過 Mercurial 參數注入執行命令</a> (- ups) — r/netsec — 建構服務參數注入漏洞，可被濫用執行命令</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1wy3ftv/hacks_of_2_federal_agencies_in_a_month_have/" rel="noopener noreferrer">一個月內兩家聯邦機構遭駭，洩露大量敏感資料</a> (- ups) — r/cybersecurity — 兩聯邦機構月內遭駭，大量敏感資料外洩</li>
+</ol>
+<p><strong>AI 與開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wy4je3/the_agy_cli_said_opussonnet_55_models_are/" rel="noopener noreferrer">AGY CLI 顯示 opus/sonnet 5.5 模型已可用，但我什麼都沒看到？AI Pro 方案</a> (- ups) — r/GoogleGeminiAI — 訂閱方案未見新模型，終端機卻提示已上線</li>
+<li><a href="https://www.reddit.com/r/javascript/comments/1wyfq90/online_comparison_of_tfjs_litertjs_and_uchen_on/" rel="noopener noreferrer">tf.js、litert.js 與 Uchen 於 VS Code 語言偵測模型的線上效能比較</a> (- ups) — r/javascript — 三大模型於編輯器語法偵測效能實測</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/top-greptile-alternatives" rel="noopener noreferrer">2026 年最佳 Greptile 替代方案比較</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>2026年Greptile替代工具比較</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 輔助開發與審查流程重塑】</strong> — 隨著 AI 編碼工具普及，開發者正從盲目依賴轉向建立數據驅動的評估循環與自動化測試。專家提出「審查解體」概念，將人工驗證重心移至架構與安全性，並透過規格驅動與平台工程思維確保 AI 生成程式碼的生產環境穩定性。</li>
+<li><strong>【大規模個資外洩與勒索軟體威脅】</strong> — 餐飲連鎖、金融機構與公立大學相繼遭駭，近千萬筆個資與敏感資料外流，顯示傳統邊界防禦已難以抵禦自動化攻擊。勒索軟體癱瘓關鍵基礎設施的風險升高，促使企業加速部署零信任架構與離線災備機制。</li>
+<li><strong>【憑證管理擴張與後量子防禦佈局】</strong> — API 金鑰與服務憑證的無序增長已超出資安團隊監控極限，長期存取金鑰的風險促使業界全面轉向短期憑證與 MFA。同時，面對 AI 加速漏洞挖掘與量子計算威脅，硬體級記憶體安全與抗量子 TLS 憑證成為下一代防禦核心。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>大規模個資外洩事件</strong>：Hatena + HN + Reddit 同步出現 — 日本餐飲與金融業、丹麥政府資料庫及美國聯邦機構相繼曝出個資外洩，凸顯跨國企業與公部門在資料存取管控上的共通脆弱性。</li>
+<li><strong>AI 開發工具與審查瓶頸</strong>：Hatena + Reddit + 資安部落格 — 社群與專家共同關注 AI 編碼加速導致人工審查追不上的問題，並積極探索自動化審查工具、規格驅動流程與憑證掃描技術以化解技術債。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

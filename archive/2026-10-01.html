@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-01</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-01</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-01</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[我的 Claude Code 作業環境，保守來說已經好到破表～用 Stream Deck 操作 herdr，完成後由語音提示～</td>
+<td>SIOS Tech Lab](https://tech-lab.sios.jp/archives/54936)</td>
+<td>562</td>
+<td>***</td>
+<td>AI開發工具</td>
+</tr>
+<tr>
+<td><a href="https://labo.hatenastaff.com/entry/2026/09/30/151500" rel="noopener noreferrer">匿名日誌現已可透過 ChatGPT 使用</a></td>
+<td>381</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>ChatGPT直連匿名日誌，搜尋閱讀更方便。</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2609/30/2000001873/" rel="noopener noreferrer">為防範駕照遭濫用之通報集中湧現，CIC 與 JICC 手續出現延遲，發生於 Times Car 資訊外洩事件後</a></td>
+<td>255</td>
+<td>***</td>
+<td>網頁資安</td>
+<td>租車外洩引發通報潮，信用查詢手續延遲。</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2609/30/2000001877/" rel="noopener noreferrer">探問 Park24：Times Car 為何將退會者的駕照影像保存「7年」</a></td>
+<td>219</td>
+<td>***</td>
+<td>網頁資安</td>
+<td>租車平台存退會者駕照七年，主因防冒用。</td>
+</tr>
+<tr>
+<td><a href="https://timescar-lawsuit.com/" rel="noopener noreferrer">Times Car 資訊外洩集體訴訟｜現正接受報名</a></td>
+<td>165</td>
+<td>***</td>
+<td>網頁資安</td>
+<td>租車資料外洩集體訴訟開跑，現正開放報名。</td>
+</tr>
+<tr>
+<td><a href="https://anond.hatelabo.jp/20260930121339" rel="noopener noreferrer">一休網也發生資料外洩事件</a></td>
+<td>80</td>
+<td>***</td>
+<td>網頁資安</td>
+<td>訂房平台一休網遭入侵，開發資料庫外洩。</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/minodriven/designing-for-code-reading" rel="noopener noreferrer">透過設計減少 AI 閱讀程式碼的數量 / designing-for-code-reading</a></td>
+<td>78</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>優化程式架構設計，有效降低AI閱讀代碼量。</td>
+</tr>
+<tr>
+<td>[資訊安全白皮書 2026</td>
+<td>書籍・出版品</td>
+<td>IPA 獨立行政法人資訊處理推進機構](https://www.ipa.go.jp/publish/wp-security/2026.html)</td>
+<td>55</td>
+<td>***</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260930-chatgpt-drive-car/" rel="noopener noreferrer">讓 ChatGPT 等通用 AI 駕駛真實汽車，AI 察覺「這是真車？」後拒絕駕駛，最終讓它跑起來的方法是？</a></td>
+<td>28</td>
+<td>***</td>
+<td>AI模型/研究</td>
+<td>克服AI拒駕心理，成功讓大模型操控真車。</td>
+</tr>
+<tr>
+<td>[AI 審查採三層機制運作</td>
+<td>ドクセル (Docswell)](https://www.docswell.com/s/3402128/KVJYJ3-2026-09-15-202358?__readwiseLocation=)</td>
+<td>19</td>
+<td>***</td>
+<td>AI開發工具</td>
+</tr>
+<tr>
+<td><a href="https://atmarkit.itmedia.co.jp/ait/articles/2609/30/news056.html" rel="noopener noreferrer">Token 消耗量減少 85% Google 公開自動修復弱點的開源工具「Mantis」</a></td>
+<td>13</td>
+<td>***</td>
+<td>網頁資安/AI工具</td>
+<td>Google開源漏洞修復工具，運算成本降八成。</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260930-d1-decision-model-liquid-ai/" rel="noopener noreferrer">基準測試超越 Jev 的決策模型「d1」登場</a></td>
+<td>8</td>
+<td>***</td>
+<td>AI模型/研究</td>
+<td>新決策模型d1登場，基準測試表現超越Jev。</td>
+</tr>
+<tr>
+<td><a href="https://tech.layerx.co.jp/entry/10minute_test_plan_gen" rel="noopener noreferrer">十分鐘生成測試計畫。利用 Claude 與內部知識庫在十分鐘內產出測試計畫草案的機制 - LayerX 工程師部落格</a></td>
+<td>6</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>結合大模型與內部知識，十分鐘速成測試計畫。</td>
+</tr>
+<tr>
+<td><a href="https://speakerdeck.com/texmeijin/ai-jidai-no-kodo-rebyu-ha-hito-ni-mukeru-na-shikumi-ni-mukero" rel="noopener noreferrer">AI 時代下的程式碼審查不要針對人，而要針對機制</a></td>
+<td>5</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>AI時代程式審查應重機制優化，勿針對個人。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://tech-lab.sios.jp/archives/54936" rel="noopener noreferrer">我的 Claude Code 作業環境，保守來說已經好到破表～用 Stream Deck 操作 herdr，完成後由語音提示～ | SIOS Tech Lab</a> (562 users) — 串流面板操控Claude，語音提示工作進度。</li>
+<li><a href="https://labo.hatenastaff.com/entry/2026/09/30/151500" rel="noopener noreferrer">匿名日誌現已可透過 ChatGPT 使用</a> (381 users) — ChatGPT直連匿名日誌，搜尋閱讀更方便。</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2609/30/2000001873/" rel="noopener noreferrer">為防範駕照遭濫用之通報集中湧現，CIC 與 JICC 手續出現延遲，發生於 Times Car 資訊外洩事件後</a> (255 users) — 租車外洩引發通報潮，信用查詢手續延遲。</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2609/30/2000001877/" rel="noopener noreferrer">探問 Park24：Times Car 為何將退會者的駕照影像保存「7年」</a> (219 users) — 租車平台存退會者駕照七年，主因防冒用。</li>
+<li><a href="https://timescar-lawsuit.com/" rel="noopener noreferrer">Times Car 資訊外洩集體訴訟｜現正接受報名</a> (165 users) — 租車資料外洩集體訴訟開跑，現正開放報名。</li>
+<li><a href="https://anond.hatelabo.jp/20260930121339" rel="noopener noreferrer">一休網也發生資料外洩事件</a> (80 users) — 訂房平台一休網遭入侵，開發資料庫外洩。</li>
+<li><a href="https://speakerdeck.com/minodriven/designing-for-code-reading" rel="noopener noreferrer">透過設計減少 AI 閱讀程式碼的數量 / designing-for-code-reading</a> (78 users) — 優化程式架構設計，有效降低AI閱讀代碼量。</li>
+<li><a href="https://www.ipa.go.jp/publish/wp-security/2026.html" rel="noopener noreferrer">資訊安全白皮書 2026 | 書籍・出版品 | IPA 獨立行政法人資訊處理推進機構</a> (55 users) — IPA發布資安白皮書，聚焦網防新時代趨勢。</li>
+<li><a href="https://gigazine.net/news/20260930-chatgpt-drive-car/" rel="noopener noreferrer">讓 ChatGPT 等通用 AI 駕駛真實汽車，AI 察覺「這是真車？」後拒絕駕駛，最終讓它跑起來的方法是？</a> (28 users) — 克服AI拒駕心理，成功讓大模型操控真車。</li>
+<li><a href="https://www.docswell.com/s/3402128/KVJYJ3-2026-09-15-202358?__readwiseLocation=" rel="noopener noreferrer">AI 審查採三層機制運作 | ドクセル (Docswell)</a> (19 users) — AI程式審查採三層機制，提升自走環境效率。</li>
+<li><a href="https://atmarkit.itmedia.co.jp/ait/articles/2609/30/news056.html" rel="noopener noreferrer">Token 消耗量減少 85% Google 公開自動修復弱點的開源工具「Mantis」</a> (13 users) — Google開源漏洞修復工具，運算成本降八成。</li>
+<li><a href="https://gigazine.net/news/20260930-d1-decision-model-liquid-ai/" rel="noopener noreferrer">基準測試超越 Jev 的決策模型「d1」登場</a> (8 users) — 新決策模型d1登場，基準測試表現超越Jev。</li>
+<li><a href="https://tech.layerx.co.jp/entry/10minute_test_plan_gen" rel="noopener noreferrer">十分鐘生成測試計畫。利用 Claude 與內部知識庫在十分鐘內產出測試計畫草案的機制 - LayerX 工程師部落格</a> (6 users) — 結合大模型與內部知識，十分鐘速成測試計畫。</li>
+<li><a href="https://speakerdeck.com/texmeijin/ai-jidai-no-kodo-rebyu-ha-hito-ni-mukeru-na-shikumi-ni-mukero" rel="noopener noreferrer">AI 時代下的程式碼審查不要針對人，而要針對機制</a> (5 users) — AI時代程式審查應重機制優化，勿針對個人。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49901736" rel="noopener noreferrer">Livenerf：Opus 5.5 被削弱了嗎？</a></td>
+<td>828 pt</td>
+<td>***</td>
+<td>AI 模型發布</td>
+<td>Opus 5.5 效能是否遭削弱引發討論</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49906637" rel="noopener noreferrer">你說不支援 MCP</a></td>
+<td>476 pt</td>
+<td>***</td>
+<td>AI 協議與工具</td>
+<td>開發者明確拒絕支援 MCP 協議</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49899090" rel="noopener noreferrer">美國郵政調查局關閉販售偽造郵票標籤的網站</a></td>
+<td>269 pt</td>
+<td>***</td>
+<td>網路資安與執法</td>
+<td>美郵政局查封偽造郵票標籤網站</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49883970" rel="noopener noreferrer">我本可存取 17T 的 Microsoft 紀錄</a></td>
+<td>129 pt</td>
+<td>***</td>
+<td>網路資安</td>
+<td>資安漏洞恐洩露十七TB微軟紀錄</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49911995" rel="noopener noreferrer">發布 HN：Magnitude (YC S25) – 用於 AI 代理的自優化推論引擎</a></td>
+<td>18 pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>新推自優化推論引擎加速 AI 代理</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49901736" rel="noopener noreferrer">Livenerf：Opus 5.5 被削弱了嗎？</a> (828 pt) — Opus 5.5 效能是否遭削弱引發討論
+   💬 社群觀點：社群擔憂模型因算力瓶頸或伺服器負載遭削弱，亦有觀點認為僅屬適應期。不透明機制引發信任危機，加速開放模型採用。</li>
+<li><a href="https://news.ycombinator.com/item?id=49906637" rel="noopener noreferrer">你說不支援 MCP</a> (476 pt) — 開發者明確拒絕支援 MCP 協議
+   💬 社群觀點：社群不滿文章含糊，質疑MCP必要性，認為現有程式代理已可替代。部分肯定標準化價值，並關注檔案上傳與子代理等實務。</li>
+<li><a href="https://news.ycombinator.com/item?id=49899090" rel="noopener noreferrer">美國郵政調查局關閉販售偽造郵票標籤的網站</a> (269 pt) — 美郵政局查封偽造郵票標籤網站
+   💬 社群觀點：社群震驚偽造標籤數量龐大，直指郵政與速遞系統缺乏驗證機制，易被電商詐騙濫用。雖嫌未逮捕，但肯定執法效率，呼籲強化防偽。</li>
+<li><a href="https://news.ycombinator.com/item?id=49883970" rel="noopener noreferrer">我本可存取 17T 的 Microsoft 紀錄</a> (129 pt) — 資安漏洞恐洩露十七TB微軟紀錄
+   💬 社群觀點：讚揚年輕研究員的倫理與技術，直指JWT漏洞危害深遠；爭議聚焦賞金偏低與微軟編輯干預，呼籲企業全面導入安全框架。</li>
+<li><a href="https://news.ycombinator.com/item?id=49911995" rel="noopener noreferrer">發布 HN：Magnitude (YC S25) – 用於 AI 代理的自優化推論引擎</a> (18 pt) — 新推自優化推論引擎加速 AI 代理
+   💬 社群觀點：社群關注商業模式與調校耗時，對效能宣稱持保留態度，要求公開基準測試方法，並回報多GPU偵測異常。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1wtn3cv/critical_rce_alert_full_takeover_of_hashicorp/" rel="noopener noreferrer">嚴重 RCE 警報：HashiCorp Vault 與 OpenBao 遭完全控管。OpenBao 已修補，Vault 仍處於暴露狀態</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>Vault遭RCE控管，OpenBao已修補</td>
+</tr>
+<tr>
+<td>[推出金融服務版 ChatGPT</td>
+<td>OpenAI](https://www.reddit.com/r/OpenAI/comments/1wcsciq/introducing_chatgpt_for_financial_services_openai/)</td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/OpenAI</td>
+</tr>
+<tr>
+<td>[GPT-6 Astra</td>
+<td>OpenAI](https://www.reddit.com/r/OpenAI/comments/1w6hf6g/gpt6_astra_openai/)</td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/OpenAI</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wubcbb/ling31flash_560b_total_params_25b_activetoken_up/" rel="noopener noreferrer">Ling-3.1-flash：總參數約 560B，每 token 活躍參數約 25B，上下文支援達 1M token - 免費試用 2 週後開源</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>Ling-3.1開源，支援百萬上下文</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wu8tpg/we_just_opensourced_the_worlds_fastest_webgpu/" rel="noopener noreferrer">我們剛在 Hugging Face 開源了全球最快的 WebGPU 核心，專為本地 AI 打造</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>開源最快WebGPU核心，加速本地AI</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wu2jjy/oído_speech_recognition_that_beats_whispertiny/" rel="noopener noreferrer">Oído：跑在 5 美元微控制器上的語音辨識模型，效能超越 Whisper-tiny（開源）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>五美元晶片跑語音辨識，勝Whisper</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">我們開源了一個 .cursor/rules 設定檔的社群登錄中心——GitHub 獲得 888 星。你的設定裡有哪些規則？</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/Cursor_AI</td>
+<td>開源Cursor規則登錄中心，社群熱議</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/" rel="noopener noreferrer">開發了一個開源工具，讓你的 Cursor 規則始終與程式碼庫保持同步，3 週內獲得 250 星</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/Cursor_AI</td>
+<td>自動同步程式碼的Cursor規則工具</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/webdev/comments/1wtyzi2/increased_vulnerability_scanning_activity_in_the/" rel="noopener noreferrer">日誌中漏洞掃描活動增加</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>OSS・獨立開發類</td>
+<td>r/webdev</td>
+<td>系統日誌顯示漏洞掃描活動大增</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1wtn3cv/critical_rce_alert_full_takeover_of_hashicorp/" rel="noopener noreferrer">嚴重 RCE 警報：HashiCorp Vault 與 OpenBao 遭完全控管。OpenBao 已修補，Vault 仍處於暴露狀態</a> (- ups) — r/netsec — Vault遭RCE控管，OpenBao已修補</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/OpenAI/comments/1wcsciq/introducing_chatgpt_for_financial_services_openai/" rel="noopener noreferrer">推出金融服務版 ChatGPT | OpenAI</a> (- ups) — r/OpenAI — OpenAI推出金融服務版ChatGPT</li>
+<li><a href="https://www.reddit.com/r/OpenAI/comments/1w6hf6g/gpt6_astra_openai/" rel="noopener noreferrer">GPT-6 Astra | OpenAI</a> (- ups) — r/OpenAI — OpenAI預告GPT-6 Astra模型</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wubcbb/ling31flash_560b_total_params_25b_activetoken_up/" rel="noopener noreferrer">Ling-3.1-flash：總參數約 560B，每 token 活躍參數約 25B，上下文支援達 1M token - 免費試用 2 週後開源</a> (- ups) — r/LocalLLaMA — Ling-3.1開源，支援百萬上下文</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wu8tpg/we_just_opensourced_the_worlds_fastest_webgpu/" rel="noopener noreferrer">我們剛在 Hugging Face 開源了全球最快的 WebGPU 核心，專為本地 AI 打造</a> (- ups) — r/LocalLLaMA — 開源最快WebGPU核心，加速本地AI</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wu2jjy/oído_speech_recognition_that_beats_whispertiny/" rel="noopener noreferrer">Oído：跑在 5 美元微控制器上的語音辨識模型，效能超越 Whisper-tiny（開源）</a> (- ups) — r/LocalLLaMA — 五美元晶片跑語音辨識，勝Whisper</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">我們開源了一個 .cursor/rules 設定檔的社群登錄中心——GitHub 獲得 888 星。你的設定裡有哪些規則？</a> (- ups) — r/Cursor_AI — 開源Cursor規則登錄中心，社群熱議</li>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/" rel="noopener noreferrer">開發了一個開源工具，讓你的 Cursor 規則始終與程式碼庫保持同步，3 週內獲得 250 星</a> (- ups) — r/Cursor_AI — 自動同步程式碼的Cursor規則工具</li>
+</ol>
+<p><strong>OSS・獨立開發類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/webdev/comments/1wtyzi2/increased_vulnerability_scanning_activity_in_the/" rel="noopener noreferrer">日誌中漏洞掃描活動增加</a> (- ups) — r/webdev — 系統日誌顯示漏洞掃描活動大增</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/attackers-exploit-zimbra-flaw-to-deploy.html" rel="noopener noreferrer">攻擊者利用 Zimbra 漏洞部署 Web Shells 並擷取認證憑證</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>漏洞遭利用部署網頁後門竊取憑證</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/attackers-abuse-msp360-to-deploy.html" rel="noopener noreferrer">攻擊者濫用 MSP360 部署 ScreenConnect 進行雙 RMM 釣魚攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>濫用備份軟體部署遠端工具進行雙重釣魚</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/cisco-warns-of-attackers-exploiting.html" rel="noopener noreferrer">思科警告攻擊者正利用 SD-WAN Manager 關鍵認證繞過漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>網路管理系統遭認證繞過漏洞攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/attackers-abuse-chatgpt-custom-gpts-to.html" rel="noopener noreferrer">攻擊者濫用 ChatGPT 自訂 GPT 透過 ClickFix 誘餌投放 RAT</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>濫用自訂聊天模型投放惡意遠端程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/know-your-enemy-browser-based-attack.html" rel="noopener noreferrer">認識你的敵人：2026 年瀏覽器端攻擊技術</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>瀏覽器端攻擊技術成主流資安威脅</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/ai-coding-agents-exposed-13000-internal.html" rel="noopener noreferrer">AI 程式碼代理在 GitHub 洩露 13,000 張內部圖片，含帳單記錄</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>程式碼代理外洩萬張內部圖片至公開倉儲</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/us-focused-csuite-phishing-steals.html" rel="noopener noreferrer">針對美國的 CSuite 釣魚攻擊竊取 Microsoft 365 會話並部署 RMM 工具</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>針對高管釣魚竊取雲端會話並部署遙控</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/attackers-exploit-netscaler-flaw-for.html" rel="noopener noreferrer">攻擊者利用 NetScaler 漏洞取得 Root 權限並部署 WHIPSHOT 與 SLAPSHOT</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>網路設備漏洞遭利用提權部署惡意程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/openssl-fixes-high-severity-dtls-flaw.html" rel="noopener noreferrer">OpenSSL 修復可洩露未加密堆疊記憶體的高嚴重性 DTLS 漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>密碼庫修復洩露記憶體的高危通訊漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/09/gpt-6-astra-breaks-an-old-enigma-message.html" rel="noopener noreferrer">GPT-6 Astra 破解舊式恩尼格瑪密碼訊息</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>大語言模型獨立破解舊式戰術密碼訊息</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/darshankumar89/one-bad-write-exploited-forever-how-attackers-target-ai-memory-and-learning-4809" rel="noopener noreferrer">Cyberxdefend 分析：攻擊者如何針對 AI 記憶體與學習機制</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>攻擊者針對人工智慧記憶體與學習機制攻擊</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/webofmike/your-agent-egress-proxy-never-saw-the-dns-query-2di1" rel="noopener noreferrer">你的 Agent 出口代理從未看見 DNS 查詢</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>人工智慧代理出口無法攔截域名查詢盲區</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/bekalpaslan/let-claude-code-write-your-teams-prompt-pack-2fa2" rel="noopener noreferrer">讓 Claude Code 為你的團隊撰寫提示詞套件</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>讓程式碼代理自動生成團隊專屬提示詞套件</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/aws-builders/from-selectors-to-sentences-why-nova-act-and-agentcore-browser-are-my-new-go-to-for-ui-monitoring-6ol" rel="noopener noreferrer">從選擇器到自然語言：為何 Nova Act 與 AgentCore Browser 成為我 UI 監控的新首選</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>自然語言介面監控工具成自動化測試新首選</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/vittoria000li/what-happens-when-an-llm-loop-runs-away-the-guardrail-pattern-146c" rel="noopener noreferrer">當 LLM 循環失控時該怎麼辦：防護欄模式</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>大模型循環失控時導入防護欄控制成本風險</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/david_ilands/im-an-ai-agent-40-days-a-real-budget-and-0-earned-heres-the-breakdown-4n9l" rel="noopener noreferrer">我是一個 AI Agent：40 天、真實預算，賺取 0 美元。以下是詳細分析</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>人工智慧代理實戰四十天零收益揭示挑戰</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/onlinecohorts-ai-certifications/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">InfoQ 線上課程探討 AI 安全與程式碼代理驗證</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>線上課程聚焦人工智慧安全與程式碼驗證</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/cursor-continuity-git-storage/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cursor 使用 S3 WAL 將 Git 儲存擴展至每秒超過 300 次推送</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>開發工具以分散式架構將版本儲存大幅擴展</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/context-as-code-devops-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：情境即新程式碼</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>將情境視為程式碼管理以優化自動化流程</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/agentic-refactoring-case-study/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">代理在三週內重構 30 萬行程式碼，實務專家質疑其證明意義</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>代理三週重構巨量程式碼引發實務爭議</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具鏈與工作流優化】</strong> — 跨平台大量討論 Claude Code 硬體整合、Cursor 規則同步、三層審查機制與 Mantis 自動修補工具，顯示 AI 輔助開發正從單點實驗走向標準化、可維護的工程實踐，強調「為 AI 閱讀而設計」與自動化流程治理。</li>
+<li><strong>【網路資安威脅與資料外洩危機】</strong> — Times Car 與一休網外洩事件引發集體訴訟與信用系統延宕，同時 Vault RCE、Zimbra 漏洞、NetScaler 提權與 AI 代理意外上傳機密圖片等案例集中爆發，凸顯雲端基礎設施、邊緣設備與 AI 應用層的防禦缺口。</li>
+<li><strong>【AI 模型演進與實體/邊緣部署】</strong> — GPT-6 Astra 預告、Ling-3.1 百萬上下文開源、WebGPU 核心優化與 5 美元晶片語音辨識模型相繼登場，搭配通用 AI 操控真實汽車實驗，標誌大模型正加速向高推理效能、低成本邊緣運算與物理控制場景延伸。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 輔助開發與程式碼審查</strong>：Hatena 探討 Claude Code 環境與審查機制轉型，HN 與 Reddit 聚焦 Cursor 規則同步、MCP 協議爭議與自優化推論引擎，顯示全球開發者正共同面臨 AI 工具鏈標準化、上下文管理與效能成本平衡的關鍵轉折。</li>
+<li><strong>資安漏洞與資料防護</strong>：Hatena 報導租車與訂房平台外洩連鎖效應，HN 揭露微軟 JWT 漏洞與 Vault RCE 警報，RSS 追蹤瀏覽器端攻擊、AI 代理外洩與 DNS 監控盲區，凸顯攻防戰線已全面轉向雲端身份驗證、AI 輸出管控與零信任架構部署。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

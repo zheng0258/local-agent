@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-09-26</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-09-26</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-09-26</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://japan.cnet.com/article/35252958/" rel="noopener noreferrer">Google「Gemini」新增電話代辦新功能，餐廳預約也能交給它</a></td>
+<td>193</td>
+<td>***</td>
+<td>AI工具</td>
+<td>Gemini新增代撥電話預約新功能</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2143200.html" rel="noopener noreferrer">解決AI會議紀錄「分不清誰在說話」問題，0.1B「Nemotron 3 Diarization」免費公開</a></td>
+<td>95</td>
+<td>***</td>
+<td>AI模型</td>
+<td>開源模型解決AI會議紀錄人聲辨識</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260925-rsa-nsnfsssfsfn/" rel="noopener noreferrer">大規模實證無需質因數分解即可破解 RSA 的攻擊，成功偽造 1024 位元 RSA 簽名</a></td>
+<td>33</td>
+<td>***</td>
+<td>網安防護</td>
+<td>實證無需分解即可偽造RSA簽名</td>
+</tr>
+<tr>
+<td><a href="https://blog.p1ass.com/posts/agent-foundations/" rel="noopener noreferrer">從 OpenAI 與 Claude 的 Agent SDK 學習 Agent 的基本架構</a></td>
+<td>30</td>
+<td>***</td>
+<td>AI工具</td>
+<td>解析兩大平台Agent架構與開發基礎</td>
+</tr>
+<tr>
+<td><a href="https://qiita.com/jiis-sasaki/items/9b7f43dc59f3a64f9c80" rel="noopener noreferrer">遺留 CNAME 導致子網域遭劫持──防範 5 招 DNS 盤點法（Cloudflare/Route 53・可複製貼上）</a></td>
+<td>23</td>
+<td>***</td>
+<td>網安防護</td>
+<td>五招清理DNS防範子網域遭劫持</td>
+</tr>
+<tr>
+<td><a href="https://www.techno-edge.net/article/2026/09/25/5526.html" rel="noopener noreferrer">讓寫真攝影師用生成 AI 製作寫真會怎樣？第75回：Qwen-Image 2.1 商用受限，Ming Image 專攻 UI/UX 但允許真實人物且自由度極高令人期待</a></td>
+<td>21</td>
+<td>***</td>
+<td>AI模型</td>
+<td>商用受限與高自由度AI繪圖模型比較</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260925-dark-sourcery-hackers-manipulate-ai-scam/" rel="noopener noreferrer">誘使 ChatGPT 等 AI 輸出企業假聯絡資訊並引導用戶陷入詐騙的網路攻擊「Dark Sourcery」</a></td>
+<td>19</td>
+<td>***</td>
+<td>網安防護</td>
+<td>駭客污染資料誘使AI輸出假聯絡資訊</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/aiplus/article/2609/25/2000001742/" rel="noopener noreferrer">「現代 AI 之父」Jurgen Schmidhuber 加入 Sakana AI，擔任 RSI（遞迴自我改進）研究顧問</a></td>
+<td>16</td>
+<td>***</td>
+<td>AI研究</td>
+<td>AI之父加盟Sakana推動自我改進研究</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20260925-qwen-book/" rel="noopener noreferrer">阿里巴巴發布搭載 AI 的筆記型電腦「Qwen Book」，配備「AI 按鈕」與「AI Island」，作業系統採用 Omarchy</a></td>
+<td>13</td>
+<td>***</td>
+<td>AI硬體</td>
+<td>阿里發布搭載專屬AI按鈕的智慧筆電</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://japan.cnet.com/article/35252958/" rel="noopener noreferrer">Google「Gemini」新增電話代辦新功能，餐廳預約也能交給它</a> (193 users) — Gemini新增代撥電話預約新功能</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2143200.html" rel="noopener noreferrer">解決AI會議紀錄「分不清誰在說話」問題，0.1B「Nemotron 3 Diarization」免費公開</a> (95 users) — 開源模型解決AI會議紀錄人聲辨識</li>
+<li><a href="https://gigazine.net/news/20260925-rsa-nsnfsssfsfn/" rel="noopener noreferrer">大規模實證無需質因數分解即可破解 RSA 的攻擊，成功偽造 1024 位元 RSA 簽名</a> (33 users) — 實證無需分解即可偽造RSA簽名</li>
+<li><a href="https://blog.p1ass.com/posts/agent-foundations/" rel="noopener noreferrer">從 OpenAI 與 Claude 的 Agent SDK 學習 Agent 的基本架構</a> (30 users) — 解析兩大平台Agent架構與開發基礎</li>
+<li><a href="https://qiita.com/jiis-sasaki/items/9b7f43dc59f3a64f9c80" rel="noopener noreferrer">遺留 CNAME 導致子網域遭劫持──防範 5 招 DNS 盤點法（Cloudflare/Route 53・可複製貼上）</a> (23 users) — 五招清理DNS防範子網域遭劫持</li>
+<li><a href="https://www.techno-edge.net/article/2026/09/25/5526.html" rel="noopener noreferrer">讓寫真攝影師用生成 AI 製作寫真會怎樣？第75回：Qwen-Image 2.1 商用受限，Ming Image 專攻 UI/UX 但允許真實人物且自由度極高令人期待</a> (21 users) — 商用受限與高自由度AI繪圖模型比較</li>
+<li><a href="https://gigazine.net/news/20260925-dark-sourcery-hackers-manipulate-ai-scam/" rel="noopener noreferrer">誘使 ChatGPT 等 AI 輸出企業假聯絡資訊並引導用戶陷入詐騙的網路攻擊「Dark Sourcery」</a> (19 users) — 駭客污染資料誘使AI輸出假聯絡資訊</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2609/25/2000001742/" rel="noopener noreferrer">「現代 AI 之父」Jurgen Schmidhuber 加入 Sakana AI，擔任 RSI（遞迴自我改進）研究顧問</a> (16 users) — AI之父加盟Sakana推動自我改進研究</li>
+<li><a href="https://gigazine.net/news/20260925-qwen-book/" rel="noopener noreferrer">阿里巴巴發布搭載 AI 的筆記型電腦「Qwen Book」，配備「AI 按鈕」與「AI Island」，作業系統採用 Omarchy</a> (13 users) — 阿里發布搭載專屬AI按鈕的智慧筆電</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49836374" rel="noopener noreferrer">Opus 5.5 在解說影片生成上表現出色</a></td>
+<td>372pt</td>
+<td>***</td>
+<td>AI 模型與多模態應用</td>
+<td>Opus 5.5 擅於生成高質解說影片</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49841115" rel="noopener noreferrer">CVE-2025-13032：進入並突破 Avast 防毒軟體沙盒的第二部分</a></td>
+<td>96pt</td>
+<td>***</td>
+<td>資安與漏洞研究</td>
+<td>成功突破 Avast 防毒沙盒機制</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49836374" rel="noopener noreferrer">Opus 5.5 在解說影片生成上表現出色</a> (372pt) — Opus 5.5 擅於生成高質解說影片
+   💬 社群觀點：評價兩極：部分讚賞生成品質，但批評僅屬簡報轉影片、缺乏深度解說，並引發對AI包殼SaaS長期價值與競爭力的質疑。</li>
+<li><a href="https://news.ycombinator.com/item?id=49841115" rel="noopener noreferrer">CVE-2025-13032：進入並突破 Avast 防毒軟體沙盒的第二部分</a> (96pt) — 成功突破 Avast 防毒沙盒機制
+   💬 社群觀點：社群質疑傳統防毒軟體臃腫且易被繞過，技術面讚賞漏洞利用精巧，主張應放棄特徵碼，改採行為靜態分析以提升偵測力。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1wpyg75/cve202513032_entering_and_breaking_the_avast/" rel="noopener noreferrer">CVE-2025-13032：進入並突破 Avast 防毒軟體沙箱 第二部分</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>揭露Avast防毒沙箱突破細節</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wpvep4/qwengram08b_i_transferred_qwen38_flashnexts_ngram/" rel="noopener noreferrer">Qwengram-0.8B：我將 Qwen3.8 Flash-Next 的 n-gram 記憶體轉移至 Qwen3.5-0.8B — 驗證困惑度降低 5.05%</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>導入n-gram提升小模型效能</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wpynok/people_hyping_gemini_4_pro_dont_forget_this/" rel="noopener noreferrer">吹捧 Gemini 4 Pro 的人，別忘了這一點</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>警惕過度吹捧Gemini 4 Pro</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology/comments/1wpyzn4/flock_wants_the_most_detailed_map_of_its/" rel="noopener noreferrer">Flock 要求下架最詳細的監控攝影機地圖｜安全研究員繪製的地圖揭露了最多的 Flock 設備位置，Flock 正試圖將其下架</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>核心技術類</td>
+<td>r/technology</td>
+<td>監控商強行下架設備位置地圖</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1wpyg75/cve202513032_entering_and_breaking_the_avast/" rel="noopener noreferrer">CVE-2025-13032：進入並突破 Avast 防毒軟體沙箱 第二部分</a> (- ups) — r/netsec — 揭露Avast防毒沙箱突破細節</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1wpvep4/qwengram08b_i_transferred_qwen38_flashnexts_ngram/" rel="noopener noreferrer">Qwengram-0.8B：我將 Qwen3.8 Flash-Next 的 n-gram 記憶體轉移至 Qwen3.5-0.8B — 驗證困惑度降低 5.05%</a> (- ups) — r/LocalLLaMA — 導入n-gram提升小模型效能</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1wpynok/people_hyping_gemini_4_pro_dont_forget_this/" rel="noopener noreferrer">吹捧 Gemini 4 Pro 的人，別忘了這一點</a> (- ups) — r/GoogleGeminiAI — 警惕過度吹捧Gemini 4 Pro</li>
+</ol>
+<p><strong>核心技術類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/technology/comments/1wpyzn4/flock_wants_the_most_detailed_map_of_its/" rel="noopener noreferrer">Flock 要求下架最詳細的監控攝影機地圖｜安全研究員繪製的地圖揭露了最多的 Flock 設備位置，Flock 正試圖將其下架</a> (- ups) — r/technology — 監控商強行下架設備位置地圖</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/compromised-github-actions-came-back.html" rel="noopener noreferrer">遭入侵的 GitHub Actions 重新上線並繼續執行 Mini Shai-Hulud 惡意程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>受駭 GitHub Actions 復甦續傳惡意程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/roundcube-pre-auth-sql-injection-flaw.html" rel="noopener noreferrer">Roundcube 未經驗證的 SQL 注入漏洞正於現實環境中被積極利用</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Roundcube SQL 注入漏洞遭野戰利用</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/cloudflare-fixes-flaw-that-let-one.html" rel="noopener noreferrer">Cloudflare 修復允許單一容器讀取其他客戶殘留磁碟資料的漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Cloudflare 修補容器跨客戶讀取資料漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/wso2-and-adobe-commerce-flaws-exploited.html" rel="noopener noreferrer">WSO2 與 Adobe Commerce 漏洞遭攻擊利用，並被納入 CISA KEV 清單</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>WSO2與Adobe漏洞入列CISA遭利用清單</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/unpatched-oneplus-flaws-let-installed.html" rel="noopener noreferrer">未修補的 OnePlus 漏洞讓已安裝的 Android 應用程式無需權限即可取得 Root</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>OnePlus 漏洞致 Android 程式無權限提權</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/09/threatsday-ai-search-poisoning-ai.html" rel="noopener noreferrer">威脅日：AI 搜尋中毒、AI 程式碼工具洩漏儲存庫、一鍵程式碼執行等 13 則故事</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AI 搜尋中毒與程式碼工具洩密等威脅彙整</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/09/on-anthropics-ai-misuse-report.html" rel="noopener noreferrer">論 Anthropic 的 AI 濫用報告</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>解析 Anthropic 偵測的 AI 濫用行為報告</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/stinklewinks/the-difference-between-delegating-code-and-delegating-decisions-1nhh" rel="noopener noreferrer">委派程式碼與委派決策的差異</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>區分 AI 輔助寫程式與決策權的委派界線</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/tecnovy_academy/your-first-ai-architecture-project-what-changes-and-what-stays-the-same-942" rel="noopener noreferrer">你的第一個 AI 架構專案：哪些改變，哪些不變</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>AI 專案架構中系統穩健性與安全仍為核心</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/aws-stateless-mcp/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">無狀態 MCP 移除 AWS 伺服器部署的會話親和力需求</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>無狀態 MCP 解除 AWS 部署會話綁定限制</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/qcon-ai-newyork-2026-sessions/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">從代理程式授權到 AI 生產環境評估：QCon AI 紐約 2026</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>QCon AI 聚焦 Agent 授權與生產環境評估</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/agent-harness-build-one/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：代理程式框架：它是什麼以及兩種建構方式</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>解析 Agent 框架架構與兩種實作路線</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/09/apple-reference-image-provenance/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Apple 參考影像在感光元件端簽署照片，將來源信任從 C2PA 轉移</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Apple 感光端簽署照片取代 C2PA 信任鏈</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI Agent 架構與開發實務】</strong> — 隨著 OpenAI 與 Claude 開放 Agent SDK，開發者正從使用者轉向建構者，聚焦於無狀態 MCP 部署、代理程式框架實作與生產環境評估，強調人類保留核心決策權。</li>
+<li><strong>【傳統加密與端點防護面臨新挑戰】</strong> — 研究實證無需質因數分解即可偽造 RSA 簽名，加上 Avast 沙盒被突破、Cloudflare 容器隔離漏洞及 OnePlus 權限繞過，凸顯傳統資安機制與非對稱加密的脆弱性。</li>
+<li><strong>【AI 應用落地與治理爭議】</strong> — Gemini 代辦電話與阿里 AI 筆電推動端側 AI 普及，但同時伴隨資料污染攻擊（Dark Sourcery）、AI 濫用報告及監控地圖下架爭議，顯示技術落地需同步強化合規與隱私防護。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Avast 防毒沙盒突破</strong>：Hatena + HN + Reddit 同步出現 — CVE-2025-13032 漏洞細節揭露傳統防毒軟體防禦缺陷，引發對行為分析與沙盒機制重構的技術爭論。</li>
+<li><strong>AI 模型與 Agent 開發</strong>：HN + r/LocalLLaMA + RSS 同步關注 — 從 Gemini 代辦功能、Nemotron 人聲辨識到 QCon AI 生產環境評估，顯示 AI 正從實驗階段全面邁向企業級落地與架構標準化。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

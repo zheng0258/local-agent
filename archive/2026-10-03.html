@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-03</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-03</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-03</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://note.com/npaka/n/n4a1185074686" rel="noopener noreferrer">以 12GB VRAM 運行 125B 模型的「Strata」概要｜npaka</a></td>
+<td>232</td>
+<td>***</td>
+<td>AI推論引擎</td>
+<td>打破高參數模型對高端顯卡的依賴，讓主流裝置也能部署百億級 AI</td>
+</tr>
+<tr>
+<td><a href="https://www.47news.jp/15026982.html" rel="noopener noreferrer">【快報】大和運輸遭駭客入侵 客戶個資恐遭外洩</a></td>
+<td>206</td>
+<td>***</td>
+<td>資安</td>
+<td>電商支付系統遭入侵，凸顯供應鏈介面與第三方串接的資安防護盲點</td>
+</tr>
+<tr>
+<td><a href="https://otakuma.net/archives/2026100202.html" rel="noopener noreferrer">非仿冒而是濫用 Lawson 真實郵件伺服器 發送約 70 萬封可疑郵件</a></td>
+<td>153</td>
+<td>***</td>
+<td>資安</td>
+<td>官方郵件伺服器遭竊取濫用，企業基礎設施未妥善隔離恐成駭客跳板</td>
+</tr>
+<tr>
+<td><a href="https://labo.hatenastaff.com/entry/2026/10/02/113000" rel="noopener noreferrer">Hatena 匿名日記現可透過 Claude 使用</a></td>
+<td>130</td>
+<td>***</td>
+<td>AI工具整合</td>
+<td>傳統社群平台擁抱 AI Agent，透過 API 整合提升內容可及性與黏著度</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20261002-claude-code-customize-mod/" rel="noopener noreferrer">Claude Code 新增可自訂的 Mod 功能</a></td>
+<td>25</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>AI 工具從標準化走向可組裝生態，降低客製化門檻並促進社群貢獻</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://note.com/npaka/n/n4a1185074686" rel="noopener noreferrer">以 12GB VRAM 運行 125B 模型的「Strata」概要｜npaka</a> (232 users) — Strata以12G VRAM運行125B大模型</li>
+<li><a href="https://www.47news.jp/15026982.html" rel="noopener noreferrer">【快報】大和運輸遭駭客入侵 客戶個資恐遭外洩</a> (206 users) — 大和運輸遭入侵，客戶個資恐外洩</li>
+<li><a href="https://otakuma.net/archives/2026100202.html" rel="noopener noreferrer">非仿冒而是濫用 Lawson 真實郵件伺服器 發送約 70 萬封可疑郵件</a> (153 users) — Lawson伺服器遭濫用，發70萬封可疑信</li>
+<li><a href="https://labo.hatenastaff.com/entry/2026/10/02/113000" rel="noopener noreferrer">Hatena 匿名日記現可透過 Claude 使用</a> (130 users) — Hatena匿名日記現可接駁AI使用</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261002de53960" rel="noopener noreferrer">「e-Tax」系統異常 贈與稅申報內容遭他人瀏覽</a> (76 users) — e-Tax異常，贈與稅遭他人瀏覽</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/02/2000001971/" rel="noopener noreferrer">第一生命遭非法存取 12 萬名員工個資恐外洩 含已離職者</a> (58 users) — 第一生命遭入侵，12萬員工個資恐外洩</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2145142.html" rel="noopener noreferrer">讓 Qwen3.8-Flash-Next 在電競筆電上高速運行的「Strata」登場</a> (43 users) — Strata讓Qwen3.8筆電版高速運行</li>
+<li><a href="https://www.nikkei.com/article/DGXZQODK026BY0S6A001C2000000/" rel="noopener noreferrer">［社論］Park24 的個資管理過於鬆懈</a> (26 users) — Park24個資管理鬆懈，660萬帳號外洩</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261002de53951" rel="noopener noreferrer">「Times Car」駕照影本等外洩 集體訴訟登記人數破萬</a> (26 users) — Times Car個資外洩，集體訴訟破萬</li>
+<li><a href="https://gigazine.net/news/20261002-claude-code-customize-mod/" rel="noopener noreferrer">Claude Code 新增可自訂的 Mod 功能</a> (25 users) — Claude Code新增自訂Mod擴充功能</li>
+<li><a href="https://gigazine.net/news/20261002-pi-1-0/" rel="noopener noreferrer">免費開源 AI 程式碼工具「Pi 1.0」正式發布，新增 MCP 支援與多模型切換功能</a> (24 users) — 開源AI程式碼工具Pi 1.0支援MCP</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2145211.html" rel="noopener noreferrer">不生成文字的超高速 AI「決策模型」相繼問世。彙整 Clef 等 3 款</a> (19 users) — 超高速AI決策模型問世，不生成文字</li>
+<li><a href="https://speakerdeck.com/mtpooh/20261001-des37-mcpass" rel="noopener noreferrer">建立並營運 MCP 閘道後的體悟 — Agent 時代的權限管理現況</a> (17 users) — 建置MCP閘道後，探討Agent權限管理</li>
+<li><a href="https://gigazine.net/news/20261002-car-data-privacy/" rel="noopener noreferrer">測試 21 輛最新車型的結果 幾乎所有車輛皆向第三方網域傳輸資料 逾半數向廣告公司發送訊息</a> (10 users) — 新車測試揭密，逾半數向廣告商傳資料</li>
+<li><a href="https://www.techno-edge.net/article/2026/10/02/5550.html" rel="noopener noreferrer">Claude Code 支援擴充功能「mod」，可自訂 UI 與行為。亦可由 Claude 代為撰寫</a> (6 users) — Claude Code支援Mod自訂UI與行為</li>
+<li><a href="https://www.itmedia.co.jp/aiplus/article/2610/02/2000001965/" rel="noopener noreferrer">「完全國產」AI 由 KDDI 旗下 ELYZA 免費公開 基於「LLM-jp-4」強化效能</a> (4 users) — KDDI旗下ELYZA免費公開國產AI</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49926069" rel="noopener noreferrer">Pi 1.0</a></td>
+<td>1618pt</td>
+<td>***</td>
+<td>AI</td>
+<td>主打極簡介面與內建 MCP 協議，提供輕量可靠的 AI 助理替代方案</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49928121" rel="noopener noreferrer">Linux 核心發現數個漏洞</a></td>
+<td>513pt</td>
+<td>***</td>
+<td>Security</td>
+<td>曝露千餘項漏洞，推動 AI 輔助修補技術實戰應用以加速修復流程</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49929489" rel="noopener noreferrer">DeepSeek Harness 桌面版（macOS 與 Windows）</a></td>
+<td>372pt</td>
+<td>***</td>
+<td>AI</td>
+<td>跨平台桌面版主打高效能與設定繼承，降低大模型本地化使用門檻</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49927754" rel="noopener noreferrer">法院同意 EFF 觀點：猶他州 VPN 法案要求技術上不可能實現之事</a></td>
+<td>117pt</td>
+<td>***</td>
+<td>Security</td>
+<td>裁定法案技術不可行且違憲，確立技術現實為立法底線與隱私保護判例</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=49925974" rel="noopener noreferrer">FLUX 3 圖像模型</a></td>
+<td>109pt</td>
+<td>***</td>
+<td>AI</td>
+<td>高畫質圖像生成模型主打直覺操作與精準構圖，期待盡快開放本地部署</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=49926069" rel="noopener noreferrer">Pi 1.0</a> (1618pt) — Meta發布AI助理Pi 1.0
+   💬 社群觀點：社群讚賞其精簡與內建MCP，視為替代複雜工具的可靠選擇；少數質疑功能時程，建議搭配本地模型或Paseo使用。</li>
+<li><a href="https://news.ycombinator.com/item?id=49928121" rel="noopener noreferrer">Linux 核心發現數個漏洞</a> (513pt) — Linux核心曝露多項漏洞
+   💬 社群觀點：社群指出實達千餘漏洞。多數認為AI輔助雖初期增加負擔，但能加速修補、提升安全性，長期利大於弊，並關注修補追蹤機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=49929489" rel="noopener noreferrer">DeepSeek Harness 桌面版（macOS 與 Windows）</a> (372pt) — DeepSeek推出跨平台桌面版
+   💬 社群觀點：用戶稱讚桌面版效能與設定繼承，盼增遠端連線；惟擔憂資料外流、外掛漏洞與資安風險，部分人質疑複雜架構的長期必要性。</li>
+<li><a href="https://news.ycombinator.com/item?id=49927754" rel="noopener noreferrer">法院同意 EFF 觀點：猶他州 VPN 法案要求技術上不可能實現之事</a> (117pt) — 法院裁定猶他州VPN法不可行
+   💬 社群觀點：社群質疑法案技術不可行，且規範境外伺服器屬違憲越權；多數批評立法者無視技術現實，引發審查與言論自由爭議。</li>
+<li><a href="https://news.ycombinator.com/item?id=49925974" rel="noopener noreferrer">FLUX 3 圖像模型</a> (109pt) — FLUX 3高畫質圖像模型登場
+   💬 社群觀點：社群讚賞直覺介面與精準構圖控制，但普遍期待盡快開放權重供本地部署。部分用戶對新模型與UI區別存疑，建議優化排版。</li>
+<li><a href="https://news.ycombinator.com/item?id=49928566" rel="noopener noreferrer">Show HN：為 Opus 5.5 提供模擬畫布</a> (87pt) — 為Opus 5.5打造模擬畫布
+   💬 社群觀點：社群驚嘆LLM繪畫能力，推測屬強化學習或新興特性；然批評畫面細節荒謬與作者展示懶散，建議結合機器人實現實體創作。</li>
+<li><a href="https://news.ycombinator.com/item?id=49924943" rel="noopener noreferrer">Show HN：Breadcrumb，記錄 Mac 上所有操作並為 AI 提供情境管理</a> (31pt) — 記錄Mac操作優化AI情境
+   💬 社群觀點：社群讚賞其能提升 AI 助理效能與情境管理，視為 Recall 理想實現；惟擔憂載入多工具會過度佔用語境空間。</li>
+<li><a href="https://news.ycombinator.com/item?id=49934012" rel="noopener noreferrer">不評估每一步驟，解決 GRPO 的信用分配問題</a> (17pt) — 解決GRPO信用分配免逐步評估
+   💬 社群觀點：社群關注頂尖實驗室如何從海量研究中篩選訓練方向，反映當前 AI 研發面臨的資訊過載與優先級抉擇難題。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pop.byteray.co.uk/advisory/BYTERAY-2026-0213.html" rel="noopener noreferrer">透過 U-Boot 中未受限的 RLE8 開機畫面圖像繞過安全啟動（CVE-2026-71972）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安</td>
+<td>r/cybersecurity</td>
+<td>U-Boot 圖像漏洞可繞過安全啟動</td>
+</tr>
+<tr>
+<td><a href="https://v.redd.it/2m08e02lz1th1" rel="noopener noreferrer">完了。這是首款通過影片圖靈測試的模型。半數對話者以為它是真人</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI</td>
+<td>r/artificial</td>
+<td>首款 AI 模型通過影片圖靈測試</td>
+</tr>
+<tr>
+<td><a href="https://claude.com/blog/claude-code-mods" rel="noopener noreferrer">推出 Claude Mods 功能</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI</td>
+<td>r/ClaudeAI</td>
+<td>Claude 推出程式碼自訂模組</td>
+</tr>
+<tr>
+<td><a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/pewdiepie-unveils-uncensored-ajax-ai-model-built-to-run-on-home-pcs-creator-says-openai-banned-him-twice-while-making-it" rel="noopener noreferrer">PewDiePie 推出可在家用電腦執行的「未審查」Ajax AI 模型 — 創作者稱 OpenAI 曾因模型蒸餾技術兩次封禁他</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>核心技術</td>
+<td>r/StableDiffusion</td>
+<td>創作者推出家用未審查 AI 模型</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://pop.byteray.co.uk/advisory/BYTERAY-2026-0213.html" rel="noopener noreferrer">透過 U-Boot 中未受限的 RLE8 開機畫面圖像繞過安全啟動（CVE-2026-71972）</a> (- ups) — r/cybersecurity — U-Boot 圖像漏洞可繞過安全啟動</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://v.redd.it/2m08e02lz1th1" rel="noopener noreferrer">完了。這是首款通過影片圖靈測試的模型。半數對話者以為它是真人</a> (- ups) — r/artificial — 首款 AI 模型通過影片圖靈測試</li>
+<li><a href="https://claude.com/blog/claude-code-mods" rel="noopener noreferrer">推出 Claude Mods 功能</a> (- ups) — r/ClaudeAI — Claude 推出程式碼自訂模組</li>
+</ol>
+<p><strong>核心技術類</strong></p>
+<ol>
+<li><a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/pewdiepie-unveils-uncensored-ajax-ai-model-built-to-run-on-home-pcs-creator-says-openai-banned-him-twice-while-making-it" rel="noopener noreferrer">PewDiePie 推出可在家用電腦執行的「未審查」Ajax AI 模型 — 創作者稱 OpenAI 曾因模型蒸餾技術兩次封禁他</a> (- ups) — r/StableDiffusion — 創作者推出家用未審查 AI 模型</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/09/microsoft-plugs-nearly-1000-security-holes/" rel="noopener noreferrer">微軟修復近 1,000 個安全漏洞</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>史上最大規模單次更新，修補近千項系統與 AI 組件漏洞</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/08/microsoft-plugs-nearly-400-security-holes/" rel="noopener noreferrer">微軟修復近 400 個安全漏洞</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>含已遭野馬攻擊利用的弱點，凸顯持續監控與快速修補必要性</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/gitlab-patches-critical-self-hosted-ai.html" rel="noopener noreferrer">GitLab 修復評分 9.9 的 AI 閘道嚴重漏洞，可於自託管伺服器執行指令</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>允許特定權限用戶執行任意指令，企業需立即升級並嚴格管控存取</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/antino-backdoor-uses-outlook-and.html" rel="noopener noreferrer">Antino 後門利用 Outlook 與 OneDrive 進行 C2 通訊，涉及中國關聯間諜活動</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>偽裝成日常辦公協作流程，突顯雲端平台異常行為分析與零信任需求</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/dell-csm-flaws-enable-unauthenticated.html" rel="noopener noreferrer">Dell CSM 漏洞允許未經認證的管理員存取與 Kubernetes 節點 Root 權限</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>衝擊容器儲存與 K8s 叢集，邊緣與儲存層安全加固成資安藍圖核心</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/critical-fortimail-zero-day-flaw.html" rel="noopener noreferrer">FortiMail 嚴重零日漏洞遭攻擊利用，允許未經認證的任意檔案寫入</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>已納入 CISA KEV 清單並遭廣泛利用，需緊急套用修補或虛擬補丁</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/cisa-adds-exploited-cisco-catalyst-sd.html" rel="noopener noreferrer">CISA 將遭利用的 Cisco Catalyst SD-WAN Manager 認證繞過漏洞納入 KEV 清單</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>管理平面遭接管風險高，加速推動零信任與多因子驗證已成無退路選項</td>
+</tr>
+<tr>
+<td><a href="https://www.schneier.com/blog/archives/2026/09/malicious-npm-packages-that-evade-defenses.html" rel="noopener noreferrer">規避防禦機制的惡意 npm 套件</a></td>
+<td>Schneier on Security</td>
+<td>***</td>
+<td>具備高度隱蔽性可規避現代掃描，供應鏈攻擊朝精密化演進需強化簽名驗證</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 推論與本地部署突破】</strong> — Strata 引擎成功讓百億參數模型跑上 12GB VRAM，搭配 DeepSeek Harness 桌面版與 Pi 1.0 發布，顯示高效能 AI 正加速下沉至消費級硬體與邊緣端。</li>
+<li><strong>【企業資安與個資外洩危機】</strong> — 大和運輸、第一生命、Times Car 等日企相繼爆發個資外洩，叠加 Lawson 郵件伺服器遭濫用，凸顯供應鏈串接、內部權限管理與基礎設施隔離的重大盲點。</li>
+<li><strong>【AI 智能體基礎設施與標準化】</strong> — Claude Code Mod、Pi 1.0 與 GitLab AI Gateway 漏洞引發對 Agent 權限管理的關注，Docker Sandbox Kit 規格提案與 MCP 閘道實務探討，指向 AI 工具生態朝向模組化、可審計與零信任架構演進。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>AI 開發工具與 MCP 協議</strong>：Hatena 與 HN 同步聚焦 Pi 1.0 與 Claude Code Mod 功能，顯示 MCP 標準與可組裝 AI 工具正成為跨平台開發者共識。</li>
+<li><strong>系統漏洞與資安防護</strong>：HN 與 資安部落格 同步關注 Linux 核心千項漏洞與微軟大規模修補，Reddit 與 Hatena 則揭露 U-Boot 與企業系統遭入侵，反映基礎設施安全維護為全球共同痛點。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
