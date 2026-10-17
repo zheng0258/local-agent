@@ -27,7 +27,7 @@
 | L0 | 自癒 | 單步 transient 失敗 | supervisor retry、`≥2 來源門檻`、run 內上游失效（ADR 0005） | 系統自身（重試成功即結束） | ✅ 已有 |
 | L1 | 資料品質關卡 | 產物結構/內容不合格 | URL 由 id 重建、`strip_invalid_anchors`、judge 三軸門檻、`completeness` 校正 | 系統自身（重生或降級） | ✅ 已有 |
 | L2 | SLO 告警 | 慢性故障（7 天 ≥3 次）、缺席日、品質門檻 | Telegram 當日摘要 + chronic escalation（ADR 0001），episode 去重 | 人：看到就處理；episode 結束自然靜默 | ✅ 已有 |
-| L3 | 自動開單＋自動關單 | 每日 artifact 異常（analyzer）、每週 PM 審查建議 | GitHub issue，標題即穩定指紋 slug，一律 `needs-triage` | 開：機器；**關：同一感測器證據滿足驗收條件** | 🔧 本 ADR |
+| L3 | 自動開單＋自動關單 | 每日 artifact 異常（analyzer）、PM 審查建議（節奏見下節） | GitHub issue，標題即穩定指紋 slug，一律 `needs-triage` | 開：機器；**關：同一感測器證據滿足驗收條件** | 🔧 本 ADR |
 | L4 | agent 開 PR＋人審 | issue 被人工升 `ready-for-agent` | `/tdd-issues` 產 commit / PR | 人審 merge | ⚠️ 有 skill，未排程 |
 | L5 | 同一感測器驗證 | issue 有對應修復 commit | 下一輪同一感測器在 issue 上 comment「驗證：建議關閉」＋證據 | 人按 close（或 L3 規則自動關） | 🔧 本 ADR |
 
@@ -37,7 +37,7 @@
    由 crontab 以 `claude -p` 無人值守執行（06:30 / 09:30 兩個時段共用當日 stamp，pipeline 未結束則讓給下一時段），
    取代綁 session 的 `/loop`。wrapper 走 `agent-prod` worktree 對齊本機 main，`--permission-mode dontAsk`
    只放行讀檔與 `gh issue` 指令。
-2. **每週 `[pm-review]`**（雲端 routine，判斷型）：
+2. **`[pm-review]`**（雲端 routine，判斷型；hypercare 每日、steady 每週，見下節）：
    - 證據加上 `run-history.json` / `usage-history.json`，並掃「不可能狀態」（LLM 步 ran 但 0 tokens、
      scheduled run 耗時過短、四份歷史同日缺漏、deploy 兩處記錄矛盾）。
    - **第 0 步先對帳**：上週建議逐條以程式碼現狀（檔案:行號 / commit）判斷已修與否；再以
@@ -58,6 +58,30 @@
 - 任何層都只貼 `needs-triage`；升 `ready-for-agent` 永遠是人的決定——這是 L3 與 L4 之間唯一的人工閘門，
   讓「機器開單」不會直接變成「機器改碼」。
 
+### 變更驅動的健檢節奏（hypercare ⇄ steady）
+
+固定每週一次的完整審查有兩個錯配：大量改動後（新 step、換模型、改 prompt）一週才看一次，回歸要拖到下週才被看見；
+長期穩定時每週一份「一切正常」的報告則是零資訊雜訊。健檢節奏應跟著**變更風險**走，而非跟著日曆走。
+
+雲端 routine 改為**每天** `0 2 * * *` UTC（台北 10:00，避開 pipeline 慢的日子；近 30 天最晚 10-04 08:38 才結束），
+每次先跑「第 -1 步：判定模式」，模式**每次由證據重新計算、不落狀態檔**：
+
+| 模式 | 進入條件（回溯 7 天，任一成立） | 當日行為 |
+|---|---|---|
+| **hypercare**（密集期） | (a) origin/main 動到 `agents/daily_brief/`、`config/`、`tools/` 的非 merge commit 增刪 > 300 行，或 ≥ 3 個帶程式碼的 merge，或新增 ADR，或改到 `prompts.py` / `reflect_prompts.py` / `llm_schemas.py` / `config/settings.py`；(b) 有 open 的 `[pm-review]` P0/P1（issue body 首行 `優先級：`），或近 7 天有動靜的 `[brief-check]`；(c) run/usage/health 歷史命中不可能狀態，或 deploy 被資料品質關卡擋下（`deploy.status == blocked` / subject `invariants`） | 每日完整審查：對帳、報告歸檔、開單／追評、驗證既有單 |
+| **steady**（穩定期） | 上述全不成立（＝已連續 ≥ 7 天乾淨） | 週一完整審查；其餘日子只做輕量檢查（近 3 天不可能狀態 + 驗證既有單），**不寫報告、不 commit**，有新異常才開單（隔天自然轉 hypercare） |
+
+- **人工覆寫**：repo 根的 `docs/pm-reviews/cadence-override`（內容 `hypercare` 或 `steady`）優先於規則，用於「我知道接下來要大改」或「這週出差別吵我」。
+- 每份報告第三行與索引都標出模式；報告開頭【健檢模式】寫明觸發條件（或乾淨天數）與轉換建議，讓「為什麼今天有報告」可追溯。
+- hypercare 每天跑，故 issue 追評加了防洗版規則：證據無新日期/數字不留言、「仍存在」7 天最多一則、「建議關閉」7 天不重複。
+
+業界對應：
+- **上線後 hypercare 期**（ITIL / 企業系統導入慣例）：重大變更上線後一段時間提高監看密度與支援等級，穩定後回到常態營運。這裡把「上線」泛化成「大量改動進 main」。
+- **SRE error budget policy**（Google SRE Workbook）：可靠度預算燒得快時凍結功能、轉向穩定性工作；預算健康時放寬。這裡的 (c) 不可能狀態 / 關卡攔截相當於燒預算的事件，觸發密集監看。
+- **DORA change failure rate**：變更是故障的主要來源，部署後的觀察窗口是降低 CFR 與 MTTR 的關鍵。以「近 7 天變更量」作為進入密集期的訊號，正是讓觀察密度與變更風險成正比。
+
+門檻（300 行、3 個 merge、7 天）是起始值，憑感覺定；若 hypercare 佔比長期 > 70%（等於每天跑）或從不觸發，再依實際分佈調整，並更新本節。
+
 ## Considered Options
 
 - **讓 PM 審查直接開 PR 修碼** — 否決：判斷型感測器的誤判率不低（見上），且雲端看不到本機狀態；
@@ -65,6 +89,9 @@
 - **只把報告寫得更好（加表格、加 owner 欄）** — 否決：報告沒有狀態機，寫得再好也無法回答「這件事關了沒」。
 - **所有觀測改走 Telegram** — 否決：Telegram 是高打擾、無狀態通道（ADR 0001 已限縮成只推慢性故障），
   不適合承載「待辦」。
+- **固定每日完整審查** — 否決：穩定期每天一份「正常」報告是雜訊，且雲端執行成本線性增加；輕量檢查已足以捕捉新異常。
+- **以狀態檔記錄目前模式（狀態機）** — 否決：雲端 routine 無持久狀態，寫進 repo 又會產生每日 commit；
+  由證據重算的無狀態規則可審計、可重現，人工需要時用 override 檔覆寫即可。
 - **issue 標題用自然語言、靠模糊搜尋查重** — 否決：每週措辭漂移就會開重複單；穩定 slug ＋ 精確比對才有去重保證。
 
 ## Consequences
@@ -73,5 +100,5 @@
 - 本機 main 與 origin/main 不同步不再被誤報為「未修」，而是被顯式點名成一張 `prod-sha-not-on-origin` 單。
 - 新增外部依賴：cron 中的 `claude -p` 與 `gh` 認證（keyring 讀不到時以 `.env` 的 issue 專用 PAT 補位）；
   crontab 需使用者本人寫入（macOS TCC 擋程式寫 crontab）。
-- PM 審查開單量受上限約束（每週新開 ≤5，超過改開彙總單），analyzer 維持每日 ≤5。
+- PM 審查開單量受上限約束（單次審查新開 ≤5，超過改開彙總單），analyzer 維持每日 ≤5。
 - 待辦（不在本 ADR 實作）：`[brief-check]` 連續 3 天乾淨自動關單；`/tdd-issues` 排程化（L4）。
