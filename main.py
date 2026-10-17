@@ -28,7 +28,11 @@ from config.settings import (
     ensure_llm_ready,
 )
 from agents.daily_brief import DailyBriefAgent
+from agents.daily_brief.run_lock import PipelineAlreadyRunning, single_writer
 from agents.url_digest import UrlDigestAgent
+
+# 已有 pipeline 持鎖時的退出碼（sysexits EX_TEMPFAIL：暫時性，稍後重試即可）
+EXIT_ALREADY_RUNNING = 75
 
 SKILL_MAP = [
     (
@@ -87,6 +91,22 @@ def main() -> None:
         print(agent.run(args))
         return
 
+    if agent.AGENT_NAME != "daily-brief":
+        _run_with_models(agent, args, logger)
+        return
+
+    # 單一寫入者鎖：兩條 pipeline 並行會互搶 LM Studio、互寫 artifact，且後結束者的
+    # unload_all 會踢掉另一條的模型（10-04、10-17 實例）。取不到鎖就在碰模型前退出；
+    # 不發 Telegram——持鎖的那條會照常收尾與告警，這裡再發只是噪音。
+    try:
+        with single_writer():
+            _run_with_models(agent, args, logger)
+    except PipelineAlreadyRunning as exc:
+        logger.warning("%s，本次略過", exc)
+        sys.exit(EXIT_ALREADY_RUNNING)
+
+
+def _run_with_models(agent, args: str, logger: logging.Logger) -> None:
     llm_model = os.environ.get("LOCAL_LLM_MODEL", DEFAULT_LOCAL_LLM_MODEL)
     judge_model = os.environ.get("JUDGE_LLM_MODEL", DEFAULT_JUDGE_LLM_MODEL)
 

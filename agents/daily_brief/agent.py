@@ -31,7 +31,7 @@ from config.settings import (
 
 from tools.usage_meter import UsageMeter
 
-from . import prompts
+from . import invariants, prompts
 from .config import FETCH_STEPS, OUTPUT_DIR
 from .reconcile import filter_top_articles
 from .step import Supervisor
@@ -233,9 +233,12 @@ class DailyBriefAgent:
             today, day_dir, steps_dir, meter, manifest, tg_send, partial_run
         )
 
-        DeployStep(
-            lambda: build_full_site(OUTPUT_DIR, publishing_date=ctx.today), ctx.today
-        ).run(ctx, None)
+        # L1 資料品質關卡：快照落盤後才檢查（讀得到當日 _run/_usage），違規則不發佈壞資料
+        if _deploy_gate(day_dir, steps_dir, manifest):
+            DeployStep(
+                lambda: build_full_site(OUTPUT_DIR, publishing_date=ctx.today),
+                ctx.today,
+            ).run(ctx, None)
 
         # Fix B: pipeline 結束後，把當日的步驟失敗與品質告警彙總成單封（每天只發一次）
         from . import alerts as alert_store
@@ -528,6 +531,43 @@ def _persist_run(
         )
     except Exception as exc:  # 執行紀錄不得反過來弄垮 pipeline
         logger.warning("執行紀錄失敗（不影響 pipeline）：%s", exc)
+
+
+def _deploy_gate(
+    day_dir: Path, steps_dir: Path, manifest: "RunManifest | None"
+) -> bool:
+    """deploy 前資料品質關卡：回傳是否放行發佈。
+
+    違規 → 記 `invariants` alert（當日 Telegram 摘要 + health 的 deploy=invariant +
+    跨天慢性偵測皆接得到）、run manifest 記 deploy=blocked（運行紀錄頁看得到），擋下。
+    通過 → 清掉同日稍早 run 殘留的 invariants alert（否則 health 會誤判今天被擋）。
+    檢查本身出錯 → 只記 log、放行：關卡的 bug 不得弄垮 pipeline，也不憑空停站。
+    但已判定違規時，記錄 alert 失敗仍照擋（壞資料不因記帳出錯而上站）。
+    """
+    from . import alerts as alert_store
+
+    try:
+        violations = invariants.check_day(day_dir)
+    except Exception as exc:  # 關卡不得反過來弄垮 pipeline
+        logger.warning("資料品質關卡檢查失敗（放行 deploy）：%s", exc)
+        return True
+
+    if not violations:
+        try:
+            alert_store.clear_failure(steps_dir, "invariants")
+        except Exception as exc:
+            logger.warning("清除 invariants alert 失敗（不影響 deploy）：%s", exc)
+        return True
+
+    message = invariants.format_violations(violations)
+    logger.error("資料品質關卡擋下 deploy：%s", message)
+    try:
+        alert_store.record_failure(steps_dir, "invariants", message)
+    except Exception as exc:
+        logger.warning("記錄 invariants alert 失敗（deploy 仍擋下）：%s", exc)
+    if manifest is not None:
+        manifest.record_step("deploy", "blocked", 0.0)
+    return False
 
 
 def _quality_reason(steps_dir: Path) -> str:

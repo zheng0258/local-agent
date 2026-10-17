@@ -72,6 +72,7 @@ class ErrorClass(str, Enum):
     UPSTREAM_HTTP = "upstream_http"  # HTTP 4xx/5xx：上游端點問題
     EMPTY_LLM = "empty_llm"  # 本地模型吐空字串
     PARSE = "parse"  # LLM 輸出無法解析為合法 JSON
+    INVARIANT = "invariant"  # deploy 前資料品質關卡擋下（不可能狀態，見 invariants.py）
     OTHER = "other"  # 環境 / 程式 / 遞送等其他
 
 
@@ -80,6 +81,7 @@ _SUGGESTIONS: Mapping[str, str] = {
     ErrorClass.UPSTREAM_HTTP.value: "上游持續回錯 — 確認來源端點仍有效，或需更新 URL / header",
     ErrorClass.EMPTY_LLM.value: "本地模型反覆吐空 — 檢查模型載入狀態或調整 prompt / temperature",
     ErrorClass.PARSE.value: "LLM 輸出格式持續不合 — 強化 prompt 或 parse fallback",
+    ErrorClass.INVARIANT.value: "資料不變式違規擋下發佈 — 檢視 alerts.json 的 invariants 細節，修正上游後重跑",
     ErrorClass.OTHER.value: "環境或程式問題 — 檢視該 subject 近期的 alert 內容",
 }
 
@@ -158,8 +160,11 @@ def observe_run(today: str, day_dir: Path, steps_dir: Path) -> HealthRecord:
         day_dir / "telegram.done", alerts.get("notify")
     )
     candidates["vault"] = _subject_outcome(day_dir / "vault.done", alerts.get("save"))
-    candidates["deploy"] = _subject_outcome(
-        day_dir / "deploy.done", alerts.get("deploy")
+    # invariants 關卡擋下 = 本次 run 沒有發佈（即使同日稍早已有 deploy.done）
+    candidates["deploy"] = (
+        ErrorClass.INVARIANT.value
+        if "invariants" in alerts
+        else _subject_outcome(day_dir / "deploy.done", alerts.get("deploy"))
     )
     results = {s: r for s, r in candidates.items() if r is not None}
     return HealthRecord(date=today, results=results)
