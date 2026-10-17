@@ -193,3 +193,73 @@ def test_persist_observations_partial_preserves_full_run_record(tmp_path, monkey
     run_hist = json.loads((tmp_path / "_run-history.json").read_text(encoding="utf-8"))
     assert len(run_hist) == 1
     assert run_hist[0]["steps"]["hatena"]["status"] == "ran"
+
+
+@pytest.mark.unit
+def test_builds_on_prior_run_detects_loaded_steps():
+    from agents.daily_brief.run_manifest import builds_on_prior_run
+
+    assert builds_on_prior_run({"steps": {"hatena": {"status": "loaded"}}})
+    assert not builds_on_prior_run({"steps": {"hatena": {"status": "ran"}}})
+    assert not builds_on_prior_run({"steps": {}})
+
+
+@pytest.mark.unit
+def test_run_merge_loaded_does_not_overwrite_ran():
+    from agents.daily_brief.run_manifest import merge_summary
+
+    fresh = {**_only_judge_manifest(), "steps": {"hatena": {"status": "loaded", "duration_seconds": 0.0}}}
+    merged = merge_summary(_full_run_manifest(), fresh, partial=True)
+    assert merged["steps"]["hatena"] == {"status": "ran", "duration_seconds": 781.8}
+
+
+@pytest.mark.unit
+def test_persist_observations_cached_rerun_preserves_full_run_record(tmp_path, monkeypatch):
+    """2026-10-15 實例：完整 run 後再不帶旗標重跑一次（全部步驟載入既有 artifact、
+    0 次 LLM 呼叫），舊判準只看 `--only`，把 3 小時 / 數十萬 tokens 蓋成 0 tokens / 0.046s。
+    """
+    import json
+
+    from agents.daily_brief import agent as agent_mod
+    from agents.daily_brief import health
+    from agents.daily_brief.run_manifest import RunManifest
+    from tools.usage_meter import UsageMeter
+
+    day_dir = tmp_path / "2026-10-15"
+    steps_dir = day_dir / "steps"
+    steps_dir.mkdir(parents=True)
+    (day_dir / "telegram.done").touch()
+
+    monkeypatch.setattr(agent_mod, "OUTPUT_DIR", tmp_path)
+    monkeypatch.setattr(health, "HEALTH_HISTORY_FILE", tmp_path / "_health-history.json")
+    monkeypatch.setattr(health, "ESCALATION_STATE_FILE", tmp_path / "_health-escalated.json")
+
+    def _persist(meter, manifest):
+        agent_mod._persist_observations(
+            "2026-10-15", day_dir, steps_dir, meter, manifest, lambda _m: True, False
+        )
+
+    full_meter = UsageMeter()
+    full_meter.current_step = "hatena"
+    full_meter.record("main", {"prompt_tokens": 10, "completion_tokens": 20, "total_tokens": 30})
+    full_manifest = RunManifest(trigger="scheduled", sha="f4194d6")
+    full_manifest.record_step("hatena", "ran", 519.7)
+    full_manifest.record_step("deploy", "ran", 6.4)
+    _persist(full_meter, full_manifest)
+    full_duration = json.loads((steps_dir / "_run.json").read_text(encoding="utf-8"))[
+        "duration_seconds"
+    ]
+
+    # 不帶旗標重跑：每步皆載入既有 artifact，無任何 LLM 呼叫
+    rerun_manifest = RunManifest(trigger="scheduled", sha="f4194d6")
+    rerun_manifest.record_step("hatena", "loaded", 0.001)
+    rerun_manifest.record_step("deploy", "loaded", 0.0)
+    _persist(UsageMeter(), rerun_manifest)
+
+    run_doc = json.loads((steps_dir / "_run.json").read_text(encoding="utf-8"))
+    usage_doc = json.loads((steps_dir / "_usage.json").read_text(encoding="utf-8"))
+    assert usage_doc["totals"]["total_tokens"] == 30
+    assert run_doc["steps"]["hatena"] == {"status": "ran", "duration_seconds": 519.7}
+    assert run_doc["duration_seconds"] == full_duration
+    usage_hist = json.loads((tmp_path / "_usage-history.json").read_text(encoding="utf-8"))
+    assert usage_hist[-1]["total_tokens"] == 30

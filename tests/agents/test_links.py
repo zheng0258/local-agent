@@ -91,3 +91,48 @@ def test_strip_invalid_md_links_unwraps_non_http():
     cleaned, removed = strip_invalid_md_links(md)
     assert removed == 2
     assert cleaned == "死連結 與 未替換 與 [好的](https://ok)"
+
+
+@pytest.mark.unit
+def test_substitute_md_link_handles_brackets_inside_title():
+    # 09-24 / 09-28 實例：標題自帶 [已修復] / [預覽]，舊正則跨不過內層 ]，token 原樣上站
+    md = "2. [Claude Code 讀取 AGENTS.md [已修復]](@@3@@) (374pt)"
+    assert (
+        substitute_md_link_tokens(md, {3: "https://a"})
+        == "2. [Claude Code 讀取 AGENTS.md [已修復]](https://a) (374pt)"
+    )
+    assert (
+        substitute_md_link_tokens("| [[預覽] AWS Agent](@@1@@) | 32 |", {1: "https://b"})
+        == "| [[預覽] AWS Agent](https://b) | 32 |"
+    )
+
+
+@pytest.mark.unit
+def test_substitute_md_link_repairs_missing_open_bracket():
+    # 10-16 實例：LLM 漏寫開頭 [，只剩 標題](@@10@@)
+    md = "11. 【Mac Info】Safari 擴充功能](@@10@@) (19 users) — x"
+    assert (
+        substitute_md_link_tokens(md, {10: "https://m"})
+        == "11. [【Mac Info】Safari 擴充功能](https://m) (19 users) — x"
+    )
+    assert (
+        substitute_md_link_tokens("| 標題](@@1@@) | 32 |", {1: "https://t"})
+        == "| [標題](https://t) | 32 |"
+    )
+    assert substitute_md_link_tokens("- 標題](@@1@@)", {1: "https://t"}) == "- [標題](https://t)"
+
+
+@pytest.mark.unit
+def test_strip_invalid_md_links_unwraps_nested_bracket_title():
+    cleaned, removed = strip_invalid_md_links("[Claude [已修復]](@@3@@) 尾")
+    assert removed == 1
+    assert cleaned == "Claude [已修復] 尾"
+
+
+@pytest.mark.unit
+def test_strip_invalid_md_links_removes_orphan_tokens():
+    # 任何殘留 token 都不得上站：孤立的 ](@@N@@) 與裸 @@N@@ 一律清掉並計數
+    cleaned, removed = strip_invalid_md_links("句中 標題](@@4@@) 與 @@5@@ 結尾")
+    assert removed == 2
+    assert "@@" not in cleaned
+    assert cleaned == "句中 標題 與  結尾"

@@ -82,9 +82,22 @@ class RunManifest:
 
 # ── 部分重跑的合併（純函數）──────────────────────────────────────
 
-# `--only` 重跑時未涵蓋的步驟會記成 skipped，不帶任何資訊；若整份覆寫當日紀錄，
-# 完整 run 的 16 步／總耗時／觸發源就被抹成殘缺版。故部分重跑只 patch 實際跑過的步。
-_EMPTY_STATUS: frozenset[str] = frozenset({"skipped"})
+# `--only` 重跑時未涵蓋的步驟會記成 skipped、命中快取的步驟記成 loaded，皆不帶任何
+# 資訊；若整份覆寫當日紀錄，完整 run 的 16 步／總耗時／觸發源就被抹成殘缺版。
+# 故部分重跑只 patch 實際跑過的步。
+_EMPTY_STATUS: frozenset[str] = frozenset({"skipped", "loaded"})
+
+
+def builds_on_prior_run(fresh: dict) -> bool:
+    """本次 run 是否有步驟載入當日既有 artifact（= 同日已有前一次 run）。
+
+    此時本次 run 只是補跑／重跑，必須與既有紀錄合併而非覆寫——不只 `--only`，
+    不帶旗標的重跑也會全部 loaded、0 次 LLM 呼叫（10-15 實例：被蓋成 0 tokens）。
+    """
+    return any(
+        str((info or {}).get("status", "")) == "loaded"
+        for info in (fresh.get("steps") or {}).values()
+    )
 
 
 def merge_summary(

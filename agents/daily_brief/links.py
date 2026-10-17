@@ -20,8 +20,15 @@ TOKEN_RE = re.compile(r"@@(\d+)@@")
 _HREF_RE = re.compile(r'href="([^"]*)"')
 # <a ...>錨文字</a>：錨文字不含巢狀標籤（TG 格式為 <b><a>title</a></b>）
 _ANCHOR_RE = re.compile(r'<a\s+href="([^"]*)"\s*>(.*?)</a>', re.DOTALL)
-# Markdown 連結 [文字](目標)；文字不含 ]、目標不含 )
-_MD_LINK_RE = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
+# Markdown 連結 [文字](目標)；文字允許一層內嵌 [..]（標題常自帶 [已修復] / [預覽]，
+# 09-24 / 09-28 曾因此 token 未替換就上站）、目標不含 )
+_MD_LINK_RE = re.compile(r"\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\(([^)]*)\)")
+# LLM 漏寫開頭 [ 的殘缺連結：行首清單標記 / 表格 | 之後直接接「標題](@@N@@)」（10-16 實例）
+_MISSING_OPEN_RE = re.compile(
+    r"^(\s*(?:\d+\.|[-*•])\s+|.*?\|\s*)([^\[\]\n|]+?)\]\((@@\d+@@)\)", re.MULTILINE
+)
+# 最後防線：連結形狀之外殘留的 token（孤立的 ](@@N@@) 或裸 @@N@@）
+_ORPHAN_TOKEN_RE = re.compile(r"\]\(@@\d+@@\)|@@\d+@@")
 
 
 def href_token(article_id: int) -> str:
@@ -76,6 +83,7 @@ def strip_invalid_anchors(html: str) -> tuple[str, int]:
 def substitute_md_link_tokens(md: str, url_by_id: dict[int, str]) -> str:
     """把 markdown [文字](@@N@@) 的 token 換成 url_by_id[N] 的真實 URL。
 
+    先補回 LLM 漏寫的開頭 [（清單項 / 表格儲存格），再替換。
     未知 id / 格式不符原樣保留（交由 strip_invalid_md_links 收尾）。純函數。
     """
 
@@ -88,12 +96,14 @@ def substitute_md_link_tokens(md: str, url_by_id: dict[int, str]) -> str:
                 return f"[{text}]({url})"
         return m.group(0)
 
-    return _MD_LINK_RE.sub(_repl, md)
+    repaired = _MISSING_OPEN_RE.sub(r"\1[\2](\3)", md)
+    return _MD_LINK_RE.sub(_repl, repaired)
 
 
 def strip_invalid_md_links(md: str) -> tuple[str, int]:
     """把 [文字](目標) 中目標非 http(s) 的連結拆成純文字（防死連結 / (#) / 未替換 token）。
 
+    連結形狀之外殘留的 token（孤立 ](@@N@@) / 裸 @@N@@）一併清掉，確保 token 絕不上站。
     回傳 (清理後 md, 被拆掉的連結數)。> 0 應由呼叫端記 alert。純函數。
     """
     removed = 0
@@ -106,4 +116,6 @@ def strip_invalid_md_links(md: str) -> tuple[str, int]:
         removed += 1
         return text
 
-    return _MD_LINK_RE.sub(_repl, md), removed
+    unwrapped = _MD_LINK_RE.sub(_repl, md)
+    cleaned, orphans = _ORPHAN_TOKEN_RE.subn("", unwrapped)
+    return cleaned, removed + orphans

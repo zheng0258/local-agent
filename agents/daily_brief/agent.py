@@ -559,7 +559,13 @@ def _persist_observations(
 
     站台上「deploy 這一格」仍必然落後一天——站台是被該次 deploy 推上去的，無法包含
     自身發佈結果。這是本質循環，不是缺陷。
+
+    partial 除了 `--only`，也涵蓋「有步驟載入既有 artifact」的重跑（同日已有前一次
+    run）：此時本次 run 只是補跑，必須合併而非覆寫（10-15 被蓋成 0 tokens 的根因）。
     """
+    from . import run_manifest as run_store
+
+    merge = partial or run_store.builds_on_prior_run(manifest.summarize(today))
     _observe_and_escalate(today, day_dir, steps_dir, tg_send)
-    _persist_usage(today, steps_dir, meter, partial)
-    _persist_run(today, steps_dir, manifest, partial)
+    _persist_usage(today, steps_dir, meter, merge)
+    _persist_run(today, steps_dir, manifest, merge)
