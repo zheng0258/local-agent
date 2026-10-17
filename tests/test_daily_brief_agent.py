@@ -540,4 +540,6 @@ def test_observations_persist_before_deploy():
         "DeployStep 必須在 _persist_observations 之後，否則站台資料永遠落後一天"
     )
     # deploy 後仍需補記一次，把 deploy 自身結果寫進同日記錄
-    assert src.count("_persist_observations(") == 2
+    # （資料品質關卡自動修復後另有一次條件式重落快照，同樣在 deploy 之前）
+    assert src.rindex("_persist_observations(") > deploy_call
+    assert src.count("_persist_observations(") == 3

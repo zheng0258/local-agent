@@ -233,9 +233,24 @@ class DailyBriefAgent:
             today, day_dir, steps_dir, meter, manifest, tg_send, partial_run
         )
 
-        DeployStep(
-            lambda: build_full_site(OUTPUT_DIR, publishing_date=ctx.today), ctx.today
-        ).run(ctx, None)
+        # L1 資料品質關卡：快照落盤後才檢查（讀得到當日 _run/_usage）。先修復（確定性
+        # relink → 一次 LLM 重跑 report），修不好才擋 deploy（見 deploy_gate.py）。
+        from .deploy_gate import run_gate
+
+        def _rerun_report(reflect: str) -> None:
+            ReportStep().run(ctx, (enrich_data, digests), reflect=reflect, force=True)
+
+        gate = run_gate(day_dir, steps_dir, manifest, rerun_report=_rerun_report)
+        if gate.repairs:
+            # 修復改寫了 report.md / manifest：重落快照，讓當天站台即帶上修復紀錄
+            _persist_observations(
+                today, day_dir, steps_dir, meter, manifest, tg_send, partial_run
+            )
+        if gate.allow:
+            DeployStep(
+                lambda: build_full_site(OUTPUT_DIR, publishing_date=ctx.today),
+                ctx.today,
+            ).run(ctx, None)
 
         # Fix B: pipeline 結束後，把當日的步驟失敗與品質告警彙總成單封（每天只發一次）
         from . import alerts as alert_store

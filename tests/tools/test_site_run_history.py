@@ -90,3 +90,28 @@ def test_build_site_archive_emits_run_history_when_runs_given():
 def test_build_site_archive_omits_run_history_when_runs_none():
     site = build_site_archive([("2026-09-22", "# r")])
     assert "run-history.html" not in site
+
+
+def _runs_with_gate(status):
+    return compute_runs(
+        judge_history=[],
+        health_history=[{"date": "2026-10-17", "results": ALL_OK}],
+        run_manifests=[
+            {"date": "2026-10-17", "steps": {"invariants": {"status": status}}}
+        ],
+    )
+
+
+def test_run_record_flags_gate_repair():
+    (run,) = _runs_with_gate("repaired")
+    assert run.repaired is True
+
+
+def test_render_run_history_marks_auto_repaired_day():
+    html = render_run_history(_runs_with_gate("repaired"))
+    assert html.count('class="rfix"') == 1
+
+
+def test_render_run_history_no_repair_marker_on_normal_day():
+    html = render_run_history(_runs())
+    assert 'class="rfix"' not in html

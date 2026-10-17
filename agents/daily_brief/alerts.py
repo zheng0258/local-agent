@@ -30,6 +30,10 @@ _QUALITY_MAX_CHARS = 400
 # （gh-pages 停更），教訓：遞送失敗一律要能被看見（見 CONTEXT.md「系統訊號」）。
 _QUIET_STEPS: frozenset[str] = frozenset()
 
+# 非步驟的 alert（deploy 前資料品質關卡的 invariants / ledger）：照常列入摘要，但
+# `--force` 補跑它沒有意義（不是 step 名），不放進補跑指令。
+_NON_STEP_ALERTS: frozenset[str] = frozenset({"invariants", "ledger"})
+
 
 def _alerts_path(steps_dir: Path) -> Path:
     return steps_dir / "alerts.json"
@@ -61,6 +65,21 @@ def record_failure(steps_dir: Path, name: str, error: str) -> None:
     }
     _alerts_path(steps_dir).write_text(
         json.dumps(alerts, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+
+
+def clear_failure(steps_dir: Path, name: str) -> None:
+    """移除一筆失敗（不存在則不動檔案）。
+
+    只給「狀態型」alert 用：如 invariants——同日稍早 run 的違規在後一次 run 修好、
+    順利發佈後，殘留的 alert 會讓 health 把今天的 deploy 誤判為被擋。
+    """
+    alerts = load_alerts(steps_dir)
+    if name not in alerts:
+        return
+    remaining = {k: v for k, v in alerts.items() if k != name}
+    _alerts_path(steps_dir).write_text(
+        json.dumps(remaining, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
 
@@ -101,11 +120,13 @@ def send_summary(
                 lines.append(f"• <b>{step}</b>：{info.get('error', '')[:120]}")
             else:
                 lines.append(f"• <b>{step}</b>")
-        lines += [
-            "",
-            "補跑指令：",
-            f"  python3 main.py \"/daily-brief --force {' '.join(alerts.keys())}\"",
-        ]
+        rerun = [k for k in alerts if k not in _NON_STEP_ALERTS]
+        if rerun:
+            lines += [
+                "",
+                "補跑指令：",
+                f"  python3 main.py \"/daily-brief --force {' '.join(rerun)}\"",
+            ]
     if quality_reason:
         lines += [
             "",
