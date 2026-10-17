@@ -17,7 +17,7 @@ from __future__ import annotations
 import json
 import os
 import shlex
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 from typing import Callable
@@ -68,6 +68,9 @@ class _RunContext:
     judge_llm: LLMBackend
     meter: UsageMeter | None = None
     run_manifest: "RunManifest | None" = None
+    # 本次 run 已 RUN（非 LOAD）的步驟：Step 寫入、下游 gating 讀取（run 內上游失效，
+    # 見 step_cache.upstream_ran）。frozen ctx 上唯一的可變累加器，生命週期 = 單次 run。
+    ran_steps: set[str] = field(default_factory=set)
 
 
 class DailyBriefAgent:

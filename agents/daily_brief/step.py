@@ -14,7 +14,7 @@ from typing import Any, Callable, Protocol
 from config import get_logger
 
 from .codecs import ArtifactCodec, JsonCodec
-from .step_cache import Verdict, decide
+from .step_cache import Verdict, decide, upstream_ran
 
 logger = get_logger(__name__)
 
@@ -124,6 +124,9 @@ class Step:
         self, ctx, input, reflect: str = "", force: bool = False
     ) -> StepOutcome:
         path = self.artifact_path(ctx)
+        # 本次 run 已 RUN 的步驟（選填 seam；None 則退回單純 decide，不做 run 內失效）。
+        ran_steps = getattr(ctx, "ran_steps", None)
+        stale = ran_steps is not None and upstream_ran(self.name, ran_steps)
         if force:
             verdict = Verdict.RUN
         else:
@@ -131,6 +134,7 @@ class Step:
                 self.name in ctx.steps_to_run,
                 self.codec.exists(path),
                 self.name in ctx.force_steps,
+                upstream_ran=stale,
             )
         if verdict is Verdict.SKIP:
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
@@ -143,8 +147,10 @@ class Step:
             logger.warning("Step %-8s: 缺少輸入或前置條件，略過", self.name)
             return StepOutcome(StepStatus.SKIPPED, self._default(input))
 
+        if stale:
+            logger.warning("Step %-8s: 上游本次已重跑，既有 artifact 過期 → 重跑", self.name)
         logger.info("Step %-8s: 執行中...", self.name)
-        forced = force or (self.name in ctx.force_steps)
+        forced = force or stale or (self.name in ctx.force_steps)
 
         def _producer(reflect_context: str = "") -> StepOutput:
             return self._produce(ctx, input, reflect_context or reflect)
@@ -159,5 +165,7 @@ class Step:
             return StepOutcome(StepStatus.FAILED, self._default(input))
         output: StepOutput = result.output
         self.codec.write(path, output.persist)
+        if ran_steps is not None:
+            ran_steps.add(self.name)  # 讓下游得知本步 artifact 已換新
         logger.info("Step %-8s: 完成 → %s", self.name, path.name)
         return StepOutcome(StepStatus.RAN, output.value)
