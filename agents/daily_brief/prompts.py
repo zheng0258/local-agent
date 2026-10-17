@@ -543,15 +543,16 @@ def build_judge_prompt(
 **重要規則**：
 - 每個 reasoning 欄位只寫評分理由文字，不要在 reasoning 裡列出任何 URL
 - 被遺漏的 URL 統一放在頂層 missed_urls 陣列
+- 每個維度**先寫 reasoning 再給 score**：依理由定分，不要先定分再找理由
 
 ## 輸出格式
 
 ```json
 {{
   "scores": {{
-    "relevance":    {{"score": 4, "reasoning": "說明"}},
-    "completeness": {{"score": 3, "reasoning": "說明（勿列 URL）"}},
-    "faithfulness": {{"score": 5, "reasoning": "說明"}}
+    "relevance":    {{"reasoning": "先寫理由", "score": 4}},
+    "completeness": {{"reasoning": "先寫理由（勿列 URL）", "score": 3}},
+    "faithfulness": {{"reasoning": "先寫理由", "score": 5}}
   }},
   "missed_urls": [],
   "overall": 4.0

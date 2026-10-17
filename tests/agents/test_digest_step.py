@@ -76,3 +76,18 @@ def test_digest_step_default_is_empty_list(tmp_path):
     outcome = DigestStep().run(_ctx(tmp_path, steps_to_run=set()), {"hn": {}})
     assert outcome.status is StepStatus.SKIPPED
     assert outcome.value == []
+
+
+@pytest.mark.unit
+def test_digest_step_requests_digest_json_schema_per_source(tmp_path):
+    """結構化輸出（ADR 0006）：每個來源的 digest 呼叫都帶 DIGEST_SCHEMA。"""
+    from agents.daily_brief.llm_schemas import DIGEST_SCHEMA
+
+    llm = FakeLLM(default=json.dumps({"digests": [{"id": 0, "summary": "摘要"}]}))
+    art = {"title": "t", "url": "https://e.com", "one_liner": "x", "interest": "***"}
+    compress_data = {
+        "hn": {"themes": [], "articles": [art]},
+        "reddit": {"themes": [], "articles": [art]},
+    }
+    DigestStep().run(_ctx(tmp_path, llm=llm), compress_data)
+    assert llm.schemas == [DIGEST_SCHEMA, DIGEST_SCHEMA]

@@ -24,7 +24,8 @@ from tools.history_schema import JudgeHistoryRecord
 
 from .. import prompts
 from ..config import FETCH_STEPS
-from ..schemas import QualityScore
+from ..llm_schemas import JUDGE_SCHEMA
+from ..schemas import JUDGE_DIMENSIONS, QualityScore
 from ..step import Step, StepOutput
 
 logger = get_logger(__name__)
@@ -88,20 +89,21 @@ class JudgeStep(Step):
                 json.dumps(original_pairs, ensure_ascii=False),
             ),
             system=prompts.SYSTEM,
+            schema=JUDGE_SCHEMA,
         )
-        result = parse_llm_json(raw)
-        scores = result.get("scores", {})
+        # 白名單重建：json_schema 已在文法層擋掉 schema 外欄位，但 fallback 路徑
+        # （schema 未生效 / 回退開關關閉）仍可能夾帶 LLM 自吐的 quality_alert 等欄位。
+        result = _sanitize_judge_response(parse_llm_json(raw))
+        scores = result["scores"]
         # missed_urls 在新 schema 位於頂層；回寫進 completeness 維持下游介面不變
-        missed_urls = result.get("missed_urls") or []
         completeness = scores.get("completeness")
-        if isinstance(completeness, dict):
-            completeness["missed_urls"] = missed_urls
-        dimensions = ["relevance", "completeness", "faithfulness"]
+        if completeness is not None:
+            completeness["missed_urls"] = result["missed_urls"]
         valid_scores = [
             scores[dim]["score"]
-            for dim in dimensions
+            for dim in JUDGE_DIMENSIONS
             if dim in scores
-            and isinstance(scores.get(dim, {}).get("score"), (int, float))
+            and isinstance(scores[dim].get("score"), (int, float))
         ]
         result["overall"] = (
             round(sum(valid_scores) / len(valid_scores), 1) if valid_scores else 0.0
@@ -126,7 +128,31 @@ class JudgeStep(Step):
 # 沒有的內容）無聲通過——faithfulness 低對公開展示站的可信度傷害最大，不能漏。
 _DIMENSION_FLOOR: float = 3.0
 _OVERALL_FLOOR: float = 3.5
-_ALERT_DIMENSIONS: tuple[str, ...] = ("relevance", "completeness", "faithfulness")
+# 每個維度只採信這兩個欄位（與 llm_schemas.JUDGE_SCHEMA 的維度物件一致）。
+_DIMENSION_KEYS: tuple[str, ...] = ("score", "reasoning")
+
+
+def _sanitize_judge_response(parsed: dict) -> dict:
+    """把 judge LLM 回應收斂成 {scores, missed_urls}（純函數，回傳全新 dict）。
+
+    只保留 JUDGE_DIMENSIONS 各維度的 score/reasoning 與頂層 missed_urls（僅字串）；
+    LLM 自填的 overall、quality_alert、quality_alert_reason 等一律捨棄——這些
+    由 Python 依分數重算，絕不採信 LLM（PM 週報 10-12：自吐旗標流入公開歷史）。
+    """
+    raw_scores = parsed.get("scores") if isinstance(parsed, dict) else None
+    raw_scores = raw_scores if isinstance(raw_scores, dict) else {}
+    scores = {
+        dim: {k: entry[k] for k in _DIMENSION_KEYS if k in entry}
+        for dim in JUDGE_DIMENSIONS
+        if isinstance(entry := raw_scores.get(dim), dict)
+    }
+    raw_missed = parsed.get("missed_urls") if isinstance(parsed, dict) else None
+    missed_urls = (
+        [u for u in raw_missed if isinstance(u, str)]
+        if isinstance(raw_missed, list)
+        else []
+    )
+    return {"scores": scores, "missed_urls": missed_urls}
 
 
 def _quality_alert_reasons(scores: dict, overall: float) -> list[str]:
@@ -135,7 +161,7 @@ def _quality_alert_reasons(scores: dict, overall: float) -> list[str]:
     分數非數值（judge 未給有效分）的維度直接略過——無分數不等於不合格。
     """
     reasons: list[str] = []
-    for dim in _ALERT_DIMENSIONS:
+    for dim in JUDGE_DIMENSIONS:
         raw = scores.get(dim)
         value = raw.get("score") if isinstance(raw, dict) else None
         if not isinstance(value, (int, float)) or isinstance(value, bool):

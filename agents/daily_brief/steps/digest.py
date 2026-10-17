@@ -13,6 +13,7 @@ from pathlib import Path
 from config import get_logger, parse_llm_json
 
 from .. import prompts
+from ..llm_schemas import DIGEST_SCHEMA
 from ..step import Step, StepOutput
 
 logger = get_logger(__name__)
@@ -71,7 +72,7 @@ class DigestStep(Step):
             prompt = self._with_reflect(
                 prompts.build_digest_prompt_from_compress(compress_json), reflect_context
             )
-            result = parse_llm_json(self._complete(ctx, prompt))
+            result = parse_llm_json(self._complete(ctx, prompt, DIGEST_SCHEMA))
             summary_by_id = _summaries_by_id(
                 result.get("digests", []), len(raw_articles)
             )

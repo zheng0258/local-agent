@@ -360,3 +360,67 @@ def test_judge_no_alert_when_all_dimensions_pass(tmp_path, monkeypatch):
     )
     result = _judge(tmp_path, monkeypatch, resp, [])
     assert not result.get("quality_alert")
+
+
+# ── 結構化輸出（ADR 0006）────────────────────────────────────────
+
+@pytest.mark.unit
+def test_judge_requests_judge_json_schema(tmp_path, monkeypatch):
+    import agents.daily_brief.config as cfg
+    from agents.daily_brief.llm_schemas import JUDGE_SCHEMA
+
+    monkeypatch.setattr(cfg, "OUTPUT_DIR", tmp_path)
+    llm = FakeLLM(default=json.dumps({"scores": {}, "missed_urls": []}))
+    ctx = SimpleNamespace(judge_llm=llm, today="2026-06-21")
+    JudgeStep()._judge(ctx, {"hn": {"themes": [], "articles": []}}, [])
+    assert llm.schemas == [JUDGE_SCHEMA]
+
+
+@pytest.mark.unit
+def test_judge_drops_llm_self_reported_quality_alert(tmp_path, monkeypatch):
+    """回歸（PM 週報 10-12）：judge LLM 自吐 quality_alert 欄位曾流入公開歷史。
+
+    即使走 parse_llm_json fallback（schema 未生效），quality_alert 也只能由
+    Python 門檻判定；分數全合格時不得出現 LLM 自填的旗標或任何 schema 外欄位。
+    """
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 5, "reasoning": "ok", "extra": "x"},
+                "completeness": {"score": 4, "reasoning": "ok"},
+                "faithfulness": {"score": 5, "reasoning": "ok"},
+            },
+            "missed_urls": [],
+            "overall": 1.0,
+            "quality_alert": True,
+            "quality_alert_reason": "LLM 自行宣稱",
+            "notes": "不該出現",
+        }
+    )
+    result = _judge(tmp_path, monkeypatch, resp, [{"url": "https://u.com"}])
+    assert "quality_alert" not in result
+    assert "quality_alert_reason" not in result
+    assert "notes" not in result
+    assert "extra" not in result["scores"]["relevance"]
+    assert result["overall"] == 4.7  # 由 Python 重算，不採信 LLM 的 overall
+
+    history = json.loads((tmp_path / "_judge-history.json").read_text(encoding="utf-8"))
+    assert history[-1]["quality_alert"] is False
+
+
+@pytest.mark.unit
+def test_judge_whitelist_keeps_reasoning_and_drops_unknown_dimensions(tmp_path, monkeypatch):
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 2, "reasoning": "離題"},
+                "novelty": {"score": 5, "reasoning": "不在評分維度"},
+            },
+            "missed_urls": ["https://m"],
+        }
+    )
+    result = _judge(tmp_path, monkeypatch, resp, [])
+    assert set(result["scores"]) == {"relevance"}
+    assert result["scores"]["relevance"] == {"score": 2, "reasoning": "離題"}
+    assert result["missed_urls"] == ["https://m"]
+    assert result["quality_alert"] is True  # relevance=2 由 Python 門檻觸發

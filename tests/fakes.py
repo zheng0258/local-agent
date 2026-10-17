@@ -27,9 +27,14 @@ class FakeLLM:
         self._responses = list(responses or [])
         self._default = default
         self.prompts: list[str] = []
+        # 每次呼叫收到的 json_schema（None = 未約束），供斷言結構化輸出有接上。
+        self.schemas: list[dict | None] = []
 
-    def complete(self, prompt: str, system: str | None = None) -> str:
+    def complete(
+        self, prompt: str, system: str | None = None, schema: dict | None = None
+    ) -> str:
         self.prompts.append(prompt)
+        self.schemas.append(schema)
         if self._responses:
             return self._responses.pop(0)
         return self._default

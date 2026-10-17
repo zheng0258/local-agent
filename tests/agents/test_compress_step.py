@@ -131,3 +131,18 @@ def test_check_source_health_flags_zero_article_sources():
     assert "security" in warnings
     assert "hatena" not in warnings
     assert "reddit" not in warnings
+
+
+@pytest.mark.unit
+def test_compress_step_requests_compress_json_schema(tmp_path):
+    """結構化輸出（ADR 0006）：compress 以 COMPRESS_SCHEMA 約束解碼，只回 id + one_liner。"""
+    from agents.daily_brief.llm_schemas import COMPRESS_SCHEMA
+
+    llm = FakeLLM(
+        default=json.dumps({"themes": ["t"], "articles": [{"id": 0, "one_liner": "摘要"}]})
+    )
+    CompressStep().run(
+        _ctx(tmp_path, llm=llm),
+        {"hn": {"articles": [{"title": "a", "url": "u", "interest": "***"}]}},
+    )
+    assert llm.schemas == [COMPRESS_SCHEMA]
