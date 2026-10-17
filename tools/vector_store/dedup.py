@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, timedelta
+from typing import TYPE_CHECKING
 
-from .embedder import Qwen3Embedder
+if TYPE_CHECKING:  # 僅型別註記；避免 import 本模組（含 reconcile 共用的過濾函數）就拖進 mlx
+    from .embedder import Qwen3Embedder
 
 
 @dataclass
@@ -121,7 +123,7 @@ def dedup_source_data(
         )
 
     kept_set = set(kept_urls)
-    return _filter_source_data_by_urls(source_data, kept_set), DedupResult(
+    return filter_source_data_by_urls(source_data, kept_set), DedupResult(
         total=total,
         kept=len(kept_urls),
         filtered_url=filtered_url,
@@ -139,20 +141,34 @@ def _flatten_articles(articles: list | dict) -> list[dict]:
     return []
 
 
-def _filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
+def filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
+    """以 kept_urls 過濾各來源文章；同一 URL 只保留第一次出現。
+
+    走訪順序與 dedup_source_data 相同（來源插入序 → _flatten_articles 序），
+    故跨來源重複時由先出現的來源保有該篇，與 seen_in_batch 的計數一致。
+    RUN（dedup_source_data）與 LOAD（DedupStep._load）共用此函數。純函數、不 mutate 輸入。
+    """
+    claimed: set[str] = set()
+
+    def keep(article) -> bool:
+        if not isinstance(article, dict):
+            return False
+        url = article.get("url")
+        if url not in kept_urls or url in claimed:
+            return False
+        claimed.add(url)
+        return True
+
     filtered: dict = {}
     for source_name, content in source_data.items():
         articles = content.get("articles", [])
         if isinstance(articles, list):
-            filtered[source_name] = {
-                **content,
-                "articles": [a for a in articles if a.get("url") in kept_urls],
-            }
+            filtered[source_name] = {**content, "articles": [a for a in articles if keep(a)]}
         elif isinstance(articles, dict):
             filtered[source_name] = {
                 **content,
                 "articles": {
-                    cat: [a for a in cat_arts if a.get("url") in kept_urls]
+                    cat: [a for a in cat_arts if keep(a)]
                     for cat, cat_arts in articles.items()
                     if isinstance(cat_arts, list)
                 },
