@@ -389,10 +389,15 @@ def _run_row(run) -> str:
     status = escape(run.status)
     trigger = escape(run.trigger) if run.trigger else "—"
     href = f"archive/{date}.html"
+    repaired = (
+        ' <span class="rfix" title="發佈前資料品質關卡自動修復過 report.md 連結">🔧</span>'
+        if getattr(run, "repaired", False)
+        else ""
+    )
     return (
         "<tr>"
         f'<td><a class="day" href="{href}">{date}</a></td>'
-        f'<td><span class="rpill {status}">{status}</span></td>'
+        f'<td><span class="rpill {status}">{status}</span>{repaired}</td>'
         f'<td class="n">{_fmt_duration(run.duration_seconds)}</td>'
         f'<td class="n">{_fmt_tokens(run.tokens_total)}</td>'
         f'<td class="n">{_fmt_score(run.overall)}</td>'
@@ -429,6 +434,7 @@ def render_run_history(runs: Sequence[object]) -> str:
             '<span><span class="sw" style="background:#453c78"></span>absent = 整天沒跑</span>'
             "<span>H·N·R·S·F = hatena / hn / reddit / security / rss</span>"
             "<span>T·V·D = telegram / vault / deploy</span>"
+            "<span>🔧 = 發佈前自動修復過報告連結</span>"
             "</div>"
         )
     return _RUN_HISTORY_TEMPLATE.render(

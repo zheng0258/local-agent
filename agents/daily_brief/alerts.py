@@ -30,9 +30,9 @@ _QUALITY_MAX_CHARS = 400
 # （gh-pages 停更），教訓：遞送失敗一律要能被看見（見 CONTEXT.md「系統訊號」）。
 _QUIET_STEPS: frozenset[str] = frozenset()
 
-# 非步驟的 alert（如 deploy 前資料品質關卡 invariants）：照常列入摘要，但 `--force`
-# 補跑它沒有意義（不是 step 名），不放進補跑指令。
-_NON_STEP_ALERTS: frozenset[str] = frozenset({"invariants"})
+# 非步驟的 alert（deploy 前資料品質關卡的 invariants / ledger）：照常列入摘要，但
+# `--force` 補跑它沒有意義（不是 step 名），不放進補跑指令。
+_NON_STEP_ALERTS: frozenset[str] = frozenset({"invariants", "ledger"})
 
 
 def _alerts_path(steps_dir: Path) -> Path:

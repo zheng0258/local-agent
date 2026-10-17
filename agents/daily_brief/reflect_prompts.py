@@ -52,3 +52,18 @@ def build_judge_reflect_prompt(
 ```json
 {{"diagnosis": "摘要遺漏了 N 篇重要文章", "adjusted_prompt": "..."}}
 ```"""
+
+
+def build_report_link_fix_context(violations_text: str) -> str:
+    """資料品質關卡：確定性修復仍失敗時，強制重跑 ReportStep 的修正指示。
+
+    經 Step._with_reflect 附在原 report prompt 尾端（「## 修正指示」段落）。
+    """
+    return f"""\
+上一版報告未通過發佈前的連結檢查，已被擋下：
+{violations_text}
+
+請重新產出完整報告，並嚴格遵守：
+- 每一篇文章（清單項與表格列）都必須寫成 `[標題](@@id@@)`，開頭的 `[` 與結尾的 `](@@id@@)` 缺一不可
+- id 只能填資料中該文章的 `id` 欄位，不可省略、猜測或自行填寫 URL
+- 不要輸出任何其他形式的 @@ token"""

@@ -55,6 +55,8 @@ agents/
 │   ├── quality_signals.py       # 品質訊號：digest 來源占比 + judge 分數飽和（純函數）
 │   ├── run_manifest.py          # 執行帳本：本次 run 的耗時/各步結果/觸發/git SHA（純函數 roll-up）
 │   ├── invariants.py            # deploy 前資料品質關卡：不可能狀態檢查（純函數，回傳違規清單）
+│   ├── report_repair.py         # report.md 連結確定性修復（id 重替換 + 唯一標題比對，純函數）
+│   ├── deploy_gate.py           # 關卡流程：檢查 → 修復 → 再檢查 → 放行/擋（副作用集中於此）
 │   ├── run_lock.py              # 單一寫入者鎖（fcntl.flock，main.py 持有）
 │   └── fetchers/                # 各來源 fetcher（agent 層）
 └── url_digest/                  # URL 摘要
@@ -146,7 +148,7 @@ ls outputs/daily-brief/$(date +%Y-%m-%d)/             # 今日 output 是否存�
 
 **單一寫入者鎖（run_lock.py，L0）**：`main.py` 跑 `/daily-brief`（`--health`/`--usage` 唯讀短路除外）時，在喚醒/載入模型**之前**以 `fcntl.flock` 對 `outputs/daily-brief/.run.lock` 取非阻塞排他鎖；取不到 → log 警告、exit 75（`EXIT_ALREADY_RUNNING`），不發 Telegram（持鎖那條會照常收尾告警）。根因：10-04、10-17 舊 launchd runner 與 cron 並行，互搶 LM Studio 致逾時/HTTP 500/模型崩潰，且後結束者的 `unload_all` 會踢掉另一條的模型。flock 隨行程結束由核心釋放，不留殘鎖；鎖檔內的 pid 僅供診斷。
 
-**Deploy 前資料品質關卡（invariants.py，L1）**：韌性設計讓壞資料也能走到 deploy、health 仍全綠。`run()` 在 deploy 前快照落盤**之後**呼叫 `_deploy_gate`，由 `invariants.check_day(day_dir)` 讀當日痕跡檢查不可能狀態：① LLM 步驟（`LLM_STEPS`）`_run.json` 為 ran 但 `_usage.json` total_tokens=0（帳本被覆寫）② `report.md` 殘留 `@@N@@` token ③ 文章列（清單項/表格列帶 `(N users)`/`(Npt)`/`(N ups)`）沒有 http(s) 連結。有違規 → 記 `invariants` alert（進當日 TG 摘要，不套補跑指令）、manifest 記 `deploy=blocked`（運行紀錄頁）、health 的 deploy 記為 `invariant`（`--health` 與跨天慢性偵測），**不跑 DeployStep**。通過則清掉同日稍早殘留的 invariants alert。檢查本身出錯 → log 後放行（關卡 bug 不弄垮 pipeline、不憑空停站）；已判定違規時即使記 alert 失敗仍照擋。
+**Deploy 前資料品質關卡（deploy_gate.py，L1）**：韌性設計讓壞資料也能走到 deploy、health 仍全綠。`run()` 在 deploy 前快照落盤**之後**呼叫 `deploy_gate.run_gate`，由 `invariants.check_day(day_dir)` 讀當日痕跡檢查不可能狀態：① LLM 步驟（`LLM_STEPS`）`_run.json` 為 ran 但 `_usage.json` total_tokens=0 ② `report.md` 殘留 `@@N@@` token ③ 文章列（清單項/表格列帶 `(N users)`/`(Npt)`/`(N ups)`）沒有 http(s) 連結。**先修復、修復失敗才擋**（ADR 0006）：內容違規（②③）先跑確定性修復 `report_repair.relink_report`（ReportStep 同一套 id 枚舉重替換 token；降級純文字列以唯一標題比對補連結），仍壞再以 reflect context 強制重跑 ReportStep **一次**；修好 → manifest 記 `invariants=repaired`、重落快照（運行紀錄頁 🔧），放行。仍壞 → 記 `invariants` alert（TG 摘要，不套補跑指令）、manifest 記 `deploy=blocked`、health deploy 記為 `invariant`，**不跑 DeployStep**（修復失敗後的長期政策未定，暫維持擋 + 告警）。帳本違規（①）只記 `ledger` alert、不擋——帳本問題不是發佈內容問題，且無可靠自動修復。通過則清掉同日殘留的 invariants / ledger alert。檢查本身出錯 → 放行；修復出錯 → 視為修不好。
 
 **Token 用量追蹤（usage_meter.py）**：`tools/usage_meter.py` 的 `UsageMeter` 是「帳本邊界」——本地 LLM 無金錢成本，但要知道每天 token 吞吐量。單一 choke point `LocalLLMBackend.complete()` 在每次回應後 `record(model, usage)`（LM Studio 回應自帶 `usage`）；`current_step` 由 `Step.run` 在跑 producer 前設定，使每筆用量歸到當時步驟（enrich 的並行 thread 皆歸 `enrich`）。`UsageEvent` frozen、`totals`/`by_step`/`by_model` 為純函數 roll-up。`_persist_usage` 落盤（`steps/_usage.json` 當日明細 + append `_usage-history.json` 跨天，同日 idempotent 覆寫），與 health 同紀律包在 try/except 內絕不反噬 pipeline。`--usage` 是唯讀 render（`render_usage_table`），在 `main.py` 短路、不載入模型。**注意**：實測 qwen3.6 即使掛 `/no_think`，completion_tokens 仍含大量被 strip 的隱藏 reasoning（單次瑣碎呼叫可達 ~1900 tokens），故 completion 遠高於可見輸出——真實數字以 `--usage` 為準，勿用可見字元數推估。
 

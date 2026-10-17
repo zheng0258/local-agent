@@ -44,6 +44,10 @@ SUBJECT_LABELS: Mapping[str, str] = {
 # 來源門檻（與 pipeline 的 _fetch_sources ≥2 韌性門檻一致）。
 _MIN_SOURCES = 2
 
+# run manifest 上資料品質關卡的紀錄名（鏡射 agents/daily_brief/deploy_gate.GATE_STEP；
+# tools 層不反向 import agents）。
+GATE_STEP = "invariants"
+
 
 @dataclass(frozen=True)
 class StepTiming:
@@ -76,6 +80,13 @@ class RunRecord:
     @property
     def status(self) -> str:
         return "absent" if self.absent else run_status(self.results)
+
+    @property
+    def repaired(self) -> bool:
+        """deploy 前資料品質關卡當天自動修復過 report.md（manifest 的 invariants=repaired）。"""
+        return any(
+            s.name == GATE_STEP and s.status == "repaired" for s in self.steps
+        )
 
 
 def run_status(results: Mapping[str, str]) -> str:

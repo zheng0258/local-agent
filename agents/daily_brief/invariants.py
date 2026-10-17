@@ -27,7 +27,8 @@ LLM_STEPS: frozenset[str] = frozenset(
 
 _TOKEN_RE = re.compile(r"@@\d+@@")
 _ARTICLE_ROW_RE = re.compile(r"^\s*(?:\d+\.|[-*•])\s|^\s*\|")
-_ARTICLE_MARKER_RE = re.compile(r"\(\s*\d[\d,]*\s*(?:users|pt|ups)\s*\)")
+# 文章列的熱度標記：(288 users) / (1234pt) / (1,234 ups)。report_repair 共用。
+ARTICLE_MARKER_RE = re.compile(r"\(\s*\d[\d,]*\s*(?:users|pt|ups)\s*\)")
 _HTTP_LINK_RE = re.compile(r"\]\(https?://")
 _SAMPLE_MAX = 3
 _SAMPLE_CHARS = 60
@@ -65,6 +66,15 @@ def check_token_ledger(
     )
 
 
+def is_unlinked_article_row(line: str) -> bool:
+    """清單項 / 表格列、帶熱度標記、卻沒有 http(s) markdown 連結的文章列。"""
+    return bool(
+        _ARTICLE_ROW_RE.match(line)
+        and ARTICLE_MARKER_RE.search(line)
+        and not _HTTP_LINK_RE.search(line)
+    )
+
+
 def _sample(lines: Sequence[str]) -> str:
     return "；".join(line.strip()[:_SAMPLE_CHARS] for line in lines[:_SAMPLE_MAX])
 
@@ -85,13 +95,7 @@ def check_report(report_md: str | None) -> tuple[Violation, ...]:
             )
         )
 
-    unlinked = [
-        line
-        for line in lines
-        if _ARTICLE_ROW_RE.match(line)
-        and _ARTICLE_MARKER_RE.search(line)
-        and not _HTTP_LINK_RE.search(line)
-    ]
+    unlinked = [line for line in lines if is_unlinked_article_row(line)]
     if unlinked:
         violations.append(
             Violation(
@@ -125,6 +129,7 @@ def check_day(day_dir: Path) -> tuple[Violation, ...]:
     )
 
 
-def format_violations(violations: Sequence[Violation]) -> str:
+def format_violations(violations: Sequence[Violation], blocked: bool = True) -> str:
     """alert 用的單行文字（alerts.record_failure 會截在 300 字內）。"""
-    return "deploy 已擋下：" + " | ".join(f"[{v.code}] {v.detail}" for v in violations)
+    prefix = "deploy 已擋下：" if blocked else "（未擋 deploy）"
+    return prefix + " | ".join(f"[{v.code}] {v.detail}" for v in violations)
