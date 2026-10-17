@@ -142,3 +142,112 @@ def test_empty_collection_query_exception_keeps_article():
         today="2026-04-23",
     )
     assert result.kept == 2
+
+
+def _cross_source_dup_data():
+    # 2026-10-17 實例：同一 URL 同時出現在 hatena 與 reddit
+    return {
+        "hatena": {
+            "articles": [
+                {"title": "pwnescape", "url": "https://pwn.ai/blog/pwnescape", "interest": "***"},
+                {"title": "文章 A", "url": "https://example.com/a", "interest": "***"},
+            ]
+        },
+        "reddit": {
+            "articles": [
+                {"title": "pwnescape (reddit)", "url": "https://pwn.ai/blog/pwnescape", "interest": "***"},
+                {"title": "文章 B", "url": "https://example.com/b", "interest": "***"},
+            ]
+        },
+    }
+
+
+def _all_urls(filtered_data: dict) -> list[str]:
+    from tools.vector_store.dedup import _flatten_articles
+
+    return [
+        a["url"]
+        for content in filtered_data.values()
+        for a in _flatten_articles(content.get("articles", []))
+    ]
+
+
+@pytest.mark.unit
+def test_cross_source_duplicate_url_kept_only_once_in_first_source():
+    from tools.vector_store.dedup import dedup_source_data
+
+    col = _make_collection(url_exists=False, query_distance=0.90)
+    filtered_data, result = dedup_source_data(
+        source_data=_cross_source_dup_data(),
+        collection=col,
+        embedder=_make_embedder(),
+        today="2026-10-17",
+    )
+    urls = _all_urls(filtered_data)
+    assert urls.count("https://pwn.ai/blog/pwnescape") == 1
+    assert filtered_data["hatena"]["articles"][0]["url"] == "https://pwn.ai/blog/pwnescape"
+    assert [a["url"] for a in filtered_data["reddit"]["articles"]] == ["https://example.com/b"]
+    # 計數與資料一致
+    assert result.filtered_url == 1
+    assert len(urls) == result.kept == len(result.kept_urls)
+
+
+@pytest.mark.unit
+def test_duplicate_url_across_categories_kept_only_once():
+    from tools.vector_store.dedup import dedup_source_data
+
+    source_data = {
+        "rss": {
+            "articles": {
+                "AI": [{"title": "X", "url": "https://example.com/x"}],
+                "Security": [
+                    {"title": "X again", "url": "https://example.com/x"},
+                    {"title": "Y", "url": "https://example.com/y"},
+                ],
+            }
+        }
+    }
+    col = _make_collection(url_exists=False, query_distance=0.90)
+    filtered_data, result = dedup_source_data(
+        source_data=source_data,
+        collection=col,
+        embedder=_make_embedder(),
+        today="2026-10-17",
+    )
+    assert filtered_data["rss"]["articles"]["AI"] == [{"title": "X", "url": "https://example.com/x"}]
+    assert [a["url"] for a in filtered_data["rss"]["articles"]["Security"]] == ["https://example.com/y"]
+    assert len(_all_urls(filtered_data)) == result.kept
+
+
+@pytest.mark.unit
+def test_dedup_does_not_mutate_input():
+    import copy
+
+    from tools.vector_store.dedup import dedup_source_data
+
+    source_data = _cross_source_dup_data()
+    snapshot = copy.deepcopy(source_data)
+    dedup_source_data(
+        source_data=source_data,
+        collection=_make_collection(url_exists=False, query_distance=0.90),
+        embedder=_make_embedder(),
+        today="2026-10-17",
+    )
+    assert source_data == snapshot
+
+
+@pytest.mark.unit
+def test_load_path_matches_run_path_for_cross_source_duplicates():
+    """DedupStep._load 以 kept_urls 重濾上游，結果須與 RUN 路徑逐字一致。"""
+    from agents.daily_brief.reconcile import filter_source_data_by_urls
+    from tools.vector_store.dedup import dedup_source_data
+
+    source_data = _cross_source_dup_data()
+    run_data, result = dedup_source_data(
+        source_data=source_data,
+        collection=_make_collection(url_exists=False, query_distance=0.90),
+        embedder=_make_embedder(),
+        today="2026-10-17",
+    )
+    load_data = filter_source_data_by_urls(source_data, set(result.kept_urls))
+    assert load_data == run_data

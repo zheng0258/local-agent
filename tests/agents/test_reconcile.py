@@ -57,3 +57,27 @@ def test_original_pairs_falls_back_to_source_title():
     source_data = {"hatena": {"articles": [{"title": "Legacy", "url": "u2"}]}}
     pairs = original_pairs_for_digests([{"url": "u2"}], source_data)
     assert pairs[0]["original_title"] == "Legacy"
+
+
+@pytest.mark.unit
+def test_filter_source_data_by_urls_keeps_first_occurrence_across_sources():
+    source = {
+        "hatena": {"articles": [{"url": "dup", "src": "hatena"}, {"url": "a"}]},
+        "reddit": {"articles": [{"url": "dup", "src": "reddit"}, {"url": "b"}]},
+    }
+    result = filter_source_data_by_urls(source, {"dup", "a", "b"})
+    assert result["hatena"]["articles"] == [{"url": "dup", "src": "hatena"}, {"url": "a"}]
+    assert result["reddit"]["articles"] == [{"url": "b"}]
+
+
+@pytest.mark.unit
+def test_filter_source_data_by_urls_does_not_mutate_input():
+    source = {
+        "hatena": {"articles": [{"url": "dup"}]},
+        "reddit": {"articles": [{"url": "dup"}]},
+    }
+    filter_source_data_by_urls(source, {"dup"})
+    assert source == {
+        "hatena": {"articles": [{"url": "dup"}]},
+        "reddit": {"articles": [{"url": "dup"}]},
+    }

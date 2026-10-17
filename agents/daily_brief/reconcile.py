@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from .config import FETCH_STEPS
 from .schemas import Digest, SourceCompress
+from tools.vector_store.dedup import filter_source_data_by_urls as _filter_by_kept_urls
 
 _ORIGINAL_DESC_MAX_CHARS = 200
 
@@ -26,17 +27,11 @@ def filter_top_articles(source_data: dict) -> dict:
 
 
 def filter_source_data_by_urls(source_data: dict, kept_urls: set[str]) -> dict:
-    """以 kept_urls 過濾各來源文章（dedup LOAD 時用 kept_urls 重濾上游）。"""
-    filtered: dict = {}
-    for source_name, content in source_data.items():
-        articles = content.get("articles", [])
-        filtered[source_name] = {
-            **content,
-            "articles": [
-                a for a in articles if isinstance(a, dict) and a.get("url") in kept_urls
-            ],
-        }
-    return filtered
+    """以 kept_urls 過濾各來源文章（dedup LOAD 時用 kept_urls 重濾上游）。
+
+    委派 dedup RUN 路徑同一個純函數：同一 URL 只保留第一次出現，LOAD 與 RUN 結果一致。
+    """
+    return _filter_by_kept_urls(source_data, kept_urls)
 
 
 def attach_original_fields(articles: list[dict], raw: list) -> list[dict]:
