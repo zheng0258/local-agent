@@ -22,10 +22,7 @@
   },
   {
     "date": "2026-09-24",
-    "calls": 0,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "total_tokens": 0,
+    "total_tokens": 277308,
     "by_model": {}
   },
   {
@@ -93,10 +90,7 @@
   },
   {
     "date": "2026-09-28",
-    "calls": 0,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "total_tokens": 0,
+    "total_tokens": 195996,
     "by_model": {}
   },
   {
@@ -206,18 +200,12 @@
   },
   {
     "date": "2026-10-04",
-    "calls": 0,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "total_tokens": 0,
+    "total_tokens": 428987,
     "by_model": {}
   },
   {
     "date": "2026-10-05",
-    "calls": 0,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "total_tokens": 0,
+    "total_tokens": 194611,
     "by_model": {}
   },
   {
@@ -264,10 +252,7 @@
   },
   {
     "date": "2026-10-08",
-    "calls": 0,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "total_tokens": 0,
+    "total_tokens": 238168,
     "by_model": {}
   },
   {
@@ -398,10 +383,7 @@
   },
   {
     "date": "2026-10-15",
-    "calls": 0,
-    "prompt_tokens": 0,
-    "completion_tokens": 0,
-    "total_tokens": 0,
+    "total_tokens": 212560,
     "by_model": {}
   },
   {
@@ -422,6 +404,27 @@
         "prompt_tokens": 18828,
         "completion_tokens": 4719,
         "total_tokens": 23547
+      }
+    }
+  },
+  {
+    "date": "2026-10-17",
+    "calls": 26,
+    "prompt_tokens": 94052,
+    "completion_tokens": 136907,
+    "total_tokens": 230959,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 25,
+        "prompt_tokens": 76806,
+        "completion_tokens": 133136,
+        "total_tokens": 209942
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 17246,
+        "completion_tokens": 3771,
+        "total_tokens": 21017
       }
     }
   }
