@@ -50,6 +50,7 @@ agents/
 │   ├── supervisor.py            # LLM 監督器（fetch 品質控管）
 │   ├── step_cache.py            # cache-or-force 門檻判定（decide → RUN/LOAD/SKIP）
 │   ├── schemas.py               # step artifact 的 typed 唯讀 view（from_dict）
+│   ├── llm_schemas.py           # LLM 輸出 json_schema 契約（judge/compress/digest 約束解碼，ADR 0006）
 │   ├── completeness.py          # 完整性校正 seam：judge→不足則重生 digest→重評
 │   ├── health.py                # 可觀測性：Health Record + 慢性故障跨天偵測（純函數）
 │   ├── quality_signals.py       # 品質訊號：digest 來源占比 + judge 分數飽和（純函數）
@@ -197,6 +198,7 @@ python lint/check_fetcher_interface.py
 ## 約束邊界
 
 - **URL 是資料，不是 LLM 輸出**（縱深防禦，見 `agents/daily_brief/links.py`）：凡 URL 要進 LLM 輸出的步驟，一律給每篇文章唯一 `id`、LLM 只回 `id`（+ 摘要/one_liner），`title`/`url` 由 Python 依 id 從可信輸入重建，**絕不信任 LLM 回吐/複製網址**。已套用：compress（`_rebuild_articles`）、digest（`_summaries_by_id` + 依 id 重建）、compose_tg（LLM 寫 `href="@@id@@"` token → `links.substitute_href_tokens` 替換）。最後防線 `links.strip_invalid_anchors`：送 Telegram 前拆掉任何非 http(s) 的 `<a>` 外殼（保留錨文字、優雅降級），並記 `compose_tg` alert 供 health 跨天偵測。此設計源於 09-05 TG 無連結事件（compress LLM 對 HN 丟 title/url 又漏整篇 → digest 捏造「（原始 URL 未提供）」佔位字 → TG 死連結）。
+- **結構化輸出**（ADR 0006）：judge / compress / digest 以 `llm_schemas.py` 的 json_schema 約束解碼（`Step._complete(ctx, prompt, schema)` / `LocalLLMBackend.complete(..., schema=)`），文法層即擋掉 schema 外欄位（judge 自吐 `quality_alert`、回吐 url/title）；`parse_llm_json` 保留為 fallback。LM Studio 約束輸出落在 `reasoning_content`、`content` 為空，後端僅在帶 schema 時退回讀取。judge 另以 `_sanitize_judge_response` 白名單重建，`overall`/`quality_alert` 一律由 Python 重算。新增 JSON 輸出步驟優先定義 schema。
 - Reddit 禁用 WebFetch，必須 Bash curl 一次查詢後用 Python 解析（禁止兩次重複請求同一 URL）
 - Reddit `stickied` 貼文必須過濾：`if p.get("stickied"): continue`
 - X/Twitter 必須用 chrome-devtools-mcp
@@ -262,6 +264,7 @@ python lint/check_fetcher_interface.py
 | Telegram 推播 | `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | **選填** | 靜默略過推播與告警 |
 | Obsidian 存檔 | `VAULT_ROOT` | **選填** | SaveStep 略過（不 touch vault.done、不入 health 記錄） |
 | Judge 模型 | `JUDGE_LLM_MODEL` / `JUDGE_LLM_URL` | 否 | 與主 LLM 相同 |
+| 結構化輸出 | `LLM_STRUCTURED_OUTPUT` | 否 | 開啟 json_schema 約束解碼；`0`/`false`/`off` 回退為純 prompt + `parse_llm_json`（ADR 0006） |
 | Deploy（gh-pages）| `DEPLOY_GITHUB_TOKEN` | **選填** | push 走 `origin`（互動式 session 靠既有 credential helper；cron 拿不到 osxkeychain 會失敗） |
 
 - **telegram.py 自包**：直接打 Telegram Bot API，憑證讀專案 `.env`，**不再依賴 vault 的 `Scripts/`**。

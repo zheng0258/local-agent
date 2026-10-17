@@ -73,7 +73,9 @@ def test_source_step_reddit_batches_large_input(tmp_path):
     call_sizes: list[int] = []
 
     class BatchLLM:
-        def complete(self, prompt: str, system: str | None = None) -> str:
+        def complete(
+            self, prompt: str, system: str | None = None, schema: dict | None = None
+        ) -> str:
             import re
 
             m = re.search(r"## 文章清單[^\n]*\n\n(\[.*?\])\n\n## 任務", prompt, re.DOTALL)

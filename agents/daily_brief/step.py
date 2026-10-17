@@ -92,11 +92,14 @@ class Step:
         """SKIP 與 FAILED 共用的回傳值。預設 None；pass-through 步回 input，producer 回 {}/[]"""
         return None
 
-    def _complete(self, ctx, prompt: str) -> str:
-        """LLM producer 的共用捷徑：走 ctx 上的 llm seam（正式環境真 LLM、測試注入 fake）。"""
+    def _complete(self, ctx, prompt: str, schema: dict | None = None) -> str:
+        """LLM producer 的共用捷徑：走 ctx 上的 llm seam（正式環境真 LLM、測試注入 fake）。
+
+        schema 非 None 時以 json_schema 約束解碼（llm_schemas.py，見 ADR 0006）；
+        回傳仍是字串，由呼叫端 parse_llm_json 解析（schema 未生效時的 fallback）。"""
         from . import prompts
 
-        return ctx.llm.complete(prompt, system=prompts.SYSTEM)
+        return ctx.llm.complete(prompt, system=prompts.SYSTEM, schema=schema)
 
     @staticmethod
     def _with_reflect(prompt: str, reflect_context: str) -> str:

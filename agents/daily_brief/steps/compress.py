@@ -14,6 +14,7 @@ from config import get_logger, parse_llm_json
 
 from .. import prompts
 from ..config import FETCH_STEPS
+from ..llm_schemas import COMPRESS_SCHEMA
 from ..schemas import SourceCompress
 from ..step import Step, StepOutput
 
@@ -80,7 +81,7 @@ class CompressStep(Step):
             prompt = self._with_reflect(
                 prompts.build_compress_prompt(name, articles_json), reflect_context
             )
-            parsed = parse_llm_json(self._complete(ctx, prompt))
+            parsed = parse_llm_json(self._complete(ctx, prompt, COMPRESS_SCHEMA))
             if isinstance(parsed, dict) and "themes" in parsed:
                 result[name] = {
                     "themes": parsed.get("themes", []),
