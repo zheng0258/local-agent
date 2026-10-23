@@ -4,6 +4,7 @@
 
 ## 索引
 
+- [2026-10-23](2026-10-23.md) — [hypercare] ✅ 穩健運作，deploy 可靠度統計口徑（#25，追蹤第 6 天）、quality_alert_reason 未入歷史（#26，追蹤第 6 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 6 天）、生產 git SHA 不在 origin/main（#28，追蹤第 3 天）四項持續零進度；judge 連續滿分天數延長至 6 天，距 7 天飽和觀察門檻只差 1 天。
 - [2026-10-22](2026-10-22.md) — [hypercare] ✅ 穩健運作，deploy 可靠度統計口徑（#25，追蹤第 5 天）、quality_alert_reason 未入歷史（#26，追蹤第 5 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 5 天）、生產 git SHA 不在 origin/main（#28，追蹤第 2 天）四項持續零進度；新發現 #28 的 SHA 連續兩天完全相同，確認是持續中、尚未擴大的未推送狀態；judge 連續滿分天數延長至 5 天，尚未達 7 天飽和觀察門檻。
 - [2026-10-21](2026-10-21.md) — [hypercare] ✅ 穩健運作，deploy 可靠度統計口徑（#25，追蹤第 4 天）、quality_alert_reason 未入歷史（#26，追蹤第 4 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 4 天）三項持續零進度；新發現生產 git SHA 不在 origin/main 歷史上，疑本機未 push（新開 #28）；結構化輸出效能經第 4 個資料點確認為「新量級內日間波動」，可收斂結論。
 - [2026-10-20](2026-10-20.md) — [hypercare] ✅ 穩健運作，但 deploy 可靠度統計口徑（#25，追蹤第 3 天）、quality_alert_reason 未入歷史（#26，追蹤第 3 天）、run-history.json 自身 deploy 欄位延遲一天（#27，今日再現）三項持續零進度；修正上次對結構化輸出效能的過早定論——第三個資料點耗時/token 明顯回升，證實前兩天下降帶有高日間變異。
