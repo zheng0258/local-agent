@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-21</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-21</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-21</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://blog.nishimu.land/entry/2026/10/20/123916" rel="noopener noreferrer">軟體的產業革命 - 順便一提</a></td>
+<td>457</td>
+<td>***</td>
+<td>AI</td>
+<td>Anthropic 日合併數萬次變更， Coding Agent 驅動軟體產業革命</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2610/20/2000002426/" rel="noopener noreferrer">「封鎖了入侵路徑，卻從後門……」105小時攻防戰逐分鐘報告：防災郵件服務商 Arcadia</a></td>
+<td>338</td>
+<td>***</td>
+<td>Web資安</td>
+<td>Arcadia 遭入侵 105 小時，封鎖路徑後仍由後門被攻入</td>
+</tr>
+<tr>
+<td><a href="https://posfie.com/@petaritape/p/aa5HeGM" rel="noopener noreferrer">伴隨 Claude Code 使用約一個月但已疲憊不堪。原本相信培養後會變舒適，但現在已感到可能造成健康損害的強烈壓力。想放棄使用 AI。→「若將 Claude Code 與 AI 想像成新進員工就很好懂了。換個心態使用或許會不同」</a></td>
+<td>175</td>
+<td>***</td>
+<td>AI</td>
+<td>使用 Claude Code 一月身心俱疲，建議將其視為新進員工看待</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://blog.nishimu.land/entry/2026/10/20/123916" rel="noopener noreferrer">軟體的產業革命 - 順便一提</a> (457 users) — Anthropic 日合併數萬次變更， Coding Agent 驅動軟體產業革命</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/20/2000002426/" rel="noopener noreferrer">「封鎖了入侵路徑，卻從後門……」105小時攻防戰逐分鐘報告：防災郵件服務商 Arcadia</a> (338 users) — Arcadia 遭入侵 105 小時，封鎖路徑後仍由後門被攻入</li>
+<li><a href="https://posfie.com/@petaritape/p/aa5HeGM" rel="noopener noreferrer">伴隨 Claude Code 使用約一個月但已疲憊不堪。原本相信培養後會變舒適，但現在已感到可能造成健康損害的強烈壓力。想放棄使用 AI。→「若將 Claude Code 與 AI 想像成新進員工就很好懂了。換個心態使用或許會不同」</a> (175 users) — 使用 Claude Code 一月身心俱疲，建議將其視為新進員工看待</li>
+<li><a href="https://jpn.nec.com/news/info/20261020.html" rel="noopener noreferrer">關於因委託商遭不正存取導致客戶系統停機與資訊外洩的致歉聲明</a> (72 users) — NEC 委外廠商遭攻導致客戶系統停機與個資外洩</li>
+<li><a href="https://www.trustbank.co.jp/newsroom/newsrelease/news261020/" rel="noopener noreferrer">故鄉選擇（Furusato Choice）關於因不正存取導致捐贈者資訊外洩的致歉與公告</a> (53 users) — 故鄉選擇遭入侵，捐贈者個資外洩致歉</li>
+<li><a href="https://gigazine.net/news/20261020-cloudflare-clairic/" rel="noopener noreferrer">Cloudflare 發布可從文字與圖像高速、低成本擷取必要資訊的 AI「Clairic」，亦支援運算與預測</a> (23 users) — Cloudflare 發布 AI Clairic，高速低成本擷取圖文資訊</li>
+<li><a href="https://gihyo.jp/article/2026/10/cve-2026-99999" rel="noopener noreferrer">Linux 核心漏洞「CVE-2026-99999」發現背景曝光 ― 起因於總獎金百萬美元的「沙箱逃逸挑戰賽」</a> (18 users) — Linux 核心漏洞 CVE-2026-99999 源於百萬美元沙箱逃逸挑戰</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/20/2000002435/" rel="noopener noreferrer">栃木縣警全數職員資訊疑遭外洩？Arcadia 遭入侵事件，其他縣警被害相繼曝光 報導</a> (13 users) — 栃木縣警全數職員個資疑遭外洩，Arcadia 事件波及多縣警</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2149772.html" rel="noopener noreferrer">故鄉選擇遭入侵 445 萬筆資料外洩，含捐贈抵稅試算金額</a> (11 users) — 故鄉選擇 445 萬筆資料外洩，含抵稅試算金額</li>
+<li><a href="https://piyolog.hatenadiary.jp/entry/2026/10/20/205855" rel="noopener noreferrer">從 AI 滲透測試平台「Cairn」的公開面板總結所見到的攻擊活動</a> (10 users) — AI 滲透測試平台 Cairn 面板遭觀測，AI 代理攻擊活動顯現</li>
+<li><a href="https://note.com/uplucid/n/ncb9e3567ce2f" rel="noopener noreferrer">貴公司無需匆忙採用 ARTEX 進行漏洞掃描｜Yusuke Kawabata（SaaS 營運）</a> (10 users) — 無需慌忙採用 ARTEX 進行漏洞掃描，理性面對自動化攻擊</li>
+<li>[故鄉選擇宣布 445 萬筆個人資料外洩 | <a href="https://news.web.nhk/newsweb/na/nd-20261020de62437" rel="noopener noreferrer">NHK 新聞</a> (9 users) — 故鄉選擇宣布 445 萬筆個人資料外洩</li>
+<li><a href="https://huggingface.co/datalab-to/indra-ocr" rel="noopener noreferrer">datalab-to/indra-ocr · Hugging Face</a> (7 users) — Indra OCR 模型，CPU 運行將 PDF 影像轉為 Markdown</li>
+<li><a href="https://www.makeuseof.com/gemini-automations-android/" rel="noopener noreferrer">這些 Gemini 自動化設定在 Android 手機上確實值得啟用</a> (4 users) — Android 手機上值得啟用的 Gemini 自動化設定</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50163277" rel="noopener noreferrer">DeepInfer：針對 DeepSeek 模型的高效能、大規模推理框架</a></td>
+<td>1873pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>DeepInfer 提供高效能大規模 DeepSeek 模型推理</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50159341" rel="noopener noreferrer">WhatsApp 說明頁面隱藏 LLM 指令：不建議由監管機構推薦</a></td>
+<td>691pt</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>WhatsApp 隱藏 LLM 指令，引發監管擔憂</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50166579" rel="noopener noreferrer">EMudhra 中階憑證授權中心遭入侵事件</a></td>
+<td>263pt</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>EMudhra 中階憑證授權中心遭入侵</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50163277" rel="noopener noreferrer">DeepInfer：針對 DeepSeek 模型的高效能、大規模推理框架</a> (1873pt) — DeepInfer 提供高效能大規模 DeepSeek 模型推理
+   💬 社群觀點：社群驚嘆其高效能，但質疑營收數據與開源動機，指其具戰略打擊性，技術待補齊，恐重創美國AI估值與市場優勢。</li>
+<li><a href="https://news.ycombinator.com/item?id=50159341" rel="noopener noreferrer">WhatsApp 說明頁面隱藏 LLM 指令：不建議由監管機構推薦</a> (691pt) — WhatsApp 隱藏 LLM 指令，引發監管擔憂
+   💬 社群觀點：社群質疑官方說法，認為是刻意隱藏指令規避監管。雖有少數視為合規常規，但多數批評限制用戶權益，呼籲監管介入與提升透明度。</li>
+<li><a href="https://news.ycombinator.com/item?id=50166579" rel="noopener noreferrer">EMudhra 中階憑證授權中心遭入侵事件</a> (263pt) — EMudhra 中階憑證授權中心遭入侵
+   💬 社群觀點：社群痛批Web PKI架構缺陷，波及範圍廣且影響不均。急呼各軟體立即更新憑證清單，並擔憂IoT與印度政府服務受災。</li>
+<li><a href="https://news.ycombinator.com/item?id=50168396" rel="noopener noreferrer">Voxtral 3</a> (197pt) — Voxtral 3 為新發布的 AI 模型
+   💬 社群觀點：社群稱讚轉錄品質與低延遲，但強烈批評閉源。用戶擔憂隱私外洩，期盼推出可本地部署的小模型，並關注定價與多語支援。</li>
+<li><a href="https://news.ycombinator.com/item?id=50166257" rel="noopener noreferrer">我如何成功移除超過 300 個 Tor 出口節點</a> (183pt) — 成功移除逾 300 個 Tor 出口節點
+   💬 社群觀點：社群建議停用 SSH 密碼驗證，改採金鑰認證。多數認為此攻擊粗糙易追溯，屬財務犯罪，並強調額外安全投資極具價值。</li>
+<li><a href="https://news.ycombinator.com/item?id=50169053" rel="noopener noreferrer">Google 開源 TorchTPU：專為 TPU 設計的 PyTorch 原生後端</a> (52pt) — Google 開源 TorchTPU 支援 PyTorch TPU 後端
+   💬 社群觀點：社群肯定PyTorch原生支援與XLA優勢，框架之爭回歸偏好。爭議聚焦雲端綁定、硬體護城河衝擊新創，並關注跨晶片相容。</li>
+<li><a href="https://news.ycombinator.com/item?id=50167583" rel="noopener noreferrer">推出 HN: Respan (YC W24) – 基於外掛架構的開源 Rust AI 閘道器</a> (26pt) — Respan 為基於外掛架構的開源 Rust AI 閘道器
+   💬 社群觀點：社群對核心採外掛架構持保留態度，擔憂安全性與生態混亂；並質疑技術實作細節及程式碼是否由AI生成，整體評價審慎。</li>
+<li><a href="https://news.ycombinator.com/item?id=50128197" rel="noopener noreferrer">展示 HN: Penmentor – Claude 像老師一樣批改你的手寫數學題</a> (5pt) — Penmentor 讓 Claude 批改手寫數學題
+   💬 社群觀點：留言讚揚AO3推動言論自由與版權公益，肯定同人創作價值；惟批評其收錄未成年內容，指出絕對自由存在矛盾。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://kaba.cx/posts/20261020_Tor/" rel="noopener noreferrer">我是如何讓超過 300 個 Tor 出口節點被移除的</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>作者詳述如何讓 300 多個 Tor 出口節點被移除的過程與方法。</td>
+</tr>
+<tr>
+<td><a href="https://madrobot.blog/2026/10/20/us-army-echotribble-ai-agents-hack-adversaries-arcyber/" rel="noopener noreferrer">美國陸軍希望擁有幾乎無需人類監督即可駭入敵方的 AI 代理人</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>美軍開發 AI 代理人，目標是幾乎無需人工監督即可駭入敵方系統。</td>
+</tr>
+<tr>
+<td><a href="https://github.com/deepseek-ai/DeepInfer" rel="noopener noreferrer">DeepSeek 發布 DeepInfer：專為 DeepSeek 模型打造的高效能、大規模開源推理框架！</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/MachineLearning</td>
+<td>DeepSeek 推出 DeepInfer 框架，專為其模型打造高效能開源推理工具。</td>
+</tr>
+<tr>
+<td><a href="https://kyutai.org/blog/2026-10-20-pocket-tts-small/" rel="noopener noreferrer">支援語音克隆的 Pocket TTS 現在僅需 190 萬參數</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/MachineLearning</td>
+<td>Pocket TTS 支援語音克隆，參數量大幅縮減至僅 190 萬。</td>
+</tr>
+<tr>
+<td><a href="https://github.com/pingdotgg/t3code/pull/20424/commits/35d1dc9a610ca5900d170d1174dfa5ef16f59b64" rel="noopener noreferrer">Fable 5.5 即將登場！</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/programming</td>
+<td>Fable 5.5 版本即將發布，帶來新功能與改進。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1xarfxg/go_issues_emergency_update_blocking_eight_ca_keys/" rel="noopener noreferrer">Go 發布緊急更新，因未披露的安全疑慮封鎖八個 CA 金鑰</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/programming</td>
+<td>Go 語言發布緊急更新，因未披露資安疑慮封鎖八個 CA 金鑰。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology/comments/1xar7jl/afd_leak_what_421179_hacked_emails_show_about_the/" rel="noopener noreferrer">AfD 資料外洩：421,179 封被駭郵件揭露德國極右派內幕</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/technology</td>
+<td>德國極右派政黨 AfD 遭駭，逾 42 萬封郵件外洩揭露內幕。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/webdev/comments/1xa1tb7/jcrews_homepage_is_currently_just_a_json_health/" rel="noopener noreferrer">J.Crew 首頁目前僅顯示其「生成式 AI 後端」的 JSON 健康檢查狀態</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI工具與模型</td>
+<td>r/webdev</td>
+<td>J.Crew 首頁故障，目前僅顯示其生成式 AI 後端的 JSON 狀態。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://kaba.cx/posts/20261020_Tor/" rel="noopener noreferrer">我是如何讓超過 300 個 Tor 出口節點被移除的</a> (- ups) — r/cybersecurity — 作者詳述如何讓 300 多個 Tor 出口節點被移除的過程與方法。</li>
+<li><a href="https://madrobot.blog/2026/10/20/us-army-echotribble-ai-agents-hack-adversaries-arcyber/" rel="noopener noreferrer">美國陸軍希望擁有幾乎無需人類監督即可駭入敵方的 AI 代理人</a> (- ups) — r/cybersecurity — 美軍開發 AI 代理人，目標是幾乎無需人工監督即可駭入敵方系統。</li>
+<li><a href="https://www.reddit.com/r/programming/comments/1xarfxg/go_issues_emergency_update_blocking_eight_ca_keys/" rel="noopener noreferrer">Go 發布緊急更新，因未披露的安全疑慮封鎖八個 CA 金鑰</a> (- ups) — r/programming — Go 語言發布緊急更新，因未披露資安疑慮封鎖八個 CA 金鑰。</li>
+<li><a href="https://www.reddit.com/r/technology/comments/1xar7jl/afd_leak_what_421179_hacked_emails_show_about_the/" rel="noopener noreferrer">AfD 資料外洩：421,179 封被駭郵件揭露德國極右派內幕</a> (- ups) — r/technology — 德國極右派政黨 AfD 遭駭，逾 42 萬封郵件外洩揭露內幕。</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://github.com/deepseek-ai/DeepInfer" rel="noopener noreferrer">DeepSeek 發布 DeepInfer：專為 DeepSeek 模型打造的高效能、大規模開源推理框架！</a> (- ups) — r/MachineLearning — DeepSeek 推出 DeepInfer 框架，專為其模型打造高效能開源推理工具。</li>
+<li><a href="https://kyutai.org/blog/2026-10-20-pocket-tts-small/" rel="noopener noreferrer">支援語音克隆的 Pocket TTS 現在僅需 190 萬參數</a> (- ups) — r/MachineLearning — Pocket TTS 支援語音克隆，參數量大幅縮減至僅 190 萬。</li>
+<li><a href="https://github.com/pingdotgg/t3code/pull/20424/commits/35d1dc9a610ca5900d170d1174dfa5ef16f59b64" rel="noopener noreferrer">Fable 5.5 即將登場！</a> (- ups) — r/programming — Fable 5.5 版本即將發布，帶來新功能與改進。</li>
+<li><a href="https://www.reddit.com/r/webdev/comments/1xa1tb7/jcrews_homepage_is_currently_just_a_json_health/" rel="noopener noreferrer">J.Crew 首頁目前僅顯示其「生成式 AI 後端」的 JSON 健康檢查狀態</a> (- ups) — r/webdev — J.Crew 首頁故障，目前僅顯示其生成式 AI 後端的 JSON 狀態。</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/introducing-wiz-ai-sast" rel="noopener noreferrer">推出 Wiz AI SAST：洞悉程式碼與基礎設施的應用程式安全</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>Wiz AI SAST 結合 AI 掃描器，深入分析程式碼與基礎設施，修復複雜業務邏輯漏洞。</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/10/microsoft-patches-more-than-1400-security-flaws/" rel="noopener noreferrer">微軟修復超過 1,400 個安全漏洞</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>微軟修復超 1400 個漏洞，創歷史新高</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/09/microsoft-plugs-nearly-1000-security-holes/" rel="noopener noreferrer">微軟修復近 1,000 個安全漏洞</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>微軟修補近 1000 個漏洞，創單次紀錄</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/critical-fortisiem-flaw-gets-public.html" rel="noopener noreferrer">FortiSIEM 嚴重漏洞公開 PoC，允許未授權遠端程式碼執行</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>FortiSIEM 嚴重漏洞公開 PoC 可遠端執行</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/qilin-and-inc-ransomware-groups-exploit.html" rel="noopener noreferrer">Qilin 與 INC 勒索組織利用 Palo Alto Networks 漏洞繞過 MFA</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>勒索組織利用 Palo Alto 漏洞繞過 MFA</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/hackers-use-autonomous-ai-agents-to.html" rel="noopener noreferrer">駭客使用自主 AI 代理人入侵企業網站，目標超過 1,200 個站點</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客用自主 AI 代理人入侵超 1200 網站</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/pegasus-spyware-infection-confirmed-on.html" rel="noopener noreferrer">塞爾維亞大學校長 iPhone 於大選前數日確認感染 Pegasus 間諜軟體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>塞爾維亞大學校長 iPhone 感染 Pegasus</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/whatsapp-hid-instructions-in-help-pages.html" rel="noopener noreferrer">WhatsApp 在說明頁面隱藏指示，要求 AI 客服機器人勿推薦隱私監管機構</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>WhatsApp 隱藏指示 AI 客服勿推薦監管機構</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/go-issues-emergency-update-blocking.html" rel="noopener noreferrer">Go 發布緊急更新，因未公開資安疑慮封鎖八個 CA 金鑰</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Go 緊急更新封鎖 8 個 CA 金鑰除安疑慮</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/russian-apt28-breaches-nato-naval.html" rel="noopener noreferrer">俄國 APT28 入侵 NATO 成員國造船廠，部署新型反射式載入器</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>俄國 APT28 入侵 NATO 造船廠部署新載入器</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/hackers-hijack-five-ovhcloud-cli.html" rel="noopener noreferrer">駭客劫持五個 OVHcloud CLI 版本分發竊密惡意軟體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客劫持 OVHcloud CLI 發布竊密惡意軟體</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/clickfix-attackers-exploit-siemens.html" rel="noopener noreferrer">ClickFix 攻擊者利用 Siemens Software Center 漏洞部署遠端存取特洛伊木馬</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>ClickFix 利用 Siemens 漏洞部署遠端木馬</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/romulus-clickfix-platform-tricks-users.html" rel="noopener noreferrer">駭客使用新型 ROMULUS ClickFix 平台分發 LegionLoader 等惡意軟體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客用 ROMULUS 平台分發 LegionLoader</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/hackers-exploit-plex2shell-flaws-to.html" rel="noopener noreferrer">駭客利用 Plex2Shell 漏洞鏈安裝加密貨幣挖礦機與 Linux 代理後門</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客利用 Plex2Shell 漏洞安裝挖礦與後門</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/alanwest/how-to-run-multiple-claude-code-sessions-in-tmux-and-why-3-beats-5-4nob" rel="noopener noreferrer">如何在 tmux 中執行多個 Claude Code 工作階段（以及為何 3 個勝過 5 個）</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>於 tmux 執行多個 Claude Code 工作階段指南</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/scale-llm-agents-production-ray/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">講座：超越原型：使用 Ray 擴展框架無關的 AI 代理人基礎架構</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>使用 Ray 擴展 AI 代理人架構至生產環境</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/reverse-engineer-anything/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Reverse Engineer Anything 專案將 AI 代理人引入二進位分析</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>REA 專案引入 AI 代理人輔助二進位分析</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 驅動開發與推理框架革命】</strong> — Anthropic 內部 Coding Agent 日合併數暴增 10 倍，顯示 AI 已全面接管程式碼產出；同時 DeepSeek 推出 DeepInfer 與 Google 開源 TorchTPU，全球 AI 推理效能與硬體生態競爭白熱化，開發工具鏈正經歷基礎設施級的重構。</li>
+<li><strong>【供應鏈與憑證基礎設施危機】</strong> — 從 NEC 委外廠商、故鄉選擇、Arcadia 到 EMudhra CA 與 Go 語言緊急封鎖 CA 金鑰，攻擊者正系統性針對軟體供應鏈、雲端 CLI 工具與網路信任根目錄下手，傳統邊界防禦已難以抵禦跨層級的滲透與資料外洩。</li>
+<li><strong>【AI 代理人攻防與自動化威脅演進】</strong> — 駭客已利用自主 AI 代理人進行大規模網站入侵與滲透測試（如 Cairn 面板遭觀測），美軍亦研發自主駭客 AI；相對地，Wiz 推出 AI SAST 與 REA 專案將 AI 引入逆向工程，顯示 AI 正同時成為攻擊武器與防禦核心。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>DeepInfer 高效能推理框架</strong>：Hatena + HN + Reddit 同步出現 — 開發者與技術社群高度關注其開源策略與對現有 AI 基礎設施的顛覆潛力。</li>
+<li><strong>Tor 匿名網路節點移除攻防</strong>：HN + Reddit 同步出現 — 社群聚焦於網路隱私保護與安全監控的拉鋸，並引發 SSH 金鑰認證與額外安全投資的討論。</li>
+<li><strong>Go 語言緊急更新封鎖 CA 金鑰</strong>：Reddit + 資安部落格 同步出現 — 軟體供應鏈與憑證基礎設施安全成為跨平台警報，強調即時更新與 TLS 驗證的重要性。</li>
+<li><strong>WhatsApp AI 客服隱藏指令爭議</strong>：HN + 資安部落格 同步出現 — 科技巨頭操縱 AI 客服規避隱私監管引發全球透明度與合規性大論戰。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

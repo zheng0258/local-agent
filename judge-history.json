@@ -1878,5 +1878,75 @@
       "faithfulness": 5
     },
     "quality_alert": false
+  },
+  {
+    "date": "2026-10-19",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-20",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-21",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-22",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-23",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-24",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-10-25",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
   }
 ]
