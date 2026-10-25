@@ -4,6 +4,7 @@
 
 ## 索引
 
+- [2026-10-25](2026-10-25.md) — [hypercare] ⚠️ judge 分數連續滿分天數延長至 8 天（10-18～10-25），#29 仍待作者本機核對 reasoning 原文；deploy 可靠度統計口徑（#25，追蹤第 8 天）、quality_alert_reason 未入歷史（#26，追蹤第 8 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 7 天）、生產 git SHA 不在 origin/main（#28，追蹤第 5 天）四項持續零進度；origin/main 連續第 9 天零程式碼 commit。
 - [2026-10-24](2026-10-24.md) — [hypercare] ⚠️ judge 分數連續第 7 天滿分（10-18～10-24），達到上次審查自訂的飽和觀察門檻且精準對齊 10-17 結構化輸出變更，新開 #29 追蹤是否為鑑別力退化復發；deploy 可靠度統計口徑（#25，追蹤第 7 天）、quality_alert_reason 未入歷史（#26，追蹤第 7 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 6 天）、生產 git SHA 不在 origin/main（#28，追蹤第 4 天）四項持續零進度。
 - [2026-10-23](2026-10-23.md) — [hypercare] ✅ 穩健運作，deploy 可靠度統計口徑（#25，追蹤第 6 天）、quality_alert_reason 未入歷史（#26，追蹤第 6 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 6 天）、生產 git SHA 不在 origin/main（#28，追蹤第 3 天）四項持續零進度；judge 連續滿分天數延長至 6 天，距 7 天飽和觀察門檻只差 1 天。
 - [2026-10-22](2026-10-22.md) — [hypercare] ✅ 穩健運作，deploy 可靠度統計口徑（#25，追蹤第 5 天）、quality_alert_reason 未入歷史（#26，追蹤第 5 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 5 天）、生產 git SHA 不在 origin/main（#28，追蹤第 2 天）四項持續零進度；新發現 #28 的 SHA 連續兩天完全相同，確認是持續中、尚未擴大的未推送狀態；judge 連續滿分天數延長至 5 天，尚未達 7 天飽和觀察門檻。
