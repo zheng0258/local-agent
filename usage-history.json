@@ -448,5 +448,278 @@
         "total_tokens": 11294
       }
     }
+  },
+  {
+    "date": "2026-10-19",
+    "calls": 20,
+    "prompt_tokens": 71482,
+    "completion_tokens": 85348,
+    "total_tokens": 156830,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 19,
+        "prompt_tokens": 62113,
+        "completion_tokens": 85081,
+        "total_tokens": 147194
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 9369,
+        "completion_tokens": 267,
+        "total_tokens": 9636
+      }
+    }
+  },
+  {
+    "date": "2026-10-20",
+    "calls": 30,
+    "prompt_tokens": 105643,
+    "completion_tokens": 112117,
+    "total_tokens": 217760,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 29,
+        "prompt_tokens": 88725,
+        "completion_tokens": 111966,
+        "total_tokens": 200691
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 16918,
+        "completion_tokens": 151,
+        "total_tokens": 17069
+      }
+    }
+  },
+  {
+    "date": "2026-10-21",
+    "calls": 29,
+    "prompt_tokens": 99716,
+    "completion_tokens": 112135,
+    "total_tokens": 211851,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 28,
+        "prompt_tokens": 84200,
+        "completion_tokens": 111330,
+        "total_tokens": 195530
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 15516,
+        "completion_tokens": 805,
+        "total_tokens": 16321
+      }
+    }
+  },
+  {
+    "date": "2026-10-22",
+    "calls": 28,
+    "prompt_tokens": 105323,
+    "completion_tokens": 104434,
+    "total_tokens": 209757,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 27,
+        "prompt_tokens": 87771,
+        "completion_tokens": 104173,
+        "total_tokens": 191944
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 17552,
+        "completion_tokens": 261,
+        "total_tokens": 17813
+      }
+    }
+  },
+  {
+    "date": "2026-10-23",
+    "calls": 28,
+    "prompt_tokens": 103972,
+    "completion_tokens": 101450,
+    "total_tokens": 205422,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 27,
+        "prompt_tokens": 87455,
+        "completion_tokens": 101094,
+        "total_tokens": 188549
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 16517,
+        "completion_tokens": 356,
+        "total_tokens": 16873
+      }
+    }
+  },
+  {
+    "date": "2026-10-24",
+    "calls": 26,
+    "prompt_tokens": 95835,
+    "completion_tokens": 102945,
+    "total_tokens": 198780,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 25,
+        "prompt_tokens": 80766,
+        "completion_tokens": 102723,
+        "total_tokens": 183489
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 15069,
+        "completion_tokens": 222,
+        "total_tokens": 15291
+      }
+    }
+  },
+  {
+    "date": "2026-10-25",
+    "calls": 25,
+    "prompt_tokens": 85679,
+    "completion_tokens": 89787,
+    "total_tokens": 175466,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 24,
+        "prompt_tokens": 73403,
+        "completion_tokens": 89508,
+        "total_tokens": 162911
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 12276,
+        "completion_tokens": 279,
+        "total_tokens": 12555
+      }
+    }
+  },
+  {
+    "date": "2026-10-26",
+    "calls": 23,
+    "prompt_tokens": 65645,
+    "completion_tokens": 87070,
+    "total_tokens": 152715,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 22,
+        "prompt_tokens": 58045,
+        "completion_tokens": 85961,
+        "total_tokens": 144006
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 7600,
+        "completion_tokens": 1109,
+        "total_tokens": 8709
+      }
+    }
+  },
+  {
+    "date": "2026-10-27",
+    "calls": 22,
+    "prompt_tokens": 89146,
+    "completion_tokens": 87164,
+    "total_tokens": 176310,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 21,
+        "prompt_tokens": 75183,
+        "completion_tokens": 86927,
+        "total_tokens": 162110
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 13963,
+        "completion_tokens": 237,
+        "total_tokens": 14200
+      }
+    }
+  },
+  {
+    "date": "2026-10-28",
+    "calls": 27,
+    "prompt_tokens": 114914,
+    "completion_tokens": 106070,
+    "total_tokens": 220984,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 26,
+        "prompt_tokens": 94958,
+        "completion_tokens": 105832,
+        "total_tokens": 200790
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 19956,
+        "completion_tokens": 238,
+        "total_tokens": 20194
+      }
+    }
+  },
+  {
+    "date": "2026-10-29",
+    "calls": 27,
+    "prompt_tokens": 85733,
+    "completion_tokens": 99719,
+    "total_tokens": 185452,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 26,
+        "prompt_tokens": 73595,
+        "completion_tokens": 99548,
+        "total_tokens": 173143
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 12138,
+        "completion_tokens": 171,
+        "total_tokens": 12309
+      }
+    }
+  },
+  {
+    "date": "2026-10-30",
+    "calls": 26,
+    "prompt_tokens": 102347,
+    "completion_tokens": 92422,
+    "total_tokens": 194769,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 25,
+        "prompt_tokens": 86210,
+        "completion_tokens": 92257,
+        "total_tokens": 178467
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 16137,
+        "completion_tokens": 165,
+        "total_tokens": 16302
+      }
+    }
+  },
+  {
+    "date": "2026-10-31",
+    "calls": 28,
+    "prompt_tokens": 86228,
+    "completion_tokens": 105263,
+    "total_tokens": 191491,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 27,
+        "prompt_tokens": 74314,
+        "completion_tokens": 105103,
+        "total_tokens": 179417
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 11914,
+        "completion_tokens": 160,
+        "total_tokens": 12074
+      }
+    }
   }
 ]
