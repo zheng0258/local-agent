@@ -63,7 +63,7 @@ python3 main.py "幫我摘要這些連結 https://example.com"
 
 ### 步驟控制（daily-brief）
 
-daily-brief 是 **14 個 idempotent 步驟**組成的 pipeline,結果以 artifact 快取,重複執行自動略過已完成步驟：
+daily-brief 是 **16 個 idempotent 步驟**（5 個來源抓取＋11 個處理步驟）組成的 pipeline,結果以 artifact 快取,重複執行自動略過已完成步驟：
 
 ```
 hatena · hn · reddit · security · rss   →  dedup  →  compress  →  enrich

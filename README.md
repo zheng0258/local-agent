@@ -34,7 +34,7 @@ report.md / vault.done / telegram.done   # final report + delivery sentinels
 - **Agent** — owns LLM reasoning and execution state (`DailyBriefAgent`, `steps/`)
 - **Tool** — pure functions, deterministic, no LLM (`tools/fetchers/`, `tools/notifiers/`, `tools/vector_store/`), independently testable
 
-**Full pipeline (14 idempotent steps):**
+**Full pipeline (16 idempotent steps: 5 source fetches + 11 processing steps):**
 
 ```
 hatena · hn · reddit · security · rss   →  dedup  →  compress  →  enrich
@@ -167,7 +167,7 @@ crontab -l   # verify
 ## Results
 
 - Processes **100+ articles/day** across 5 sources × multiple scraping strategies
-- **14 independent steps**, any step re-runnable without breaking the pipeline
+- **16 independent steps**, any step re-runnable without breaking the pipeline
 - Local LLM keeps API cost near zero
 - **LLM-as-Judge** daily quality tracking (relevance / completeness / faithfulness) with an automatic reflect-and-regenerate loop on low completeness
 - **Semantic dedup** cuts redundant LLM tokens (7-day window, cosine ≥ 0.80)
