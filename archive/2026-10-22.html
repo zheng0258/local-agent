@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-22</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-22</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-22</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://blog.flatt.tech/entry/php2shell" rel="noopener noreferrer">PHP 重大漏洞「php2shell」概要與應對指南 - GMO Flatt Security Blog</a></td>
+<td>788</td>
+<td>***</td>
+<td>Security</td>
+<td>PHP php2shell 漏洞概要與應對指南</td>
+</tr>
+<tr>
+<td><a href="https://piyolog.hatenadiary.jp/entry/2026/10/21/174516" rel="noopener noreferrer">整理 PHP 預告修正的兩項嚴重漏洞 - piyolog</a></td>
+<td>372</td>
+<td>***</td>
+<td>Security</td>
+<td>整理 PHP 預告修正的兩項嚴重漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2610/21/2000002472/" rel="noopener noreferrer">知名 IT 服務相繼緊急維護 或因「PHP」漏洞所致</a></td>
+<td>170</td>
+<td>***</td>
+<td>Security</td>
+<td>知名 IT 服務相繼緊急維護 或因 PHP 漏洞</td>
+</tr>
+<tr>
+<td><a href="https://ascii.jp/elem/000/004/444/4444350/" rel="noopener noreferrer">僅兩週 GitHub 星標突破 30 萬 以 AI 進行逆向工程的「REA」成話題</a></td>
+<td>83</td>
+<td>***</td>
+<td>AI</td>
+<td>AI 逆向工程工具 REA 兩週星標破 30 萬</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://blog.flatt.tech/entry/php2shell" rel="noopener noreferrer">PHP 重大漏洞「php2shell」概要與應對指南 - GMO Flatt Security Blog</a> (788 users) — PHP php2shell 漏洞概要與應對指南</li>
+<li><a href="https://piyolog.hatenadiary.jp/entry/2026/10/21/174516" rel="noopener noreferrer">整理 PHP 預告修正的兩項嚴重漏洞 - piyolog</a> (372 users) — 整理 PHP 預告修正的兩項嚴重漏洞</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/21/2000002472/" rel="noopener noreferrer">知名 IT 服務相繼緊急維護 或因「PHP」漏洞所致</a> (170 users) — 知名 IT 服務相繼緊急維護 或因 PHP 漏洞</li>
+<li><a href="https://www.ipa.go.jp/security/security-alert/2026/pre-alert20261021.html" rel="noopener noreferrer">【請求事前準備】PHP 安全更新發布計畫</a> (86 users) — IPA 籲 PHP 用戶事前準備安全更新</li>
+<li><a href="https://ascii.jp/elem/000/004/444/4444350/" rel="noopener noreferrer">僅兩週 GitHub 星標突破 30 萬 以 AI 進行逆向工程的「REA」成話題</a> (83 users) — AI 逆向工程工具 REA 兩週星標破 30 萬</li>
+<li><a href="https://blogs.itmedia.co.jp/agile/2026/10/php2shell_cve_2026_109618_panic.html" rel="noopener noreferrer">【PHP漏洞php2shell】補丁已公開。「15分鐘AI生成攻擊程式碼？」是否屬實？以VPS日誌驗證</a> (75 users) — 驗證 php2shell 補丁公開後 AI 攻擊謠言</li>
+<li><a href="https://blog.flatt.tech/entry/litellm_2nd_compromise" rel="noopener noreferrer">LiteLLM 套件再次遭入侵之概要與應對指南</a> (36 users) — LiteLLM 套件再遭入侵之概要與應對</li>
+<li><a href="https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/" rel="noopener noreferrer">今日發布的 PHP 安全更新，以及我們如何強化 PHP 安全性</a> (29 users) — PHP 今日發布安全更新與強化安全性措施</li>
+<li><a href="https://gigazine.net/news/20261022-php2shell-wiz-openai-calif/" rel="noopener noreferrer">發現 PHP 重大漏洞「PHP2Shell」由安全公司利用 AI 發現，並採用 OpenAI 框架進行應對</a> (24 users) — php2shell 由安全公司利用 AI 發現並應對</li>
+<li><a href="https://php-net.pro/en/news/php-8-5-12-released-with-security-fixes" rel="noopener noreferrer">PHP 8.5.12 發布並包含安全修復</a> (23 users) — PHP 8.5.12 發布並包含安全修復</li>
+<li><a href="https://www.wiz.io/blog/php2shell-php-rce" rel="noopener noreferrer">PHP2Shell：AI 發現影響全球 70% 網路的關鍵 RCE 漏洞</a> (20 users) — php2shell 為 AI 發現影響全球 70% 網路漏洞</li>
+<li><a href="https://gigazine.net/news/20261021-php-php2shell-maintenance/" rel="noopener noreferrer">Niconico 與 pixiv 等各類網站及應用程式為對應 PHP 緊急補丁進入維護狀態</a> (20 users) — Niconico 等網站為對應 PHP 緊急補丁維護</li>
+<li><a href="https://news.web.nhk/newsweb/na/nd-20261021de63209" rel="noopener noreferrer">資訊處理推進機構「確認 PHP 存在漏洞 籲迅速應對」</a> (18 users) — IPA 確認 PHP 存在漏洞 籲迅速應對</li>
+<li><a href="https://calif.io/php2shell/" rel="noopener noreferrer">來自 Calif Research 的 php2shell 研究</a> (15 users) — Calif Research 的 php2shell 研究報告</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/news/2150167.html" rel="noopener noreferrer">「PHP」兩項「致命」漏洞獲修復，請立即更新</a> (7 users) — PHP 兩項致命漏洞獲修復 請立即更新</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2150159.html" rel="noopener noreferrer">國內大型服務緊急維護或停機 因應 PHP 漏洞採取對策</a> (7 users) — 國內大型服務緊急維護 因應 PHP 漏洞</li>
+<li><a href="https://gigazine.net/news/20261021-php2shell/" rel="noopener noreferrer">PHP 發現兩項嚴重度「9.2」之漏洞，恐遭伺服器入侵，將於10月21日發布緊急補丁</a> (5 users) — PHP 發現嚴重漏洞 10/21 發布緊急補丁</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50177916" rel="noopener noreferrer">八比特的信任；eMudhra 的 CA 金鑰在毫秒內被破解</a></td>
+<td>657pt</td>
+<td>***</td>
+<td>Security</td>
+<td>eMudhra CA 金鑰遭秒破，信任基礎受重創</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50174687" rel="noopener noreferrer">Meta Muse 在分享對話時會洩露使用者的個人與商業機密</a></td>
+<td>338pt</td>
+<td>***</td>
+<td>Security</td>
+<td>Meta Muse 分享對話時洩露隱私與商業機密</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50181114" rel="noopener noreferrer">PyPI 上的 LiteLLM 1.107.0 遭入侵，安裝憑證竊取器與後門</a></td>
+<td>185pt</td>
+<td>***</td>
+<td>Security</td>
+<td>PyPI LiteLLM 遭植入竊密工具與後門</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50181175" rel="noopener noreferrer">修補地球：AI 代理揭露漏洞時的全球回應協調機制</a></td>
+<td>158pt</td>
+<td>***</td>
+<td>AI</td>
+<td>建立全球機制協調 AI 代理揭露的漏洞修補</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50177916" rel="noopener noreferrer">八比特的信任；eMudhra 的 CA 金鑰在毫秒內被破解</a> (657pt) — eMudhra CA 金鑰遭秒破，信任基礎受重創
+   💬 社群觀點：社群痛批eMudhra嚴重過失，質疑金鑰荒謬或蓄意留漏洞。建議立即更新系統憑證，並反思CA體系過於鬆散。</li>
+<li><a href="https://news.ycombinator.com/item?id=50174687" rel="noopener noreferrer">Meta Muse 在分享對話時會洩露使用者的個人與商業機密</a> (338pt) — Meta Muse 分享對話時洩露隱私與商業機密
+   💬 社群觀點：社群質疑Meta隱私承諾，過往紀錄難以取信。技術面指出子網域易遭反查，建議改用獨立連結，整體對產品安全性評價極低。</li>
+<li><a href="https://news.ycombinator.com/item?id=50181114" rel="noopener noreferrer">PyPI 上的 LiteLLM 1.107.0 遭入侵，安裝憑證竊取器與後門</a> (185pt) — PyPI LiteLLM 遭植入竊密工具與後門
+   💬 社群觀點：社群對LiteLLM二度遭入侵深感震驚，強烈質疑維護者資安。建議套件管理器預設延遲更新阻斷惡意包，並呼籲審視依賴鏈與尋找</li>
+<li><a href="https://news.ycombinator.com/item?id=50181175" rel="noopener noreferrer">修補地球：AI 代理揭露漏洞時的全球回應協調機制</a> (158pt) — 建立全球機制協調 AI 代理揭露的漏洞修補
+   💬 社群觀點：多質疑為行銷，認為AI僅屬輔助，成效仍賴工程師審查。建議直接資助開源測試、強化安全編程，勿過度依賴AI。</li>
+<li><a href="https://news.ycombinator.com/item?id=50180079" rel="noopener noreferrer">OpenAI 模型即將登陸 Google Cloud</a> (82pt) — OpenAI 模型即將上線 Google Cloud 平台
+   💬 社群觀點：社群認為 Google Cloud 轉型中立基建，企業可消耗既有承諾。雖存模型信任疑慮，但整體視之為 AI 跨平台合作趨</li>
+<li><a href="https://news.ycombinator.com/item?id=50176908" rel="noopener noreferrer">Launch HN: Alter (YC S25) – 多使用者 AI 代理的存取控制方案</a> (16pt) — Alter 提供多使用者 AI 代理的存取控制方案
+   💬 社群觀點：社群關注跨權限上下文洩漏風險，尤以共享頻道為甚；質疑共用金鑰的權限管控機制；並因官網粗糙擔憂產品可靠性。</li>
+<li><a href="https://news.ycombinator.com/item?id=50183344" rel="noopener noreferrer">PHP2Shell：AI 發現 PHP 的關鍵 RCE 漏洞</a> (5pt) — AI 工具 PHP2Shell 發現 PHP 關鍵遠端執行漏洞
+   💬 社群觀點：社群諷刺揭露時機尷尬，同時擔憂修復頻繁導致 GitHub Actions 頻壞，期盼開發流程穩定。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xbo6o3/i_built_a_fullchain_chrome_exploit_in_6_days/" rel="noopener noreferrer">我僅用 GPT-5.6 在 6 天內打造出完整鏈 Chrome 漏洞利用程式！問我任何問題！</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>用 GPT-5.6 六天打造 Chrome 漏洞利用程式</td>
+</tr>
+<tr>
+<td><a href="https://huggingface.co/RecursiveSI/flint" rel="noopener noreferrer">RecursiveSI/flint 開源模型（40B 參數，A2.5B 架構）· Hugging Face</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>-</td>
+<td>RecursiveSI 推出 40B 參數開源模型 Flint</td>
+</tr>
+<tr>
+<td><a href="https://scotthelme.co.uk/eight-bits-of-trust-emudhras-ca-keys-cracked-in-milliseconds/" rel="noopener noreferrer">信任的八個位元；eMudhra 的 CA 金鑰在毫秒內被破解</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>核心技術類</td>
+<td>-</td>
+<td>eMudhra CA 金鑰遭毫秒級破解</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.php.net/archive/2026.php#2026-10-21-5" rel="noopener noreferrer">PHP 關鍵 PHP2Shell 漏洞修補程式</a> (- ups) — r/webdev — PHP 發布關鍵漏洞修補程式</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xbo6o3/i_built_a_fullchain_chrome_exploit_in_6_days/" rel="noopener noreferrer">我僅用 GPT-5.6 在 6 天內打造出完整鏈 Chrome 漏洞利用程式！問我任何問題！</a> (- ups) — r/cybersecurity — 用 GPT-5.6 六天打造 Chrome 漏洞利用程式</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://huggingface.co/RecursiveSI/flint" rel="noopener noreferrer">RecursiveSI/flint 開源模型（40B 參數，A2.5B 架構）· Hugging Face</a> (- ups) — - — RecursiveSI 推出 40B 參數開源模型 Flint</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xbqxh5/ok_fine_qwen_38_flash_next_is_nice/" rel="noopener noreferrer">好吧，Qwen 3.8 Flash Next 確實不錯</a> (- ups) — r/LocalLLaMA — Qwen 3.8 Flash Next 表現獲肯定</li>
+<li><a href="https://v.redd.it/3xybdlezatwh1" rel="noopener noreferrer">Opus 5.5 結合 Blender MCP 動畫化此 MP5！</a> (- ups) — - — Opus 5.5 結合 Blender MCP 製作動畫</li>
+</ol>
+<p><strong>核心技術類</strong></p>
+<ol>
+<li><a href="https://scotthelme.co.uk/eight-bits-of-trust-emudhras-ca-keys-cracked-in-milliseconds/" rel="noopener noreferrer">信任的八個位元；eMudhra 的 CA 金鑰在毫秒內被破解</a> (- ups) — - — eMudhra CA 金鑰遭毫秒級破解</li>
+<li><a href="https://www.reddit.com/r/programming/comments/1xbo19y/php2shell_critical_vulnerabilities_in_the/" rel="noopener noreferrer">PHP2Shell：網頁核心架構的重大漏洞</a> (- ups) — r/programming — PHP2Shell 揭露網頁核心重大漏洞</li>
+</ol>
+<p><strong>OSS・獨立開發類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/webdev/comments/1xb72td/psa_upcoming_critical_php_security_release/" rel="noopener noreferrer">公告：PHP 即將發布重大安全更新</a> (- ups) — r/webdev — PHP 即將發布重大安全更新公告</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/litellm-compromised-infostealer-rat" rel="noopener noreferrer">LiteLLM 再次遭入侵：版本 1.107.0 發現資訊竊取工具與遠端存取木馬</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>LiteLLM 遭入侵，PyPI 已隔離含竊取工具套件</td>
+</tr>
+<tr>
+<td><a href="https://www.aikido.dev/blog/critical-vulnerabilities-in-php-php2shell" rel="noopener noreferrer">PHP2shell 關鍵指南：PHP 重大漏洞（CVE-2026-109618, CVE-2026-109619）</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>PHP 爆發遠端程式碼執行漏洞，建議立即更新修復</td>
+</tr>
+<tr>
+<td><a href="https://www.wiz.io/blog/from-phishing-to-llmjacking" rel="noopener noreferrer">從釣魚到 LLMjacking：攻擊者鎖定雲端帳單帳戶以濫用 LLM</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>釣魚攻擊導致雲端帳單被控，濫用 AI 服務產生鉅額費用</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【PHP2Shell 重大漏洞】</strong> — 全球近 70% 網站依賴的 PHP 核心曝出兩項 CVSS 9.2 的 RCE 漏洞，引發 Niconico、pixiv 等知名服務緊急停機維護。官方已發布緊急補丁，社群與安全機構呼籲立即更新並驗證 VPS 日誌以阻斷攻擊。</li>
+<li><strong>【AI 驅動安全研究與逆向工程】</strong> — AI 工具在資安領域展現雙刃劍效應：安全公司 Calif 與 Wiz 利用 AI 獨立發現 PHP2Shell 漏洞；同時，逆向工程工具 REA 兩週內 GitHub 星標破 30 萬，顯示 AI 正加速漏洞挖掘與程式碼分析流程。</li>
+<li><strong>【供應鏈與基礎設施信任危機】</strong> — 除 PHP 外，開源套件 LiteLLM 二度遭入侵植入竊密後門，憑證機構 eMudhra 的八個中繼 CA 金鑰更在毫秒內遭破解。事件凸顯軟體依賴鏈與網路信任基礎設施的脆弱性，跨平台社群強烈要求強化金鑰管理與套件審查機制。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>PHP2Shell 漏洞與緊急修補</strong>：Hatena + HN + Reddit 同步出現 — 全球開發者與系統管理員緊急檢視伺服器版本，並討論 AI 輔助生成攻擊程式碼的真實性與應對策略。</li>
+<li><strong>eMudhra CA 金鑰遭竊</strong>：HN + Reddit 同步出現 — 資安專家與開發者痛批憑證機構安全機制缺陷，擔憂 HTTPS 信任鏈斷裂，呼籲瀏覽器與軟體立即撤銷受影響憑證。</li>
+<li><strong>LiteLLM 套件供應鏈攻擊</strong>：Hatena + HN 同步出現 — 社群對熱門 AI 套件管理者的資安疏失表示震驚，強烈建議導入套件延遲更新機制與依賴鏈掃描工具。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

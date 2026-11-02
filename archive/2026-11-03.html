@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-11-03</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-11-03</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-11-03</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2611/02/2000002780/" rel="noopener noreferrer">顧客檔案與Logo圖片同存公開區域 GMO系單一登入服務遭洩露4.5萬筆資料</a></td>
+<td>233</td>
+<td>***</td>
+<td>Web資安與漏洞</td>
+<td>GMO登入服務設定疏失，洩露4.5萬筆顧客資料</td>
+</tr>
+<tr>
+<td><a href="https://pc.watch.impress.co.jp/docs/news/2153055.html" rel="noopener noreferrer">單憑一張照片即可3D化「背面」的AI「Idol」免費公開，10GB VRAM即可運行</a></td>
+<td>74</td>
+<td>***</td>
+<td>AI模型發布</td>
+<td>單張照片即可3D化背面的AI「Idol」免費公開</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/luvtechno/articles/isucon2026-competition-day" rel="noopener noreferrer">贏得 ISUCON 2026 冠軍（當日實況篇）</a></td>
+<td>67</td>
+<td>***</td>
+<td>AI工具與競賽</td>
+<td>利用AI Agent自動化操作贏得ISUCON 2026冠軍</td>
+</tr>
+<tr>
+<td><a href="https://zenn.dev/rescuenow/articles/49826fc6cc2713" rel="noopener noreferrer">2026年自分流AI Agent環境構築的秋日</a></td>
+<td>23</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>2026年自分流AI Agent環境建構趨勢與心得</td>
+</tr>
+<tr>
+<td><a href="https://www.cloudflare.com/ja-jp/press/press-releases/2026/cloudflare-announces-public-certificate-authority-for-the-post-quantum-web/" rel="noopener noreferrer">Cloudflare 宣布設立面向後量子時代網頁的公開憑證機構</a></td>
+<td>15</td>
+<td>***</td>
+<td>Web資安與加密</td>
+<td>Cloudflare設立後量子時代網頁公開憑證機構</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.itmedia.co.jp/news/article/2611/02/2000002780/" rel="noopener noreferrer">顧客檔案與Logo圖片同存公開區域 GMO系單一登入服務遭洩露4.5萬筆資料</a> (233 users) — GMO登入服務設定疏失，洩露4.5萬筆顧客資料</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2153055.html" rel="noopener noreferrer">單憑一張照片即可3D化「背面」的AI「Idol」免費公開，10GB VRAM即可運行</a> (74 users) — 單張照片即可3D化背面的AI「Idol」免費公開</li>
+<li><a href="https://zenn.dev/luvtechno/articles/isucon2026-competition-day" rel="noopener noreferrer">贏得 ISUCON 2026 冠軍（當日實況篇）</a> (67 users) — 利用AI Agent自動化操作贏得ISUCON 2026冠軍</li>
+<li><a href="https://zenn.dev/rescuenow/articles/49826fc6cc2713" rel="noopener noreferrer">2026年自分流AI Agent環境構築的秋日</a> (23 users) — 2026年自分流AI Agent環境建構趨勢與心得</li>
+<li><a href="https://www.cloudflare.com/ja-jp/press/press-releases/2026/cloudflare-announces-public-certificate-authority-for-the-post-quantum-web/" rel="noopener noreferrer">Cloudflare 宣布設立面向後量子時代網頁的公開憑證機構</a> (15 users) — Cloudflare設立後量子時代網頁公開憑證機構</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50335615" rel="noopener noreferrer">歐洲各地超市冷凍櫃遭第二起疑似網路攻擊</a></td>
+<td>240pt</td>
+<td>***</td>
+<td>資安</td>
+<td>歐洲超市冷凍櫃再遭疑似網攻</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50331784" rel="noopener noreferrer">Trigger.dev 客戶環境變數遭外洩</a></td>
+<td>156pt</td>
+<td>***</td>
+<td>資安</td>
+<td>Trigger.dev 客戶環境變數外洩</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50336138" rel="noopener noreferrer">昨晚一個 AI 智能體在老鼠身上進行了腦部手術</a></td>
+<td>87pt</td>
+<td>***</td>
+<td>AI 研究發布</td>
+<td>AI 智能體成功執行老鼠腦部手術</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50337716" rel="noopener noreferrer">LongCat-2.5：原生多模態智能體任務模型</a></td>
+<td>44pt</td>
+<td>***</td>
+<td>AI 模型發布</td>
+<td>LongCat-2.5 原生多模態智能體模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50339913" rel="noopener noreferrer">上線 HN：Momentic (YC W24) – 透過使用您的應用程式來捕捉錯誤的 AI 智能體</a></td>
+<td>40pt</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Momentic 以 AI 智能體偵測應用程式錯誤</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50337503" rel="noopener noreferrer">GPT-Rosalind-6 系統卡片補充說明</a></td>
+<td>35pt</td>
+<td>***</td>
+<td>AI 模型發布</td>
+<td>GPT-Rosalind-6 系統卡片補充資訊</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50335615" rel="noopener noreferrer">歐洲各地超市冷凍櫃遭第二起疑似網路攻擊</a> (240pt) — 歐洲超市冷凍櫃再遭疑似網攻
+   💬 社群觀點：社群痛批超市將冷凍櫃接入公開網路且未及時斷線更新，資安防護嚴重不足。呼籲立法規範IoT聯網，並關注保險理賠。</li>
+<li><a href="https://news.ycombinator.com/item?id=50331784" rel="noopener noreferrer">Trigger.dev 客戶環境變數遭外洩</a> (156pt) — Trigger.dev 客戶環境變數外洩
+   💬 社群觀點：社群痛批標記「已解決」，要求改「已緩解」並追蹤確認。同時警示套件與框架風險，建議縮小攻擊面或自建系統。</li>
+<li><a href="https://news.ycombinator.com/item?id=50336138" rel="noopener noreferrer">昨晚一個 AI 智能體在老鼠身上進行了腦部手術</a> (87pt) — AI 智能體成功執行老鼠腦部手術
+   💬 社群觀點：社群對AI主刀既驚奇又擔憂，質疑倫理監管與動物福祉；讚賞AI知曉限制時主動拒絕，並憂慮未來醫療將全面AI化。</li>
+<li><a href="https://news.ycombinator.com/item?id=50337716" rel="noopener noreferrer">LongCat-2.5：原生多模態智能體任務模型</a> (44pt) — LongCat-2.5 原生多模態智能體模型
+   💬 社群觀點：API表現具競爭力，但基準測試對比未來模型遭質疑；本地部署參數過大不實用，且開源權重與上架細節仍不明確。</li>
+<li><a href="https://news.ycombinator.com/item?id=50339913" rel="noopener noreferrer">上線 HN：Momentic (YC W24) – 透過使用您的應用程式來捕捉錯誤的 AI 智能體</a> (40pt) — Momentic 以 AI 智能體偵測應用程式錯誤
+   💬 社群觀點：社群關注技術護城河，擔憂訂閱制成本、Token計費與廠商鎖定；建議預設BYOA、開放Benchmark，並期待與開發閉環</li>
+<li><a href="https://news.ycombinator.com/item?id=50337503" rel="noopener noreferrer">GPT-Rosalind-6 系統卡片補充說明</a> (35pt) — GPT-Rosalind-6 系統卡片補充資訊
+   💬 社群觀點：社群力挺開源，批評命名混亂與說明冗長；質疑藥研瓶頸，警告勿傳專有資料，並憂企業壟斷與安全話術掩蓋就業衝擊。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.hacktron.ai/blog/hacking-gnu-savannah" rel="noopener noreferrer">保護網際網路關鍵軟體：我們如何能在 Bash 中植入後門</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>-</td>
+<td>揭露如何在 Bash 關鍵軟體植入後門，警示基礎設施風險。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xm28e6/official_statement_qwen_models_will_stick_to_open/" rel="noopener noreferrer">官方聲明：Qwen 模型將堅持開源到底！</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>Qwen 官方承諾模型將堅持開源到底，穩定社群預期。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/gallery/1xlys6k" rel="noopener noreferrer">[發布] ISTA DeepSeek-V4.1-Flash-1017 GSQ-RCO Coder：每參數 1 bit 的 763B 模型</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>-</td>
+<td>ISTA 發布 763B 參數模型，實現每參數 1 bit 極致壓縮。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xly6dn/gemini_4_argon_is_a_v8_on_december_1_the_fuel/" rel="noopener noreferrer">Gemini 4 Argon 是一台 V8。12 月 1 日起燃油價格將翻倍。</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>Gemini 4 Argon 被喻為 V8，12 月起使用成本將翻倍。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/technology/comments/1xlu8t2/supermarket_freezers_across_europe_struck_in/" rel="noopener noreferrer">歐洲各地超市冷凍櫃遭第二波癱瘓性網路攻擊 — 駭客將比利時與瑞典溫度調至 50 度攝氏，摧毀食品庫存</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>核心技術類</td>
+<td>r/technology</td>
+<td>歐洲超市冷凍櫃遭駭客攻擊升溫，食品庫存遭毀。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.hacktron.ai/blog/hacking-gnu-savannah" rel="noopener noreferrer">保護網際網路關鍵軟體：我們如何能在 Bash 中植入後門</a> (- ups) — r/hacktron — 揭露如何在 Bash 關鍵軟體植入後門，警示基礎設施風險。</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xm28e6/official_statement_qwen_models_will_stick_to_open/" rel="noopener noreferrer">官方聲明：Qwen 模型將堅持開源到底！</a> (- ups) — r/LocalLLaMA — Qwen 官方承諾模型將堅持開源到底，穩定社群預期。</li>
+<li><a href="https://www.reddit.com/gallery/1xlys6k" rel="noopener noreferrer">[發布] ISTA DeepSeek-V4.1-Flash-1017 GSQ-RCO Coder：每參數 1 bit 的 763B 模型</a> (- ups) — r/LocalLLaMA — ISTA 發布 763B 參數模型，實現每參數 1 bit 極致壓縮。</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xly6dn/gemini_4_argon_is_a_v8_on_december_1_the_fuel/" rel="noopener noreferrer">Gemini 4 Argon 是一台 V8。12 月 1 日起燃油價格將翻倍。</a> (- ups) — r/GoogleGeminiAI — Gemini 4 Argon 被喻為 V8，12 月起使用成本將翻倍。</li>
+</ol>
+<p><strong>核心技術類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/technology/comments/1xlu8t2/supermarket_freezers_across_europe_struck_in/" rel="noopener noreferrer">歐洲各地超市冷凍櫃遭第二波癱瘓性網路攻擊 — 駭客將比利時與瑞典溫度調至 50 度攝氏，摧毀食品庫存</a> (- ups) — r/technology — 歐洲超市冷凍櫃遭駭客攻擊升溫，食品庫存遭毀。</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/google-disrupts-13-million-device.html" rel="noopener noreferrer">Google 瓦解逾 130 萬台 Android 裝置的殭屍網路，指電視盒製造商將後門賣給犯罪集團</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Google 瓦解 130 萬台 Android 殭屍網路，指電視盒商賣後門</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/darkblinders-compromises-israeli-target.html" rel="noopener noreferrer">DarkBlinders 入侵以色列目標及伊拉克庫德族政府雲端環境</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>DarkBlinders 入侵以色列與伊拉克庫德族政府雲端</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/critical-langflow-flaws-could-let.html" rel="noopener noreferrer">Langflow 嚴重漏洞可能讓未經授權的攻擊者在伺服器上執行程式碼</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Langflow 嚴重漏洞讓未授權攻擊者執行伺服器程式碼</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/new-volta-infostealer-uses-claude.html" rel="noopener noreferrer">新型 VOLTA 資訊竊取程式使用 Claude、Gemini 與 Kimi AI 依財務價值對受害者排序</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>VOLTA 竊取程式用 AI 依財務價值排序受害者</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/chainalysis-confirms-intrusion-into.html" rel="noopener noreferrer">Chainalysis 確認遭入侵且客戶身分資料外洩</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Chainalysis 確認遭入侵且客戶身分資料外洩</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/sloves/building-a-production-seo-agent-stack-with-claude-code-claude-seo-architecture-deep-dive-49ef" rel="noopener noreferrer">使用 Claude Code 建構生產環境 SEO 代理堆疊：claude-seo 架構深度解析</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>使用 Claude Code 建構生產環境 SEO 代理堆疊解析</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/torchtpu-native-pythorch-tpu/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Google 與 Meta 開源 TorchTPU 為 Google TPU 帶來原生 PyTorch 支援</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Google 與 Meta 開源 TorchTPU 為 TPU 帶來原生 PyTorch 支援</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/uber-mcp-gateway-ai-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Uber 建構 MCP 閘道以管控逾 800 個伺服器與 5,000 個 AI 代理工具的存取</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Uber 建構 MCP 閘道管控逾 800 伺服器與 5000 AI 工具</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/agentic-ai-context-memory-knowledge/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：Agentic AI 架構中記憶、知識與脈絡的系統性方法</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Agentic AI 架構中記憶、知識與脈絡的系統性方法</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/shopify-kubernetes-ingresses/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Shopify Overexposed 掃描 GKE Ingresses 與 Cloud Run 的暴露風險</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Shopify Overexposed 掃描 GKE Ingresses 與 Cloud Run 風險</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/cf-pq-geokey-manager/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Cloudflare 後量子 GeoKey Manager 進入封閉測試版，未採用屬性基礎加密</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Cloudflare 後量子 GeoKey Manager 進入封閉測試版</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/k8s-confidential-containers/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Kubernetes 機密容器新增 Fortanix 憑證與金鑰管理</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Kubernetes 機密容器新增 Fortanix 憑證與金鑰管理</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI Agent 實戰與開發模式轉變】</strong> — AI 智能體已從實驗階段邁向生產環境與技術競賽，開發者工作模式正從手動寫碼轉向 Agent 協作與流程引導，企業亦開始建構 MCP 閘道與脈絡引擎以管理規模化部署。</li>
+<li><strong>【資安威脅實體化與供應鏈風險】</strong> — 網路攻擊從資料竊取擴展至實體基礎設施破壞（如歐洲超市冷凍櫃遭控溫攻擊），同時開源工具鏈與 IoT 硬體後門暴露出嚴重的供應鏈漏洞，駭客更開始整合 AI 優化攻擊效率。</li>
+<li><strong>【後量子加密與雲端基礎設施演進】</strong> — 面對量子計算威脅，科技巨頭加速推動後量子密碼學（PQC）憑證機構與混合加密金鑰管理，並透過機密容器與雲端掃描工具強化 AI 工作負載的長期資安防護。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>歐洲超市冷凍櫃遭網攻</strong>：Hatena + HN + Reddit 同步出現 — 駭客遠端操控 IoT 設備導致實體庫存毀損，引發對 OT 資安與 IoT 聯網法規的跨平台警覺。</li>
+<li><strong>AI 智能體與開發工具應用</strong>：HN + Reddit + RSS 同步出現 — 從 AI 主刀動物實驗、自動化測試工具到企業級 SEO 代理堆疊，顯示 AI Agent 正全面滲透研發、測試與營運流程。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

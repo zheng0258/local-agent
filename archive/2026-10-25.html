@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-10-25</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-10-25</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-10-25</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://engineer-ninaritai.com/php2shell-attack-detection/" rel="noopener noreferrer">是否已遭 PHP 緊急弱點「php2shell」攻擊？伺服器殘留的 3 項痕跡與確認方法 - InfraAcademy</a></td>
+<td>311</td>
+<td>***</td>
+<td>Web 資安 / 滲透測試</td>
+<td>PHP2shell 攻擊後伺服器殘留痕跡與確認方法</td>
+</tr>
+<tr>
+<td><a href="https://group.gmo/info/alert/20261024/" rel="noopener noreferrer">【重要】關於「お名前.com」桌面雲端服務遭網路攻擊（第四報）</a></td>
+<td>183</td>
+<td>***</td>
+<td>Web 資安 / 滲透測試</td>
+<td>GMO 桌面雲端遭攻擊第四報：補償與主動防禦要請</td>
+</tr>
+<tr>
+<td>[AI 網路防禦緊急建議 | <a href="https://team-mir.ai/lp/ai-cybersecurity/proposal.html" rel="noopener noreferrer">Team Mirai</a></td>
+<td>132</td>
+<td>***</td>
+<td>Web 資安 / 滲透測試</td>
+<td>Team Mirai 提出 AI 網路防禦緊急建議</td>
+</tr>
+<tr>
+<td><a href="https://www.yomiuri.co.jp/economy/20261024-GYT1T00180/" rel="noopener noreferrer">遭非法存取攻擊的 GMO 緊急要求政府適用「主動式網路防禦」</a></td>
+<td>113</td>
+<td>***</td>
+<td>Web 資安 / 滲透測試</td>
+<td>GMO 遭非法存取，緊急要求政府適用主動式網路防禦</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://engineer-ninaritai.com/php2shell-attack-detection/" rel="noopener noreferrer">是否已遭 PHP 緊急弱點「php2shell」攻擊？伺服器殘留的 3 項痕跡與確認方法 - InfraAcademy</a> (311 users) — 針對 2026 年 10 月爆發的 PHP 緊急弱點「php2shell」，文章提供伺服器受攻擊後的 3 項關鍵殘留痕跡與確認方法。</li>
+<li><a href="https://group.gmo/info/alert/20261024/" rel="noopener noreferrer">【重要】關於「お名前.com」桌面雲端服務遭網路攻擊（第四報）</a> (183 users) — GMO 針對「お名前.com」桌面雲端服務遭網路攻擊發布第四份報告，宣布將向受影響用戶發放慰問金並補償非法交易損失。</li>
+<li>[AI 網路防禦緊急建議 | <a href="https://team-mir.ai/lp/ai-cybersecurity/proposal.html" rel="noopener noreferrer">Team Mirai</a> (132 users) — Team Mirai 提出 AI 網路防禦緊急建議，指出 2026 年 10 月 13 日為止的資訊洩漏案件已達 485 件，超過去年總數。</li>
+<li><a href="https://www.yomiuri.co.jp/economy/20261024-GYT1T00180/" rel="noopener noreferrer">遭非法存取攻擊的 GMO 緊急要求政府適用「主動式網路防禦」</a> (113 users) — GMO 因「お名前.com」FX 交易雲端服務遭非法存取，緊急要求日本政府適用新制的「主動式網路防禦」。</li>
+<li><a href="https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop" rel="noopener noreferrer">建構 AI 代理：何時應將子代理整合至主代理迴圈中</a> (46 users) — 文章探討在 Claude Platform 建構 AI 代理（Agent）時，何時應將子代理（Subagents）的功能整合進主代理迴圈。</li>
+<li><a href="https://posfie.com/@petaritape/p/aqgcPOA" rel="noopener noreferrer">PHP 安全事件，黑客間流行入侵未修補伺服器並擅自打上安全補丁後離去的遊戲→「只想學資安來做這個，現在開始還來得及嗎」</a> (36 users) — 在 PHP 安全事件後，黑客社群中流行一種「入侵未修補伺服器、擅自打上安全補丁後悄然離去」的遊戲行為。</li>
+<li><a href="https://blog.n-z.jp/blog/2026-10-09-ruby-insecure-methods.html" rel="noopener noreferrer">Ruby 中不可傳遞任意使用者輸入的危險方法 - @znz blog</a> (17 users) — 文章整理 Ruby 程式語言中不可傳遞任意使用者輸入的危險方法列表，如 eval 等。</li>
+<li><a href="https://www.cnn.co.jp/fringe/35253896.html" rel="noopener noreferrer">僅憑臉部照片即可診斷癌症患者餘命的 AI 模型，美國研究團隊開發</a> (17 users) — 美國研究團隊開發出一款 AI 模型，僅憑臉部照片即可診斷癌症患者的餘命與整體健康狀況。</li>
+<li><a href="https://group.gmo/info/alert/2026102402/" rel="noopener noreferrer">致「お名前.com 桌面雲端」使用者的再次提醒（第五報）</a> (11 users) — GMO 發布「お名前.com」桌面雲端遭攻擊的第五份報告，再次提醒使用者注意帳戶安全並配合調查。</li>
+<li><a href="https://qiita.com/shahin0809/items/81e6a6737b2254bdc6ed" rel="noopener noreferrer">【速報】VS Code 1.142 新增 Canvas 功能！整理聊天欄旁可與代理同屏互動的「互動式畫布」</a> (8 users) — VS Code 1.142 版本新增「Canvas」功能，允許開發者在聊天欄旁開啟互動式畫布與 AI 代理同屏互動。</li>
+<li>[OpenAI 宣布訓練中最先進 AI 將與網際網路隔離。模型遭非法存取 | <a href="https://www.techno-edge.net/article/2026/10/24/5625.html" rel="noopener noreferrer">TechnoEdge</a> (8 users) — OpenAI 宣布在訓練最先進 AI 模型時，將使其與網際網路隔離，以避免模型遭非法存取或預測性偏差。</li>
+<li><a href="https://www.yomiuri.co.jp/politics/20261024-GYT1T00257/" rel="noopener noreferrer">針對 GMO 緊急要求「主動式網路防禦」，政府相關人士回應「非依請求即發動之制度」</a> (7 users) — 針對 GMO 緊急要求政府適用「主動式網路防禦」，政府相關人士回應該制度並非依請求即自動發動。</li>
+<li>[AI 加速網路攻擊與防禦動向——從漏洞修補到 AI 代理行為控制 | <a href="https://gihyo.jp/article/2026/10/ai-security-defense" rel="noopener noreferrer">gihyo.jp</a> (5 users) — 文章分析 AI 如何加速網路攻擊與防禦的動向，涵蓋從漏洞修補到 AI 代理行為控制的各個層面。</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2610/24/2000002566/" rel="noopener noreferrer">GMO 將補償非法交易損失，並發放 5000 円慰問金｜因「お名前.com」FX 用 VPS 遭網路攻擊</a> (4 users) — GMO 宣布將補償「お名前.com」FX 自動交易 VPS 遭攻擊所產生的非法交易損失，並發放 5000 日圓慰問金。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50218633" rel="noopener noreferrer">取得三星電視 Root Shell</a></td>
+<td>437pt</td>
+<td>***</td>
+<td>資安與滲透測試</td>
+<td>揭露三星電視系統漏洞，可取得Root Shell權限</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50219177" rel="noopener noreferrer">Node2Shell 演變為 HTTP2Shell，影響範圍波及眾多 HTTP 函式庫與應用程式</a></td>
+<td>189pt</td>
+<td>***</td>
+<td>資安與漏洞</td>
+<td>HTTP2Shell漏洞影響廣泛，波及多數HTTP函式庫</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50220042" rel="noopener noreferrer">展示 HN：透過 CVE-2022-22706 自動取得 Tcl Android TV Root 權限</a></td>
+<td>34pt</td>
+<td>***</td>
+<td>資安與漏洞</td>
+<td>利用Tcl漏洞自動獲取Android TV Root權限工具</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50222283" rel="noopener noreferrer">Dessa：僅以語音訓練的對話模型</a></td>
+<td>6pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>Dessa模型僅靠語音訓練，實現純語音對話能力</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50218633" rel="noopener noreferrer">取得三星電視 Root Shell</a> (437pt) — 此研究揭露三星智慧電視作業系統中存在嚴重漏洞，允許攻擊者取得 Root Shell 最高權限。
+   💬 社群觀點：社群擔憂智慧電視隱私監控，批評AI公司限制逆向工程。建議改用本地模型或購買傳統電視，以避開雲端監控與資料濫用。</li>
+<li><a href="https://news.ycombinator.com/item?id=50219177" rel="noopener noreferrer">Node2Shell 演變為 HTTP2Shell，影響範圍波及眾多 HTTP 函式庫與應用程式</a> (189pt) — Node2Shell 漏洞演變為 HTTP2Shell，揭示 HTTP/2 協議處理中的嚴重安全缺陷。
+   💬 社群觀點：社群認出實為Brotli漏洞，嫌名稱誤導。呼籲緊急更新，並批評C語言資安弱點與設計繁雜，建議改採Rust。</li>
+<li><a href="https://news.ycombinator.com/item?id=50220042" rel="noopener noreferrer">展示 HN：透過 CVE-2022-22706 自動取得 Tcl Android TV Root 權限</a> (34pt) — 展示一款利用 CVE-2022-22706 漏洞自動獲取 Android TV Root 權限的工具。
+   💬 社群觀點：社群支持取得硬體控制權，借ADB或Root移除廣告並自訂介面。雖有變磚疑慮，仍視之為數位自主進步，AI有望輔助後續維護。</li>
+<li><a href="https://news.ycombinator.com/item?id=50222283" rel="noopener noreferrer">Dessa：僅以語音訓練的對話模型</a> (6pt) — Dessa 是一款僅透過語音資料訓練的對話模型，專注於純語音互動的 AI 能力。
+   💬 社群觀點：社群批評該計畫意在榨取免費學術勞力，擔憂AI吸收社群成果後將取代人類專家，對開放模型的倫理與替代風險提出強烈質疑。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1xe25f5/we_used_rce_on_3_million_pcs_to_prevent_a_botnet/" rel="noopener noreferrer">我們利用 RCE 攻擊 300 萬台電腦以阻止機器人網路</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>反向利用 RCE 攻擊 300 萬台電腦，成功阻斷機器人網路蔓延。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xdx8k7/megathread_october_2026_cybersecurity_incidents/" rel="noopener noreferrer">[大串] 2026 年 10 月資安事件：PHP2Shell、LiteLLM、eMudhra、GitLab 等</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>彙整 2026 年 10 月重大資安事件，涵蓋 PHP2Shell、LiteLLM 等。</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xe28vv/node2shell_evolves_to_http2shell/" rel="noopener noreferrer">Node2Shell 演進為 HTTP2Shell。</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>Node2Shell 技術演進為 HTTP2Shell，展現攻擊手法持續升級。</td>
+</tr>
+<tr>
+<td>[GPT-6 Astra | <a href="https://www.reddit.com/r/OpenAI/comments/1w6hf6g/gpt6_astra_openai/" rel="noopener noreferrer">OpenAI</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/OpenAI</td>
+<td>OpenAI 發布 GPT-6 Astra 模型，標記新一代 AI 技術里程碑。</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1xe25f5/we_used_rce_on_3_million_pcs_to_prevent_a_botnet/" rel="noopener noreferrer">我們利用 RCE 攻擊 300 萬台電腦以阻止機器人網路</a> (- ups) — r/netsec — 研究團隊採取「以毒攻毒」策略，主動利用遠端程式碼執行漏洞（RCE）感染 300 萬台受控電腦。</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xdx8k7/megathread_october_2026_cybersecurity_incidents/" rel="noopener noreferrer">[大串] 2026 年 10 月資安事件：PHP2Shell、LiteLLM、eMudhra、GitLab 等</a> (- ups) — r/cybersecurity — 彙整 2026 年 10 月發生的重大資安事件，涵蓋 PHP2Shell、LiteLLM、eMudhra 及 GitLab 等。</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xe28vv/node2shell_evolves_to_http2shell/" rel="noopener noreferrer">Node2Shell 演進為 HTTP2Shell。</a> (- ups) — r/cybersecurity — Node2Shell 技術演進為 HTTP2Shell，顯示攻擊手法從特定環境擴展至更廣泛的 HTTP 協議層。</li>
+<li><a href="https://www.reddit.com/r/programming/comments/1xe7dp8/broccoli2shell_brotli_decoder_rce_cve2026111497/" rel="noopener noreferrer">Broccoli2Shell：Node.js、Python 等環境中的 Brotli 解碼器 RCE 漏洞 (CVE-2026-111497)</a> (- ups) — r/programming — Broccoli2Shell 揭露了 Brotli 解碼器中的 RCE 漏洞（CVE-2026-111497）。</li>
+<li><a href="https://www.reddit.com/r/programming/comments/1xd9rwe/emudhras_press_release_on_the_ca_compromise/" rel="noopener noreferrer">eMudhra 關於憑證機構（CA）遭入侵的公開聲明</a> (- ups) — r/programming — 憑證機構 eMudhra 發布公開聲明，確認其系統遭入侵並披露事件細節。</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li>[GPT-6 Astra | <a href="https://www.reddit.com/r/OpenAI/comments/1w6hf6g/gpt6_astra_openai/" rel="noopener noreferrer">OpenAI</a> (- ups) — r/OpenAI — OpenAI 發布新一代 GPT-6 Astra 模型，標記著 AI 技術進化的重要里程碑。</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xecgrf/kimi_k31_removes_cyberattack_training_data_from/" rel="noopener noreferrer">Kimi K3.1 從開放權重發布中移除網路攻擊訓練資料</a> (- ups) — r/LocalLLaMA — Kimi K3.1 在發布開源權重時，特意移除了包含網路攻擊訓練的資料集。</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xe88ja/meta_trained_small_ai_models_to_read_raw_bytes/" rel="noopener noreferrer">Meta 訓練小型 AI 模型直接讀取原始位元組而非詞元。初期表現較差，但論文預測最終會更好</a> (- ups) — r/LocalLLaMA — Meta 訓練小型 AI 模型直接讀取原始位元組（Raw Bytes）而非傳統的詞元（Tokens）。</li>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xe5kfj/gemini_4_argon_is_awesome_for_rewriting_and/" rel="noopener noreferrer">Gemini 4 Argon 在改寫與同人小說方面超讚，但這肥仔太吃資源了。</a> (- ups) — r/GoogleGeminiAI — Gemini 4 Argon 在改寫文本與創作同人小說方面表現出色，深受創作者喜愛。</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1t1u08y/we_opensourced_a_community_registry_for/" rel="noopener noreferrer">我們開放原始碼了一個 .cursor/rules 設定檔的社群登錄系統 — 888 個 GitHub 星星。你的設定裡有哪些規則？</a> (- ups) — r/Cursor_AI — 社群開源了一個針對 .cursor/rules 設定檔的登錄系統，累積 888 顆 GitHub 星星。</li>
+<li><a href="https://www.reddit.com/r/Cursor_AI/comments/1s7m9ey/built_an_open_source_tool_that_keeps_your_cursor/" rel="noopener noreferrer">建構了一個開源工具，讓你的 cursor 規則始終與程式碼庫同步，3 週內獲得 250 顆星星</a> (- ups) — r/Cursor_AI — 開發者建構開源工具，讓 Cursor 的規則設定能自動與程式碼庫保持同步。</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/python-packages-vulnerable-node2shell-brotli-cve-2026-111497" rel="noopener noreferrer">Node2Shell 演進為 HTTP2Shell：Brotli 漏洞 (CVE-2026-111497) 影響範圍廣泛，波及許多使用 HTTPS 的程式庫與應用程式</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>Brotli 漏洞 CVE-2026-111497 影響廣泛，Node2Shell 演進為 HTTP2Shell。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/cisa-flags-two-actively-exploited.html" rel="noopener noreferrer">CISA 標記 Collabora Online 與 Arista VeloCloud 中遭活躍利用的兩項關鍵漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>CISA 警告 Collabora Online 與 Arista VeloCloud 遭活躍利用。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/blackx-uefi-bootkit-bypasses-secure.html" rel="noopener noreferrer">BlackX UEFI 開機惡意軟體繞過未更新撤銷清單的已修復 Windows 系統安全啟動</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>BlackX UEFI 惡意軟體繞過未更新撤銷清單的安全啟動。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/10/researchers-demonstrate-node2shell-rce.html" rel="noopener noreferrer">研究人員展示利用精心製作的 Brotli 資料在 Node.js 構建中執行 Node2Shell RCE 攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>研究員展示利用 Brotli 資料在 Node.js 構建中執行 RCE。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/google-argon-optimizes-adk/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Google 使用 Gemini 4 Argon 在一夜間優化 Agent Development Kit 的 20 萬行 Python 程式碼庫</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Gemini 4 Argon 一夜優化 Google Agent Development Kit 程式碼。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/10/data-agent-kit-ga/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Google Data Agent Kit 正式發布，將代理防護欄杆區分為技能與 IAM</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Google Data Agent Kit 正式發布，區分技能與 IAM 防護欄杆。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【基礎架構與壓縮庫漏洞風暴】</strong> — PHP2Shell 與 Brotli 解碼器漏洞（HTTP2Shell）同時引爆全球資安警報。從日本伺服器到全球 Node.js 生態系，攻擊者利用壓縮與 HTTP 協議缺陷進行遠端代碼執行，迫使企業緊急評估依賴套件與更新策略。</li>
+<li><strong>【雲端服務遭侵與主動防禦立法】</strong> — GMO 桌面雲端遭非法存取導致大量 FX 交易損失，企業緊急要求政府啟動「主動式網路防禦」機制。此事件凸顯當前被動防禦的瓶頸，引發對企業反制權限與法律框架的廣泛討論。</li>
+<li><strong>【AI 代理開發工具與生態系成熟】</strong> — 從 VS Code 新增互動畫布、Cursor 規則同步工具，到 Google Data Agent Kit 正式發布，AI 代理開發正從實驗走向標準化。開發者社群積極開源最佳實踐，推動 AI 輔助編程與資料存取的安全合規。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Node2Shell / HTTP2Shell 漏洞演進</strong>：Hatena + HN + Reddit + 資安部落格 同步出現 — 揭露 Brotli 解碼器 RCE 漏洞如何從特定環境擴展至 HTTP/2 協議層，引發全球開發者緊急更新。</li>
+<li><strong>AI 代理架構與開發工具優化</strong>：Hatena + Reddit + RSS 同步出現 — 社群熱議如何整合子代理、同步 Cursor 規則設定，以及 Google 利用大模型自動化優化大型程式碼庫的實務案例。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
