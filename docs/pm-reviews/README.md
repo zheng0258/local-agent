@@ -4,6 +4,7 @@
 
 ## 索引
 
+- [2026-11-02](2026-11-02.md) — [hypercare] ⚠️ judge 分數連續滿分天數延長至 16 天（10-18～11-02），再創 08-25 解飽和修復以來最長紀錄；deploy 可靠度統計口徑（#25，追蹤第 16 天）、quality_alert_reason 未入歷史（#26，追蹤第 16 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 15 天）、judge 飽和復發疑慮（#29，追蹤第 10 天）四項持續零進度；生產 git SHA（#28，追蹤第 13 天）連續第 2 天維持 `747abb4`、未再推進、本次未追加留言；origin/main 連續第 17 天零程式碼 commit。
 - [2026-11-01](2026-11-01.md) — [hypercare] ⚠️ judge 分數連續滿分天數延長至 15 天（10-18～11-01），再創 08-25 解飽和修復以來最長紀錄；deploy 可靠度統計口徑（#25，追蹤第 15 天）、quality_alert_reason 未入歷史（#26，追蹤第 15 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 14 天）、judge 飽和復發疑慮（#29，追蹤第 9 天）四項持續零進度；生產 git SHA（#28，追蹤第 12 天）連續 11 天不變後今天首次變化（`a3b8ebc`→`747abb4`），但仍不在 origin/main 上；origin/main 連續第 16 天零程式碼 commit。
 - [2026-10-31](2026-10-31.md) — [hypercare] ⚠️ judge 分數連續滿分天數延長至 14 天（10-18～10-31），再創 08-25 解飽和修復以來最長紀錄；deploy 可靠度統計口徑（#25，追蹤第 14 天）、quality_alert_reason 未入歷史（#26，追蹤第 14 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 13 天）、生產 git SHA 不在 origin/main（#28，追蹤第 11 天）、judge 飽和復發疑慮（#29，追蹤第 8 天）五項持續零進度；origin/main 連續第 15 天零程式碼 commit。
 - [2026-10-30](2026-10-30.md) — [hypercare] ⚠️ judge 分數連續滿分天數延長至 13 天（10-18～10-30），再創 08-25 解飽和修復以來最長紀錄；deploy 可靠度統計口徑（#25，追蹤第 13 天）、quality_alert_reason 未入歷史（#26，追蹤第 13 天）、run-history.json 自身 deploy 欄位缺席（#27，追蹤第 12 天）、生產 git SHA 不在 origin/main（#28，追蹤第 10 天）、judge 飽和復發疑慮（#29，追蹤第 7 天）五項持續零進度；origin/main 連續第 14 天零程式碼 commit；另發現並更正過去三份審查（10-27～10-29）對資料品質關卡「至今未觸發」的誤判（10-27 實際已 repaired，站台已正確以 🔧 呈現）。
