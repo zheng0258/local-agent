@@ -93,6 +93,24 @@ def test_source_rates_compute_per_source_success_pct():
 
 
 @pytest.mark.unit
+def test_deploy_rate_excludes_records_before_full_tracking():
+    # #25：deploy 於 09-23 前只在失敗時記錄（倖存者偏差），不得計入分母
+    status = compute_status(
+        judge_history=[],
+        health_history=_health(
+            ("2026-09-18", {"hn": "ok", "deploy": "other"}),
+            ("2026-09-22", {"hn": "ok", "deploy": "other"}),
+            ("2026-09-23", {"hn": "ok", "deploy": "ok"}),
+            ("2026-09-24", {"hn": "network", "deploy": "ok"}),
+        ),
+    )
+    rates = {r.source: r for r in status.source_rates}
+    assert (rates["deploy"].ok, rates["deploy"].total) == (2, 2)
+    # 其他 subject 從一開始就每天記錄，不受影響
+    assert (rates["hn"].ok, rates["hn"].total) == (3, 4)
+
+
+@pytest.mark.unit
 def test_compute_status_none_when_both_histories_empty():
     # 優雅降級：兩份歷史皆空 → None（呼叫端略過狀態區）
     assert compute_status(judge_history=[], health_history=[]) is None

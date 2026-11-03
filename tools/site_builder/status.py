@@ -30,6 +30,10 @@ _SPARK_PAD = 4
 # judge overall 分數理論範圍（固定軸，跨天可比；不隨資料縮放）。
 _SCORE_MIN = 0.0
 _SCORE_MAX = 5.0
+# 各 subject 開始「每次 run 都記錄」的日期；之前的記錄不計入成功率。
+# deploy 於 09-23 前只在失敗時才寫入（倖存者偏差：9 筆中 8 筆失敗），混入分母會
+# 結構性低估可靠度（首頁曾顯示 74% 26/35，真值 96%，issue #25）。未列者全歷史皆計。
+_TRACKED_SINCE: dict[str, datetime] = {"deploy": datetime(2026, 9, 23)}
 
 
 @dataclass(frozen=True)
@@ -95,13 +99,18 @@ def _streak_days(dates: Sequence[datetime]) -> int:
 
 
 def _source_rates(health_history: Sequence[object]) -> Tuple[SourceRate, ...]:
-    """各來源 ok 次數 / 出現次數。依來源名排序，呈現穩定。"""
+    """各來源 ok 次數 / 出現次數（_TRACKED_SINCE 之前的記錄不計）。依來源名排序，呈現穩定。"""
     ok_counts: dict[str, int] = {}
     totals: dict[str, int] = {}
     for item in health_history:
         if not isinstance(item, dict):
             continue
-        for source, outcome in HealthHistoryRecord.from_dict(item).results.items():
+        record = HealthHistoryRecord.from_dict(item)
+        when = parse_date(record.date)
+        for source, outcome in record.results.items():
+            since = _TRACKED_SINCE.get(source)
+            if since is not None and (when is None or when < since):
+                continue
             totals[source] = totals.get(source, 0) + 1
             if outcome == OK:
                 ok_counts[source] = ok_counts.get(source, 0) + 1
