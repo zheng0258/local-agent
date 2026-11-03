@@ -108,6 +108,30 @@ def mark_self_published(health_history: list, publishing_date: str) -> list:
     ]
 
 
+def mark_run_self_published(run_history: list, publishing_date: str) -> list:
+    """純函數：回傳新 list，把 publishing_date 那筆 run 記錄的 deploy 步標為 ran。
+
+    與 mark_self_published 同一套發佈自證，套在 run-history 端點：deploy 前的快照
+    尚無 deploy 步（公開 JSON 當天恆缺此 key，與 health 的 deploy=ok 矛盾，issue #27）。
+    既有欄位（如同日稍早的耗時）保留、只覆寫 status。無當日記錄 → 原樣回傳。
+    """
+    return [
+        {
+            **item,
+            "steps": {
+                **item["steps"],
+                "deploy": {**item["steps"].get("deploy", {}), "status": "ran"},
+            },
+        }
+        if isinstance(item, dict)
+        and item.get("date") == publishing_date
+        and isinstance(item.get("steps"), dict)
+        and isinstance(item["steps"].get("deploy", {}), dict)
+        else item
+        for item in run_history
+    ]
+
+
 def _load_health(base: Path, publishing_date: Optional[str]) -> list:
     health = _load_history_list(base / HEALTH_HISTORY_FILE)
     if publishing_date is None:
@@ -157,6 +181,12 @@ _RAW_HISTORY_SITE_FILES: dict[str, str] = {
     RUN_HISTORY_FILE: "run-history.json",
 }
 
+# 端點發佈自證：哪些歷史檔在 publishing_date 時於記憶體中補記當天 deploy。
+_SELF_PUBLISH_MARKERS = {
+    HEALTH_HISTORY_FILE: mark_self_published,
+    RUN_HISTORY_FILE: mark_run_self_published,
+}
+
 
 def load_raw_histories(
     output_dir: Path | str, publishing_date: Optional[str] = None
@@ -167,8 +197,8 @@ def load_raw_histories(
     （`judge-history.json` / `health-history.json`）發佈到公開站，讓外部 PM 審查
     routine 能從 URL 讀到品質與健康的長期趨勢。只收**存在且為合法 JSON list** 的檔，
     缺檔 / 損毀者靜默略過（絕不寫壞端點）。唯一碰檔案的原文讀取點（impure），
-    回傳純記憶體 map 供 build thunk 合併。注入式 output_dir。health 端點同樣套用
-    publishing_date 的發佈自證（見 mark_self_published），與站頁呈現一致。
+    回傳純記憶體 map 供 build thunk 合併。注入式 output_dir。health / run 端點同樣套用
+    publishing_date 的發佈自證（見 mark_self_published / mark_run_self_published），與站頁呈現一致。
     """
     base = Path(output_dir)
     site: dict[str, str] = {}
@@ -182,8 +212,8 @@ def load_raw_histories(
             continue
         if not isinstance(data, list):
             continue
-        if src_name == HEALTH_HISTORY_FILE and publishing_date is not None:
-            data = mark_self_published(data, publishing_date)
+        if publishing_date is not None and src_name in _SELF_PUBLISH_MARKERS:
+            data = _SELF_PUBLISH_MARKERS[src_name](data, publishing_date)
         site[site_name] = json.dumps(data, ensure_ascii=False, indent=2)
     return site
 

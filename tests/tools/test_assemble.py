@@ -120,3 +120,57 @@ def test_without_publishing_date_health_is_published_verbatim(tmp_path):
     site = build_full_site(tmp_path)
 
     assert _deploy_by_date(site)["2026-09-24"] is None
+
+
+# ── #27：run-history.json 端點同樣套用發佈自證 ─────────────────────────
+
+
+def _write_runs(base, records):
+    (base / "_run-history.json").write_text(json.dumps(records), encoding="utf-8")
+
+
+def _run_deploy_by_date(site):
+    return {
+        r["date"]: r["steps"].get("deploy")
+        for r in json.loads(site["run-history.json"])
+    }
+
+
+def test_publishing_date_marks_run_history_deploy_ran(tmp_path):
+    _make_day(tmp_path, "2026-11-03")
+    records = [
+        {"date": "2026-11-02", "steps": {"judge": {"status": "ran"},
+                                        "deploy": {"status": "ran", "duration_seconds": 30.0}}},
+        {"date": "2026-11-03", "steps": {"judge": {"status": "ran"}}},
+    ]
+    _write_runs(tmp_path, records)
+
+    site = build_full_site(tmp_path, publishing_date="2026-11-03")
+
+    deploy = _run_deploy_by_date(site)
+    assert deploy["2026-11-03"] == {"status": "ran"}
+    assert deploy["2026-11-02"] == {"status": "ran", "duration_seconds": 30.0}
+    # 只改記憶體：本機歷史檔仍由 deploy 後的 observe 如實補記（含耗時）
+    on_disk = json.loads((tmp_path / "_run-history.json").read_text(encoding="utf-8"))
+    assert on_disk == records
+
+
+def test_publishing_date_overrides_blocked_deploy_in_run_history(tmp_path):
+    # 同日稍早被關卡擋下，補跑的這次 push 成功才看得到本頁
+    _make_day(tmp_path, "2026-11-03")
+    _write_runs(tmp_path, [
+        {"date": "2026-11-03", "steps": {"deploy": {"status": "blocked", "duration_seconds": 1.0}}},
+    ])
+
+    site = build_full_site(tmp_path, publishing_date="2026-11-03")
+
+    assert _run_deploy_by_date(site)["2026-11-03"] == {"status": "ran", "duration_seconds": 1.0}
+
+
+def test_without_publishing_date_run_history_is_published_verbatim(tmp_path):
+    _make_day(tmp_path, "2026-11-03")
+    _write_runs(tmp_path, [{"date": "2026-11-03", "steps": {"judge": {"status": "ran"}}}])
+
+    site = build_full_site(tmp_path)
+
+    assert _run_deploy_by_date(site)["2026-11-03"] is None
