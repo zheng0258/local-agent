@@ -3048,8 +3048,8 @@
     "trigger": "scheduled",
     "git_sha": "747abb4",
     "started_at": "2026-11-03T02:00:01",
-    "ended_at": "2026-11-03T05:00:13",
-    "duration_seconds": 10811.906,
+    "ended_at": "2026-11-03T05:00:22",
+    "duration_seconds": 10820.817,
     "steps": {
       "hatena": {
         "status": "ran",
@@ -3110,6 +3110,83 @@
       "notify": {
         "status": "ran",
         "duration_seconds": 2.377
+      },
+      "deploy": {
+        "status": "ran",
+        "duration_seconds": 8.879
+      }
+    }
+  },
+  {
+    "date": "2026-11-04",
+    "trigger": "scheduled",
+    "git_sha": "e3f60eb",
+    "started_at": "2026-11-04T02:00:01",
+    "ended_at": "2026-11-04T04:13:20",
+    "duration_seconds": 7999.032,
+    "steps": {
+      "hatena": {
+        "status": "ran",
+        "duration_seconds": 822.542
+      },
+      "hn": {
+        "status": "ran",
+        "duration_seconds": 600.836
+      },
+      "reddit": {
+        "status": "ran",
+        "duration_seconds": 1233.097
+      },
+      "security": {
+        "status": "ran",
+        "duration_seconds": 269.004
+      },
+      "rss": {
+        "status": "ran",
+        "duration_seconds": 887.009
+      },
+      "dedup": {
+        "status": "ran",
+        "duration_seconds": 4.834
+      },
+      "compress": {
+        "status": "ran",
+        "duration_seconds": 137.735
+      },
+      "enrich": {
+        "status": "ran",
+        "duration_seconds": 408.317
+      },
+      "digest": {
+        "status": "ran",
+        "duration_seconds": 342.703
+      },
+      "tldr": {
+        "status": "ran",
+        "duration_seconds": 198.057
+      },
+      "judge": {
+        "status": "ran",
+        "duration_seconds": 144.666
+      },
+      "report": {
+        "status": "ran",
+        "duration_seconds": 1080.018
+      },
+      "save": {
+        "status": "ran",
+        "duration_seconds": 0.015
+      },
+      "compose_tg": {
+        "status": "ran",
+        "duration_seconds": 952.719
+      },
+      "notify": {
+        "status": "ran",
+        "duration_seconds": 2.713
+      },
+      "deploy": {
+        "status": "ran"
       }
     }
   }
