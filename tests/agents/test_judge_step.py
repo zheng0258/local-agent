@@ -365,15 +365,35 @@ def test_judge_no_alert_when_all_dimensions_pass(tmp_path, monkeypatch):
 # ── 結構化輸出（ADR 0006）────────────────────────────────────────
 
 @pytest.mark.unit
-def test_judge_requests_judge_json_schema(tmp_path, monkeypatch):
+def test_judge_does_not_constrain_decoding(tmp_path, monkeypatch):
+    """judge 不走 json_schema：約束解碼使 qwen 跳過思考、一律給滿分（issue #29）。"""
     import agents.daily_brief.config as cfg
-    from agents.daily_brief.llm_schemas import JUDGE_SCHEMA
 
     monkeypatch.setattr(cfg, "OUTPUT_DIR", tmp_path)
     llm = FakeLLM(default=json.dumps({"scores": {}, "missed_urls": []}))
     ctx = SimpleNamespace(judge_llm=llm, today="2026-06-21")
     JudgeStep()._judge(ctx, {"hn": {"themes": [], "articles": []}}, [])
-    assert llm.schemas == [JUDGE_SCHEMA]
+    assert llm.schemas == [None]
+
+
+@pytest.mark.unit
+def test_judge_pairs_digests_with_comment_summary(tmp_path, monkeypatch):
+    """💬 社群觀點源自 enrich 的 comment_summary；judge 須看得到才能查證（issue #29）。"""
+    import agents.daily_brief.config as cfg
+
+    monkeypatch.setattr(cfg, "OUTPUT_DIR", tmp_path)
+    llm = FakeLLM(default=json.dumps({"scores": {}, "missed_urls": []}))
+    ctx = SimpleNamespace(judge_llm=llm, today="2026-06-21")
+    url = "https://example.com/hn1"
+    enrich = {
+        "hn": {
+            "themes": [],
+            "articles": [{"url": url, "comment_summary": "留言多半質疑基準測試"}],
+        }
+    }
+    source_data = {"hn": {"articles": [{"title": "T", "url": url}]}}
+    JudgeStep()._judge(ctx, enrich, [{"title": "T", "url": url}], source_data)
+    assert "留言多半質疑基準測試" in llm.prompts[0]
 
 
 @pytest.mark.unit

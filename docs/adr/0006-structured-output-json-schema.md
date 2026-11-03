@@ -77,6 +77,33 @@ Python 依可信資料組裝。LM Studio 支援 OpenAI 相容的
   LM Studio 改把約束輸出放回 `content`，`_extract_content` 優先讀 `content`，自動相容。
 - 其餘仍走自由輸出的 LLM 步驟（source 評分、enrich、tldr、report、compose_tg）未變。
 
+## 修訂（2026-11-03）：judge 退出約束解碼（issue #29）
+
+Consequences 預告的風險成真：10-18 起 judge 連續 17 天三軸全 5 分（`overall=5.0`），
+理由退化成「摘要忠實反映原始素材，未發現編造」一類套話。digest 的「💬 社群觀點」段落
+數量前後相當（每日 3–14 處），10-17 前 faithfulness 常因此被扣至 2–4，之後恆為 5。
+
+本機對照實驗（11-03 同一份資料、同一 judge 模型 `qwen3.6-35b-a3b`，只切換約束解碼）：
+
+| 模式 | relevance | completeness | faithfulness | overall | 耗時 |
+|---|---|---|---|---|---|
+| 約束解碼 | 5 | 5 | 5 | 5.0 | 17.6s |
+| 自由輸出 | 5 | 4 | 2 | 3.7 | 65.3s |
+
+「reasoning 先於 score」的 CoT 代償不足以取代真正的思考。同一實驗也揭露第二個缺陷：
+自由輸出的 judge 把「💬 社群觀點」判為編造，但它其實源自 enrich 的真實留言
+`comment_summary`——judge 的原文對照只有 title/描述，從來看不到留言，故無論給 2 或 5
+都不是查證過的分數。
+
+修訂決策：
+
+1. judge 不帶 schema、改回自由輸出（可思考）；`JUDGE_SCHEMA` 刪除，`test_no_judge_schema`
+   鎖住不得回歸。外洩欄位的防線改由第 4 點白名單獨自承擔（本就是縱深防禦的一層）。
+2. `reconcile.original_pairs_for_digests` 從 enrich 帶上該篇 `comment_summary`，judge prompt
+   註明社群觀點以它為依據，與之相符不算編造。
+3. compress / digest 維持約束解碼。digest 同樣失去思考，但它的品質由（已恢復鑑別力的）
+   judge 監測，有劣化再評估。
+
 ## 後續計畫：report 改由 Python 模板組 markdown
 
 report 是目前唯一仍讓 LLM 直接輸出「含連結的 markdown」的步驟，也是 `@@id@@` token

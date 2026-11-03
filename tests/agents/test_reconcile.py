@@ -60,6 +60,22 @@ def test_original_pairs_falls_back_to_source_title():
 
 
 @pytest.mark.unit
+def test_original_pairs_attaches_comment_summary_from_enrich():
+    source_data = {"hn": {"articles": [{"title": "T", "url": "u1"}, {"title": "S", "url": "u2"}]}}
+    enrich = {"hn": {"articles": [{"url": "u1", "comment_summary": "社群看法"}, {"url": "u2"}]}}
+    pairs = original_pairs_for_digests([{"url": "u1"}, {"url": "u2"}], source_data, enrich)
+    assert pairs[0]["comment_summary"] == "社群看法"
+    assert "comment_summary" not in pairs[1]  # 無留言摘要 → 不帶此鍵
+
+
+@pytest.mark.unit
+def test_original_pairs_without_enrich_has_no_comment_summary():
+    source_data = {"hn": {"articles": [{"title": "T", "url": "u1"}]}}
+    pairs = original_pairs_for_digests([{"url": "u1"}], source_data)
+    assert "comment_summary" not in pairs[0]
+
+
+@pytest.mark.unit
 def test_filter_source_data_by_urls_keeps_first_occurrence_across_sources():
     source = {
         "hatena": {"articles": [{"url": "dup", "src": "hatena"}, {"url": "a"}]},

@@ -61,18 +61,28 @@ def attach_original_fields(articles: list[dict], raw: list) -> list[dict]:
     ]
 
 
-def original_pairs_for_digests(digests: list[dict], source_data: dict) -> list[dict]:
+def original_pairs_for_digests(
+    digests: list[dict], source_data: dict, enrich_data: dict | None = None
+) -> list[dict]:
     """faithfulness 去循環化：以 URL 對齊，為每條 digest 配上 fetch 階段原始素材。
 
     對照基準是 source artifact 的 original_title（未經 LLM 改寫）；
     舊 artifact 無此欄位時退回 artifact 的 title（graceful degradation）。
     維持 slim context：只帶 title/描述，不帶全文。
+    enrich_data 有該篇 comment_summary 時一併帶上——digest 的「💬 社群觀點」源自
+    真實留言，judge 看不到就只能當編造扣分（issue #29）。
     """
     articles_by_url = {
         article.url: article
         for src in FETCH_STEPS
         for article in SourceCompress.from_dict(source_data.get(src, {})).articles
         if article.url
+    }
+    comments_by_url = {
+        article.url: article.comment_summary
+        for src in FETCH_STEPS
+        for article in SourceCompress.from_dict((enrich_data or {}).get(src, {})).articles
+        if article.url and article.comment_summary
     }
     pairs: list[dict] = []
     for digest in (Digest.from_dict(d) for d in digests):
@@ -85,5 +95,7 @@ def original_pairs_for_digests(digests: list[dict], source_data: dict) -> list[d
         }
         if article and article.original_description:
             pair["original_description"] = article.original_description
+        if digest.url in comments_by_url:
+            pair["comment_summary"] = comments_by_url[digest.url]
         pairs.append(pair)
     return pairs

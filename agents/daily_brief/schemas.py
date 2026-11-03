@@ -9,8 +9,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-# LLM-as-Judge 的三個評分維度（順序即 judge json_schema 的屬性順序）。
-# llm_schemas.JUDGE_SCHEMA、QualityScore、judge 示警門檻共用此單一定義。
+# LLM-as-Judge 的三個評分維度。
+# judge 白名單重建、QualityScore、judge 示警門檻共用此單一定義。
 JUDGE_DIMENSIONS: tuple[str, ...] = ("relevance", "completeness", "faithfulness")
 
 

@@ -50,7 +50,7 @@ agents/
 │   ├── supervisor.py            # LLM 監督器（fetch 品質控管）
 │   ├── step_cache.py            # cache-or-force 門檻判定（decide → RUN/LOAD/SKIP）
 │   ├── schemas.py               # step artifact 的 typed 唯讀 view（from_dict）
-│   ├── llm_schemas.py           # LLM 輸出 json_schema 契約（judge/compress/digest 約束解碼，ADR 0006）
+│   ├── llm_schemas.py           # LLM 輸出 json_schema 契約（compress/digest 約束解碼，ADR 0006；judge 刻意不約束）
 │   ├── completeness.py          # 完整性校正 seam：judge→不足則重生 digest→重評
 │   ├── health.py                # 可觀測性：Health Record + 慢性故障跨天偵測（純函數）
 │   ├── quality_signals.py       # 品質訊號：digest 來源占比 + judge 分數飽和（純函數）
@@ -206,7 +206,7 @@ python lint/check_fetcher_interface.py
 ## 約束邊界
 
 - **URL 是資料，不是 LLM 輸出**（縱深防禦，見 `agents/daily_brief/links.py`）：凡 URL 要進 LLM 輸出的步驟，一律給每篇文章唯一 `id`、LLM 只回 `id`（+ 摘要/one_liner），`title`/`url` 由 Python 依 id 從可信輸入重建，**絕不信任 LLM 回吐/複製網址**。已套用：compress（`_rebuild_articles`）、digest（`_summaries_by_id` + 依 id 重建）、compose_tg（LLM 寫 `href="@@id@@"` token → `links.substitute_href_tokens` 替換）。最後防線 `links.strip_invalid_anchors`：送 Telegram 前拆掉任何非 http(s) 的 `<a>` 外殼（保留錨文字、優雅降級），並記 `compose_tg` alert 供 health 跨天偵測。此設計源於 09-05 TG 無連結事件（compress LLM 對 HN 丟 title/url 又漏整篇 → digest 捏造「（原始 URL 未提供）」佔位字 → TG 死連結）。
-- **結構化輸出**（ADR 0006）：judge / compress / digest 以 `llm_schemas.py` 的 json_schema 約束解碼（`Step._complete(ctx, prompt, schema)` / `LocalLLMBackend.complete(..., schema=)`），文法層即擋掉 schema 外欄位（judge 自吐 `quality_alert`、回吐 url/title）；`parse_llm_json` 保留為 fallback。LM Studio 約束輸出落在 `reasoning_content`、`content` 為空，後端僅在帶 schema 時退回讀取。judge 另以 `_sanitize_judge_response` 白名單重建，`overall`/`quality_alert` 一律由 Python 重算。新增 JSON 輸出步驟優先定義 schema。
+- **結構化輸出**（ADR 0006）：compress / digest 以 `llm_schemas.py` 的 json_schema 約束解碼（`Step._complete(ctx, prompt, schema)` / `LocalLLMBackend.complete(..., schema=)`），文法層即擋掉 schema 外欄位（回吐 url/title）；**judge 刻意不約束**——約束解碼使模型不思考、10-18 起連續 17 天一律滿分（issue #29，ADR 0006 修訂），judge 原文對照另帶 enrich 的 `comment_summary` 供查證「💬 社群觀點」；`parse_llm_json` 保留為 fallback。LM Studio 約束輸出落在 `reasoning_content`、`content` 為空，後端僅在帶 schema 時退回讀取。judge 另以 `_sanitize_judge_response` 白名單重建，`overall`/`quality_alert` 一律由 Python 重算。新增 JSON 輸出步驟優先定義 schema。
 - Reddit 禁用 WebFetch，必須 Bash curl 一次查詢後用 Python 解析（禁止兩次重複請求同一 URL）
 - Reddit `stickied` 貼文必須過濾：`if p.get("stickied"): continue`
 - X/Twitter 必須用 chrome-devtools-mcp

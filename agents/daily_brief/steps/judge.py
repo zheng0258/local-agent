@@ -24,7 +24,6 @@ from tools.history_schema import JudgeHistoryRecord
 
 from .. import prompts
 from ..config import FETCH_STEPS
-from ..llm_schemas import JUDGE_SCHEMA
 from ..schemas import JUDGE_DIMENSIONS, QualityScore
 from ..step import Step, StepOutput
 
@@ -81,7 +80,11 @@ class JudgeStep(Step):
             logger.warning("Step judge     : slim_compress 為空，judge 結果可能不可靠")
         compress_json = json.dumps(slim_compress, ensure_ascii=False)
         digest_json = json.dumps({"digests": digests}, ensure_ascii=False)
-        original_pairs = original_pairs_for_digests(digests, source_data or {})
+        original_pairs = original_pairs_for_digests(
+            digests, source_data or {}, compress_data
+        )
+        # 刻意不帶 json_schema：約束解碼從第一個 token 生效、模型不思考，
+        # judge 會一律給滿分（10-18 起連續 17 天 5.0，issue #29、ADR 0006 修訂）。
         raw = ctx.judge_llm.complete(
             prompts.build_judge_prompt(
                 compress_json,
@@ -89,10 +92,8 @@ class JudgeStep(Step):
                 json.dumps(original_pairs, ensure_ascii=False),
             ),
             system=prompts.SYSTEM,
-            schema=JUDGE_SCHEMA,
         )
-        # 白名單重建：json_schema 已在文法層擋掉 schema 外欄位，但 fallback 路徑
-        # （schema 未生效 / 回退開關關閉）仍可能夾帶 LLM 自吐的 quality_alert 等欄位。
+        # 白名單重建：自由輸出可能夾帶 LLM 自吐的 quality_alert 等欄位，一律捨棄。
         result = _sanitize_judge_response(parse_llm_json(raw))
         scores = result["scores"]
         # missed_urls 在新 schema 位於頂層；回寫進 completeness 維持下游介面不變
@@ -128,7 +129,7 @@ class JudgeStep(Step):
 # 沒有的內容）無聲通過——faithfulness 低對公開展示站的可信度傷害最大，不能漏。
 _DIMENSION_FLOOR: float = 3.0
 _OVERALL_FLOOR: float = 3.5
-# 每個維度只採信這兩個欄位（與 llm_schemas.JUDGE_SCHEMA 的維度物件一致）。
+# 每個維度只採信這兩個欄位（與 prompts.build_judge_prompt 的輸出格式一致）。
 _DIMENSION_KEYS: tuple[str, ...] = ("score", "reasoning")
 
 
