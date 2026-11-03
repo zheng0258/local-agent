@@ -174,7 +174,7 @@ outputs/daily-brief/{today}/
 └── deploy.done          # sentinel（存在 = gh-pages push 成功；缺 = 未部署/失敗）
 
 outputs/daily-brief/
-├── _judge-history.json     # 逐日品質分歷史（relevance/completeness/faithfulness）
+├── _judge-history.json     # 逐日品質分歷史（relevance/completeness/faithfulness；示警日另記 quality_alert_reason）
 ├── _health-history.json    # 逐日 Health Record（各來源/遞送 ok 或錯誤型別，含 deploy）
 ├── _health-escalated.json  # 慢性故障 escalation 去重狀態（subject → 最後 escalate 日）
 ├── _usage-history.json     # 逐日 token 用量（calls / prompt / completion / total + by_model）

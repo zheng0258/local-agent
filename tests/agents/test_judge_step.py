@@ -207,6 +207,30 @@ def test_judge_appends_to_history(tmp_path, monkeypatch):
 
 
 @pytest.mark.unit
+def test_judge_history_records_quality_alert_reason(tmp_path, monkeypatch):
+    """#26：示警原因寫進跨天歷史（原本只在當日 judge.json）。"""
+    resp = json.dumps(
+        {
+            "scores": {
+                "relevance": {"score": 5, "reasoning": "ok"},
+                "completeness": {"score": 5, "reasoning": "ok"},
+                "faithfulness": {"score": 2, "reasoning": "編造"},
+            },
+            "missed_urls": [],
+        }
+    )
+    import agents.daily_brief.config as cfg
+
+    monkeypatch.setattr(cfg, "OUTPUT_DIR", tmp_path)
+    ctx = SimpleNamespace(judge_llm=FakeLLM(default=resp), today="2026-04-14")
+    JudgeStep()._judge(ctx, {"hatena": {"themes": [], "articles": []}}, [], date="2026-04-14")
+
+    history = json.loads((tmp_path / "_judge-history.json").read_text(encoding="utf-8"))
+    assert history[0]["quality_alert"] is True
+    assert history[0]["quality_alert_reason"] == "faithfulness=2"
+
+
+@pytest.mark.unit
 def test_judge_history_accumulates_across_runs(tmp_path, monkeypatch):
     import agents.daily_brief.config as cfg
 

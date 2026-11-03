@@ -57,6 +57,32 @@ def test_judge_from_dict_missing_and_malformed():
     assert JudgeHistoryRecord.from_dict("junk").date == ""
 
 
+def test_judge_record_keeps_quality_alert_reason():
+    # #26：示警原因須進跨天歷史，事後才查得到是哪一軸觸發
+    rec = JudgeHistoryRecord(
+        date="2026-10-14",
+        overall=4.0,
+        relevance=5,
+        completeness=5,
+        faithfulness=2,
+        quality_alert=True,
+        quality_alert_reason="faithfulness=2",
+    )
+    raw = rec.to_dict()
+    assert raw["quality_alert_reason"] == "faithfulness=2"
+    assert JudgeHistoryRecord.from_dict(raw) == rec
+
+
+def test_judge_record_reason_absent_for_legacy_and_clean_rows():
+    # 舊列無此欄 → 空字串；無示警時不寫入此鍵（未示警日形狀不變）
+    assert JudgeHistoryRecord.from_dict({"date": "d"}).quality_alert_reason == ""
+    clean = JudgeHistoryRecord(
+        date="d", overall=5.0, relevance=5, completeness=5, faithfulness=5,
+        quality_alert=False,
+    )
+    assert "quality_alert_reason" not in clean.to_dict()
+
+
 def test_health_record_roundtrip_and_malformed():
     rec = HealthHistoryRecord(date="2026-09-07", results={"hn": OK, "rss": "network"})
     restored = HealthHistoryRecord.from_dict(rec.to_dict())

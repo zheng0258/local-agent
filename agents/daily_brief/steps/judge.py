@@ -198,6 +198,7 @@ def _append_judge_history(judge_result: dict, date: str) -> None:
             completeness=quality.completeness,
             faithfulness=quality.faithfulness,
             quality_alert=quality.quality_alert,
+            quality_alert_reason=str(judge_result.get("quality_alert_reason") or ""),
         ).to_dict()
     )
     history.sort(key=lambda r: r["date"])

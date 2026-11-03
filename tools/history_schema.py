@@ -46,8 +46,9 @@ def _num_or_none(value: object) -> int | float | None:
 class JudgeHistoryRecord:
     """`_judge-history.json` 單列的 typed view / 寫入模型。
 
-    on-disk 形狀：{date, overall, scores:{relevance, completeness, faithfulness}, quality_alert}。
-    overall / 各軸分數缺值或非數字時為 None（不轉 0，保留「無有效分」語義）。
+    on-disk 形狀：{date, overall, scores:{relevance, completeness, faithfulness}, quality_alert,
+    quality_alert_reason?}。overall / 各軸分數缺值或非數字時為 None（不轉 0，保留「無有效分」語義）。
+    quality_alert_reason 僅示警日寫入（列出觸發的維度，issue #26）；舊列缺值為空字串。
     """
 
     date: str
@@ -56,6 +57,7 @@ class JudgeHistoryRecord:
     completeness: int | float | None
     faithfulness: int | float | None
     quality_alert: bool
+    quality_alert_reason: str = ""
 
     @classmethod
     def from_dict(cls, raw: Mapping) -> "JudgeHistoryRecord":
@@ -69,10 +71,11 @@ class JudgeHistoryRecord:
             completeness=_num_or_none(scores.get("completeness")),
             faithfulness=_num_or_none(scores.get("faithfulness")),
             quality_alert=bool(raw.get("quality_alert", False)),
+            quality_alert_reason=str(raw.get("quality_alert_reason") or ""),
         )
 
     def to_dict(self) -> dict:
-        return {
+        record = {
             "date": self.date,
             "overall": self.overall,
             "scores": {
@@ -82,6 +85,9 @@ class JudgeHistoryRecord:
             },
             "quality_alert": self.quality_alert,
         }
+        if self.quality_alert_reason:
+            record["quality_alert_reason"] = self.quality_alert_reason
+        return record
 
 
 @dataclass(frozen=True)
