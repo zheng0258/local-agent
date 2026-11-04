@@ -2050,5 +2050,15 @@
     },
     "quality_alert": true,
     "quality_alert_reason": "faithfulness=2"
+  },
+  {
+    "date": "2026-11-05",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
   }
 ]

@@ -805,5 +805,26 @@
         "total_tokens": 18412
       }
     }
+  },
+  {
+    "date": "2026-11-05",
+    "calls": 27,
+    "prompt_tokens": 98518,
+    "completion_tokens": 116509,
+    "total_tokens": 215027,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 26,
+        "prompt_tokens": 82648,
+        "completion_tokens": 111700,
+        "total_tokens": 194348
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 15870,
+        "completion_tokens": 4809,
+        "total_tokens": 20679
+      }
+    }
   }
 ]
