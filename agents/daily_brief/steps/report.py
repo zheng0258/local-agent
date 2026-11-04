@@ -15,6 +15,11 @@ from config import get_logger
 
 from .. import alerts, links, prompts
 from ..codecs import TextCodec
+from ..community_view import (
+    comments_by_url,
+    reconcile_report_views,
+    strip_community_view,
+)
 from ..schemas import Digest
 from ..step import Step, StepOutput
 
@@ -39,7 +44,7 @@ def _index_urls(compress_data: dict, digests: list[dict]) -> dict[str, int]:
 
 
 def _inject_ids_compress(compress_data: dict, url_to_id: dict[str, int]) -> dict:
-    """回傳附上 id 的 compress 副本（不 mutate 輸入）。"""
+    """回傳附上 id、去掉 comment_summary 的 compress 副本（不 mutate 輸入）。"""
     out: dict = {}
     for name, section in compress_data.items():
         if not isinstance(section, dict) or "articles" not in section:
@@ -48,7 +53,10 @@ def _inject_ids_compress(compress_data: dict, url_to_id: dict[str, int]) -> dict
         out[name] = {
             **section,
             "articles": [
-                {**a, "id": url_to_id[a["url"]]}
+                {
+                    **{k: v for k, v in a.items() if k != "comment_summary"},
+                    "id": url_to_id[a["url"]],
+                }
                 if isinstance(a, dict) and a.get("url") in url_to_id
                 else a
                 for a in section.get("articles", [])
@@ -85,7 +93,11 @@ class ReportStep(Step):
             _inject_ids_compress(compress_data, url_to_id), ensure_ascii=False
         )
         digests_with_id = [
-            {**d, "id": url_to_id[Digest.from_dict(d).url]}
+            {
+                **d,
+                "summary": strip_community_view(d.get("summary", "")),
+                "id": url_to_id[Digest.from_dict(d).url],
+            }
             if Digest.from_dict(d).url in url_to_id
             else d
             for d in deduped
@@ -111,6 +123,8 @@ class ReportStep(Step):
                 "report",
                 f"{removed} 個 [標題](@@id@@) token 未能替換為有效 URL，已降級為純文字",
             )
+        # 社群觀點是資料不是 LLM 輸出：丟棄 LLM 寫的，依 URL 附上真實留言摘要
+        content = reconcile_report_views(content, comments_by_url(compress_data))
         return StepOutput(persist=content or "（報告生成失敗）", value=None)
 
     def _default(self, input):

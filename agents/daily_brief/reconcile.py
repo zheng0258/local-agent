@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from .community_view import comments_by_url
 from .config import FETCH_STEPS
 from .schemas import Digest, SourceCompress
 from tools.vector_store.dedup import filter_source_data_by_urls as _filter_by_kept_urls
@@ -78,12 +79,7 @@ def original_pairs_for_digests(
         for article in SourceCompress.from_dict(source_data.get(src, {})).articles
         if article.url
     }
-    comments_by_url = {
-        article.url: article.comment_summary
-        for src in FETCH_STEPS
-        for article in SourceCompress.from_dict((enrich_data or {}).get(src, {})).articles
-        if article.url and article.comment_summary
-    }
+    comments = comments_by_url(enrich_data)
     pairs: list[dict] = []
     for digest in (Digest.from_dict(d) for d in digests):
         article = articles_by_url.get(digest.url)
@@ -95,7 +91,7 @@ def original_pairs_for_digests(
         }
         if article and article.original_description:
             pair["original_description"] = article.original_description
-        if digest.url in comments_by_url:
-            pair["comment_summary"] = comments_by_url[digest.url]
+        if digest.url in comments:
+            pair["comment_summary"] = comments[digest.url]
         pairs.append(pair)
     return pairs

@@ -224,11 +224,16 @@ def test_build_comment_summary_prompt_specifies_60_char_limit():
 # ── build_digest_prompt_from_compress（更新）───────────────────
 
 
-def test_build_digest_prompt_from_compress_mentions_comment_summary():
-    """更新後的 prompt 應提及 comment_summary 欄位與社群觀點追加。"""
-    p = prompts.build_digest_prompt_from_compress("{}")
-    assert "comment_summary" in p
-    assert "社群觀點" in p
+def test_digest_and_report_prompts_forbid_writing_community_view():
+    """社群觀點由程式組裝（community_view.py）；prompt 不得再要求 LLM 寫。"""
+    digest = prompts.build_digest_prompt_from_compress("{}")
+    report = prompts.build_report_prompt_from_compress(
+        compress_json="{}", digests_json="[]", today="2026-11-04"
+    )
+    for prompt in (digest, report):
+        assert "comment_summary" not in prompt
+        assert "禁止" in prompt and "社群觀點" in prompt
+        assert "💬 社群觀點：" not in prompt
 
 
 # ── build_tldr_prompt（issue #9：英文 TL;DR）─────────────────────

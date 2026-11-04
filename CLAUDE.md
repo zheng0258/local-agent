@@ -51,6 +51,7 @@ agents/
 │   ├── step_cache.py            # cache-or-force 門檻判定（decide → RUN/LOAD/SKIP）
 │   ├── schemas.py               # step artifact 的 typed 唯讀 view（from_dict）
 │   ├── llm_schemas.py           # LLM 輸出 json_schema 契約（compress/digest 約束解碼，ADR 0006；judge 刻意不約束）
+│   ├── community_view.py        # 「💬 社群觀點」確定性組裝（依 comment_summary，LLM 寫的一律丟棄，純函數）
 │   ├── completeness.py          # 完整性校正 seam：judge→不足則重生 digest→重評
 │   ├── health.py                # 可觀測性：Health Record + 慢性故障跨天偵測（純函數）
 │   ├── quality_signals.py       # 品質訊號：digest 來源占比 + judge 分數飽和（純函數）
@@ -206,6 +207,7 @@ python lint/check_fetcher_interface.py
 ## 約束邊界
 
 - **URL 是資料，不是 LLM 輸出**（縱深防禦，見 `agents/daily_brief/links.py`）：凡 URL 要進 LLM 輸出的步驟，一律給每篇文章唯一 `id`、LLM 只回 `id`（+ 摘要/one_liner），`title`/`url` 由 Python 依 id 從可信輸入重建，**絕不信任 LLM 回吐/複製網址**。已套用：compress（`_rebuild_articles`）、digest（`_summaries_by_id` + 依 id 重建）、compose_tg（LLM 寫 `href="@@id@@"` token → `links.substitute_href_tokens` 替換）。最後防線 `links.strip_invalid_anchors`：送 Telegram 前拆掉任何非 http(s) 的 `<a>` 外殼（保留錨文字、優雅降級），並記 `compose_tg` alert 供 health 跨天偵測。此設計源於 09-05 TG 無連結事件（compress LLM 對 HN 丟 title/url 又漏整篇 → digest 捏造「（原始 URL 未提供）」佔位字 → TG 死連結）。
+- **社群觀點是資料，不是 LLM 輸出**（`community_view.py`，ADR 0006 修訂）：唯一來源是 enrich 的 `comment_summary`；digest / report 的 LLM 收不到留言摘要，寫了也丟棄，由 Python 依文章附上。源於 10-19～11-04 digest 有 53 則編造／貼錯／外洩佔位字，其中 20 則上了公開報告。
 - **結構化輸出**（ADR 0006）：compress / digest 以 `llm_schemas.py` 的 json_schema 約束解碼（`Step._complete(ctx, prompt, schema)` / `LocalLLMBackend.complete(..., schema=)`），文法層即擋掉 schema 外欄位（回吐 url/title）；**judge 刻意不約束**——約束解碼使模型不思考、10-18 起連續 17 天一律滿分（issue #29，ADR 0006 修訂），judge 原文對照另帶 enrich 的 `comment_summary` 供查證「💬 社群觀點」；`parse_llm_json` 保留為 fallback。LM Studio 約束輸出落在 `reasoning_content`、`content` 為空，後端僅在帶 schema 時退回讀取。judge 另以 `_sanitize_judge_response` 白名單重建，`overall`/`quality_alert` 一律由 Python 重算。新增 JSON 輸出步驟優先定義 schema。
 - Reddit 禁用 WebFetch，必須 Bash curl 一次查詢後用 Python 解析（禁止兩次重複請求同一 URL）
 - Reddit `stickied` 貼文必須過濾：`if p.get("stickied"): continue`
@@ -216,7 +218,7 @@ python lint/check_fetcher_interface.py
 - daily-brief 發兩封訊息：msg1 主題分群列表（`• <b><a>` 格式）、msg2 深度摘要編號列表（`n. <b><a>` + 2–3 句說明），兩者均為 HTML 格式
 - TG 訊息一律塞進**單封**（4096 上限），用**條目數上限**控制長度而非分段：送 LLM 前以 `_pick_top8_balanced` 跨來源均衡挑選，overview ≤ `_TG_OVERVIEW_MAX_ITEMS`(24)、digest ≤ `_TG_DIGEST_MAX_ITEMS`(7)；`telegram.py` 的 `_safe_truncate` 為最後防線（不切斷 tag、補閉合）
 - compress 步驟：Python 層先過濾 `interest == "***"` 後才傳 LLM；來源無 *** 文章時直接略過 LLM 呼叫
-- report 步驟：LLM 直接輸出純 markdown（不包 JSON）；`_run_report()` 自動剝除 LLM 可能加上的 markdown fence
+- report 步驟：LLM 直接輸出純 markdown（不包 JSON）；`_produce` 自動剝除 LLM 可能加上的 markdown fence，並以 `reconcile_report_views` 依 URL 重放真實社群觀點（條目沒有連結時放不上，該篇不顯示社群觀點）
 - judge 步驟：只傳 `url + one_liner` 給 judge LLM（slim context），不傳完整文章內容
 
 ## playwright-cli 使用規範

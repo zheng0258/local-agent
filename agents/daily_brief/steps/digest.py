@@ -13,6 +13,7 @@ from pathlib import Path
 from config import get_logger, parse_llm_json
 
 from .. import prompts
+from ..community_view import attach_community_view
 from ..llm_schemas import DIGEST_SCHEMA
 from ..step import Step, StepOutput
 
@@ -30,6 +31,12 @@ _SOURCE_LABELS = {
 
 def _source_label(src: str, art: dict) -> str:
     return art.get("subreddit") or art.get("source") or _SOURCE_LABELS.get(src, src)
+
+
+def _llm_article(article_id: int, article: dict) -> dict:
+    """送 LLM 的文章：帶唯一 id、不帶 comment_summary（社群觀點由程式組裝）。"""
+    fields = {k: v for k, v in article.items() if k != "comment_summary"}
+    return {"id": article_id, **fields}
 
 
 def _summaries_by_id(llm_digests: list, n: int) -> dict[int, str]:
@@ -65,7 +72,7 @@ class DigestStep(Step):
             payload = {
                 src: {
                     **src_data,
-                    "articles": [{"id": i, **a} for i, a in enumerate(raw_articles)],
+                    "articles": [_llm_article(i, a) for i, a in enumerate(raw_articles)],
                 }
             }
             compress_json = json.dumps(payload, ensure_ascii=False)
@@ -88,7 +95,9 @@ class DigestStep(Step):
                         "source": _source_label(src, art),
                         "_source": src,
                         "interest": art.get("interest", "***"),
-                        "summary": summary,
+                        "summary": attach_community_view(
+                            summary, art.get("comment_summary", "")
+                        ),
                     }
                 )
             logger.info("Digest %s：%d 篇", src, len(raw_articles))

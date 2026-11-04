@@ -359,10 +359,8 @@ def build_digest_prompt_from_compress(compress_json: str) -> str:
 - 核心訊息（這項技術/事件是什麼）
 - 影響範圍（誰受影響、規模）
 - 值得關注的原因（為何現在重要）
-- 若文章有 comment_summary 欄位，在 summary 尾段另起一行追加：
-  💬 社群觀點：[comment_summary 的內容]
 
-禁止：跳過任何一個 id。
+禁止：跳過任何一個 id；撰寫「社群觀點」或任何留言反應（真實留言摘要由程式依文章附上）。
 
 ## 輸出格式
 
@@ -371,7 +369,7 @@ def build_digest_prompt_from_compress(compress_json: str) -> str:
   "digests": [
     {{
       "id": 0,
-      "summary": "3–5 行摘要（若有 comment_summary，尾段追加 💬 社群觀點：...）"
+      "summary": "3–5 行摘要"
     }}
   ]
 }}
@@ -450,7 +448,6 @@ def build_report_prompt_from_compress(
 ### 全部文章（部分）
 
 1. [標題](@@id@@) (1234pt) — 一行摘要
-   💬 社群觀點：社群的主流看法或爭議點（僅 digest 有 comment_summary 欄位時才顯示此行）
 
 ---
 
@@ -467,7 +464,6 @@ def build_report_prompt_from_compress(
 **資安類**
 
 1. [標題](@@id@@) (1234 ups) — r/xxx — 一行摘要
-   💬 社群觀點：社群的主流看法（僅 digest 有 comment_summary 欄位時才顯示此行）
 
 **AI 類**
 
@@ -504,7 +500,7 @@ def build_report_prompt_from_compress(
 - 章節順序與名稱必須與上方完全一致，不得增減
 - Reddit 使用 `### 注目話題` + `### 依類別列表` 兩層，禁止展開成個別子版標題
 - `## 今日總結` 是最後章節，其後不得新增任何內容
-- HN 和 Reddit 文章條目：若對應 digest 項目有 `comment_summary` 欄位，則在該條目下方縮排一行追加 `   💬 社群觀點：[comment_summary 內容]`；無此欄位則不顯示
+- 禁止撰寫「社群觀點」或任何留言反應：真實留言摘要由程式依文章附在條目下方
 """
 
 

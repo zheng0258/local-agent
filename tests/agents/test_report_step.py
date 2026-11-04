@@ -88,3 +88,48 @@ def test_report_step_artifact_path_is_day_dir(tmp_path):
     assert ReportStep().artifact_path(
         SimpleNamespace(day_dir=tmp_path)
     ) == tmp_path / "report.md"
+
+
+# ── 社群觀點由程式組裝（資料，不是 LLM 輸出）──────────────────────────
+
+
+def _report_input(comment="真實留言"):
+    enrich = {
+        "hn": {
+            "articles": [
+                {"title": "甲", "url": "https://a.example/1", "comment_summary": comment},
+                {"title": "乙", "url": "https://a.example/2"},
+            ]
+        }
+    }
+    digests = [
+        {"title": "甲", "url": "https://a.example/1", "summary": f"摘要甲\n💬 社群觀點：{comment}"},
+        {"title": "乙", "url": "https://a.example/2", "summary": "摘要乙"},
+    ]
+    return enrich, digests
+
+
+@pytest.mark.unit
+def test_report_enforces_real_views_after_llm_output(tmp_path):
+    # LLM 回 id token：_index_urls 依 compress 順序編號（甲=0、乙=1）
+    llm = FakeLLM(
+        default=(
+            "# 報告\n"
+            "1. [甲](@@0@@) (10pt) — 摘要\n"
+            "2. [乙](@@1@@) (5pt) — 摘要\n"
+            "   💬 社群觀點：替無留言文章編造\n"
+        )
+    )
+    ReportStep().run(_ctx(tmp_path, llm=llm), _report_input())
+    report = TextCodec().read(tmp_path / "report.md")
+    assert "編造" not in report
+    lines = report.splitlines()
+    assert lines[2] == "   💬 社群觀點：真實留言"
+    assert lines[3].startswith("2. [乙](https://a.example/2)")
+
+
+@pytest.mark.unit
+def test_report_does_not_send_comment_summary_to_llm(tmp_path):
+    llm = FakeLLM(default="# 報告\n")
+    ReportStep().run(_ctx(tmp_path, llm=llm), _report_input("不該進 prompt 的留言"))
+    assert "不該進 prompt 的留言" not in llm.prompts[0]

@@ -91,3 +91,52 @@ def test_digest_step_requests_digest_json_schema_per_source(tmp_path):
     }
     DigestStep().run(_ctx(tmp_path, llm=llm), compress_data)
     assert llm.schemas == [DIGEST_SCHEMA, DIGEST_SCHEMA]
+
+
+# ── 社群觀點由程式組裝（資料，不是 LLM 輸出）──────────────────────────
+
+
+def _digest_with_llm_summary(tmp_path, summary, article_extra):
+    llm = FakeLLM(default=json.dumps({"digests": [{"id": 0, "summary": summary}]}))
+    art = {"title": "t", "url": "https://e.com", "one_liner": "ol", "interest": "***", **article_extra}
+    outcome = DigestStep().run(_ctx(tmp_path, llm=llm), {"hn": {"articles": [art]}})
+    return llm, outcome.value[0]["summary"]
+
+
+@pytest.mark.unit
+def test_digest_appends_real_comment_summary_by_article(tmp_path):
+    _, summary = _digest_with_llm_summary(tmp_path, "摘要。", {"comment_summary": "真實留言"})
+    assert summary == "摘要。\n💬 社群觀點：真實留言"
+
+
+@pytest.mark.unit
+def test_digest_discards_view_invented_for_article_without_comments(tmp_path):
+    # 回歸：10-19 起 LLM 替無留言的文章編造社群觀點 / 外洩佔位字
+    _, summary = _digest_with_llm_summary(
+        tmp_path, "摘要。\n💬 社群觀點：[comment_summary 的內容]", {}
+    )
+    assert summary == "摘要。"
+
+
+@pytest.mark.unit
+def test_digest_replaces_view_cross_wired_from_another_article(tmp_path):
+    # 回歸：11-04 OpenAI Codex 條目被貼上 Gitbook 的留言摘要
+    _, summary = _digest_with_llm_summary(
+        tmp_path, "摘要。\n💬 社群觀點：別篇的留言", {"comment_summary": "本篇留言"}
+    )
+    assert summary == "摘要。\n💬 社群觀點：本篇留言"
+
+
+@pytest.mark.unit
+def test_digest_does_not_send_comment_summary_to_llm(tmp_path):
+    llm, _ = _digest_with_llm_summary(tmp_path, "摘要。", {"comment_summary": "不該進 prompt 的留言"})
+    assert "不該進 prompt 的留言" not in llm.prompts[0]
+
+
+@pytest.mark.unit
+def test_digest_fallback_summary_still_gets_real_view(tmp_path):
+    # LLM 漏掉 id → one_liner 退回，社群觀點仍要附上
+    llm = FakeLLM(default=json.dumps({"digests": []}))
+    art = {"title": "t", "url": "https://e.com", "one_liner": "ol", "comment_summary": "真實留言"}
+    outcome = DigestStep().run(_ctx(tmp_path, llm=llm), {"hn": {"articles": [art]}})
+    assert outcome.value[0]["summary"] == "ol\n💬 社群觀點：真實留言"

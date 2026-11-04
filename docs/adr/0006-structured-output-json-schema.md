@@ -102,7 +102,27 @@ Consequences 預告的風險成真：10-18 起 judge 連續 17 天三軸全 5 �
 2. `reconcile.original_pairs_for_digests` 從 enrich 帶上該篇 `comment_summary`，judge prompt
    註明社群觀點以它為依據，與之相符不算編造。
 3. compress / digest 維持約束解碼。digest 同樣失去思考，但它的品質由（已恢復鑑別力的）
-   judge 監測，有劣化再評估。
+   judge 監測，有劣化再評估。（已於次日修訂，見下節）
+
+## 修訂（2026-11-04）：社群觀點改由程式組裝
+
+上一節假設「digest 的社群觀點源自真實留言」，只在 10-18 以前成立。恢復鑑別力的 judge
+首日（11-04）就抓到 OpenAI Codex 條目被貼上 Gitbook 的留言摘要；逐篇比對 digest 與
+enrich 的 `comment_summary` 後：
+
+| 期間 | 相符 | 沒有依據或貼錯 | 應有卻漏掉 |
+|---|---|---|---|
+| 10-01～10-18 | 119 | 0 | 0 |
+| 10-19～11-04 | 92 | 53（含 15 則佔位字，如 `[comment_summary 的內容]`） | 8 |
+
+其中 20 則沒有依據的內容進了 10-29～11-02 的公開 `report.md`。錯誤緊接在約束解碼上線
+（10-17）之後出現，但只有時間吻合，未對 digest 做對照實驗，成因未證實。
+
+決策：**社群觀點是資料，不是 LLM 輸出**（與 URL 同一原則）。`community_view.py` 依文章
+附上真實 `comment_summary`，digest / report 的 LLM 都收不到留言摘要，寫了也丟棄；無論
+成因為何，社群觀點行不會再有編造、貼錯、佔位字或漏掉。digest 維持約束解碼。其餘摘要內文
+仍是 LLM 輸出，由 judge 監測。10-29～11-02 公開報告中的這 20 行已一次性刪除；
+Telegram 已送出的訊息與 Obsidian 內的 digest 未回溯修改。
 
 ## 後續計畫：report 改由 Python 模板組 markdown
 
