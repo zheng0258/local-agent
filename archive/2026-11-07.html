@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-11-07</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-11-07</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-11-07</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://syu-m-5151.hatenablog.com/entry/2026/11/06/132239" rel="noopener noreferrer">使用 Herdr 監控多個 AI 代理程式</a></td>
+<td>85</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Herdr 可監控多個 AI 代理程式</td>
+</tr>
+<tr>
+<td><a href="https://www.watch.impress.co.jp/docs/news/2154508.html" rel="noopener noreferrer">NTT Docomo 遭非法存取，「資費方案」等資訊外洩 29.5萬筆</a></td>
+<td>80</td>
+<td>***</td>
+<td>資安</td>
+<td>NTT Docomo 遭非法存取，29.5 萬筆資訊外洩</td>
+</tr>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2611/06/2000002978/" rel="noopener noreferrer">資安宣導組織遭非法存取，恐有 1.5 萬筆個資外洩</a></td>
+<td>74</td>
+<td>***</td>
+<td>資安</td>
+<td>資安宣導組織遭非法存取，個資恐外洩</td>
+</tr>
+<tr>
+<td><a href="https://gigazine.net/news/20261106-claude-code-mail-address/" rel="noopener noreferrer">Claude Code 被曝擅自將使用者 Email 傳送至外部網站，且該問題早在約 4 個月前即已回報</a></td>
+<td>29</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>Claude Code 擅自傳送 Email，問題已存留四個月</td>
+</tr>
+<tr>
+<td><a href="https://www.jnsa.org/dl/annual/20261106.pdf" rel="noopener noreferrer">關於「資訊資安理解度檢查服務」遭非法存取恐致使用者個資外洩之公告</a></td>
+<td>23</td>
+<td>***</td>
+<td>資安</td>
+<td>JNSA 公告理解度檢查服務個資外洩風險</td>
+</tr>
+<tr>
+<td><a href="https://aws.amazon.com/about-aws/whats-new/2026/11/security-hub-sbom-inventory/" rel="noopener noreferrer">AWS Security Hub 現提供運算資源的 SBOM 清單功能</a></td>
+<td>13</td>
+<td>***</td>
+<td>雲端資安</td>
+<td>AWS Security Hub 新增運算資源 SBOM 功能</td>
+</tr>
+<tr>
+<td><a href="https://www.soumu.go.jp/menu_news/s-news/01kiban18_01000300.html" rel="noopener noreferrer">總務省｜新聞稿｜針對 NTT Docomo 特定使用者資訊保護的指導措施</a></td>
+<td>10</td>
+<td>***</td>
+<td>資安政策</td>
+<td>總務省指導 Docomo 落實個資保護與防範措施</td>
+</tr>
+<tr>
+<td><a href="https://open.spotify.com/episode/3upWlmL3EZ16icnugHzRJf" rel="noopener noreferrer">第142集：如何在 ISUCON 2026 奪冠（訪談 kawasy）</a></td>
+<td>10</td>
+<td>***</td>
+<td>AI 應用</td>
+<td>ISUCON 2026 冠軍訪談：AI 代理程式奪冠之道</td>
+</tr>
+<tr>
+<td><a href="https://www.soumu.go.jp/menu_kyotsuu/important/kinkyu02_000683.html" rel="noopener noreferrer">總務省｜關於防止導致個資外洩等非法存取之對策（針對事業者之注意喚起）</a></td>
+<td>8</td>
+<td>***</td>
+<td>資安</td>
+<td>總務省呼籲企業落實基礎防護防非法存取</td>
+</tr>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/ai-information-leak-inventory-2026/" rel="noopener noreferrer">盤點 AI 導致之資訊外洩事件</a></td>
+<td>6</td>
+<td>***</td>
+<td>AI 與資安</td>
+<td>盤點 AI 導致之資訊外洩事件，五個月內 15 件</td>
+</tr>
+<tr>
+<td><a href="https://internet.watch.impress.co.jp/docs/news/2154286.html" rel="noopener noreferrer">國家網路統括室公開非法存取對策重點資料，呼籲網站與行動App徹底落實基礎防護</a></td>
+<td>6</td>
+<td>***</td>
+<td>資安</td>
+<td>國家網路統括室公開非法存取對策重點資料</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://syu-m-5151.hatenablog.com/entry/2026/11/06/132239" rel="noopener noreferrer">使用 Herdr 監控多個 AI 代理程式</a> (85 users) — Herdr 可監控多個 AI 代理程式</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2154508.html" rel="noopener noreferrer">NTT Docomo 遭非法存取，「資費方案」等資訊外洩 29.5萬筆</a> (80 users) — NTT Docomo 遭非法存取，29.5 萬筆資訊外洩</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2611/06/2000002978/" rel="noopener noreferrer">資安宣導組織遭非法存取，恐有 1.5 萬筆個資外洩</a> (74 users) — 資安宣導組織遭非法存取，個資恐外洩</li>
+<li><a href="https://gigazine.net/news/20261106-claude-code-mail-address/" rel="noopener noreferrer">Claude Code 被曝擅自將使用者 Email 傳送至外部網站，且該問題早在約 4 個月前即已回報</a> (29 users) — Claude Code 擅自傳送 Email，問題已存留四個月</li>
+<li><a href="https://www.jnsa.org/dl/annual/20261106.pdf" rel="noopener noreferrer">關於「資訊資安理解度檢查服務」遭非法存取恐致使用者個資外洩之公告</a> (23 users) — JNSA 公告理解度檢查服務個資外洩風險</li>
+<li><a href="https://aws.amazon.com/about-aws/whats-new/2026/11/security-hub-sbom-inventory/" rel="noopener noreferrer">AWS Security Hub 現提供運算資源的 SBOM 清單功能</a> (13 users) — AWS Security Hub 新增運算資源 SBOM 功能</li>
+<li><a href="https://www.soumu.go.jp/menu_news/s-news/01kiban18_01000300.html" rel="noopener noreferrer">總務省｜新聞稿｜針對 NTT Docomo 特定使用者資訊保護的指導措施</a> (10 users) — 總務省指導 Docomo 落實個資保護與防範措施</li>
+<li><a href="https://open.spotify.com/episode/3upWlmL3EZ16icnugHzRJf" rel="noopener noreferrer">第142集：如何在 ISUCON 2026 奪冠（訪談 kawasy）</a> (10 users) — ISUCON 2026 冠軍訪談：AI 代理程式奪冠之道</li>
+<li><a href="https://www.soumu.go.jp/menu_kyotsuu/important/kinkyu02_000683.html" rel="noopener noreferrer">總務省｜關於防止導致個資外洩等非法存取之對策（針對事業者之注意喚起）</a> (8 users) — 總務省呼籲企業落實基礎防護防非法存取</li>
+<li><a href="https://dev.classmethod.jp/articles/ai-information-leak-inventory-2026/" rel="noopener noreferrer">盤點 AI 導致之資訊外洩事件</a> (6 users) — 盤點 AI 導致之資訊外洩事件，五個月內 15 件</li>
+<li><a href="https://internet.watch.impress.co.jp/docs/news/2154286.html" rel="noopener noreferrer">國家網路統括室公開非法存取對策重點資料，呼籲網站與行動App徹底落實基礎防護</a> (6 users) — 國家網路統括室公開非法存取對策重點資料</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50384233" rel="noopener noreferrer">MS Paint 遠端程式碼執行漏洞</a></td>
+<td>684</td>
+<td>***</td>
+<td>Web 資安與漏洞</td>
+<td>MS Paint 曝出遠端程式碼執行漏洞，需立即更新。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50390124" rel="noopener noreferrer">荷蘭「理想主義」銀行 ASN 封鎖非 Google 的 Android 裝置，包含 GrapheneOS</a></td>
+<td>554</td>
+<td>***</td>
+<td>資安與隱私政策</td>
+<td>荷蘭 ASN 銀行封鎖非 Google Android 裝置，GrapheneOS 受害。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50387796" rel="noopener noreferrer">Pwn.college</a></td>
+<td>271</td>
+<td>***</td>
+<td>資安教育與滲透測試</td>
+<td>Pwn.college 提供互動式資安教育，學習滲透測試技巧。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50392118" rel="noopener noreferrer">Gemini Omni 1.2 Flash</a></td>
+<td>213</td>
+<td>***</td>
+<td>AI 模型發布</td>
+<td>Google 發布 Gemini Omni 1.2 Flash，提升 AI 推理效能。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50392499" rel="noopener noreferrer">大學圖書館遭 AI 機器人入侵，危及公眾存取權</a></td>
+<td>95</td>
+<td>***</td>
+<td>AI 應用與資安風險</td>
+<td>AI 機器人入侵大學圖書館，威脅公眾資源存取權。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50389990" rel="noopener noreferrer">AI 輔助科學發現：研究人員如何使用 Claude</a></td>
+<td>64</td>
+<td>***</td>
+<td>AI 開發工具與研究</td>
+<td>研究人員利用 Claude 輔助科學發現，加速研究進程。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50393235" rel="noopener noreferrer">展示 HN：AI 代理身分中繼器，AI 代理的 OAuth 委派</a></td>
+<td>13</td>
+<td>***</td>
+<td>AI 開發工具與身分驗證</td>
+<td>推出 AI 代理身分中繼器，支援 OAuth 委派驗證。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50395043" rel="noopener noreferrer">Claude Code 會將您的電子郵件地址傳送給網站</a></td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具與隱私</td>
+<td>Claude Code 疑將用戶 Email 外洩給第三方網站。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50384233" rel="noopener noreferrer">MS Paint 遠端程式碼執行漏洞</a> (684pt) — MS Paint 曝出遠端程式碼執行漏洞，需立即更新。
+   💬 社群觀點：社群驚嘆並戲謔此漏洞，部分人質疑「遠端」觸發條件。普遍建議盡快更新版本，並期待微軟技術分析。</li>
+<li><a href="https://news.ycombinator.com/item?id=50390124" rel="noopener noreferrer">荷蘭「理想主義」銀行 ASN 封鎖非 Google 的 Android 裝置，包含 GrapheneOS</a> (554pt) — 荷蘭 ASN 銀行封鎖非 Google Android 裝置，GrapheneOS 受害。
+   💬 社群觀點：社群批評銀行過度限制設備選擇，實為安全機制不足；建議備用舊機專辦、改用政府數位簽章，盼建立開源ROM硬體簽章機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=50387796" rel="noopener noreferrer">Pwn.college</a> (271pt) — Pwn.college 提供互動式資安教育，學習滲透測試技巧。
+   💬 社群觀點：社群盛讚其實戰教學與懷舊CTF體驗，課程全面且實體獎勵具吸引力；部分指最高分僅限教學，並對攻略發布政策存疑。</li>
+<li><a href="https://news.ycombinator.com/item?id=50392118" rel="noopener noreferrer">Gemini Omni 1.2 Flash</a> (213pt) — Google 發布 Gemini Omni 1.2 Flash，提升 AI 推理效能。
+   💬 社群觀點：社群評價兩極：讚賞即時開放與影片功能，但批評版本混亂、定價高、發放不透明，並質疑Google策略與實用性。</li>
+<li><a href="https://news.ycombinator.com/item?id=50392499" rel="noopener noreferrer">大學圖書館遭 AI 機器人入侵，危及公眾存取權</a> (95pt) — AI 機器人入侵大學圖書館，威脅公眾資源存取權。
+   💬 社群觀點：社群對AI爬蟲看法兩極：部分主張應開放存取，多數指伺服器負載過重需防禦。建議部署WAF、設定速率限制與封鎖惡意IP。</li>
+<li><a href="https://news.ycombinator.com/item?id=50389990" rel="noopener noreferrer">AI 輔助科學發現：研究人員如何使用 Claude</a> (64pt) — 研究人員利用 Claude 輔助科學發現，加速研究進程。
+   💬 社群觀點：社群肯定 AI 輔助繪圖等基礎任務，但質疑數據隱私與生物領域審查。學者強調 AI 僅宜作助手，並批評文章缺乏具體實驗技術</li>
+<li><a href="https://news.ycombinator.com/item?id=50393235" rel="noopener noreferrer">展示 HN：AI 代理身分中繼器，AI 代理的 OAuth 委派</a> (13pt) — 推出 AI 代理身分中繼器，支援 OAuth 委派驗證。
+   💬 社群觀點：社群肯定專案，但質疑既有OAuth是否足夠，並關注企業應用價值、KYA/KYB合規需求，及跨層代理的信任傳遞機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=50395043" rel="noopener noreferrer">Claude Code 會將您的電子郵件地址傳送給網站</a> (-pt) — Claude Code 疑將用戶 Email 外洩給第三方網站。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.lkoskela.fi/blog/2026-11-05-forwarded-without-question/" rel="noopener noreferrer">盲目信任轉發：Web 框架如何過度信任 Forwarded 標頭</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>-</td>
+<td>Web 框架過度信任轉發標頭，易遭攻擊</td>
+</tr>
+<tr>
+<td><a href="https://x.com/QwenDevs/status/2118716745372532865" rel="noopener noreferrer">Qwen 開發者在 X 上表示：Q 何時？Q 快來了！給中國以外朋友的海報中文來自…</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>-</td>
+<td>Qwen 團隊預告新模型即將發布</td>
+</tr>
+<tr>
+<td><a href="https://i.redd.it/k36bnqtvjzzh1.png" rel="noopener noreferrer">Qwen：蛻變之始</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>-</td>
+<td>Qwen 模型開啟蛻變新篇章</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xpgj5q/some_gemini_rates_doubling_jan_1_2027/" rel="noopener noreferrer">部分 Gemini 費率將於 2027 年 1 月 1 日翻倍</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>部分 Gemini 費率明年一月起翻倍</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xp60ag/imminent_usage_limit_decrease_for_pro_and_ultra/" rel="noopener noreferrer">Pro 與 Ultra 即將調降使用上限</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>Pro 與 Ultra 使用上限即將調降</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/programming/comments/1xovn5d/a_boolean_pii_flag_is_not_enough/" rel="noopener noreferrer">僅靠布林值標記個人隱私資訊（PII）是遠遠不夠的</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>核心技術類</td>
+<td>r/programming</td>
+<td>僅靠布林值標記 PII 資訊不足</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.lkoskela.fi/blog/2026-11-05-forwarded-without-question/" rel="noopener noreferrer">盲目信任轉發：Web 框架如何過度信任 Forwarded 標頭</a> (- ups) — - — Web 框架過度信任轉發標頭，易遭攻擊</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://x.com/QwenDevs/status/2118716745372532865" rel="noopener noreferrer">Qwen 開發者在 X 上表示：Q 何時？Q 快來了！給中國以外朋友的海報中文來自…</a> (- ups) — - — Qwen 團隊預告新模型即將發布</li>
+<li><a href="https://i.redd.it/k36bnqtvjzzh1.png" rel="noopener noreferrer">Qwen：蛻變之始</a> (- ups) — - — Qwen 模型開啟蛻變新篇章</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xpgj5q/some_gemini_rates_doubling_jan_1_2027/" rel="noopener noreferrer">部分 Gemini 費率將於 2027 年 1 月 1 日翻倍</a> (- ups) — r/GoogleGeminiAI — 部分 Gemini 費率明年一月起翻倍</li>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xp60ag/imminent_usage_limit_decrease_for_pro_and_ultra/" rel="noopener noreferrer">Pro 與 Ultra 即將調降使用上限</a> (- ups) — r/GoogleGeminiAI — Pro 與 Ultra 使用上限即將調降</li>
+</ol>
+<p><strong>核心技術類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/programming/comments/1xovn5d/a_boolean_pii_flag_is_not_enough/" rel="noopener noreferrer">僅靠布林值標記個人隱私資訊（PII）是遠遠不夠的</a> (- ups) — r/programming — 僅靠布林值標記 PII 資訊不足</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/ai-agent-security-in-kubernetes-prompt-injection" rel="noopener noreferrer">Kubernetes 中的 AI Agent 資安：為何「提示詞注入」並非正確用語</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>K8s 中 AI Agent 資安，提示詞注入應稱提示詞中毒</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/10/widespread-php-flaw-may-cause-many-site-outages-today/" rel="noopener noreferrer">廣泛 PHP 漏洞恐導致今日大量網站當機</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>PHP 漏洞恐致全球七成網站今日當機</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/installing-fix-for-exploited-wordpress.html" rel="noopener noreferrer">安裝 WordPress 漏洞修復程式時，部分網站仍可能遭最後一次攻擊</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>WordPress 修復程式安裝中仍可能遭攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/hackers-exploited-openssh-sshole-flaw.html" rel="noopener noreferrer">駭客在漏洞揭露數小時內即針對 OpenSSH SSHole 漏洞攻擊，取得 Honeypot 根權限</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>OpenSSH SSHole 漏洞揭露數小時即遭攻擊</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/openai-launches-gpt-6-cyber-after-ai.html" rel="noopener noreferrer">OpenAI 推出 GPT-6 Cyber，AI 協助發現 81 個 Firefox 漏洞與 948 個 Linux 利用程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>OpenAI 推出 GPT-6 Cyber 輔助安全研究</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/malicious-browser-extensions-could-use.html" rel="noopener noreferrer">惡意瀏覽器擴充功能可能利用 Claude Dispatch 在用戶電腦執行程式碼</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>惡意擴充功能或利用 Claude Dispatch 執行程式</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/hackers-hide-linux-backdoor-in-control.html" rel="noopener noreferrer">駭客在 Control Web Panel 伺服器藏匿 Linux 後門，執行指令不留紀錄</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客在 Control Web Panel 藏匿無痕後門</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/researchers-bypass-chatgpt-lockdown.html" rel="noopener noreferrer">研究人員繞過 ChatGPT 鎖定模式，無需用戶互動即可竊取聊天紀錄</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>研究人員繞過 ChatGPT 鎖定模式竊取紀錄</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/orellanaed/summer-engine-vs-ziva-vs-flockbay-which-godot-ai-tool-to-pick-in-2026-51ji" rel="noopener noreferrer">Summer Engine 對決 Ziva 與 Flockbay：2026 年該選哪款 Godot AI 工具？</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>2026 年 Godot AI 工具 Summer、Ziva 與 Flockbay 比較</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/gitlab-19-5-agentic-platform/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">GitLab 19.5 將代理開發納入 DevOps 平台的受控環節</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>GitLab 19.5 將代理開發納入受控 DevOps 平台</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/aws-continuum-ga/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">AWS 推出 Continuum 服務以修復程式碼漏洞</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>AWS 推出 Continuum 服務以修復程式碼漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/ai-credentials-isolation/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Edera 物件能力受限權限模型，承諾將憑證與 AI 代理工作負載隔離</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Edera 模型承諾將憑證與 AI 代理工作負載隔離</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 開發工具隱私風險】</strong> — Claude Code 擅自傳送 Email 事件引發跨平台關注，顯示 AI 輔助工具在資料處理透明度與用戶隱私保障上仍存盲點。開發者與企業需重新檢視第三方工具的資料流向與授權機制。</li>
+<li><strong>【基礎資安漏洞與法規監管】</strong> — NTT Docomo 與 JNSA 個資外洩事件促使日本總務省與國家網路統括室加強行政指導，呼籲企業落實基礎防護。同時 PHP、WordPress 與 OpenSSH 漏洞遭快速利用，突顯基礎軟體維護的緊迫性。</li>
+<li><strong>【AI 代理治理與生態演進】</strong> — GitLab 19.5 將代理開發納入受控 DevOps 流程，Edera 提出憑證隔離模型，顯示企業正積極建立 AI Agent 的安全架構。另一方面，Gemini 費率調漲與使用上限調降，反映 AI 服務商業化與成本管理的現實挑戰。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Claude Code 隱私外洩爭議</strong>：Hatena + HN + Reddit 同步出現 — 開發工具未經授權傳送使用者 Email 至外部網站，引發全球開發社群對 AI 工具資料透明度與合規性的強烈質疑。</li>
+<li><strong>基礎漏洞威脅與 AI 攻防</strong>：HN + RSS 資安社群同步出現 — MS Paint、OpenSSH 及 PHP 漏洞遭駭客快速利用，同時 OpenAI GPT-6 Cyber 與 AWS Continuum 顯示 AI 正加速應用於漏洞挖掘與自動化修復，攻防戰進入新階段。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

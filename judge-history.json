@@ -2060,5 +2060,25 @@
       "faithfulness": 5
     },
     "quality_alert": false
+  },
+  {
+    "date": "2026-11-06",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-07",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
   }
 ]

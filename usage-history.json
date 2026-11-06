@@ -826,5 +826,47 @@
         "total_tokens": 20679
       }
     }
+  },
+  {
+    "date": "2026-11-06",
+    "calls": 30,
+    "prompt_tokens": 85008,
+    "completion_tokens": 111464,
+    "total_tokens": 196472,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 29,
+        "prompt_tokens": 72880,
+        "completion_tokens": 107167,
+        "total_tokens": 180047
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 12128,
+        "completion_tokens": 4297,
+        "total_tokens": 16425
+      }
+    }
+  },
+  {
+    "date": "2026-11-07",
+    "calls": 28,
+    "prompt_tokens": 83677,
+    "completion_tokens": 104745,
+    "total_tokens": 188422,
+    "by_model": {
+      "qwen/qwen3.6-27b": {
+        "calls": 27,
+        "prompt_tokens": 71469,
+        "completion_tokens": 98810,
+        "total_tokens": 170279
+      },
+      "qwen3.6-35b-a3b": {
+        "calls": 1,
+        "prompt_tokens": 12208,
+        "completion_tokens": 5935,
+        "total_tokens": 18143
+      }
+    }
   }
 ]

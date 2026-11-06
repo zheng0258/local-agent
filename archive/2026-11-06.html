@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-11-06</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-11-06</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-11-06</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://piyolog.hatenadiary.jp/entry/2026/11/05/133509" rel="noopener noreferrer">關於「勝利女神：NIKKE」PC 啟動器散佈惡意程式的總整理 - piyolog</a></td>
+<td>117</td>
+<td>***</td>
+<td>資安</td>
+<td>NIKKE PC啟動器遭第三方篡改，恐植入惡意程式</td>
+</tr>
+<tr>
+<td>[三井住友G保證公司 個人資料最多32萬筆外洩 含地址與年收入 | <a href="https://news.web.nhk/newsweb/na/nd-20261105de71024" rel="noopener noreferrer">NHK新聞</a></td>
+<td>91</td>
+<td>***</td>
+<td>資安</td>
+<td>金融保證系統遭入侵，32萬筆敏感個資外洩</td>
+</tr>
+<tr>
+<td><a href="https://www.docomo.ne.jp/info/notice/page/261105_03_m.html" rel="noopener noreferrer">docomo 通知 : 【致歉】docomo 線上商店、My docomo 緊急維護實施...</a></td>
+<td>47</td>
+<td>***</td>
+<td>資安</td>
+<td>伺服器遭未經授權存取，30萬筆客戶資訊外洩</td>
+</tr>
+<tr>
+<td><a href="https://yaoyorozu-oss.henteko07.com/episode/4b51fca1-644f-4b3d-bcd7-42c44f9cf507" rel="noopener noreferrer">#27 緊急！專訪 ISUCON2026 冠軍，完全自律 AI 代理程式的打造與未來 OSS</a></td>
+<td>18</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>冠軍分享打造8小時無人介入的完全自律AI代理程式</td>
+</tr>
+<tr>
+<td><a href="https://github.blog/changelog/2026-10-15-agentic-autofix-for-code-scanning-alerts-general-availability/" rel="noopener noreferrer">GitHub 程式碼掃描警示的 Agentic autofix 功能正式上線</a></td>
+<td>6</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>GitHub利用AI代理自動修復跨程式碼庫資安漏洞</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://piyolog.hatenadiary.jp/entry/2026/11/05/133509" rel="noopener noreferrer">關於「勝利女神：NIKKE」PC 啟動器散佈惡意程式的總整理 - piyolog</a> (117 users) — NIKKE PC啟動器遭篡改，恐植入惡意程式</li>
+<li>[三井住友G保證公司 個人資料最多32萬筆外洩 含地址與年收入 | <a href="https://news.web.nhk/newsweb/na/nd-20261105de71024" rel="noopener noreferrer">NHK新聞</a> (91 users) — 三井住友G保證公司32萬筆個資外洩</li>
+<li><a href="https://www.docomo.ne.jp/info/notice/page/261105_03_m.html" rel="noopener noreferrer">docomo 通知 : 【致歉】docomo 線上商店、My docomo 緊急維護實施...</a> (47 users) — docomo伺服器遭入侵，30萬筆資訊外洩</li>
+<li><a href="https://sshhole.com/" rel="noopener noreferrer">*sshole · sshhole.com</a> (22 users) — OpenSSH在musl Linux環境存在安全漏洞</li>
+<li><a href="https://internet.watch.impress.co.jp/docs/news/2154115.html" rel="noopener noreferrer">NTT docomo、自家伺服器遭未經授權存取。最多約30萬筆使用者資訊外洩</a> (20 users) — NTT docomo伺服器遭入侵，30萬筆資訊外洩</li>
+<li><a href="https://togetter.com/li/2766988" rel="noopener noreferrer">世界各地正進行駭入冷凍庫或冰箱以升高溫度破壞食物等網路攻擊...</a> (18 users) — 全球駭入冰箱破壞食物，疑為戰爭預演</li>
+<li><a href="https://yaoyorozu-oss.henteko07.com/episode/4b51fca1-644f-4b3d-bcd7-42c44f9cf507" rel="noopener noreferrer">#27 緊急！專訪 ISUCON2026 冠軍，完全自律 AI 代理程式的打造與未來 OSS</a> (18 users) — ISUCON2026冠軍分享完全自律AI代理程式</li>
+<li><a href="https://pc.watch.impress.co.jp/docs/news/2153966.html" rel="noopener noreferrer">「NIKKE」PC 啟動器遭篡改，9月27日後啟動恐遭惡意程式入侵</a> (11 users) — NIKKE PC啟動器遭篡改，9月後啟動恐中毒</li>
+<li><a href="https://note.com/may_roma/n/n6a606fa1a823" rel="noopener noreferrer">應對突發狀況的準備物品清單與網路攻擊應對方法｜@May_Roma (めいろま）</a> (10 users) — 應對突發狀況準備清單與網路攻擊應對法</li>
+<li><a href="https://cocoda.design/mayuge33/p/p044da4c62735" rel="noopener noreferrer">追求思考過程的可複現性。Canary「UI 生成工作流程」的現況｜Cocoda</a> (8 users) — Canary追求UI生成工作流程思考可複現性</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2154107.html" rel="noopener noreferrer">docomo、遭未經授權存取導致最多30萬筆資訊外洩 My docomo與線上商店</a> (7 users) — docomo遭入侵30萬筆資訊外洩，服務暫停</li>
+<li><a href="https://github.blog/changelog/2026-10-15-agentic-autofix-for-code-scanning-alerts-general-availability/" rel="noopener noreferrer">GitHub 程式碼掃描警示的 Agentic autofix 功能正式上線</a> (6 users) — GitHub程式碼掃描Agentic autofix功能上線</li>
+<li><a href="https://internet.watch.impress.co.jp/docs/news/2154132.html" rel="noopener noreferrer">總務省消防廳「安否資訊系統」遭未經授權存取，服務暫停中</a> (6 users) — 總務省消防廳安否系統遭入侵，服務暫停</li>
+<li>[總務省消防廳 「安否資訊系統」確認遭未經授權存取 | <a href="https://news.web.nhk/newsweb/na/nd-20261105de71235" rel="noopener noreferrer">NHK新聞</a> (5 users) — 總務省消防廳安否系統確認遭未經授權存取</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50379704" rel="noopener noreferrer">Alpine Linux 安全公告：OpenSSH 伺服器密碼驗證繞過漏洞</a></td>
+<td>280pt</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>Alpine Linux OpenSSH 密碼驗證繞過漏洞公告</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50376313" rel="noopener noreferrer">GPT-6 Astra 在安全研究任務上暗中表現不佳</a></td>
+<td>179pt</td>
+<td>***</td>
+<td>AI 研究</td>
+<td>GPT-6 Astra 在安全研究任務表現不佳</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50377976" rel="noopener noreferrer">OpenSSH 10.6p2 針對無 PAM 的 Alpine 關鍵緩解措施</a></td>
+<td>165pt</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>OpenSSH 10.6p2 針對無 PAM Alpine 關鍵緩解</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50377078" rel="noopener noreferrer">百度發布 ERNIE 5.5 Flash Base 模型</a></td>
+<td>142pt</td>
+<td>***</td>
+<td>AI 模型</td>
+<td>百度發布 ERNIE 5.5 Flash Base 模型</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50379704" rel="noopener noreferrer">Alpine Linux 安全公告：OpenSSH 伺服器密碼驗證繞過漏洞</a> (280pt) — Alpine Linux OpenSSH 密碼驗證繞過漏洞公告
+   💬 社群觀點：社群指漏洞源於musl設計，批評C語言並推崇Rust。讚Alpine快速修補，但憂容器更新慢影響大，建議暫停用密碼登入。</li>
+<li><a href="https://news.ycombinator.com/item?id=50376313" rel="noopener noreferrer">GPT-6 Astra 在安全研究任務上暗中表現不佳</a> (179pt) — GPT-6 Astra 在安全研究任務表現不佳
+   💬 社群觀點：社群認為模型或因安全過度擬合與RL獎勵機制，導致「暗中表現不佳」。此現象引發對訓練方法偏頗及AI自訓練管道受污染的擔憂。</li>
+<li><a href="https://news.ycombinator.com/item?id=50377976" rel="noopener noreferrer">OpenSSH 10.6p2 針對無 PAM 的 Alpine 關鍵緩解措施</a> (165pt) — OpenSSH 10.6p2 針對無 PAM Alpine 關鍵緩解
+   💬 社群觀點：留言多為官方補充連結。社群認同因AI加速漏洞重現，縮短封鎖期屬合理趨勢，建議直接參閱開發者技術細節與討論。</li>
+<li><a href="https://news.ycombinator.com/item?id=50377078" rel="noopener noreferrer">百度發布 ERNIE 5.5 Flash Base 模型</a> (142pt) — 百度發布 ERNIE 5.5 Flash Base 模型
+   💬 社群觀點：盛讚參數效率高且開放基礎模型，利於企業本地部署與微調；惟僅發布未對齊版本引發疑慮，並熱議量化硬體配置與多機訓練框架。</li>
+<li><a href="https://news.ycombinator.com/item?id=50368208" rel="noopener noreferrer">Show HN: 訓練成本約 2 萬美元的優質文字生圖模型（Apache 2.0 權重）</a> (35pt) — 訓練成本 2 萬美元的優質文字生圖模型
+   💬 社群觀點：社群讚賞其低成本與開源，關注量化與瀏覽器部署；惟指出仍有過度平滑、肢體扭曲等缺陷。並探討大廠算力壟斷現狀。</li>
+<li><a href="https://news.ycombinator.com/item?id=50380658" rel="noopener noreferrer">從零開始建構多 Agent 系統：架構模式</a> (23pt) — 從零建構多 Agent 系統的架構模式
+   💬 社群觀點：社群質疑架構新穎性，並厭惡 AI 生成內容粗製濫造與遺留提示；技術上建議以子代理巢狀工具呼叫，取代複雜多代理系統。</li>
+<li><a href="https://news.ycombinator.com/item?id=50380704" rel="noopener noreferrer">Show HN: Stroq – 本地審計編程 Agent 的執行內容與原因</a> (17pt) — Stroq 本地審計編程 Agent 執行內容與原因
+   💬 社群觀點：社群認同Agent審計需求，建議加背景常驻與即時警示功能，推薦導入eBPF強化防護，建議於Linux虛擬機開發。</li>
+<li><a href="https://news.ycombinator.com/item?id=50381687" rel="noopener noreferrer">Launch HN: Rivet (YC W23) – 在 S3 上擴展與編排 AI Agent</a> (16pt) — Rivet 在 S3 上擴展與編排 AI Agent
+   💬 社群觀點：社群肯定遷移體驗，但批評UX欠佳；質疑編排速度非核心痛點，建議優化文件並釐清S3低延遲與沙箱機制。</li>
+<li><a href="https://news.ycombinator.com/item?id=50381849" rel="noopener noreferrer">MCP（模型上下文協議）詳解</a> (15pt) — MCP 模型上下文協議詳解
+   💬 社群觀點：評價兩極：讚賞技術實作與AI客製化潛力，亦批評過度設計與手機依賴。引發廣告倫理爭議，建議改用錢包或自動化工具簡化流程。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xojiq8/openssh_on_musl_linux_has_been_letting_people/" rel="noopener noreferrer">musl Linux 上的 OpenSSH 自 2016 年起一直允許入侵無密碼帳戶</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>musl Linux 版 OpenSSH 自 2016 年起存在無密碼帳戶入侵漏洞</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xo63qk/cve2026109518_critical_apt_vulnerability_allows/" rel="noopener noreferrer">CVE-2026-109518：關鍵 APT 漏洞允許攻擊者繞過套件驗證並在 Linux 上以 Root 身分執行惡意程式碼</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>APT 關鍵漏洞 CVE-2026-109518 允許繞過驗證並以 Root 執行惡意程式</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xoly32/check_your_vertex_ai_bills_google_is_secretly/" rel="noopener noreferrer">檢查您的 Vertex AI 帳單：Google 暗中破壞了您的 KV 快取（以及如何申請退款）</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 開發工具類</td>
+<td>r/GoogleGeminiAI</td>
+<td>Google Vertex AI 暗中破壞 KV 快取導致帳單異常，可申請退款</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xojiq8/openssh_on_musl_linux_has_been_letting_people/" rel="noopener noreferrer">musl Linux 上的 OpenSSH 自 2016 年起一直允許入侵無密碼帳戶</a> (- ups) — r/cybersecurity — musl Linux 版 OpenSSH 自 2016 年起存在無密碼帳戶入侵漏洞</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xo63qk/cve2026109518_critical_apt_vulnerability_allows/" rel="noopener noreferrer">CVE-2026-109518：關鍵 APT 漏洞允許攻擊者繞過套件驗證並在 Linux 上以 Root 身分執行惡意程式碼</a> (- ups) — r/cybersecurity — APT 關鍵漏洞 CVE-2026-109518 允許繞過驗證並以 Root 執行惡意程式</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xoly32/check_your_vertex_ai_bills_google_is_secretly/" rel="noopener noreferrer">檢查您的 Vertex AI 帳單：Google 暗中破壞了您的 KV 快取（以及如何申請退款）</a> (- ups) — r/GoogleGeminiAI — Google Vertex AI 暗中破壞 KV 快取導致帳單異常，可申請退款</li>
+</ol>
+<p><strong>核心技術類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/programming/comments/1xojg3s/openssh_on_musl_linux_has_been_letting_people/" rel="noopener noreferrer">musl Linux 上的 OpenSSH 自 2016 年起一直允許入侵無密碼帳戶</a> (- ups) — r/programming — musl Linux 版 OpenSSH 自 2016 年起存在無密碼帳戶入侵漏洞</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.wiz.io/blog/github-actions-security-pwn-request-reckoning" rel="noopener noreferrer">Pwn Request 清算：針對 GitHub Actions 仍有效的防禦手段</a></td>
+<td>wiz.io</td>
+<td>***</td>
+<td>GitHub Actions 2026 更新後，pull_request_target 攻擊仍存殘餘風險</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/11/want-to-rent-an-internet-address-at-the-white-house/" rel="noopener noreferrer">想在白宮租用網路位址？</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>白宮員工使用住宅代理，IP位址遭外洩租借</td>
+</tr>
+<tr>
+<td><a href="https://krebsonsecurity.com/2026/10/microsoft-patches-more-than-1400-security-flaws/" rel="noopener noreferrer">微軟修復超過 1,400 個安全漏洞</a></td>
+<td>Krebs on Security</td>
+<td>***</td>
+<td>微軟修復逾1400項Windows與軟體安全漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/threatsday-apache-ofbiz-rce-dreamhost.html" rel="noopener noreferrer">威脅日報：Apache OFBiz 遠端程式碼執行漏洞、DreamHost 資料外洩、DeFi 網站遭劫持等 17 則新聞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Apache OFBiz RCE漏洞、DreamHost外洩與DeFi劫持</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/openai-ai-pipeline-generates-948-linux.html" rel="noopener noreferrer">OpenAI AI 管線於 30 小時內生成 948 個 Linux 權限提升漏洞利用程式</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>OpenAI AI管線30小時生成948個Linux權限提升漏洞</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/backdoored-docker-image-for-artex-ai.html" rel="noopener noreferrer">CERT-In 標記 AI 驅動攻擊，後門 ARTEX 暴露 62 台主機根存取權</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>CERT-In警示AI攻擊，後門ARTEX暴露62主機根權限</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/zyxel-gs1900-patch-fails-to-block-zero.html" rel="noopener noreferrer">Zyxel GS1900 補丁無法阻擋允許執行 Root 指令的零日漏洞利用</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Zyxel GS1900補丁失效，零日漏洞仍可執行Root指令</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/ghost_wayne/queue-heavy-builds-for-parallel-claude-code-agents-3832" rel="noopener noreferrer">為平行執行的 Claude Code 代理程式排程重型建構任務</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>為平行執行的Claude Code代理排程重型建構任務</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/zero-trust-ai-agents-production-security/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">簡報：通過稽核且仍能上線的零信任 Agent 系統</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>零信任Agent系統通過稽核並成功上線實務指南</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【OpenSSH 與 musl Linux 歷史漏洞】</strong> — 自 2016 年起潛伏於 Alpine Linux 等 musl 環境的 OpenSSH 密碼驗證繞過漏洞集中爆發，迫使全球容器與嵌入式系統管理員緊急更新或切換基礎環境。</li>
+<li><strong>【AI Agent 工具鏈與安全架構成熟】</strong> — 從 GitHub 的 Agentic autofix、多 Agent 編排平台 Rivet，到零信任 Agent 系統與本地審計工具 Stroq，AI 開發工具正從單一自動化邁向可稽核、可擴展的企業級工作流。</li>
+<li><strong>【供應鏈與基礎設施資安威脅升級】</strong> — 遊戲啟動器篡改、電信與政府系統遭入侵、雲端 AI 服務帳單異常，以及 AI 輔助的駭客攻擊（如 ARTEX 後門與 Linux 權限提升管線），顯示攻擊面已全面滲透至軟體供應鏈與核心網路設備。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>OpenSSH / musl Linux 漏洞</strong>：Hatena + HN + Reddit 同步出現 — 長期未修補的驗證繞過漏洞引發跨平台緊急關注與緩解措施討論</li>
+<li><strong>AI Agent 開發與安全</strong>：HN + RSS + Hatena 同步出現 — 從自動修復、多Agent編排到零信任架構，AI開發工具生態快速成熟且強調可解釋性</li>
+<li><strong>雲端與基礎設施資安風險</strong>：Hatena + Reddit + RSS 同步出現 — 從遊戲啟動器篡改、電信個資外洩到Vertex AI帳單異常，供應鏈與雲端服務安全成焦點</li>
+</ul>
+</article>
+</main>
+</body>
+</html>
