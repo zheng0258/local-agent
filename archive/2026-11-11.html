@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-11-11</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-11-11</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-11-11</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://zenn.dev/oikon/articles/claude-code-recipe" rel="noopener noreferrer">近期使用的 Claude Code 小技巧【2026/11】</a></td>
+<td>414</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>分享近期使用 Claude Code 的實用技巧與書出版心得</td>
+</tr>
+<tr>
+<td><a href="https://platform.claude.com/docs/ja/build-with-claude/prompt-engineering/prompting-claude-fable-5-2" rel="noopener noreferrer">針對 Claude Fable 5.2 的提示詞工程</a></td>
+<td>292</td>
+<td>***</td>
+<td>AI開發工具</td>
+<td>解析 Claude Fable 5.2 專屬提示詞工程模式</td>
+</tr>
+<tr>
+<td><a href="https://japan.cnet.com/article/35254620/" rel="noopener noreferrer">SoftBank 社長透露「用 GPT-6 Astra 診斷自家系統，發現 3.5 萬件額外弱點」</a></td>
+<td>173</td>
+<td>***</td>
+<td>網路資安</td>
+<td>SoftBank 用 GPT-6 Astra 檢測出 3.5 萬件系統弱點</td>
+</tr>
+<tr>
+<td><a href="https://www.gizmodo.jp/article/2611-claude-fable-5-2-release/" rel="noopener noreferrer">Anthropic 發布新 AI「Claude Fable 5.2」。性能全面領先，實際應用已達異次元</a></td>
+<td>59</td>
+<td>***</td>
+<td>AI模型發布</td>
+<td>Anthropic 發布頂尖 AI Claude Fable 5.2，性能全面領先</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://zenn.dev/oikon/articles/claude-code-recipe" rel="noopener noreferrer">近期使用的 Claude Code 小技巧【2026/11】</a> (414 users) — 分享近期使用 Claude Code 的實用技巧與書出版心得</li>
+<li><a href="https://platform.claude.com/docs/ja/build-with-claude/prompt-engineering/prompting-claude-fable-5-2" rel="noopener noreferrer">針對 Claude Fable 5.2 的提示詞工程</a> (292 users) — 解析 Claude Fable 5.2 專屬提示詞工程模式</li>
+<li><a href="https://japan.cnet.com/article/35254620/" rel="noopener noreferrer">SoftBank 社長透露「用 GPT-6 Astra 診斷自家系統，發現 3.5 萬件額外弱點」</a> (173 users) — SoftBank 用 GPT-6 Astra 檢測出 3.5 萬件系統弱點</li>
+<li><a href="https://zenn.dev/watany/articles/342b9815dd0553" rel="noopener noreferrer">將枯燥的 Coding Agent 工作交給 Muse</a> (160 users) — 推薦將枯燥編碼工作交給 Meta 的 Muse AI 代理</li>
+<li><a href="https://gigazine.net/news/20261110-claude-opus-nerf/" rel="noopener noreferrer">指出 Claude Opus 5.5 推論能力自 11 月 3 日起急劇下降，從 1400 筆使用紀錄中確認變化</a> (61 users) — 分析顯示 Claude Opus 5.5 推論能力自 11 月 3 日下降</li>
+<li><a href="https://www.gizmodo.jp/article/2611-claude-fable-5-2-release/" rel="noopener noreferrer">Anthropic 發布新 AI「Claude Fable 5.2」。性能全面領先，實際應用已達異次元</a> (59 users) — Anthropic 發布頂尖 AI Claude Fable 5.2，性能全面領先</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2611/10/2000003027/" rel="noopener noreferrer">遭遇網路攻擊的醫療現場真實情況 患者死亡率上升 3 成 乳癌患者半裸照片外流、遭治療紀錄恐嚇自殺</a> (53 users) — 醫療駭客攻擊導致患者死亡率上升及個資外洩悲劇</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2611/10/2000003069/" rel="noopener noreferrer">網路攻擊急增「人手無法應付」── SoftBank 宮川社長透露無盡的補丁修正已「疲憊不堪」</a> (26 users) — SoftBank 社長坦言網路攻擊急增，人工修補已疲憊不堪</li>
+<li><a href="https://engineering.nature.global/entry/2026/11/mcp-architecture-patterns" rel="noopener noreferrer">於本地端運行多個整合 MCP 應用程式的架構模式</a> (23 users) — 探討在本地端運行多個整合 MCP 應用程式的架構模式</li>
+<li><a href="https://forest.watch.impress.co.jp/docs/serial/yaaiwatch/2154854.html" rel="noopener noreferrer">OpenAI 亦加入行列，改變企業系統的「判斷特化型 AI」急遽成長 ～為何現今需要不生成文字的 AI</a> (12 users) — OpenAI 加入行列，判斷特化型 AI 急遽成長改變企業系統</li>
+<li><a href="https://www.notion.com/ja/help/security-incident-involving-a-third-party-ai-vendor" rel="noopener noreferrer">關於可能影響部分 Notion 工作區的 Fireworks AI 安全事件通知</a> (9 users) — Fireworks AI 安全事件通知，可能影響部分 Notion 工作區</li>
+<li><a href="https://www.watch.impress.co.jp/docs/news/2155063.html" rel="noopener noreferrer">Meta「Muse」對應 Apple Watch 與 Wear OS 虛擬化身可互動</a> (8 users) — Meta Muse 支援 Apple Watch 與 Wear OS，化身可互動</li>
+<li><a href="https://zenn.dev/knowledgesense/articles/bd917ed6829121" rel="noopener noreferrer">NVIDIA 的「無需長文上下文」論文</a> (5 users) — 解析 NVIDIA 論文，探討無需長文上下文的 AI 推論優化</li>
+<li><a href="https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/" rel="noopener noreferrer">使用 Claude Fable 5.2 安全擴展多智能體團隊</a> (4 users) — 使用 Claude Fable 5.2 安全擴展多智能體團隊的指南</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50429068" rel="noopener noreferrer">Claude Fable 5.2 與 Mythos 5.2 發布</a></td>
+<td>826pt</td>
+<td>***</td>
+<td>AI</td>
+<td>Anthropic 發布 Claude Fable 與 Mythos 5.2 模型</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50436640" rel="noopener noreferrer">亞馬遜以 Strands Decider 取代 Sonnet 4.6 節省百萬美元</a></td>
+<td>604pt</td>
+<td>***</td>
+<td>AI</td>
+<td>亞馬遜改用 Strands Decider 取代 Sonnet 節省成本</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50439193" rel="noopener noreferrer">AlphaProof Code（DeepMind 程式碼形式化驗證工具）</a></td>
+<td>450pt</td>
+<td>***</td>
+<td>AI</td>
+<td>DeepMind 推出 AlphaProof Code 程式碼形式化驗證工具</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50437790" rel="noopener noreferrer">皇后區公共圖書館遭勒索軟體攻擊</a></td>
+<td>155pt</td>
+<td>***</td>
+<td>Security</td>
+<td>皇后區公共圖書館遭勒索軟體攻擊</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50429068" rel="noopener noreferrer">Claude Fable 5.2 與 Mythos 5.2 發布</a> (826pt) — Anthropic 發布 Claude Fable 與 Mythos 5.2 模型
+   💬 社群觀點：社群質疑5.2與5.5編號混亂，推測Opus遭降頻；評價兩極，肯定性能與定價，但批評文風生硬及基準測試偏頗。</li>
+<li><a href="https://news.ycombinator.com/item?id=50436640" rel="noopener noreferrer">亞馬遜以 Strands Decider 取代 Sonnet 4.6 節省百萬美元</a> (604pt) — 亞馬遜改用 Strands Decider 取代 Sonnet 節省成本
+   💬 社群觀點：社群認為LLM用於簡單分類屬資源浪費，主張回歸傳統模型降本。此舉反映AI應用回歸務實，建議善用輕量工具優化後端。</li>
+<li><a href="https://news.ycombinator.com/item?id=50439193" rel="noopener noreferrer">AlphaProof Code（DeepMind 程式碼形式化驗證工具）</a> (450pt) — DeepMind 推出 AlphaProof Code 程式碼形式化驗證工具
+   💬 社群觀點：社群普遍讚賞該工具能提升軟體安全性，對AI輔助驗證持樂觀態度。部分人探討理論極限與成本，並期待延伸至其他專案或硬體。</li>
+<li><a href="https://news.ycombinator.com/item?id=50437790" rel="noopener noreferrer">皇后區公共圖書館遭勒索軟體攻擊</a> (155pt) — 皇后區公共圖書館遭勒索軟體攻擊
+   💬 社群觀點：主流指責館方資安防護不足與未修補漏洞，建議重裝系統或採榮譽借閱；部分人質疑圖書館當代價值，並指類似事件多未付贖金。</li>
+<li><a href="https://news.ycombinator.com/item?id=50438318" rel="noopener noreferrer">使用 AI 生成程式碼會導致程式庫脆弱</a> (135pt) — 使用 AI 生成程式碼可能導致程式庫脆弱
+   💬 社群觀點：觀點兩極：部分擔憂人類依賴與商業壓力致程式脆弱，實務派則認影響有限。共識為AI需如新人受監管，並強化測試與架構指引。</li>
+<li><a href="https://news.ycombinator.com/item?id=50412324" rel="noopener noreferrer">PHP2Shell 漏洞深度剖析</a> (20pt) — PHP2Shell 漏洞深度剖析
+   💬 社群觀點：社群讚賞串連漏洞取得 root 權限的高階技巧，肯定其歷史地位；原作者呼籲分享特定版本可用 PoC。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1xskopy/electron_we_have_a_problem/" rel="noopener noreferrer">Electron，我們有問題了</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>Electron 架構面臨嚴重資安問題</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xsnsj0/a_new_ai_tool_from_google_deepmind_proved_the/" rel="noopener noreferrer">Google DeepMind 的新 AI 工具證實 Signal 通訊協定是安全的</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>Google DeepMind AI 驗證 Signal 協定安全性</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xso1ie/minimax_h3image_released_an_openweight_image/" rel="noopener noreferrer">MiniMax H3-Image 發布，一款基於 H3 的開權重圖像模型</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/LocalLLaMA</td>
+<td>MiniMax 發布基於 H3 的開權重圖像模型</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/ClaudeCode/comments/1xsp90d/at_546_am_i_get_anurgent_message_on_my_phone_from/" rel="noopener noreferrer">凌晨 5:46 我收到來自 Claude Code 的緊急手機訊息</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>AI 類</td>
+<td>r/ClaudeCode</td>
+<td>Claude Code 凌晨發送緊急手機訊息</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1xskopy/electron_we_have_a_problem/" rel="noopener noreferrer">Electron，我們有問題了</a> (- ups) — r/netsec — Electron 架構面臨嚴重資安問題</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xsnsj0/a_new_ai_tool_from_google_deepmind_proved_the/" rel="noopener noreferrer">Google DeepMind 的新 AI 工具證實 Signal 通訊協定是安全的</a> (- ups) — r/cybersecurity — Google DeepMind AI 驗證 Signal 協定安全性</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xso1ie/minimax_h3image_released_an_openweight_image/" rel="noopener noreferrer">MiniMax H3-Image 發布，一款基於 H3 的開權重圖像模型</a> (- ups) — r/LocalLLaMA — MiniMax 發布基於 H3 的開權重圖像模型</li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xsp3xt/minimaxaiminimaxh3image_hugging_face/" rel="noopener noreferrer">MiniMaxAI/MiniMax-H3-Image · Hugging Face</a> (- ups) — r/LocalLLaMA — MiniMax H3-Image 模型上線 Hugging Face</li>
+<li><a href="https://www.reddit.com/r/ClaudeCode/comments/1xsp90d/at_546_am_i_get_anurgent_message_on_my_phone_from/" rel="noopener noreferrer">凌晨 5:46 我收到來自 Claude Code 的緊急手機訊息</a> (- ups) — r/ClaudeCode — Claude Code 凌晨發送緊急手機訊息</li>
+</ol>
+<p><strong>AI 開發工具類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/ChatGPT/comments/1xsbq69/openai_guardrails_defeated/" rel="noopener noreferrer">OpenAI 护栏被擊敗</a> (- ups) — r/ChatGPT — OpenAI 安全防護機制遭破解</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/attackers-exploit-ahsaycbs-flaws-to.html" rel="noopener noreferrer">攻擊者利用 AhsayCBS 漏洞部署繞過沙箱的 Python 後門</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>AhsayCBS 漏洞遭利用，部署繞過沙箱的 Python 後門。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/blind-eagle-uses-fake-court-notices-to.html" rel="noopener noreferrer">Blind Eagle 利用偽造法院通知向拉丁美洲傳播遠端存取特洛伊木馬</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Blind Eagle 以偽造法院通知，向拉美散佈遠端存取木馬。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/fireworks-ai-breach-widens-to-expose.html" rel="noopener noreferrer">Fireworks AI 資料外洩事件擴大，暴露客戶帳單資料與未完成的模型權重</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Fireworks AI 外洩擴大，曝光客戶帳單與未竟模型權重。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/binance-warns-of-ios-sandbox-escape.html" rel="noopener noreferrer">Binance 警告 iOS 沙箱逃逸漏洞可能暴露加密錢包金鑰，目前無確認修復方案</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Binance 警告 iOS 沙箱逃逸漏洞，恐暴露加密錢包金鑰。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/apple-patches-imessage-group-chat.html" rel="noopener noreferrer">Apple 修復 iMessage 群組聊天隱私漏洞與藍牙配對弱點</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Apple 修復 iMessage 群組隱私漏洞與藍牙配對弱點。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/russian-turla-hackers-use-new-cereal.html" rel="noopener noreferrer">俄羅斯 Turla 駭客組織使用新型 Cereal 惡意軟體竊取政府 Exchange 伺服器郵件</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>俄羅斯 Turla 使用新型 Cereal 惡意軟體竊取政府郵件。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/sap-patches-four-cvss-100-flaws.html" rel="noopener noreferrer">SAP 修復四項 CVSS 10.0 漏洞，包含兩項可遠端執行程式碼的弱點</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>SAP 修復四項 CVSS 10.0 漏洞，含兩項遠端執行程式碼弱點。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/anthropics-claude-fable-52-beats-gpt-6.html" rel="noopener noreferrer">Anthropic 的 Claude Fable 5.2 在多階段網路攻擊基準測試中擊敗 GPT-6 Cyber</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Claude Fable 5.2 在多階段網路攻擊基準測試中擊敗 GPT-6。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/google-issues-chrome-security-update.html" rel="noopener noreferrer">Google 發布 Chrome 安全更新，修復 2026 年第 8 個遭活躍利用的零日漏洞</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>Google 更新 Chrome，修復 2026 年第 8 個遭活躍利用的零日漏洞。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/n-able-takes-hosted-n-central-offline.html" rel="noopener noreferrer">N-able 在研究者公開 33 個附帶 PoC 的零日漏洞後，將 N-central 雲端服務離線</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>N-able 因 33 個零日漏洞公開，將 N-central 雲端服務離線。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/cisa-warns-of-active-exploitation-of.html" rel="noopener noreferrer">CISA 警告 OpenSSH、GPUStack、FreeSWITCH 與 IBM 漏洞正遭活躍利用</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>CISA 警告 OpenSSH、GPUStack 等漏洞正遭活躍利用。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/hackers-exploit-quboles-trusted-aws.html" rel="noopener noreferrer">駭客利用 Qubole 的受信任 AWS 存取權限入侵客戶帳戶並竊取資料</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客利用 Qubole 受信任 AWS 權限，入侵客戶帳戶竊取資料。</td>
+</tr>
+<tr>
+<td><a href="https://thehackernews.com/2026/11/hackers-compromise-etherspheres-bee-js.html" rel="noopener noreferrer">駭客入侵 Ethersphere 的 bee-js 與 Swarm Desktop 以分發竊取錢包的惡意軟體</a></td>
+<td>The Hacker News</td>
+<td>***</td>
+<td>駭客入侵 Ethersphere 工具，分發竊取錢包的惡意軟體。</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/heylittlepan/how-to-answer-claude-code-or-codex-from-your-phone-10a7" rel="noopener noreferrer">如何從手機回應 Claude Code 或 Codex</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>教學：如何從手機回應 Claude Code 或 Codex 的請求。</td>
+</tr>
+<tr>
+<td><a href="https://dev.to/natuworkguy/i-hid-6-secret-glitches-in-my-agents-video-game-they-make-it-easier-can-it-find-them-53i6" rel="noopener noreferrer">我在代理程式的遊戲中藏了 6 個秘密漏洞讓它變簡單。它能找到嗎？</a></td>
+<td>DEV Community</td>
+<td>***</td>
+<td>作者於遊戲藏 6 個漏洞，測試代理程式能否發現並利用。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/presentations/scaling-multi-agent-llm-batch/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">演講：大規模批次智慧：具備內建韌性的成本效益多代理 LLM 工作流</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>演講：Walmart 部署具備韌性的多代理 LLM 批次工作流。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/llm-reliability-layers-limits-accuracy/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：LLM 可靠性層級受測：準確率、產出率與驗證的極限</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>文章：測試 LLM 可靠性層級，驗證準確率與產出率極限。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/google-gemini-argon/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Google 發布 Gemini 4 Argon，用於機器人控制、模擬與政策優化</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Google 發布 Gemini 4 Argon，用於機器人控制與模擬優化。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/articles/agentic-ai-architecture-challenges-opportunities/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">文章：Agentic AI 架構：當前挑戰與未來機會</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>文章：探討 Agentic AI 架構的當前挑戰與未來機會。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/pinterest-journey/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Pinterest 以 40 億參數 Qwen3 LLM 取代旅程叢集技術，報告參與度提升</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Pinterest 以 40 億參數 Qwen3 取代叢集技術，提升參與度。</td>
+</tr>
+<tr>
+<td><a href="https://www.infoq.com/news/2026/11/entire-git-forge-coding-agents/?utm_campaign=infoq_content&amp;utm_source=infoq&amp;utm_medium=feed&amp;utm_term=global" rel="noopener noreferrer">Entire 的 Git Forge 重新思考程式碼代理的 Git 協作方式</a></td>
+<td>InfoQ</td>
+<td>***</td>
+<td>Entire 的 Git Forge 重新思考程式碼代理的 Git 協作方式。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【Claude Fable 5.2 與 AI 開發工具進化】</strong> — Hatena 與 HN 同步聚焦 Anthropic 新模型發布，搭配提示詞工程與多智能體架構優化，顯示 AI 輔助編碼已進入精細化與規模化階段。</li>
+<li><strong>【AI 輔助資安檢測與防禦雙刃劍】</strong> — SoftBank 導入 GPT-6 發現數萬弱點、DeepMind 驗證 Signal 協定，與 Claude Fable 在網路攻擊基準測試勝出，顯示 AI 正同時重塑攻防體系。</li>
+<li><strong>【企業級 AI 部署的成本優化與可靠性挑戰】</strong> — 亞馬遜與 Pinterest 以輕量模型取代傳統架構節省成本，同時 CISA 與各大供應商頻傳零日漏洞與資料外洩，凸顯 AI 基礎設施的韌性與供應鏈安全成為新焦點。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>Claude Fable 5.2 發布</strong>：Hatena + HN + Reddit 同步出現 — 頂尖模型上市引發開發者提示詞工程與多代理架構的熱烈討論。</li>
+<li><strong>AI 生成程式碼的脆弱性與資安威脅</strong>：HN + r/cybersecurity + 資安部落格 — AI 輔助開發導致程式庫脆弱，同時第三方 AI 供應商與雲端服務頻傳漏洞與資料外洩事件。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

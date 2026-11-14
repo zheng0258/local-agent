@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Brief 存檔 — 2026-11-13</title>
+<style>
+  :root { --bg: #0b0f14; --fg: #c8d3df; --accent: #4fd1c5; --dim: #5a6b7a; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace;
+    line-height: 1.6;
+  }
+  main { max-width: 1100px; margin: 0 auto; }
+  header { border-bottom: 1px solid var(--dim); padding-bottom: 1rem; margin-bottom: 2rem; }
+  .tagline { color: var(--accent); }
+  a { color: var(--accent); }
+  h1, h2, h3 { color: var(--fg); }
+  code, pre { background: #11161d; color: var(--accent); }
+  /* 報告表格：只讓「標題」(第一欄)與「備註」(最後一欄)兩個長文字欄限寬換行；
+     表頭與數字/類別/子版等短欄維持自然寬度、不逐字硬斷。整體放不下時橫向捲動不破版。 */
+  article { overflow-x: auto; }
+  article table { border-collapse: collapse; margin: 1rem 0; }
+  article th, article td {
+    border: 1px solid var(--dim); padding: 0.4rem 0.6rem;
+    text-align: left; vertical-align: top;
+  }
+  article th { color: var(--accent); white-space: nowrap; }
+  article td:first-child { max-width: 30ch; overflow-wrap: break-word; }
+  article td:last-child { max-width: 24ch; overflow-wrap: break-word; }
+  .meta { color: var(--dim); }
+  /* 今日重點：頂部導讀段落，左側 accent 邊條凸顯。 */
+  section.tldr { margin: 0 0 2rem; padding: 0.2rem 0 0.2rem 1rem;
+    border-left: 3px solid var(--accent); }
+  section.tldr .meta { color: var(--accent); letter-spacing: 0.05em; margin: 0 0 0.3rem; }
+  section.tldr p { margin: 0; }
+  nav.archive { margin-top: 2rem; border-top: 1px solid var(--dim); padding-top: 1rem; }
+  nav.archive ul { list-style: none; padding: 0; }
+  nav.archive li { margin: 0.25rem 0; }
+  /* 全部存檔頁：按月分組。 */
+  section.month-group { margin-bottom: 1.5rem; }
+  section.month-group h2 { color: var(--accent); font-size: 1.05rem;
+    border-bottom: 1px solid var(--dim); padding-bottom: 0.3rem; }
+  section.month-group ul { list-style: none; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.3rem 1.4rem; }
+  section.month-group li { margin: 0.15rem 0; }
+  /* Hero 排：定位句 + 右上「關於本專案」按鈕。專案描述不直接顯示，收進 overlay。 */
+  .hero-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    justify-content: space-between; }
+  .about-btn { cursor: pointer; color: var(--accent); border: 1px solid var(--dim);
+    padding: 0.15rem 0.7rem; border-radius: 3px; user-select: none; white-space: nowrap; }
+  .about-btn:hover { border-color: var(--accent); }
+  /* 純 CSS overlay（無 JS）：隱藏 checkbox，label 當開關，:checked 顯示彈窗；背景 label 可關。 */
+  .about-checkbox { position: absolute; left: -9999px; }
+  .about-overlay { display: none; position: fixed; inset: 0; z-index: 100; }
+  .about-checkbox:checked ~ .about-overlay { display: block; }
+  .about-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.75); }
+  .about-panel { position: relative; max-width: 720px; margin: 6vh auto; max-height: 84vh;
+    overflow-y: auto; background: var(--bg); border: 1px solid var(--dim);
+    border-radius: 4px; padding: 1.5rem 2rem; }
+  .about-close { position: absolute; top: 0.5rem; right: 0.9rem; cursor: pointer;
+    color: var(--dim); font-size: 1.2rem; line-height: 1; text-decoration: none; }
+  .about-close:hover { color: var(--accent); }
+  /* system status block: hand-written CSS, terminal aesthetic; trend is inline SVG (no chart lib). */
+  section.status { margin-bottom: 2rem; border-bottom: 1px solid var(--dim); padding-bottom: 1rem; }
+  section.status h2 { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; }
+  .status-grid { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-end; }
+  .status-streak { display: flex; flex-direction: column; }
+  .status-num { color: var(--accent); font-size: 2.4rem; line-height: 1; }
+  .status-label { color: var(--dim); font-size: 0.8rem; }
+  .status-trend { display: flex; flex-direction: column; flex: 1 1 240px; min-width: 200px; }
+  svg.spark { color: var(--accent); width: 100%; height: 40px; margin-top: 0.3rem; }
+  .status-rates { list-style: none; padding: 0; margin: 1rem 0 0;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .status-rates li { display: flex; gap: 0.5rem; align-items: baseline; }
+  .status-src { color: var(--fg); }
+  .status-pct { color: var(--accent); }
+  .status-frac { color: var(--dim); font-size: 0.8rem; }
+  /* top nav：首頁 ⇄ 運行紀錄 的切換連結（終端風、無框架）。 */
+  nav.top { display: flex; gap: 1.2rem; margin: 0.3rem 0 0; font-size: 0.85rem; }
+  nav.top a { color: var(--dim); text-decoration: none; }
+  nav.top a:hover, nav.top a.on { color: var(--accent); }
+  /* 運行紀錄頁：一列一次 run（CI 執行史）。狀態矩陣為手刻小格，無圖表庫。 */
+  .runs-wrap { overflow-x: auto; }
+  table.runs { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin-top: 1rem; }
+  table.runs th {
+    color: var(--dim); text-align: left; font-weight: normal; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.72rem; padding: 0.3rem 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--dim); white-space: nowrap;
+  }
+  table.runs td { padding: 0.45rem 0.6rem; border-bottom: 1px solid #1b232d; white-space: nowrap; }
+  table.runs tr:hover td { background: #11161d; }
+  table.runs .n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.runs a.day { color: var(--fg); text-decoration: none; }
+  table.runs a.day:hover { color: var(--accent); text-decoration: underline; }
+  .rpill { font-size: 0.72rem; padding: 0.05rem 0.5rem; border-radius: 10px; border: 1px solid; }
+  .rpill.success { color: #56c271; border-color: #2c5c3a; }
+  .rpill.partial { color: #e0a52e; border-color: #6b551f; }
+  .rpill.failed { color: #e0603a; border-color: #6b3524; }
+  .rpill.unknown { color: var(--dim); border-color: var(--dim); }
+  /* absent = 該日 pipeline 整天沒跑（四份歷史皆無記錄），與 unknown 區分：
+     unknown 是「跑了但推導不出狀態」，absent 是「根本沒跑」。 */
+  .rpill.absent { color: #7a6bd6; border-color: #453c78; }
+  .rcells { display: inline-flex; gap: 3px; }
+  .rcell {
+    width: 16px; height: 16px; border-radius: 3px; display: inline-block; line-height: 16px;
+    text-align: center; font-size: 0.6rem; color: #0b0f14;
+  }
+  .rcell.ok { background: #56c271; }
+  .rcell.fail { background: #e0603a; }
+  .rcell.warn { background: #e0a52e; }
+  .rcell.na { background: #1b232d; color: var(--dim); }
+  .runs-legend { color: var(--dim); font-size: 0.72rem; margin-top: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  .runs-legend .sw { width: 11px; height: 11px; border-radius: 2px; display: inline-block;
+    vertical-align: middle; margin-right: 0.3rem; }
+  .runs-empty { color: var(--dim); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <p class="tagline">本地 LLM 多代理自主系統</p>
+  <p class="meta">存檔日期：2026-11-13</p>
+  <p class="meta"><a href="../index.html">← 回首頁</a>　·　<a href="index.html">全部存檔</a></p>
+</header>
+<article>
+<h1>趨勢話題：2026-11-13</h1>
+<hr>
+<h2>Hatena Bookmark IT（日本市場）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>書籤數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.itmedia.co.jp/news/article/2611/12/2000003144/" rel="noopener noreferrer">無印良品「過去21年間以信用卡號碼識別顧客」因「持有全號碼與外洩」道歉，為何發生刪除疏漏？</a></td>
+<td>589</td>
+<td>***</td>
+<td>Web 資安</td>
+<td>無印良品因未刪除信用卡全號致資料外洩，承認管理疏失並道歉。</td>
+</tr>
+<tr>
+<td><a href="https://dev.classmethod.jp/articles/aws-emulator-local-try/" rel="noopener noreferrer">試用新發布的 AWS Emulator</a></td>
+<td>84</td>
+<td>***</td>
+<td>AI 開發工具</td>
+<td>試用新發布的 AWS Emulator 本地模擬器，快速啟動且低耗資源。</td>
+</tr>
+<tr>
+<td><a href="https://www.zaikei.co.jp/article/20261111/877067.html" rel="noopener noreferrer">Claude Fable 5.2 於約 30 小時內形式化費馬大定理——千名助理協作實驗</a></td>
+<td>28</td>
+<td>***</td>
+<td>AI 模型/研究</td>
+<td>Claude Fable 5.2 千名助理協作，約 30 小時內形式化費馬大定理。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（略）</h3>
+<ol>
+<li><a href="https://www.itmedia.co.jp/news/article/2611/12/2000003144/" rel="noopener noreferrer">無印良品「過去21年間以信用卡號碼識別顧客」因「持有全號碼與外洩」道歉，為何發生刪除疏漏？</a> (589 users) — 無印良品因未刪除信用卡全號致資料外洩，承認管理疏失並道歉。</li>
+<li><a href="https://dev.classmethod.jp/articles/aws-emulator-local-try/" rel="noopener noreferrer">試用新發布的 AWS Emulator</a> (84 users) — 試用新發布的 AWS Emulator 本地模擬器，快速啟動且低耗資源。</li>
+<li><a href="https://www.zaikei.co.jp/article/20261111/877067.html" rel="noopener noreferrer">Claude Fable 5.2 於約 30 小時內形式化費馬大定理——千名助理協作實驗</a> (28 users) — Claude Fable 5.2 千名助理協作，約 30 小時內形式化費馬大定理。</li>
+<li><a href="https://zenn.dev/sasadango28/articles/claude-code-harness-engineering-20260415" rel="noopener noreferrer">以 Claude Code 實踐 Harness Engineering（馬具工程）——5 層設計模式</a> (28 users) — 以 Claude Code 實踐馬具工程，透過五層設計模式管理 AI 行為。</li>
+<li><a href="https://www.itmedia.co.jp/news/article/2611/12/2000003158/" rel="noopener noreferrer">彩券官方網站疑遭第三方瀏覽會員當選資訊，或為列表型攻擊</a> (26 users) — 彩券官網疑遭列表型攻擊，第三方或可瀏覽會員當選等隱私資訊。</li>
+<li><a href="https://dev.classmethod.jp/articles/20261112-aws-emulator/" rel="noopener noreferrer">【新服務】AWS Emulator 發布！與真實 AWS 比較，讓 Claude Code 在本地反覆測試與修正</a> (22 users) — AWS Emulator 發布，讓 Claude Code 在本地反覆測試與修正程式。</li>
+<li><a href="https://blog.flatt.tech/entry/github_actions_widespread_supply_chain_attack" rel="noopener noreferrer">針對 GitHub Actions 的廣域供應鏈攻擊（11/10~11/12）注意喚起</a> (20 users) — GitHub Actions 遭遇廣域供應鏈攻擊，惡意程式竊取 CI 環境機密。</li>
+<li><a href="https://ai.freelance-job.com/article/6af4dfd749a7d098b46764d2" rel="noopener noreferrer">AWS 公開「人類未寫一行程式碼」的模擬器——全貌揭露僅靠 AI 助理建構、每日數千件自律修正的管線</a> (10 users) — AWS Emulator 全由 AI 助理建構，無人類程式碼介入且每日自律修正。</li>
+<li><a href="https://www.aboutamazon.com/news/aws/how-autonomous-ai-agents-built-aws-emulator" rel="noopener noreferrer">我們如何建構打造 AWS Emulator 的 AI 助理</a> (10 users) — AWS 揭露如何以自主 AI 助理建構模擬器，無人類審查自動修復程式。</li>
+<li><a href="https://www.cscloud.co.jp/news/info/20261112-2/" rel="noopener noreferrer">關於本公司開發環境資訊外洩疑慮的通知與致歉（第一報）</a> (8 users) — 網路安全雲端公司開發環境疑遭入侵，個人資訊有外洩疑慮致歉。</li>
+</ol>
+<hr>
+<h2>Hacker News（全球）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>分數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50438261" rel="noopener noreferrer">Socratic Tutor：蘇格拉底式教學 AI 代理技能</a></td>
+<td>551pt</td>
+<td>***</td>
+<td>AI 教學與代理技能</td>
+<td>蘇格拉底式教學 AI 代理技能，引導思考而非直接給答案。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50456791" rel="noopener noreferrer">Gemini Decisions API 發布</a></td>
+<td>537pt</td>
+<td>***</td>
+<td>企業級 AI 決策與 API 發布</td>
+<td>Google 發布 Gemini Decisions API，優化企業決策流程。</td>
+</tr>
+<tr>
+<td><a href="https://news.ycombinator.com/item?id=50462177" rel="noopener noreferrer">Apache HTTP Server 嚴重遠端程式碼執行 (RCE) 漏洞</a></td>
+<td>334pt</td>
+<td>***</td>
+<td>網路安全與漏洞警示</td>
+<td>Apache HTTP Server 曝出嚴重 RCE 漏洞，需立即修補。</td>
+</tr>
+</tbody>
+</table>
+<h3>全部文章（部分）</h3>
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=50438261" rel="noopener noreferrer">Socratic Tutor：蘇格拉底式教學 AI 代理技能</a> (551pt) — 蘇格拉底式教學 AI 代理技能，引導思考而非直接給答案。
+   💬 社群觀點：評價兩極：肯定其引導思考與減少AI代勞的成效，但質疑抄襲與過度包裝。多數認為簡單提示即可替代，並提醒勿過度依賴AI。</li>
+<li><a href="https://news.ycombinator.com/item?id=50456791" rel="noopener noreferrer">Gemini Decisions API 發布</a> (537pt) — Google 發布 Gemini Decisions API，優化企業決策流程。
+   💬 社群觀點：肯定影音輸入實用，但嫌價高發布慢，且不滿Google下架自家工具無遷移路徑。用戶關注Vertex AI上架時程。</li>
+<li><a href="https://news.ycombinator.com/item?id=50462177" rel="noopener noreferrer">Apache HTTP Server 嚴重遠端程式碼執行 (RCE) 漏洞</a> (334pt) — Apache HTTP Server 曝出嚴重 RCE 漏洞，需立即修補。
+   💬 社群觀點：聚焦HTTP/2多執行緒漏洞，質疑AI修補與CVE資訊。建議停用mod_h2、升級或改Nginx，反映Apache衰退。</li>
+</ol>
+<hr>
+<h2>Reddit（16 個子版）</h2>
+<h3>注目話題</h3>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>票數</th>
+<th>留言數</th>
+<th>興趣度</th>
+<th>類別</th>
+<th>子版</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.reddit.com/r/netsec/comments/1xucxqr/how_we_defended_against_an_aidriven_artex_attack/" rel="noopener noreferrer">我們如何防禦 AI 驅動的 ARTEX 攻擊</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/netsec</td>
+<td>分享防禦 AI 驅動 ARTEX 攻擊的實務經驗</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xtj0qk/engineers_yoni_gottesman_and_noam_kesten_from/" rel="noopener noreferrer">Glow 工程師發現 PixelLeak：AI 程式碼代理將私有資料推至公開 GitHub 倉庫，關於 Agent 資安的 AMA</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>資安類</td>
+<td>r/cybersecurity</td>
+<td>揭露 AI 程式代理外洩私有資料至公開倉庫風險</td>
+</tr>
+<tr>
+<td><a href="https://www.reddit.com/r/cybersecurity/comments/1xug7z5/nearly_4837_github_accounts_hijacked_in_major/" rel="noopener noreferrer">近 4,837 個 GitHub 帳號遭重大供應鏈攻擊劫持</a></td>
+<td>-</td>
+<td>-</td>
+<td>***</td>
+<td>供應鏈與基礎設施資安事件</td>
+<td>r/cybersecurity</td>
+<td>近四千 GitHub 帳號遭劫持引發供應鏈攻擊警報</td>
+</tr>
+</tbody>
+</table>
+<h3>依類別列表</h3>
+<p><strong>資安類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/netsec/comments/1xucxqr/how_we_defended_against_an_aidriven_artex_attack/" rel="noopener noreferrer">我們如何防禦 AI 驅動的 ARTEX 攻擊</a> (- ups) — r/netsec — 分享防禦 AI 驅動 ARTEX 攻擊的實務經驗</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xtj0qk/engineers_yoni_gottesman_and_noam_kesten_from/" rel="noopener noreferrer">Glow 工程師發現 PixelLeak：AI 程式碼代理將私有資料推至公開 GitHub 倉庫，關於 Agent 資安的 AMA</a> (- ups) — r/cybersecurity — 揭露 AI 程式代理外洩私有資料至公開倉庫風險</li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1xug7z5/nearly_4837_github_accounts_hijacked_in_major/" rel="noopener noreferrer">近 4,837 個 GitHub 帳號遭重大供應鏈攻擊劫持</a> (- ups) — r/cybersecurity — 近四千 GitHub 帳號遭劫持引發供應鏈攻擊警報</li>
+</ol>
+<p><strong>AI 類</strong></p>
+<ol>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/1xuad5c/meet_the_people_behind_mossimage_plus_a_few/" rel="noopener noreferrer">認識 MOSS-Image 背後團隊及其 AMA 回覆</a> (- ups) — r/LocalLLaMA — 認識 MOSS-Image 團隊與模型技術細節交流</li>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xuit0m/has_anyone_tried_gemini_4_hydrogen_yet_it_just/" rel="noopener noreferrer">有人試過 Gemini 4 Hydrogen 嗎？它剛出現在我的帳號裡，轉眼就消失了</a> (- ups) — r/GoogleGeminiAI — 用戶回報 Gemini 4 Hydrogen 短暫出現後消失</li>
+<li><a href="https://www.reddit.com/r/GoogleGeminiAI/comments/1xuiyb5/gemini_4_hydrogen_is_out/" rel="noopener noreferrer">Gemini 4 Hydrogen 正式發布</a> (- ups) — r/GoogleGeminiAI — Google 正式發布新一代 Gemini 4 Hydrogen 模型</li>
+<li><a href="https://www.reddit.com/r/programming/comments/1xtrm8s/emudhras_official_incident_report_on_how_they/" rel="noopener noreferrer">eMudhra 關於如何取得第 4 把私鑰的官方事件報告</a> (- ups) — r/programming — eMudhra 公布如何意外取得第四把私鑰的報告</li>
+</ol>
+<hr>
+<h2>資安部落格</h2>
+<table>
+<thead>
+<tr>
+<th>標題</th>
+<th>來源</th>
+<th>興趣度</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.aikido.dev/blog/top-network-infrastructure-pentesting-tools" rel="noopener noreferrer">2026 年頂尖 AI 網路與基礎設施滲透測試工具</a></td>
+<td>aikido.dev</td>
+<td>***</td>
+<td>比較六款 AI 網路滲透測試工具，推薦 Aikido 用於外部網路測試</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>今日總結</h2>
+<h3>三大焦點議題</h3>
+<ol>
+<li><strong>【AI 代理開發與自動化】</strong> — 跨平台熱議 AI 代理的本地模擬與自主建構技術，AWS Emulator 與 Claude Code 的結合顯示開發流程正邁向零人類代碼介入。同時 Gemini Decisions API 與 GitHub Agentic Workflows 的發布，標誌企業級決策與 CI/CD 流程的自動化進入新階段。</li>
+<li><strong>【供應鏈與 CI/CD 資安威脅】</strong> — GitHub Actions 遭遇廣域供應鏈攻擊與近五千帳號遭劫持事件同步引發警報，顯示駭客已將目標轉向版本控制與持續整合管道。結合 AI 程式碼代理外洩私有資料的案例，強化權限隔離與輸出審查已成當務之急。</li>
+<li><strong>【基礎設施與雲端漏洞警示】</strong> — Apache HTTP/2 嚴重 RCE 漏洞、AMD Turin CPU 邊通道缺陷以及 Red Hat Quay 容器映像漏洞集中爆發，凸顯底層伺服器、硬體晶片與容器登錄系統的安全脆弱性。業界需加速部署修補程式並評估後量子加密遷移進度。</li>
+</ol>
+<h3>跨平台熱點重疊</h3>
+<ul>
+<li><strong>GitHub 供應鏈攻擊</strong>：Hatena + HN + Reddit 同步出現 — 駭客劫持大量帳號並植入 CI 機密擷取器，引發全球開發者緊急審查權限與自動化流程。</li>
+<li><strong>AI 代理開發工具</strong>：Hatena + HN + Reddit 同步出現 — AWS Emulator 與 Gemini 4 Hydrogen 的發布測試引發高度關注，顯示本地模擬與多模態推理正成為代理開發的核心基礎設施。</li>
+<li><strong>基礎設施 RCE 漏洞</strong>：HN + 資安部落格/RSS 同步出現 — Apache HTTP Server 與 HTTP/2 模組的遠端程式碼執行漏洞引發緊急修補潮，突顯網路底層服務的即時威脅。</li>
+</ul>
+</article>
+</main>
+</body>
+</html>

@@ -681,14 +681,14 @@
   },
   {
     "date": "2026-06-21",
-    "overall": 1.0,
+    "overall": 3.7,
     "scores": {
-      "relevance": null,
+      "relevance": 5.0,
       "completeness": 1,
-      "faithfulness": null
+      "faithfulness": 5
     },
     "quality_alert": true,
-    "quality_alert_reason": "completeness=1，遺漏：['https://example.com/x']；overall=1.0"
+    "quality_alert_reason": "completeness=1，遺漏：['https://example.com/new']"
   },
   {
     "date": "2026-06-22",
@@ -2060,5 +2060,97 @@
       "faithfulness": 5
     },
     "quality_alert": false
+  },
+  {
+    "date": "2026-11-06",
+    "overall": 5.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-07",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-08",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-09",
+    "overall": 4.7,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 5
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-10",
+    "overall": 4.3,
+    "scores": {
+      "relevance": 5,
+      "completeness": 4,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-11",
+    "overall": 3.7,
+    "scores": {
+      "relevance": 4,
+      "completeness": 4,
+      "faithfulness": 3
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-12",
+    "overall": 4.0,
+    "scores": {
+      "relevance": 5,
+      "completeness": 5,
+      "faithfulness": 2
+    },
+    "quality_alert": true,
+    "quality_alert_reason": "faithfulness=2"
+  },
+  {
+    "date": "2026-11-13",
+    "overall": 3.7,
+    "scores": {
+      "relevance": 4,
+      "completeness": 3,
+      "faithfulness": 4
+    },
+    "quality_alert": false
+  },
+  {
+    "date": "2026-11-14",
+    "overall": 3.9,
+    "scores": {
+      "relevance": 4.7,
+      "completeness": 5,
+      "faithfulness": 2
+    },
+    "quality_alert": true,
+    "quality_alert_reason": "faithfulness=2"
   }
 ]
